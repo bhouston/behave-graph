@@ -16,6 +16,18 @@ class BehaviorPortDefinition {
 
 }
 
+class NamedValue {
+
+    constructor(
+        public name: string,
+        public value: any 
+    ) {
+    }
+
+}
+
+type NamedValueMap = Map<string,any>;
+
 // structure for defining BehaviorNodes
 class BehaviorNodeDefinition {
 
@@ -24,7 +36,7 @@ class BehaviorNodeDefinition {
         public name: string,
         public inputDefinitions: Array<any>,
         public outputDefinitions: Array<any>,
-        public func: function(any, { [key: string]: any }): { [key: string]: any }
+        public func: function(any, NamedValueMap): NamedValueMap
     ) {
     }
 
@@ -40,7 +52,7 @@ const BehaviorNodeDefinitions = [
         [],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
         (context, inputs) => {
-            return { eval: true };
+            return new Map<string,any>().set( 'eval', true );
         }
     ),
 
@@ -49,8 +61,10 @@ const BehaviorNodeDefinitions = [
         'tick',
         [],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
-            return { eval: true };
+        (context, inputValues) => {
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
         }
     ),
 
@@ -59,8 +73,11 @@ const BehaviorNodeDefinitions = [
         'nodeClick',
         [],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex')],
-        (context, inputs) => {
-            return { eval: true, nodeIndex: -1 };
+        (context, inputValues) => {
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            outputValues.set( 'nodeIndex', -1 );
+            return outputValues;
         }
     ),
 
@@ -71,9 +88,12 @@ const BehaviorNodeDefinitions = [
         'if',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Boolean, 'condition')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'true'), new BehaviorPortDefinition(BehaviorTypes.Eval, 'false')],
-        (context, inputs) => {
+        (context, inputValues) => {
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
 
-            return inputs['condition'].value ? { true: true } : { false: true };
+            return inputValues['condition'].value ? { true: true } : { false: true };
 
         }
     ),
@@ -86,7 +106,10 @@ const BehaviorNodeDefinitions = [
         'sleep',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'milliseconds')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
 
             return { eval: true }; // TODO: return a promise that results with an async delay
 
@@ -100,7 +123,7 @@ const BehaviorNodeDefinitions = [
         'random',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
         [new BehaviorPortDefinition(BehaviorTypes.Number, 'sample')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
             return { sample: Math.random() };
 
@@ -111,9 +134,12 @@ const BehaviorNodeDefinitions = [
         'add',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'a'), new BehaviorPortDefinition(BehaviorTypes.Number, 'b')],
         [new BehaviorPortDefinition(BehaviorTypes.Number, 'sum')],
-        (context, inputs) => {
+        (context, inputValues) => {
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
 
-            return { sum: (inputs['a'] + inputs['b']) };
+            return { sum: (inputValues['a'] + inputValues['b']) };
 
         }
     ),
@@ -125,7 +151,11 @@ const BehaviorNodeDefinitions = [
         'debugOutput',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.String, 'text')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
+
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
 
             return { eval: true };//console.log('Debug Output: ' + inputs['text']);
 
@@ -136,9 +166,12 @@ const BehaviorNodeDefinitions = [
         'show',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
-            //const node = context.getSceneNodeByIndex(inputs['node']);
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
+           //const node = context.getSceneNodeByIndex(inputs['node']);
             //node.visible = false;
             return { eval: true };
 
@@ -149,9 +182,12 @@ const BehaviorNodeDefinitions = [
         'hide',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
-            //const node = context.getSceneNodeByIndex(inputs['node']);
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
+           //const node = context.getSceneNodeByIndex(inputs['node']);
             //node.visible = true;
             return { eval: true };
 
@@ -162,9 +198,12 @@ const BehaviorNodeDefinitions = [
         'translate',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex'), new BehaviorPortDefinition(BehaviorTypes.Vector3, 'offset')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
-            //const node = context.getSceneNodeByIndex(inputs['node']);
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
+           //const node = context.getSceneNodeByIndex(inputs['node']);
             //node.translation.add(inputs['offset']);
             return { eval: true };
 
@@ -175,9 +214,12 @@ const BehaviorNodeDefinitions = [
         'rotation',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex'), new BehaviorPortDefinition(BehaviorTypes.Vector3, 'delta')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
-            //const node = context.getSceneNodeByIndex(inputs['node']);
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
+           //const node = context.getSceneNodeByIndex(inputs['node']);
             //node.rotation.add(inputs['eulerDelta']);
             return { eval: true };
 
@@ -188,9 +230,12 @@ const BehaviorNodeDefinitions = [
         'scale',
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'nodeIndex'), new BehaviorPortDefinition(BehaviorTypes.Vector3, 'factor')],
         [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
-        (context, inputs) => {
+        (context, inputValues) => {
 
-            //const node = context.getSceneNodeByIndex(inputs['node']);
+            const outputValues = new Map<string,any>();
+            outputValues.set( 'eval', true );
+            return outputValues;
+           //const node = context.getSceneNodeByIndex(inputs['node']);
             //node.scale.multiplyByVector(inputs['factor']);
             return { eval: true };
 
@@ -205,7 +250,7 @@ BehaviorNodeDefinitions.sort((a, b) => (a.type.localeCompare(b.type)));
 class BehaviorNodeInput {
 
     constructor( 
-        public type: string,
+        public definition: BehaviorPortDefinition,
         public nodeIndex: number | undefined,
         public outputName: string | undefined,
         public value: any | undefined,
@@ -217,34 +262,26 @@ class BehaviorNodeInput {
 class BehaviorNodeOutput {
 
     constructor(
-        public type: str
-    )
+        public definition: BehaviorPortDefinition
+    ) {
+    }
+
 }
 
 class BehaviorNode {
 
-    public outputs: { [key:string]: BehaviorNodeOutput };
+    public outputs: Map<string,BehaviorNodeOutput>;
 
     constructor(
         public index: number,
         public definition: BehaviorNodeDefinition,
         public inputs: { [key:string]: BehaviorNodeInput }) {
 
-        this.index = index;
-        this.definition = definition;
-        this.inputs = inputs;
         this.outputs = {};
-        this.definition.outputs.forEach((value) => {
-            this.outputs[value] = {
-                name: value,
-                downlinks: []
-            };
-        })
-
+        this.definition.outputDefinitions.forEach((outputDefinition) => {
+            this.outputs[outputDefinition.name] = new BehaviorNodeOutput( outputDefinition );
+        });
     }
-
-
-
 }
 class BehaviorContext {
 

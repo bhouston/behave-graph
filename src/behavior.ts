@@ -486,6 +486,21 @@ const behaviorExample = [
     }
 ];
 
+const behaviorExample2 = [
+    {
+        'type': 'trigger/sceneStart'
+    },
+    {
+        'type': 'action/setter',
+        'inputs': {
+            'execute': { 'type': 'uplink', 'nodeIndex': 0, 'outputName': 'execute' },
+            'jsonPointer': { 'type': 'constant', 'value': '/node/0/translation' },
+            'value': { 'type': 'constant', 'value': [3.0, 1.0, 1.0] }
+        }
+    }
+];
+
+
 class BehaviorTest {
 
     constructor() {

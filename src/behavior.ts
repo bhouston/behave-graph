@@ -81,7 +81,7 @@ const BehaviorNodeDefinitions = [
         }
     ),
 
-    // LOGIC
+    // LOGIC - multiple eval outputs
 
     new BehaviorNodeDefinition(
         'logic',
@@ -98,8 +98,7 @@ const BehaviorNodeDefinitions = [
         }
     ),
 
-
-    // ASYNC
+    // ASYNC - asynchronous evaluation
 
     new BehaviorNodeDefinition(
         'logic',
@@ -111,17 +110,45 @@ const BehaviorNodeDefinitions = [
             outputValues.set( 'eval', true );
             return outputValues;
 
-            return { eval: true }; // TODO: return a promise that results with an async delay
+             // TODO: return a promise that results with an async delay
+            return { eval: true };
 
         }
     ),
 
-    // MATH
+    new BehaviorNodeDefinition(
+        'logic',
+        'sequence',
+        [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
+        [new BehaviorPortDefinition(BehaviorTypes.Eval, '1'), new BehaviorPortDefinition(BehaviorTypes.Eval, '2'), new BehaviorPortDefinition(BehaviorTypes.Eval, '2')],
+        (context, inputs) => {
+
+            // TODO: Figure out how to have multiple evals fire one after another.
+            return {};
+
+        }
+    ),
+
+    new BehaviorNodeDefinition(
+        'logic',
+        'for',
+        [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'startIndex'), new BehaviorPortDefinition(BehaviorTypes.Number, 'count')],
+        [new BehaviorPortDefinition(BehaviorTypes.Eval, 'loop'), new BehaviorPortDefinition(BehaviorTypes.Number, 'index'), new BehaviorPortDefinition(BehaviorTypes.Eval, 'complete')],
+        (context, inputs) => {
+
+            // TODO: Figure out how to have multiple multiple "loop" evals each with an index
+            // and then, once done, eval "complete"
+            return {};
+
+        }
+    ),
+
+    // MATH - note, no evals.
 
     new BehaviorNodeDefinition(
         'math',
         'random',
-        [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval')],
+        [],
         [new BehaviorPortDefinition(BehaviorTypes.Number, 'sample')],
         (context, inputValues) => {
 
@@ -132,7 +159,7 @@ const BehaviorNodeDefinitions = [
     new BehaviorNodeDefinition(
         'math',
         'add',
-        [new BehaviorPortDefinition(BehaviorTypes.Eval, 'eval'), new BehaviorPortDefinition(BehaviorTypes.Number, 'a'), new BehaviorPortDefinition(BehaviorTypes.Number, 'b')],
+        [new BehaviorPortDefinition(BehaviorTypes.Number, 'a'), new BehaviorPortDefinition(BehaviorTypes.Number, 'b')],
         [new BehaviorPortDefinition(BehaviorTypes.Number, 'sum')],
         (context, inputValues) => {
             const outputValues = new Map<string,any>();
@@ -157,8 +184,8 @@ const BehaviorNodeDefinitions = [
             outputValues.set( 'eval', true );
             return outputValues;
 
-            return { eval: true };//console.log('Debug Output: ' + inputs['text']);
-
+            console.log('Debug Output: ' + inputs['text']);
+            return { eval: true };
         }
     ),
     new BehaviorNodeDefinition(
@@ -517,11 +544,26 @@ const behaviorExample = [
     {
         'type': 'action/debugOutput',
         'inputs': {
-            'execute': { 'type': 'uplink', 'nodeIndex': 0, 'outputName': 'execute' },
+            'eval': { 'type': 'uplink', 'nodeIndex': 0, 'outputName': 'execute' },
             'text': { 'type': 'constant', 'value': 'Hello World!' }
         }
     }
 ];
+
+const behaviorExample2 = [
+    {
+        'type': 'trigger/sceneStart'
+    },
+    {
+        'type': 'action/setter',
+        'inputs': {
+            'eval': { 'type': 'uplink', 'nodeIndex': 0, 'outputName': 'execute' },
+            'jsonPointer': { 'type': 'constant', 'value': '/node/0/translation' },
+            'value': { 'type': 'constant', 'value': [3.0, 1.0, 1.0] }
+        }
+    }
+];
+
 
 class BehaviorTest {
 
@@ -548,5 +590,5 @@ class BehaviorTest {
 
 }
 
-export { CinematicCamera };
+export { ... };
 

@@ -1,0 +1,12 @@
+[
+    {
+        "type": "trigger/sceneStart"
+    },
+    {
+        "type": "action/debugOutput",
+        "inputs": {
+            "eval": { "type": "uplink", "nodeIndex": 0, "outputName": "execute" },
+            "text": { "type": "constant", "value": "Hello World!" }
+        }
+    }
+]

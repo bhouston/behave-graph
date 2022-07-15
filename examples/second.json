@@ -1,0 +1,13 @@
+[
+    {
+        "type": "trigger/sceneStart"
+    },
+    {
+        "type": "action/setter",
+        "inputs": {
+            "eval": { "type": "uplink", "nodeIndex": 0, "outputName": "execute" },
+            "jsonPointer": { "type": "constant", "value": "/node/0/translation" },
+            "value": { "type": "constant", "value": [3.0, 1.0, 1.0] }
+        }
+    }
+]

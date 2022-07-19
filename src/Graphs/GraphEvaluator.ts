@@ -1,126 +1,12 @@
+import { Graph } from "./Graph";
+import { Node } from "./Node";
 
-
-class NodeInput {
-
-    constructor( 
-        public definition: SocketSpec,
-        public nodeIndex: number | undefined,
-        public outputName: string | undefined,
-        public value: any | undefined,
-    ) {
-    }
-
-}
-
-class NodeOutput {
-
-    constructor(
-        public definition: SocketSpec
-    ) {
-    }
-
-}
-
-class Node {
-
-    public outputs: Map<string,NodeOutput>;
-
-    constructor(
-        public index: number,
-        public definition: NodeSpec,
-        public inputs: { [key:string]: NodeInput }) {
-
-        this.outputs = {};
-        this.definition.outputDefinitions.forEach((outputDefinition) => {
-            this.outputs[outputDefinition.name] = new NodeOutput( outputDefinition );
-        });
-    }
-}
-
-
-// Purpose:
-//  - Avoid nodes having to access globals to referene the scene or trigger loaders.
-//  - Everything should be accessible via this context.
-export class NodeEvalContext {
-
-    constructor() {
-    }
-
-    log(text: string) {
-        console.log(text);
-    }
-
-}
-
-// Purpose:
-//  - stores the node graph
-export class Graph {
-    public name: string = "";
-    public nodes: Node[] = [];
-
-}
-
-// Purpose:
-//  - loads a node graph
-export class GraphLoader {
-
-    public graph = new Graph();
-
-    constructor() {
-    }
-
-    parse(json: any) {
-
-        const nodesJson = json;
-
-        // create new BehaviorNode instances for each node in the json.
-        for (let i = 0; i < nodesJson.length; i++) {
-
-            const nodeJson = nodesJson[i];
-            const nodeType = nodeJson['type'];
-            const definitions = NodeSpecifications.filter((item) => (item.type === nodeType));
-
-            if (definitions.length <= 0) {
-
-                throw new Error(`Can not find Behavior Node Definition for ${nodeType}`);
-
-            }
-            if (definitions.length > 1) {
-
-                throw new Error(`Too many matching Behavior Node Definition for ${nodeType}`);
-
-            }
-
-            this.graph.nodes.push(new Node(i, definitions[0], nodeJson['inputs']);
-
-        }
-
-        // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
-        this.graph.nodes.forEach((node) => {
-            // initialize the inputs by resolving to the reference nodes.
-            node.inputs.forEach((inputName, index) => {
-                const input = node.inputs[inputName];
-
-                if (input['type'] === 'link') {
-                    const uplinkNode = this.behavior.nodes[input['node']];
-                    const uplinkOutput = uplink.outputs[input['output']];
-                    if (!uplinkOutput.downlinks) {
-                        uplinkOutput.downlinks = [];
-                    }
-                    uplinkOutput.downlinks.push({ node: value['node'], input: input.name })
-                }
-            });
-
-        })
-    }
-
-}
 
 export class GraphEvaluator {
 
     public workQueue: Node[] = [];
 
-    constructor( public graph: Graph ) {
+    constructor(public graph: Graph) {
     }
 
     trigger(triggerName: string): number {
@@ -155,7 +41,7 @@ export class GraphEvaluator {
 
         node.inputs.forEach((inputName: string, index: number) => {
 
-            const inputDefinition = node.definition.inputDefinitions.find((item) => { item.name === inputName });
+            const inputDefinition = node.definition.inputDefinitions.find((item) => { item.name === inputName; });
             const input = node.inputs[inputName];
 
             // no need to resolve execution inputs.
@@ -169,7 +55,7 @@ export class GraphEvaluator {
             }
 
             // otherwise follow uplinks...
-            if (input.type === 'uplink') {:
+            if (input.type === 'uplink') {
                 var sourceNode = this.graph.nodes[input.nodeIndex];
                 this.prioritizeNode(sourceNode);
                 unresolvedInputs++;
@@ -267,7 +153,8 @@ export class GraphEvaluator {
     executeSteps(maximumSteps: number): number {
         let stepsExecuted = 0;
         while ((maximumSteps - stepsExecuted) > 0) {
-            if (this.executeStep() === 0) break;
+            if (this.executeStep() === 0)
+                break;
             stepsExecuted++;
         }
         return stepsExecuted;

@@ -1,7 +1,7 @@
-import { SocketValueType } from "../SocketValueType";
-import { SocketSpec } from "../SocketSpec";
-import { NodeSpec } from "../NodeSpec";
-import { GlobalNodeSpecRegistry } from "../registry";
+import { SocketValueType } from "../Core/Sockets/SocketValueType";
+import { SocketSpec } from "../Core/Sockets/SocketSpec";
+import { NodeSpec } from "../Core/Nodes/NodeSpec";
+import { GlobalNodeSpecRegistry } from "./NodeSpecRegistry";
 
 GlobalNodeSpecRegistry.add(
   new NodeSpec(

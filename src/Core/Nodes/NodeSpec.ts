@@ -1,4 +1,4 @@
-import { SocketSpec } from "./SocketSpec";
+import { SocketSpec } from "../Sockets/SocketSpec";
 
 // structure for defining BehaviorNodes
 

@@ -1,5 +1,5 @@
 import { Graph } from "./Graph";
-import { Node } from "./Node";
+import { Node } from "../Nodes/Node";
 
 
 export class GraphEvaluator {

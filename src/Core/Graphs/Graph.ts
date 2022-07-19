@@ -1,4 +1,4 @@
-import { Node } from "./Node";
+import { Node } from "../Nodes/Node";
 
 // Purpose:
 //  - stores the node graph

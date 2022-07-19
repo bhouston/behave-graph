@@ -43,7 +43,7 @@ export class GraphEvaluator {
 
         node.inputSockets.forEach((inputSocket, name) => {
 
-            const inputSocketSpec = node.nodeSpec.inputSocketSpecs.find((item) => { item.name === name; });
+            const inputSocketSpec = node.nodeSpec.inputSocketSpecs.get( name );
             if( inputSocketSpec === undefined ) throw new Error( `can not find spec by name`);
 
             // no need to resolve execution inputs.
@@ -116,22 +116,29 @@ export class GraphEvaluator {
         // TODO: ensure all non-eval outputs have values.  Otherwise throw an error.
         outputValues.forEach((outputValue, outputName) => {
             const outputSocket = nextNode.outputSockets.get( outputName );
+            if( outputSocket === undefined ) throw new Error( `can not be undefined`);
             const outputSocketSpec = nextNode.nodeSpec.outputSocketSpecs.get( outputName );
+            if( outputSocketSpec === undefined ) throw new Error( `can not be undefined`);
 
-            if( outputSocketSpec?.valueType === SocketValueType.Eval ) {
+            if( outputSocketSpec.valueType === SocketValueType.Eval ) {
 
-            if( outputSocket?.downlinks.length > 1 ) throw new Error( `eval downlinks must = 1` );
-            
-            outputSocket?.downlinks.forEach( nodeSocketRef => {
-                const downlinkNode = this.graph.nodes[ nodeSocketRef.nodeIndex ];
+                if( outputSocket.downlinks.length > 1 ) throw new Error( `eval downlinks must = 1` );
 
-                // no values explicitly passed down links, all values are pulled when needed.
+                outputSocket?.downlinks.forEach( nodeSocketRef => {
+                    const downlinkNode = this.graph.nodes[ nodeSocketRef.nodeIndex ];
 
-                // if type is eval, ensure node is queued up.
+                    // no values explicitly passed down links, all values are pulled when needed.
+
+                    // if type is eval, ensure node is queued up.
                     this.nodeWorkQueue.push(downlinkNode);
-                    return;
-                }
-            });
+                });
+
+            }
+            else {
+                // store the output value for immediate evaluation purposes - this is only done on eval output sockets.
+                outputSocket.value = outputValue;
+            }
+    
 
         });
 

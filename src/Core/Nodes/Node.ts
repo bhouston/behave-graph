@@ -13,7 +13,7 @@ export class Node {
     ) {
         // initialize node outputs based on the specification
         this.nodeSpec.outputSocketSpecs.forEach((outputDefinition) => {
-            this.outputSockets.set( outputDefinition.name, new OutputSocket(outputDefinition) );
+            this.outputSockets.set( outputDefinition.name, new OutputSocket() );
         });
     }
 }

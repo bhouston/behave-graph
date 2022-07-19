@@ -10,13 +10,18 @@ export class Graph {
     public name: string = "";
     public nodes: Node[] = [];
 
-    resolveInputSocketRef( nodeSocketRef: NodeSocketRef ): InputSocket | undefined {
+    getInputSocket( nodeSocketRef: NodeSocketRef ): InputSocket {
         const node = this.nodes[ nodeSocketRef.nodeIndex ];
-        return node.inputSockets.get( nodeSocketRef.socketName );
+        const inputSocket = node.inputSockets.get( nodeSocketRef.socketName );
+        if( inputSocket === undefined ) throw new Error( `all node socket refs must resolve` );
+        return inputSocket;
     }
 
-    resolveOutputSocketRef( nodeSocketRef: NodeSocketRef ): OutputSocket | undefined {
+    getOutputSocket( nodeSocketRef: NodeSocketRef ): OutputSocket {
         const node = this.nodes[ nodeSocketRef.nodeIndex ];
-        return node.outputSockets.get( nodeSocketRef.socketName );
+        const outputSocket = node.outputSockets.get( nodeSocketRef.socketName );
+        if( outputSocket === undefined ) throw new Error( `all node socket refs must resolve` );
+        return outputSocket;
     }
 }
+0

@@ -1,19 +1,19 @@
 import { NodeSpec } from "./NodeSpec";
 import { InputSocket } from "../Sockets/InputSocket";
-import { OutputSocket } from "../OutputSocket";
+import { OutputSocket } from "../Sockets/OutputSocket";
 
 
 export class Node {
-    public outputs = new Map<string, OutputSocket>();
+    public outputSockets = new Map<string, OutputSocket>();
 
     constructor(
         public id: string,
-        public definition: NodeSpec,
-        public inputs: Map<string, InputSocket>
+        public nodeSpec: NodeSpec,
+        public inputSockets: Map<string, InputSocket>
     ) {
         // initialize node outputs based on the specification
-        this.definition.outputDefinitions.forEach((outputDefinition) => {
-            this.outputs.set( outputDefinition.name, new OutputSocket(outputDefinition) );
+        this.nodeSpec.outputSocketSpecs.forEach((outputDefinition) => {
+            this.outputSockets.set( outputDefinition.name, new OutputSocket(outputDefinition) );
         });
     }
 }

@@ -1,10 +1,12 @@
 import { Graph } from "./Graph";
 import { Node } from "../Nodes/Node";
+import { SocketValueType } from "../Sockets/SocketValueType";
+import { NodeEvalContext } from "../Nodes/NodeEvalContext";
 
 
 export class GraphEvaluator {
 
-    public workQueue: Node[] = [];
+    public nodeWorkQueue: Node[] = [];
 
     constructor(public graph: Graph) {
     }
@@ -12,11 +14,11 @@ export class GraphEvaluator {
     trigger(triggerName: string): number {
 
         // look up any nodes with this trigger name and add them to the executionQueue
-        const triggerNodes = this.graph.nodes.filter((item) => (item.definition.type === triggerName));
+        const triggerNodes = this.graph.nodes.filter((item) => (item.nodeSpec.type === triggerName));
 
         if (triggerNodes.length > 0) {
             // add to the back of the queue
-            this.workQueue.push(...triggerNodes);
+            this.nodeWorkQueue.push(...triggerNodes);
         }
 
         // inform how many trigger nodes were triggered
@@ -27,37 +29,39 @@ export class GraphEvaluator {
     prioritizeNode(node: Node) {
 
         // remove from the queue if it is exists
-        this.workQueue = this.workQueue.filter((item) => (item !== node));
+        this.nodeWorkQueue = this.nodeWorkQueue.filter((item) => (item !== node));
 
         // add to front of queue
-        this.workQueue.unshift(node);
+        this.nodeWorkQueue.unshift(node);
 
     }
 
     // resolve non-execution inputs so that each has a value stored in them.  Then and only then we can execute the node's function.
-    resolveInputs(node: Node) {
+    resolveInputs(node: Node): number {
 
         let unresolvedInputs = 0;
 
-        node.inputs.forEach((inputName: string, index: number) => {
+        node.inputSockets.forEach((inputSocket, name) => {
 
-            const inputDefinition = node.definition.inputDefinitions.find((item) => { item.name === inputName; });
-            const input = node.inputs[inputName];
+            const inputSocketSpec = node.nodeSpec.inputSocketSpecs.find((item) => { item.name === name; });
+            if( inputSocketSpec === undefined ) throw new Error( `can not find spec by name`);
 
             // no need to resolve execution inputs.
-            if (inputDefinition.type === SocketValueType.Eval) {
-                continue;
+            if (inputSocketSpec.valueType === SocketValueType.Eval) {
+                return;
             }
 
             // if the input has a value, it is resolved
-            if (input.value !== undefined) {
-                continue;
+            if (inputSocket.value !== undefined) {
+                return;
             }
 
             // otherwise follow uplinks...
-            if (input.type === 'uplink') {
-                var sourceNode = this.graph.nodes[input.nodeIndex];
-                this.prioritizeNode(sourceNode);
+            if (inputSocket.uplinks.length > 0 ) {
+                if( inputSocket.uplinks.length > 1 ) throw new Error( `non-eval uplinks must number 1` );
+                const uplink = inputSocket.uplinks[0];
+                const uplinkNode = this.graph.nodes[uplink.nodeIndex];
+                this.prioritizeNode(uplinkNode);
                 unresolvedInputs++;
             }
 
@@ -68,77 +72,67 @@ export class GraphEvaluator {
     }
 
     // returns the number of new execution steps created as a result of this one step
-    executeStep() {
+    executeStep(): number {
 
         // no work waiting!
-        if (this.workQeueue.length === 0) {
+        if (this.nodeWorkQueue.length === 0) {
             return 0;
         }
 
-        // look at the next item in the queue
-        const peekNextItem = this.workQueue[0];
-
+        // peak at the next node in the queue
+        const nextNode = this.nodeWorkQueue[0];
         // resolve inputs if they are not.  If all are resolved, function returns 0, and we can execute it.
-        if (this.resolveInputs(peekNextItem) > 0) {
+        if (this.resolveInputs(nextNode) > 0) {
 
+            // WARNING: this is an infinite loop - this doesn't work.
             return this.executeStep();
 
         }
 
         // pop off item
-        const node = this.workQueue.shift();
-        if (peekNextItem !== node) {
-            throw new Error('should not happen');
-        }
+        if ( this.nodeWorkQueue.shift() !== nextNode) throw new Error('should not happen');
 
         // collect all inputs, while clearing their values.
         // TODO: could this be replaced by a map?
-        let inputValues = {};
-        node.inputs.forEach((inputName, index) => {
+        let inputValues = new Map<string,any>();
 
-            const input = node.inputs[inputName];
-
-            if (input.value !== undefined) {
-
-                inputValues[input.name] = input.value;
-                delete input.value;
-
+        nextNode.inputSockets.forEach((inputSocket, name) => {
+            if (inputSocket.value !== undefined) {
+                inputValues.set(name, inputSocket.value );
+                delete inputSocket.value;
             }
-
         });
 
         console.log('inputs: ', inputValues);
-        console.log(`type: ${nextItem.definition.type}`);
+        console.log(`type: ${nextNode.nodeSpec.type}`);
 
         // this is where the promise would be;
-        const outputs = node.definition.func(inputValues);
+        const context = new NodeEvalContext();
+        const outputValues = nextNode.nodeSpec.func(context, inputValues);
 
-        console.log('outputs: ', outputs);
+        console.log('outputs: ', outputValues);
 
         // push results to the inputs of downstream nodes.
         // TODO: ensure all non-eval outputs have values.  Otherwise throw an error.
-        outputs.forEach((output, outputIndex) => {
-
-            if (output.downlinks !== undefined) {
-
-                output.downlinks.forEach((downLinks) => {
-
-                    var downlinkNode = this.nodes[downlinks.nodeIndex];
-
-                    if (output.value !== undefined) {
-
-                        downlinkNode.inputs[downlinkNode.inputName].value = output.value;
+        outputValues.forEach((outputValue, outputName) => {
+            const outputSocket = nextNode.outputSockets.get( outputName );
+            if( nextNode.nodeSpec.outputSocketSpecs.)
+            outputSocket?.downlinks.forEach( nodeSocketRef => {
+                const downlinkInputSocket = this.graph.resolveInputSocketRef( nodeSocketRef );
+                if( downlinkInputSocket === undefined ) throw new Error( `downlinks must exist` );
+                downlinkInputSocket.value = outputValue;
+            });
 
                     }
                     else {
 
-                        if (node.definition.outputs[output.name] !== SocketValueType.Eval) {
+                        if (node.nodeSpec.outputs[output.name] !== SocketValueType.Eval) {
 
                             throw new Error("outputs without values must be execution");
 
                         }
 
-                        this.workQueue.push(downlinkNode);
+                        this.nodeWorkQueue.push(downlinkNode);
                     }
 
                 });

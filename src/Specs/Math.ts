@@ -1,5 +1,10 @@
 import { SocketValueType } from "../Core/Sockets/SocketValueType";
-import { SocketSpec } from "../Core/Sockets/SocketSpec";
+import {
+  EvalSocketSpec,
+  NumberSocketSpec,
+  SocketSpec,
+  StringSocketSpec,
+} from "../Core/Sockets/SocketSpec";
 import { NodeSpec } from "../Core/Nodes/NodeSpec";
 import { GlobalNodeSpecRegistry } from "./NodeSpecRegistry";
 
@@ -9,7 +14,7 @@ GlobalNodeSpecRegistry.add(
     "math",
     "random",
     [],
-    [new SocketSpec(SocketValueType.Number, "sample")],
+    [new NumberSocketSpec("sample")],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("sample", Math.random());
@@ -23,10 +28,10 @@ GlobalNodeSpecRegistry.add(
     "math",
     "add",
     [
-      new SocketSpec(SocketValueType.Number, "a"),
-      new SocketSpec(SocketValueType.Number, "b"),
+      new NumberSocketSpec("a"),
+      new NumberSocketSpec("b"),
     ],
-    [new SocketSpec(SocketValueType.Number, "sum")],
+    [new NumberSocketSpec("sum")],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("sum", inputValues.get("a") + inputValues.get("b"));

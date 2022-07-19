@@ -1,5 +1,10 @@
 import { SocketValueType } from "../Core/Sockets/SocketValueType";
-import { SocketSpec } from "../Core/Sockets/SocketSpec";
+import {
+  EvalSocketSpec,
+  NumberSocketSpec,
+  SocketSpec,
+  StringSocketSpec,
+} from "../Core/Sockets/SocketSpec";
 import { NodeSpec } from "../Core/Nodes/NodeSpec";
 import { GlobalNodeSpecRegistry } from "./NodeSpecRegistry";
 
@@ -8,11 +13,8 @@ GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
     "debugOutput",
-    [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.String, "text"),
-    ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec(), new StringSocketSpec("text")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       console.log("Debug Output: " + inputValues.get("text"));
 
@@ -27,11 +29,8 @@ GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
     "show",
-    [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
-    ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec(), new NumberSocketSpec("nodeIndex")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       // const node = context.getSceneNodeByIndex(inputs['node']);
       // node.visible = false;
@@ -46,11 +45,8 @@ GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
     "hide",
-    [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
-    ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec(), new NumberSocketSpec("nodeIndex")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("eval", true);
@@ -67,11 +63,13 @@ GlobalNodeSpecRegistry.add(
     "action",
     "translate",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
-      new SocketSpec(SocketValueType.Vector3, "offset"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec("nodeIndex"),
+      new NumberSocketSpec("offsetX"),
+      new NumberSocketSpec("offsetY"),
+      new NumberSocketSpec("offsetZ"),
     ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("eval", true);
@@ -88,11 +86,13 @@ GlobalNodeSpecRegistry.add(
     "action",
     "rotation",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
-      new SocketSpec(SocketValueType.Vector3, "delta"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec("nodeIndex"),
+      new NumberSocketSpec("deltaX"),
+      new NumberSocketSpec("deltaY"),
+      new NumberSocketSpec("deltaZ"),
     ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("eval", true);
@@ -109,11 +109,13 @@ GlobalNodeSpecRegistry.add(
     "action",
     "scale",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
-      new SocketSpec(SocketValueType.Vector3, "factor"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec("nodeIndex"),
+      new NumberSocketSpec("factorX"),
+      new NumberSocketSpec("factorY"),
+      new NumberSocketSpec("factorZ"),
     ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("eval", true);

@@ -1,5 +1,11 @@
 import { SocketValueType } from "../Core/Sockets/SocketValueType";
-import { SocketSpec } from "../Core/Sockets/SocketSpec";
+import {
+  BooleanSocketSpec,
+  EvalSocketSpec,
+  NumberSocketSpec,
+  SocketSpec,
+  StringSocketSpec,
+} from "../Core/Sockets/SocketSpec";
 import { NodeSpec } from "../Core/Nodes/NodeSpec";
 import { GlobalNodeSpecRegistry } from "./NodeSpecRegistry";
 
@@ -8,12 +14,12 @@ GlobalNodeSpecRegistry.add(
     "flowcontrol",
     "if",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Boolean, "condition"),
+      new EvalSocketSpec(),
+      new BooleanSocketSpec( "condition"),
     ],
     [
-      new SocketSpec(SocketValueType.Eval, "true"),
-      new SocketSpec(SocketValueType.Eval, "false"),
+      new EvalSocketSpec("true"),
+      new EvalSocketSpec("false"),
     ],
     (context, inputValues) => {
       // form 1:
@@ -36,10 +42,10 @@ GlobalNodeSpecRegistry.add(
     "flowcontrol",
     "sleep",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "milliseconds"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec( "milliseconds"),
     ],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       // TODO: return a promise that results with an async delay - Wayne can you help with this?
       const outputValues = new Map<string, any>();
@@ -54,11 +60,11 @@ GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "flowcontrol",
     "sequence",
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     [
-      new SocketSpec(SocketValueType.Eval, "1"),
-      new SocketSpec(SocketValueType.Eval, "2"),
-      new SocketSpec(SocketValueType.Eval, "2"),
+      new EvalSocketSpec("1"),
+      new EvalSocketSpec("2"),
+      new EvalSocketSpec("2"),
     ],
     (context, inputValues) => {
       // these outputs are fired sequentially in an async fashion but without delays.  Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
@@ -74,14 +80,14 @@ GlobalNodeSpecRegistry.add(
     "loflowcontrolgic",
     "forloop",
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "startIndex"),
-      new SocketSpec(SocketValueType.Number, "endIndex"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec( "startIndex"),
+      new NumberSocketSpec( "endIndex"),
     ],
     [
-      new SocketSpec(SocketValueType.Eval, "loopBody"),
-      new SocketSpec(SocketValueType.Number, "index"),
-      new SocketSpec(SocketValueType.Eval, "completed"),
+      new EvalSocketSpec("loopBody"),
+      new NumberSocketSpec( "index"),
+      new EvalSocketSpec("completed"),
     ],
     (context, inputValues) => {
       // TODO: Figure out how to have multiple multiple "loop" evals each with an index

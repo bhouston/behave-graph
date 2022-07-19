@@ -1,8 +1,12 @@
 import { SocketValueType } from "../Core/Sockets/SocketValueType";
-import { SocketSpec } from "../Core/Sockets/SocketSpec";
 import { NodeSpec } from "../Core/Nodes/NodeSpec";
 import { GlobalNodeSpecRegistry } from "./NodeSpecRegistry";
-
+import {
+  EvalSocketSpec,
+  NumberSocketSpec,
+  SocketSpec,
+  StringSocketSpec,
+} from "../Core/Sockets/SocketSpec";
 // EVENTS
 //
 // TODO: Figure out how to force the evaluation of these from the outside.
@@ -14,7 +18,7 @@ GlobalNodeSpecRegistry.add(
     "events",
     "sceneStart",
     [],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputs) => {
       return new Map<string, any>().set("eval", true);
     }
@@ -26,7 +30,7 @@ GlobalNodeSpecRegistry.add(
     "events",
     "tick",
     [],
-    [new SocketSpec(SocketValueType.Eval, "eval")],
+    [new EvalSocketSpec()],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();
       outputValues.set("eval", true);
@@ -41,8 +45,8 @@ GlobalNodeSpecRegistry.add(
     "nodeClick",
     [],
     [
-      new SocketSpec(SocketValueType.Eval, "eval"),
-      new SocketSpec(SocketValueType.Number, "nodeIndex"),
+      new EvalSocketSpec(),
+      new NumberSocketSpec("nodeIndex"),
     ],
     (context, inputValues) => {
       const outputValues = new Map<string, any>();

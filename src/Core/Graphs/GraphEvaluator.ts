@@ -37,6 +37,8 @@ export class GraphEvaluator {
     }
 
     // resolve non-execution inputs so that each has a value stored in them.  Then and only then we can execute the node's function.
+    // TODO: This needs to resolve immediately and not queue ndoes or prioritize them.
+    // BUG: This needs to evaluate the subgraph to resolve the values of this node immediately, rather than any delayed or work-queue mediated execution.
     resolveInputs(node: Node): number {
 
         let unresolvedInputs = 0;

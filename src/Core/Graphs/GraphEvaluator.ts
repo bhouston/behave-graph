@@ -116,28 +116,22 @@ export class GraphEvaluator {
         // TODO: ensure all non-eval outputs have values.  Otherwise throw an error.
         outputValues.forEach((outputValue, outputName) => {
             const outputSocket = nextNode.outputSockets.get( outputName );
-            if( nextNode.nodeSpec.outputSocketSpecs.)
+            const outputSocketSpec = nextNode.nodeSpec.outputSocketSpecs.get( outputName );
+
+            if( outputSocketSpec?.valueType === SocketValueType.Eval ) {
+
+            if( outputSocket?.downlinks.length > 1 ) throw new Error( `eval downlinks must = 1` );
+            
             outputSocket?.downlinks.forEach( nodeSocketRef => {
-                const downlinkInputSocket = this.graph.resolveInputSocketRef( nodeSocketRef );
-                if( downlinkInputSocket === undefined ) throw new Error( `downlinks must exist` );
-                downlinkInputSocket.value = outputValue;
+                const downlinkNode = this.graph.nodes[ nodeSocketRef.nodeIndex ];
+
+                // no values explicitly passed down links, all values are pulled when needed.
+
+                // if type is eval, ensure node is queued up.
+                    this.nodeWorkQueue.push(downlinkNode);
+                    return;
+                }
             });
-
-                    }
-                    else {
-
-                        if (node.nodeSpec.outputs[output.name] !== SocketValueType.Eval) {
-
-                            throw new Error("outputs without values must be execution");
-
-                        }
-
-                        this.nodeWorkQueue.push(downlinkNode);
-                    }
-
-                });
-
-            }
 
         });
 

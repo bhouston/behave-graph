@@ -53,7 +53,7 @@ GlobalNodeSpecRegistry.add(
       return outputValues;
       //const node = context.getSceneNodeByIndex(inputs['node']);
       //node.visible = true;
-      return { eval: true };
+      //return { eval: true };
     }
   )
 );
@@ -76,7 +76,7 @@ GlobalNodeSpecRegistry.add(
       return outputValues;
       //const node = context.getSceneNodeByIndex(inputs['node']);
       //node.translation.add(inputs['offset']);
-      return { eval: true };
+      //return { eval: true };
     }
   )
 );
@@ -99,7 +99,7 @@ GlobalNodeSpecRegistry.add(
       return outputValues;
       //const node = context.getSceneNodeByIndex(inputs['node']);
       //node.rotation.add(inputs['eulerDelta']);
-      return { eval: true };
+      //return { eval: true };
     }
   )
 );
@@ -122,7 +122,7 @@ GlobalNodeSpecRegistry.add(
       return outputValues;
       //const node = context.getSceneNodeByIndex(inputs['node']);
       //node.scale.multiplyByVector(inputs['factor']);
-      return { eval: true };
+      //return { eval: true };
     }
   )
 );

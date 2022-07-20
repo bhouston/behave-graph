@@ -61,13 +61,13 @@ GlobalNodeSpecRegistry.add(
 GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
-    "translate",
+    "nodeTranslate",
     [
       new EvalSocketSpec(),
       new NumberSocketSpec("nodeIndex"),
-      new NumberSocketSpec("offsetX"),
-      new NumberSocketSpec("offsetY"),
-      new NumberSocketSpec("offsetZ"),
+      new NumberSocketSpec("xTranslation"),
+      new NumberSocketSpec("yTranslation"),
+      new NumberSocketSpec("zTranslation"),
     ],
     [new EvalSocketSpec()],
     (context, inputValues) => {
@@ -84,13 +84,13 @@ GlobalNodeSpecRegistry.add(
 GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
-    "rotation",
+    "nodeRotation",
     [
       new EvalSocketSpec(),
       new NumberSocketSpec("nodeIndex"),
-      new NumberSocketSpec("deltaX"),
-      new NumberSocketSpec("deltaY"),
-      new NumberSocketSpec("deltaZ"),
+      new NumberSocketSpec("xRotation"),
+      new NumberSocketSpec("yRotation"),
+      new NumberSocketSpec("zRotation"),
     ],
     [new EvalSocketSpec()],
     (context, inputValues) => {
@@ -107,13 +107,13 @@ GlobalNodeSpecRegistry.add(
 GlobalNodeSpecRegistry.add(
   new NodeSpec(
     "action",
-    "scale",
+    "nodeScale",
     [
       new EvalSocketSpec(),
       new NumberSocketSpec("nodeIndex"),
-      new NumberSocketSpec("factorX"),
-      new NumberSocketSpec("factorY"),
-      new NumberSocketSpec("factorZ"),
+      new NumberSocketSpec("xScale"),
+      new NumberSocketSpec("yScale"),
+      new NumberSocketSpec("zScale"),
     ],
     [new EvalSocketSpec()],
     (context, inputValues) => {

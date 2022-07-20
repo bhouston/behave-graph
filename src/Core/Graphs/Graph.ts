@@ -24,4 +24,3 @@ export class Graph {
         return outputSocket;
     }
 }
-0

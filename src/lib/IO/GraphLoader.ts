@@ -1,38 +1,39 @@
-import { Node } from "../Core/Nodes/Node";
-import { Graph } from "../Core/Graphs/Graph";
-import { GlobalNodeSpecRegistry, NodeSpecRegistry } from "../Specs/NodeSpecRegistry";
+import Node from '../Core/Nodes/Node';
+import Graph from '../Core/Graphs/Graph';
+import {
+  GlobalNodeSpecRegistry,
+  NodeSpecRegistry,
+} from '../Specs/NodeSpecRegistry';
 
 // Purpose:
 //  - loads a node graph
 
-export class GraphLoader {
+export default class GraphLoader {
   public graph = new Graph();
-
-  constructor() {}
 
   parse(json: any, nodeSpecRegistry: NodeSpecRegistry) {
     const nodesJson = json;
 
     // create new BehaviorNode instances for each node in the json.
-    for (let i = 0; i < nodesJson.length; i++) {
+    for (let i = 0; i < nodesJson.length; i += 1) {
       const nodeJson = nodesJson[i];
-      const nodeType = nodeJson["type"];
+      const nodeType = nodeJson.type;
       const definitions = nodeSpecRegistry.filter(
-        (item) => item.type === nodeType
+        (item) => item.type === nodeType,
       );
 
       if (definitions.length <= 0) {
         throw new Error(
-          `Can not find Behavior Node Definition for ${nodeType}`
+          `Can not find Behavior Node Definition for ${nodeType}`,
         );
       }
       if (definitions.length > 1) {
         throw new Error(
-          `Too many matching Behavior Node Definition for ${nodeType}`
+          `Too many matching Behavior Node Definition for ${nodeType}`,
         );
       }
 
-      this.graph.nodes.push(new Node(i, definitions[0], nodeJson["inputs"]));
+      this.graph.nodes.push(new Node(i, definitions[0], nodeJson.inputs));
     }
 
     // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
@@ -41,14 +42,14 @@ export class GraphLoader {
       node.inputSockets.forEach((inputName, index) => {
         const input = node.inputSockets[inputName];
 
-        if (input["type"] === "link") {
-          const uplinkNode = this.behavior.nodes[input["node"]];
-          const uplinkOutput = uplink.outputs[input["output"]];
+        if (input.type === 'link') {
+          const uplinkNode = this.behavior.nodes[input.node];
+          const uplinkOutput = uplink.outputs[input.output];
           if (!uplinkOutput.downlinks) {
             uplinkOutput.downlinks = [];
           }
           uplinkOutput.downlinks.push({
-            node: value["node"],
+            node: value.node,
             input: input.name,
           });
         }

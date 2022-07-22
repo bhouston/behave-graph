@@ -19,5 +19,3 @@ export class NodeSpecRegistry {
     return this.nodeSpecs.find((nodeSpec) => nodeSpec.name === nodeSpecName);
   }
 }
-
-export const GlobalNodeSpecRegistry = new NodeSpecRegistry();

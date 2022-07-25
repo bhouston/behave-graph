@@ -1,9 +1,9 @@
-import { SocketValueType } from '../Core/Sockets/SocketValueType';
-import SocketSpec from '../Core/Sockets/Spec/SocketSpec';
-import NumberSocketSpec from '../Core/Sockets/Spec/NumberSocketSpec';
-import StringSocketSpec from '../Core/Sockets/Spec/StringSocketSpec';
-import EvalSocketSpec from '../Core/Sockets/Spec/EvalSocketSpec';
-import NodeSpec from '../Core/Nodes/Spec/NodeSpec';
+import { SocketValueType } from './Sockets/SocketValueType';
+import SocketSpec from './Sockets/Spec/SocketSpec';
+import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
+import StringSocketSpec from './Sockets/Spec/StringSocketSpec';
+import EvalSocketSpec from './Sockets/Spec/EvalSocketSpec';
+import NodeSpec from './Nodes/Spec/NodeSpec';
 import { GlobalNodeSpecRegistry, NodeSpecRegistry } from './NodeSpecRegistry';
 
 export default function registerDefaultLogic(nodeSpecRegistry: NodeSpecRegistry) {

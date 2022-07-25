@@ -1,13 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class NodeScaleSpec extends NodeSpec {
+export class GetNodeScale extends Node {
   constructor() {
     super(
       'query',
-      'nodeScale',
+      'getNodeScale',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xScale'), new NumberSocket('yScale'), new NumberSocket('zScale')],
       (context, inputValues) => {
@@ -16,7 +15,7 @@ export class NodeScaleSpec extends NodeSpec {
         outputValues.set('yScale', 0);
         outputValues.set('zScale', 0);
         return outputValues;
-      }
+      },
     );
   }
 }

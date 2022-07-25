@@ -1,8 +1,8 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-export class ForLoopSpec extends NodeSpec {
+export class ForLoop extends Node {
   constructor() {
     super(
       'flowcontrolgic',

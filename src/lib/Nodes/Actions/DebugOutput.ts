@@ -1,8 +1,8 @@
 import StringSocket from '../../../Specs/Sockets/StringSocket';
 import EvalSocket from '../../../Specs/Sockets/EvalSocket';
-import NodeSpec from '../../../Specs/Nodes/NodeSpec';
+import Node from '../Node';
 
-export class DebugOutputSpec extends NodeSpec {
+export class DebugOutput extends Node {
   constructor() {
     super(
       'action',

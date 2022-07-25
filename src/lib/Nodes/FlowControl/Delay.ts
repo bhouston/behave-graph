@@ -1,21 +1,24 @@
-import NodeSpec from './Nodes/Spec/NodeSpec';
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
+import Node from '../../../Nodes/Node';
 
-export class NodeClickSpec extends NodeSpec {
+// ASYNC - asynchronous evaluation
+// also called "delay"
+
+export class Delay extends Node {
   constructor() {
     super(
-      'events',
-      'nodeClick',
-      [],
+      'flowcontrol',
+      'delay',
       [
         new EvalSocket(),
-        new NumberSocket('nodeIndex'),
+        new NumberSocket('milliseconds'),
       ],
+      [new EvalSocket()],
       (context, inputValues) => {
+        // TODO: return a promise that results with an async delay - Wayne can you help with this?
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);
-        outputValues.set('nodeIndex', -1); // TODO: Replace with real value.
         return outputValues;
       },
     );

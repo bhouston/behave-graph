@@ -1,9 +1,9 @@
 import EvalSocket from './Sockets/Spec/EvalSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/FlowControl/
 
-export class SequenceSpec extends NodeSpec {
+export class Sequence extends Node {
   constructor() {
     super(
       'flowcontrol',

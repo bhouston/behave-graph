@@ -1,4 +1,4 @@
-import registerDefaultActions from './Nodes/Actions';
+import registerDefaultActions from '../Nodes/Actions';
 import registerDefaultEvents from './Events';
 import registerDefaultFlowControls from './FlowControl';
 import registerDefaultLogic from './Logic';

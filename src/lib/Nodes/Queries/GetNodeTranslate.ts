@@ -1,12 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-export class NodeTranslateSpec extends NodeSpec {
+export class GetNodeTranslation extends Node {
   constructor() {
     super(
       'query',
-      'nodeTranslate',
+      'getNodeTranslation',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xTranslation'), new NumberSocket('yTranslation'), new NumberSocket('zTranslation')],
       (context, inputValues) => {

@@ -1,18 +1,18 @@
 import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
-import NodeSpec from '../../Specs/Nodes/NodeSpec';
+import Node from '../Node';
 
-export class NodeRotateSpec extends NodeSpec {
+export class SetNodeScale extends Node {
   constructor() {
     super(
       'action',
-      'nodeRotation',
+      'setNodeScale',
       [
         new EvalSocket(),
         new NumberSocket('nodeIndex'),
-        new NumberSocket('xRotation'),
-        new NumberSocket('yRotation'),
-        new NumberSocket('zRotation'),
+        new NumberSocket('xScale'),
+        new NumberSocket('yScale'),
+        new NumberSocket('zScale'),
       ],
       [new EvalSocket()],
       (context, inputValues) => {
@@ -20,7 +20,7 @@ export class NodeRotateSpec extends NodeSpec {
         outputValues.set('eval', true);
         return outputValues;
         // const node = context.getSceneNodeByIndex(inputs['node']);
-        // node.rotation.add(inputs['eulerDelta']);
+        // node.scale.multiplyByVector(inputs['factor']);
         // return { eval: true };
       },
     );

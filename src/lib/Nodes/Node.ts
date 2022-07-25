@@ -1,5 +1,5 @@
 import Socket from '../Sockets/Socket';
-import { NodeEvalFunction } from '../Specs/Nodes/NodeSpec';
+import { NodeEvalFunction } from './NodeEvalFunction';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);

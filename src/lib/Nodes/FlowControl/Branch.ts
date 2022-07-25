@@ -1,12 +1,12 @@
 import BooleanSocket from './Sockets/Spec/BooleanSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-export class IfSpec extends NodeSpec {
+export class If extends Node {
   constructor() {
     super(
       'flowcontrol',
-      'if',
+      'branch',
       [
         new EvalSocket(),
         new BooleanSocket('condition'),

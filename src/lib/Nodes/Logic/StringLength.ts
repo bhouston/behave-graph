@@ -1,9 +1,8 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class StringLengthSpec extends NodeSpec {
+export class StringLength extends Node {
   constructor() {
     super(
       'logic',
@@ -16,7 +15,7 @@ export class StringLengthSpec extends NodeSpec {
         const outputValues = new Map<string, any>();
         outputValues.set('length', inputValues.get('text').length);
         return outputValues;
-      }
+      },
     );
   }
 }

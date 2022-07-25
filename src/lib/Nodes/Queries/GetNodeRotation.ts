@@ -1,13 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class NodeRotationSpec extends NodeSpec {
+export class GetNodeRotation extends Node {
   constructor() {
     super(
       'query',
-      'nodeRotation',
+      'getNodeRotation',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xRotation'), new NumberSocket('yRotation'), new NumberSocket('zRotation')],
       (context, inputValues) => {
@@ -16,7 +15,7 @@ export class NodeRotationSpec extends NodeSpec {
         outputValues.set('yRotation', 0);
         outputValues.set('zRotation', 0);
         return outputValues;
-      }
+      },
     );
   }
 }

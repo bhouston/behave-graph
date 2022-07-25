@@ -1,12 +1,12 @@
 import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
-import NodeSpec from '../../Specs/Nodes/NodeSpec';
+import Node from '../Node';
 
-export class NodeTranslateSpec extends NodeSpec {
+export class SetNodeTranslation extends Node {
   constructor() {
     super(
       'action',
-      'nodeTranslate',
+      'setNodeTranslation',
       [
         new EvalSocket(),
         new NumberSocket('nodeIndex'),

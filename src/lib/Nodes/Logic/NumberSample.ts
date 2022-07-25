@@ -1,8 +1,7 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class NumberSampleSpec extends NodeSpec {
+export class NumberSample extends Node {
   constructor() {
     super(
       'logic',
@@ -13,7 +12,7 @@ export class NumberSampleSpec extends NodeSpec {
         const outputValues = new Map<string, any>();
         outputValues.set('sample', Math.random());
         return outputValues;
-      }
+      },
     );
   }
 }

@@ -1,8 +1,7 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class NumberToStringSpec extends NodeSpec {
+export class NumberToString extends Node {
   constructor() {
     super(
       'logic',
@@ -15,7 +14,7 @@ export class NumberToStringSpec extends NodeSpec {
         const outputValues = new Map<string, any>();
         outputValues.set('result', inputValues.get('a').toString());
         return outputValues;
-      }
+      },
     );
   }
 }

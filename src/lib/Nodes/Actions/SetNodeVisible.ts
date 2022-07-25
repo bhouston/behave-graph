@@ -1,12 +1,12 @@
 import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
-import NodeSpec from '../../Specs/Nodes/NodeSpec';
+import Node from '../Node';
 
-export class NodeVisibleSpec extends NodeSpec {
+export class NodeVisible extends Node {
   constructor() {
     super(
       'action',
-      'visible',
+      'setNodeVisible',
       [new EvalSocket(), new NumberSocket('nodeIndex'), new NumberSocket('visible')],
       [new EvalSocket()],
       (context, inputValues) => {

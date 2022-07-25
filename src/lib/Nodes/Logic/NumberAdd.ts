@@ -1,8 +1,7 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 
-
-export class NumberAddSpec extends NodeSpec {
+export class NumberAdd extends Node {
   constructor() {
     super(
       'logic',
@@ -16,7 +15,7 @@ export class NumberAddSpec extends NodeSpec {
         const outputValues = new Map<string, any>();
         outputValues.set('sum', inputValues.get('a') + inputValues.get('b'));
         return outputValues;
-      }
+      },
     );
   }
 }

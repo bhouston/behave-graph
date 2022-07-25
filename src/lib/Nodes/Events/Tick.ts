@@ -1,7 +1,7 @@
-import NodeSpec from './Nodes/Spec/NodeSpec';
+import Node from '../../../Nodes/Node';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 
-export class TickEventSpec extends NodeSpec {
+export class Tick extends Node {
   constructor() {
     super(
       'events',

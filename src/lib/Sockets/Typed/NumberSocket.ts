@@ -1,5 +1,5 @@
 import { SocketValueType } from '../../Core/Sockets/SocketValueType';
-import Socket from './Socket';
+import Socket from '../Socket';
 
 export default class NumberSocket extends Socket {
   constructor(

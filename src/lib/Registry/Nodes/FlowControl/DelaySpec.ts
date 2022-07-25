@@ -1,5 +1,5 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
-import EvalSocketSpec from './Sockets/Spec/EvalSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
+import EvalSocket from './Sockets/Spec/EvalSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 // ASYNC - asynchronous evaluation
@@ -11,16 +11,16 @@ export class DelaySpec extends NodeSpec {
       'flowcontrol',
       'delay',
       [
-        new EvalSocketSpec(),
-        new NumberSocketSpec('milliseconds'),
+        new EvalSocket(),
+        new NumberSocket('milliseconds'),
       ],
-      [new EvalSocketSpec()],
+      [new EvalSocket()],
       (context, inputValues) => {
         // TODO: return a promise that results with an async delay - Wayne can you help with this?
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);
         return outputValues;
-      }
+      },
     );
   }
 }

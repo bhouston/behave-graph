@@ -1,4 +1,4 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -8,7 +8,7 @@ export class NumberSampleSpec extends NodeSpec {
       'logic',
       'rnumberSample',
       [],
-      [new NumberSocketSpec('sample')],
+      [new NumberSocket('sample')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('sample', Math.random());

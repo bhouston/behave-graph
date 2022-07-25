@@ -1,5 +1,5 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
-import StringSocketSpec from './Sockets/Spec/StringSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
+import StringSocket from './Sockets/Spec/StringSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -8,8 +8,8 @@ export class NodeScaleSpec extends NodeSpec {
     super(
       'query',
       'nodeScale',
-      [new StringSocketSpec('nodeIndex')],
-      [new NumberSocketSpec('xScale'), new NumberSocketSpec('yScale'), new NumberSocketSpec('zScale')],
+      [new StringSocket('nodeIndex')],
+      [new NumberSocket('xScale'), new NumberSocket('yScale'), new NumberSocket('zScale')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('xScale', 0);

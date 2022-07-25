@@ -1,4 +1,4 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -8,9 +8,9 @@ export class NumberToStringSpec extends NodeSpec {
       'logic',
       'numberToString',
       [
-        new NumberSocketSpec('a'),
+        new NumberSocket('a'),
       ],
-      [new NumberSocketSpec('result')],
+      [new NumberSocket('result')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('result', inputValues.get('a').toString());

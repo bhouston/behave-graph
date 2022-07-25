@@ -1,7 +1,6 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
-import EvalSocketSpec from './Sockets/Spec/EvalSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
+import EvalSocket from './Sockets/Spec/EvalSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
-
 
 export class ForLoopSpec extends NodeSpec {
   constructor() {
@@ -9,14 +8,14 @@ export class ForLoopSpec extends NodeSpec {
       'flowcontrolgic',
       'forloop',
       [
-        new EvalSocketSpec(),
-        new NumberSocketSpec('startIndex'),
-        new NumberSocketSpec('endIndex'),
+        new EvalSocket(),
+        new NumberSocket('startIndex'),
+        new NumberSocket('endIndex'),
       ],
       [
-        new EvalSocketSpec('loopBody'),
-        new NumberSocketSpec('index'),
-        new EvalSocketSpec('completed'),
+        new EvalSocket('loopBody'),
+        new NumberSocket('index'),
+        new EvalSocket('completed'),
       ],
       (context, inputValues) => {
         // TODO: Figure out how to have multiple multiple "loop" evals each with an index
@@ -25,7 +24,7 @@ export class ForLoopSpec extends NodeSpec {
         outputValues.set('loopBody', true);
         outputValues.set('index', inputValues.get('startIndex'));
         return outputValues;
-      }
+      },
     );
   }
 }

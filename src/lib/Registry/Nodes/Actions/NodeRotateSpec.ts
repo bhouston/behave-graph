@@ -1,5 +1,5 @@
-import NumberSocketSpec from '../../Specs/Sockets/NumberSocketSpec';
-import EvalSocketSpec from '../../Specs/Sockets/EvalSocketSpec';
+import NumberSocket from '../../Specs/Sockets/NumberSocket';
+import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import NodeSpec from '../../Specs/Nodes/NodeSpec';
 
 export class NodeRotateSpec extends NodeSpec {
@@ -8,13 +8,13 @@ export class NodeRotateSpec extends NodeSpec {
       'action',
       'nodeRotation',
       [
-        new EvalSocketSpec(),
-        new NumberSocketSpec('nodeIndex'),
-        new NumberSocketSpec('xRotation'),
-        new NumberSocketSpec('yRotation'),
-        new NumberSocketSpec('zRotation'),
+        new EvalSocket(),
+        new NumberSocket('nodeIndex'),
+        new NumberSocket('xRotation'),
+        new NumberSocket('yRotation'),
+        new NumberSocket('zRotation'),
       ],
-      [new EvalSocketSpec()],
+      [new EvalSocket()],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);

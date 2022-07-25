@@ -1,5 +1,5 @@
-import StringSocketSpec from '../../../Specs/Sockets/StringSocketSpec';
-import EvalSocketSpec from '../../../Specs/Sockets/EvalSocketSpec';
+import StringSocket from '../../../Specs/Sockets/StringSocket';
+import EvalSocket from '../../../Specs/Sockets/EvalSocket';
 import NodeSpec from '../../../Specs/Nodes/NodeSpec';
 
 export class DebugOutputSpec extends NodeSpec {
@@ -7,8 +7,8 @@ export class DebugOutputSpec extends NodeSpec {
     super(
       'action',
       'debugOutput',
-      [new EvalSocketSpec(), new StringSocketSpec('text')],
-      [new EvalSocketSpec()],
+      [new EvalSocket(), new StringSocket('text')],
+      [new EvalSocket()],
       (context, inputValues) => {
         console.log(`Debug Output: ${inputValues.get('text')}`);
 

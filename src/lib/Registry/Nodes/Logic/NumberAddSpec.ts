@@ -1,4 +1,4 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -8,10 +8,10 @@ export class NumberAddSpec extends NodeSpec {
       'logic',
       'numberAdd',
       [
-        new NumberSocketSpec('a'),
-        new NumberSocketSpec('b'),
+        new NumberSocket('a'),
+        new NumberSocket('b'),
       ],
-      [new NumberSocketSpec('sum')],
+      [new NumberSocket('sum')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('sum', inputValues.get('a') + inputValues.get('b'));

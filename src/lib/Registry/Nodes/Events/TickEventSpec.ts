@@ -1,6 +1,5 @@
 import NodeSpec from './Nodes/Spec/NodeSpec';
-import EvalSocketSpec from './Sockets/Spec/EvalSocketSpec';
-
+import EvalSocket from './Sockets/Spec/EvalSocket';
 
 export class TickEventSpec extends NodeSpec {
   constructor() {
@@ -8,12 +7,12 @@ export class TickEventSpec extends NodeSpec {
       'events',
       'tick',
       [],
-      [new EvalSocketSpec()],
+      [new EvalSocket()],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);
         return outputValues;
-      }
+      },
     );
   }
 }

@@ -1,5 +1,5 @@
-import NumberSocketSpec from '../../Specs/Sockets/NumberSocketSpec';
-import EvalSocketSpec from '../../Specs/Sockets/EvalSocketSpec';
+import NumberSocket from '../../Specs/Sockets/NumberSocket';
+import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import NodeSpec from '../../Specs/Nodes/NodeSpec';
 
 export class NodeTranslateSpec extends NodeSpec {
@@ -8,13 +8,13 @@ export class NodeTranslateSpec extends NodeSpec {
       'action',
       'nodeTranslate',
       [
-        new EvalSocketSpec(),
-        new NumberSocketSpec('nodeIndex'),
-        new NumberSocketSpec('xTranslation'),
-        new NumberSocketSpec('yTranslation'),
-        new NumberSocketSpec('zTranslation'),
+        new EvalSocket(),
+        new NumberSocket('nodeIndex'),
+        new NumberSocket('xTranslation'),
+        new NumberSocket('yTranslation'),
+        new NumberSocket('zTranslation'),
       ],
-      [new EvalSocketSpec()],
+      [new EvalSocket()],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);

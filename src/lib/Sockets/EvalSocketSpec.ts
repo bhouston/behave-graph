@@ -1,9 +1,9 @@
 import { SocketValueType } from '../../Core/Sockets/SocketValueType';
-import SocketSpec from './SocketSpec';
+import Socket from './Socket';
 
-export default class EvalSocketSpec extends SocketSpec {
+export default class EvalSocket extends Socket {
   constructor(
-    public name: string = 'eval',
+    name: string = 'eval',
   ) {
     super(name, SocketValueType.Eval, undefined);
   }

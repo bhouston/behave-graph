@@ -1,5 +1,5 @@
-import NumberSocketSpec from '../../Specs/Sockets/NumberSocketSpec';
-import EvalSocketSpec from '../../Specs/Sockets/EvalSocketSpec';
+import NumberSocket from '../../Specs/Sockets/NumberSocket';
+import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import NodeSpec from '../../Specs/Nodes/NodeSpec';
 
 export class NodeScaleSpec extends NodeSpec {
@@ -8,13 +8,13 @@ export class NodeScaleSpec extends NodeSpec {
       'action',
       'nodeScale',
       [
-        new EvalSocketSpec(),
-        new NumberSocketSpec('nodeIndex'),
-        new NumberSocketSpec('xScale'),
-        new NumberSocketSpec('yScale'),
-        new NumberSocketSpec('zScale'),
+        new EvalSocket(),
+        new NumberSocket('nodeIndex'),
+        new NumberSocket('xScale'),
+        new NumberSocket('yScale'),
+        new NumberSocket('zScale'),
       ],
-      [new EvalSocketSpec()],
+      [new EvalSocket()],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);

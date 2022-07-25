@@ -1,5 +1,5 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
-import StringSocketSpec from './Sockets/Spec/StringSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
+import StringSocket from './Sockets/Spec/StringSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -8,8 +8,8 @@ export class NodeRotationSpec extends NodeSpec {
     super(
       'query',
       'nodeRotation',
-      [new StringSocketSpec('nodeIndex')],
-      [new NumberSocketSpec('xRotation'), new NumberSocketSpec('yRotation'), new NumberSocketSpec('zRotation')],
+      [new StringSocket('nodeIndex')],
+      [new NumberSocket('xRotation'), new NumberSocket('yRotation'), new NumberSocket('zRotation')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('xRotation', 0);

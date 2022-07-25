@@ -1,5 +1,5 @@
-import NumberSocketSpec from '../../Specs/Sockets/NumberSocketSpec';
-import EvalSocketSpec from '../../Specs/Sockets/EvalSocketSpec';
+import NumberSocket from '../../Specs/Sockets/NumberSocket';
+import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import NodeSpec from '../../Specs/Nodes/NodeSpec';
 
 export class NodeVisibleSpec extends NodeSpec {
@@ -7,8 +7,8 @@ export class NodeVisibleSpec extends NodeSpec {
     super(
       'action',
       'visible',
-      [new EvalSocketSpec(), new NumberSocketSpec('nodeIndex'), new NumberSocketSpec('visible')],
-      [new EvalSocketSpec()],
+      [new EvalSocket(), new NumberSocket('nodeIndex'), new NumberSocket('visible')],
+      [new EvalSocket()],
       (context, inputValues) => {
         // const node = context.getSceneNodeByIndex(inputs['node']);
         // node.visible = false;

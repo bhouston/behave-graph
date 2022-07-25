@@ -1,7 +1,6 @@
-import BooleanSocketSpec from './Sockets/Spec/BooleanSocketSpec';
-import EvalSocketSpec from './Sockets/Spec/EvalSocketSpec';
+import BooleanSocket from './Sockets/Spec/BooleanSocket';
+import EvalSocket from './Sockets/Spec/EvalSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
-
 
 export class IfSpec extends NodeSpec {
   constructor() {
@@ -9,12 +8,12 @@ export class IfSpec extends NodeSpec {
       'flowcontrol',
       'if',
       [
-        new EvalSocketSpec(),
-        new BooleanSocketSpec('condition'),
+        new EvalSocket(),
+        new BooleanSocket('condition'),
       ],
       [
-        new EvalSocketSpec('true'),
-        new EvalSocketSpec('false'),
+        new EvalSocket('true'),
+        new EvalSocket('false'),
       ],
       (context, inputValues) => {
         // form 1:
@@ -25,7 +24,7 @@ export class IfSpec extends NodeSpec {
           outputValues.set('false', true);
         }
         return outputValues;
-      }
+      },
     );
   }
 }

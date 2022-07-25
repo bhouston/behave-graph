@@ -1,5 +1,5 @@
-import NumberSocketSpec from './Sockets/Spec/NumberSocketSpec';
-import StringSocketSpec from './Sockets/Spec/StringSocketSpec';
+import NumberSocket from './Sockets/Spec/NumberSocket';
+import StringSocket from './Sockets/Spec/StringSocket';
 import NodeSpec from './Nodes/Spec/NodeSpec';
 
 
@@ -9,9 +9,9 @@ export class StringLengthSpec extends NodeSpec {
       'logic',
       'stringLength',
       [
-        new StringSocketSpec('text'),
+        new StringSocket('text'),
       ],
-      [new NumberSocketSpec('length')],
+      [new NumberSocket('length')],
       (context, inputValues) => {
         const outputValues = new Map<string, any>();
         outputValues.set('length', inputValues.get('text').length);

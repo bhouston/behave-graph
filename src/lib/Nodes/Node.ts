@@ -1,18 +1,25 @@
-import NodeSpec from '../../Specs/Nodes/NodeSpec';
-import InputSocket from '../Sockets/InputSocket';
-import OutputSocket from '../Sockets/OutputSocket';
+import Socket from '../Sockets/Socket';
+import { NodeEvalFunction } from '../Specs/Nodes/NodeSpec';
+
+function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
+  return sockets.find((socket) => socket.name === name);
+}
 
 export default class Node {
-  public outputSockets = new Map<string, OutputSocket>();
-
   constructor(
-        public id: string,
-        public nodeSpec: NodeSpec,
-        public inputSockets: Map<string, InputSocket>,
+        public type: string,
+        public name: string,
+        public inputSockets: Socket[],
+        public outputSockets: Socket[],
+        public func: NodeEvalFunction,
   ) {
-    // initialize node outputs based on the specification
-    this.nodeSpec.outputSocketSpecs.forEach((outputSocketSpec) => {
-      this.outputSockets.set(outputSocketSpec.name, new OutputSocket());
-    });
+  }
+
+  getInputSocket(socketName: string): Socket | undefined {
+    return findSocketByName(this.inputSockets, socketName);
+  }
+
+  getOutputSocket(socketName: string): Socket | undefined {
+    return findSocketByName(this.outputSockets, socketName);
   }
 }

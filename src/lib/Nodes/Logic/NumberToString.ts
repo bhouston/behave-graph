@@ -1,5 +1,6 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import Node from '../../../Nodes/Node';
+import NodeEvalContext from '../NodeEvalContext';
 
 export class NumberToString extends Node {
   constructor() {
@@ -10,7 +11,7 @@ export class NumberToString extends Node {
         new NumberSocket('a'),
       ],
       [new NumberSocket('result')],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         const outputValues = new Map<string, any>();
         outputValues.set('result', inputValues.get('a').toString());
         return outputValues;

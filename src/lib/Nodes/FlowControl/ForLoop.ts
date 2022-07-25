@@ -1,6 +1,7 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
+import NodeEvalContext from '../NodeEvalContext';
 
 export class ForLoop extends Node {
   constructor() {
@@ -17,7 +18,7 @@ export class ForLoop extends Node {
         new NumberSocket('index'),
         new EvalSocket('completed'),
       ],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         // TODO: Figure out how to have multiple multiple "loop" evals each with an index
         // and then, once done, eval "complete"
         const outputValues = new Map<string, any>();

@@ -1,6 +1,7 @@
 import BooleanSocket from './Sockets/Spec/BooleanSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
+import NodeEvalContext from '../NodeEvalContext';
 
 export class If extends Node {
   constructor() {
@@ -15,7 +16,7 @@ export class If extends Node {
         new EvalSocket('true'),
         new EvalSocket('false'),
       ],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         // form 1:
         const outputValues = new Map<string, any>();
         if (inputValues.get('condition')) {

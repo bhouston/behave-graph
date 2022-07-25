@@ -9,7 +9,7 @@ export class GetNodeScale extends Node {
       'getNodeScale',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xScale'), new NumberSocket('yScale'), new NumberSocket('zScale')],
-      (context, inputValues) => {
+      () => {
         const outputValues = new Map<string, any>();
         outputValues.set('xScale', 0);
         outputValues.set('yScale', 0);

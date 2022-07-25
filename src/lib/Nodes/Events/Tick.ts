@@ -1,4 +1,5 @@
 import Node from '../../../Nodes/Node';
+import NodeEvalContext from '../NodeEvalContext';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 
 export class Tick extends Node {
@@ -8,7 +9,7 @@ export class Tick extends Node {
       'tick',
       [],
       [new EvalSocket()],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);
         return outputValues;

@@ -1,5 +1,6 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import Node from '../../../Nodes/Node';
+import NodeEvalContext from '../NodeEvalContext';
 
 export class NumberAdd extends Node {
   constructor() {
@@ -11,7 +12,7 @@ export class NumberAdd extends Node {
         new NumberSocket('b'),
       ],
       [new NumberSocket('sum')],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         const outputValues = new Map<string, any>();
         outputValues.set('sum', inputValues.get('a') + inputValues.get('b'));
         return outputValues;

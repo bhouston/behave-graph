@@ -9,7 +9,7 @@ export class GetNodeTranslation extends Node {
       'getNodeTranslation',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xTranslation'), new NumberSocket('yTranslation'), new NumberSocket('zTranslation')],
-      (context, inputValues) => {
+      () => {
         const outputValues = new Map<string, any>();
         outputValues.set('xTranslation', 0);
         outputValues.set('yTranslation', 0);

@@ -12,7 +12,7 @@ export class SceneStart extends Node {
       'sceneStart',
       [],
       [new EvalSocket()],
-      (context, inputs) => new Map<string, any>().set('eval', true),
+      (context: NodeEvalContext, inputValues: Map<string, any>) => new Map<string, any>().set('eval', true),
     );
   }
 }

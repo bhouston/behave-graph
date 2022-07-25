@@ -1,6 +1,7 @@
 import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
+import NodeEvalContext from '../NodeEvalContext';
 
 export class SetNodeTranslation extends Node {
   constructor() {
@@ -15,7 +16,7 @@ export class SetNodeTranslation extends Node {
         new NumberSocket('zTranslation'),
       ],
       [new EvalSocket()],
-      (context, inputValues) => {
+      (context: NodeEvalContext, inputValues: Map<string, any>) => {
         const outputValues = new Map<string, any>();
         outputValues.set('eval', true);
         return outputValues;

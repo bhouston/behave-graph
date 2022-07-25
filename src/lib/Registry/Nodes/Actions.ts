@@ -1,11 +1,11 @@
 import { SocketValueType } from '../../Core/Sockets/SocketValueType';
-import SocketSpec from '../../Core/Sockets/Spec/SocketSpec';
-import NumberSocketSpec from '../../Core/Sockets/Spec/NumberSocketSpec';
-import StringSocketSpec from '../../Core/Sockets/Spec/StringSocketSpec';
-import EvalSocketSpec from '../../Core/Sockets/Spec/EvalSocketSpec';
-import NodeSpec from '../../Core/Nodes/Spec/NodeSpec';
+import SocketSpec from '../../Specs/Sockets/SocketSpec';
+import NumberSocketSpec from '../../Specs/Sockets/NumberSocketSpec';
+import StringSocketSpec from '../../Specs/Sockets/StringSocketSpec';
+import EvalSocketSpec from '../../Specs/Sockets/EvalSocketSpec';
+import NodeSpec from '../../Specs/Nodes/NodeSpec';
 
-import { GlobalNodeSpecRegistry, NodeSpecRegistry } from '../NodeSpecRegistry';
+import { NodeSpecRegistry } from '../NodeSpecRegistry';
 
 export default function registerDefaultActions(nodeSpecRegistry:NodeSpecRegistry) {
   nodeSpecRegistry.add(

@@ -1,9 +1,9 @@
 import Node from '../Core/Nodes/Node';
-import Graph from '../Core/Graphs/Graph';
+import Graph from '../Graphs/Graph';
 import {
   GlobalNodeSpecRegistry,
   NodeSpecRegistry,
-} from '../Specs/NodeSpecRegistry';
+} from '../Registry/NodeSpecRegistry';
 
 // Purpose:
 //  - loads a node graph

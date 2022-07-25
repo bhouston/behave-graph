@@ -1,4 +1,4 @@
-import NodeSpec from '../Core/Nodes/Spec/NodeSpec';
+import NodeSpec from '../Specs/Nodes/NodeSpec';
 
 export class NodeSpecRegistry {
   public nodeSpecs: NodeSpec[] = [];

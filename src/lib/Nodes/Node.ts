@@ -1,4 +1,4 @@
-import NodeSpec from './Spec/NodeSpec';
+import NodeSpec from '../../Specs/Nodes/NodeSpec';
 import InputSocket from '../Sockets/InputSocket';
 import OutputSocket from '../Sockets/OutputSocket';
 

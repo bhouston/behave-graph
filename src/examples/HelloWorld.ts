@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import GraphLoader from '../lib/IO/GraphLoader';
-import { GlobalNodeSpecRegistry } from '../lib/Registry/NodeSpecRegistry';
+import { GlobalNodeSpecRegistry } from '../lib/Nodes/NodeSpecRegistry';
 
 async function main() {
   const loader = new GraphLoader();

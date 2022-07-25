@@ -3,7 +3,7 @@ import Graph from '../Graphs/Graph';
 import {
   GlobalNodeSpecRegistry,
   NodeSpecRegistry,
-} from '../Registry/NodeSpecRegistry';
+} from '../Nodes/NodeSpecRegistry';
 
 // Purpose:
 //  - loads a node graph

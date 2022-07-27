@@ -44,3 +44,7 @@ GlobalNodeRegistry.add('logic/numberGreaterThan', () => new BinaryOp<number, boo
 GlobalNodeRegistry.add('logic/numberGreaterThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberGreaterThaOrEqual', (a, b) => (a >= b)));
 GlobalNodeRegistry.add('logic/numberLessThan', () => new BinaryOp<number, boolean>('logic/numberLessThan', (a, b) => (a < b)));
 GlobalNodeRegistry.add('logic/numberLessThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberLessThaOrEqual', (a, b) => (a <= b)));
+
+// string utilities
+GlobalNodeRegistry.add('logic/stringConcat', () => new BinaryOp<string, string>('logic/stringConcat', (a, b) => (a.concat(b))));
+GlobalNodeRegistry.add('logic/stringIncludes', () => new BinaryOp<string, boolean>('logic/stringIncludes', (a, b) => (a.includes(b))));

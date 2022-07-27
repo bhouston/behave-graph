@@ -3,7 +3,7 @@ import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
 import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-type BinaryOpFunc<Input, Output> = (a: Input, b: Input) => Output;
+export type BinaryOpFunc<Input, Output> = (a: Input, b: Input) => Output;
 
 export class BinaryOp<Input, Output> extends Node {
   constructor(nodeName: string, public binaryOpFunc: BinaryOpFunc<Input, Output>) {

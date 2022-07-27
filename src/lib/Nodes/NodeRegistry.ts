@@ -1,6 +1,6 @@
-import NodeSpec from '../Specs/Nodes/NodeSpec';
-import { NodeFactory } from './NodeFactory';
+import Node from './Node';
 
+type NodeFactory = () => Node;
 export default class NodeRegistry {
   public nameToFactory = new Map<string, NodeFactory>();
 

@@ -1,6 +1,6 @@
-import Node from '../../../Nodes/Node';
-import NumberSocket from './Sockets/Spec/NumberSocket';
-import EvalSocket from './Sockets/Spec/EvalSocket';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import NumberSocket from '../../Sockets/Typed/NumberSocket';
+import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 
 export default class NodeClick extends Node {

@@ -1,8 +1,8 @@
-import NumberSocket from '../../Specs/Sockets/NumberSocket';
-import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import NumberSocket from '../../Sockets/Typed/NumberSocket';
 
 export default class SetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {

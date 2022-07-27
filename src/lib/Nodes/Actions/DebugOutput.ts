@@ -1,5 +1,5 @@
-import StringSocket from '../../../Specs/Sockets/StringSocket';
-import EvalSocket from '../../../Specs/Sockets/EvalSocket';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import StringSocket from '../../Sockets/Typed/StringSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 

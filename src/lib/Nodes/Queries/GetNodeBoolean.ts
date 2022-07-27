@@ -1,8 +1,7 @@
-import NumberSocket from './Sockets/Spec/NumberSocket';
-import StringSocket from './Sockets/Spec/StringSocket';
-import Node from '../../../Nodes/Node';
+import Node from '../Node';
 
 import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
+import StringSocket from '../../Sockets/Typed/StringSocket';
 
 export default class GetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {

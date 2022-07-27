@@ -1,5 +1,5 @@
-import NumberSocket from '../../Specs/Sockets/NumberSocket';
-import EvalSocket from '../../Specs/Sockets/EvalSocket';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import NumberSocket from '../../Sockets/Typed/NumberSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 

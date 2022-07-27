@@ -1,5 +1,6 @@
-import EvalSocket from './Sockets/Spec/EvalSocket';
-import Node from '../../../Nodes/Node';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import Node from '../Node';
+
 import NodeEvalContext from '../NodeEvalContext';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/FlowControl/

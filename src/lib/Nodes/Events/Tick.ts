@@ -1,7 +1,6 @@
-import Node from '../../../Nodes/Node';
-
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
-import EvalSocket from './Sockets/Spec/EvalSocket';
 
 export default class Tick extends Node {
   constructor() {

@@ -1,6 +1,6 @@
 import Node from './Node';
+import { NodeFactory } from './NodeFactory';
 
-type NodeFactory = () => Node;
 export default class NodeRegistry {
   public nameToFactory = new Map<string, NodeFactory>();
 
@@ -12,7 +12,6 @@ export default class NodeRegistry {
       throw new Error(`already registered name ${name}`);
     }
     this.nameToFactory.set(name, nodeFactory);
-    return this;
   }
 
   create(name: string): Node {

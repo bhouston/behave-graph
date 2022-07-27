@@ -1,6 +1,7 @@
-import BooleanSocket from './Sockets/Spec/BooleanSocket';
-import EvalSocket from './Sockets/Spec/EvalSocket';
-import Node from '../../../Nodes/Node';
+import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
+import EvalSocket from '../../Sockets/Typed/EvalSocket';
+import Node from '../Node';
+
 import NodeEvalContext from '../NodeEvalContext';
 
 export default class Branch extends Node {

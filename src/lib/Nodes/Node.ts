@@ -4,6 +4,11 @@ import { NodeEvalFunction } from './NodeEvalFunction';
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);
 }
+function getSocketByName(sockets: Socket[], name: string): Socket {
+  const socket = findSocketByName(sockets, name);
+  if (socket === undefined) throw new Error(`no sockets with name: ${name}`);
+  return socket;
+}
 
 export default class Node {
   constructor(
@@ -14,11 +19,11 @@ export default class Node {
   ) {
   }
 
-  getInputSocket(socketName: string): Socket | undefined {
-    return findSocketByName(this.inputSockets, socketName);
+  getInputSocket(socketName: string): Socket {
+    return getSocketByName(this.inputSockets, socketName);
   }
 
-  getOutputSocket(socketName: string): Socket | undefined {
-    return findSocketByName(this.outputSockets, socketName);
+  getOutputSocket(socketName: string): Socket {
+    return getSocketByName(this.outputSockets, socketName);
   }
 }

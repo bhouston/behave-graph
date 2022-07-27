@@ -7,9 +7,10 @@ function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
 
 export default class Node {
   constructor(
-        public inputSockets: Socket[],
-        public outputSockets: Socket[],
-        public func: NodeEvalFunction,
+      public nodeName: string,
+      public inputSockets: Socket[],
+      public outputSockets: Socket[],
+      public func: NodeEvalFunction,
   ) {
   }
 

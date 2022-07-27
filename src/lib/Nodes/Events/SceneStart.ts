@@ -1,4 +1,5 @@
 import Node from '../../../Nodes/Node';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 
 // TODO: Figure out how to force the evaluation of these from the outside.
@@ -8,11 +9,12 @@ import EvalSocket from './Sockets/Spec/EvalSocket';
 export class SceneStart extends Node {
   constructor() {
     super(
-      'events',
-      'sceneStart',
+      'event/sceneStart',
       [],
       [new EvalSocket()],
       (context: NodeEvalContext, inputValues: Map<string, any>) => new Map<string, any>().set('eval', true),
     );
   }
 }
+
+GlobalNodeRegistry.add('event/sceneStart', () => new SceneStart());

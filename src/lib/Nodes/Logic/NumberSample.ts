@@ -1,12 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class NumberSample extends Node {
   constructor() {
     super(
-      'logic',
-      'rnumberSample',
+      'logic/numberSample',
       [],
       [new NumberSocket('sample')],
       (context: NodeEvalContext, inputValues: Map<string, any>) => {
@@ -17,3 +17,5 @@ export class NumberSample extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('logic/numberSample', () => new NumberSample());

@@ -2,12 +2,12 @@ import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class SetNodeTranslation extends Node {
   constructor() {
     super(
-      'action',
-      'setNodeTranslation',
+      'action/setNodeTranslation',
       [
         new EvalSocket(),
         new NumberSocket('nodeIndex'),
@@ -27,3 +27,5 @@ export class SetNodeTranslation extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('action/setNodeTranslation', () => new SetNodeTranslation());

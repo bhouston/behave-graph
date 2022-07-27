@@ -1,12 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class NumberToString extends Node {
   constructor() {
     super(
-      'logic',
-      'numberToString',
+      'logic/numberToString',
       [
         new NumberSocket('a'),
       ],
@@ -19,3 +19,5 @@ export class NumberToString extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('logic/numberToString', () => new NumberToString());

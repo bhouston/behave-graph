@@ -2,12 +2,12 @@ import StringSocket from '../../../Specs/Sockets/StringSocket';
 import EvalSocket from '../../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class DebugOutput extends Node {
   constructor() {
     super(
-      'action',
-      'debugOutput',
+      'action/debugOutput',
       [new EvalSocket(), new StringSocket('text')],
       [new EvalSocket()],
       (context: NodeEvalContext, inputValues: Map<string, any>) => {
@@ -20,3 +20,5 @@ export class DebugOutput extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('action/debugOutput', () => new DebugOutput());

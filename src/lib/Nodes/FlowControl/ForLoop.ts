@@ -2,12 +2,12 @@ import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class ForLoop extends Node {
   constructor() {
     super(
-      'flowcontrolgic',
-      'forloop',
+      'flowcontrol/forloop',
       [
         new EvalSocket(),
         new NumberSocket('startIndex'),
@@ -29,3 +29,5 @@ export class ForLoop extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('flowcontrol/forloop', () => new ForLoop());

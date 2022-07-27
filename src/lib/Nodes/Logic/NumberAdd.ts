@@ -1,12 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class NumberAdd extends Node {
   constructor() {
     super(
-      'logic',
-      'numberAdd',
+      'logic/numberAdd',
       [
         new NumberSocket('a'),
         new NumberSocket('b'),
@@ -20,3 +20,5 @@ export class NumberAdd extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('logic/numberAdd', () => new NumberAdd());

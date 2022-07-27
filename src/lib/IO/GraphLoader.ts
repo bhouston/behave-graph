@@ -2,8 +2,8 @@ import Node from '../Core/Nodes/Node';
 import Graph from '../Graphs/Graph';
 import {
   GlobalNodeSpecRegistry,
-  NodeSpecRegistry,
-} from '../Nodes/NodeSpecRegistry';
+  NodeRegistry,
+} from '../Nodes/NodeRegistry';
 
 // Purpose:
 //  - loads a node graph
@@ -11,7 +11,7 @@ import {
 export default class GraphLoader {
   public graph = new Graph();
 
-  parse(json: any, nodeSpecRegistry: NodeSpecRegistry) {
+  parse(json: any, nodeSpecRegistry: NodeRegistry) {
     const nodesJson = json;
 
     // create new BehaviorNode instances for each node in the json.

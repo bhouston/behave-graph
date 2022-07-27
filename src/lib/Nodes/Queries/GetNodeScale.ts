@@ -1,12 +1,12 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
 import Node from '../../../Nodes/Node';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class GetNodeScale extends Node {
   constructor() {
     super(
-      'query',
-      'getNodeScale',
+      'query/getNodeScale',
       [new StringSocket('nodeIndex')],
       [new NumberSocket('xScale'), new NumberSocket('yScale'), new NumberSocket('zScale')],
       () => {
@@ -19,3 +19,5 @@ export class GetNodeScale extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('logic/getNodeScale', () => new GetNodeScale());

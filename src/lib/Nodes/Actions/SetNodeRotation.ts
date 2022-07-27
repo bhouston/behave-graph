@@ -2,12 +2,12 @@ import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class SetNodeRotation extends Node {
   constructor() {
     super(
-      'action',
-      'setNodeRotation',
+      'action/setNodeRotation',
       [
         new EvalSocket(),
         new NumberSocket('nodeIndex'),
@@ -27,3 +27,5 @@ export class SetNodeRotation extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('action/setNodeRotation', () => new SetNodeRotation());

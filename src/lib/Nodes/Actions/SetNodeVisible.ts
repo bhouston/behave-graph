@@ -2,12 +2,12 @@ import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class NodeVisible extends Node {
   constructor() {
     super(
-      'action',
-      'setNodeVisible',
+      'action/setNodeVisible',
       [new EvalSocket(), new NumberSocket('nodeIndex'), new NumberSocket('visible')],
       [new EvalSocket()],
       (context: NodeEvalContext, inputValues: Map<string, any>) => {
@@ -20,3 +20,5 @@ export class NodeVisible extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('action/setNodeVisible', () => new NodeVisible());

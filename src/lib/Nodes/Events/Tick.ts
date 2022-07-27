@@ -1,12 +1,12 @@
 import Node from '../../../Nodes/Node';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 import NodeEvalContext from '../NodeEvalContext';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 
 export class Tick extends Node {
   constructor() {
     super(
-      'events',
-      'tick',
+      'event/tick',
       [],
       [new EvalSocket()],
       (context: NodeEvalContext, inputValues: Map<string, any>) => {
@@ -17,3 +17,5 @@ export class Tick extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('event/tick', () => new Tick());

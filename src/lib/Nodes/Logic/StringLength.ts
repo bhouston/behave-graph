@@ -2,12 +2,12 @@ import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
+import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 export class StringLength extends Node {
   constructor() {
     super(
-      'logic',
-      'stringLength',
+      'logic/stringLength',
       [
         new StringSocket('text'),
       ],
@@ -20,3 +20,5 @@ export class StringLength extends Node {
     );
   }
 }
+
+GlobalNodeRegistry.add('logic/stringLength', () => new StringLength());

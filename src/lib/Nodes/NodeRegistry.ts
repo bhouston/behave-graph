@@ -1,7 +1,7 @@
 import NodeSpec from '../Specs/Nodes/NodeSpec';
 import { NodeFactory } from './NodeFactory';
 
-export class NodeRegistry {
+export default class NodeRegistry {
   public nameToFactory = new Map<string, NodeFactory>();
 
   constructor() {

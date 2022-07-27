@@ -1,21 +1,21 @@
-import { DebugOutput } from './Actions/DebugOutput';
-import { SetNodeBoolean } from './Actions/SetNodeBoolean';
-import { SetNodeVector3 } from './Actions/SetNodeVector3';
-import { NodeClick } from './Events/NodeClick';
-import { SceneStart } from './Events/SceneStart';
-import { Tick } from './Events/Tick';
-import { Branch } from './FlowControl/Branch';
-import { Delay } from './FlowControl/Delay';
-import { ForLoop } from './FlowControl/ForLoop';
-import { Sequence } from './FlowControl/Sequence';
-import { BinaryOp } from './Logic/BinaryOp';
+import DebugOutput from './Actions/DebugOutput';
+import SetNodeBoolean from './Actions/SetNodeBoolean';
+import SetNodeVector3 from './Actions/SetNodeVector3';
+import NodeClick from './Events/NodeClick';
+import SceneStart from './Events/SceneStart';
+import Tick from './Events/Tick';
+import Branch from './FlowControl/Branch';
+import Delay from './FlowControl/Delay';
+import ForLoop from './FlowControl/ForLoop';
+import Sequence from './FlowControl/Sequence';
+import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UniaryOp from './Logic/UniaryOp';
-import { NodeRegistry } from './NodeRegistry';
+import NodeRegistry from './NodeRegistry';
 import GetNodeBoolean from './Queries/GetNodeBoolean';
 import GetNodeVector3 from './Queries/GetNodeVector3';
 
-export default function registryDefaultNodes(nodeRegistry: NodeRegistry) {
+export default function registerDefaultNodes(nodeRegistry: NodeRegistry) {
   // actions
 
   nodeRegistry.add('action/debugOutput', () => new DebugOutput());
@@ -74,8 +74,8 @@ export default function registryDefaultNodes(nodeRegistry: NodeRegistry) {
 
   // logic: ranges
 
-  nodeRegistry.add('logic/numberMax', () => new BinaryOp<number, number>('logic/numberMax', (a, b) => (Math.max(a, b))));
   nodeRegistry.add('logic/numberMin', () => new BinaryOp<number, number>('logic/numberMin', (a, b) => (Math.min(a, b))));
+  nodeRegistry.add('logic/numberMax', () => new BinaryOp<number, number>('logic/numberMax', (a, b) => (Math.max(a, b))));
   nodeRegistry.add('logic/numberSign', () => new UniaryOp<number, number>('logic/numberSign', (a) => (Math.sign(a))));
   nodeRegistry.add('logic/numberAbs', () => new UniaryOp<number, number>('logic/numberAbs', (a) => (Math.abs(a))));
   nodeRegistry.add('logic/numberFloor', () => new UniaryOp<number, number>('logic/numberFloor', (a) => (Math.floor(a))));
@@ -90,8 +90,8 @@ export default function registryDefaultNodes(nodeRegistry: NodeRegistry) {
   // logic: boolean logic
 
   nodeRegistry.add('logic/booleanNot', () => new UniaryOp<boolean, boolean>('logic/booleanNot', (a) => (!a)));
-  nodeRegistry.add('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
   nodeRegistry.add('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', (a, b) => (a || b)));
+  nodeRegistry.add('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
 
   // logic: comparison
 

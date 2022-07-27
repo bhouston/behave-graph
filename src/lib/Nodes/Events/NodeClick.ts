@@ -2,9 +2,8 @@ import Node from '../../../Nodes/Node';
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class NodeClick extends Node {
+export default class NodeClick extends Node {
   constructor() {
     super(
       'event/nodeClick',
@@ -22,5 +21,3 @@ export class NodeClick extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('event/nodeClick', () => new NodeClick());

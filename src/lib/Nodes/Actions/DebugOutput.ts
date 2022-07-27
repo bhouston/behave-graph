@@ -2,9 +2,8 @@ import StringSocket from '../../../Specs/Sockets/StringSocket';
 import EvalSocket from '../../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class DebugOutput extends Node {
+export default class DebugOutput extends Node {
   constructor() {
     super(
       'action/debugOutput',
@@ -20,5 +19,3 @@ export class DebugOutput extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('action/debugOutput', () => new DebugOutput());

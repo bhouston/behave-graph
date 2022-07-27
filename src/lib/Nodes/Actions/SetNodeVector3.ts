@@ -2,9 +2,8 @@ import NumberSocket from '../../Specs/Sockets/NumberSocket';
 import EvalSocket from '../../Specs/Sockets/EvalSocket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class SetNodeVector3 extends Node {
+export default class SetNodeVector3 extends Node {
   constructor(nodeName: string, public propertyName: string) {
     super(
       nodeName,
@@ -27,7 +26,3 @@ export class SetNodeVector3 extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('action/setNodeRotation', () => new SetNodeVector3('action/setNodeRotation', 'rotation'));
-GlobalNodeRegistry.add('action/setNodeTranslation', () => new SetNodeVector3('action/setNodeTranslation', 'translation'));
-GlobalNodeRegistry.add('action/setNodeScale', () => new SetNodeVector3('action/setNodeScale', 'scale'));

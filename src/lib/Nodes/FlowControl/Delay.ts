@@ -2,12 +2,11 @@ import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
 
-export class Delay extends Node {
+export default class Delay extends Node {
   constructor() {
     super(
       'flowcontrol/delay',
@@ -25,5 +24,3 @@ export class Delay extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('flowcontrol/delay', () => new Delay());

@@ -2,9 +2,8 @@ import BooleanSocket from './Sockets/Spec/BooleanSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class Branch extends Node {
+export default class Branch extends Node {
   constructor() {
     super(
       'flowcontrol/branch',
@@ -29,5 +28,3 @@ export class Branch extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('flowcontrol/branch', () => new Branch());

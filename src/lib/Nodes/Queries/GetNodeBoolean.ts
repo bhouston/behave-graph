@@ -1,10 +1,10 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
 import Node from '../../../Nodes/Node';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
+
 import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 
-export class GetNodeBoolean extends Node {
+export default class GetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {
     super(
       nodeName,
@@ -19,5 +19,3 @@ export class GetNodeBoolean extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('logic/getNodeVisibility', () => new GetNodeBoolean('logic/getNodeVisibility', 'visibility'));

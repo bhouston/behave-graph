@@ -2,9 +2,8 @@ import NumberSocket from './Sockets/Spec/NumberSocket';
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class ForLoop extends Node {
+export default class ForLoop extends Node {
   constructor() {
     super(
       'flowcontrol/forloop',
@@ -29,5 +28,3 @@ export class ForLoop extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('flowcontrol/forloop', () => new ForLoop());

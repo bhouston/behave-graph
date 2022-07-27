@@ -1,11 +1,10 @@
 import EvalSocket from './Sockets/Spec/EvalSocket';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../NodeEvalContext';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/FlowControl/
 
-export class Sequence extends Node {
+export default class Sequence extends Node {
   constructor() {
     super(
       'flowcontrol/sequence',
@@ -25,5 +24,3 @@ export class Sequence extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('flowcontrol/sequence', () => new Sequence());

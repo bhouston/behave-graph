@@ -1,14 +1,13 @@
 import NumberSocket from './Sockets/Spec/NumberSocket';
 import StringSocket from './Sockets/Spec/StringSocket';
 import Node from '../../../Nodes/Node';
-import { GlobalNodeRegistry } from '../GlobalNodeRegistry';
 
-export class GetNodeVector3 extends Node {
+export default class GetNodeVector3 extends Node {
   constructor(nodeName: string, public propertyName: string) {
     super(
       nodeName,
       [new StringSocket('nodeIndex')],
-      [new NumberSocket('xRotation'), new NumberSocket('yRotation'), new NumberSocket('zRotation')],
+      [new NumberSocket('x'), new NumberSocket('y'), new NumberSocket('z')],
       () => {
         const outputValues = new Map<string, any>();
         // TODO: Actually read property of the node
@@ -20,7 +19,3 @@ export class GetNodeVector3 extends Node {
     );
   }
 }
-
-GlobalNodeRegistry.add('logic/getNodeRotation', () => new GetNodeVector3('logic/getNodeRotation', 'rotation'));
-GlobalNodeRegistry.add('logic/getNodeTranslation', () => new GetNodeVector3('logic/getNodeTranslation', 'translation'));
-GlobalNodeRegistry.add('logic/getNodeScale', () => new GetNodeVector3('logic/getNodeScale', 'scale'));

@@ -1,6 +1,6 @@
-import NumberSocket from '../../Sockets/Typed/NumberSocket';
-import StringSocket from '../../Sockets/Typed/StringSocket';
-import Node from '../Node';
+import NumberSocket from '../../../Sockets/Typed/NumberSocket';
+import StringSocket from '../../../Sockets/Typed/StringSocket';
+import Node from '../../Node';
 
 export default class GetNodeVector3 extends Node {
   constructor(nodeName: string, public propertyName: string) {

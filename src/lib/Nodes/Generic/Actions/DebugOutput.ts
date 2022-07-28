@@ -1,7 +1,7 @@
-import EvalSocket from '../../Sockets/Typed/EvalSocket';
-import StringSocket from '../../Sockets/Typed/StringSocket';
-import Node from '../Node';
-import NodeEvalContext from '../NodeEvalContext';
+import EvalSocket from '../../../Sockets/Typed/EvalSocket';
+import StringSocket from '../../../Sockets/Typed/StringSocket';
+import Node from '../../Node';
+import NodeEvalContext from '../../NodeEvalContext';
 
 export default class DebugOutput extends Node {
   constructor() {

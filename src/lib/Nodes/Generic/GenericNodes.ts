@@ -1,7 +1,4 @@
 import DebugOutput from './Actions/DebugOutput';
-import SetNodeBoolean from './Actions/SetNodeBoolean';
-import SetNodeVector3 from './Actions/SetNodeVector3';
-import NodeClick from './Events/NodeClick';
 import SceneStart from './Events/SceneStart';
 import Tick from './Events/Tick';
 import Branch from './FlowControl/Branch';
@@ -11,22 +8,15 @@ import Sequence from './FlowControl/Sequence';
 import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UniaryOp from './Logic/UniaryOp';
-import NodeRegistry from './NodeRegistry';
-import GetNodeBoolean from './Queries/GetNodeBoolean';
-import GetNodeVector3 from './Queries/GetNodeVector3';
+import NodeRegistry from '../NodeRegistry';
 
-export default function registerDefaultNodes(nodeRegistry: NodeRegistry) {
+export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
 
   nodeRegistry.add('action/debugOutput', () => new DebugOutput());
-  nodeRegistry.add('action/setNodeVisible', () => new SetNodeBoolean('action/setNodeVisible', 'visibility'));
-  nodeRegistry.add('action/setNodeRotation', () => new SetNodeVector3('action/setNodeRotation', 'rotation'));
-  nodeRegistry.add('action/setNodeTranslation', () => new SetNodeVector3('action/setNodeTranslation', 'translation'));
-  nodeRegistry.add('action/setNodeScale', () => new SetNodeVector3('action/setNodeScale', 'scale'));
 
   // events
 
-  nodeRegistry.add('event/nodeClick', () => new NodeClick());
   nodeRegistry.add('event/sceneStart', () => new SceneStart());
   nodeRegistry.add('event/tick', () => new Tick());
 
@@ -36,13 +26,6 @@ export default function registerDefaultNodes(nodeRegistry: NodeRegistry) {
   nodeRegistry.add('flowcontrol/delay', () => new Delay());
   nodeRegistry.add('flowcontrol/forloop', () => new ForLoop());
   nodeRegistry.add('flowcontrol/sequence', () => new Sequence());
-
-  // queries
-
-  nodeRegistry.add('query/getNodeRotation', () => new GetNodeVector3('logic/getNodeRotation', 'rotation'));
-  nodeRegistry.add('query/getNodeTranslation', () => new GetNodeVector3('logic/getNodeTranslation', 'translation'));
-  nodeRegistry.add('query/getNodeScale', () => new GetNodeVector3('logic/getNodeScale', 'scale'));
-  nodeRegistry.add('query/getNodeVisibility', () => new GetNodeBoolean('logic/getNodeVisibility', 'visibility'));
 
   // logic: arithmetic
 

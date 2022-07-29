@@ -1,10 +1,9 @@
 import Graph from './Graph';
-import Node from '../Nodes/Node';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
 import Socket from '../Sockets/Socket';
 import { NodeEvalStatus } from '../Nodes/NodeEvalStatus';
-import { NodeSocketRef } from '../Nodes/NodeSocketRef';
+import NodeSocketRef from '../Nodes/NodeSocketRef';
 
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.

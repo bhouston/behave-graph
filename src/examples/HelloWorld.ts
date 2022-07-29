@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import GraphLoader from '../lib/IO/GraphLoader';
+import GraphLoader from '../lib/IO/loadGraph';
 import { GlobalNodeSpecRegistry } from '../lib/Nodes/NodeRegistry';
 
 async function main() {

@@ -19,6 +19,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'unused-imports',
   ],
   rules: {
     'max-len': ['error', { code: 160 }],
@@ -29,6 +30,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
     'no-extra-semi': 'off',
+    'unused-imports/no-unused-imports-ts': 2,
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'import/extensions': [
       'error',

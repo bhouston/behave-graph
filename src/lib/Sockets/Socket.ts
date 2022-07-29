@@ -1,4 +1,4 @@
-import { NodeSocketRef } from '../Nodes/NodeSocketRef';
+import NodeSocketRef from '../Nodes/NodeSocketRef';
 import { SocketValueType } from './SocketValueType';
 
 export default class Socket {

@@ -1,4 +1,4 @@
-import { SocketValueType } from '../../Core/Sockets/SocketValueType';
+import { SocketValueType } from '../SocketValueType';
 import Socket from '../Socket';
 
 export default class StringSocket extends Socket {

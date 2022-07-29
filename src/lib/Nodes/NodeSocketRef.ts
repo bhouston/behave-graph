@@ -1,1 +1,7 @@
-export type NodeSocketRef = { nodeIndex: number, socketName: string };
+export default class NodeSocketRef {
+  constructor(
+        public nodeIndex: number,
+        public socketName: string,
+  ) {
+  }
+}

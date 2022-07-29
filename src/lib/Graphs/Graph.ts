@@ -1,5 +1,5 @@
 import Node from '../Nodes/Node';
-import { NodeSocketRef } from '../Nodes/NodeSocketRef';
+import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
 
 // Purpose:

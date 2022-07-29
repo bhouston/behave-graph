@@ -13,7 +13,7 @@ export default class SetNodeBoolean extends Node {
       (context: NodeEvalContext) => {
         // const node = context.getSceneNodeByIndex(inputs['node']);
         // node.visible = context.getInputValue('visible');
-        context.setOutputValue('eval', true);
+        context.setOutputValue('flow', true);
       },
     );
   }

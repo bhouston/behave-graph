@@ -11,7 +11,7 @@ export default class DebugOutput extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         context.log(context.getInputValue('text'));
-        context.setOutputValue('eval', true);
+        context.setOutputValue('flow', true);
       },
     );
   }

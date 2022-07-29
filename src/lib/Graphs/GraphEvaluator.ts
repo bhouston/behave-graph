@@ -28,6 +28,7 @@ export default class GraphEvaluator {
 
       let flowOutputCount = 0;
       node.outputSockets.forEach((outputSocket) => {
+        console.log(outputSocket);
         if (outputSocket.valueType === SocketValueType.Flow) {
           if (outputSocket.value === true && outputSocket.links.length === 1) {
             this.flowWorkQueue.push(outputSocket.links[0]);
@@ -101,7 +102,7 @@ export default class GraphEvaluator {
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeIndex];
-    console.log(`evaluating node: ${node.nodeName}`);
+    // console.log(`evaluating node: ${node.nodeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
@@ -116,16 +117,18 @@ export default class GraphEvaluator {
     });
 
     // this is where the promise would be;
-    console.log('inputs: ', node.inputSockets);
+    // console.log('inputs: ', node.inputSockets);
 
     const context = new NodeEvalContext(this.graph, node);
     context.evalFlow();
 
+    // console.log(context);
+
     if (context.evalStatus !== NodeEvalStatus.Done) {
-      throw new Error(`error status from node eval: ${context.evalStatus}`);
+      throw new Error(`error status from node eval: ${context.evalStatus.toString}`);
     }
 
-    console.log('outputs: ', node.outputSockets);
+    // console.log('outputs: ', node.outputSockets);
 
     // enqueue the next flow nodes.
     node.outputSockets.forEach((outputSocket) => {

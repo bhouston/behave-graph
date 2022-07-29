@@ -47,6 +47,7 @@ export default class NodeEvalContext {
 
     this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
+
     return this.evalStatus;
   }
 

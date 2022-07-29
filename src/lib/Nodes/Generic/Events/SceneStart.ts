@@ -12,7 +12,7 @@ export default class SceneStart extends Node {
       'event/sceneStart',
       [],
       [new FlowSocket()],
-      (context: NodeEvalContext) => context.setOutputValue('eval', true),
+      (context: NodeEvalContext) => context.setOutputValue('flow', true),
     );
   }
 }

@@ -9,7 +9,7 @@ export default class Tick extends Node {
       [],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        context.setOutputValue('eval', true);
+        context.setOutputValue('flow', true);
       },
     );
   }

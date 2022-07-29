@@ -19,7 +19,7 @@ export default class SetNodeVector3 extends Node {
         // TODO: Set the x,y,z on the specified property.
         // const node = context.getSceneNodeByIndex(inputs['node']);
         // node.rotation.add(inputs['eulerDelta']);
-        context.setOutputValue('eval', true);
+        context.setOutputValue('flow', true);
       },
     );
   }

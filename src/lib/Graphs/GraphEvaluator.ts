@@ -3,32 +3,46 @@ import Node from '../Nodes/Node';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
 import Socket from '../Sockets/Socket';
+import { NodeEvalStatus } from '../Nodes/NodeEvalStatus';
+import { NodeSocketRef } from '../Nodes/NodeSocketRef';
 
 export default class GraphEvaluator {
-  public nodeWorkQueue: Node[] = [];
+  // tracking the next node+input socket to execute.
+  public flowWorkQueue: NodeSocketRef[] = [];
 
-  constructor(public context: NodeEvalContext, public graph: Graph) {
+  constructor(public graph: Graph) {
   }
 
-  trigger(triggerName: string): number {
+  // maybe this should have an id?
+  // IMPORTANT: should events somehow register themselves at graph initialization?  There is a missing step here.
+  // This simplistic approach is okay if events do no have filters themselves.
+  triggerEvents(nodeName: string, outputValues: Map<string, any>): number {
     // look up any nodes with this trigger name and add them to the executionQueue
-    const triggerNodes = this.graph.nodes.filter((item) => (item.type === triggerName));
+    const nodes = this.graph.nodes.filter((node) => (node.nodeName === nodeName));
 
-    if (triggerNodes.length > 0) {
-      // add to the back of the queue
-      this.nodeWorkQueue.push(...triggerNodes);
-    }
+    nodes.forEach((node) => {
+      // apply output values
+      outputValues.forEach((value, name) => {
+        // eslint-disable-next-line no-param-reassign
+        node.getOutputSocket(name).value = value;
+      });
+
+      let flowOutputCount = 0;
+      node.outputSockets.forEach((outputSocket) => {
+        if (outputSocket.valueType === SocketValueType.Flow) {
+          if (outputSocket.value === true && outputSocket.links.length === 1) {
+            this.flowWorkQueue.push(outputSocket.links[0]);
+            flowOutputCount++;
+          }
+        }
+      });
+      if (flowOutputCount === 0) {
+        throw new Error(`no flow outputs for trigger event ${nodeName}`);
+      }
+    });
 
     // inform how many trigger nodes were triggered
-    return triggerNodes.length;
-  }
-
-  prioritizeNode(node: Node) {
-    // remove from the queue if it is exists
-    this.nodeWorkQueue = this.nodeWorkQueue.filter((item) => (item !== node));
-
-    // add to front of queue
-    this.nodeWorkQueue.unshift(node);
+    return nodes.length;
   }
 
   // NOTE: This is a simplistic recursive and wasteful approach.
@@ -67,6 +81,10 @@ export default class GraphEvaluator {
     const context = new NodeEvalContext(this.graph, upstreamNode);
     context.evalImmediate();
 
+    if (context.evalStatus !== NodeEvalStatus.Done) {
+      throw new Error(`error status from node eval: ${context.evalStatus}`);
+    }
+
     // get the output value we wanted.
     // eslint-disable-next-line no-param-reassign
     inputSocket.value = upstreamOutputSocket.value;
@@ -75,62 +93,56 @@ export default class GraphEvaluator {
   }
 
   // returns the number of new execution steps created as a result of this one step
-  executeStep(): number {
+  executeStep(): boolean {
     // pop the next node off the queue
-    const node = this.nodeWorkQueue.shift();
+    const nodeSocketRef = this.flowWorkQueue.shift();
     // no work waiting!
-    if (node === undefined) {
-      return 0;
+    if (nodeSocketRef === undefined) {
+      return false;
     }
 
+    const node = this.graph.nodes[nodeSocketRef.nodeIndex];
     console.log(`evaluating node: ${node.nodeName}`);
 
     // first resolve all input values
+    // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSockets.forEach((inputSocket) => {
-      // eslint-disable-next-line no-param-reassign
-      inputSocket.value = this.resolveInputValueFromSocket(inputSocket);
-    });
-
-    console.log('inputs: ', inputValues);
-
-    // this is where the promise would be;
-    const context = new NodeEvalContext();
-    const outputValues = nextNode.nodeSpec.func(context, inputValues);
-
-    console.log('outputs: ', outputValues);
-
-    // push results to the inputs of downstream nodes.
-    // TODO: ensure all non-eval outputs have values.  Otherwise throw an error.
-    outputValues.forEach((outputValue, outputName) => {
-      const outputSocket = nextNode.outputSockets.get(outputName);
-      if (outputSocket === undefined) throw new Error('can not be undefined');
-      const outputSocketSpec = nextNode.nodeSpec.outputSocketSpecs.get(outputName);
-      if (outputSocketSpec === undefined) throw new Error('can not be undefined');
-
-      if (outputSocketSpec.valueType === SocketValueType.Flow) {
-        if (outputSocket.downlinks.length > 1) throw new Error('eval downlinks must = 1');
-
-        outputSocket?.downlinks.forEach((nodeSocketRef) => {
-          const downlinkNode = this.graph.nodes[nodeSocketRef.nodeIndex];
-
-          // no values explicitly passed down links, all values are pulled when needed.
-
-          // if type is eval, ensure node is queued up.
-          this.nodeWorkQueue.push(downlinkNode);
-        });
+      if (inputSocket.valueType !== SocketValueType.Flow) {
+        // eslint-disable-next-line no-param-reassign
+        this.resolveInputValueFromSocket(inputSocket);
       } else {
-        // store the output value for immediate evaluation purposes - this is only done on eval output sockets.
-        outputSocket.value = outputValue;
+        // eslint-disable-next-line no-param-reassign
+        inputSocket.value = (inputSocket.name === nodeSocketRef.socketName);
       }
     });
 
-    return 1;
+    // this is where the promise would be;
+    console.log('inputs: ', node.inputSockets);
+
+    const context = new NodeEvalContext(this.graph, node);
+    context.evalFlow();
+
+    if (context.evalStatus !== NodeEvalStatus.Done) {
+      throw new Error(`error status from node eval: ${context.evalStatus}`);
+    }
+
+    console.log('outputs: ', node.outputSockets);
+
+    // enqueue the next flow nodes.
+    node.outputSockets.forEach((outputSocket) => {
+      if (outputSocket.valueType === SocketValueType.Flow) {
+        if (outputSocket.value === true) {
+          this.flowWorkQueue.push(outputSocket.links[0]);
+        }
+      }
+    });
+
+    return true;
   }
 
-  executeSteps(maximumSteps: number): number {
+  executeAll(optionalStepLimit: number = -1): number {
     let stepsExecuted = 0;
-    while ((maximumSteps - stepsExecuted) > 0) {
-      if (this.executeStep() === 0) { break; }
+    while ((optionalStepLimit < 0 || stepsExecuted < optionalStepLimit) && this.executeStep()) {
       stepsExecuted++;
     }
     return stepsExecuted;

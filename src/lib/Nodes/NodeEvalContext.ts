@@ -9,37 +9,45 @@ import { NodeEvalStatus } from './NodeEvalStatus';
 export default class NodeEvalContext {
   public evalStatus = NodeEvalStatus.None;
   public evalPromise : Promise<NodeEvalStatus> | undefined = undefined;
+  public evalError : Error | undefined = undefined;
   public cachedInputValues = new Map<string, any>();
   public cachedOutputValues = new Map<string, any>();
 
   constructor(public graph: Graph, public node: Node) {
   }
 
-  eval(): NodeEvalStatus {
+  evalFlow(): NodeEvalStatus {
     // confirm assumptions for an immediate evaluation
     if (this.evalStatus !== NodeEvalStatus.None) {
-      throw new Error(`can not evalImmediate when context is in status ${this.evalStatus}`);
+      throw new Error(`can not evalFlow when context is in status ${this.evalStatus}`);
     }
     if (!this.node.isEvalNode) {
-      throw new Error('can not eval on non Eval nodes');
+      throw new Error('can not use evalFlow on non-Flow nodes, use evalImmediate instead');
     }
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    this.node.func(this);
-
-    // confirm assumptions for immediate evaluation.
-    if (this.evalStatus === NodeEvalStatus.Async) {
-      throw new Error('evalImmediate can not handle a Async eval status');
+    try {
+      this.node.func(this);
+    } catch (e) {
+      this.evalError = e as Error;
+      this.evalStatus = NodeEvalStatus.Error;
+      return this.evalStatus;
     }
+
+    /* if (this.evalPromise !== undefined) {
+      this.evalStatus = NodeEvalStatus.Async;
+      return this.evalStatus;
+    } */
+    // confirm for now all execute is sync
     if (this.evalPromise !== undefined) {
-      throw new Error('evalImmediate can not handle a non-undefined evalPromise set');
+      throw new Error('evalFlow can not yet handle evalPromise yet');
     }
 
+    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
-
-    return NodeEvalStatus.Done;
+    return this.evalStatus;
   }
 
   evalImmediate(): NodeEvalStatus {
@@ -48,28 +56,32 @@ export default class NodeEvalContext {
       throw new Error(`can not evalImmediate when context is in status ${this.evalStatus}`);
     }
     if (this.node.isEvalNode) {
-      throw new Error('can not evalImmediate on Eval nodes');
+      throw new Error('can not evalImmediate on Flow nodes, use evalFlow instead');
     }
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    this.node.func(this);
+    try {
+      this.node.func(this);
+    } catch (e) {
+      this.evalError = e as Error;
+      this.evalStatus = NodeEvalStatus.Error;
+      return this.evalStatus;
+    }
 
     // confirm assumptions for immediate evaluation.
-    if (this.evalStatus === NodeEvalStatus.Async) {
-      throw new Error('evalImmediate can not handle a Async eval status');
-    }
     if (this.evalPromise !== undefined) {
-      throw new Error('evalImmediate can not handle a non-undefined evalPromise set');
+      throw new Error('evalImmediate can not handle evalPromise nodes, use evalFlow instead');
     }
 
+    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
 
     return this.evalStatus;
   }
 
-  readInputs() {
+  private readInputs() {
     // cache all input values - required for proper async operation?  I think so.
     // Maybe not in loops where it wants to check inputs? Or only when there is a new eval?
     this.node.inputSockets.forEach((socket) => {
@@ -77,7 +89,7 @@ export default class NodeEvalContext {
     });
   }
 
-  writeOutputs() {
+  private writeOutputs() {
     // this writes all output values to either a defined or undefined value.  Thus it resets whatever was there before
     // this feels like the correct behavior.
     this.node.outputSockets.forEach((socket) => {

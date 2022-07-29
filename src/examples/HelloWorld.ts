@@ -1,12 +1,17 @@
 import * as fs from 'fs/promises';
-import GraphLoader from '../lib/IO/loadGraph';
-import { GlobalNodeSpecRegistry } from '../lib/Nodes/NodeRegistry';
+import loadGraph from '../lib/Graphs/loadGraph';
+import registerGenericNodes from '../lib/Nodes/Generic/GenericNodes';
+import NodeRegistry from '../lib/Nodes/NodeRegistry';
+import registerThreeNodes from '../lib/Nodes/Three/ThreeNodes';
 
 async function main() {
-  const loader = new GraphLoader();
+  const nodeRegistry = new NodeRegistry();
+  registerGenericNodes(nodeRegistry);
+  registerThreeNodes(nodeRegistry);
+
   const textFile = await fs.readFile('./examples/helloworld.json', { encoding: 'utf-8' });
   console.log(textFile);
-  const graph = loader.parse(JSON.parse(textFile), GlobalNodeSpecRegistry);
+  const graph = loadGraph(JSON.parse(textFile), nodeRegistry);
   console.log(graph);
 }
 

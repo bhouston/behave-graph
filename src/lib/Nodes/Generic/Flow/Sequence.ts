@@ -13,14 +13,14 @@ export default class Sequence extends Node {
       [
         new FlowSocket('1'),
         new FlowSocket('2'),
-        new FlowSocket('2'),
+        new FlowSocket('3'),
       ],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
+      (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.
         // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-        const outputValues = new Map<string, any>();
-        outputValues.set('1', true);
-        return outputValues;
+        context.setOutputValue('1', true);
+        // context.setOutputValue('2', false);
+        // context.setOutputValue('3', false);
       },
     );
   }

@@ -1,4 +1,4 @@
-import Graph from '../Graphs/Graph';
+import Graph from './Graph';
 import NodeRegistry from '../Nodes/NodeRegistry';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 // Purpose:
@@ -43,7 +43,7 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
       if (inputJson.links !== undefined) {
         const linksJson = inputJson.links as Array<any>;
         linksJson.forEach((linkJson) => {
-          socket.links.push(new NodeSocketRef(linkJson.nodeIndex, linkJson.ouputName));
+          socket.links.push(new NodeSocketRef(linkJson.nodeIndex, linkJson.socketName));
         });
       }
     });
@@ -54,9 +54,12 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   graph.nodes.forEach((node, nodeIndex) => {
+    console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
+      console.log(inputSocket);
       inputSocket.links.forEach((nodeSocketRef) => {
+        console.log(nodeSocketRef);
         const upstreamOutputSocket = graph.nodes[nodeSocketRef.nodeIndex].getOutputSocket(nodeSocketRef.socketName);
         upstreamOutputSocket.links.push(new NodeSocketRef(nodeIndex, inputSocket.name));
       });

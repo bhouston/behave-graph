@@ -5,7 +5,7 @@
     {
         "type": "action/debugOutput",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "outputName": "execute" } ] },
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
             "text": { "value": "Hello World!" }
         }
     }

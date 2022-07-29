@@ -15,13 +15,11 @@ export default class SetNodeVector3 extends Node {
         new NumberSocket('z'),
       ],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        const outputValues = new Map<string, any>();
+      (context: NodeEvalContext) => {
         // TODO: Set the x,y,z on the specified property.
         // const node = context.getSceneNodeByIndex(inputs['node']);
         // node.rotation.add(inputs['eulerDelta']);
-        outputValues.set('eval', true);
-        return outputValues;
+        context.setOutputValue('eval', true);
       },
     );
   }

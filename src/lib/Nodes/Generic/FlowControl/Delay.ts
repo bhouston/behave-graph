@@ -16,12 +16,11 @@ export default class Delay extends Node {
         new NumberSocket('milliseconds'),
       ],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        // TODO: return a promise that results with an async delay - Wayne can you help with this?
-        const outputValues = new Map<string, any>();
-        outputValues.set('eval', true);
-        return outputValues;
-      },
+      (context: NodeEvalContext) => new Promise<NodeEvalContext>((resolve, reject) => {
+        setTimeout(() => {
+          resolve(context);
+        }, context.getInputValue('milliseconds '));
+      }),
     );
   }
 }

@@ -12,7 +12,7 @@ export default class SceneStart extends Node {
       'event/sceneStart',
       [],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => new Map<string, any>().set('eval', true),
+      (context: NodeEvalContext) => context.setOutputValue('eval', true),
     );
   }
 }

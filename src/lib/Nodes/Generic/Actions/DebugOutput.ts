@@ -9,12 +9,9 @@ export default class DebugOutput extends Node {
       'action/debugOutput',
       [new EvalSocket(), new StringSocket('text')],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        console.log(`Debug Output: ${inputValues.get('text')}`);
-
-        const outputValues = new Map<string, any>();
-        outputValues.set('eval', true);
-        return outputValues;
+      (context: NodeEvalContext) => {
+        console.log(`Debug Output: ${context.getInputValue('text')}`);
+        context.setOutputValue('eval', true);
       },
     );
   }

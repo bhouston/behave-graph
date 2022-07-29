@@ -8,10 +8,8 @@ export default class Tick extends Node {
       'event/tick',
       [],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        const outputValues = new Map<string, any>();
-        outputValues.set('eval', true);
-        return outputValues;
+      (context: NodeEvalContext) => {
+        context.setOutputValue('eval', true);
       },
     );
   }

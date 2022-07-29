@@ -18,13 +18,11 @@ export default class ForLoop extends Node {
         new NumberSocket('index'),
         new EvalSocket('completed'),
       ],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
+      (context: NodeEvalContext) => {
         // TODO: Figure out how to have multiple multiple "loop" evals each with an index
         // and then, once done, eval "complete"
-        const outputValues = new Map<string, any>();
-        outputValues.set('loopBody', true);
-        outputValues.set('index', inputValues.get('startIndex'));
-        return outputValues;
+        context.setOutputValue('loopBody', true);
+        context.setOutputValue('index', context.getInputValue('startIndex'));
       },
     );
   }

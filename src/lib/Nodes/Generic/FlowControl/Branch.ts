@@ -16,15 +16,8 @@ export default class Branch extends Node {
         new EvalSocket('true'),
         new EvalSocket('false'),
       ],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        // form 1:
-        const outputValues = new Map<string, any>();
-        if (inputValues.get('condition')) {
-          outputValues.set('true', true);
-        } else {
-          outputValues.set('false', true);
-        }
-        return outputValues;
+      (context: NodeEvalContext) => {
+        context.setOutputValue(context.getInputValue('condition') ? 'true' : 'false', true);
       },
     );
   }

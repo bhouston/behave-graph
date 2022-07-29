@@ -1,3 +1,3 @@
 import NodeEvalContext from './NodeEvalContext';
 
-export type NodeEvalFunction = (context: NodeEvalContext, inputValues: Map<string, any>) => Map<string, any>;
+export type NodeEvalFunction = (context: NodeEvalContext) => void | Promise<NodeEvalContext>;

@@ -2,16 +2,17 @@ import Graph from './Graph';
 import Node from '../Nodes/Node';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
+import Socket from '../Sockets/Socket';
 
 export default class GraphEvaluator {
   public nodeWorkQueue: Node[] = [];
 
-  constructor(public graph: Graph) {
+  constructor(public context: NodeEvalContext, public graph: Graph) {
   }
 
   trigger(triggerName: string): number {
     // look up any nodes with this trigger name and add them to the executionQueue
-    const triggerNodes = this.graph.nodes.filter((item) => (item.nodeSpec.type === triggerName));
+    const triggerNodes = this.graph.nodes.filter((item) => (item.type === triggerName));
 
     if (triggerNodes.length > 0) {
       // add to the back of the queue
@@ -30,70 +31,67 @@ export default class GraphEvaluator {
     this.nodeWorkQueue.unshift(node);
   }
 
-  // resolve non-execution inputs so that each has a value stored in them.  Then and only then we can execute the node's function.
-  // TODO: This needs to resolve immediately and not queue ndoes or prioritize them.
-  // BUG: This needs to evaluate the subgraph to resolve the values of this node immediately, rather than any delayed or work-queue mediated execution.
-  resolveInputs(node: Node): number {
-    let unresolvedInputs = 0;
+  // NOTE: This is a simplistic recursive and wasteful approach.
+  // Is is optimal for a tree, but can do a lot of duplicate evaluates in dense graphs.
+  // It will also get stuck in a recursive loop when there are loops in the graph.
+  // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
+  resolveInputValueFromSocket(inputSocket: Socket): any {
+    if (inputSocket.valueType === SocketValueType.Eval) {
+      throw new Error(`can not resolve input values for Eval input sockets: ${inputSocket.name}`);
+    }
 
-    node.inputSockets.forEach((inputSocket, name) => {
-      const inputSocketSpec = node.nodeSpec.inputSocketSpecs.get(name);
-      if (inputSocketSpec === undefined) throw new Error('can not find spec by name');
+    // if it has no links, return the immediate value
+    if (inputSocket.links.length === 0) {
+      return inputSocket.value;
+    }
+    if (inputSocket.links.length > 1) {
+      throw new Error(`input socket has too many links: ${inputSocket.name} has ${inputSocket.links.length} links`);
+    }
 
-      // no need to resolve execution inputs.
-      if (inputSocketSpec.valueType === SocketValueType.Eval) {
-        return;
-      }
+    // what is inputSocket connected to?
+    const upstreamOutputSocket = this.graph.getOutputSocket(inputSocket.links[1]);
 
-      // if the input has a value, it is resolved
-      if (inputSocket.value !== undefined) {
-        return;
-      }
+    // if upstream node is an eval, we just return its last value.
+    const upstreamNode = this.graph.nodes[inputSocket.links[1].nodeIndex];
+    if (upstreamNode.isEvalNode) {
+      return upstreamOutputSocket.value;
+    }
 
-      // otherwise follow uplinks...
-      if (inputSocket.uplinks.length > 0) {
-        if (inputSocket.uplinks.length > 1) throw new Error('non-eval uplinks must number 1');
-        const uplink = inputSocket.uplinks[0];
-        const uplinkNode = this.graph.nodes[uplink.nodeIndex];
-        this.prioritizeNode(uplinkNode);
-        unresolvedInputs++;
-      }
+    // resolve all inputs for the upstream node (this is where the recursion happens)
+    // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
+    upstreamNode.inputSockets.forEach((upstreamInputSocket) => {
+      // eslint-disable-next-line no-param-reassign
+      this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    return unresolvedInputs;
+    // evaluate the node
+    upstreamNode.func(this.context);
+
+    // get the output value we wanted.
+    // eslint-disable-next-line no-param-reassign
+    inputSocket.value = upstreamOutputSocket.value;
+
+    return inputSocket.value;
   }
 
   // returns the number of new execution steps created as a result of this one step
   executeStep(): number {
+    // pop the next node off the queue
+    const node = this.nodeWorkQueue.shift();
     // no work waiting!
-    if (this.nodeWorkQueue.length === 0) {
+    if (node === undefined) {
       return 0;
     }
 
-    // peak at the next node in the queue
-    const nextNode = this.nodeWorkQueue[0];
-    // resolve inputs if they are not.  If all are resolved, function returns 0, and we can execute it.
-    if (this.resolveInputs(nextNode) > 0) {
-      // WARNING: this is an infinite loop - this doesn't work.
-      return this.executeStep();
-    }
+    console.log(`evaluating node: ${node.nodeName}`);
 
-    // pop off item
-    if (this.nodeWorkQueue.shift() !== nextNode) throw new Error('should not happen');
-
-    // collect all inputs, while clearing their values.
-    // TODO: could this be replaced by a map?
-    const inputValues = new Map<string, any>();
-
-    nextNode.inputSockets.forEach((inputSocket, name) => {
-      if (inputSocket.value !== undefined) {
-        inputValues.set(name, inputSocket.value);
-        delete inputSocket.value;
-      }
+    // first resolve all input values
+    node.inputSockets.forEach((inputSocket) => {
+      // eslint-disable-next-line no-param-reassign
+      inputSocket.value = this.resolveInputValueFromSocket(inputSocket);
     });
 
     console.log('inputs: ', inputValues);
-    console.log(`type: ${nextNode.nodeSpec.type}`);
 
     // this is where the promise would be;
     const context = new NodeEvalContext();

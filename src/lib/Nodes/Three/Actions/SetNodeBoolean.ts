@@ -10,12 +10,10 @@ export default class SetNodeBoolean extends Node {
       nodeName,
       [new EvalSocket(), new NumberSocket('nodeIndex'), new BooleanSocket('value')],
       [new EvalSocket()],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
+      (context: NodeEvalContext) => {
         // const node = context.getSceneNodeByIndex(inputs['node']);
-        // node.visible = false;
-        const outputValues = new Map<string, any>();
-        outputValues.set('eval', inputValues.get('visible'));
-        return outputValues;
+        // node.visible = context.getInputValue('visible');
+        context.setOutputValue('eval', true);
       },
     );
   }

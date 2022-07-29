@@ -13,11 +13,9 @@ export default class NodeClick extends Node {
         new EvalSocket(),
         new NumberSocket('nodeIndex'),
       ],
-      (context: NodeEvalContext, inputValues: Map<string, any>) => {
-        const outputValues = new Map<string, any>();
-        outputValues.set('eval', true);
-        outputValues.set('nodeIndex', -1); // TODO: Replace with real value.
-        return outputValues;
+      (context: NodeEvalContext) => {
+        context.setOutputValue('eval', true);
+        context.setOutputValue('nodeIndex', -1); // TODO: Replace with real value.
       },
     );
   }

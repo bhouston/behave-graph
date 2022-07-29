@@ -1,8 +1,9 @@
-import EvalSocket from '../../../Sockets/Typed/EvalSocket';
+import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
 
 import NodeEvalContext from '../../NodeEvalContext';
+import { NodeEvalStatus } from '../../NodeEvalStatus';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
@@ -10,17 +11,19 @@ import NodeEvalContext from '../../NodeEvalContext';
 export default class Delay extends Node {
   constructor() {
     super(
-      'flowcontrol/delay',
+      'flow/delay',
       [
-        new EvalSocket(),
+        new FlowSocket(),
         new NumberSocket('milliseconds'),
       ],
-      [new EvalSocket()],
-      (context: NodeEvalContext) => new Promise<NodeEvalContext>((resolve, reject) => {
+      [new FlowSocket()],
+      (context: NodeEvalContext) => {
+        context.evalPromise = new Promise<NodeEvalStatus>((resolve, reject) => {
         setTimeout(() => {
-          resolve(context);
+          resolve(NodeEvalStatus.Done);
         }, context.getInputValue('milliseconds '));
-      }),
-    );
+        });
+    }
+    ),
   }
 }

@@ -23,10 +23,10 @@ export default class Node {
     // determine if this is an eval node
     let areAnySocketsEvalType = false;
     this.inputSockets.forEach((socket) => {
-      areAnySocketsEvalType ||= (socket.valueType === SocketValueType.Eval);
+      areAnySocketsEvalType ||= (socket.valueType === SocketValueType.Flow);
     });
     this.outputSockets.forEach((socket) => {
-      areAnySocketsEvalType ||= (socket.valueType === SocketValueType.Eval);
+      areAnySocketsEvalType ||= (socket.valueType === SocketValueType.Flow);
     });
     this.isEvalNode = areAnySocketsEvalType;
   }

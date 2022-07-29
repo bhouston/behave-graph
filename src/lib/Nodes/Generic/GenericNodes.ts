@@ -1,10 +1,10 @@
 import DebugOutput from './Actions/DebugOutput';
 import SceneStart from './Events/SceneStart';
 import Tick from './Events/Tick';
-import Branch from './FlowControl/Branch';
-import Delay from './FlowControl/Delay';
-import ForLoop from './FlowControl/ForLoop';
-import Sequence from './FlowControl/Sequence';
+import Branch from './Flow/Branch';
+import Delay from './Flow/Delay';
+import ForLoop from './Flow/ForLoop';
+import Sequence from './Flow/Sequence';
 import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UniaryOp from './Logic/UniaryOp';
@@ -22,10 +22,10 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
 
   // flow control
 
-  nodeRegistry.add('flowcontrol/branch', () => new Branch());
-  nodeRegistry.add('flowcontrol/delay', () => new Delay());
-  nodeRegistry.add('flowcontrol/forloop', () => new ForLoop());
-  nodeRegistry.add('flowcontrol/sequence', () => new Sequence());
+  nodeRegistry.add('flow/branch', () => new Branch());
+  nodeRegistry.add('flow/delay', () => new Delay());
+  nodeRegistry.add('flow/forLoop', () => new ForLoop());
+  nodeRegistry.add('flow/sequence', () => new Sequence());
 
   // logic: arithmetic
 

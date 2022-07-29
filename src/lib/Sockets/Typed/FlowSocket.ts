@@ -1,10 +1,10 @@
 import { SocketValueType } from '../../Core/Sockets/SocketValueType';
 import Socket from '../Socket';
 
-export default class EvalSocket extends Socket {
+export default class FlowSocket extends Socket {
   constructor(
-    name: string = 'eval',
+    name: string = 'flow',
   ) {
-    super(name, SocketValueType.Eval, undefined);
+    super(name, SocketValueType.Flow, undefined);
   }
 }

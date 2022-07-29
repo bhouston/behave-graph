@@ -1,4 +1,4 @@
-import EvalSocket from '../../../Sockets/Typed/EvalSocket';
+import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
@@ -11,7 +11,7 @@ export default class SceneStart extends Node {
     super(
       'event/sceneStart',
       [],
-      [new EvalSocket()],
+      [new FlowSocket()],
       (context: NodeEvalContext) => context.setOutputValue('eval', true),
     );
   }

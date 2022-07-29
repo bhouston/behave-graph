@@ -1,4 +1,4 @@
-import EvalSocket from '../../../Sockets/Typed/EvalSocket';
+import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
@@ -8,13 +8,13 @@ export default class SetNodeVector3 extends Node {
     super(
       nodeName,
       [
-        new EvalSocket(),
+        new FlowSocket(),
         new NumberSocket('nodeIndex'),
         new NumberSocket('x'),
         new NumberSocket('y'),
         new NumberSocket('z'),
       ],
-      [new EvalSocket()],
+      [new FlowSocket()],
       (context: NodeEvalContext) => {
         // TODO: Set the x,y,z on the specified property.
         // const node = context.getSceneNodeByIndex(inputs['node']);

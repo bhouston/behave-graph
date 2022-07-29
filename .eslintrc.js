@@ -29,6 +29,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
     'no-extra-semi': 'off',
+    'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'import/extensions': [
       'error',
       'ignorePackages',

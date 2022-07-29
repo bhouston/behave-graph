@@ -1,4 +1,4 @@
-import EvalSocket from '../../../Sockets/Typed/EvalSocket';
+import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
@@ -7,7 +7,7 @@ export default class Tick extends Node {
     super(
       'event/tick',
       [],
-      [new EvalSocket()],
+      [new FlowSocket()],
       (context: NodeEvalContext) => {
         context.setOutputValue('eval', true);
       },

@@ -1,5 +1,5 @@
 export enum SocketValueType {
-    Eval,
+    Flow,
     Number,
     Vector3,
     Boolean,

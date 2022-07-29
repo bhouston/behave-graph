@@ -36,7 +36,7 @@ export default class GraphEvaluator {
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
   resolveInputValueFromSocket(inputSocket: Socket): any {
-    if (inputSocket.valueType === SocketValueType.Eval) {
+    if (inputSocket.valueType === SocketValueType.Flow) {
       throw new Error(`can not resolve input values for Eval input sockets: ${inputSocket.name}`);
     }
 
@@ -64,8 +64,8 @@ export default class GraphEvaluator {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    // evaluate the node
-    upstreamNode.func(this.context);
+    const context = new NodeEvalContext(this.graph, upstreamNode);
+    context.evalImmediate();
 
     // get the output value we wanted.
     // eslint-disable-next-line no-param-reassign
@@ -107,7 +107,7 @@ export default class GraphEvaluator {
       const outputSocketSpec = nextNode.nodeSpec.outputSocketSpecs.get(outputName);
       if (outputSocketSpec === undefined) throw new Error('can not be undefined');
 
-      if (outputSocketSpec.valueType === SocketValueType.Eval) {
+      if (outputSocketSpec.valueType === SocketValueType.Flow) {
         if (outputSocket.downlinks.length > 1) throw new Error('eval downlinks must = 1');
 
         outputSocket?.downlinks.forEach((nodeSocketRef) => {

@@ -2,6 +2,8 @@ import Graph from '../Graphs/Graph';
 import Node from './Node';
 import { NodeEvalStatus } from './NodeEvalStatus';
 
+const verbose = false;
+
 // Purpose:
 //  - Avoid nodes having to access globals to referene the scene or trigger loaders.
 //  - Everything should be accessible via this context.
@@ -119,6 +121,10 @@ export default class NodeEvalContext {
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    console.log(`${this.graph.name}: ${this.node.nodeName}: ${text}`);
+    if (verbose) {
+      console.log(`${this.graph.name}: ${this.node.nodeName}: ${text}`);
+    } else {
+      console.log(text);
+    }
   }
 }

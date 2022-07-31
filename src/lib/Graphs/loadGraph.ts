@@ -1,6 +1,9 @@
 import Graph from './Graph';
 import NodeRegistry from '../Nodes/NodeRegistry';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
+
+const verbose = false;
+
 // Purpose:
 //  - loads a node graph
 
@@ -27,7 +30,7 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
     node.inputSockets.forEach((socket) => {
       // warn if no definition.
       if (inputsJson[socket.name] === undefined) {
-        console.warn(`loadGraph: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+        if (verbose) console.warn(`loadGraph: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
         return;
       }
 

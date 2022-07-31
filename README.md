@@ -25,7 +25,13 @@ This library, while small, contains a nearly complete implementation of behavior
 * **Flow Control** Branches, delays, if-then, sequences and for-loops.
 * **State** You can set and load state arbitrarily.
 
-### Example Behavior Graph
+## Examples
+
+Here are some example graphs in their native JSON form:
+
+### Hello World
+
+Print out the text "Hello World!" as soon as the graph starts up!
 
 ```json
 [
@@ -42,23 +48,26 @@ This library, while small, contains a nearly complete implementation of behavior
 ]
 ```
 
-## Build Instructions
+## Command Line Usage
+### Building
+
+After cloning out this git project locally, run the following:
 
 ```zsh
 npm install
 npm run build
 ```
 
-## Run Examples
+### Running Examples
 
-The example behavior graphs are in the ```/examples``` folder.  To run them use this syntax:
+The example behavior graphs are in the ```/examples``` folder.  You can execute these from the command line to test out how this library works.
 
+The main syntax is this one:
 ```zsh
 npm run exec -- ./examples/[examplename].json
 ```
 
 To be more specific you can run these examples:
-
 ```zsh
 npm run exec -- ./examples/hellowold.json
 npm run exec -- ./examples/numberToString.json

@@ -28,7 +28,7 @@ export default class GraphEvaluator {
 
       let flowOutputCount = 0;
       node.outputSockets.forEach((outputSocket) => {
-        console.log(outputSocket);
+        // console.log(outputSocket);
         if (outputSocket.valueType === SocketValueType.Flow) {
           if (outputSocket.value === true && outputSocket.links.length === 1) {
             this.flowWorkQueue.push(outputSocket.links[0]);

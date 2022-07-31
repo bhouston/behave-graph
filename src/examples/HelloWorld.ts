@@ -11,11 +11,14 @@ async function main() {
   registerThreeNodes(nodeRegistry);
 
   const textFile = await fs.readFile('./examples/helloworld.json', { encoding: 'utf-8' });
-  console.log(textFile);
+  // console.log(textFile);
   const graph = loadGraph(JSON.parse(textFile), nodeRegistry);
-  console.log(graph);
+  // console.log(graph);
 
   const graphEvaluator = new GraphEvaluator(graph);
+  graphEvaluator.triggerEvents('event/sceneStart', new Map<string, any>().set('flow', true));
+  graphEvaluator.executeAll();
+  graphEvaluator.executeAll();
   graphEvaluator.triggerEvents('event/sceneStart', new Map<string, any>().set('flow', true));
   graphEvaluator.executeAll();
 }

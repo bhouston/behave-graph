@@ -7,7 +7,7 @@ import NodeSocketRef from '../Nodes/NodeSocketRef';
 export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): Graph {
   const graph = new Graph();
 
-  console.log('input JSON', JSON.stringify(nodesJson, null, 2));
+  // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
 
   if (nodesJson.length === 0) {
     console.warn('no nodes specified');
@@ -23,9 +23,6 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
     const nodeName = nodeJson.type as string;
     const node = nodeRegistry.create(nodeName);
 
-    if (nodeJson.inputs === undefined) {
-      console.warn(`no inputs for node: ${nodeName}`);
-    }
     const inputsJson = nodeJson.inputs as {[key:string]:any};
     node.inputSockets.forEach((socket) => {
       // warn if no definition.
@@ -54,18 +51,18 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   graph.nodes.forEach((node, nodeIndex) => {
-    console.log(node);
+    // console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
-      console.log(inputSocket);
+      // console.log(inputSocket);
       inputSocket.links.forEach((nodeSocketRef) => {
-        console.log(nodeSocketRef);
+        // console.log(nodeSocketRef);
         const upstreamOutputSocket = graph.nodes[nodeSocketRef.nodeIndex].getOutputSocket(nodeSocketRef.socketName);
         upstreamOutputSocket.links.push(new NodeSocketRef(nodeIndex, inputSocket.name));
       });
     });
   });
 
-  console.log('output Graph', JSON.stringify(graph, null, 2));
+  // console.log('output Graph', JSON.stringify(graph, null, 2));
   return graph;
 }

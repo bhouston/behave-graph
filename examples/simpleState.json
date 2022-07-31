@@ -1,6 +1,6 @@
 [
     {
-        "type": "event/sceneStart"
+        "type": "event/start"
     },
     {
         "type": "state/setNumber",
@@ -22,7 +22,7 @@
         }
     },
     {
-        "type": "action/debugOutput",
+        "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
             "text": { "links": [ { "nodeIndex": 3, "socketName": "result" } ]  }

@@ -3,7 +3,7 @@
         "type": "event/start"
     },
     {
-        "type": "action/debugOutput",
+        "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
             "text": { "value": "Hello World!" }

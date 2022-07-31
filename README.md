@@ -33,7 +33,7 @@ This library, while small, contains a nearly complete implementation of behavior
         "type": "event/start"
     },
     {
-        "type": "action/debugOutput",
+        "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
             "text": { "value": "Hello World!" }

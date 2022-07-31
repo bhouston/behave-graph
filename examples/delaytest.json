@@ -1,6 +1,6 @@
 [
     {
-        "type": "event/sceneStart"
+        "type": "event/start"
     },
     {
         "type": "flow/delay",
@@ -10,7 +10,7 @@
         }
     },
     {
-        "type": "action/debugOutput",
+        "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
             "text": { "value": "Hello World!" }

@@ -1,4 +1,4 @@
-import DebugOutput from './Actions/DebugOutput';
+import Log from './Actions/Log';
 import Start from './Events/Start';
 import Tick from './Events/Tick';
 import Branch from './Flow/Branch';
@@ -13,11 +13,11 @@ import NodeRegistry from '../NodeRegistry';
 export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
 
-  nodeRegistry.add('action/debugOutput', () => new DebugOutput());
+  nodeRegistry.add('action/log', () => new Log());
 
   // events
 
-  nodeRegistry.add('event/sceneStart', () => new Start());
+  nodeRegistry.add('event/start', () => new Start());
   nodeRegistry.add('event/tick', () => new Tick());
 
   // flow control

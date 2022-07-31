@@ -1,6 +1,6 @@
 [
     {
-        "type": "event/sceneStart"
+        "type": "event/start"
     },
     {
         "type": "logic/numberToString",
@@ -9,7 +9,7 @@
         }
     },
     {
-        "type": "action/debugOutput",
+        "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
             "text": { "links": [ { "nodeIndex": 1, "socketName": "result" } ]  }

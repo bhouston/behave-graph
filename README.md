@@ -18,13 +18,16 @@ This library, while small, contains a nearly complete implementation of behavior
 * **Simple** This library is implemented in straight forward fashion without unnecessary complexity.
 
 ### Node Types:
-* **Events** You can implement arbitrary events that start execution.
-* **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state.
-* **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation.
+* **Events** You can implement arbitrary events that start execution: Start, Tick
+* **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
+* **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
 * **Queries** You can query state from the system.
-* **Flow Control** Branches, delays, if-then, sequences and for-loops.
-* **State** You can set and load state arbitrarily.
+* **Flow Control** Control execution flow using familiar structures: Branches, delays, if-then, sequences and for-loops.
+* **State** You can set and load state arbitrarily: Exists, Set, Get.
 
+### Designed for Integration into Other Systems
+
+This library is designed to be extended with context dependent nodes, specifically Actions, Events and Queries that match the capabilities and requirements of your system.  For example, if you integrate into a 3D engine, you can query for player state or 3D positions of your scene graph, set scene graph properties and also react to overlaps, and player movements.  Or if you want to integrate into an AR system, you can react to face-detected, tracking lost.
 ## Examples
 
 Here are some example graphs in their native JSON form:

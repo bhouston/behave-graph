@@ -9,6 +9,12 @@ import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UniaryOp from './Logic/UniaryOp';
 import NodeRegistry from '../NodeRegistry';
+import StateSet from './State/StateSet';
+import NumberSocket from '../../Sockets/Typed/NumberSocket';
+import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
+import StringSocket from '../../Sockets/Typed/StringSocket';
+import StateGet from './State/StateGet';
+import StateExists from './State/StateExists';
 
 export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
@@ -92,6 +98,19 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   nodeRegistry.add('logic/stringIncludes', () => new BinaryOp<string, boolean>('logic/stringIncludes', (a, b) => (a.includes(b))));
   nodeRegistry.add('logic/numberToString', () => new UniaryOp<number, string>('logic/numberToString', (a) => (a.toString())));
   nodeRegistry.add('logic/stringLength', () => new UniaryOp<string, number>('logic/stringLength', (a) => (a.length)));
+
+  // state
+
+  nodeRegistry.add('state/exists', () => new StateExists());
+
+  nodeRegistry.add('state/setBoolean', () => new StateSet('state/setBoolean', (socketName) => new BooleanSocket(socketName)));
+  nodeRegistry.add('state/getBoolean', () => new StateGet('state/getBoolean', (socketName) => new BooleanSocket(socketName)));
+
+  nodeRegistry.add('state/setNumber', () => new StateSet('state/setNumber', (socketName) => new NumberSocket(socketName)));
+  nodeRegistry.add('state/getNumber', () => new StateGet('state/getNumber', (socketName) => new NumberSocket(socketName)));
+
+  nodeRegistry.add('state/setString', () => new StateSet('state/setString', (socketName) => new StringSocket(socketName)));
+  nodeRegistry.add('state/getString', () => new StateGet('state/getString', (socketName) => new StringSocket(socketName)));
 
   return nodeRegistry;
 }

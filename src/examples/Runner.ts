@@ -18,10 +18,16 @@ async function main() {
   const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
   // console.log(textFile);
   const graph = loadGraph(JSON.parse(textFile), nodeRegistry);
+  graph.name = graphJsonPath;
   // console.log(graph);
 
+  console.log('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
-  graphEvaluator.triggerEvents('event/sceneStart', new Map<string, any>().set('flow', true));
+
+  console.log('triggering start event');
+  graphEvaluator.triggerEvents('event/start', new Map<string, any>().set('flow', true));
+
+  console.log('executing all');
   graphEvaluator.executeAll();
 }
 

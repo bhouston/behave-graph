@@ -28,10 +28,28 @@ This library, while small, contains a nearly complete implementation of behavior
 ### Designed for Integration into Other Systems
 
 This library is designed to be extended with context dependent nodes, specifically Actions, Events and Queries that match the capabilities and requirements of your system.  For example, if you integrate into a 3D engine, you can query for player state or 3D positions of your scene graph, set scene graph properties and also react to overlaps, and player movements.  Or if you want to integrate into an AR system, you can react to face-detected, tracking lost.
+
+
+## Command Line Usage
+### Building
+
+After cloning out this git project locally, run the following:
+
+```zsh
+npm install
+npm run build
+```
+
 ## Examples
 
-Here are some example graphs in their native JSON form:
+The example behavior graphs are in the ```/examples``` folder.  You can execute these from the command line to test out how this library works.
 
+The main syntax is this one:
+```zsh
+npm run exec -- ./examples/[examplename].json
+```
+
+Here are some example graphs in their native JSON form:
 ### Hello World
 
 Print out the text "Hello World!" as soon as the graph starts up!
@@ -51,29 +69,186 @@ Print out the text "Hello World!" as soon as the graph starts up!
 ]
 ```
 
-## Command Line Usage
-### Building
-
-After cloning out this git project locally, run the following:
+Console output:
 
 ```zsh
-npm install
-npm run build
+> npm run exec -- ./examples/HelloWorld.json
+
+Hello World!
 ```
 
-### Running Examples
+### Setting and Reading State
 
-The example behavior graphs are in the ```/examples``` folder.  You can execute these from the command line to test out how this library works.
+In this example, we set a state variable called "counter" to 1000 and then later read it and print it out.
 
-The main syntax is this one:
-```zsh
-npm run exec -- ./examples/[examplename].json
+```json
+[
+    {
+        "type": "event/start"
+    },
+    {
+        "type": "state/setNumber",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "identifier": { "value": "counter"},
+            "value": { "value": 1000 }
+        }
+    },
+    {
+        "type": "state/getNumber",
+        "inputs": {
+            "identifier": { "value": "counter" }
+        }
+    },
+    {
+        "type": "logic/numberToString",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 2, "socketName": "result" } ]  }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
+            "text": { "links": [ { "nodeIndex": 3, "socketName": "result" } ]  }
+        }
+    }
+]
 ```
 
-To be more specific you can run these examples:
+Console output:
+
 ```zsh
-npm run exec -- ./examples/hellowold.json
-npm run exec -- ./examples/numberToString.json
-npm run exec -- ./examples/simpleState.json
-npm run exec -- ./examples/delayTest.json
+> npm run exec -- ./examples/SimpleState.json
+
+1000
+```
+
+### Branching
+
+This example shows how to branching execution works. The "flow/branch" node has two flow outputs, "true" and "false".  The value of it's "condition" input determines the path of execution.
+
+```json
+[
+    {
+        "type": "event/start"
+    },
+    {
+        "type": "flow/branch",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "condition": { "value": false }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "true" } ] },
+            "text": { "value": "Condition is true!" }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "false" } ] },
+            "text": { "value": "Condition is false!" }
+        }
+    }
+]
+```
+
+Console output:
+
+```zsh
+> npm run exec -- ./examples/SimpleBranch.json
+
+Condition is false!
+```
+
+### Polynomial Math Formula
+
+This shows how to create math formulas in logic nodes.  In this case the equation is: ( a^1 * 3 + a^2 + (-a^3) ), where a = 3.  The answer is -9.
+
+```json
+[
+    {
+        "type": "event/start"
+    },
+    {
+        "type": "logic/numberConstant",
+        "inputs": {
+            "a": { "value": 3 }
+        }
+    },
+    {
+        "type": "logic/numberPow",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "b": { "value": 1 }
+        }
+    },
+    {
+        "type": "logic/numberPow",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "b": { "value": 2 }
+        }
+    },
+    {
+        "type": "logic/numberPow",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "b": { "value": 3 }
+        }
+    },
+    {
+        "type": "logic/numberMultiply",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 2, "socketName": "result" } ] },
+            "b": { "value": 3 }
+        }
+    },
+    {
+        "type": "logic/numberAdd",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 5, "socketName": "result" } ] },
+            "b": { "links": [ { "nodeIndex": 3, "socketName": "result" } ] }
+        }
+    },
+    {
+        "type": "logic/numberNegate",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 4, "socketName": "result" } ] },
+            "b": { "value": 10 }
+        }
+    },
+    {
+        "type": "logic/numberAdd",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 6, "socketName": "result" } ] },
+            "b": { "links": [ { "nodeIndex": 7, "socketName": "result" } ] }
+        }
+    },
+    {
+        "type": "logic/numberToString",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 8, "socketName": "result" } ] }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "text": { "links": [ { "nodeIndex": 9, "socketName": "result" } ]}
+        }
+    }
+]
+```
+
+Console output:
+
+```zsh
+> npm run exec -- ./examples/Polynomial.json
+
+-9
 ```

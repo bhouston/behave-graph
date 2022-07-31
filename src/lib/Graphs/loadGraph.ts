@@ -10,7 +10,7 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
 
   if (nodesJson.length === 0) {
-    console.warn('no nodes specified');
+    console.warn('loadGraph: no nodes specified');
   }
 
   // create new BehaviorNode instances for each node in the json.
@@ -18,7 +18,7 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
     const nodeJson = nodesJson[i];
 
     if (nodeJson.type === undefined) {
-      throw new Error('no type for node');
+      throw new Error('loadGraph: no type for node');
     }
     const nodeName = nodeJson.type as string;
     const node = nodeRegistry.create(nodeName);
@@ -27,11 +27,11 @@ export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): G
     node.inputSockets.forEach((socket) => {
       // warn if no definition.
       if (inputsJson[socket.name] === undefined) {
-        console.warn(`no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+        console.warn(`loadGraph: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+        return;
       }
 
       const inputJson = inputsJson[socket.name] as {[key:string]:any};
-
       if (inputJson.value !== undefined) {
         // eslint-disable-next-line no-param-reassign
         socket.value = inputJson.value;

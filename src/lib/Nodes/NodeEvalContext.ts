@@ -119,6 +119,6 @@ export default class NodeEvalContext {
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    console.log(`${this.graph.name}.${this.node.nodeName}: ${text}`);
+    console.log(`${this.graph.name}: ${this.node.nodeName}: ${text}`);
   }
 }

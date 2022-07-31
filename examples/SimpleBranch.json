@@ -1,0 +1,26 @@
+[
+    {
+        "type": "event/start"
+    },
+    {
+        "type": "flow/branch",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "condition": { "value": false }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "true" } ] },
+            "text": { "value": "Condition is true!" }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "false" } ] },
+            "text": { "value": "Condition is false!" }
+        }
+    }
+]

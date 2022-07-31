@@ -5,6 +5,7 @@
     {
         "type": "state/setNumber",
         "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
             "identifier": { "value": "counter"},
             "value": { "value": 1000 }
         }
@@ -18,13 +19,13 @@
     {
         "type": "logic/numberToString",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 2, "socketName": "value" } ]  }
+            "a": { "links": [ { "nodeIndex": 2, "socketName": "result" } ]  }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
             "text": { "links": [ { "nodeIndex": 3, "socketName": "result" } ]  }
         }
     }

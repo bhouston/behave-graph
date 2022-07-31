@@ -5,11 +5,6 @@ import { NodeEvalFunction } from './NodeEvalFunction';
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);
 }
-function getSocketByName(sockets: Socket[], name: string): Socket {
-  const socket = findSocketByName(sockets, name);
-  if (socket === undefined) throw new Error(`no sockets with name: ${name}`);
-  return socket;
-}
 
 export default class Node {
   public readonly isEvalNode: boolean;
@@ -32,10 +27,14 @@ export default class Node {
   }
 
   getInputSocket(socketName: string): Socket {
-    return getSocketByName(this.inputSockets, socketName);
+    const socket = findSocketByName(this.inputSockets, socketName);
+    if (socket === undefined) throw new Error(`no input sockets with name: ${socketName} on node ${this.nodeName}`);
+    return socket;
   }
 
   getOutputSocket(socketName: string): Socket {
-    return getSocketByName(this.outputSockets, socketName);
+    const socket = findSocketByName(this.outputSockets, socketName);
+    if (socket === undefined) throw new Error(`no output socket with name: ${socketName} on node ${this.nodeName}`);
+    return socket;
   }
 }

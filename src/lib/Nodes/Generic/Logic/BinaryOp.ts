@@ -11,9 +11,9 @@ export default class BinaryOp<Input, Output> extends Node {
         new NumberSocket('a'),
         new NumberSocket('b'),
       ],
-      [new NumberSocket('sum')],
+      [new NumberSocket('result')],
       (context: NodeEvalContext) => {
-        context.setOutputValue('sum', this.binaryEvalFunc(context.getInputValue('a'), context.getInputValue('b')));
+        context.setOutputValue('result', this.binaryEvalFunc(context.getInputValue('a'), context.getInputValue('b')));
       },
     );
   }

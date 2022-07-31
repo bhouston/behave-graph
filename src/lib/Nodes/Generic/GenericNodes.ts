@@ -33,6 +33,18 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   nodeRegistry.add('flow/forLoop', () => new ForLoop());
   nodeRegistry.add('flow/sequence', () => new Sequence());
 
+  // logic: constants
+
+  nodeRegistry.add('logic/booleanConstant', () => new UniaryOp<boolean, boolean>('logic/booleanConstant', (a) => (a)));
+  nodeRegistry.add('logic/numberConstant', () => new UniaryOp<number, number>('logic/numberConstant', (a) => (a)));
+  nodeRegistry.add('logic/stringConstant', () => new UniaryOp<string, string>('logic/stringConstant', (a) => (a)));
+
+  // logic: boolean logic
+
+  nodeRegistry.add('logic/booleanNot', () => new UniaryOp<boolean, boolean>('logic/booleanNot', (a) => (!a)));
+  nodeRegistry.add('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', (a, b) => (a || b)));
+  nodeRegistry.add('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
+
   // logic: arithmetic
 
   nodeRegistry.add('logic/numberAdd', () => new BinaryOp<number, number>('logic/numberAdd', (a, b) => (a + b)));
@@ -75,12 +87,6 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // logic: sampling
 
   nodeRegistry.add('logic/numberSample', () => new UniaryOp<number, number>('logic/numberSample', (a) => (Math.random())));
-
-  // logic: boolean logic
-
-  nodeRegistry.add('logic/booleanNot', () => new UniaryOp<boolean, boolean>('logic/booleanNot', (a) => (!a)));
-  nodeRegistry.add('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', (a, b) => (a || b)));
-  nodeRegistry.add('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
 
   // logic: comparison
 

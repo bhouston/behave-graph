@@ -9,7 +9,7 @@ export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   public flowWorkQueue: NodeSocketRef[] = [];
 
-  constructor(public graph: Graph) {
+  constructor(public graph: Graph, public verbose = false) {
   }
 
   // maybe this should have an id?
@@ -78,6 +78,9 @@ export default class GraphEvaluator {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
+    if (this.verbose) {
+      console.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.nodeName}`);
+    }
     const context = new NodeEvalContext(this.graph, upstreamNode);
     context.evalImmediate();
 
@@ -119,6 +122,9 @@ export default class GraphEvaluator {
     // this is where the promise would be;
     // console.log('inputs: ', node.inputSockets);
 
+    if (this.verbose) {
+      console.log(`GraphEvaluator: evaluating flow node ${node.nodeName}`);
+    }
     const context = new NodeEvalContext(this.graph, node);
     context.evalFlow();
 
@@ -134,7 +140,15 @@ export default class GraphEvaluator {
     node.outputSockets.forEach((outputSocket) => {
       if (outputSocket.valueType === SocketValueType.Flow) {
         if (outputSocket.value === true) {
-          this.flowWorkQueue.push(outputSocket.links[0]);
+          if (this.verbose) {
+            console.log(`GraphEvaluator: output flow socket is true: ${node.nodeName}.${outputSocket.name}`);
+          }
+          if (outputSocket.links.length > 0) {
+            if (this.verbose) {
+              console.log(`GraphEvaluator: scheduling next flow nodesocketref ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
+            }
+            this.flowWorkQueue.push(outputSocket.links[0]);
+          }
         }
       }
     });
@@ -142,6 +156,7 @@ export default class GraphEvaluator {
     return true;
   }
 
+  // NOTE: This does not execute all if there are promises.
   executeAll(optionalStepLimit: number = -1): number {
     let stepsExecuted = 0;
     while ((optionalStepLimit < 0 || stepsExecuted < optionalStepLimit) && this.executeStep()) {

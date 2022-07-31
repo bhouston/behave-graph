@@ -1,0 +1,18 @@
+[
+    {
+        "type": "event/sceneStart"
+    },
+    {
+        "type": "logic/numberToString",
+        "inputs": {
+            "a": { "value": 1000 }
+        }
+    },
+    {
+        "type": "action/debugOutput",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "text": { "links": [ { "nodeIndex": 1, "socketName": "result" } ]  }
+        }
+    }
+]

@@ -17,9 +17,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "npm run watch & npm start",
-    "lint": "eslint ./src/",
-    "start": "es-dev-server --node-resolve --watch",
-    "watch": "tsc --watch"
+    "exec": "npm run build && node ./build/examples/Runner.js"
   }
 }

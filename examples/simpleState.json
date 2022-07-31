@@ -1,0 +1,31 @@
+[
+    {
+        "type": "event/sceneStart"
+    },
+    {
+        "type": "state/setNumber",
+        "inputs": {
+            "identifier": { "value": "counter"},
+            "value": { "value": 1000 }
+        }
+    },
+    {
+        "type": "state/getNumber",
+        "inputs": {
+            "identifier": { "value": "counter" }
+        }
+    },
+    {
+        "type": "logic/numberToString",
+        "inputs": {
+            "a": { "links": [ { "nodeIndex": 2, "socketName": "value" } ]  }
+        }
+    },
+    {
+        "type": "action/debugOutput",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
+            "text": { "links": [ { "nodeIndex": 3, "socketName": "result" } ]  }
+        }
+    }
+]

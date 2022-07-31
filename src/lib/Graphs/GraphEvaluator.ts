@@ -63,10 +63,10 @@ export default class GraphEvaluator {
     }
 
     // what is inputSocket connected to?
-    const upstreamOutputSocket = this.graph.getOutputSocket(inputSocket.links[1]);
+    const upstreamOutputSocket = this.graph.getOutputSocket(inputSocket.links[0]);
 
     // if upstream node is an eval, we just return its last value.
-    const upstreamNode = this.graph.nodes[inputSocket.links[1].nodeIndex];
+    const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeIndex];
     if (upstreamNode.isEvalNode) {
       return upstreamOutputSocket.value;
     }

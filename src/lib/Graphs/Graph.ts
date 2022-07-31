@@ -8,6 +8,7 @@ import Socket from '../Sockets/Socket';
 export default class Graph {
   public name: string = '';
   public nodes: Node[] = [];
+  public state = new Map<string, any>();
 
   getInputSocket(nodeSocketRef: NodeSocketRef): Socket {
     const node = this.nodes[nodeSocketRef.nodeIndex];

@@ -1,6 +1,6 @@
 [
     {
-        "type": "event/sceneStart"
+        "type": "event/start"
     },
     {
         "type": "action/debugOutput",

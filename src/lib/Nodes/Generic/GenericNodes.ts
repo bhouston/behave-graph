@@ -1,5 +1,5 @@
 import DebugOutput from './Actions/DebugOutput';
-import SceneStart from './Events/SceneStart';
+import Start from './Events/Start';
 import Tick from './Events/Tick';
 import Branch from './Flow/Branch';
 import Delay from './Flow/Delay';
@@ -17,7 +17,7 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
 
   // events
 
-  nodeRegistry.add('event/sceneStart', () => new SceneStart());
+  nodeRegistry.add('event/sceneStart', () => new Start());
   nodeRegistry.add('event/tick', () => new Tick());
 
   // flow control

@@ -6,10 +6,10 @@ import NodeEvalContext from '../../NodeEvalContext';
 // TODO: Figure out how to set values for the outputs in a consistent way.  Add to context?  Have a set of output values pre-specified when you trigger it?
 // QQ: Should one just trigger its outputs directly rather than even evaluating it?
 
-export default class SceneStart extends Node {
+export default class Start extends Node {
   constructor() {
     super(
-      'event/sceneStart',
+      'event/start',
       [],
       [new FlowSocket()],
       (context: NodeEvalContext) => context.setOutputValue('flow', true),

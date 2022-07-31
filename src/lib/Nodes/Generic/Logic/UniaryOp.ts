@@ -9,7 +9,6 @@ export default class UniaryOp<Input, Output> extends Node {
       nodeName,
       [
         new NumberSocket('a'),
-        new NumberSocket('b'),
       ],
       [new NumberSocket('result')],
       (context: NodeEvalContext) => {

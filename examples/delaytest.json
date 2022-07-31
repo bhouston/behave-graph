@@ -1,0 +1,19 @@
+[
+    {
+        "type": "event/sceneStart"
+    },
+    {
+        "type": "flow/delay",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "milliseconds": { "value": 1000 }
+        }
+    },
+    {
+        "type": "action/debugOutput",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
+            "text": { "value": "Hello World!" }
+        }
+    }
+]

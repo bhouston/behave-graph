@@ -34,3 +34,27 @@ https://nanopdf.com/download/gerke-max-preussner-4_pdf
 * Unity Visual Scripting has more complex time nodes.
 ** Wait Until.  Keeps checking an input boolean over and over again until it is true, and then it continues operation.
 
+## Proposed Impolementation of Waitable Nodes - For-Loop, Sequence, Etc - Nodes that Wait for their Downstream Evaluation to Complete
+
+* If you want to track if a downstream section executed, you should pass a onFulfilled function as the value for that eval output socket.  Once that downstream sub-graph completes, it will fire.
+Something akin to: public type onFulfilled: () => void;
+
+This is useful for anytime you want to wait for the sub-graph to evaluate.
+
+The way that this is implemented internally is that this onFulfilled is automatically passed down nodes who are promise free and is auto-called when there are no more eval nodes to pass it to.
+
+If it encounters a promise-oriented node, you have two choices, you can either immediate resolve the onFulfilled (which is what I believe Delay node does in UE4, but what does it do in Unity)?  Or you can wait on that promise node until it is full resolved.
+## Multi Output Nodes - For-Loop, Sequence, (Events?) - Which will fire multiple sets of outputs.
+
+These nodes execute the first time based on an incoming Flow input socket.  But then they can fire multiple sets of outputs.
+
+(Should I have a way of specifying as a function call, which output should be next?
+
+```
+context.commit( downstreamFlowSocketName: string, onDownstreamCompleted: ()=> void );
+```
+
+Should the above commit be required if there are multiple output FlowSockets?  Sure, that can work.
+
+
+

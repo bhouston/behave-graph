@@ -7,12 +7,13 @@ Behavior Graphs are used extensively in game development as a visual scripting l
 
 This library is intended to follow industry best practices in terms of behavior-graphs and is intended to be compatible with these existing implementations in terms of capabilities.  Although behavior-graphs are always limited by their node implementations.
 
+Another neat fact about behavior-graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
 ## Feature Overview
 
 This library, while small, contains a nearly complete implementation of behavior-graphs.
 
 ### Features:
-* **Customizable** While this library contains a lot of features, you do not have to expose all of them.  For example, just because this supports for-loops, does not mean you have to register that node type as being available.
+* **Customizable** While this library contains a lot of nodes, you do not have to expose all of them.  For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
 * **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
 * **Small** This is a very small library with no external dependencies.
 * **Simple** This library is implemented in a forward fashion without unnecessary complexity.

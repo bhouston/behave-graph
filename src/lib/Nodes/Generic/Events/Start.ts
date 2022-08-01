@@ -12,7 +12,7 @@ export default class Start extends Node {
       'event/start',
       [],
       [new FlowSocket()],
-      (context: NodeEvalContext) => context.setOutputValue('flow', true),
+      (context: NodeEvalContext) => {},
     );
   }
 }

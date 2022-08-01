@@ -3,7 +3,6 @@ import Graph from '../Graphs/Graph';
 import GraphEvaluator from '../Graphs/GraphEvaluator';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import Node from './Node';
-import { NodeEvalStatus } from './NodeEvalStatus';
 import NodeSocketRef from './NodeSocketRef';
 
 // Purpose:
@@ -11,7 +10,7 @@ import NodeSocketRef from './NodeSocketRef';
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
 export default class NodeEvalContext {
-  public evalPromise : Promise<NodeEvalStatus> | undefined = undefined;
+  public evalPromise : Promise<boolean> | undefined = undefined;
   public evalError : Error | undefined = undefined;
   public cachedInputValues = new Map<string, any>();
   public cachedOutputValues = new Map<string, any>();
@@ -43,11 +42,13 @@ export default class NodeEvalContext {
       return this.evalStatus;
     } */
     // confirm for now all execute is sync
-    if (this.evalPromise !== undefined) {
-      throw new Error('evalFlow can not yet handle evalPromise yet');
-    }
+    // if (this.evalPromise !== undefined) {
+    // throw new Error('evalFlow can not yet handle evalPromise yet');
+    // }
 
-    this.writeOutputs();
+    if (this.evalPromise !== undefined) {
+      this.writeOutputs();
+    }
   }
 
   evalImmediate() {
@@ -114,12 +115,13 @@ export default class NodeEvalContext {
 
   commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     this.numCommits++;
+    this.writeOutputs();
     this.graphEvaluator.commit(new NodeSocketRef(this.graphEvaluator.graph.nodes.indexOf(this.node), downstreamFlowSocketName), onDownstreamCompleted);
   }
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
     Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.nodeName}:`);
-    console.log(text);
+    console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

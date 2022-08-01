@@ -1,5 +1,5 @@
 export default class Debug {
-  public static verbose = true;
+  public static verbose = false;
 
   static asset(condition: boolean, msg: string = '') {
     if (!condition) throw new Error(`failed assertion: ${msg}`);

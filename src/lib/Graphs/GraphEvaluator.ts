@@ -2,7 +2,6 @@ import Graph from './Graph';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
 import Socket from '../Sockets/Socket';
-import { NodeEvalStatus } from '../Nodes/NodeEvalStatus';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Debug from '../Debug';
 
@@ -84,10 +83,6 @@ export default class GraphEvaluator {
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
 
-    if (context.evalStatus !== NodeEvalStatus.Done) {
-      throw new Error(`error status from node eval: ${context.evalStatus}`);
-    }
-
     // get the output value we wanted.
     // eslint-disable-next-line no-param-reassign
     inputSocket.value = upstreamOutputSocket.value;
@@ -105,7 +100,7 @@ export default class GraphEvaluator {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
       + `${node.nodeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
-    if (outputSocket.links.length === 0) {
+    if (outputSocket.links.length === 1) {
       Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
 
       this.flowWorkQueue.push(outputSocket.links[0]);
@@ -122,7 +117,7 @@ export default class GraphEvaluator {
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeIndex];
-    // console.log(`evaluating node: ${node.nodeName}`);
+    Debug.log(`evaluating node: ${node.nodeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
@@ -136,21 +131,10 @@ export default class GraphEvaluator {
       }
     });
 
-    // this is where the promise would be;
-    // console.log('inputs: ', node.inputSockets);
-
     Debug.log(`GraphEvaluator: evaluating flow node ${node.nodeName}`);
 
     const context = new NodeEvalContext(this, node);
     context.evalFlow();
-
-    // console.log(context);
-
-    if (context.evalStatus !== NodeEvalStatus.Done) {
-      throw new Error(`error status from node eval: ${context.evalStatus.toString}`);
-    }
-
-    // console.log('outputs: ', node.outputSockets);
 
     // Auto-commit if no existing commits and no promises waiting.
     if (context.numCommits === 0 && context.evalPromise === undefined) {

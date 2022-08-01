@@ -11,7 +11,6 @@ import NodeSocketRef from './NodeSocketRef';
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
 export default class NodeEvalContext {
-  public evalStatus = NodeEvalStatus.None;
   public evalPromise : Promise<NodeEvalStatus> | undefined = undefined;
   public evalError : Error | undefined = undefined;
   public cachedInputValues = new Map<string, any>();
@@ -23,11 +22,8 @@ export default class NodeEvalContext {
     this.graph = graphEvaluator.graph;
   }
 
-  evalFlow(): NodeEvalStatus {
+  evalFlow() {
     // confirm assumptions for an immediate evaluation
-    if (this.evalStatus !== NodeEvalStatus.None) {
-      throw new Error(`can not evalFlow when context is in status ${this.evalStatus}`);
-    }
     if (!this.node.isEvalNode) {
       throw new Error('can not use evalFlow on non-Flow nodes, use evalImmediate instead');
     }
@@ -39,8 +35,7 @@ export default class NodeEvalContext {
       this.node.func(this);
     } catch (e) {
       this.evalError = e as Error;
-      this.evalStatus = NodeEvalStatus.Error;
-      return this.evalStatus;
+      return;
     }
 
     /* if (this.evalPromise !== undefined) {
@@ -52,17 +47,11 @@ export default class NodeEvalContext {
       throw new Error('evalFlow can not yet handle evalPromise yet');
     }
 
-    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
-
-    return this.evalStatus;
   }
 
-  evalImmediate(): NodeEvalStatus {
+  evalImmediate() {
     // confirm assumptions for an immediate evaluation
-    if (this.evalStatus !== NodeEvalStatus.None) {
-      throw new Error(`can not evalImmediate when context is in status ${this.evalStatus}`);
-    }
     if (this.node.isEvalNode) {
       throw new Error('can not evalImmediate on Flow nodes, use evalFlow instead');
     }
@@ -74,8 +63,7 @@ export default class NodeEvalContext {
       this.node.func(this);
     } catch (e) {
       this.evalError = e as Error;
-      this.evalStatus = NodeEvalStatus.Error;
-      return this.evalStatus;
+      return;
     }
 
     // confirm assumptions for immediate evaluation.
@@ -83,10 +71,7 @@ export default class NodeEvalContext {
       throw new Error('evalImmediate can not handle evalPromise nodes, use evalFlow instead');
     }
 
-    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
-
-    return this.evalStatus;
   }
 
   private readInputs() {

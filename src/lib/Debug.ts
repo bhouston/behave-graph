@@ -7,11 +7,11 @@ export default class Debug {
 
   static log(text: string) {
     if (Debug.verbose) {
-      console.log(text);
+      console.log(`[${new Date().toLocaleString()}]  ${text}`);
     }
   }
 
   static warn(text: string) {
-    console.warn(text);
+    console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

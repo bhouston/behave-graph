@@ -15,7 +15,7 @@ export default class GraphEvaluator {
   // maybe this should have an id?
   // IMPORTANT: should events somehow register themselves at graph initialization?  There is a missing step here.
   // This simplistic approach is okay if events do no have filters themselves.
-  triggerEvents(nodeName: string, outputValues: Map<string, any>): number {
+  triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
     // look up any nodes with this trigger name and add them to the executionQueue
     const nodes = this.graph.nodes.filter((node) => (node.nodeName === nodeName));
 
@@ -30,9 +30,12 @@ export default class GraphEvaluator {
       node.outputSockets.forEach((outputSocket) => {
         // console.log(outputSocket);
         if (outputSocket.valueType === SocketValueType.Flow) {
-          if (outputSocket.value === true && outputSocket.links.length === 1) {
+          if (outputSocket.links.length === 1) {
             this.flowWorkQueue.push(outputSocket.links[0]);
             flowOutputCount++;
+          }
+          if (outputSocket.links.length > 1) {
+            throw new Error(`flow output ${node.nodeName}.${outputSocket.name} has more than 1 downstream link, ${outputSocket.links.length}`);
           }
         }
       });

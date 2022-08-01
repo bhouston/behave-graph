@@ -3,7 +3,6 @@ import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
 
 import NodeEvalContext from '../../NodeEvalContext';
-import { NodeEvalStatus } from '../../NodeEvalStatus';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
@@ -14,17 +13,14 @@ export default class Delay extends Node {
       'time/delay',
       [
         new FlowSocket(),
-        new NumberSocket('milliseconds'),
+        new NumberSocket('duration'),
       ],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        console.log('starting delay');
-        context.evalPromise = new Promise<NodeEvalStatus>((resolve, reject) => {
-          setTimeout(() => {
-            console.log('completing delay');
-            resolve(NodeEvalStatus.Done);
-          }, context.getInputValue('milliseconds '));
-        });
+        context.evalPromise = new Promise<true>(() => {});
+        setTimeout(() => {
+          context.commit('flow');
+        }, context.getInputValue('duration') * 1000);
       },
     );
   }

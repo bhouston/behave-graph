@@ -13,14 +13,14 @@ export default class Delay extends Node {
       'time/delay',
       [
         new FlowSocket(),
-        new NumberSocket('seconds'),
+        new NumberSocket('duration'),
       ],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         context.evalPromise = new Promise<true>(() => {});
         setTimeout(() => {
           context.commit('flow');
-        }, context.getInputValue('seconds') * 1000);
+        }, context.getInputValue('duration') * 1000);
       },
     );
   }

@@ -251,3 +251,45 @@ Console output:
 
 -9
 ```
+
+### Async Nodes
+
+Currently asynchronous nodes that will return their value non-immediately are supported on flow types.  This enables delay nodes:
+
+```json
+[
+    {
+        "type": "event/start"
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "text": { "value": "Before Delay" }
+        }
+    },
+    {
+        "type": "time/delay",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
+            "duration": { "value": 1 }
+        }
+    },
+    {
+        "type": "action/log",
+        "inputs": {
+            "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
+            "text": { "value": "After Delay" }
+        }
+    }
+]
+```
+
+Console output:
+
+```zsh
+> npm run exec -- ./examples/Delay.json
+
+Before Delay
+After Delay // One second later
+```

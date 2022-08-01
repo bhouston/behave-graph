@@ -1,6 +1,6 @@
 ## Behavior-Graph
 
-Behavior-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with minimal dependencies.  Behavior graphs
+Behavior-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with no external run-time dependencies.  Behavior graphs
 are expressive, deterministic, and extensible state machines that can encode arbitrarily complex behavior.
 
 Behavior Graphs are used extensively in game development as a visual scripting language.  For example, look at Unreal Engine Blueprints or Unity's Visual Scripting or NVIDIA Omniverse's OmniGraph behavior graphs.

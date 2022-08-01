@@ -1,4 +1,22 @@
 {
+  "name": "behavior-graph",
+  "version": "0.0.2",
+  "description": "Behavior graph engine",
+  "keywords": [
+    "behavior",
+    "graph",
+    "flow"
+  ],
+  "homepage": "http://github.com/bhouston/behavior-graph",
+  "author": "behavior-graph authors",
+  "bugs": {
+    "url": "https://github.com/bhouston/behavior-graph/issues"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//bhouston/behavior-graph"
+  },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/node": "^18.0.6",

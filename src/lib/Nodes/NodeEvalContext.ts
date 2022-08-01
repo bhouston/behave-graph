@@ -1,8 +1,10 @@
+import Debug from '../Debug';
 import Graph from '../Graphs/Graph';
+import GraphEvaluator from '../Graphs/GraphEvaluator';
+import { SocketValueType } from '../Sockets/SocketValueType';
 import Node from './Node';
 import { NodeEvalStatus } from './NodeEvalStatus';
-
-const verbose = false;
+import NodeSocketRef from './NodeSocketRef';
 
 // Purpose:
 //  - Avoid nodes having to access globals to referene the scene or trigger loaders.
@@ -14,8 +16,11 @@ export default class NodeEvalContext {
   public evalError : Error | undefined = undefined;
   public cachedInputValues = new Map<string, any>();
   public cachedOutputValues = new Map<string, any>();
+  public numCommits = 0;
+  public readonly graph: Graph;
 
-  constructor(public graph: Graph, public node: Node) {
+  constructor(public readonly graphEvaluator: GraphEvaluator, public readonly node: Node) {
+    this.graph = graphEvaluator.graph;
   }
 
   evalFlow(): NodeEvalStatus {
@@ -116,15 +121,20 @@ export default class NodeEvalContext {
     if (outputSocket === undefined) {
       throw new Error(`can not find output socket with name ${outputName}`);
     }
+    if (outputSocket.valueType === SocketValueType.Flow) {
+      throw new Error(`can not set the value of Flow output socket ${outputName}, use commit() instead`);
+    }
     this.cachedOutputValues.set(outputName, value);
+  }
+
+  commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
+    this.numCommits++;
+    this.graphEvaluator.commit(new NodeSocketRef(this.graphEvaluator.graph.nodes.indexOf(this.node), downstreamFlowSocketName), onDownstreamCompleted);
   }
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    if (verbose) {
-      console.log(`${this.graph.name}: ${this.node.nodeName}: ${text}`);
-    } else {
-      console.log(text);
-    }
+    Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.nodeName}:`);
+    console.log(text);
   }
 }

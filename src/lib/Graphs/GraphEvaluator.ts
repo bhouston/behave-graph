@@ -4,6 +4,7 @@ import NodeEvalContext from '../Nodes/NodeEvalContext';
 import Socket from '../Sockets/Socket';
 import { NodeEvalStatus } from '../Nodes/NodeEvalStatus';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
+import Debug from '../Debug';
 
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
@@ -78,10 +79,9 @@ export default class GraphEvaluator {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    if (this.verbose) {
-      console.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.nodeName}`);
-    }
-    const context = new NodeEvalContext(this.graph, upstreamNode);
+    Debug.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.nodeName}`);
+
+    const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
 
     if (context.evalStatus !== NodeEvalStatus.Done) {
@@ -93,6 +93,23 @@ export default class GraphEvaluator {
     inputSocket.value = upstreamOutputSocket.value;
 
     return inputSocket.value;
+  }
+
+  commit(outputFlowSocket: NodeSocketRef, onDownstreamCompleted: (()=> void) | undefined = undefined) {
+    const node = this.graph.nodes[outputFlowSocket.nodeIndex];
+    const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
+
+    Debug.log(`GraphEvaluator: commit: ${node.nodeName}.${outputSocket.name}`);
+
+    if (outputSocket.links.length > 1) {
+      throw new Error('invalid for an output flow socket to have multiple downstream links:'
+      + `${node.nodeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
+    }
+    if (outputSocket.links.length === 0) {
+      Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
+
+      this.flowWorkQueue.push(outputSocket.links[0]);
+    }
   }
 
   // returns the number of new execution steps created as a result of this one step
@@ -122,10 +139,9 @@ export default class GraphEvaluator {
     // this is where the promise would be;
     // console.log('inputs: ', node.inputSockets);
 
-    if (this.verbose) {
-      console.log(`GraphEvaluator: evaluating flow node ${node.nodeName}`);
-    }
-    const context = new NodeEvalContext(this.graph, node);
+    Debug.log(`GraphEvaluator: evaluating flow node ${node.nodeName}`);
+
+    const context = new NodeEvalContext(this, node);
     context.evalFlow();
 
     // console.log(context);
@@ -136,22 +152,26 @@ export default class GraphEvaluator {
 
     // console.log('outputs: ', node.outputSockets);
 
-    // enqueue the next flow nodes.
-    node.outputSockets.forEach((outputSocket) => {
-      if (outputSocket.valueType === SocketValueType.Flow) {
-        if (outputSocket.value === true) {
-          if (this.verbose) {
-            console.log(`GraphEvaluator: output flow socket is true: ${node.nodeName}.${outputSocket.name}`);
-          }
-          if (outputSocket.links.length > 0) {
-            if (this.verbose) {
-              console.log(`GraphEvaluator: scheduling next flow nodesocketref ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
-            }
-            this.flowWorkQueue.push(outputSocket.links[0]);
-          }
+    // Auto-commit if no existing commits and no promises waiting.
+    if (context.numCommits === 0 && context.evalPromise === undefined) {
+      // ensure this is auto-commit compatible.
+      let numFlowOutputs = 0;
+      node.outputSockets.forEach((outputSocket) => {
+        if (outputSocket.valueType === SocketValueType.Flow) {
+          numFlowOutputs++;
         }
+      });
+
+      if (numFlowOutputs !== 1) {
+        throw new Error(`can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.nodeName}`);
       }
-    });
+
+      node.outputSockets.forEach((outputSocket) => {
+        if (outputSocket.valueType === SocketValueType.Flow) {
+          this.commit(new NodeSocketRef(nodeSocketRef.nodeIndex, outputSocket.name));
+        }
+      });
+    }
 
     return true;
   }

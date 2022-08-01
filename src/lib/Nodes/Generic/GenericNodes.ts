@@ -15,6 +15,7 @@ import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
 import StateGet from './State/StateGet';
 import StateExists from './State/StateExists';
+import FlipFlop from './Flow/FlipFlop';
 
 export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
@@ -30,6 +31,7 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
 
   nodeRegistry.add('flow/branch', () => new Branch());
   nodeRegistry.add('flow/delay', () => new Delay());
+  nodeRegistry.add('flow/flipFlop', () => new FlipFlop());
   nodeRegistry.add('flow/forLoop', () => new ForLoop());
   nodeRegistry.add('flow/sequence', () => new Sequence());
 

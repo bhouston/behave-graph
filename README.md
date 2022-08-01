@@ -24,7 +24,7 @@ This library, while small, contains a nearly complete implementation of behavior
 * **Queries** You can query the state from the system.
 * **Flow Control** Control execution flow using familiar structures: Branches, delays, if-then, sequences and for-loops.
 * **State** You can set and load state arbitrarily: Exists, Set, Get.
-
+* **Time** Time nodes allow you to wait: Delay.
 ### Designed for Integration into Other Systems
 
 This library is designed to be extended with context dependent nodes, specifically Actions, Events and Queries that match the capabilities and requirements of your system.  For example, if you integrate into a 3D engine, you can query for player state or 3D positions of your scene graph, set scene graph properties and also react to overlaps, and player movements.  Or if you want to integrate into an AR system, you can react to face-detected, tracking-loss.

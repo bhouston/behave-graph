@@ -11,7 +11,7 @@ import { NodeEvalStatus } from '../../NodeEvalStatus';
 export default class Delay extends Node {
   constructor() {
     super(
-      'flow/delay',
+      'time/delay',
       [
         new FlowSocket(),
         new NumberSocket('milliseconds'),

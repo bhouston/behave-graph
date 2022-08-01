@@ -2,7 +2,7 @@ import Log from './Actions/Log';
 import Start from './Events/Start';
 import Tick from './Events/Tick';
 import Branch from './Flow/Branch';
-import Delay from './Flow/Delay';
+import Delay from './Time/Delay';
 import ForLoop from './Flow/ForLoop';
 import Sequence from './Flow/Sequence';
 import BinaryOp from './Logic/BinaryOp';
@@ -15,6 +15,7 @@ import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
 import StateGet from './State/StateGet';
 import StateExists from './State/StateExists';
+import FlipFlop from './Flow/FlipFlop';
 
 export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
@@ -29,9 +30,13 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // flow control
 
   nodeRegistry.add('flow/branch', () => new Branch());
-  nodeRegistry.add('flow/delay', () => new Delay());
+  nodeRegistry.add('flow/flipFlop', () => new FlipFlop());
   nodeRegistry.add('flow/forLoop', () => new ForLoop());
   nodeRegistry.add('flow/sequence', () => new Sequence());
+
+  // time
+
+  nodeRegistry.add('time/delay', () => new Delay());
 
   // logic: constants
 

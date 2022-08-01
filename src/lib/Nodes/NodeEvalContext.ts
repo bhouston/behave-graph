@@ -1,28 +1,29 @@
+import Debug from '../Debug';
 import Graph from '../Graphs/Graph';
+import GraphEvaluator from '../Graphs/GraphEvaluator';
+import { SocketValueType } from '../Sockets/SocketValueType';
 import Node from './Node';
 import { NodeEvalStatus } from './NodeEvalStatus';
-
-const verbose = false;
+import NodeSocketRef from './NodeSocketRef';
 
 // Purpose:
 //  - Avoid nodes having to access globals to referene the scene or trigger loaders.
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
 export default class NodeEvalContext {
-  public evalStatus = NodeEvalStatus.None;
   public evalPromise : Promise<NodeEvalStatus> | undefined = undefined;
   public evalError : Error | undefined = undefined;
   public cachedInputValues = new Map<string, any>();
   public cachedOutputValues = new Map<string, any>();
+  public numCommits = 0;
+  public readonly graph: Graph;
 
-  constructor(public graph: Graph, public node: Node) {
+  constructor(public readonly graphEvaluator: GraphEvaluator, public readonly node: Node) {
+    this.graph = graphEvaluator.graph;
   }
 
-  evalFlow(): NodeEvalStatus {
+  evalFlow() {
     // confirm assumptions for an immediate evaluation
-    if (this.evalStatus !== NodeEvalStatus.None) {
-      throw new Error(`can not evalFlow when context is in status ${this.evalStatus}`);
-    }
     if (!this.node.isEvalNode) {
       throw new Error('can not use evalFlow on non-Flow nodes, use evalImmediate instead');
     }
@@ -34,8 +35,7 @@ export default class NodeEvalContext {
       this.node.func(this);
     } catch (e) {
       this.evalError = e as Error;
-      this.evalStatus = NodeEvalStatus.Error;
-      return this.evalStatus;
+      return;
     }
 
     /* if (this.evalPromise !== undefined) {
@@ -47,17 +47,11 @@ export default class NodeEvalContext {
       throw new Error('evalFlow can not yet handle evalPromise yet');
     }
 
-    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
-
-    return this.evalStatus;
   }
 
-  evalImmediate(): NodeEvalStatus {
+  evalImmediate() {
     // confirm assumptions for an immediate evaluation
-    if (this.evalStatus !== NodeEvalStatus.None) {
-      throw new Error(`can not evalImmediate when context is in status ${this.evalStatus}`);
-    }
     if (this.node.isEvalNode) {
       throw new Error('can not evalImmediate on Flow nodes, use evalFlow instead');
     }
@@ -69,8 +63,7 @@ export default class NodeEvalContext {
       this.node.func(this);
     } catch (e) {
       this.evalError = e as Error;
-      this.evalStatus = NodeEvalStatus.Error;
-      return this.evalStatus;
+      return;
     }
 
     // confirm assumptions for immediate evaluation.
@@ -78,10 +71,7 @@ export default class NodeEvalContext {
       throw new Error('evalImmediate can not handle evalPromise nodes, use evalFlow instead');
     }
 
-    this.evalStatus = NodeEvalStatus.Done;
     this.writeOutputs();
-
-    return this.evalStatus;
   }
 
   private readInputs() {
@@ -116,15 +106,20 @@ export default class NodeEvalContext {
     if (outputSocket === undefined) {
       throw new Error(`can not find output socket with name ${outputName}`);
     }
+    if (outputSocket.valueType === SocketValueType.Flow) {
+      throw new Error(`can not set the value of Flow output socket ${outputName}, use commit() instead`);
+    }
     this.cachedOutputValues.set(outputName, value);
+  }
+
+  commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
+    this.numCommits++;
+    this.graphEvaluator.commit(new NodeSocketRef(this.graphEvaluator.graph.nodes.indexOf(this.node), downstreamFlowSocketName), onDownstreamCompleted);
   }
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    if (verbose) {
-      console.log(`${this.graph.name}: ${this.node.nodeName}: ${text}`);
-    } else {
-      console.log(text);
-    }
+    Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.nodeName}:`);
+    console.log(text);
   }
 }

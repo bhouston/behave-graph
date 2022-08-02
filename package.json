@@ -2,6 +2,9 @@
   "name": "behavior-graph",
   "version": "0.0.2",
   "description": "Behavior graph engine",
+  "main": "src/lib/index.ts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "behavior",
     "graph",
@@ -33,9 +36,16 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "build": "tsc",
-    "exec": "npm run build && node ./build/examples/Runner.js",
+    "build": "rollup -c",
+    "exec": "npm run build && node ./dist/examples/Runner.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "rollup": "^2.77.2",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-dts": "^4.2.2"
   }
 }

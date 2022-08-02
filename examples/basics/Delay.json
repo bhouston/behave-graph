@@ -6,7 +6,7 @@
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
-            "text": { "value": "Before Delay" }
+            "text": { "value": "Waiting..." }
         }
     },
     {
@@ -20,7 +20,7 @@
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
-            "text": { "value": "After Delay" }
+            "text": { "value": "One Second Later!" }
         }
     }
 ]

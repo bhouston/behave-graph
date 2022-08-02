@@ -1,7 +1,7 @@
-import Graph from './Graph';
+import Debug from '../Debug';
 import NodeRegistry from '../Nodes/NodeRegistry';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
-import Debug from '../Debug';
+import Graph from './Graph';
 // Purpose:
 //  - loads a node graph
 

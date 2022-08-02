@@ -1,6 +1,5 @@
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
-
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class NullaryOp<Output> extends Node {

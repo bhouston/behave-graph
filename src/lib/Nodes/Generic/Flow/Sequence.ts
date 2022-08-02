@@ -1,6 +1,5 @@
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
-
 import NodeEvalContext from '../../NodeEvalContext';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/

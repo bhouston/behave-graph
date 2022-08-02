@@ -1,8 +1,8 @@
-import Node from '../../Node';
-import NodeEvalContext from '../../NodeEvalContext';
+import Socket from '../../../Sockets/Socket';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import StringSocket from '../../../Sockets/Typed/StringSocket';
-import Socket from '../../../Sockets/Socket';
+import Node from '../../Node';
+import NodeEvalContext from '../../NodeEvalContext';
 
 export default class StateSet extends Node {
   constructor(name:string, socketFactory: (socketName:string) => Socket) {

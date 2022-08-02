@@ -1,4 +1,5 @@
 import * as fs from 'fs/promises';
+
 import Debug from '../lib/Debug';
 import GraphEvaluator from '../lib/Graphs/GraphEvaluator';
 import loadGraph from '../lib/Graphs/loadGraph';

@@ -1,3 +1,5 @@
+export { default as Debug } from "./Debug";
+
 export { default as GraphEvaluator } from "./Graphs/GraphEvaluator";
 export { default as loadGraph } from "./Graphs/loadGraph";
 

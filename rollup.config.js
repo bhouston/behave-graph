@@ -17,11 +17,14 @@ export default [
     plugins: [commonjs(), typescript(), del({ targets: "dist/*" })],
   },
   {
-    input: "dist/lib/index.d.ts",
+    input: "dist/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [
       dts(),
-      del({ targets: ["dist/lib", "dist/examples"], hook: "buildEnd" }),
+      del({
+        targets: ["dist/*", "!dist/index.d.ts", "!dist/index.js"],
+        hook: "buildEnd",
+      }),
     ],
   },
 ];

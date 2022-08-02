@@ -2,6 +2,7 @@
   "name": "behavior-graph",
   "version": "0.0.2",
   "description": "Behavior graph engine",
+  "type": "module",
   "main": "src/lib/index.ts",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,7 +43,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "exec": "npm run build && node ./dist/examples/Runner.js",
+    "exec": "npm run build && node ./src/examples/Runner.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix"
   },

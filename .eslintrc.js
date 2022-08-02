@@ -5,7 +5,6 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
   ],
   parser: '@typescript-eslint/parser',
@@ -17,13 +16,17 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: [
-    'react',
     '@typescript-eslint',
     'unused-imports',
+    'simple-import-sort',
   ],
   rules: {
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     'max-len': ['error', { code: 160 }],
-    'no-unused-vars': ['error', { vars: 'local', args: 'none', ignoreRestSiblings: false }],
+    // 'no-unused-vars': ['error', { vars: 'local', args: 'none', ignoreRestSiblings: false }],
+    // 'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'no-useless-constructor': 'off',
     'no-empty-function': 'off',
     'no-console': 'off',
@@ -32,6 +35,7 @@ module.exports = {
     'no-extra-semi': 'off',
     'unused-imports/no-unused-imports-ts': 2,
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+    'simple-import-sort/imports': 'error',
     'import/extensions': [
       'error',
       'ignorePackages',

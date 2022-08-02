@@ -1,7 +1,6 @@
-import Node from '../../Node';
-
 import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
 import StringSocket from '../../../Sockets/Typed/StringSocket';
+import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class GetNodeBoolean extends Node {

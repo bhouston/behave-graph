@@ -1,21 +1,21 @@
+import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
+import NumberSocket from '../../Sockets/Typed/NumberSocket';
+import StringSocket from '../../Sockets/Typed/StringSocket';
+import NodeRegistry from '../NodeRegistry';
 import Log from './Actions/Log';
 import Start from './Events/Start';
 import Tick from './Events/Tick';
 import Branch from './Flow/Branch';
-import Delay from './Time/Delay';
+import FlipFlop from './Flow/FlipFlop';
 import ForLoop from './Flow/ForLoop';
 import Sequence from './Flow/Sequence';
 import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UniaryOp from './Logic/UniaryOp';
-import NodeRegistry from '../NodeRegistry';
-import StateSet from './State/StateSet';
-import NumberSocket from '../../Sockets/Typed/NumberSocket';
-import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
-import StringSocket from '../../Sockets/Typed/StringSocket';
-import StateGet from './State/StateGet';
 import StateExists from './State/StateExists';
-import FlipFlop from './Flow/FlipFlop';
+import StateGet from './State/StateGet';
+import StateSet from './State/StateSet';
+import Delay from './Time/Delay';
 
 export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
   // actions
@@ -91,7 +91,7 @@ export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
 
   // logic: sampling
 
-  nodeRegistry.add('logic/numberSample', () => new UniaryOp<number, number>('logic/numberSample', (a) => (Math.random())));
+  nodeRegistry.add('logic/numberSample', () => new NullaryOp<number>('logic/numberSample', () => (Math.random())));
 
   // logic: comparison
 

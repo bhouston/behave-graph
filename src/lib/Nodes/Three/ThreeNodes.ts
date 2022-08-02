@@ -1,7 +1,7 @@
+import NodeRegistry from '../NodeRegistry';
 import SetNodeBoolean from './Actions/SetNodeBoolean';
 import SetNodeVector3 from './Actions/SetNodeVector3';
 import NodeClick from './Events/NodeClick';
-import NodeRegistry from '../NodeRegistry';
 import GetNodeBoolean from './Queries/GetNodeBoolean';
 import GetNodeVector3 from './Queries/GetNodeVector3';
 

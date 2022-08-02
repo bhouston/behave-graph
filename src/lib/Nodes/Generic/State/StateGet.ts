@@ -1,8 +1,7 @@
-import Node from '../../Node';
-
-import StringSocket from '../../../Sockets/Typed/StringSocket';
-import NodeEvalContext from '../../NodeEvalContext';
 import Socket from '../../../Sockets/Socket';
+import StringSocket from '../../../Sockets/Typed/StringSocket';
+import Node from '../../Node';
+import NodeEvalContext from '../../NodeEvalContext';
 
 export default class StateGet extends Node {
   constructor(name:string, socketFactory: (socketName:string) => Socket) {

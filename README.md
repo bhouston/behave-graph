@@ -252,7 +252,7 @@ Console output:
 -9
 ```
 
-### Asynchronous Execuation
+### Asynchronous Execution
 
 Behavior-Graph support asynchronous nodes.  These are nodes which will continue execution non-immediately but on their own self-determined schedule.  This allows for things such as "Delay" nodes that can sleep for a period of time.
 

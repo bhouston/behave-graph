@@ -16,9 +16,10 @@ export default class Delay extends Node {
       ],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        context.evalPromise = new Promise<true>(() => {});
+        context.beginAsync();
         setTimeout(() => {
           context.commit('flow');
+          context.endAsync();
         }, context.getInputValue('duration') * 1000);
       },
     );

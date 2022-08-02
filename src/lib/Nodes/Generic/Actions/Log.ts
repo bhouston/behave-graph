@@ -11,7 +11,6 @@ export default class Log extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         context.log(context.getInputValue('text'));
-        context.setOutputValue('flow', true);
       },
     );
   }

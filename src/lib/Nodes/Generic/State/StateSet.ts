@@ -12,7 +12,6 @@ export default class StateSet extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         context.graph.state.set(context.getInputValue('identifier'), context.getInputValue('value'));
-        context.setOutputValue('flow', true);
       },
     );
   }

@@ -1,13 +1,18 @@
 import Debug from '../Debug';
+import Node from '../Nodes/Node';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
 import { SocketValueType } from '../Sockets/SocketValueType';
 import Graph from './Graph';
 
+// eslint-disable-next-line no-promise-executor-return
+const sleep = (duration:number) => new Promise((resolve) => setTimeout(resolve, Math.round(duration * 1000)));
+
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   public flowWorkQueue: NodeSocketRef[] = [];
+  public asyncNodes: Node[] = [];
 
   constructor(public graph: Graph, public verbose = false) {
   }
@@ -140,7 +145,7 @@ export default class GraphEvaluator {
     context.evalFlow();
 
     // Auto-commit if no existing commits and no promises waiting.
-    if (context.numCommits === 0 && context.evalPromise === undefined) {
+    if (context.numCommits === 0 && !context.async) {
       // ensure this is auto-commit compatible.
       let numFlowOutputs = 0;
       node.outputSockets.forEach((outputSocket) => {
@@ -164,11 +169,26 @@ export default class GraphEvaluator {
   }
 
   // NOTE: This does not execute all if there are promises.
-  executeAll(optionalStepLimit: number = -1): number {
+  executeAll(stepLimit: number = 100000000): number {
     let stepsExecuted = 0;
-    while ((optionalStepLimit < 0 || stepsExecuted < optionalStepLimit) && this.executeStep()) {
+    while ((stepsExecuted < stepLimit) && this.executeStep()) {
       stepsExecuted++;
     }
+    return stepsExecuted;
+  }
+
+  async executeAllAsync(timeLimit = 100, stepLimit: number = 100000000): Promise<number> {
+    let stepsExecuted = 0;
+    let timeUsed = 0;
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(0.5);
+      stepsExecuted += this.executeAll(stepLimit);
+      timeUsed += 0.01;
+      Debug.log(`this.asyncNodes.length: ${this.asyncNodes.length}`);
+      Debug.log(`this.flowWorkQueue.length: ${this.flowWorkQueue.length}`);
+    } while ((this.asyncNodes.length > 0 || this.flowWorkQueue.length > 0) && timeUsed < timeLimit && stepsExecuted < stepLimit);
+
     return stepsExecuted;
   }
 }

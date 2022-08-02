@@ -71,7 +71,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/HelloWorld.json
+> npm run exec -- ./examples/basics/HelloWorld.json
 
 Hello World!
 ```
@@ -118,7 +118,7 @@ In this example, we set a state variable called "counter" to 1000 and then later
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/SimpleState.json
+> npm run exec -- ./examples/basics/State.json
 
 1000
 ```
@@ -159,7 +159,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/SimpleBranch.json
+> npm run exec -- ./examples/basics/Branch.json
 
 Condition is false!
 ```
@@ -247,14 +247,14 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/Polynomial.json
+> npm run exec -- ./examples/basics/Math.json
 
 -9
 ```
 
-### Async Nodes
+### Asynchronous Execution
 
-Currently asynchronous nodes that will return their value non-immediately are supported on flow types.  This enables delay nodes:
+Behavior-Graph support asynchronous nodes.  These are nodes which will continue execution non-immediately but on their own self-determined schedule.  This allows for things such as "Delay" nodes that can sleep for a period of time.
 
 ```json
 [
@@ -265,7 +265,7 @@ Currently asynchronous nodes that will return their value non-immediately are su
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
-            "text": { "value": "Before Delay" }
+            "text": { "value": "Waiting..." }
         }
     },
     {
@@ -279,7 +279,7 @@ Currently asynchronous nodes that will return their value non-immediately are su
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
-            "text": { "value": "After Delay" }
+            "text": { "value": "One Second Later!" }
         }
     }
 ]
@@ -288,8 +288,8 @@ Currently asynchronous nodes that will return their value non-immediately are su
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/Delay.json
+> npm run exec -- ./examples/basics/Delay.json
 
-Before Delay
-After Delay // One second later
+Waiting...
+One Second Later!
 ```

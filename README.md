@@ -252,9 +252,9 @@ Console output:
 -9
 ```
 
-### Async Nodes
+### Asynchronous Execuation
 
-Currently asynchronous nodes that will return their value non-immediately are supported on flow types.  This enables delay nodes:
+Behavior-Graph support asynchronous nodes.  These are nodes which will continue execution non-immediately but on their own self-determined schedule.  This allows for things such as "Delay" nodes that can sleep for a period of time.
 
 ```json
 [
@@ -265,7 +265,7 @@ Currently asynchronous nodes that will return their value non-immediately are su
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
-            "text": { "value": "Before Delay" }
+            "text": { "value": "Waiting..." }
         }
     },
     {
@@ -279,7 +279,7 @@ Currently asynchronous nodes that will return their value non-immediately are su
         "type": "action/log",
         "inputs": {
             "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
-            "text": { "value": "After Delay" }
+            "text": { "value": "One Second Later!" }
         }
     }
 ]
@@ -290,6 +290,6 @@ Console output:
 ```zsh
 > npm run exec -- ./examples/Delay.json
 
-Before Delay
-After Delay // One second later
+Waiting...
+One Second Later!
 ```

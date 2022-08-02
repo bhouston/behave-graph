@@ -7,10 +7,6 @@ import registerGenericNodes from '../lib/Nodes/Generic/GenericNodes';
 import NodeRegistry from '../lib/Nodes/NodeRegistry';
 import registerThreeNodes from '../lib/Nodes/Three/ThreeNodes';
 
-const delay = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const duration = 3;
-
 async function main() {
   const nodeRegistry = new NodeRegistry();
   registerGenericNodes(nodeRegistry);
@@ -34,13 +30,8 @@ async function main() {
   graphEvaluator.triggerEvents('event/start');
 
   Debug.log('executing all');
-  const loopDuration = 0.1;
-  const loopIterations = duration / loopDuration;
-  for (let i = 0; i < loopIterations; i++) {
-    graphEvaluator.executeAll();
-    // eslint-disable-next-line no-await-in-loop
-    await delay(loopDuration * 1000);
-  }
+
+  graphEvaluator.executeAllAsync();
 }
 
 main();

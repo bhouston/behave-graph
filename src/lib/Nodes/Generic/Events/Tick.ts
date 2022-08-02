@@ -1,6 +1,5 @@
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
-import NodeEvalContext from '../../NodeEvalContext';
 
 export default class Tick extends Node {
   constructor() {
@@ -8,9 +7,7 @@ export default class Tick extends Node {
       'event/tick',
       [],
       [new FlowSocket()],
-      (context: NodeEvalContext) => {
-        context.setOutputValue('flow', true);
-      },
+      () => {},
     );
   }
 }

@@ -14,7 +14,6 @@ export default class NodeClick extends Node {
         new NumberSocket('nodeIndex'),
       ],
       (context: NodeEvalContext) => {
-        context.setOutputValue('flow', true);
         context.setOutputValue('nodeIndex', -1); // TODO: Replace with real value.
       },
     );

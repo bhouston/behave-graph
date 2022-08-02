@@ -10,10 +10,9 @@ import NodeSocketRef from './NodeSocketRef';
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
 export default class NodeEvalContext {
-  public evalPromise : Promise<boolean> | undefined = undefined;
-  public evalError : Error | undefined = undefined;
-  public cachedInputValues = new Map<string, any>();
-  public cachedOutputValues = new Map<string, any>();
+  public async = false;
+  public cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
+  public cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
   public numCommits = 0;
   public readonly graph: Graph;
 
@@ -21,33 +20,30 @@ export default class NodeEvalContext {
     this.graph = graphEvaluator.graph;
   }
 
+  beginAsync() {
+    Debug.asset(this.async === false);
+    this.graphEvaluator.asyncNodes.push(this.node);
+    this.async = true;
+  }
+
+  endAsync() {
+    Debug.asset(this.async === true);
+    const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
+    this.graphEvaluator.asyncNodes.splice(index, 1);
+    this.async = false;
+  }
+
   evalFlow() {
     // confirm assumptions for an immediate evaluation
-    if (!this.node.isEvalNode) {
-      throw new Error('can not use evalFlow on non-Flow nodes, use evalImmediate instead');
-    }
+    Debug.asset(this.node.isEvalNode, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    try {
-      this.node.func(this);
-    } catch (e) {
-      this.evalError = e as Error;
-      return;
-    }
+    this.node.func(this);
 
-    /* if (this.evalPromise !== undefined) {
-      this.evalStatus = NodeEvalStatus.Async;
-      return this.evalStatus;
-    } */
-    // confirm for now all execute is sync
-    // if (this.evalPromise !== undefined) {
-    // throw new Error('evalFlow can not yet handle evalPromise yet');
-    // }
-
-    if (this.evalPromise !== undefined) {
-      this.writeOutputs();
+    if (!this.async) {
+      this.writeOutputs(); // TODO: replace this with commit(), no need for this overlapping duplicate codex
     }
   }
 
@@ -60,17 +56,10 @@ export default class NodeEvalContext {
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    try {
-      this.node.func(this);
-    } catch (e) {
-      this.evalError = e as Error;
-      return;
-    }
+    this.node.func(this);
 
     // confirm assumptions for immediate evaluation.
-    if (this.evalPromise !== undefined) {
-      throw new Error('evalImmediate can not handle evalPromise nodes, use evalFlow instead');
-    }
+    Debug.asset(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
 
     this.writeOutputs();
   }

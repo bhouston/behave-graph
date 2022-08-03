@@ -5,21 +5,21 @@
     {
         "type": "flow/branch",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "condition": { "value": false }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "true" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "true" } ] },
             "text": { "value": "Condition is true!" }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "false" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "false" } ] },
             "text": { "value": "Condition is false!" }
         }
     }

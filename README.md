@@ -1,16 +1,15 @@
-## Behavior-Graph
+## Behave-Graph
 
-Behavior-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with no external run-time dependencies.  Behavior graphs
-are expressive, deterministic, and extensible state machines that can encode arbitrarily complex behavior.
+Behave-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with no external run-time dependencies.  Behavior graphs are expressive, deterministic, and extensible state machines that can encode arbitrarily complex behavior.
 
-Behavior Graphs are used extensively in game development as a visual scripting language.  For example, look at Unreal Engine Blueprints or Unity's Visual Scripting or NVIDIA Omniverse's OmniGraph behavior graphs.
+Behavior graphs are used extensively in game development as a visual scripting language.  For example, look at Unreal Engine Blueprints or Unity's Visual Scripting or NVIDIA Omniverse's OmniGraph behavior graphs.
 
-This library is intended to follow industry best practices in terms of behavior-graphs and is intended to be compatible with these existing implementations in terms of capabilities.  Although behavior-graphs are always limited by their node implementations.
+This library is intended to follow industry best practices in terms of behavior graphs.  It is also designed to be compatible with these existing implementations in terms of capabilities.  Although, like all node-based systems, behavior graphs are always limited by their node implementations.
 
-Another neat fact about behavior-graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
+Another neat fact about behavior graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
 ## Feature Overview
 
-This library, while small, contains a nearly complete implementation of behavior-graphs.
+This library, while small, contains a nearly complete implementation of behavior graphs.
 
 ### Features:
 * **Customizable** While this library contains a lot of nodes, you do not have to expose all of them.  For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
@@ -61,7 +60,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "text": { "value": "Hello World!" }
         }
     }
@@ -88,7 +87,7 @@ In this example, we set a state variable called "counter" to 1000 and then later
     {
         "type": "state/setNumber",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "identifier": { "value": "counter"},
             "value": { "value": 1000 }
         }
@@ -102,14 +101,14 @@ In this example, we set a state variable called "counter" to 1000 and then later
     {
         "type": "logic/numberToString",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 2, "socketName": "result" } ]  }
+            "a": { "links": [ { "node": 2, "socket": "result" } ]  }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
-            "text": { "links": [ { "nodeIndex": 3, "socketName": "result" } ]  }
+            "flow": { "links": [ { "node": 1, "socket": "flow" } ] },
+            "text": { "links": [ { "node": 3, "socket": "result" } ]  }
         }
     }
 ]
@@ -135,21 +134,21 @@ This example shows how to branching execution works. The "flow/branch" node has 
     {
         "type": "flow/branch",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "condition": { "value": false }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "true" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "true" } ] },
             "text": { "value": "Condition is true!" }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "false" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "false" } ] },
             "text": { "value": "Condition is false!" }
         }
     }
@@ -182,63 +181,63 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
     {
         "type": "logic/numberPow",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "a": { "links": [ { "node": 1, "socket": "result" } ] },
             "b": { "value": 1 }
         }
     },
     {
         "type": "logic/numberPow",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "a": { "links": [ { "node": 1, "socket": "result" } ] },
             "b": { "value": 2 }
         }
     },
     {
         "type": "logic/numberPow",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 1, "socketName": "result" } ] },
+            "a": { "links": [ { "node": 1, "socket": "result" } ] },
             "b": { "value": 3 }
         }
     },
     {
         "type": "logic/numberMultiply",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 2, "socketName": "result" } ] },
+            "a": { "links": [ { "node": 2, "socket": "result" } ] },
             "b": { "value": 3 }
         }
     },
     {
         "type": "logic/numberAdd",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 5, "socketName": "result" } ] },
-            "b": { "links": [ { "nodeIndex": 3, "socketName": "result" } ] }
+            "a": { "links": [ { "node": 5, "socket": "result" } ] },
+            "b": { "links": [ { "node": 3, "socket": "result" } ] }
         }
     },
     {
         "type": "logic/numberNegate",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 4, "socketName": "result" } ] },
+            "a": { "links": [ { "node": 4, "socket": "result" } ] },
             "b": { "value": 10 }
         }
     },
     {
         "type": "logic/numberAdd",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 6, "socketName": "result" } ] },
-            "b": { "links": [ { "nodeIndex": 7, "socketName": "result" } ] }
+            "a": { "links": [ { "node": 6, "socket": "result" } ] },
+            "b": { "links": [ { "node": 7, "socket": "result" } ] }
         }
     },
     {
         "type": "logic/numberToString",
         "inputs": {
-            "a": { "links": [ { "nodeIndex": 8, "socketName": "result" } ] }
+            "a": { "links": [ { "node": 8, "socket": "result" } ] }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
-            "text": { "links": [ { "nodeIndex": 9, "socketName": "result" } ]}
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
+            "text": { "links": [ { "node": 9, "socket": "result" } ]}
         }
     }
 ]
@@ -254,7 +253,7 @@ Console output:
 
 ### Asynchronous Execution
 
-Behavior-Graph support asynchronous nodes.  These are nodes which will continue execution non-immediately but on their own self-determined schedule.  This allows for things such as "Delay" nodes that can sleep for a period of time.
+Behave-Graph support asynchronous nodes.  These are nodes which will continue execution non-immediately but on their own self-determined schedule.  This allows for things such as "Delay" nodes that can sleep for a period of time.
 
 ```json
 [
@@ -264,21 +263,21 @@ Behavior-Graph support asynchronous nodes.  These are nodes which will continue 
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "text": { "value": "Waiting..." }
         }
     },
     {
         "type": "time/delay",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "flow" } ] },
             "duration": { "value": 1 }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 2, "socket": "flow" } ] },
             "text": { "value": "One Second Later!" }
         }
     }

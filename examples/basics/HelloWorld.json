@@ -5,7 +5,7 @@
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "text": { "value": "Hello World!" }
         }
     }

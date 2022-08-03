@@ -5,21 +5,21 @@
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 0, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
             "text": { "value": "Waiting..." }
         }
     },
     {
         "type": "time/delay",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 1, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 1, "socket": "flow" } ] },
             "duration": { "value": 1 }
         }
     },
     {
         "type": "action/log",
         "inputs": {
-            "flow": { "links": [ { "nodeIndex": 2, "socketName": "flow" } ] },
+            "flow": { "links": [ { "node": 2, "socket": "flow" } ] },
             "text": { "value": "One Second Later!" }
         }
     }

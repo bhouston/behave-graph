@@ -1,7 +1,7 @@
 {
-  "name": "behavior-graph",
+  "name": "behave-graph",
   "version": "0.0.2",
-  "description": "Behavior graph engine",
+  "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "src/lib/index.ts",
   "module": "dist/index.js",
@@ -11,15 +11,15 @@
     "graph",
     "flow"
   ],
-  "homepage": "http://github.com/bhouston/behavior-graph",
-  "author": "behavior-graph authors",
+  "homepage": "http://github.com/bhouston/behave-graph",
+  "author": "behave-graph authors",
   "bugs": {
-    "url": "https://github.com/bhouston/behavior-graph/issues"
+    "url": "https://github.com/bhouston/behave-graph/issues"
   },
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com//bhouston/behavior-graph"
+    "url": "https://github.com//bhouston/behave-graph"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",

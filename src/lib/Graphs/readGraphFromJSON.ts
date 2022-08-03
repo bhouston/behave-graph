@@ -41,7 +41,7 @@ export default function readGraphFromJSON(nodesJson: any, nodeRegistry: NodeRegi
       if (inputJson.links !== undefined) {
         const linksJson = inputJson.links as Array<any>;
         linksJson.forEach((linkJson) => {
-          socket.links.push(new NodeSocketRef(linkJson.nodeIndex, linkJson.socketName));
+          socket.links.push(new NodeSocketRef(linkJson.node, linkJson.socket));
         });
       }
     });

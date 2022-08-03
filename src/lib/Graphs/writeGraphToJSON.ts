@@ -18,8 +18,8 @@ export default function writeGraphToJSON(graph: Graph): any {
         const linksJson: { [index:string]: any}[] = [];
         inputSocket.links.forEach((nodeSocketRef) => {
           linksJson.push({
-            nodeIndex: nodeSocketRef.nodeIndex,
-            socketName: nodeSocketRef.socketName,
+            node: nodeSocketRef.nodeIndex,
+            socket: nodeSocketRef.socketName,
           });
         });
 

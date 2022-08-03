@@ -21,3 +21,6 @@ export { default as writeGraphToJSON } from './Graphs/writeGraphToJSON';
 // node registry
 export { default as GraphTypeRegistry } from './Graphs/GraphTypeRegistry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
+
+// types
+export * from './Graphs/GraphJSON';

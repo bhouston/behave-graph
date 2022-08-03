@@ -1,21 +1,26 @@
 import Graph from './Graph';
+import {
+  GraphJSON, InputJSON, LinkJSON, NodeJSON,
+} from './GraphJSON';
 
-export default function writeGraphToJSON(graph: Graph): any {
-  const graphJson: any[] = [];
+export default function writeGraphToJSON(graph: Graph): GraphJSON {
+  const graphJson: GraphJSON = [];
+
   // create new BehaviorNode instances for each node in the json.
   graph.nodes.forEach((node) => {
-    const nodeJson: { [index:string]: any} = {
+    const nodeJson: NodeJSON = {
       type: node.typeName,
     };
 
-    const inputsJson: { [index:string]: any} = {};
+    const inputsJson: NodeJSON['inputs'] = {};
+
     node.inputSockets.forEach((inputSocket) => {
-      const inputJson: { [index:string]: any} = {};
+      const inputJson: InputJSON = {};
 
       if (inputSocket.links.length === 0) {
         inputJson.value = inputSocket.value;
       } else {
-        const linksJson: { [index:string]: any}[] = [];
+        const linksJson: LinkJSON[] = [];
         inputSocket.links.forEach((nodeSocketRef) => {
           linksJson.push({
             node: nodeSocketRef.nodeIndex,

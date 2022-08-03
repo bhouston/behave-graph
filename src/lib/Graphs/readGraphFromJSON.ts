@@ -1,11 +1,12 @@
 import Debug from '../Debug';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Graph from './Graph';
+import { GraphJSON } from './GraphJSON';
 import GraphTypeRegistry from './GraphTypeRegistry';
+
 // Purpose:
 //  - loads a node graph
-
-export default function readGraphFromJSON(nodesJson: any, graphTypeRegistry: GraphTypeRegistry): Graph {
+export default function readGraphFromJSON(nodesJson: GraphJSON, graphTypeRegistry: GraphTypeRegistry): Graph {
   const graph = new Graph();
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
@@ -21,25 +22,25 @@ export default function readGraphFromJSON(nodesJson: any, graphTypeRegistry: Gra
     if (nodeJson.type === undefined) {
       throw new Error('loadGraph: no type for node');
     }
-    const nodeName = nodeJson.type as string;
+    const nodeName = nodeJson.type;
     const node = graphTypeRegistry.createNode(nodeName);
 
-    const inputsJson = nodeJson.inputs as {[key:string]:any};
+    const inputsJson = nodeJson.inputs;
     node.inputSockets.forEach((socket) => {
       // warn if no definition.
-      if (inputsJson[socket.name] === undefined) {
+      if (inputsJson?.[socket.name] === undefined) {
         Debug.warn(`loadGraph: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
         return;
       }
 
-      const inputJson = inputsJson[socket.name] as {[key:string]:any};
+      const inputJson = inputsJson[socket.name];
       if (inputJson.value !== undefined) {
         // eslint-disable-next-line no-param-reassign
         socket.value = inputJson.value;
       }
 
       if (inputJson.links !== undefined) {
-        const linksJson = inputJson.links as Array<any>;
+        const linksJson = inputJson.links;
         linksJson.forEach((linkJson) => {
           socket.links.push(new NodeSocketRef(linkJson.node, linkJson.socket));
         });

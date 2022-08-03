@@ -5,7 +5,7 @@ import Graph from './Graph';
 // Purpose:
 //  - loads a node graph
 
-export default function loadGraph(nodesJson: any, nodeRegistry: NodeRegistry): Graph {
+export default function readGraphFromJSON(nodesJson: any, nodeRegistry: NodeRegistry): Graph {
   const graph = new Graph();
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));

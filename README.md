@@ -7,6 +7,13 @@ Behavior graphs are used extensively in game development as a visual scripting l
 This library is intended to follow industry best practices in terms of behavior graphs.  It is also designed to be compatible with these existing implementations in terms of capabilities.  Although, like all node-based systems, behavior graphs are always limited by their node implementations.
 
 Another neat fact about behavior graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
+
+## Discord
+
+You can join our Discord here:
+
+https://discord.gg/kWSWtVg6
+
 ## Feature Overview
 
 This library, while small, contains a nearly complete implementation of behavior graphs.

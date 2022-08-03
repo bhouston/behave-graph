@@ -5,7 +5,7 @@ export default function writeGraphToJSON(graph: Graph): any {
   // create new BehaviorNode instances for each node in the json.
   graph.nodes.forEach((node) => {
     const nodeJson: { [index:string]: any} = {
-      type: node.nodeName,
+      type: node.typeName,
     };
 
     const inputsJson: { [index:string]: any} = {};

@@ -1,7 +1,6 @@
 import Debug from '../Debug';
 import Graph from '../Graphs/Graph';
 import GraphEvaluator from '../Graphs/GraphEvaluator';
-import { SocketValueType } from '../Sockets/SocketValueType';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
 
@@ -96,7 +95,7 @@ export default class NodeEvalContext {
     if (outputSocket === undefined) {
       throw new Error(`can not find output socket with name ${outputName}`);
     }
-    if (outputSocket.valueType === SocketValueType.Flow) {
+    if (outputSocket.valueTypeName === 'flow') {
       throw new Error(`can not set the value of Flow output socket ${outputName}, use commit() instead`);
     }
     this.cachedOutputValues.set(outputName, value);
@@ -110,7 +109,7 @@ export default class NodeEvalContext {
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.nodeName}:`);
+    Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
     console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

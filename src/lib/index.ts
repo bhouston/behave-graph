@@ -6,7 +6,6 @@ export { default as Node } from './Nodes/Node';
 export { NodeFactory } from './Nodes/NodeFactory';
 export { default as NodeSocketRef } from './Nodes/NodeSocketRef';
 export { default as Socket } from './Sockets/Socket';
-export { SocketValueType } from './Sockets/SocketValueType';
 export { SocketFactory } from './Sockets/SocketFactory';
 export { default as FlowSocket } from './Sockets/Typed/FlowSocket';
 export { default as BooleanSocket } from './Sockets/Typed/BooleanSocket';
@@ -20,5 +19,5 @@ export { default as readGraphFromJSON } from './Graphs/readGraphFromJSON';
 export { default as writeGraphToJSON } from './Graphs/writeGraphToJSON';
 
 // node registry
-export { default as NodeRegistry } from './Nodes/NodeRegistry';
+export { default as GraphTypeRegistry } from './Graphs/GraphTypeRegistry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';

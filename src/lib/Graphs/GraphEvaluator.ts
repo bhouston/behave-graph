@@ -3,7 +3,6 @@ import Node from '../Nodes/Node';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
-import { SocketValueType } from '../Sockets/SocketValueType';
 import Graph from './Graph';
 
 // eslint-disable-next-line no-promise-executor-return
@@ -22,7 +21,7 @@ export default class GraphEvaluator {
   // This simplistic approach is okay if events do no have filters themselves.
   triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
     // look up any nodes with this trigger name and add them to the executionQueue
-    const nodes = this.graph.nodes.filter((node) => (node.nodeName === nodeName));
+    const nodes = this.graph.nodes.filter((node) => (node.typeName === nodeName));
 
     nodes.forEach((node) => {
       // apply output values
@@ -34,13 +33,13 @@ export default class GraphEvaluator {
       let flowOutputCount = 0;
       node.outputSockets.forEach((outputSocket) => {
         // console.log(outputSocket);
-        if (outputSocket.valueType === SocketValueType.Flow) {
+        if (outputSocket.valueTypeName === 'flow') {
           if (outputSocket.links.length === 1) {
             this.flowWorkQueue.push(outputSocket.links[0]);
             flowOutputCount++;
           }
           if (outputSocket.links.length > 1) {
-            throw new Error(`flow output ${node.nodeName}.${outputSocket.name} has more than 1 downstream link, ${outputSocket.links.length}`);
+            throw new Error(`flow output ${node.typeName}.${outputSocket.name} has more than 1 downstream link, ${outputSocket.links.length}`);
           }
         }
       });
@@ -58,7 +57,7 @@ export default class GraphEvaluator {
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
   resolveInputValueFromSocket(inputSocket: Socket): any {
-    if (inputSocket.valueType === SocketValueType.Flow) {
+    if (inputSocket.valueTypeName === 'flow') {
       throw new Error(`can not resolve input values for Eval input sockets: ${inputSocket.name}`);
     }
 
@@ -86,7 +85,7 @@ export default class GraphEvaluator {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    Debug.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.nodeName}`);
+    Debug.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
 
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
@@ -102,11 +101,11 @@ export default class GraphEvaluator {
     const node = this.graph.nodes[outputFlowSocket.nodeIndex];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Debug.log(`GraphEvaluator: commit: ${node.nodeName}.${outputSocket.name}`);
+    Debug.log(`GraphEvaluator: commit: ${node.typeName}.${outputSocket.name}`);
 
     if (outputSocket.links.length > 1) {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
-      + `${node.nodeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
+      + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
       Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
@@ -125,12 +124,12 @@ export default class GraphEvaluator {
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeIndex];
-    Debug.log(`evaluating node: ${node.nodeName}`);
+    Debug.log(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSockets.forEach((inputSocket) => {
-      if (inputSocket.valueType !== SocketValueType.Flow) {
+      if (inputSocket.valueTypeName !== 'flow') {
         // eslint-disable-next-line no-param-reassign
         this.resolveInputValueFromSocket(inputSocket);
       } else {
@@ -139,7 +138,7 @@ export default class GraphEvaluator {
       }
     });
 
-    Debug.log(`GraphEvaluator: evaluating flow node ${node.nodeName}`);
+    Debug.log(`GraphEvaluator: evaluating flow node ${node.typeName}`);
 
     const context = new NodeEvalContext(this, node);
     context.evalFlow();
@@ -149,17 +148,17 @@ export default class GraphEvaluator {
       // ensure this is auto-commit compatible.
       let numFlowOutputs = 0;
       node.outputSockets.forEach((outputSocket) => {
-        if (outputSocket.valueType === SocketValueType.Flow) {
+        if (outputSocket.valueTypeName === 'flow') {
           numFlowOutputs++;
         }
       });
 
       if (numFlowOutputs !== 1) {
-        throw new Error(`can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.nodeName}`);
+        throw new Error(`can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.typeName}`);
       }
 
       node.outputSockets.forEach((outputSocket) => {
-        if (outputSocket.valueType === SocketValueType.Flow) {
+        if (outputSocket.valueTypeName === 'flow') {
           this.commit(new NodeSocketRef(nodeSocketRef.nodeIndex, outputSocket.name));
         }
       });

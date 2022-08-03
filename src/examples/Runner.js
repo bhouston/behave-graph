@@ -3,14 +3,14 @@ import * as fs from 'fs/promises';
 import {
   Debug,
   GraphEvaluator,
-  NodeRegistry,
+  GraphTypeRegistry,
   readGraphFromJSON,
   registerGenericNodes,
 } from '../../dist/index.js';
 
 async function main() {
-  const nodeRegistry = new NodeRegistry();
-  registerGenericNodes(nodeRegistry);
+  const registry = new GraphTypeRegistry();
+  registerGenericNodes(registry);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {
@@ -19,7 +19,7 @@ async function main() {
 
   Debug.log(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
-  const graph = readGraphFromJSON(JSON.parse(textFile), nodeRegistry);
+  const graph = readGraphFromJSON(JSON.parse(textFile), registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });

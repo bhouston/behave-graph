@@ -1,11 +1,11 @@
 import Debug from '../Debug';
-import NodeRegistry from '../Nodes/NodeRegistry';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Graph from './Graph';
+import GraphTypeRegistry from './GraphTypeRegistry';
 // Purpose:
 //  - loads a node graph
 
-export default function readGraphFromJSON(nodesJson: any, nodeRegistry: NodeRegistry): Graph {
+export default function readGraphFromJSON(nodesJson: any, graphTypeRegistry: GraphTypeRegistry): Graph {
   const graph = new Graph();
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
@@ -22,7 +22,7 @@ export default function readGraphFromJSON(nodesJson: any, nodeRegistry: NodeRegi
       throw new Error('loadGraph: no type for node');
     }
     const nodeName = nodeJson.type as string;
-    const node = nodeRegistry.create(nodeName);
+    const node = graphTypeRegistry.createNode(nodeName);
 
     const inputsJson = nodeJson.inputs as {[key:string]:any};
     node.inputSockets.forEach((socket) => {

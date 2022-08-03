@@ -1,7 +1,7 @@
+import GraphTypeRegistry from '../../Graphs/GraphTypeRegistry';
 import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 import NumberSocket from '../../Sockets/Typed/NumberSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
-import NodeRegistry from '../NodeRegistry';
 import Log from './Actions/Log';
 import Start from './Events/Start';
 import Tick from './Events/Tick';
@@ -17,111 +17,111 @@ import StateGet from './State/StateGet';
 import StateSet from './State/StateSet';
 import Delay from './Time/Delay';
 
-export default function registerGenericNodes(nodeRegistry: NodeRegistry) {
+export default function registerGenericNodes(registry: GraphTypeRegistry) {
   // actions
 
-  nodeRegistry.add('action/log', () => new Log());
+  registry.registerNodeType('action/log', () => new Log());
 
   // events
 
-  nodeRegistry.add('event/start', () => new Start());
-  nodeRegistry.add('event/tick', () => new Tick());
+  registry.registerNodeType('event/start', () => new Start());
+  registry.registerNodeType('event/tick', () => new Tick());
 
   // flow control
 
-  nodeRegistry.add('flow/branch', () => new Branch());
-  nodeRegistry.add('flow/flipFlop', () => new FlipFlop());
-  nodeRegistry.add('flow/forLoop', () => new ForLoop());
-  nodeRegistry.add('flow/sequence', () => new Sequence());
+  registry.registerNodeType('flow/branch', () => new Branch());
+  registry.registerNodeType('flow/flipFlop', () => new FlipFlop());
+  registry.registerNodeType('flow/forLoop', () => new ForLoop());
+  registry.registerNodeType('flow/sequence', () => new Sequence());
 
   // time
 
-  nodeRegistry.add('time/delay', () => new Delay());
+  registry.registerNodeType('time/delay', () => new Delay());
 
   // logic: constants
 
-  nodeRegistry.add('logic/booleanConstant', () => new UniaryOp<boolean, boolean>('logic/booleanConstant', (a) => (a)));
-  nodeRegistry.add('logic/numberConstant', () => new UniaryOp<number, number>('logic/numberConstant', (a) => (a)));
-  nodeRegistry.add('logic/stringConstant', () => new UniaryOp<string, string>('logic/stringConstant', (a) => (a)));
+  registry.registerNodeType('logic/booleanConstant', () => new UniaryOp<boolean, boolean>('logic/booleanConstant', (a) => (a)));
+  registry.registerNodeType('logic/numberConstant', () => new UniaryOp<number, number>('logic/numberConstant', (a) => (a)));
+  registry.registerNodeType('logic/stringConstant', () => new UniaryOp<string, string>('logic/stringConstant', (a) => (a)));
 
   // logic: boolean logic
 
-  nodeRegistry.add('logic/booleanNot', () => new UniaryOp<boolean, boolean>('logic/booleanNot', (a) => (!a)));
-  nodeRegistry.add('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', (a, b) => (a || b)));
-  nodeRegistry.add('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
+  registry.registerNodeType('logic/booleanNot', () => new UniaryOp<boolean, boolean>('logic/booleanNot', (a) => (!a)));
+  registry.registerNodeType('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', (a, b) => (a || b)));
+  registry.registerNodeType('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', (a, b) => (a && b)));
 
   // logic: arithmetic
 
-  nodeRegistry.add('logic/numberAdd', () => new BinaryOp<number, number>('logic/numberAdd', (a, b) => (a + b)));
-  nodeRegistry.add('logic/numberSubtract', () => new BinaryOp<number, number>('logic/numberSubtract', (a, b) => (a - b)));
-  nodeRegistry.add('logic/numberMultiply', () => new BinaryOp<number, number>('logic/numberMultiply', (a, b) => (a * b)));
-  nodeRegistry.add('logic/numberDivide', () => new BinaryOp<number, number>('logic/numberDivide', (a, b) => (a / b)));
-  nodeRegistry.add('logic/numberPow', () => new BinaryOp<number, number>('logic/numberPow', (a, b) => (a ** b)));
-  nodeRegistry.add('logic/numberNegate', () => new UniaryOp<number, number>('logic/numberNegate', (a) => (-a)));
-  nodeRegistry.add('logic/numberSqrt', () => new UniaryOp<number, number>('logic/numberSqrt', (a) => (Math.sqrt(a))));
+  registry.registerNodeType('logic/numberAdd', () => new BinaryOp<number, number>('logic/numberAdd', (a, b) => (a + b)));
+  registry.registerNodeType('logic/numberSubtract', () => new BinaryOp<number, number>('logic/numberSubtract', (a, b) => (a - b)));
+  registry.registerNodeType('logic/numberMultiply', () => new BinaryOp<number, number>('logic/numberMultiply', (a, b) => (a * b)));
+  registry.registerNodeType('logic/numberDivide', () => new BinaryOp<number, number>('logic/numberDivide', (a, b) => (a / b)));
+  registry.registerNodeType('logic/numberPow', () => new BinaryOp<number, number>('logic/numberPow', (a, b) => (a ** b)));
+  registry.registerNodeType('logic/numberNegate', () => new UniaryOp<number, number>('logic/numberNegate', (a) => (-a)));
+  registry.registerNodeType('logic/numberSqrt', () => new UniaryOp<number, number>('logic/numberSqrt', (a) => (Math.sqrt(a))));
 
   // logic: exponential
 
-  nodeRegistry.add('logic/numberE', () => new NullaryOp<number>('logic/numberSign', () => (Math.E)));
-  nodeRegistry.add('logic/numberExp', () => new UniaryOp<number, number>('logic/numberExp', (a) => (Math.exp(a))));
-  nodeRegistry.add('logic/numberLog', () => new UniaryOp<number, number>('logic/numberLog', (a) => (Math.log(a))));
-  nodeRegistry.add('logic/numberLog2', () => new UniaryOp<number, number>('logic/numberLog2', (a) => (Math.log2(a))));
-  nodeRegistry.add('logic/numberLog10', () => new UniaryOp<number, number>('logic/numberLog10', (a) => (Math.log10(a))));
+  registry.registerNodeType('logic/numberE', () => new NullaryOp<number>('logic/numberSign', () => (Math.E)));
+  registry.registerNodeType('logic/numberExp', () => new UniaryOp<number, number>('logic/numberExp', (a) => (Math.exp(a))));
+  registry.registerNodeType('logic/numberLog', () => new UniaryOp<number, number>('logic/numberLog', (a) => (Math.log(a))));
+  registry.registerNodeType('logic/numberLog2', () => new UniaryOp<number, number>('logic/numberLog2', (a) => (Math.log2(a))));
+  registry.registerNodeType('logic/numberLog10', () => new UniaryOp<number, number>('logic/numberLog10', (a) => (Math.log10(a))));
 
   // logic: trigonometry
 
-  nodeRegistry.add('logic/numberPi', () => new NullaryOp<number>('logic/numberNegate', () => (Math.PI)));
-  nodeRegistry.add('logic/numberSin', () => new UniaryOp<number, number>('logic/numberSin', (a) => (Math.sin(a))));
-  nodeRegistry.add('logic/numberAsin', () => new UniaryOp<number, number>('logic/numberSin', (a) => (Math.asin(a))));
-  nodeRegistry.add('logic/numberCos', () => new UniaryOp<number, number>('logic/numberCos', (a) => (Math.cos(a))));
-  nodeRegistry.add('logic/numberAcos', () => new UniaryOp<number, number>('logic/numberCos', (a) => (Math.acos(a))));
-  nodeRegistry.add('logic/numberTan', () => new UniaryOp<number, number>('logic/numberTan', (a) => (Math.tan(a))));
-  nodeRegistry.add('logic/numberAtan', () => new UniaryOp<number, number>('logic/numberTan', (a) => (Math.atan(a))));
+  registry.registerNodeType('logic/numberPi', () => new NullaryOp<number>('logic/numberNegate', () => (Math.PI)));
+  registry.registerNodeType('logic/numberSin', () => new UniaryOp<number, number>('logic/numberSin', (a) => (Math.sin(a))));
+  registry.registerNodeType('logic/numberAsin', () => new UniaryOp<number, number>('logic/numberSin', (a) => (Math.asin(a))));
+  registry.registerNodeType('logic/numberCos', () => new UniaryOp<number, number>('logic/numberCos', (a) => (Math.cos(a))));
+  registry.registerNodeType('logic/numberAcos', () => new UniaryOp<number, number>('logic/numberCos', (a) => (Math.acos(a))));
+  registry.registerNodeType('logic/numberTan', () => new UniaryOp<number, number>('logic/numberTan', (a) => (Math.tan(a))));
+  registry.registerNodeType('logic/numberAtan', () => new UniaryOp<number, number>('logic/numberTan', (a) => (Math.atan(a))));
 
   // logic: ranges
 
-  nodeRegistry.add('logic/numberMin', () => new BinaryOp<number, number>('logic/numberMin', (a, b) => (Math.min(a, b))));
-  nodeRegistry.add('logic/numberMax', () => new BinaryOp<number, number>('logic/numberMax', (a, b) => (Math.max(a, b))));
-  nodeRegistry.add('logic/numberSign', () => new UniaryOp<number, number>('logic/numberSign', (a) => (Math.sign(a))));
-  nodeRegistry.add('logic/numberAbs', () => new UniaryOp<number, number>('logic/numberAbs', (a) => (Math.abs(a))));
-  nodeRegistry.add('logic/numberFloor', () => new UniaryOp<number, number>('logic/numberFloor', (a) => (Math.floor(a))));
-  nodeRegistry.add('logic/numberCeil', () => new UniaryOp<number, number>('logic/numberCeil', (a) => (Math.ceil(a))));
-  nodeRegistry.add('logic/numberRound', () => new UniaryOp<number, number>('logic/numberCeil', (a) => (Math.round(a))));
-  nodeRegistry.add('logic/numberTrunc', () => new UniaryOp<number, number>('logic/numberTrunc', (a) => (Math.trunc(a))));
+  registry.registerNodeType('logic/numberMin', () => new BinaryOp<number, number>('logic/numberMin', (a, b) => (Math.min(a, b))));
+  registry.registerNodeType('logic/numberMax', () => new BinaryOp<number, number>('logic/numberMax', (a, b) => (Math.max(a, b))));
+  registry.registerNodeType('logic/numberSign', () => new UniaryOp<number, number>('logic/numberSign', (a) => (Math.sign(a))));
+  registry.registerNodeType('logic/numberAbs', () => new UniaryOp<number, number>('logic/numberAbs', (a) => (Math.abs(a))));
+  registry.registerNodeType('logic/numberFloor', () => new UniaryOp<number, number>('logic/numberFloor', (a) => (Math.floor(a))));
+  registry.registerNodeType('logic/numberCeil', () => new UniaryOp<number, number>('logic/numberCeil', (a) => (Math.ceil(a))));
+  registry.registerNodeType('logic/numberRound', () => new UniaryOp<number, number>('logic/numberCeil', (a) => (Math.round(a))));
+  registry.registerNodeType('logic/numberTrunc', () => new UniaryOp<number, number>('logic/numberTrunc', (a) => (Math.trunc(a))));
 
   // logic: sampling
 
-  nodeRegistry.add('logic/numberSample', () => new NullaryOp<number>('logic/numberSample', () => (Math.random())));
+  registry.registerNodeType('logic/numberSample', () => new NullaryOp<number>('logic/numberSample', () => (Math.random())));
 
   // logic: comparison
 
-  nodeRegistry.add('logic/numberEqual', () => new BinaryOp<number, boolean>('logic/numberEqual', (a, b) => (a === b)));
-  nodeRegistry.add('logic/numberGreaterThan', () => new BinaryOp<number, boolean>('logic/numberGreaterThan', (a, b) => (a > b)));
-  nodeRegistry.add('logic/numberGreaterThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberGreaterThaOrEqual', (a, b) => (a >= b)));
-  nodeRegistry.add('logic/numberLessThan', () => new BinaryOp<number, boolean>('logic/numberLessThan', (a, b) => (a < b)));
-  nodeRegistry.add('logic/numberLessThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberLessThaOrEqual', (a, b) => (a <= b)));
-  nodeRegistry.add('logic/numberIsNan', () => new UniaryOp<number, boolean>('logic/numberIsNan', (a) => (Number.isNaN(a))));
-  nodeRegistry.add('logic/numberIsInf', () => new UniaryOp<number, boolean>('logic/numberIsInf', (a) => ((!Number.isFinite(a)) && !Number.isNaN(a))));
+  registry.registerNodeType('logic/numberEqual', () => new BinaryOp<number, boolean>('logic/numberEqual', (a, b) => (a === b)));
+  registry.registerNodeType('logic/numberGreaterThan', () => new BinaryOp<number, boolean>('logic/numberGreaterThan', (a, b) => (a > b)));
+  registry.registerNodeType('logic/numberGreaterThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberGreaterThaOrEqual', (a, b) => (a >= b)));
+  registry.registerNodeType('logic/numberLessThan', () => new BinaryOp<number, boolean>('logic/numberLessThan', (a, b) => (a < b)));
+  registry.registerNodeType('logic/numberLessThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberLessThaOrEqual', (a, b) => (a <= b)));
+  registry.registerNodeType('logic/numberIsNan', () => new UniaryOp<number, boolean>('logic/numberIsNan', (a) => (Number.isNaN(a))));
+  registry.registerNodeType('logic/numberIsInf', () => new UniaryOp<number, boolean>('logic/numberIsInf', (a) => ((!Number.isFinite(a)) && !Number.isNaN(a))));
 
   // logic: string utilities
 
-  nodeRegistry.add('logic/stringConcat', () => new BinaryOp<string, string>('logic/stringConcat', (a, b) => (a.concat(b))));
-  nodeRegistry.add('logic/stringIncludes', () => new BinaryOp<string, boolean>('logic/stringIncludes', (a, b) => (a.includes(b))));
-  nodeRegistry.add('logic/numberToString', () => new UniaryOp<number, string>('logic/numberToString', (a) => (a.toString())));
-  nodeRegistry.add('logic/stringLength', () => new UniaryOp<string, number>('logic/stringLength', (a) => (a.length)));
+  registry.registerNodeType('logic/stringConcat', () => new BinaryOp<string, string>('logic/stringConcat', (a, b) => (a.concat(b))));
+  registry.registerNodeType('logic/stringIncludes', () => new BinaryOp<string, boolean>('logic/stringIncludes', (a, b) => (a.includes(b))));
+  registry.registerNodeType('logic/numberToString', () => new UniaryOp<number, string>('logic/numberToString', (a) => (a.toString())));
+  registry.registerNodeType('logic/stringLength', () => new UniaryOp<string, number>('logic/stringLength', (a) => (a.length)));
 
   // state
 
-  nodeRegistry.add('state/exists', () => new StateExists());
+  registry.registerNodeType('state/exists', () => new StateExists());
 
-  nodeRegistry.add('state/setBoolean', () => new StateSet('state/setBoolean', (socketName) => new BooleanSocket(socketName)));
-  nodeRegistry.add('state/getBoolean', () => new StateGet('state/getBoolean', (socketName) => new BooleanSocket(socketName)));
+  registry.registerNodeType('state/setBoolean', () => new StateSet('state/setBoolean', (socketName) => new BooleanSocket(socketName)));
+  registry.registerNodeType('state/getBoolean', () => new StateGet('state/getBoolean', (socketName) => new BooleanSocket(socketName)));
 
-  nodeRegistry.add('state/setNumber', () => new StateSet('state/setNumber', (socketName) => new NumberSocket(socketName)));
-  nodeRegistry.add('state/getNumber', () => new StateGet('state/getNumber', (socketName) => new NumberSocket(socketName)));
+  registry.registerNodeType('state/setNumber', () => new StateSet('state/setNumber', (socketName) => new NumberSocket(socketName)));
+  registry.registerNodeType('state/getNumber', () => new StateGet('state/getNumber', (socketName) => new NumberSocket(socketName)));
 
-  nodeRegistry.add('state/setString', () => new StateSet('state/setString', (socketName) => new StringSocket(socketName)));
-  nodeRegistry.add('state/getString', () => new StateGet('state/getString', (socketName) => new StringSocket(socketName)));
+  registry.registerNodeType('state/setString', () => new StateSet('state/setString', (socketName) => new StringSocket(socketName)));
+  registry.registerNodeType('state/getString', () => new StateGet('state/getString', (socketName) => new StringSocket(socketName)));
 
-  return nodeRegistry;
+  return registry;
 }

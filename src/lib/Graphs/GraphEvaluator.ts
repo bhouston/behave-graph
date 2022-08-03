@@ -97,6 +97,7 @@ export default class GraphEvaluator {
     return inputSocket.value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(outputFlowSocket: NodeSocketRef, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     const node = this.graph.nodes[outputFlowSocket.nodeIndex];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);

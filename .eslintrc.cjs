@@ -20,6 +20,7 @@ module.exports = {
     'unused-imports',
     'simple-import-sort',
   ],
+  ignorePatterns: ['dist/*'],
   rules: {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],

@@ -1,29 +1,29 @@
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import dts from "rollup-plugin-dts";
-import del from "rollup-plugin-delete";
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import del from 'rollup-plugin-delete';
+import dts from 'rollup-plugin-dts';
 
-import pkg from "./package.json";
+import pkg from './package.json';
 
 export default [
   {
-    input: "src/lib/index.ts",
+    input: 'src/lib/index.ts',
     output: [
       {
         file: pkg.module,
-        format: "esm",
+        format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript(), del({ targets: "dist/*" })],
+    plugins: [commonjs(), typescript(), del({ targets: 'dist/*' })],
   },
   {
-    input: "dist/index.d.ts",
-    output: [{ file: "dist/index.d.ts", format: "esm" }],
+    input: 'dist/index.d.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [
       dts(),
       del({
-        targets: ["dist/*", "!dist/index.d.ts", "!dist/index.js"],
-        hook: "buildEnd",
+        targets: ['dist/*', '!dist/index.d.ts', '!dist/index.js'],
+        hook: 'buildEnd',
       }),
     ],
   },

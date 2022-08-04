@@ -1,11 +1,13 @@
 import Socket from '../../../Sockets/Socket';
 import StringSocket from '../../../Sockets/Typed/StringSocket';
 import Node from '../../Node';
+import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class StateGet extends Node {
   constructor(name:string, socketFactory: (socketName:string) => Socket) {
     super(
+      NodeCategory.Logic,
       name,
       [new StringSocket('identifier'), socketFactory('defaultValue')],
       [socketFactory('result')],

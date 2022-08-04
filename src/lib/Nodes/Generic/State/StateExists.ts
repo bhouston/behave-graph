@@ -1,11 +1,13 @@
 import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
 import StringSocket from '../../../Sockets/Typed/StringSocket';
 import Node from '../../Node';
+import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class StateExists extends Node {
   constructor() {
     super(
+      NodeCategory.Logic,
       'state/exists',
       [new StringSocket('identifier')],
       [new BooleanSocket('result')],

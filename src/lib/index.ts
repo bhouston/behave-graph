@@ -17,6 +17,7 @@ export { default as GraphEvaluator } from './Graphs/GraphEvaluator';
 export { default as NodeEvalContext } from './Nodes/NodeEvalContext';
 export { default as readGraphFromJSON } from './Graphs/readGraphFromJSON';
 export { default as writeGraphToJSON } from './Graphs/writeGraphToJSON';
+export { default as writeNodeSpecsToJSON } from './Graphs/writeNodeSpecsToJSON';
 
 // node registry
 export { default as GraphTypeRegistry } from './Graphs/GraphTypeRegistry';

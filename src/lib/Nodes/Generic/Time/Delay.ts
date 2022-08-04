@@ -1,6 +1,7 @@
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
+import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 // ASYNC - asynchronous evaluation
@@ -9,6 +10,7 @@ import NodeEvalContext from '../../NodeEvalContext';
 export default class Delay extends Node {
   constructor() {
     super(
+      NodeCategory.Time,
       'time/delay',
       [
         new FlowSocket(),

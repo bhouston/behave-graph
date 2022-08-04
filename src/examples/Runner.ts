@@ -7,7 +7,7 @@ import {
   readGraphFromJSON,
   registerGenericNodes,
 // eslint-disable-next-line import/extensions
-} from '../../dist/lib/index.js';
+} from '../../dist/lib/index';
 
 async function main() {
   const registry = new GraphTypeRegistry();

@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript(), del({ targets: 'dist/lib/*' })],
+    plugins: [commonjs(), typescript({rootDir: "./src/lib"}), del({ targets: 'dist/lib/*' })],
   },
   {
     input: 'dist/lib/index.d.ts',
@@ -27,4 +27,14 @@ export default [
       }),
     ],
   },
+  {
+    input: 'src/examples/Runner.ts',
+    output: [
+      {
+        file: 'dist/examples/Runner.js',
+        format: 'esm',
+      },
+    ],
+    plugins: [commonjs(), typescript({rootDir: "./src/examples"}), del({ targets: 'dist/examples/*' })],
+  }
 ];

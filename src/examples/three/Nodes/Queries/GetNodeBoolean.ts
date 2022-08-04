@@ -1,7 +1,6 @@
-import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
-import StringSocket from '../../../Sockets/Typed/StringSocket';
-import Node from '../../Node';
-import NodeEvalContext from '../../NodeEvalContext';
+import {
+  BooleanSocket, Node, NodeEvalContext, StringSocket,
+} from '../../../../../dist/lib/index';
 
 export default class GetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {

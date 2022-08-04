@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Behave-Graph - Standalone Example</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* avoid feedback loop where canvas grows out of control. */
+      }
+      .framebuffer {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+  </head>
+  <body>
+      <script type="module" src="/dist/examples/web/index.js"></script>
+      Look in the console for output!<br/>
+      Specify example to run by name as the query parameter: ?graph=Branch.<br/><br/>
+
+      Examples:<br/>
+      <a href="/src/examples/web?graph=HelloWorld">HelloWorld</a><br/>
+      <a href="/src/examples/web?graph=Branch">Branch</a><br/>
+      <a href="/src/examples/web?graph=Delay">Delay</a><br/>
+      <a href="/src/examples/web?graph=State">State</a><br/>
+      <a href="/src/examples/web?graph=Math">Math</a><br/>
+  </body>
+</html>

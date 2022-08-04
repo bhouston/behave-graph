@@ -1,11 +1,7 @@
 import * as fs from 'fs/promises';
 
 import {
-  Debug,
-  GraphEvaluator,
-  GraphTypeRegistry,
-  readGraphFromJSON,
-  registerGenericNodes,
+  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
 } from '../../../dist/lib/index';
 
 async function main() {

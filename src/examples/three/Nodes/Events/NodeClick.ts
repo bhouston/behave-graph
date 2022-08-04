@@ -1,7 +1,6 @@
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
-import Node from '../../Node';
-import NodeEvalContext from '../../NodeEvalContext';
+import {
+  FlowSocket, Node, NodeEvalContext, NumberSocket,
+} from '../../../../../dist/lib/index';
 
 // very 3D specific.
 export default class NodeClick extends Node {

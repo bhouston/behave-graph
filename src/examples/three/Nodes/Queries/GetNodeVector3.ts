@@ -1,7 +1,6 @@
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
-import StringSocket from '../../../Sockets/Typed/StringSocket';
-import Node from '../../Node';
-import NodeEvalContext from '../../NodeEvalContext';
+import {
+  Node, NodeEvalContext, NumberSocket, StringSocket,
+} from '../../../../../dist/lib/index';
 
 export default class GetNodeVector3 extends Node {
   constructor(nodeName: string, public propertyName: string) {

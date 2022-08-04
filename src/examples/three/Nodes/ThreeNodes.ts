@@ -1,4 +1,4 @@
-import GraphTypeRegistry from '../../Graphs/GraphTypeRegistry';
+import { GraphTypeRegistry } from '../../../../dist/lib/index';
 import SetNodeBoolean from './Actions/SetNodeBoolean';
 import SetNodeVector3 from './Actions/SetNodeVector3';
 import NodeClick from './Events/NodeClick';

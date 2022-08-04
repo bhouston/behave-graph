@@ -1,7 +1,6 @@
-import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
-import Node from '../../Node';
+import {
+  BooleanSocket, FlowSocket, Node, NumberSocket,
+} from '../../../../../dist/lib/index';
 
 export default class SetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {

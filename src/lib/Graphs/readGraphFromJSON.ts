@@ -6,10 +6,14 @@ import GraphTypeRegistry from './GraphTypeRegistry';
 
 // Purpose:
 //  - loads a node graph
-export default function readGraphFromJSON(nodesJson: GraphJSON, graphTypeRegistry: GraphTypeRegistry): Graph {
+export default function readGraphFromJSON(graphJson: GraphJSON, graphTypeRegistry: GraphTypeRegistry): Graph {
   const graph = new Graph();
 
+  graph.name = graphJson.name || graph.name;
+  graph.metadata = graphJson.metadata || graph.metadata;
+
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
+  const nodesJson = graphJson.nodes;
 
   if (nodesJson.length === 0) {
     console.warn('loadGraph: no nodes specified');
@@ -24,6 +28,9 @@ export default function readGraphFromJSON(nodesJson: GraphJSON, graphTypeRegistr
     }
     const nodeName = nodeJson.type;
     const node = graphTypeRegistry.createNode(nodeName);
+
+    node.label = nodeJson.label || node.label;
+    node.metadata = nodeJson.metadata || node.metadata;
 
     const inputsJson = nodeJson.inputs;
     node.inputSockets.forEach((socket) => {

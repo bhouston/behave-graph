@@ -4,12 +4,14 @@ import {
 } from './GraphJSON';
 
 export default function writeGraphToJSON(graph: Graph): GraphJSON {
-  const graphJson: GraphJSON = [];
+  const graphJson: GraphJSON = { name: graph.name, nodes: [], metadata: graph.metadata };
 
   // create new BehaviorNode instances for each node in the json.
   graph.nodes.forEach((node) => {
     const nodeJson: NodeJSON = {
+      label: node.label,
       type: node.typeName,
+      metadata: node.metadata,
     };
 
     const inputsJson: NodeJSON['inputs'] = {};
@@ -35,7 +37,7 @@ export default function writeGraphToJSON(graph: Graph): GraphJSON {
     });
     nodeJson.inputs = inputsJson;
 
-    graphJson.push(nodeJson);
+    graphJson.nodes.push(nodeJson);
   });
 
   return graphJson;

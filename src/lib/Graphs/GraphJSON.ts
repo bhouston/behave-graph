@@ -1,3 +1,5 @@
+import { Metadata } from './Metadata';
+
 export type LinkJSON = { node: number; socket: string };
 
 export type InputJSON = {
@@ -6,10 +8,16 @@ export type InputJSON = {
 }
 
 export type NodeJSON = {
+  label?: string;
   type: string;
   inputs?: {
     [key: string]: InputJSON;
   };
+  metadata?: Metadata;
 };
 
-export type GraphJSON = NodeJSON[];
+export type GraphJSON = {
+  name?: string;
+  nodes: NodeJSON[];
+  metadata?: Metadata;
+}

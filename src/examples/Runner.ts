@@ -6,7 +6,6 @@ import {
   GraphTypeRegistry,
   readGraphFromJSON,
   registerGenericNodes,
-// eslint-disable-next-line import/extensions
 } from '../../dist/lib/index';
 
 async function main() {

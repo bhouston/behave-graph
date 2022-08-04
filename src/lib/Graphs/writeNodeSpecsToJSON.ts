@@ -26,7 +26,7 @@ export default function writeNodeSpecsToJSON(registry: GraphTypeRegistry): NodeS
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 
-    node.inputSockets.forEach((outputSocket) => {
+    node.outputSockets.forEach((outputSocket) => {
       const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName,

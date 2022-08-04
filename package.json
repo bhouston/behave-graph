@@ -44,7 +44,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "exec": "npm run build && node ./src/examples/Runner.js",
+    "exec": "npm run build && node ./dist/examples/Runner.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix"
   },

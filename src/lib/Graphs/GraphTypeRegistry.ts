@@ -1,3 +1,4 @@
+import generateUuid from '../generateUuid';
 import Node from '../Nodes/Node';
 import { NodeFactory } from '../Nodes/NodeFactory';
 
@@ -14,11 +15,13 @@ export default class GraphTypeRegistry {
     this.nodeTypeNameToNodeFactory.set(nodeTypeName, nodeTypeFactory);
   }
 
-  createNode(nodeTypeName: string): Node {
+  createNode(nodeTypeName: string, nodeId = generateUuid()): Node {
     const factory = this.nodeTypeNameToNodeFactory.get(nodeTypeName);
     if (factory === undefined) {
       throw new Error(`no registered node with type name ${nodeTypeName}`);
     }
-    return factory();
+    const node = factory();
+    node.id = nodeId;
+    return node;
   }
 }

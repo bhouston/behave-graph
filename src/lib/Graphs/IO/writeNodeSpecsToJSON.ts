@@ -1,5 +1,5 @@
-import { NodeCategory } from '../Nodes/NodeCategory';
-import GraphTypeRegistry from './GraphTypeRegistry';
+import { NodeCategory } from '../../Nodes/NodeCategory';
+import GraphTypeRegistry from '../GraphTypeRegistry';
 import {
   InputSocketSpecJSON, NodeSpecJSON, NodeSpecsJSON, OutputSocketSpecJSON,
 } from './NodeSpecJSON';

@@ -9,6 +9,7 @@ function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
 
 export default class Node {
   public readonly isEvalNode: boolean;
+  public id: string = '';
   public label: string = '';
   public metadata: Metadata = {};
 

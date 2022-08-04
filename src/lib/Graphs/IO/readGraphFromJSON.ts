@@ -1,8 +1,8 @@
-import Debug from '../Debug';
-import NodeSocketRef from '../Nodes/NodeSocketRef';
-import Graph from './Graph';
+import Debug from '../../Debug';
+import NodeSocketRef from '../../Nodes/NodeSocketRef';
+import Graph from '../Graph';
+import GraphTypeRegistry from '../GraphTypeRegistry';
 import { GraphJSON } from './GraphJSON';
-import GraphTypeRegistry from './GraphTypeRegistry';
 
 // Purpose:
 //  - loads a node graph
@@ -27,7 +27,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, graphTypeRegistr
       throw new Error('loadGraph: no type for node');
     }
     const nodeName = nodeJson.type;
-    const node = graphTypeRegistry.createNode(nodeName);
+    const node = graphTypeRegistry.createNode(nodeName, nodeJson.id);
 
     node.label = nodeJson.label || node.label;
     node.metadata = nodeJson.metadata || node.metadata;
@@ -49,25 +49,25 @@ export default function readGraphFromJSON(graphJson: GraphJSON, graphTypeRegistr
       if (inputJson.links !== undefined) {
         const linksJson = inputJson.links;
         linksJson.forEach((linkJson) => {
-          socket.links.push(new NodeSocketRef(linkJson.node, linkJson.socket));
+          socket.links.push(new NodeSocketRef(linkJson.nodeId, linkJson.socket));
         });
       }
     });
 
     // TODO: apply nodeJson.inputs to node.
-    graph.nodes.push(node);
+    graph.nodes[node.id] = node;
   }
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
-  graph.nodes.forEach((node, nodeIndex) => {
+  Object.values(graph.nodes).forEach((node) => {
     // console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
       // console.log(inputSocket);
       inputSocket.links.forEach((nodeSocketRef) => {
         // console.log(nodeSocketRef);
-        const upstreamOutputSocket = graph.nodes[nodeSocketRef.nodeIndex].getOutputSocket(nodeSocketRef.socketName);
-        upstreamOutputSocket.links.push(new NodeSocketRef(nodeIndex, inputSocket.name));
+        const upstreamOutputSocket = graph.nodes[nodeSocketRef.nodeId].getOutputSocket(nodeSocketRef.socketName);
+        upstreamOutputSocket.links.push(new NodeSocketRef(node.id, inputSocket.name));
       });
     });
   });

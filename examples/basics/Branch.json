@@ -1,15 +1,17 @@
 {
     "nodes": [
         {
-            "type": "event/start"
+            "type": "event/start",
+            "id": "0"
         },
         {
             "type": "flow/branch",
+            "id": "1",
             "inputs": {
                 "flow": {
                     "links": [
                         {
-                            "node": 0,
+                            "nodeId": "0",
                             "socket": "flow"
                         }
                     ]
@@ -21,11 +23,12 @@
         },
         {
             "type": "action/log",
+            "id": "2",
             "inputs": {
                 "flow": {
                     "links": [
                         {
-                            "node": 1,
+                            "nodeId": "1",
                             "socket": "true"
                         }
                     ]
@@ -37,11 +40,12 @@
         },
         {
             "type": "action/log",
+            "id": "3",
             "inputs": {
                 "flow": {
                     "links": [
                         {
-                            "node": 1,
+                            "nodeId": "1",
                             "socket": "false"
                         }
                     ]

@@ -1,4 +1,4 @@
-import Graph from './Graph';
+import Graph from '../Graph';
 import {
   GraphJSON, InputJSON, LinkJSON, NodeJSON,
 } from './GraphJSON';
@@ -14,9 +14,10 @@ export default function writeGraphToJSON(graph: Graph): GraphJSON {
   }
 
   // create new BehaviorNode instances for each node in the json.
-  graph.nodes.forEach((node) => {
+  Object.values(graph.nodes).forEach((node) => {
     const nodeJson: NodeJSON = {
       type: node.typeName,
+      id: node.id,
     };
     if (node.label.length > 0) {
       nodeJson.label = node.label;
@@ -37,7 +38,7 @@ export default function writeGraphToJSON(graph: Graph): GraphJSON {
           const linksJson: LinkJSON[] = [];
           inputSocket.links.forEach((nodeSocketRef) => {
             linksJson.push({
-              node: nodeSocketRef.nodeIndex,
+              nodeId: nodeSocketRef.nodeId,
               socket: nodeSocketRef.socketName,
             });
           });

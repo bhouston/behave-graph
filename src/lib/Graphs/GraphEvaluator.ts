@@ -21,7 +21,7 @@ export default class GraphEvaluator {
   // This simplistic approach is okay if events do no have filters themselves.
   triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
     // look up any nodes with this trigger name and add them to the executionQueue
-    const nodes = this.graph.nodes.filter((node) => (node.typeName === nodeName));
+    const nodes = Object.values(this.graph.nodes).filter((node) => (node.typeName === nodeName));
 
     nodes.forEach((node) => {
       // apply output values
@@ -73,7 +73,7 @@ export default class GraphEvaluator {
     const upstreamOutputSocket = this.graph.getOutputSocket(inputSocket.links[0]);
 
     // if upstream node is an eval, we just return its last value.
-    const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeIndex];
+    const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeId];
     if (upstreamNode.isEvalNode) {
       return upstreamOutputSocket.value;
     }
@@ -99,7 +99,7 @@ export default class GraphEvaluator {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(outputFlowSocket: NodeSocketRef, onDownstreamCompleted: (()=> void) | undefined = undefined) {
-    const node = this.graph.nodes[outputFlowSocket.nodeIndex];
+    const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
     Debug.log(`GraphEvaluator: commit: ${node.typeName}.${outputSocket.name}`);
@@ -109,7 +109,7 @@ export default class GraphEvaluator {
       + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
-      Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeIndex}.${outputSocket.links[0].socketName}`);
+      Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       this.flowWorkQueue.push(outputSocket.links[0]);
     }
@@ -124,7 +124,7 @@ export default class GraphEvaluator {
       return false;
     }
 
-    const node = this.graph.nodes[nodeSocketRef.nodeIndex];
+    const node = this.graph.nodes[nodeSocketRef.nodeId];
     Debug.log(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
@@ -160,7 +160,7 @@ export default class GraphEvaluator {
 
       node.outputSockets.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
-          this.commit(new NodeSocketRef(nodeSocketRef.nodeIndex, outputSocket.name));
+          this.commit(new NodeSocketRef(nodeSocketRef.nodeId, outputSocket.name));
         }
       });
     }

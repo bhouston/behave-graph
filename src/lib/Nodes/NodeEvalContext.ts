@@ -104,7 +104,7 @@ export default class NodeEvalContext {
   commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     this.numCommits++;
     this.writeOutputs();
-    this.graphEvaluator.commit(new NodeSocketRef(this.graphEvaluator.graph.nodes.indexOf(this.node), downstreamFlowSocketName), onDownstreamCompleted);
+    this.graphEvaluator.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), onDownstreamCompleted);
   }
 
   // eslint-disable-next-line class-methods-use-this

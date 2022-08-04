@@ -1,74 +1,85 @@
 {
     "nodes": [
     {
-        "type": "event/start"
+        "type": "event/start",
+        "id": "0"
     },
     {
         "type": "logic/numberConstant",
+        "id": "1",
         "inputs": {
             "a": { "value": 3 }
         }
     },
     {
         "type": "logic/numberPow",
+        "id": "2",
         "inputs": {
-            "a": { "links": [ { "node": 1, "socket": "result" } ] },
+            "a": { "links": [ { "nodeId": "1", "socket": "result" } ] },
             "b": { "value": 1 }
         }
     },
     {
         "type": "logic/numberPow",
+        "id": "3",
         "inputs": {
-            "a": { "links": [ { "node": 1, "socket": "result" } ] },
+            "a": { "links": [ { "nodeId": "1", "socket": "result" } ] },
             "b": { "value": 2 }
         }
     },
     {
         "type": "logic/numberPow",
+        "id": "4",
         "inputs": {
-            "a": { "links": [ { "node": 1, "socket": "result" } ] },
+            "a": { "links": [ { "nodeId": "1", "socket": "result" } ] },
             "b": { "value": 3 }
         }
     },
     {
         "type": "logic/numberMultiply",
+        "id": "5",
         "inputs": {
-            "a": { "links": [ { "node": 2, "socket": "result" } ] },
+            "a": { "links": [ { "nodeId": "2", "socket": "result" } ] },
             "b": { "value": 3 }
         }
     },
     {
         "type": "logic/numberAdd",
+        "id": "6",
         "inputs": {
-            "a": { "links": [ { "node": 5, "socket": "result" } ] },
-            "b": { "links": [ { "node": 3, "socket": "result" } ] }
+            "a": { "links": [ { "nodeId": "5", "socket": "result" } ] },
+            "b": { "links": [ { "nodeId": "3", "socket": "result" } ] }
         }
     },
     {
         "type": "logic/numberNegate",
+        "id": "7",
         "inputs": {
-            "a": { "links": [ { "node": 4, "socket": "result" } ] },
+            "a": { "links": [ { "nodeId": "4", "socket": "result" } ] },
             "b": { "value": 10 }
         }
     },
     {
         "type": "logic/numberAdd",
+        "id": "8",
         "inputs": {
-            "a": { "links": [ { "node": 6, "socket": "result" } ] },
-            "b": { "links": [ { "node": 7, "socket": "result" } ] }
+            "a": { "links": [ { "nodeId": "6", "socket": "result" } ] },
+            "b": { "links": [ { "nodeId": "7", "socket": "result" } ] }
         }
     },
     {
         "type": "logic/numberToString",
+        "id": "9",
         "inputs": {
-            "a": { "links": [ { "node": 8, "socket": "result" } ] }
+            "a": { "links": [ { "nodeId": "8", "socket": "result" } ] }
         }
     },
     {
         "type": "action/log",
+        "id": "10",
         "inputs": {
-            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
-            "text": { "links": [ { "node": 9, "socket": "result" } ]}
+            "flow": { "links": [ { "nodeId": "0", "socket": "flow" } ] },
+            "text": { "links": [ { "nodeId": "9", "socket": "result" } ]}
         }
     }
 ]

@@ -1,6 +1,6 @@
 export default class NodeSocketRef {
   constructor(
-        public nodeIndex: number,
+        public nodeId: string,
         public socketName: string,
   ) {
   }

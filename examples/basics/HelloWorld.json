@@ -1,12 +1,14 @@
 {
     "nodes": [
     {
-        "type": "event/start"
+        "type": "event/start",
+        "id": "0"
     },
     {
         "type": "action/log",
+        "id": "1",
         "inputs": {
-            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
+            "flow": { "links": [ { "nodeId": "0", "socket": "flow" } ] },
             "text": { "value": "Hello World!" }
         }
     }

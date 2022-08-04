@@ -15,13 +15,13 @@ export { default as StringSocket } from './Sockets/Typed/StringSocket';
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/GraphEvaluator';
 export { default as NodeEvalContext } from './Nodes/NodeEvalContext';
-export { default as readGraphFromJSON } from './Graphs/readGraphFromJSON';
-export { default as writeGraphToJSON } from './Graphs/writeGraphToJSON';
-export { default as writeNodeSpecsToJSON } from './Graphs/writeNodeSpecsToJSON';
+export { default as readGraphFromJSON } from './Graphs/IO/readGraphFromJSON';
+export { default as writeGraphToJSON } from './Graphs/IO/writeGraphToJSON';
+export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSON';
 
 // node registry
 export { default as GraphTypeRegistry } from './Graphs/GraphTypeRegistry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // types
-export * from './Graphs/GraphJSON';
+export * from './Graphs/IO/GraphJSON';

@@ -13,8 +13,8 @@ async function main() {
   registerGenericNodes(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
-  const exampleName = urlSearchParams.get("exampleName");
-  const graphJsonPath = `/examples/basics/${exampleName}.json`;
+  const graphName = urlSearchParams.get("graph");
+  const graphJsonPath = `/examples/basics/${graphName}.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }

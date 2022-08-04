@@ -1,5 +1,3 @@
-import * as fs from 'fs/promises';
-
 import {
   Debug,
   GraphEvaluator,
@@ -13,7 +11,7 @@ async function main() {
   registerGenericNodes(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
-  const graphName = urlSearchParams.get("graph");
+  const graphName = urlSearchParams.get('graph');
   const graphJsonPath = `/examples/basics/${graphName}.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');

@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({rootDir: "./src/lib"}), del({ targets: 'dist/lib/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/lib' }), del({ targets: 'dist/lib/*' })],
   },
   {
     input: 'dist/lib/index.d.ts',
@@ -28,23 +28,23 @@ export default [
     ],
   },
   {
-    input: 'src/examples/commandline/index.ts',
+    input: 'src/examples/command/index.ts',
     output: [
       {
-        file: 'dist/examples/commandline/index.js',
+        file: 'dist/examples/command/index.js',
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({rootDir: "./src/examples/commandline"}), del({ targets: 'dist/examples/commandline/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/command' }), del({ targets: 'dist/examples/command/*' })],
   },
   {
-    input: 'src/examples/simpleweb/index.ts',
+    input: 'src/examples/web/index.ts',
     output: [
       {
-        file: 'dist/examples/simpleweb/index.js',
+        file: 'dist/examples/web/index.js',
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({rootDir: "./src/examples/simpleweb"}), del({ targets: 'dist/examples/simpleweb/*' })],
-  }
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/web' }), del({ targets: 'dist/examples/web/*' })],
+  },
 ];

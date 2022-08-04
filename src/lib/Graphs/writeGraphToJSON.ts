@@ -4,38 +4,51 @@ import {
 } from './GraphJSON';
 
 export default function writeGraphToJSON(graph: Graph): GraphJSON {
-  const graphJson: GraphJSON = { name: graph.name, nodes: [], metadata: graph.metadata };
+  const graphJson: GraphJSON = { nodes: [] };
+
+  if (graph.name.length > 0) {
+    graphJson.name = graph.name;
+  }
+  if (Object.keys(graph.metadata).length > 0) {
+    graphJson.metadata = graph.metadata;
+  }
 
   // create new BehaviorNode instances for each node in the json.
   graph.nodes.forEach((node) => {
     const nodeJson: NodeJSON = {
-      label: node.label,
       type: node.typeName,
-      metadata: node.metadata,
     };
+    if (node.label.length > 0) {
+      nodeJson.label = node.label;
+    }
+    if (Object.keys(node.metadata).length > 0) {
+      nodeJson.metadata = node.metadata;
+    }
 
-    const inputsJson: NodeJSON['inputs'] = {};
+    if (node.inputSockets.length > 0) {
+      const inputsJson: NodeJSON['inputs'] = {};
 
-    node.inputSockets.forEach((inputSocket) => {
-      const inputJson: InputJSON = {};
+      node.inputSockets.forEach((inputSocket) => {
+        const inputJson: InputJSON = {};
 
-      if (inputSocket.links.length === 0) {
-        inputJson.value = inputSocket.value;
-      } else {
-        const linksJson: LinkJSON[] = [];
-        inputSocket.links.forEach((nodeSocketRef) => {
-          linksJson.push({
-            node: nodeSocketRef.nodeIndex,
-            socket: nodeSocketRef.socketName,
+        if (inputSocket.links.length === 0) {
+          inputJson.value = inputSocket.value;
+        } else {
+          const linksJson: LinkJSON[] = [];
+          inputSocket.links.forEach((nodeSocketRef) => {
+            linksJson.push({
+              node: nodeSocketRef.nodeIndex,
+              socket: nodeSocketRef.socketName,
+            });
           });
-        });
 
-        inputJson.links = linksJson;
-      }
+          inputJson.links = linksJson;
+        }
 
-      inputsJson[inputSocket.name] = inputJson;
-    });
-    nodeJson.inputs = inputsJson;
+        inputsJson[inputSocket.name] = inputJson;
+      });
+      nodeJson.inputs = inputsJson;
+    }
 
     graphJson.nodes.push(nodeJson);
   });

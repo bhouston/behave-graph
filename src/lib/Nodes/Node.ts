@@ -12,7 +12,7 @@ export default class Node {
       public typeName: string,
       public inputSockets: Socket[],
       public outputSockets: Socket[],
-      public func: NodeEvalFunction,
+      public evalFunc: NodeEvalFunction,
   ) {
     // determine if this is an eval node
     let areAnySocketsEvalType = false;

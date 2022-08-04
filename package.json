@@ -28,6 +28,7 @@
     "@types/node": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
+    "es-dev-server": "^2.1.0",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
@@ -44,9 +45,9 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "exec": "npm run build && node ./dist/examples/Runner.js",
+    "exec": "npm run build && node ./dist/examples/commandline/index.js",
     "lint": "eslint \"src/**\"",
-    "lint:fix": "npm run lint -- --fix"
-  },
-  "dependencies": {}
+    "lint:fix": "npm run lint -- --fix",
+    "start": "es-dev-server --node-resolve --watch"
+  }
 }

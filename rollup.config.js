@@ -28,13 +28,23 @@ export default [
     ],
   },
   {
-    input: 'src/examples/Runner.ts',
+    input: 'src/examples/commandline/index.ts',
     output: [
       {
-        file: 'dist/examples/Runner.js',
+        file: 'dist/examples/commandline/index.js',
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({rootDir: "./src/examples"}), del({ targets: 'dist/examples/*' })],
+    plugins: [commonjs(), typescript({rootDir: "./src/examples/commandline"}), del({ targets: 'dist/examples/commandline/*' })],
+  },
+  {
+    input: 'src/examples/simpleweb/index.ts',
+    output: [
+      {
+        file: 'dist/examples/simpleweb/index.js',
+        format: 'esm',
+      },
+    ],
+    plugins: [commonjs(), typescript({rootDir: "./src/examples/simpleweb"}), del({ targets: 'dist/examples/simpleweb/*' })],
   }
 ];

@@ -28,14 +28,14 @@ export default [
     ],
   },
   {
-    input: 'src/examples/command/index.ts',
+    input: 'src/examples/exec-graph/index.ts',
     output: [
       {
-        file: 'dist/examples/command/index.js',
+        file: 'dist/examples/exec-graph/index.js',
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/examples/command' }), del({ targets: 'dist/examples/command/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/exec-graph' }), del({ targets: 'dist/examples/exec-graph/*' })],
   },
   {
     input: 'src/examples/web/index.ts',
@@ -46,5 +46,15 @@ export default [
       },
     ],
     plugins: [commonjs(), typescript({ rootDir: './src/examples/web' }), del({ targets: 'dist/examples/web/*' })],
+  },
+  {
+    input: 'src/examples/export-node-spec/index.ts',
+    output: [
+      {
+        file: 'dist/examples/export-node-spec/index.js',
+        format: 'esm',
+      },
+    ],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/export-node-spec' }), del({ targets: 'dist/examples/export-node-spec/*' })],
   },
 ];

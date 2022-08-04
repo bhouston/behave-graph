@@ -1,5 +1,6 @@
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
+import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
@@ -7,6 +8,7 @@ import NodeEvalContext from '../../NodeEvalContext';
 export default class Sequence extends Node {
   constructor() {
     super(
+      NodeCategory.Flow,
       'flow/sequence',
       [new FlowSocket()],
       [

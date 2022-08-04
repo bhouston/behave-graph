@@ -45,7 +45,8 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "exec": "npm run build && node ./dist/examples/command/index.js",
+    "exec-graph": "npm run build && node ./dist/examples/exec-graph/index.js",
+    "export-node-spec": "npm run build && node ./dist/examples/export-node-spec/index.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
     "start": "es-dev-server --node-resolve --watch"

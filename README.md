@@ -51,7 +51,7 @@ The example behavior graphs are in the ```/examples``` folder.  You can execute 
 
 The main syntax is this one:
 ```zsh
-npm run exec -- ./examples/[examplename].json
+npm run exec-graph -- ./examples/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -77,7 +77,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/basics/HelloWorld.json
+> npm run exec-graph -- ./examples/basics/HelloWorld.json
 
 Hello World!
 ```
@@ -124,7 +124,7 @@ In this example, we set a state variable called "counter" to 1000 and then later
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/basics/State.json
+> npm run exec-graph -- ./examples/basics/State.json
 
 1000
 ```
@@ -165,7 +165,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/basics/Branch.json
+> npm run exec-graph -- ./examples/basics/Branch.json
 
 Condition is false!
 ```
@@ -253,7 +253,7 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/basics/Math.json
+> npm run exec-graph -- ./examples/basics/Math.json
 
 -9
 ```
@@ -294,7 +294,7 @@ Behave-Graph support asynchronous nodes.  These are nodes which will continue ex
 Console output:
 
 ```zsh
-> npm run exec -- ./examples/basics/Delay.json
+> npm run exec-graph -- ./examples/basics/Delay.json
 
 Waiting...
 One Second Later!

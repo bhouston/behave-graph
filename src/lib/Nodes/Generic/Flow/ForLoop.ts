@@ -1,11 +1,13 @@
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
+import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class ForLoop extends Node {
   constructor() {
     super(
+      NodeCategory.Flow,
       'flow/forLoop',
       [
         new FlowSocket(),

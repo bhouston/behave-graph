@@ -1,3 +1,4 @@
+import { Metadata } from '../Graphs/Metadata';
 import Socket from '../Sockets/Socket';
 import { NodeEvalFunction } from './NodeEvalFunction';
 
@@ -7,6 +8,8 @@ function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
 
 export default class Node {
   public readonly isEvalNode: boolean;
+  public label: string = '';
+  public metadata: Metadata = {};
 
   constructor(
       public typeName: string,

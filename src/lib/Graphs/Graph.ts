@@ -1,6 +1,7 @@
 import Node from '../Nodes/Node';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
+import { Metadata } from './Metadata';
 
 // Purpose:
 //  - stores the node graph
@@ -9,6 +10,7 @@ export default class Graph {
   public name: string = '';
   public nodes: Node[] = [];
   public state = new Map<string, any>();
+  public metadata: Metadata = {};
 
   getInputSocket(nodeSocketRef: NodeSocketRef): Socket {
     const node = this.nodes[nodeSocketRef.nodeIndex];

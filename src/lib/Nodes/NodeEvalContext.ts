@@ -39,7 +39,7 @@ export default class NodeEvalContext {
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    this.node.func(this);
+    this.node.evalFunc(this);
 
     if (!this.async) {
       this.writeOutputs(); // TODO: replace this with commit(), no need for this overlapping duplicate codex
@@ -55,7 +55,7 @@ export default class NodeEvalContext {
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
-    this.node.func(this);
+    this.node.evalFunc(this);
 
     // confirm assumptions for immediate evaluation.
     Debug.asset(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');

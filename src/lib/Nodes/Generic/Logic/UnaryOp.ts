@@ -3,7 +3,7 @@ import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class UnaryOp<Input, Output> extends Node {
-  constructor(nodeName: string, public uniaryEvalFunc: (a: Input) => Output) {
+  constructor(nodeName: string, public unaryEvalFunc: (a: Input) => Output) {
     super(
       nodeName,
       [
@@ -11,7 +11,7 @@ export default class UnaryOp<Input, Output> extends Node {
       ],
       [new NumberSocket('result')],
       (context: NodeEvalContext) => {
-        context.setOutputValue('result', this.uniaryEvalFunc(context.getInputValue('a')));
+        context.setOutputValue('result', this.unaryEvalFunc(context.getInputValue('a')));
       },
     );
   }

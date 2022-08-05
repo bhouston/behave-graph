@@ -1,0 +1,16 @@
+{
+    "nodes": [
+    {
+        "type": "event/start",
+        "id": "0"
+    },
+    {
+        "type": "action/log",
+        "id": "1",
+        "inputs": {
+            "flow": { "links": [ { "nodeId": "0", "socket": "flow" }, { "nodeId": 1, "socket": "flow" } ] },
+            "text": { "value": "Self Loop!" }
+        }
+    }
+]
+}

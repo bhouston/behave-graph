@@ -109,7 +109,7 @@ export default class NodeEvalContext {
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    Debug.log(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
+    Debug.logVerbose(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
     console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

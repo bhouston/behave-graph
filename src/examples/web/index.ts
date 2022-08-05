@@ -13,20 +13,20 @@ async function main() {
     throw new Error('no path specified');
   }
 
-  Debug.log(`reading behavior graph: ${graphJsonPath}`);
+  Debug.logVerbose(`reading behavior graph: ${graphJsonPath}`);
   const json = await (await fetch(graphJsonPath)).json();
   const graph = readGraphFromJSON(json, registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
 
-  Debug.log('creating behavior graph');
+  Debug.logVerbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Debug.log('triggering start event');
+  Debug.logVerbose('triggering start event');
   graphEvaluator.triggerEvents('event/start');
 
-  Debug.log('executing all (async)');
+  Debug.logVerbose('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }
 

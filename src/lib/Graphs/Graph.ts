@@ -1,6 +1,9 @@
 import Node from '../Nodes/Node';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
+import GraphTypeRegistry from './GraphTypeRegistry';
+import readGraphFromJSON from './IO/readGraphFromJSON';
+import writeGraphToJSON from './IO/writeGraphToJSON';
 import { Metadata } from './Metadata';
 
 // Purpose:
@@ -11,6 +14,9 @@ export default class Graph {
   public nodes: { [id:string]: Node} = {};
   public state = new Map<string, any>();
   public metadata: Metadata = {};
+
+  constructor(public registry: GraphTypeRegistry) {
+  }
 
   getInputSocket(nodeSocketRef: NodeSocketRef): Socket {
     const node = this.nodes[nodeSocketRef.nodeId];
@@ -24,5 +30,11 @@ export default class Graph {
     const outputSocket = node.outputSockets.find((socket) => socket.name === nodeSocketRef.socketName);
     if (outputSocket === undefined) throw new Error('all node socket refs must resolve');
     return outputSocket;
+  }
+
+  clone(): Graph {
+    // this is a quick hack but it works:
+    const graphJSON = writeGraphToJSON(this);
+    return readGraphFromJSON(graphJSON, this.registry);
   }
 }

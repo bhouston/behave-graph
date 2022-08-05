@@ -1,9 +1,10 @@
 import Graph from '../Graph';
+import GraphRegistry from '../GraphRegistry';
 import {
   GraphJSON, InputJSON, LinkJSON, NodeJSON,
 } from './GraphJSON';
 
-export default function writeGraphToJSON(graph: Graph): GraphJSON {
+export default function writeGraphToJSON(graph: Graph, registry: GraphRegistry): GraphJSON {
   const graphJson: GraphJSON = { nodes: [] };
 
   if (graph.name.length > 0) {
@@ -33,7 +34,7 @@ export default function writeGraphToJSON(graph: Graph): GraphJSON {
         const inputJson: InputJSON = {};
 
         if (inputSocket.links.length === 0) {
-          inputJson.value = inputSocket.value;
+          inputJson.value = registry.values.get(inputSocket.valueTypeName).toString(inputSocket.value);
         } else {
           const linksJson: LinkJSON[] = [];
           inputSocket.links.forEach((nodeSocketRef) => {

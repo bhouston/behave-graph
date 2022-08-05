@@ -1,14 +1,14 @@
 import * as fs from 'fs/promises';
 
 import {
-  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
+  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
   Debug.verbose = false;
 
-  const registry = new GraphTypeRegistry();
-  registerGenericNodes(registry);
+  const registry = new GraphRegistry();
+  registerGenericNodes(registry.nodes);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {

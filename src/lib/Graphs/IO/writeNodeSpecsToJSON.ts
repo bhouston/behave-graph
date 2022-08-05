@@ -1,13 +1,13 @@
 import { NodeCategory } from '../../Nodes/NodeCategory';
-import GraphTypeRegistry from '../GraphTypeRegistry';
+import GraphRegistry from '../GraphRegistry';
 import {
   InputSocketSpecJSON, NodeSpecJSON, NodeSpecsJSON, OutputSocketSpecJSON,
 } from './NodeSpecJSON';
 
-export default function writeNodeSpecsToJSON(registry: GraphTypeRegistry): NodeSpecsJSON {
+export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpecsJSON {
   const nodeSpecsJSON: NodeSpecsJSON = [];
 
-  registry.nodeTypeNameToNodeFactory.forEach((nodeFactory, nodeType) => {
+  registry.nodes.nodeTypeNameToNodeFactory.forEach((nodeFactory, nodeType) => {
     const node = nodeFactory();
 
     const nodeSpecJSON: NodeSpecJSON = {

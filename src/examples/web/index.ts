@@ -1,10 +1,10 @@
 import {
-  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
+  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, registerGenericNodes,
 } from '../../../dist/lib/index';
 
 async function main() {
-  const registry = new GraphTypeRegistry();
-  registerGenericNodes(registry);
+  const registry = new GraphRegistry();
+  registerGenericNodes(registry.nodes);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const graphName = urlSearchParams.get('graph');

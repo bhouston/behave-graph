@@ -1,10 +1,10 @@
 import * as fs from 'fs/promises';
 
-import { GraphTypeRegistry, registerGenericNodes, writeNodeSpecsToJSON } from '../../../dist/lib/index';
+import { GraphRegistry, registerGenericNodes, writeNodeSpecsToJSON } from '../../../dist/lib/index';
 
 async function main() {
-  const registry = new GraphTypeRegistry();
-  registerGenericNodes(registry);
+  const registry = new GraphRegistry();
+  registerGenericNodes(registry.nodes);
 
   const outputPath = process.argv[2];
   if (outputPath === undefined) {

@@ -20,7 +20,9 @@ export { default as writeGraphToJSON } from './Graphs/IO/writeGraphToJSON';
 export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSON';
 
 // node registry
-export { default as GraphTypeRegistry } from './Graphs/GraphTypeRegistry';
+export { default as NodeTypeRegistry } from './Nodes/NodeTypeRegistry';
+export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
+export { default as GraphRegistry } from './Graphs/GraphRegistry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // graph validation

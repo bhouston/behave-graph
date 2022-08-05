@@ -3,7 +3,7 @@ import { Metadata } from '../Metadata';
 export type LinkJSON = { nodeId: string; socket: string };
 
 export type InputJSON = {
-  value?: string | number | boolean;
+  value?: string;
   links?: LinkJSON[];
 }
 

@@ -1,13 +1,13 @@
 import Debug from '../../Debug';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Graph from '../Graph';
-import GraphTypeRegistry from '../GraphTypeRegistry';
+import GraphRegistry from '../GraphRegistry';
 import { GraphJSON } from './GraphJSON';
 
 // Purpose:
 //  - loads a node graph
-export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphTypeRegistry): Graph {
-  const graph = new Graph(registry);
+export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphRegistry): Graph {
+  const graph = new Graph();
 
   graph.name = graphJson.name || graph.name;
   graph.metadata = graphJson.metadata || graph.metadata;
@@ -27,7 +27,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphT
       throw new Error('loadGraph: no type for node');
     }
     const nodeName = nodeJson.type;
-    const node = registry.createNode(nodeName, nodeJson.id);
+    const node = registry.nodes.create(nodeName, nodeJson.id);
 
     node.label = nodeJson.label || node.label;
     node.metadata = nodeJson.metadata || node.metadata;
@@ -44,7 +44,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphT
         const inputJson = inputsJson[socket.name];
         if (inputJson.value !== undefined) {
         // eslint-disable-next-line no-param-reassign
-          socket.value = inputJson.value;
+          socket.value = registry.values.get(socket.valueTypeName).parse(inputJson.value);
         }
 
         if (inputJson.links !== undefined) {

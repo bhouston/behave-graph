@@ -1,0 +1,16 @@
+{
+    "nodes": [
+    {
+        "type": "event/start",
+        "id": "0"
+    },
+    {
+        "type": "action/log",
+        "id": "1",
+        "inputs": {
+            "flow": { "links": [ { "nodeId": "2", "socket": "flow" } ] },
+            "text": { "value": "The node id for the link doesn't exist" }
+        }
+    }
+]
+}

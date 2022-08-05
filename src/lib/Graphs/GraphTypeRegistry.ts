@@ -1,3 +1,4 @@
+import Debug from '../Debug';
 import generateUuid from '../generateUuid';
 import Node from '../Nodes/Node';
 import { NodeFactory } from '../Nodes/NodeFactory';
@@ -22,6 +23,7 @@ export default class GraphTypeRegistry {
     }
     const node = factory();
     node.id = nodeId;
+    Debug.asset(node.typeName === nodeTypeName);
     return node;
   }
 }

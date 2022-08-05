@@ -1,10 +1,12 @@
 import * as fs from 'fs/promises';
 
 import {
-  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
+  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
+  Debug.verbose = false;
+
   const registry = new GraphTypeRegistry();
   registerGenericNodes(registry);
 
@@ -13,20 +15,33 @@ async function main() {
     throw new Error('no path specified');
   }
 
-  Debug.log(`reading behavior graph: ${graphJsonPath}`);
+  Debug.logVerbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
   const graph = readGraphFromJSON(JSON.parse(textFile), registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
+  Debug.logVerbose('validating behavior graph');
+  const errorList: string[] = [];
+  Debug.logVerbose('validating socket links have matching types on either end');
+  errorList.push(...validateLinks(graph));
+  Debug.logVerbose('validating that graph is directed acyclic');
+  errorList.push(...validateDirectedAcyclicGraph(graph));
+  if (errorList.length > 0) {
+    Debug.logError(`graph is invalidate, ${errorList.length} errors found:`);
+    errorList.forEach((errorText, errorIndex) => {
+      Debug.logError(`${errorIndex}: ${errorText}`);
+    });
+    return;
+  }
 
-  Debug.log('creating behavior graph');
+  Debug.logVerbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Debug.log('triggering start event');
+  Debug.logVerbose('triggering start event');
   graphEvaluator.triggerEvents('event/start');
 
-  Debug.log('executing all (async)');
+  Debug.logVerbose('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }
 

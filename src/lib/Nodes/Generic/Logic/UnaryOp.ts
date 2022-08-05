@@ -1,17 +1,19 @@
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
+import createTypedSocket from '../../../Sockets/Typed/TypedSocketFactory';
 import Node from '../../Node';
 import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class UnaryOp<Input, Output> extends Node {
-  constructor(nodeName: string, public unaryEvalFunc: (a: Input) => Output) {
+  constructor(nodeName: string, inputValueType: string, outputValueType: string, public unaryEvalFunc: (a: Input) => Output) {
     super(
       NodeCategory.Logic,
       nodeName,
       [
-        new NumberSocket('a'),
+        createTypedSocket(inputValueType, 'a'),
       ],
-      [new NumberSocket('result')],
+      [
+        createTypedSocket(outputValueType, 'result'),
+      ],
       (context: NodeEvalContext) => {
         context.setOutputValue('result', this.unaryEvalFunc(context.getInputValue('a')));
       },

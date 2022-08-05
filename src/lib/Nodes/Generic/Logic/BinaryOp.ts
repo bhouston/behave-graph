@@ -1,18 +1,20 @@
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
+import createTypedSocket from '../../../Sockets/Typed/TypedSocketFactory';
 import Node from '../../Node';
 import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class BinaryOp<Input, Output> extends Node {
-  constructor(nodeName: string, public binaryEvalFunc: (a: Input, b: Input) => Output) {
+  constructor(nodeName: string, inputValueType: string, outputValueType: string, public binaryEvalFunc: (a: Input, b: Input) => Output) {
     super(
       NodeCategory.Logic,
       nodeName,
       [
-        new NumberSocket('a'),
-        new NumberSocket('b'),
+        createTypedSocket(inputValueType, 'a'),
+        createTypedSocket(inputValueType, 'b'),
       ],
-      [new NumberSocket('result')],
+      [
+        createTypedSocket(outputValueType, 'result'),
+      ],
       (context: NodeEvalContext) => {
         context.setOutputValue('result', this.binaryEvalFunc(context.getInputValue('a'), context.getInputValue('b')));
       },

@@ -55,8 +55,7 @@
         "type": "logic/numberNegate",
         "id": "7",
         "inputs": {
-            "a": { "links": [ { "nodeId": "4", "socket": "result" } ] },
-            "b": { "value": 10 }
+            "a": { "links": [ { "nodeId": "4", "socket": "result" } ] }
         }
     },
     {

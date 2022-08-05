@@ -85,7 +85,7 @@ export default class GraphEvaluator {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    Debug.log(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
+    Debug.logVerbose(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
 
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
@@ -102,14 +102,14 @@ export default class GraphEvaluator {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Debug.log(`GraphEvaluator: commit: ${node.typeName}.${outputSocket.name}`);
+    Debug.logVerbose(`GraphEvaluator: commit: ${node.typeName}.${outputSocket.name}`);
 
     if (outputSocket.links.length > 1) {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
       + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
-      Debug.log(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
+      Debug.logVerbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       this.flowWorkQueue.push(outputSocket.links[0]);
     }
@@ -125,7 +125,7 @@ export default class GraphEvaluator {
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeId];
-    Debug.log(`evaluating node: ${node.typeName}`);
+    Debug.logVerbose(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
@@ -139,7 +139,7 @@ export default class GraphEvaluator {
       }
     });
 
-    Debug.log(`GraphEvaluator: evaluating flow node ${node.typeName}`);
+    Debug.logVerbose(`GraphEvaluator: evaluating flow node ${node.typeName}`);
 
     const context = new NodeEvalContext(this, node);
     context.evalFlow();
@@ -185,8 +185,8 @@ export default class GraphEvaluator {
       await sleep(0.5);
       stepsExecuted += this.executeAll(stepLimit);
       timeUsed += 0.01;
-      Debug.log(`this.asyncNodes.length: ${this.asyncNodes.length}`);
-      Debug.log(`this.flowWorkQueue.length: ${this.flowWorkQueue.length}`);
+      Debug.logVerbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
+      Debug.logVerbose(`this.flowWorkQueue.length: ${this.flowWorkQueue.length}`);
     } while ((this.asyncNodes.length > 0 || this.flowWorkQueue.length > 0) && timeUsed < timeLimit && stepsExecuted < stepLimit);
 
     return stepsExecuted;

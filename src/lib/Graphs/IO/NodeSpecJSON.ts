@@ -1,3 +1,5 @@
+import { NodeCategory } from '../../Nodes/NodeCategory';
+
 export type InputSocketSpecJSON = {
   name: string;
   valueType: 'flow' |'string'|'number'|'boolean',
@@ -11,7 +13,7 @@ export type OutputSocketSpecJSON = {
 
 export type NodeSpecJSON = {
   type: string;
-  category: string;
+  category: NodeCategory;
   inputs: InputSocketSpecJSON[];
   outputs: OutputSocketSpecJSON[];
 };

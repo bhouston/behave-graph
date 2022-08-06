@@ -1,7 +1,7 @@
 export type InputSocketSpec = {
   name: string;
   valueType: 'flow' |'string'|'number'|'boolean',
-  defaultValue: string | number | boolean | undefined
+  defaultValue?: string | number | boolean
 }
 
 export type OutputSocketSpec = {

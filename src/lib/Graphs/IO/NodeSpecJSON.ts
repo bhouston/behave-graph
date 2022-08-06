@@ -1,17 +1,17 @@
-export type InputSocketSpec = {
+export type InputSocketSpecJSON = {
   name: string;
   valueType: 'flow' |'string'|'number'|'boolean',
   defaultValue?: string | number | boolean
 }
 
-export type OutputSocketSpec = {
+export type OutputSocketSpecJSON = {
   name: string;
   valueType: 'flow' |'string'|'number'|'boolean'
 }
 
-export type NodeSpec = {
+export type NodeSpecJSON = {
   type: string;
   category: string;
-  inputs: InputSocketSpec[];
-  outputs: OutputSocketSpec[];
+  inputs: InputSocketSpecJSON[];
+  outputs: OutputSocketSpecJSON[];
 };

@@ -1,13 +1,13 @@
 import GraphRegistry from '../GraphRegistry';
-import { InputSocketSpec, NodeSpec, OutputSocketSpec } from './NodeSpecJSON';
+import { InputSocketSpecJSON, NodeSpecJSON, OutputSocketSpecJSON } from './NodeSpecJSON';
 
-export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpec[] {
-  const nodeSpecsJSON: NodeSpec[] = [];
+export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpecJSON[] {
+  const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   registry.nodes.nodeTypeNameToNodeFactory.forEach((nodeFactory, nodeType) => {
     const node = nodeFactory();
 
-    const nodeSpecJSON: NodeSpec = {
+    const nodeSpecJSON: NodeSpecJSON = {
       type: nodeType,
       category: node.category,
       inputs: [],
@@ -15,7 +15,7 @@ export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpec[
     };
 
     node.inputSockets.forEach((inputSocket) => {
-      const socketSpecJSON: InputSocketSpec = {
+      const socketSpecJSON: InputSocketSpecJSON = {
         name: inputSocket.name,
         defaultValue: inputSocket.value,
         valueType: inputSocket.valueTypeName,
@@ -24,7 +24,7 @@ export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpec[
     });
 
     node.outputSockets.forEach((outputSocket) => {
-      const socketSpecJSON: OutputSocketSpec = {
+      const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName,
       };

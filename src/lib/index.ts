@@ -31,3 +31,4 @@ export { default as validateLinks } from './Graphs/Validation/validateLinks';
 
 // types
 export * from './Graphs/IO/GraphJSON';
+export * from './Graphs/IO/NodeSpecJSON';

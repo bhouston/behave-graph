@@ -1,20 +1,17 @@
-export type LinkJSON = { node: number; socket: string };
-
-export type InputSocketSpecJSON = {
-  name: string,
-  valueType: string,
-  defaultValue: string;
-}
-export type OutputSocketSpecJSON = {
-  name: string,
-  valueType: string,
+export type InputSocketSpec = {
+  name: string;
+  valueType: 'flow' |'string'|'number'|'boolean',
+  defaultValue: string | number | boolean | undefined
 }
 
-export type NodeSpecJSON = {
+export type OutputSocketSpec = {
+  name: string;
+  valueType: 'flow' |'string'|'number'|'boolean'
+}
+
+export type NodeSpec = {
   type: string;
   category: string;
-  inputs: InputSocketSpecJSON[];
-  outputs: OutputSocketSpecJSON[];
+  inputs: InputSocketSpec[];
+  outputs: OutputSocketSpec[];
 };
-
-export type NodeSpecsJSON = NodeSpecJSON[];

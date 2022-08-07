@@ -176,14 +176,14 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -210,14 +210,14 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "string"
    }
   ]
  },
@@ -227,14 +227,14 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -244,19 +244,19 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    },
    {
     "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -266,19 +266,19 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    },
    {
     "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": true,
+    "valueType": "boolean"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -429,18 +429,7 @@
  {
   "type": "logic/numberE",
   "category": "Logic",
-  "inputs": [
-   {
-    "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
-   },
-   {
-    "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
-   }
-  ],
+  "inputs": [],
   "outputs": [
    {
     "name": "result",
@@ -519,18 +508,7 @@
  {
   "type": "logic/numberPi",
   "category": "Logic",
-  "inputs": [
-   {
-    "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
-   },
-   {
-    "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
-   }
-  ],
+  "inputs": [],
   "outputs": [
    {
     "name": "result",
@@ -789,18 +767,7 @@
  {
   "type": "logic/numberSample",
   "category": "Logic",
-  "inputs": [
-   {
-    "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
-   },
-   {
-    "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
-   }
-  ],
+  "inputs": [],
   "outputs": [
    {
     "name": "result",
@@ -826,7 +793,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -848,7 +815,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -870,7 +837,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -892,7 +859,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -914,7 +881,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -931,7 +898,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -948,7 +915,7 @@
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -958,19 +925,19 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    },
    {
     "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "string"
    }
   ]
  },
@@ -980,19 +947,19 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    },
    {
     "name": "b",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    }
   ],
   "outputs": [
    {
     "name": "result",
-    "valueType": "number"
+    "valueType": "boolean"
    }
   ]
  },
@@ -1009,6 +976,23 @@
   "outputs": [
    {
     "name": "result",
+    "valueType": "string"
+   }
+  ]
+ },
+ {
+  "type": "logic/parseString",
+  "category": "Logic",
+  "inputs": [
+   {
+    "name": "a",
+    "defaultValue": "",
+    "valueType": "string"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "result",
     "valueType": "number"
    }
   ]
@@ -1019,8 +1003,8 @@
   "inputs": [
    {
     "name": "a",
-    "defaultValue": 0,
-    "valueType": "number"
+    "defaultValue": "",
+    "valueType": "string"
    }
   ],
   "outputs": [

@@ -41,8 +41,8 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
   // logic: constants
 
   registry.register('logic/booleanConstant', () => new UnaryOp<boolean, boolean>('logic/booleanConstant', 'boolean', 'boolean', (a) => (a)));
-  registry.register('logic/numberConstant', () => new UnaryOp<number, number>('logic/numberConstant', 'boolean', 'boolean', (a) => (a)));
-  registry.register('logic/stringConstant', () => new UnaryOp<string, string>('logic/stringConstant', 'boolean', 'boolean', (a) => (a)));
+  registry.register('logic/numberConstant', () => new UnaryOp<number, number>('logic/numberConstant', 'number', 'number', (a) => (a)));
+  registry.register('logic/stringConstant', () => new UnaryOp<string, string>('logic/stringConstant', 'string', 'string', (a) => (a)));
 
   // logic: boolean logic
 

@@ -2,13 +2,13 @@ import { NodeCategory } from '../../Nodes/NodeCategory';
 
 export type InputSocketSpecJSON = {
   name: string;
-  valueType: 'flow' |'string'|'number'|'boolean',
-  defaultValue?: string | number | boolean
+  valueType: string,
+  defaultValue?: string
 }
 
 export type OutputSocketSpecJSON = {
   name: string;
-  valueType: 'flow' |'string'|'number'|'boolean'
+  valueType: string;
 }
 
 export type NodeSpecJSON = {

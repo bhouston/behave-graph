@@ -5,7 +5,7 @@ export default class Socket {
 
   constructor(
       public name: string,
-      public valueTypeName: 'flow' | 'string' | 'number' | 'boolean',
+      public valueTypeName: string,
       public value: any | undefined,
   ) {
   }

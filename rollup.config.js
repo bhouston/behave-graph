@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/lib' }), del({ targets: 'dist/lib/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/lib' }), del({ targets: 'dist' })],
   },
   {
     input: 'dist/lib/index.d.ts',
@@ -35,7 +35,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/examples/exec-graph' }), del({ targets: 'dist/examples/exec-graph/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/exec-graph' })],
   },
   {
     input: 'src/examples/web/index.ts',
@@ -45,7 +45,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/examples/web' }), del({ targets: 'dist/examples/web/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/web' })],
   },
   {
     input: 'src/examples/export-node-spec/index.ts',
@@ -55,6 +55,6 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/examples/export-node-spec' }), del({ targets: 'dist/examples/export-node-spec/*' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/examples/export-node-spec' })],
   },
 ];

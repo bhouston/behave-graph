@@ -1,7 +1,6 @@
 import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
-import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class FlipFlop extends Node {
@@ -9,7 +8,7 @@ export default class FlipFlop extends Node {
 
   constructor() {
     super(
-      NodeCategory.Flow,
+      'Flow',
       'flow/flipFlop',
       [
         new FlowSocket(),

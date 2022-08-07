@@ -1,20 +1,19 @@
-export type LinkJSON = { node: number; socket: string };
+import { NodeCategory } from '../../Nodes/NodeCategory';
 
 export type InputSocketSpecJSON = {
-  name: string,
+  name: string;
   valueType: string,
-  defaultValue: string;
+  defaultValue?: string
 }
+
 export type OutputSocketSpecJSON = {
-  name: string,
-  valueType: string,
+  name: string;
+  valueType: string;
 }
 
 export type NodeSpecJSON = {
   type: string;
-  category: string;
+  category: NodeCategory;
   inputs: InputSocketSpecJSON[];
   outputs: OutputSocketSpecJSON[];
 };
-
-export type NodeSpecsJSON = NodeSpecJSON[];

@@ -1,12 +1,11 @@
 import createTypedSocket from '../../../Sockets/Typed/TypedSocketFactory';
 import Node from '../../Node';
-import { NodeCategory } from '../../NodeCategory';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class BinaryOp<Input, Output> extends Node {
   constructor(nodeName: string, inputValueType: string, outputValueType: string, public binaryEvalFunc: (a: Input, b: Input) => Output) {
     super(
-      NodeCategory.Logic,
+      'Logic',
       nodeName,
       [
         createTypedSocket(inputValueType, 'a'),

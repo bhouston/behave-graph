@@ -1,6 +1,6 @@
 {
   "name": "behave-graph",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "src/lib/index.ts",
@@ -49,6 +49,7 @@
     "export-node-spec": "npm run build && node ./dist/examples/export-node-spec/index.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
-    "start": "es-dev-server --node-resolve --watch"
+    "start": "es-dev-server --node-resolve --watch",
+    "prepublishOnly": "npm run export-node-spec node-spec.json"
   }
 }

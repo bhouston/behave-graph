@@ -75,6 +75,8 @@ export default class GraphEvaluator {
     // if upstream node is an eval, we just return its last value.
     const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeId];
     if (upstreamNode.isEvalNode) {
+      // eslint-disable-next-line no-param-reassign
+      inputSocket.value = upstreamOutputSocket.value;
       return upstreamOutputSocket.value;
     }
 

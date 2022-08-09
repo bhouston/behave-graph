@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 
 import {
-  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
+  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, validateGraphRegistry, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
@@ -21,14 +21,17 @@ async function main() {
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-  Debug.logVerbose('validating behavior graph');
+  Debug.logVerbose('validating:');
   const errorList: string[] = [];
+  Debug.logVerbose('validating registry');
+  errorList.push(...validateGraphRegistry(registry));
   Debug.logVerbose('validating socket links have matching types on either end');
   errorList.push(...validateLinks(graph));
   Debug.logVerbose('validating that graph is directed acyclic');
   errorList.push(...validateDirectedAcyclicGraph(graph));
+  
   if (errorList.length > 0) {
-    Debug.logError(`graph is invalidate, ${errorList.length} errors found:`);
+    Debug.logError(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
       Debug.logError(`${errorIndex}: ${errorText}`);
     });

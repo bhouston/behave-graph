@@ -28,6 +28,7 @@ export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 // graph validation
 export { default as validateDirectedAcyclicGraph } from './Graphs/Validation/validateDirectedAcyclicGraph';
 export { default as validateLinks } from './Graphs/Validation/validateLinks';
+export { default as validateGraphRegistry } from './Graphs/Validation/validateGraphRegistry';
 
 // types
 export * from './Graphs/IO/GraphJSON';

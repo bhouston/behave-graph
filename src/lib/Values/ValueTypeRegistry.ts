@@ -5,6 +5,7 @@ export default class ValueTypeRegistry {
 
   constructor() {
     // register core types
+    this.register(new ValueType('flow', () => '', () => '', () => ''));
     this.register(new ValueType('string', () => '', (text) => text, (value) => (value as string)));
     this.register(new ValueType('boolean', () => false, (text) => (text === 'true'), (value) => ((value as boolean) ? 'true' : 'false')));
     this.register(new ValueType('number', () => 0, (text) => parseFloat(text), (value) => `${(value as number)}`));

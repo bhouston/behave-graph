@@ -62,7 +62,7 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // logic: exponential
 
-  registry.register('logic/numberE', () => new NullaryOp<number>('logic/numberSign', 'number', () => (Math.E)));
+  registry.register('logic/numberE', () => new NullaryOp<number>('logic/numberE', 'number', () => (Math.E)));
   registry.register('logic/numberExp', () => new UnaryOp<number, number>('logic/numberExp', 'number', 'number', (a) => (Math.exp(a))));
   registry.register('logic/numberLog', () => new UnaryOp<number, number>('logic/numberLog', 'number', 'number', (a) => (Math.log(a))));
   registry.register('logic/numberLog2', () => new UnaryOp<number, number>('logic/numberLog2', 'number', 'number', (a) => (Math.log2(a))));
@@ -70,7 +70,7 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // logic: trigonometry
 
-  registry.register('logic/numberPi', () => new NullaryOp<number>('logic/numberNegate', 'number', () => (Math.PI)));
+  registry.register('logic/numberPi', () => new NullaryOp<number>('logic/numberPi', 'number', () => (Math.PI)));
   registry.register('logic/numberSin', () => new UnaryOp<number, number>('logic/numberSin', 'number', 'number', (a) => (Math.sin(a))));
   registry.register('logic/numberAsin', () => new UnaryOp<number, number>('logic/numberAsin', 'number', 'number', (a) => (Math.asin(a))));
   registry.register('logic/numberCos', () => new UnaryOp<number, number>('logic/numberCos', 'number', 'number', (a) => (Math.cos(a))));
@@ -86,7 +86,7 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
   registry.register('logic/numberAbs', () => new UnaryOp<number, number>('logic/numberAbs', 'number', 'number', (a) => (Math.abs(a))));
   registry.register('logic/numberFloor', () => new UnaryOp<number, number>('logic/numberFloor', 'number', 'number', (a) => (Math.floor(a))));
   registry.register('logic/numberCeil', () => new UnaryOp<number, number>('logic/numberCeil', 'number', 'number', (a) => (Math.ceil(a))));
-  registry.register('logic/numberRound', () => new UnaryOp<number, number>('logic/numberCeil', 'number', 'number', (a) => (Math.round(a))));
+  registry.register('logic/numberRound', () => new UnaryOp<number, number>('logic/numberRound', 'number', 'number', (a) => (Math.round(a))));
   registry.register('logic/numberTrunc', () => new UnaryOp<number, number>('logic/numberTrunc', 'number', 'number', (a) => (Math.trunc(a))));
 
   // logic: sampling

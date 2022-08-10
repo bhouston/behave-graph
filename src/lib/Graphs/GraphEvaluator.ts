@@ -180,7 +180,7 @@ export default class GraphEvaluator {
     return stepsExecuted;
   }
 
-  async executeAllAsync(timeLimit = 0.01, stepLimit: number = 100000000): Promise<number> {
+  async executeAllAsync(timeLimit = 100, stepLimit: number = 100000000): Promise<number> {
     const startDateTime = Date.now();
     let stepsExecuted = 0;
     let elapsedTime = 0;

@@ -29,7 +29,7 @@ async function main() {
   errorList.push(...validateLinks(graph));
   Debug.logVerbose('validating that graph is directed acyclic');
   errorList.push(...validateDirectedAcyclicGraph(graph));
-  
+
   if (errorList.length > 0) {
     Debug.logError(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
@@ -45,7 +45,7 @@ async function main() {
   graphEvaluator.triggerEvents('event/start');
 
   Debug.logVerbose('executing all (async)');
-  await graphEvaluator.executeAllAsync();
+  await graphEvaluator.executeAllAsync(5.0);
 }
 
 main();

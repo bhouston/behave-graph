@@ -45,7 +45,7 @@ async function main() {
   graphEvaluator.triggerEvents('event/start');
 
   Debug.logVerbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5.0);
+  await graphEvaluator.executeAllAsync();
 }
 
 main();

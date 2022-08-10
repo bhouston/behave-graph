@@ -1,3 +1,4 @@
+/* eslint-disable space-in-parens */
 import Debug from '../Debug';
 import Node from '../Nodes/Node';
 import NodeEvalContext from '../Nodes/NodeEvalContext';
@@ -179,17 +180,22 @@ export default class GraphEvaluator {
     return stepsExecuted;
   }
 
-  async executeAllAsync(timeLimit = 100, stepLimit: number = 100000000): Promise<number> {
+  async executeAllAsync(timeLimit = 0.01, stepLimit: number = 100000000): Promise<number> {
+    const startDateTime = Date.now();
     let stepsExecuted = 0;
-    let timeUsed = 0;
+    let elapsedTime = 0;
+    let iterations = 0;
     do {
-      // eslint-disable-next-line no-await-in-loop
-      await sleep(0.5);
+      if ( iterations > 0 ) {
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(0);
+      }
       stepsExecuted += this.executeAll(stepLimit);
-      timeUsed += 0.01;
       Debug.logVerbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
       Debug.logVerbose(`this.flowWorkQueue.length: ${this.flowWorkQueue.length}`);
-    } while ((this.asyncNodes.length > 0 || this.flowWorkQueue.length > 0) && timeUsed < timeLimit && stepsExecuted < stepLimit);
+      elapsedTime = ( Date.now() - startDateTime ) * 0.001;
+      iterations += 1;
+    } while ((this.asyncNodes.length > 0 || this.flowWorkQueue.length > 0) && ( elapsedTime < timeLimit ) && stepsExecuted < stepLimit);
 
     return stepsExecuted;
   }

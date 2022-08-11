@@ -34,7 +34,7 @@ export default function writeGraphToJSON(graph: Graph, registry: GraphRegistry):
         const inputJson: InputJSON = {};
 
         if (inputSocket.links.length === 0) {
-          inputJson.value = registry.values.get(inputSocket.valueTypeName).toString(inputSocket.value);
+          inputJson.value = registry.values.get(inputSocket.valueTypeName).serialize(inputSocket.value);
         } else {
           const linksJson: LinkJSON[] = [];
           inputSocket.links.forEach((nodeSocketRef) => {

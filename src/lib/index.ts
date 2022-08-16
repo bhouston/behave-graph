@@ -5,6 +5,7 @@ export { default as Graph } from './Graphs/Graph';
 export { default as Node } from './Nodes/Node';
 export { NodeFactory } from './Nodes/NodeFactory';
 export { default as NodeSocketRef } from './Nodes/NodeSocketRef';
+export { default as ValueType } from './Values/ValueType';
 export { default as Socket } from './Sockets/Socket';
 export { SocketFactory } from './Sockets/SocketFactory';
 export { default as FlowSocket } from './Sockets/Typed/FlowSocket';

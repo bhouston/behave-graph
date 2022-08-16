@@ -16,7 +16,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
   const nodesJson = graphJson.nodes;
 
   if (nodesJson.length === 0) {
-    console.warn('loadGraph: no nodes specified');
+    console.warn('readGraphFromJSON: no nodes specified');
   }
 
   // create new BehaviorNode instances for each node in the json.
@@ -24,7 +24,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
     const nodeJson = nodesJson[i];
 
     if (nodeJson.type === undefined) {
-      throw new Error('loadGraph: no type for node');
+      throw new Error('readGraphFromJSON: no type for node');
     }
     const nodeName = nodeJson.type;
     const node = registry.nodes.create(nodeName, nodeJson.id);
@@ -37,7 +37,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
       node.inputSockets.forEach((socket) => {
       // warn if no definition.
         if (inputsJson?.[socket.name] === undefined) {
-          Debug.logWarn(`loadGraph: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+          Debug.logWarn(`readGraphFromJSON: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
           return;
         }
 

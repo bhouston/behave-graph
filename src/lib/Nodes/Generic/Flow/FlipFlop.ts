@@ -19,13 +19,8 @@ export default class FlipFlop extends Node {
         new BooleanSocket('isA'),
       ],
       (context: NodeEvalContext) => {
-        if (this.isA) {
-          context.setOutputValue('a', true);
-          context.setOutputValue('isA', true);
-        } else {
-          context.setOutputValue('b', true);
-          context.setOutputValue('isA', false);
-        }
+        context.setOutputValue('isA', this.isA);
+        context.commit(this.isA ? 'a' : 'b');
         this.isA = !this.isA;
       },
     );

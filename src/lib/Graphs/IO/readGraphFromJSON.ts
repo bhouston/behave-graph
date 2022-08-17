@@ -44,7 +44,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
         const inputJson = inputsJson[socket.name];
         if (inputJson.value !== undefined) {
         // eslint-disable-next-line no-param-reassign
-          socket.value = registry.values.get(socket.valueTypeName).parse(inputJson.value);
+          socket.value = registry.values.get(socket.valueTypeName).deserialize(inputJson.value);
         }
 
         if (inputJson.links !== undefined) {

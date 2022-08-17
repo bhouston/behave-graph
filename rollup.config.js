@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/lib' }), del({ targets: 'dist' })],
+    plugins: [commonjs(), typescript({ rootDir: './src/lib', exclude: ['**/*.test.ts'] }), del({ targets: 'dist' })],
   },
   {
     input: 'dist/lib/index.d.ts',

@@ -24,7 +24,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^28.1.7",
     "@types/node": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
@@ -40,7 +40,7 @@
     "rollup": "^2.77.2",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "^4.2.2",
-    "ts-jest": "^28.0.7",
+    "ts-jest": "^28.0.8",
     "typescript": "^4.7.3"
   },
   "scripts": {
@@ -50,6 +50,7 @@
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
     "start": "es-dev-server --node-resolve --watch",
+    "test": "jest src",
     "prepublishOnly": "npm run export-node-spec node-spec.json"
   }
 }

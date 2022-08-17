@@ -16,7 +16,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
   const nodesJson = graphJson.nodes;
 
   if (nodesJson.length === 0) {
-    console.warn('readGraphFromJSON: no nodes specified');
+    Debug.logWarn('readGraphFromJSON: no nodes specified');
   }
 
   // create new BehaviorNode instances for each node in the json.

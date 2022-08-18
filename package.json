@@ -1,11 +1,14 @@
 {
   "name": "behave-graph",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "src/lib/index.ts",
   "module": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "behavior",
     "graph",

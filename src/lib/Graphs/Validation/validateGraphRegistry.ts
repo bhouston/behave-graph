@@ -11,18 +11,20 @@ export default function validateGraphRegistry(graphRegistry: GraphRegistry): str
     }
 
     node.inputSockets.forEach((socket) => {
+      if (socket.valueTypeName === 'flow') return;
       const valueType = graphRegistry.values.valueTypeNameToValueType.get(socket.valueTypeName);
       // check to ensure all value types are supported.
       if (valueType === undefined) {
-        errorList.push(`node '${node.typeName}' has on input socket '${socket.name}' an unregistered value type ${socket.valueTypeName}'`);
+        errorList.push(`node '${node.typeName}' has on input socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`);
       }
     });
 
     node.outputSockets.forEach((socket) => {
+      if (socket.valueTypeName === 'flow') return;
       const valueType = graphRegistry.values.valueTypeNameToValueType.get(socket.valueTypeName);
       // check to ensure all value types are supported.
       if (valueType === undefined) {
-        errorList.push(`node '${node.typeName}' has on output socket '${socket.name}' an unregistered value type ${socket.valueTypeName}'`);
+        errorList.push(`node '${node.typeName}' has on output socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`);
       }
     });
   });

@@ -1,5 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import dts from 'rollup-plugin-dts';
 
@@ -14,7 +15,12 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/lib', exclude: ['**/*.test.ts'] }), del({ targets: 'dist' })],
+    plugins: [
+      commonjs(),
+      typescript({ rootDir: './src/lib', exclude: ['**/*.test.ts'] }),
+      del({ targets: 'dist' }),
+      copy({ targets: [{ src: 'examples', dest: 'dist' }] }),
+    ],
   },
   {
     input: 'dist/lib/index.d.ts',
@@ -55,6 +61,9 @@ export default [
         format: 'esm',
       },
     ],
-    plugins: [commonjs(), typescript({ rootDir: './src/examples/export-node-spec' })],
+    plugins: [
+      commonjs(),
+      typescript({ rootDir: './src/examples/export-node-spec' }),
+    ],
   },
 ];

@@ -3,6 +3,7 @@ import Debug from '../../Debug';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Graph from '../Graph';
+import SyncExecutionBlock from './SyncExecutionBlock';
 
 // eslint-disable-next-line no-promise-executor-return
 const sleep = (duration:number) => new Promise((resolve) => setTimeout(resolve, Math.round(duration * 1000)));
@@ -16,10 +17,28 @@ class AsyncWorkQueue {
 
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
-  public flowWorkQueue: NodeSocketRef[] = [];
+  public executionBlockQueue: SyncExecutionBlock[] = [];
   public asyncNodes: Node[] = [];
 
   constructor(public graph: Graph, public verbose = false) {
+  }
+
+  // asyncCommit
+  asyncCommit(outputFlowSocket: NodeSocketRef) {
+    const node = this.graph.nodes[outputFlowSocket.nodeId];
+    const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
+
+    Debug.logVerbose(`GraphEvaluator: asyncCommit: ${node.typeName}.${outputSocket.name}`);
+
+    if (outputSocket.links.length > 1) {
+      throw new Error('invalid for an output flow socket to have multiple downstream links:'
+      + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
+    }
+    if (outputSocket.links.length === 1) {
+      Debug.logVerbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
+
+      this.executionBlockQueue.push(new SyncExecutionBlock(this, outputSocket.links[0]));
+    }
   }
 
   // maybe this should have an id?
@@ -41,7 +60,10 @@ export default class GraphEvaluator {
         // console.log(outputSocket);
         if (outputSocket.valueTypeName === 'flow') {
           if (outputSocket.links.length === 1) {
-            this.flowWorkQueue.push(outputSocket.links[0]);
+            // TODO: Replace this triggerEvent function with proper asyncCommits from async functions. This is a hack and allows for
+            // multiple flow sockets and they all get scheduled.  It doesn't properly handle a single flow exeuction socket.
+            // TODO: It should also cache the values of the nodes that is being executed.
+            this.asyncCommit(outputSocket.links[0]);
             flowOutputCount++;
           }
           if (outputSocket.links.length > 1) {
@@ -61,7 +83,11 @@ export default class GraphEvaluator {
   // NOTE: This does not execute all if there are promises.
   executeAll(stepLimit: number = 100000000): number {
     let stepsExecuted = 0;
-    while ((stepsExecuted < stepLimit) && this.executeStep()) {
+    while ((stepsExecuted < stepLimit) && this.executionBlockQueue.length > 0 ) {
+      const currentExecutionBlock = this.executionBlockQueue[0];
+      if ( !currentExecutionBlock.executeStep() ) { // remove first element
+        this.executionBlockQueue.shift();
+      }
       stepsExecuted++;
     }
     return stepsExecuted;

@@ -1,17 +1,17 @@
 import Debug from '../../Debug';
-import Node from '../../Nodes/Node';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
+import { NodeEvalCallback } from './NodeCallback';
 
-export default class SyncExecution {
-  public awaitingPromiseStack = Promise < Node > [];
+export default class SyncExecutionBlock {
+  public awaitingCallbackStack : NodeEvalCallback[] = [];
   public graph: Graph;
 
-  constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef) {
-    this.graph = graphEvaluator.graph;
+  constructor(public evaluator: GraphEvaluator, public nextEval: NodeSocketRef) {
+    this.graph = evaluator.graph;
   }
 
   // NOTE: This is a simplistic recursive and wasteful approach.
@@ -51,7 +51,7 @@ export default class SyncExecution {
 
     Debug.logVerbose(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
 
-    const context = new NodeEvalContext(this.graphEvaluator, upstreamNode);
+    const context = new NodeEvalContext(this.evaluator, upstreamNode);
     context.evalImmediate();
 
     // get the output value we wanted.
@@ -61,8 +61,10 @@ export default class SyncExecution {
     return inputSocket.value;
   }
 
+  // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  commit(outputFlowSocket: NodeSocketRef, onDownstreamCompleted: (()=> void) | undefined = undefined) {
+  commit(outputFlowSocket: NodeSocketRef, downstreamAwaitCallback: NodeEvalCallback | undefined = undefined) {
+    Debug.asset(this.nextEval === undefined);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
@@ -75,7 +77,15 @@ export default class SyncExecution {
     if (outputSocket.links.length === 1) {
       Debug.logVerbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
-      this.flowWorkQueue.push(outputSocket.links[0]);
+      const link = outputSocket.links[0];
+      if (link === undefined) {
+        throw new Error('link must be defined');
+      }
+      this.nextEval = link;
+    }
+
+    if (downstreamAwaitCallback !== undefined) {
+      this.awaitingCallbackStack.push(downstreamAwaitCallback);
     }
   }
 
@@ -83,9 +93,18 @@ export default class SyncExecution {
   executeStep(): boolean {
     // pop the next node off the queue
     const nodeSocketRef = this.nextEval;
-    // no work waiting!
+
+    // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (nodeSocketRef === undefined) {
-      return false;
+      if (this.awaitingCallbackStack.length === 0) {
+        return false;
+      }
+      const awaitingCallback = this.awaitingCallbackStack.pop();
+      if (awaitingCallback === undefined) {
+        throw new Error('awaitingCallback is empty');
+      }
+      awaitingCallback();
+      return true;
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeId];

@@ -1,6 +1,6 @@
 import Debug from '../Debug';
+import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import Graph from '../Graphs/Graph';
-import GraphEvaluator from '../Graphs/GraphEvaluator';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
 

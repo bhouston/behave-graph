@@ -10,8 +10,8 @@ export default class SyncExecutionBlock {
   public awaitingCallbackStack : NodeEvalCallback[] = [];
   public graph: Graph;
 
-  constructor(public evaluator: GraphEvaluator, public nextEval: NodeSocketRef) {
-    this.graph = evaluator.graph;
+  constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | undefined) {
+    this.graph = graphEvaluator.graph;
   }
 
   // NOTE: This is a simplistic recursive and wasteful approach.
@@ -51,7 +51,7 @@ export default class SyncExecutionBlock {
 
     Debug.logVerbose(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
 
-    const context = new NodeEvalContext(this.evaluator, upstreamNode);
+    const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
 
     // get the output value we wanted.
@@ -93,6 +93,7 @@ export default class SyncExecutionBlock {
   executeStep(): boolean {
     // pop the next node off the queue
     const nodeSocketRef = this.nextEval;
+    this.nextEval = undefined;
 
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (nodeSocketRef === undefined) {

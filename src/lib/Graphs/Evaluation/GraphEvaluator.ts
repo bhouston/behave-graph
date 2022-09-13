@@ -45,10 +45,12 @@ export default class GraphEvaluator {
   // IMPORTANT: should events somehow register themselves at graph initialization?  There is a missing step here.
   // This simplistic approach is okay if events do no have filters themselves.
   triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
+    Debug.logVerbose( `triggering all events with the node name: ${nodeName}`);
     // look up any nodes with this trigger name and add them to the executionQueue
     const nodes = Object.values(this.graph.nodes).filter((node) => (node.typeName === nodeName));
 
     nodes.forEach((node) => {
+      Debug.logVerbose( `triggering node: ${node.typeName}`);
       // apply output values
       outputValues.forEach((value, name) => {
         // eslint-disable-next-line no-param-reassign
@@ -63,7 +65,7 @@ export default class GraphEvaluator {
             // TODO: Replace this triggerEvent function with proper asyncCommits from async functions. This is a hack and allows for
             // multiple flow sockets and they all get scheduled.  It doesn't properly handle a single flow exeuction socket.
             // TODO: It should also cache the values of the nodes that is being executed.
-            this.asyncCommit(outputSocket.links[0]);
+            this.asyncCommit(new NodeSocketRef( node.id, outputSocket.name ) );
             flowOutputCount++;
           }
           if (outputSocket.links.length > 1) {
@@ -105,10 +107,10 @@ export default class GraphEvaluator {
       }
       stepsExecuted += this.executeAll(stepLimit);
       Debug.logVerbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
-      Debug.logVerbose(`this.flowWorkQueue.length: ${this.flowWorkQueue.length}`);
+      Debug.logVerbose(`this.flowWorkQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;
       iterations += 1;
-    } while ((this.asyncNodes.length > 0 || this.flowWorkQueue.length > 0) && ( elapsedTime < timeLimit ) && stepsExecuted < stepLimit);
+    } while ((this.asyncNodes.length > 0 || this.executionBlockQueue.length > 0) && ( elapsedTime < timeLimit ) && stepsExecuted < stepLimit);
 
     return stepsExecuted;
   }

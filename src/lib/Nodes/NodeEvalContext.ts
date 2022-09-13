@@ -1,5 +1,6 @@
 import Debug from '../Debug';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
+import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
@@ -14,9 +15,11 @@ export default class NodeEvalContext {
   public cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
   public numCommits = 0;
   public readonly graph: Graph;
+  public readonly graphEvaluator: GraphEvaluator;
 
-  constructor(public readonly graphEvaluator: GraphEvaluator, public readonly node: Node) {
-    this.graph = graphEvaluator.graph;
+  constructor(public readonly syncExecutionBlock: SyncExecutionBlock, public readonly node: Node) {
+    this.graphEvaluator = syncExecutionBlock.graphEvaluator;
+    this.graph = this.graphEvaluator.graph;
   }
 
   beginAsync() {
@@ -104,7 +107,8 @@ export default class NodeEvalContext {
   commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     this.numCommits++;
     this.writeOutputs();
-    this.graphEvaluator.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), onDownstreamCompleted);
+    Debug.logVerbose(`nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), onDownstreamCompleted);
   }
 
   // eslint-disable-next-line class-methods-use-this

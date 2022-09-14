@@ -107,8 +107,15 @@ export default class NodeEvalContext {
   commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     this.numCommits++;
     this.writeOutputs();
-    Debug.logVerbose(`nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), onDownstreamCompleted);
+  }
+
+  asyncCommit(downstreamFlowSocketName: string) {
+    this.numCommits++;
+    this.writeOutputs();
+    Debug.logVerbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
   }
 
   // eslint-disable-next-line class-methods-use-this

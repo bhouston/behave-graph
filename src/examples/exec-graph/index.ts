@@ -1,7 +1,7 @@
-import * as fs from 'fs/promises';
+import { promises as fs } from 'fs';
 
 import {
-  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, validateGraphRegistry, registerGenericNodes, validateDirectedAcyclicGraph, validateLinks,
+  Debug, GraphEvaluator, GraphRegistry, readGraphFromJSON, registerGenericNodes, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {

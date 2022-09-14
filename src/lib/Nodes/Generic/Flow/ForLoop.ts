@@ -1,3 +1,4 @@
+import Debug from '../../../Debug';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
@@ -19,10 +20,23 @@ export default class ForLoop extends Node {
         new FlowSocket('completed'),
       ],
       (context: NodeEvalContext) => {
-        // TODO: Figure out how to have multiple multiple "loop" evals each with an index
-        // and then, once done, eval "complete"
-        context.setOutputValue('loopBody', true);
-        context.setOutputValue('index', context.getInputValue('startIndex'));
+        // these outputs are fired sequentially in an async fashion but without delays.
+        // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
+        const startIndex = context.getInputValue('startIndex');
+        const endIndex = context.getInputValue('endIndex');
+        const loopBodyIteration = function loopBodyIteration(i: number) {
+          Debug.logVerbose(`loop: loop body ${i} of [${startIndex}:${endIndex})`);
+          if (i < endIndex) {
+            context.setOutputValue('index', i);
+            context.commit('loopBody', () => {
+              Debug.logVerbose(`loop: body completed for ${i}!`);
+              loopBodyIteration(i + 1);
+            });
+          } else {
+            context.commit('completed');
+          }
+        };
+        loopBodyIteration(startIndex);
       },
     );
   }

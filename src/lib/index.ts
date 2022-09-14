@@ -14,7 +14,7 @@ export { default as NumberSocket } from './Sockets/Typed/NumberSocket';
 export { default as StringSocket } from './Sockets/Typed/StringSocket';
 
 // loading & execution
-export { default as GraphEvaluator } from './Graphs/GraphEvaluator';
+export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';
 export { default as NodeEvalContext } from './Nodes/NodeEvalContext';
 export { default as readGraphFromJSON } from './Graphs/IO/readGraphFromJSON';
 export { default as writeGraphToJSON } from './Graphs/IO/writeGraphToJSON';

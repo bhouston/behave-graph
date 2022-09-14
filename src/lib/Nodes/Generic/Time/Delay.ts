@@ -1,3 +1,4 @@
+import Debug from '../../../Debug';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
@@ -19,7 +20,8 @@ export default class Delay extends Node {
       (context: NodeEvalContext) => {
         context.beginAsync();
         setTimeout(() => {
-          context.commit('flow');
+          Debug.logVerbose('setTimeout on Delay fired, context.commit("flow")');
+          context.asyncCommit('flow');
           context.endAsync();
         }, context.getInputValue('duration') * 1000);
       },

@@ -1,6 +1,8 @@
-import * as fs from 'fs/promises';
+import { promises as fs } from 'fs';
 
-import { Debug, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks, GraphRegistry, registerGenericNodes, writeNodeSpecsToJSON } from '../../../dist/lib/index';
+import {
+  Debug, GraphRegistry, registerGenericNodes, validateGraphRegistry, writeNodeSpecsToJSON,
+} from '../../../dist/lib/index';
 
 async function main() {
   const registry = new GraphRegistry();
@@ -15,7 +17,7 @@ async function main() {
   const errorList: string[] = [];
   Debug.logVerbose('validating registry');
   errorList.push(...validateGraphRegistry(registry));
-  
+
   if (errorList.length > 0) {
     Debug.logError(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {

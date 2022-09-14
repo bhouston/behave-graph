@@ -1,5 +1,6 @@
 import Debug from '../Debug';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
+import { NodeEvalCallback } from '../Graphs/Evaluation/NodeCallback';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
 import Node from './Node';
@@ -105,11 +106,11 @@ export default class NodeEvalContext {
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
-  commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
+  commit(downstreamFlowSocketName: string, downstreamAwaitCallback: NodeEvalCallback | undefined = undefined) {
+    Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     this.numCommits++;
     this.writeOutputs();
-    Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
-    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), onDownstreamCompleted);
+    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), downstreamAwaitCallback);
   }
 
   asyncCommit(downstreamFlowSocketName: string) {

@@ -49,7 +49,7 @@ export default class SyncExecutionBlock {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    Debug.logVerbose(`GraphEvaluator: evaluating immediate node ${upstreamNode.typeName}`);
+    Debug.logVerbose(`SyncExecutionBlock: evaluating immediate node ${upstreamNode.typeName}`);
 
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
@@ -68,20 +68,23 @@ export default class SyncExecutionBlock {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Debug.logVerbose(`GraphEvaluator: commit: ${node.typeName}.${outputSocket.name}`);
+    Debug.logVerbose(`SyncExecutionBlock: commit: ${node.typeName}.${outputSocket.name}`);
 
     if (outputSocket.links.length > 1) {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
       + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
-      Debug.logVerbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
+      Debug.logVerbose(`SyncExecutionBlock: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       const link = outputSocket.links[0];
       if (link === undefined) {
         throw new Error('link must be defined');
       }
       this.nextEval = link;
+    }
+    if (outputSocket.links.length === 0) {
+      Debug.logVerbose('SyncExecutionBlock: nothing attached to output flow socket, no execution done');
     }
 
     if (downstreamAwaitCallback !== undefined) {

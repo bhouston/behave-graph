@@ -107,7 +107,7 @@ export default class GraphEvaluator {
       }
       stepsExecuted += this.executeAll(stepLimit);
       Debug.logVerbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
-      Debug.logVerbose(`this.flowWorkQueue.length: ${this.executionBlockQueue.length}`);
+      Debug.logVerbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;
       iterations += 1;
     } while ((this.asyncNodes.length > 0 || this.executionBlockQueue.length > 0) && ( elapsedTime < timeLimit ) && stepsExecuted < stepLimit);

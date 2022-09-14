@@ -302,7 +302,7 @@ Waiting...
 One Second Later!
 ```
 
-### Sequence Execution
+### Sequences
 
 Behave-Graph support waiting for the completion of downstream nodes.  This allows for "Sequence" nodes which will execute a series of flow outputs in order.
 

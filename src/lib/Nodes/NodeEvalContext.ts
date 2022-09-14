@@ -104,6 +104,7 @@ export default class NodeEvalContext {
     this.cachedOutputValues.set(outputName, value);
   }
 
+  // TODO: convert this to return a promise always.  It is up to the user to wait on it.
   commit(downstreamFlowSocketName: string, onDownstreamCompleted: (()=> void) | undefined = undefined) {
     this.numCommits++;
     this.writeOutputs();

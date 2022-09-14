@@ -1,0 +1,107 @@
+{
+    "nodes": [
+        {
+            "type": "event/start",
+            "id": "0"
+        },
+        {
+            "type": "action/log",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Starting Sequence..."
+                }
+            }
+        },
+        {
+            "type": "flow/sequence",
+            "id": "2",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "flow"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "1"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "First Sequence Output!"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "2"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Second Sequence Output!"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "5",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "3"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Third Sequence Output!"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "6",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Downstream of First Sequence!"
+                }
+            }
+        }
+    ]
+}

@@ -18,9 +18,11 @@ export default class Sequence extends Node {
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.
         // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-        context.setOutputValue('1', true);
-        // context.setOutputValue('2', false);
-        // context.setOutputValue('3', false);
+        context.commit('1', () => {
+          context.commit('2', () => {
+            context.commit('3', () => {
+          });
+        });
       },
     );
   }

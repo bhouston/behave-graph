@@ -23,16 +23,10 @@ export default class Sequence extends Node {
           if (i < context.node.outputSockets.length) {
             const outputSocket = context.node.outputSockets[i];
             Debug.logVerbose(`sequence: processing output socket ${outputSocket.name}`);
-            if (outputSocket.links.length > 0) {
-              Debug.logVerbose('sequence: committing!');
-              // eslint-disable-next-line no-await-in-loop
-              context.commit(outputSocket.name, () => {
-                Debug.logVerbose('sequence: completed!');
-                sequenceIteration(i + 1);
-              });
-            } else {
+            context.commit(outputSocket.name, () => {
+              Debug.logVerbose('sequence: completed!');
               sequenceIteration(i + 1);
-            }
+            });
           }
         };
         sequenceIteration(0);

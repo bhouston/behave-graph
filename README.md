@@ -296,8 +296,217 @@ Behave-Graph support asynchronous nodes.  These are nodes which will continue ex
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/basics/Delay.json
+> npm run exec-graph -- ./examples/async/Delay.json
 
 Waiting...
 One Second Later!
+```
+
+### Sequence Execution
+
+Behave-Graph support waiting for the completion of downstream nodes.  This allows for "Sequence" nodes which will execute a series of flow outputs in order.
+
+```json
+[
+    {
+        "type": "event/start",
+        "id": "0"
+    },
+    {
+        "type": "action/log",
+        "id": "1",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "0",
+                        "socket": "flow"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Starting Sequence..."
+            }
+        }
+    },
+    {
+        "type": "flow/sequence",
+        "id": "2",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "1",
+                        "socket": "flow"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type": "action/log",
+        "id": "3",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "1"
+                    }
+                ]
+            },
+            "text": {
+                "value": "First Sequence Output!"
+            }
+        }
+    },
+    {
+        "type": "action/log",
+        "id": "4",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "2"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Second Sequence Output!"
+            }
+        }
+    },
+    {
+        "type": "action/log",
+        "id": "5",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "3"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Third Sequence Output!"
+            }
+        }
+    }
+]
+```
+
+Console output:
+
+```zsh
+> npm run exec-graph -- ./examples/flow/Sequence.json
+
+Starting Sequence...
+First Sequence Output!
+Second Sequence Output!
+Third Sequence Output!
+```
+
+### For Loops
+
+Building upon waiting for downstream nodes to execute, you can also execute For Loops within Behave-Graph.
+
+```json
+[
+    {
+        "type": "event/start",
+        "id": "0"
+    },
+    {
+        "type": "action/log",
+        "id": "1",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "0",
+                        "socket": "flow"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Starting For Loop..."
+            }
+        }
+    },
+    {
+        "type": "flow/forLoop",
+        "id": "2",
+        "inputs": {
+            "startIndex": {
+                "value": 0
+            },
+            "endIndex": {
+                "value": 10
+            },
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "1",
+                        "socket": "flow"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type": "action/log",
+        "id": "3",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "loopBody"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Loop Body!"
+            }
+        }
+    },
+    {
+        "type": "action/log",
+        "id": "4",
+        "inputs": {
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "completed"
+                    }
+                ]
+            },
+            "text": {
+                "value": "Completed For Loop!"
+            }
+        }
+    }
+]
+```
+
+Console output:
+
+```zsh
+> npm run exec-graph -- ./examples/flow/ForLoop.json
+
+Starting For Loop...
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Loop Body!
+Completed For Loop!
 ```

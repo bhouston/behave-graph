@@ -4,18 +4,18 @@ import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
-import { NodeEvalCallback } from './NodeCallback';
+import { SyncEvaluationCompletedCallback } from './SyncEvaluationCompletedCallback';
 
 export default class SyncExecutionBlock {
-  public awaitingCallbackStack : NodeEvalCallback[] = [];
+  public syncEvaluationCompletedCallbacks : SyncEvaluationCompletedCallback[] = [];
   public graph: Graph;
 
-  constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | undefined) {
+  constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | null) {
     this.graph = graphEvaluator.graph;
   }
 
   // NOTE: This is a simplistic recursive and wasteful approach.
-  // Is is optimal for a tree, but can do a lot of duplicate evaluates in dense graphs.
+  // Is is optimal for a tree, but can do a lot of duplicate evaluations in dense graphs.
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
   resolveInputValueFromSocket(inputSocket: Socket): any {
@@ -63,8 +63,8 @@ export default class SyncExecutionBlock {
 
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  commit(outputFlowSocket: NodeSocketRef, downstreamAwaitCallback: NodeEvalCallback | undefined = undefined) {
-    Debug.asset(this.nextEval === undefined);
+  commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedCallback: SyncEvaluationCompletedCallback | undefined = undefined) {
+    Debug.asset(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
@@ -87,8 +87,8 @@ export default class SyncExecutionBlock {
       Debug.logVerbose('SyncExecutionBlock: nothing attached to output flow socket, no execution done');
     }
 
-    if (downstreamAwaitCallback !== undefined) {
-      this.awaitingCallbackStack.push(downstreamAwaitCallback);
+    if (syncEvaluationCompletedCallback !== undefined) {
+      this.syncEvaluationCompletedCallbacks.push(syncEvaluationCompletedCallback);
     }
   }
 
@@ -96,14 +96,14 @@ export default class SyncExecutionBlock {
   executeStep(): boolean {
     // pop the next node off the queue
     const nodeSocketRef = this.nextEval;
-    this.nextEval = undefined;
+    this.nextEval = null;
 
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
-    if (nodeSocketRef === undefined) {
-      if (this.awaitingCallbackStack.length === 0) {
+    if (nodeSocketRef === null) {
+      if (this.syncEvaluationCompletedCallbacks.length === 0) {
         return false;
       }
-      const awaitingCallback = this.awaitingCallbackStack.pop();
+      const awaitingCallback = this.syncEvaluationCompletedCallbacks.pop();
       if (awaitingCallback === undefined) {
         throw new Error('awaitingCallback is empty');
       }

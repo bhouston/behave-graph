@@ -1,6 +1,6 @@
 import Debug from '../Debug';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
-import { NodeEvalCallback } from '../Graphs/Evaluation/NodeCallback';
+import { SyncEvaluationCompletedCallback } from '../Graphs/Evaluation/SyncEvaluationCompletedCallback';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
 import Node from './Node';
@@ -106,17 +106,19 @@ export default class NodeEvalContext {
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
-  commit(downstreamFlowSocketName: string, downstreamAwaitCallback: NodeEvalCallback | undefined = undefined) {
+  commit(downstreamFlowSocketName: string, syncEvaluationCompletedCallback: SyncEvaluationCompletedCallback | undefined = undefined) {
     Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    if (this.async) throw new Error('can not commit as currently in async mode, use asyncCommit instead.');
     this.numCommits++;
     this.writeOutputs();
-    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), downstreamAwaitCallback);
+    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedCallback);
   }
 
   asyncCommit(downstreamFlowSocketName: string) {
+    Debug.logVerbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    if (!this.async) throw new Error('can not asyncCommit as not currently in async mode, use commit instead or set async mode enabled.');
     this.numCommits++;
     this.writeOutputs();
-    Debug.logVerbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
   }
 

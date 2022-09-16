@@ -1,5 +1,5 @@
+import exampleDelay from '../../../../examples/async/Delay.json';
 import exampleBranch from '../../../../examples/basics/Branch.json';
-import exampleDelay from '../../../../examples/basics/Delay.json';
 import exampleHelloWorld from '../../../../examples/basics/HelloWorld.json';
 import exampleMath from '../../../../examples/basics/Math.json';
 import exampleState from '../../../../examples/basics/State.json';

@@ -3,6 +3,8 @@ import Debug from '../../Debug';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Graph from '../Graph';
+import { EvaluationListener } from './EvaluationListener';
+import { NodeEvaluationType } from './NodeEvaluationType';
 import SyncExecutionBlock from './SyncExecutionBlock';
 
 // eslint-disable-next-line no-promise-executor-return
@@ -19,8 +21,15 @@ export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   public executionBlockQueue: SyncExecutionBlock[] = [];
   public asyncNodes: Node[] = [];
+  public evaluationListeners: EvaluationListener[] = [];
 
   constructor(public graph: Graph, public verbose = false) {
+  }
+
+  broadcastEvaluation( node: Node, nodeEvaluationType: NodeEvaluationType, async: boolean) {
+    this.evaluationListeners.forEach( (listener) => {
+      listener( node, nodeEvaluationType, async );
+    });
   }
 
   // asyncCommit

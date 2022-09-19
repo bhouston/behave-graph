@@ -1,6 +1,7 @@
 import Debug from '../Debug';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
-import { SyncEvaluationCompletedCallback } from '../Graphs/Evaluation/SyncEvaluationCompletedCallback';
+import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
+import { SyncEvaluationCompletedListener } from '../Graphs/Evaluation/SyncEvaluationCompletedListener';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
 import Node from './Node';
@@ -27,6 +28,7 @@ export default class NodeEvalContext {
     Debug.asset(this.async === false);
     this.graphEvaluator.asyncNodes.push(this.node);
     this.async = true;
+    this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.Flow, true);
   }
 
   endAsync() {
@@ -34,11 +36,14 @@ export default class NodeEvalContext {
     const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
     this.graphEvaluator.asyncNodes.splice(index, 1);
     this.async = false;
+    this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.None, false);
   }
 
   evalFlow() {
     // confirm assumptions for an immediate evaluation
     Debug.asset(this.node.isEvalNode, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
+
+    this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.Flow, false);
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
@@ -47,6 +52,7 @@ export default class NodeEvalContext {
 
     if (!this.async) {
       this.writeOutputs(); // TODO: replace this with commit(), no need for this overlapping duplicate codex
+      this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.None, false);
     }
   }
 
@@ -55,6 +61,8 @@ export default class NodeEvalContext {
     if (this.node.isEvalNode) {
       throw new Error('can not evalImmediate on Flow nodes, use evalFlow instead');
     }
+
+    this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.Immediate, false);
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
@@ -65,6 +73,8 @@ export default class NodeEvalContext {
     Debug.asset(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
 
     this.writeOutputs();
+
+    this.graphEvaluator.broadcastEvaluation(this.node, NodeEvaluationType.None, false);
   }
 
   private readInputs() {
@@ -106,12 +116,12 @@ export default class NodeEvalContext {
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
-  commit(downstreamFlowSocketName: string, syncEvaluationCompletedCallback: SyncEvaluationCompletedCallback | undefined = undefined) {
+  commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: SyncEvaluationCompletedListener | undefined = undefined) {
     Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     if (this.async) throw new Error('can not commit as currently in async mode, use asyncCommit instead.');
     this.numCommits++;
     this.writeOutputs();
-    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedCallback);
+    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
   }
 
   asyncCommit(downstreamFlowSocketName: string) {

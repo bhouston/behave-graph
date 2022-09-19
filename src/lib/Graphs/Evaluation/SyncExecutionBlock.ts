@@ -4,10 +4,10 @@ import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
-import { SyncEvaluationCompletedCallback } from './SyncEvaluationCompletedCallback';
+import { SyncEvaluationCompletedListener } from './SyncEvaluationCompletedListener';
 
 export default class SyncExecutionBlock {
-  public syncEvaluationCompletedCallbacks : SyncEvaluationCompletedCallback[] = [];
+  public syncEvaluationCompletedListenerStack : SyncEvaluationCompletedListener[] = [];
   public graph: Graph;
 
   constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | null) {
@@ -63,7 +63,7 @@ export default class SyncExecutionBlock {
 
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedCallback: SyncEvaluationCompletedCallback | undefined = undefined) {
+  commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedListener: SyncEvaluationCompletedListener | undefined = undefined) {
     Debug.asset(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
@@ -87,8 +87,8 @@ export default class SyncExecutionBlock {
       Debug.logVerbose('SyncExecutionBlock: nothing attached to output flow socket, no execution done');
     }
 
-    if (syncEvaluationCompletedCallback !== undefined) {
-      this.syncEvaluationCompletedCallbacks.push(syncEvaluationCompletedCallback);
+    if (syncEvaluationCompletedListener !== undefined) {
+      this.syncEvaluationCompletedListenerStack.push(syncEvaluationCompletedListener);
     }
   }
 
@@ -100,10 +100,10 @@ export default class SyncExecutionBlock {
 
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (nodeSocketRef === null) {
-      if (this.syncEvaluationCompletedCallbacks.length === 0) {
+      if (this.syncEvaluationCompletedListenerStack.length === 0) {
         return false;
       }
-      const awaitingCallback = this.syncEvaluationCompletedCallbacks.pop();
+      const awaitingCallback = this.syncEvaluationCompletedListenerStack.pop();
       if (awaitingCallback === undefined) {
         throw new Error('awaitingCallback is empty');
       }

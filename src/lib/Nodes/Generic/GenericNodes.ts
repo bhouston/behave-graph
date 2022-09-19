@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 import NumberSocket from '../../Sockets/Typed/NumberSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
@@ -12,10 +13,9 @@ import Sequence from './Flow/Sequence';
 import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UnaryOp from './Logic/UnaryOp';
-import StateExists from './State/StateExists';
-import StateGet from './State/StateGet';
-import StateSet from './State/StateSet';
 import Delay from './Time/Delay';
+import VariableGet from './Variables/VariableGet';
+import VariableSet from './Variables/VariableSet';
 
 export default function registerGenericNodes(registry: NodeTypeRegistry) {
   // actions
@@ -113,16 +113,14 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // state
 
-  registry.register('state/exists', () => new StateExists());
+  registry.register('state/setBoolean', () => new VariableSet('state/setBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('state/getBoolean', () => new VariableGet('state/getBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
 
-  registry.register('state/setBoolean', () => new StateSet('state/setBoolean', (socketName) => new BooleanSocket(socketName)));
-  registry.register('state/getBoolean', () => new StateGet('state/getBoolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('state/setNumber', () => new VariableSet('state/setNumber', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('state/getNumber', () => new VariableGet('state/getNumber', 'number', (socketName) => new NumberSocket(socketName)));
 
-  registry.register('state/setNumber', () => new StateSet('state/setNumber', (socketName) => new NumberSocket(socketName)));
-  registry.register('state/getNumber', () => new StateGet('state/getNumber', (socketName) => new NumberSocket(socketName)));
-
-  registry.register('state/setString', () => new StateSet('state/setString', (socketName) => new StringSocket(socketName)));
-  registry.register('state/getString', () => new StateGet('state/getString', (socketName) => new StringSocket(socketName)));
+  registry.register('state/setString', () => new VariableSet('state/setString', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('state/getString', () => new VariableGet('state/getString', 'string', (socketName) => new StringSocket(socketName)));
 
   return registry;
 }

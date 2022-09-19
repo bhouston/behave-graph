@@ -4,6 +4,7 @@ import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
 import { SyncEvaluationCompletedListener } from '../Graphs/Evaluation/SyncEvaluationCompletedListener';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
+import Variable from '../Variables/Variable';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
 
@@ -92,6 +93,12 @@ export default class NodeEvalContext {
       // eslint-disable-next-line no-param-reassign
       socket.value = this.cachedOutputValues.get(socket.name);
     });
+  }
+
+  getVariable(variableId: string): Variable {
+    const variable = this.graph.variables[variableId];
+    if (variable === undefined) throw new Error(`can not find variable with the id ${variableId}`);
+    return variable;
   }
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext

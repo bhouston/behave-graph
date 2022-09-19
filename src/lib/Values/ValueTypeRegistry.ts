@@ -21,6 +21,7 @@ export default class ValueTypeRegistry {
         (value) => value,
       ),
     );
+    this.register(new ValueType('id', () => '', (text: string) => text, (value) => (value as string)));
   }
 
   register(valueType: ValueType) {

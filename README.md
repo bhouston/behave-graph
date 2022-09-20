@@ -31,7 +31,7 @@ This library, while small, contains a nearly complete implementation of behavior
 * **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
 * **Queries** You can query the state from the system.
 * **Flow Control** Control execution flow using familiar structures: Branches, delays, if-then, sequences and for-loops.
-* **State** You can set and load state arbitrarily: Exists, Set, Get.
+* **State** You can set and load state arbitrarily: Set, Get.
 * **Time** Time nodes allow you to wait: Delay.
 ### Designed for Integration into Other Systems
 

@@ -14,8 +14,7 @@ Another neat fact about behavior graphs is that they offer a sand boxed executio
 
 You can join our Discord here:
 
-https://discord.gg/kWSWtVg6
-
+https://discord.gg/mrags8WyuH
 ## Feature Overview
 
 This library, while small, contains a nearly complete implementation of behavior graphs.
@@ -165,7 +164,7 @@ In this example, we use a pre-declared variable called "counter" to 1000 and the
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/basics/State.json
+> npm run exec-graph -- ./examples/variables/GetSet.json
 
 1000
 ```

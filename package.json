@@ -1,6 +1,6 @@
 {
   "name": "behave-graph",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "src/lib/index.ts",

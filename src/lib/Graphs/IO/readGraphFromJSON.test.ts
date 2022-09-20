@@ -2,6 +2,7 @@ import exampleDelay from '../../../../examples/async/Delay.json';
 import exampleBranch from '../../../../examples/basics/Branch.json';
 import exampleHelloWorld from '../../../../examples/basics/HelloWorld.json';
 import exampleMath from '../../../../examples/basics/Math.json';
+import exampleFlipFlop from '../../../../examples/flow/FlipFlop.json';
 import exampleForLoop from '../../../../examples/flow/ForLoop.json';
 import exampleSequence from '../../../../examples/flow/Sequence.json';
 import exampleState from '../../../../examples/variables/SetGet.json';
@@ -93,7 +94,8 @@ describe('readGraphFromJSON', () => {
   });
 
   it('parses all the examples without error', () => {
-    const examples = [exampleBranch, exampleDelay, exampleHelloWorld, exampleMath, exampleState, exampleForLoop, exampleSequence] as GraphJSON[];
+    const examples = [exampleBranch, exampleDelay, exampleHelloWorld, exampleMath,
+      exampleState, exampleForLoop, exampleSequence, exampleFlipFlop] as GraphJSON[];
 
     examples.forEach((json) => {
       expect(() => readGraphFromJSON(json, registry)).not.toThrow();

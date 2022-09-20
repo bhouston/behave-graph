@@ -4,7 +4,7 @@ import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class FlipFlop extends Node {
-  private isA = true;
+  private isOn = true;
 
   constructor() {
     super(
@@ -14,14 +14,14 @@ export default class FlipFlop extends Node {
         new FlowSocket(),
       ],
       [
-        new FlowSocket('a'),
-        new FlowSocket('b'),
-        new BooleanSocket('isA'),
+        new FlowSocket('on'),
+        new FlowSocket('off'),
+        new BooleanSocket('isOn'),
       ],
       (context: NodeEvalContext) => {
-        context.setOutputValue('isA', this.isA);
-        context.commit(this.isA ? 'a' : 'b');
-        this.isA = !this.isA;
+        context.setOutputValue('isOn', this.isOn);
+        context.commit(this.isOn ? 'on' : 'off');
+        this.isOn = !this.isOn;
       },
     );
   }

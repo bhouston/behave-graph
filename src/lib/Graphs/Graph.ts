@@ -1,6 +1,7 @@
 import Node from '../Nodes/Node';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
 import Socket from '../Sockets/Socket';
+import Variable from '../Variables/Variable';
 import { Metadata } from './Metadata';
 
 // Purpose:
@@ -9,7 +10,7 @@ import { Metadata } from './Metadata';
 export default class Graph {
   public name: string = '';
   public nodes: { [id:string]: Node} = {};
-  public state = new Map<string, any>();
+  public variables: { [id:string]: Variable } = {};
   public metadata: Metadata = {};
 
   constructor() {

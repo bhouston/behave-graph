@@ -1,5 +1,6 @@
 import Debug from '../../Debug';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
+import Variable from '../../Variables/Variable';
 import Graph from '../Graph';
 import GraphRegistry from '../GraphRegistry';
 import { GraphJSON } from './GraphJSON';
@@ -12,8 +13,28 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphR
   graph.name = graphJson.name || graph.name;
   graph.metadata = graphJson.metadata || graph.metadata;
 
+  const variablesJson = graphJson.variables || [];
+
+  for (let i = 0; i < variablesJson.length; i += 1) {
+    const variableJson = variablesJson[i];
+
+    const variable = new Variable(
+      variableJson.id,
+      variableJson.name,
+      variableJson.valueTypeName,
+      registry.values.get(variableJson.valueTypeName).deserialize(variableJson.initialValue),
+    );
+    variable.label = variableJson.label || variable.label;
+    variable.metadata = variableJson.metadata || variable.metadata;
+
+    if (graph.variables[variableJson.id] !== undefined) {
+      throw new Error(`duplicate variable id ${variable.id}`);
+    }
+    graph.variables[variableJson.id] = variable;
+  }
+
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
-  const nodesJson = graphJson.nodes;
+  const nodesJson = graphJson.nodes || [];
 
   if (nodesJson.length === 0) {
     Debug.logWarn('readGraphFromJSON: no nodes specified');

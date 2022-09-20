@@ -1,11 +1,11 @@
 import Graph from '../Graph';
 import GraphRegistry from '../GraphRegistry';
 import {
-  GraphJSON, InputJSON, LinkJSON, NodeJSON,
+  GraphJSON, InputJSON, LinkJSON, NodeJSON, VariableJSON,
 } from './GraphJSON';
 
 export default function writeGraphToJSON(graph: Graph, registry: GraphRegistry): GraphJSON {
-  const graphJson: GraphJSON = { nodes: [] };
+  const graphJson: GraphJSON = { nodes: [], variables: [] };
 
   if (graph.name.length > 0) {
     graphJson.name = graph.name;
@@ -14,7 +14,24 @@ export default function writeGraphToJSON(graph: Graph, registry: GraphRegistry):
     graphJson.metadata = graph.metadata;
   }
 
-  // create new BehaviorNode instances for each node in the json.
+  // save variables
+  Object.values(graph.variables).forEach((variable) => {
+    const variableJson: VariableJSON = {
+      valueTypeName: variable.valueTypeName,
+      name: variable.name,
+      id: variable.id,
+      initialValue: registry.values.get(variable.valueTypeName).serialize(variable.initialValue),
+    };
+    if (variable.label.length > 0) {
+      variableJson.label = variable.label;
+    }
+    if (Object.keys(variable.metadata).length > 0) {
+      variableJson.metadata = variable.metadata;
+    }
+    graphJson.variables.push(variableJson);
+  });
+
+  // save nodes
   Object.values(graph.nodes).forEach((node) => {
     const nodeJson: NodeJSON = {
       type: node.typeName,

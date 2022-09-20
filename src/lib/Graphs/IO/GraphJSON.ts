@@ -17,8 +17,18 @@ export type NodeJSON = {
   metadata?: Metadata;
 };
 
+export type VariableJSON = {
+  label?: string;
+  id: string;
+  name: string;
+  valueTypeName: string;
+  initialValue: string;
+  metadata?: Metadata;
+};
+
 export type GraphJSON = {
   name?: string;
   nodes: NodeJSON[];
+  variables: VariableJSON[];
   metadata?: Metadata;
 }

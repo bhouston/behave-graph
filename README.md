@@ -84,40 +84,79 @@ Console output:
 Hello World!
 ```
 
-### Setting and Reading State
+### Setting and Reading Variables
 
-In this example, we set a state variable called "counter" to 1000 and then later read it and print it out.
+In this example, we use a pre-declared variable called "counter" to 1000 and then later read it and print it out.
 
 ```json
 [
     {
-        "type": "event/start"
+        "type": "event/start",
+        "id": "0"
     },
     {
         "type": "state/setNumber",
+        "id": "1",
         "inputs": {
-            "flow": { "links": [ { "node": 0, "socket": "flow" } ] },
-            "identifier": { "value": "counter"},
-            "value": { "value": 1000 }
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "0",
+                        "socket": "flow"
+                    }
+                ]
+            },
+            "variable": {
+                "value": "0"
+            },
+            "value": {
+                "value": 1000
+            }
         }
     },
     {
         "type": "state/getNumber",
+        "id": "2",
         "inputs": {
-            "identifier": { "value": "counter" }
+            "variable": {
+                "value": "0"
+            }
         }
     },
     {
         "type": "logic/numberToString",
+        "id": "3",
         "inputs": {
-            "a": { "links": [ { "node": 2, "socket": "result" } ]  }
+            "a": {
+                "links": [
+                    {
+                        "nodeId": "2",
+                        "socket": "result"
+                    }
+                ]
+            }
         }
     },
     {
         "type": "action/log",
+        "id": "4",
         "inputs": {
-            "flow": { "links": [ { "node": 1, "socket": "flow" } ] },
-            "text": { "links": [ { "node": 3, "socket": "result" } ]  }
+            "flow": {
+                "links": [
+                    {
+                        "nodeId": "1",
+                        "socket": "flow"
+                    }
+                ]
+            },
+            "text": {
+                "links": [
+                    {
+                        "nodeId": "3",
+                        "socket": "result"
+                    }
+                ]
+            }
         }
     }
 ]

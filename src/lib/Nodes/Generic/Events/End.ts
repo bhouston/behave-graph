@@ -16,7 +16,7 @@ export default class End extends Node {
           context.asyncCommit('flow');
         };
 
-        const lifecycleEvents = context.requestInterface('ILifecycleEvents') as ILifecycleEvents;
+        const lifecycleEvents = context.getInterface('ILifecycleEvents') as ILifecycleEvents;
         lifecycleEvents.endEvent.addListener(onEndEvent);
 
         context.beginAsync();

@@ -1,14 +1,14 @@
 import Debug from '../../Debug';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
+import Registry from '../../Registry';
 import Variable from '../../Variables/Variable';
 import Graph from '../Graph';
-import GraphRegistry from '../GraphRegistry';
 import { GraphJSON } from './GraphJSON';
 
 // Purpose:
 //  - loads a node graph
-export default function readGraphFromJSON(graphJson: GraphJSON, registry: GraphRegistry): Graph {
-  const graph = new Graph();
+export default function readGraphFromJSON(graphJson: GraphJSON, registry: Registry): Graph {
+  const graph = new Graph(registry);
 
   graph.name = graphJson.name || graph.name;
   graph.metadata = graphJson.metadata || graph.metadata;

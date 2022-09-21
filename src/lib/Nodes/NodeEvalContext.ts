@@ -28,8 +28,8 @@ export default class NodeEvalContext {
     this.graph = this.graphEvaluator.graph;
   }
 
-  requestInterface(interfaceName: string): any {
-    return this.graph.requestInterface(interfaceName);
+  getInterface(interfaceName: string): any {
+    return this.graph.registry.interfaces.get(interfaceName);
   }
 
   beginAsync() {

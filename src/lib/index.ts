@@ -25,7 +25,7 @@ export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSO
 // node registry
 export { default as NodeTypeRegistry } from './Nodes/NodeTypeRegistry';
 export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
-export { default as GraphRegistry } from './Graphs/GraphRegistry';
+export { default as Registry } from './Registry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // graph validation

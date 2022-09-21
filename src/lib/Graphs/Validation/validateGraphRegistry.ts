@@ -1,6 +1,6 @@
-import GraphRegistry from '../GraphRegistry';
+import Registry from '../../Registry';
 
-export default function validateGraphRegistry(graphRegistry: GraphRegistry): string[] {
+export default function validateGraphRegistry(graphRegistry: Registry): string[] {
   const errorList: string[] = [];
   graphRegistry.nodes.getAllNames().forEach((nodeTypeName) => {
     const node = graphRegistry.nodes.create(nodeTypeName);

@@ -22,7 +22,7 @@ export default class Tick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents = context.getInterface('ILifecycleEvents') as ILifecycleEvents;
+        const lifecycleEvents = context.graph.registry.interfaces.get('ILifecycleEvents') as ILifecycleEvents;
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.beginAsync();

@@ -28,10 +28,6 @@ export default class NodeEvalContext {
     this.graph = this.graphEvaluator.graph;
   }
 
-  getInterface(interfaceName: string): any {
-    return this.graph.registry.interfaces.get(interfaceName);
-  }
-
   beginAsync() {
     Debug.asset(this.async === false);
     this.graphEvaluator.asyncNodes.push(this.node);

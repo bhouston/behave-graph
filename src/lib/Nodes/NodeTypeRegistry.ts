@@ -4,7 +4,7 @@ import Node from './Node';
 import { NodeFactory } from './NodeFactory';
 
 export default class NodeTypeRegistry {
-  public nodeTypeNameToNodeFactory = new Map<string, NodeFactory>();
+  public readonly nodeTypeNameToNodeFactory = new Map<string, NodeFactory>();
 
   constructor() {
   }

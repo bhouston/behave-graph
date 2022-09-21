@@ -6,7 +6,7 @@ import {
 } from '../../../dist/lib/index';
 
 async function main() {
-  Debug.verbose = false;
+  Debug.onVerbose.clear();
 
   const registry = new GraphRegistry();
   registerGenericNodes(registry.nodes);

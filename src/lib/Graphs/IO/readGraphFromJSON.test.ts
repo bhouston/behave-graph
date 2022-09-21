@@ -15,7 +15,7 @@ import readGraphFromJSON from './readGraphFromJSON';
 const registry = new GraphRegistry();
 registerGenericNodes(registry.nodes);
 
-Debug.warn = false;
+Debug.onWarn.clear();
 
 describe('readGraphFromJSON', () => {
   it('throws if node ids are not unique', () => {

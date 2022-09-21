@@ -7,9 +7,9 @@ export default class Variable {
   public version = 0; // this is updated on each change to the variable state.
 
   constructor(
-    public id: string,
-    public name: string,
-    public valueTypeName: string,
+    public readonly id: string,
+    public readonly name: string,
+    public readonly valueTypeName: string,
     public initialValue: any = undefined, // this is assumed to be properly deseriealized from a string.
   ) {
     this.value = this.initialValue;

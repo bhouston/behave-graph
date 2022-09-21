@@ -1,9 +1,9 @@
 export default class ValueType<TValue = any, TJson = any> {
   constructor(
-    public name: string,
-    public creator: () => TValue,
-    public deserialize: (text: TJson) => TValue,
-    public serialize: (value: TValue) => TJson,
+    public readonly name: string,
+    public readonly creator: () => TValue,
+    public readonly deserialize: (text: TJson) => TValue,
+    public readonly serialize: (value: TValue) => TJson,
   ) {
   }
 }

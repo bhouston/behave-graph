@@ -1,35 +1,20 @@
 /* eslint-disable space-in-parens */
 import Debug from '../../Debug';
+import EventEmitter from '../../EventEmitter';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
+import sleep from '../../sleep';
 import Graph from '../Graph';
-import { EvaluationListener } from './EvaluationListener';
-import { NodeEvaluationType } from './NodeEvaluationType';
+import NodeEvaluationEvent from './NodeEvaluationEvent';
 import SyncExecutionBlock from './SyncExecutionBlock';
-
-// eslint-disable-next-line no-promise-executor-return
-const sleep = (duration:number) => new Promise((resolve) => setTimeout(resolve, Math.round(duration * 1000)));
-/*
-class SyncWorkStack {
-  public stack = NodeSocketRef;
-}
-class AsyncWorkQueue {
-  public queue: SyncWorkStack[] = [];
-} */
 
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
-  public executionBlockQueue: SyncExecutionBlock[] = [];
-  public asyncNodes: Node[] = [];
-  public evaluationListeners: EvaluationListener[] = [];
+  public readonly executionBlockQueue: SyncExecutionBlock[] = [];
+  public readonly asyncNodes: Node[] = [];
+  public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
   constructor(public graph: Graph, public verbose = false) {
-  }
-
-  broadcastEvaluation( node: Node, nodeEvaluationType: NodeEvaluationType, async: boolean) {
-    this.evaluationListeners.forEach( (listener) => {
-      listener( node, nodeEvaluationType, async );
-    });
   }
 
   // asyncCommit

@@ -13,11 +13,11 @@ export default class Node {
   public metadata: Metadata = {};
 
   constructor(
-      public category: string,
-      public typeName: string,
-      public inputSockets: Socket[],
-      public outputSockets: Socket[],
-      public evalFunc: NodeEvalFunction,
+      public readonly category: string,
+      public readonly typeName: string,
+      public readonly inputSockets: Socket[],
+      public readonly outputSockets: Socket[],
+      public readonly evalFunc: NodeEvalFunction,
   ) {
     // determine if this is an eval node
     let areAnySocketsEvalType = false;

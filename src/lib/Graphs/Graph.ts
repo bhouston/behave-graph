@@ -9,11 +9,16 @@ import { Metadata } from './Metadata';
 
 export default class Graph {
   public name: string = '';
-  public nodes: { [id:string]: Node} = {};
-  public variables: { [id:string]: Variable } = {};
+  public readonly nodes: { [id:string]: Node} = {};
+  public readonly variables: { [id:string]: Variable } = {};
   public metadata: Metadata = {};
+  public readonly registeredInterfaces: { [name:string]: any } = {};
 
   constructor() {
+  }
+
+  requestInterface(interfaceName: string): any {
+    return this.registeredInterfaces[interfaceName];
   }
 
   getInputSocket(nodeSocketRef: NodeSocketRef): Socket {

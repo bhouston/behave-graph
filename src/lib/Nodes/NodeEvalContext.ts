@@ -18,8 +18,8 @@ export default class NodeEvalContext {
   public readonly graph: Graph;
   public readonly graphEvaluator: GraphEvaluator;
   public readonly onAsyncCancelled = new EventEmitter<void>();
-  public readonly cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
-  public readonly cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
+  private readonly cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
+  private readonly cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
   public async = false;
   public numCommits = 0;
 

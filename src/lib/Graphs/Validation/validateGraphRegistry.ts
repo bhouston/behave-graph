@@ -2,8 +2,8 @@ import GraphRegistry from '../GraphRegistry';
 
 export default function validateGraphRegistry(graphRegistry: GraphRegistry): string[] {
   const errorList: string[] = [];
-  graphRegistry.nodes.nodeTypeNameToNodeFactory.forEach((nodeFactory, nodeTypeName) => {
-    const node = nodeFactory();
+  graphRegistry.nodes.getAllNames().forEach((nodeTypeName) => {
+    const node = graphRegistry.nodes.create(nodeTypeName);
 
     // ensure node is registered correctly.
     if (node.typeName !== nodeTypeName) {

@@ -4,7 +4,7 @@ import generateUuid from '../generateUuid';
 import Node from './Node';
 
 export default class NodeTypeRegistry {
-  public readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();
+  private readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();
 
   constructor() {
   }
@@ -25,5 +25,9 @@ export default class NodeTypeRegistry {
     node.id = nodeId;
     Debug.asset(node.typeName === nodeTypeName);
     return node;
+  }
+
+  getAllNames() {
+    return Object.keys(this.nodeTypeNameToNodeFactory);
   }
 }

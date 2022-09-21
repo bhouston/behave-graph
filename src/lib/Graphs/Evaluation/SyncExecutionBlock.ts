@@ -7,8 +7,8 @@ import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
 
 export default class SyncExecutionBlock {
-  public readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];
-  public readonly graph: Graph;
+  private readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];
+  private readonly graph: Graph;
 
   constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | null) {
     this.graph = graphEvaluator.graph;

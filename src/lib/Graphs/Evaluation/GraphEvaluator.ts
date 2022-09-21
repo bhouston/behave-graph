@@ -10,7 +10,7 @@ import SyncExecutionBlock from './SyncExecutionBlock';
 
 export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
-  public readonly executionBlockQueue: SyncExecutionBlock[] = [];
+  private readonly executionBlockQueue: SyncExecutionBlock[] = [];
   public readonly asyncNodes: Node[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 

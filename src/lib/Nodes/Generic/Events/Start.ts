@@ -16,7 +16,7 @@ export default class Start extends Node {
           context.asyncCommit('flow');
         };
 
-        const lifecycleEvents = context.requestInterface('ILifecycleEvents') as ILifecycleEvents;
+        const lifecycleEvents = context.graph.registry.interfaces.get('ILifecycleEvents') as ILifecycleEvents;
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
         context.beginAsync();

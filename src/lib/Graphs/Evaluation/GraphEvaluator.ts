@@ -14,7 +14,7 @@ export default class GraphEvaluator {
   public readonly asyncNodes: Node[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
-  constructor(public graph: Graph, public verbose = false) {
+  constructor(public readonly graph: Graph) {
   }
 
   // asyncCommit

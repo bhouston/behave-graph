@@ -1,11 +1,11 @@
 import { promises as fs } from 'fs';
 
 import {
-  Debug, GraphRegistry, registerGenericNodes, validateGraphRegistry, writeNodeSpecsToJSON,
+  Debug, registerGenericNodes, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
 } from '../../../dist/lib/index';
 
 async function main() {
-  const registry = new GraphRegistry();
+  const registry = new Registry();
   registerGenericNodes(registry.nodes);
 
   const outputPath = process.argv[2];

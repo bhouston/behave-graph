@@ -8,11 +8,11 @@ import exampleSequence from '../../../../examples/flow/Sequence.json';
 import exampleState from '../../../../examples/variables/SetGet.json';
 import Debug from '../../Debug';
 import { registerGenericNodes } from '../../index';
-import GraphRegistry from '../GraphRegistry';
+import Registry from '../../Registry';
 import { GraphJSON } from './GraphJSON';
 import readGraphFromJSON from './readGraphFromJSON';
 
-const registry = new GraphRegistry();
+const registry = new Registry();
 registerGenericNodes(registry.nodes);
 
 Debug.onWarn.clear();

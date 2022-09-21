@@ -1,5 +1,6 @@
 import Node from '../Nodes/Node';
 import NodeSocketRef from '../Nodes/NodeSocketRef';
+import Registry from '../Registry';
 import Socket from '../Sockets/Socket';
 import Variable from '../Variables/Variable';
 import { Metadata } from './Metadata';
@@ -12,13 +13,8 @@ export default class Graph {
   public readonly nodes: { [id:string]: Node} = {};
   public readonly variables: { [id:string]: Variable } = {};
   public metadata: Metadata = {};
-  public readonly registeredInterfaces: { [name:string]: any } = {};
 
-  constructor() {
-  }
-
-  requestInterface(interfaceName: string): any {
-    return this.registeredInterfaces[interfaceName];
+  constructor(public readonly registry: Registry) {
   }
 
   getInputSocket(nodeSocketRef: NodeSocketRef): Socket {

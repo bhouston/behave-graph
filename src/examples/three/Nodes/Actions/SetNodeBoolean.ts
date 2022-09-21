@@ -5,6 +5,7 @@ import {
 export default class SetNodeBoolean extends Node {
   constructor(nodeName: string, public propertyName: string) {
     super(
+      'Three',
       nodeName,
       [new FlowSocket(), new NumberSocket('nodeIndex'), new BooleanSocket('value')],
       [new FlowSocket()],

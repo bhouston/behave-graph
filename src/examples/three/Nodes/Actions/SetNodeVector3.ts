@@ -3,6 +3,7 @@ import { FlowSocket, Node, NumberSocket } from '../../../../../dist/lib/index';
 export default class SetNodeVector3 extends Node {
   constructor(nodeName: string, public propertyName: string) {
     super(
+      'Three',
       nodeName,
       [
         new FlowSocket(),

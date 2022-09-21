@@ -1,5 +1,3 @@
-import { NodeCategory } from '../../Nodes/NodeCategory';
-
 export type InputSocketSpecJSON = {
   name: string;
   valueType: string,
@@ -13,7 +11,7 @@ export type OutputSocketSpecJSON = {
 
 export type NodeSpecJSON = {
   type: string;
-  category: NodeCategory;
+  category: string;
   inputs: InputSocketSpecJSON[];
   outputs: OutputSocketSpecJSON[];
 };

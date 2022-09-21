@@ -1,9 +1,9 @@
 import Debug from '../Debug';
 import EventEmitter from '../EventEmitter';
+import { EventListener } from '../EventListener';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
-import { SyncEvaluationCompletedListener } from '../Graphs/Evaluation/SyncEvaluationCompletedListener';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
 import Variable from '../Variables/Variable';
@@ -11,7 +11,7 @@ import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
 
 // Purpose:
-//  - Avoid nodes having to access globals to referene the scene or trigger loaders.
+//  - Avoid nodes having to access globals to reference the scene or trigger loaders.
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
 export default class NodeEvalContext {
@@ -136,7 +136,7 @@ export default class NodeEvalContext {
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
-  commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: SyncEvaluationCompletedListener | undefined = undefined) {
+  commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
     Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     if (this.async) throw new Error('can not commit as currently in async mode, use asyncCommit instead.');
     this.numCommits++;

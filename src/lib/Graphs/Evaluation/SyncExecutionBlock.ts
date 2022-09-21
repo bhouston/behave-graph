@@ -1,13 +1,13 @@
 import Debug from '../../Debug';
+import { EventListener } from '../../EventListener';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
-import { SyncEvaluationCompletedListener } from './SyncEvaluationCompletedListener';
 
 export default class SyncExecutionBlock {
-  public readonly syncEvaluationCompletedListenerStack : SyncEvaluationCompletedListener[] = [];
+  public readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];
   public readonly graph: Graph;
 
   constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | null) {
@@ -63,7 +63,7 @@ export default class SyncExecutionBlock {
 
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedListener: SyncEvaluationCompletedListener | undefined = undefined) {
+  commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
     Debug.asset(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);

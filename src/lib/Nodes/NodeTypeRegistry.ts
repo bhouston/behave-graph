@@ -1,15 +1,15 @@
 import Debug from '../Debug';
+import { Factory } from '../Factory';
 import generateUuid from '../generateUuid';
 import Node from './Node';
-import { NodeFactory } from './NodeFactory';
 
 export default class NodeTypeRegistry {
-  public readonly nodeTypeNameToNodeFactory = new Map<string, NodeFactory>();
+  public readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();
 
   constructor() {
   }
 
-  register(nodeTypeName: string, nodeTypeFactory: NodeFactory) {
+  register(nodeTypeName: string, nodeTypeFactory: Factory<Node>) {
     if (this.nodeTypeNameToNodeFactory.get(nodeTypeName) !== undefined) {
       throw new Error(`already registered node type ${nodeTypeName}`);
     }

@@ -1,9 +1,9 @@
 import EventEmitter from './EventEmitter';
 
 export default class Debug {
-  public static onVerbose = new EventEmitter<string>();
-  public static onWarn = new EventEmitter<string>();
-  public static onError = new EventEmitter<string>();
+  public static readonly onVerbose = new EventEmitter<string>();
+  public static readonly onWarn = new EventEmitter<string>();
+  public static readonly onError = new EventEmitter<string>();
 
   static {
     Debug.onVerbose.addListener((text: string) => { console.log(`[${new Date().toLocaleString()}]  ${text}`); });

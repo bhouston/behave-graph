@@ -1,5 +1,7 @@
 export { default as Debug } from './Debug';
 export { Factory } from './Factory';
+export { default as EventEmitter } from './EventEmitter';
+export { EventListener } from './EventListener';
 
 // main data model
 export { default as Graph } from './Graphs/Graph';

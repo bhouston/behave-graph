@@ -1,7 +1,7 @@
 import ValueType from './ValueType';
 
 export default class ValueTypeRegistry {
-  public valueTypeNameToValueType = new Map<string, ValueType>();
+  private readonly valueTypeNameToValueType = new Map<string, ValueType>();
 
   constructor() {
     // register core types

@@ -4,11 +4,11 @@ import { InputSocketSpecJSON, NodeSpecJSON, OutputSocketSpecJSON } from './NodeS
 export default function writeNodeSpecsToJSON(registry: GraphRegistry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
-  registry.nodes.nodeTypeNameToNodeFactory.forEach((nodeFactory, nodeType) => {
-    const node = nodeFactory();
+  registry.nodes.getAllNames().forEach((nodeTypeName) => {
+    const node = registry.nodes.create(nodeTypeName);
 
     const nodeSpecJSON: NodeSpecJSON = {
-      type: nodeType,
+      type: nodeTypeName,
       category: node.category,
       inputs: [],
       outputs: [],

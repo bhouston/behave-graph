@@ -1,3 +1,5 @@
+import { clearTimeout } from 'timers';
+
 import Debug from '../../../Debug';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
@@ -18,12 +20,16 @@ export default class Delay extends Node {
       ],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        context.beginAsync();
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           Debug.logVerbose('setTimeout on Delay fired, context.commit("flow")');
           context.asyncCommit('flow');
           context.endAsync();
         }, context.getInputValue('duration') * 1000);
+
+        context.beginAsync();
+        context.onAsyncCancelled.addListener(() => {
+          clearTimeout(timer);
+        });
       },
     );
   }

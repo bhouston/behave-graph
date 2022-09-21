@@ -1,31 +1,29 @@
-import { DebugLogFunc } from './DebugLogFunc';
+import EventEmitter from './EventEmitter';
 
 export default class Debug {
+  public static readonly onVerbose = new EventEmitter<string>();
+  public static readonly onWarn = new EventEmitter<string>();
+  public static readonly onError = new EventEmitter<string>();
+
+  static {
+    Debug.onVerbose.addListener((text: string) => { console.log(`[${new Date().toLocaleString()}]  ${text}`); });
+    Debug.onWarn.addListener((text: string) => { console.warn(`[${new Date().toLocaleString()}]  ${text}`); });
+    Debug.onError.addListener((text: string) => { console.error(`[${new Date().toLocaleString()}]  ${text}`); });
+  }
+
   static asset(condition: boolean, msg: string = '') {
     if (!condition) throw new Error(`failed assertion: ${msg}`);
   }
 
-  public static verbose = false;
-  public static onVerbose: DebugLogFunc = (text) => { console.log(`[${new Date().toLocaleString()}]  ${text}`); };
   static logVerbose(text: string) {
-    if (Debug.verbose) {
-      this.onVerbose(text);
-    }
+    this.onVerbose.emit(text);
   }
 
-  public static warn = true;
-  public static onWarn: DebugLogFunc = (text) => { console.log(`[${new Date().toLocaleString()}]  ${text}`); };
   static logWarn(text: string) {
-    if (Debug.warn) {
-      this.onWarn(text);
-    }
+    this.onWarn.emit(text);
   }
 
-  public static error = true;
-  public static onError: DebugLogFunc = (text) => { console.log(`[${new Date().toLocaleString()}]  ${text}`); };
   static logError(text: string) {
-    if (Debug.error) {
-      this.onError(text);
-    }
+    this.onError.emit(text);
   }
 }

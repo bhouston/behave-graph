@@ -1,3 +1,4 @@
+import EventEmitter from '../DesignPatterns/EventEmitter';
 import { Metadata } from '../Graphs/Metadata';
 
 export default class Variable {
@@ -5,6 +6,7 @@ export default class Variable {
   public label: string = '';
   public metadata: Metadata = {};
   public version = 0; // this is updated on each change to the variable state.
+  public onChanged = new EventEmitter<Variable>();
 
   constructor(
     public readonly id: string,
@@ -20,7 +22,10 @@ export default class Variable {
   }
 
   set(newValue: any) {
-    this.value = newValue;
-    this.version++;
+    if (newValue !== this.value) {
+      this.value = newValue;
+      this.version++;
+      this.onChanged.emit(this);
+    }
   }
 }

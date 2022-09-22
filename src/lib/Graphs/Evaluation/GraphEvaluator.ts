@@ -12,9 +12,15 @@ export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   private readonly executionBlockQueue: SyncExecutionBlock[] = [];
   public readonly asyncNodes: Node[] = [];
+  public readonly nonBlockingAsyncNodes: Node[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
   constructor(public readonly graph: Graph) {
+    Object.values( this.graph.nodes ).forEach( ( node ) => {
+      if ( node.autoEvaluateOnStartup ) {
+        this.executionBlockQueue.push(new SyncExecutionBlock(this, new NodeSocketRef( node.id, '' )));
+      }
+    });
   }
 
   // asyncCommit
@@ -100,6 +106,7 @@ export default class GraphEvaluator {
         await sleep(0);
       }
       stepsExecuted += this.executeAll(stepLimit);
+      Logger.verbose(`this.nonBlockingAsyncNodes.length: ${this.nonBlockingAsyncNodes.length}`);
       Logger.verbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
       Logger.verbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;

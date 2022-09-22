@@ -31,7 +31,11 @@ export default class NodeEvalContext {
 
   beginAsync() {
     Assert.mustBeTrue(this.async === false);
-    this.graphEvaluator.asyncNodes.push(this.node);
+    if (this.node.nonBlockingAsync) {
+      this.graphEvaluator.nonBlockingAsyncNodes.push(this.node);
+    } else {
+      this.graphEvaluator.asyncNodes.push(this.node);
+    }
     this.async = true;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, true));
   }
@@ -44,8 +48,13 @@ export default class NodeEvalContext {
 
   endAsync() {
     Assert.mustBeTrue(this.async === true);
-    const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
-    this.graphEvaluator.asyncNodes.splice(index, 1);
+    if (this.node.nonBlockingAsync) {
+      const index = this.graphEvaluator.nonBlockingAsyncNodes.indexOf(this.node);
+      this.graphEvaluator.nonBlockingAsyncNodes.splice(index, 1);
+    } else {
+      const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
+      this.graphEvaluator.asyncNodes.splice(index, 1);
+    }
     this.async = false;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false));
   }

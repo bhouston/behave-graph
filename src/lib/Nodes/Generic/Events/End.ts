@@ -16,7 +16,7 @@ export default class End extends Node {
           context.asyncCommit('flow');
         };
 
-        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleConnector');
+        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.endEvent.addListener(onEndEvent);
 
         context.beginAsync();
@@ -25,5 +25,8 @@ export default class End extends Node {
         });
       },
     );
+
+    this.autoEvaluateOnStartup = true;
+    this.nonBlockingAsync = true;
   }
 }

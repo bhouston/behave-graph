@@ -13,7 +13,7 @@ async function main() {
   registerGenericNodes(registry.nodes);
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register('ILifecycle', manualLifecycleEventEmitter);
+  registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {

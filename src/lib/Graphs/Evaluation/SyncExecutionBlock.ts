@@ -123,7 +123,7 @@ export default class SyncExecutionBlock {
         this.resolveInputValueFromSocket(inputSocket);
       } else {
         // eslint-disable-next-line no-param-reassign
-        inputSocket.value = (inputSocket.name === nodeSocketRef.socketName);
+        inputSocket.value = (inputSocket.name === nodeSocketRef.socketName); // is this required?
       }
     });
 

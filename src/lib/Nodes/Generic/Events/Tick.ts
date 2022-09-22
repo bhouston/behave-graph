@@ -22,7 +22,7 @@ export default class Tick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleConnector');
+        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.beginAsync();
@@ -31,5 +31,8 @@ export default class Tick extends Node {
         });
       },
     );
+
+    this.autoEvaluateOnStartup = true;
+    this.nonBlockingAsync = true;
   }
 }

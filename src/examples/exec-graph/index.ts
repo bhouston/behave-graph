@@ -65,6 +65,14 @@ async function main() {
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync(5.0);
 
+  for (let tick = 0; tick < 5; tick++) {
+    Logger.verbose('triggering tick');
+    manualLifecycleEventEmitter.tickEvent.emit();
+
+    Logger.verbose('executing all (async)');
+    await graphEvaluator.executeAllAsync(5.0);
+  }
+
   Logger.verbose('triggering end event');
   manualLifecycleEventEmitter.endEvent.emit();
 

@@ -27,7 +27,7 @@ export default class NodeTypeRegistry {
     return node;
   }
 
-  getAllNames() {
-    return Object.keys(this.nodeTypeNameToNodeFactory);
+  getAllNames(): string[] {
+    return Array.from(this.nodeTypeNameToNodeFactory.keys());
   }
 }

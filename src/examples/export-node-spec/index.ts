@@ -5,15 +5,15 @@ import {
 } from '../../../dist/lib/index';
 
 async function main() {
-  Logger.onVerbose.clear();
-
-  const registry = new Registry();
-  registerGenericNodes(registry.nodes);
+  // Logger.onVerbose.clear();
 
   const outputPath = process.argv[2];
   if (outputPath === undefined) {
     throw new Error('no path specified');
   }
+
+  const registry = new Registry();
+  registerGenericNodes(registry.nodes);
 
   Logger.verbose('validating:');
   const errorList: string[] = [];

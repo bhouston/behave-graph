@@ -14,6 +14,7 @@ export { default as FlowSocket } from './Sockets/Typed/FlowSocket';
 export { default as BooleanSocket } from './Sockets/Typed/BooleanSocket';
 export { default as NumberSocket } from './Sockets/Typed/NumberSocket';
 export { default as StringSocket } from './Sockets/Typed/StringSocket';
+export { default as IdSocket } from './Sockets/Typed/IdSocket';
 
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';

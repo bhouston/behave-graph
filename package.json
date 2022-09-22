@@ -29,6 +29,7 @@
     "@rollup/plugin-typescript": "^8.3.4",
     "@types/jest": "^28.1.7",
     "@types/node": "^18.0.6",
+    "@types/three": "^0.144.0",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "es-dev-server": "^2.1.0",

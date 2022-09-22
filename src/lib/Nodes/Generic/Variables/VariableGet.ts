@@ -1,5 +1,5 @@
 import Socket from '../../../Sockets/Socket';
-import IdSocket from '../../../Sockets/Typed/VariableSocket';
+import IdSocket from '../../../Sockets/Typed/IdSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 

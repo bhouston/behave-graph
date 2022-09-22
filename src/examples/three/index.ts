@@ -1,7 +1,8 @@
+import registerThreeNodes from 'behave-graph-three/src/lib/Nodes/ThreeNodes';
+
 import {
   GraphEvaluator, Logger, readGraphFromJSON, registerGenericNodes, Registry,
 } from '../../../dist/lib/index';
-import registerThreeNodes from './Nodes/ThreeNodes';
 
 async function main() {
   Logger.onVerbose.clear();

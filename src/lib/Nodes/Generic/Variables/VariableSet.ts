@@ -1,13 +1,13 @@
 import Socket from '../../../Sockets/Socket';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import IdSocket from '../../../Sockets/Typed/VariableSocket';
+import IdSocket from '../../../Sockets/Typed/IdSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 export default class VariableSet extends Node {
-  constructor(name:string, public valueTypeName: string, socketFactory: (socketName:string) => Socket) {
+  constructor(name:string, public readonly valueTypeName: string, socketFactory: (socketName:string) => Socket) {
     super(
-      'Variables',
+      'Variabless',
       name,
       [new FlowSocket(), new IdSocket('variable'), socketFactory('value')],
       [new FlowSocket()],

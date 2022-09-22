@@ -1,4 +1,4 @@
-import Debug from '../../Debug';
+import Logger from '../../Logger';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Registry from '../../Registry';
 import Variable from '../../Variables/Variable';
@@ -37,7 +37,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
   const nodesJson = graphJson.nodes || [];
 
   if (nodesJson.length === 0) {
-    Debug.logWarn('readGraphFromJSON: no nodes specified');
+    Logger.warn('readGraphFromJSON: no nodes specified');
   }
 
   // create new BehaviorNode instances for each node in the json.
@@ -58,7 +58,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       node.inputSockets.forEach((socket) => {
       // warn if no definition.
         if (inputsJson?.[socket.name] === undefined) {
-          Debug.logWarn(`readGraphFromJSON: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+          Logger.warn(`readGraphFromJSON: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
           return;
         }
 

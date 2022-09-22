@@ -1,6 +1,6 @@
 /* eslint-disable space-in-parens */
-import Debug from '../../Debug';
 import EventEmitter from '../../EventEmitter';
+import Logger from '../../Logger';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import sleep from '../../sleep';
@@ -22,14 +22,14 @@ export default class GraphEvaluator {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Debug.logVerbose(`GraphEvaluator: asyncCommit: ${node.typeName}.${outputSocket.name}`);
+    Logger.verbose(`GraphEvaluator: asyncCommit: ${node.typeName}.${outputSocket.name}`);
 
     if (outputSocket.links.length > 1) {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
       + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
-      Debug.logVerbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
+      Logger.verbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       this.executionBlockQueue.push(new SyncExecutionBlock(this, outputSocket.links[0]));
     }
@@ -39,12 +39,12 @@ export default class GraphEvaluator {
   // IMPORTANT: should events somehow register themselves at graph initialization?  There is a missing step here.
   // This simplistic approach is okay if events do no have filters themselves.
   triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
-    Debug.logVerbose( `triggering all events with the node name: ${nodeName}`);
+    Logger.verbose( `triggering all events with the node name: ${nodeName}`);
     // look up any nodes with this trigger name and add them to the executionQueue
     const nodes = Object.values(this.graph.nodes).filter((node) => (node.typeName === nodeName));
 
     nodes.forEach((node) => {
-      Debug.logVerbose( `triggering node: ${node.typeName}`);
+      Logger.verbose( `triggering node: ${node.typeName}`);
       // apply output values
       outputValues.forEach((value, name) => {
         // eslint-disable-next-line no-param-reassign
@@ -100,8 +100,8 @@ export default class GraphEvaluator {
         await sleep(0);
       }
       stepsExecuted += this.executeAll(stepLimit);
-      Debug.logVerbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
-      Debug.logVerbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
+      Logger.verbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
+      Logger.verbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;
       iterations += 1;
     } while ((this.asyncNodes.length > 0 || this.executionBlockQueue.length > 0) && ( elapsedTime < timeLimit ) && stepsExecuted < stepLimit);

@@ -1,10 +1,12 @@
 import { promises as fs } from 'fs';
 
 import {
-  Debug, registerGenericNodes, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
+  registerGenericNodes, Logger, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
 } from '../../../dist/lib/index';
 
 async function main() {
+  Logger.onVerbose.clear();
+  
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
 
@@ -13,15 +15,15 @@ async function main() {
     throw new Error('no path specified');
   }
 
-  Debug.logVerbose('validating:');
+  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Debug.logVerbose('validating registry');
+  Logger.verbose('validating registry');
   errorList.push(...validateGraphRegistry(registry));
 
   if (errorList.length > 0) {
-    Debug.logError(`${errorList.length} errors found:`);
+    Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
-      Debug.logError(`${errorIndex}: ${errorText}`);
+      Logger.error(`${errorIndex}: ${errorText}`);
     });
     return;
   }

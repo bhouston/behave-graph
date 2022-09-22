@@ -1,7 +1,9 @@
-export { default as Debug } from './Debug';
+export { default as Debug } from './Logger';
 export { Factory } from './Factory';
 export { default as EventEmitter } from './EventEmitter';
 export { EventListener } from './EventListener';
+export { default as Logger } from './Logger';
+export { default as Assert } from './Assert';
 
 // main data model
 export { default as Graph } from './Graphs/Graph';

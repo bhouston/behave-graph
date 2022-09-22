@@ -1,4 +1,4 @@
-import Debug from '../../../Debug';
+import Logger from '../../../Logger';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
@@ -22,9 +22,9 @@ export default class Sequence extends Node {
         const sequenceIteration = function sequenceIteration(i: number) {
           if (i < context.node.outputSockets.length) {
             const outputSocket = context.node.outputSockets[i];
-            Debug.logVerbose(`sequence: processing output socket ${outputSocket.name}`);
+            Logger.verbose(`sequence: processing output socket ${outputSocket.name}`);
             context.commit(outputSocket.name, () => {
-              Debug.logVerbose('sequence: completed!');
+              Logger.verbose('sequence: completed!');
               sequenceIteration(i + 1);
             });
           }

@@ -1,12 +1,12 @@
 import { promises as fs } from 'fs';
 
 import {
-  Debug, GraphEvaluator, readGraphFromJSON, registerGenericNodes,
+  Logger, GraphEvaluator, readGraphFromJSON, registerGenericNodes,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
-  Debug.onVerbose.clear();
+  Logger.onVerbose.clear();
 
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
@@ -16,30 +16,30 @@ async function main() {
     throw new Error('no path specified');
   }
 
-  Debug.logVerbose(`reading behavior graph: ${graphJsonPath}`);
+  Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
   const graph = readGraphFromJSON(JSON.parse(textFile), registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-  Debug.logVerbose('validating:');
+  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Debug.logVerbose('validating registry');
+  Logger.verbose('validating registry');
   errorList.push(...validateGraphRegistry(registry));
-  Debug.logVerbose('validating socket links have matching types on either end');
+  Logger.verbose('validating socket links have matching types on either end');
   errorList.push(...validateLinks(graph));
-  Debug.logVerbose('validating that graph is directed acyclic');
+  Logger.verbose('validating that graph is directed acyclic');
   errorList.push(...validateDirectedAcyclicGraph(graph));
 
   if (errorList.length > 0) {
-    Debug.logError(`${errorList.length} errors found:`);
+    Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
-      Debug.logError(`${errorIndex}: ${errorText}`);
+      Logger.error(`${errorIndex}: ${errorText}`);
     });
     return;
   }
 
-  Debug.logVerbose('creating behavior graph');
+  Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
   /*
@@ -52,10 +52,10 @@ async function main() {
   });
   */
 
-  Debug.logVerbose('triggering start event');
+  Logger.verbose('triggering start event');
   graphEvaluator.triggerEvents('event/start');
 
-  Debug.logVerbose('executing all (async)');
+  Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync(5.0);
 }
 

@@ -6,7 +6,7 @@ import exampleFlipFlop from '../../../../examples/flow/FlipFlop.json';
 import exampleForLoop from '../../../../examples/flow/ForLoop.json';
 import exampleSequence from '../../../../examples/flow/Sequence.json';
 import exampleState from '../../../../examples/variables/SetGet.json';
-import Debug from '../../Debug';
+import Logger from '../../Logger';
 import { registerGenericNodes } from '../../index';
 import Registry from '../../Registry';
 import { GraphJSON } from './GraphJSON';
@@ -15,7 +15,7 @@ import readGraphFromJSON from './readGraphFromJSON';
 const registry = new Registry();
 registerGenericNodes(registry.nodes);
 
-Debug.onWarn.clear();
+Logger.onWarn.clear();
 
 describe('readGraphFromJSON', () => {
   it('throws if node ids are not unique', () => {

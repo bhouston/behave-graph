@@ -1,7 +1,8 @@
-import Debug from '../Debug';
+import Logger from '../Logger';
 import { Factory } from '../Factory';
 import generateUuid from '../generateUuid';
 import Node from './Node';
+import Assert from '../Assert';
 
 export default class NodeTypeRegistry {
   private readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();
@@ -23,7 +24,7 @@ export default class NodeTypeRegistry {
     }
     const node = factory();
     node.id = nodeId;
-    Debug.asset(node.typeName === nodeTypeName);
+    Assert.mustBeTrue(node.typeName === nodeTypeName);
     return node;
   }
 

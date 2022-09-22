@@ -1,9 +1,11 @@
 import {
-  Debug, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
+  Logger, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
 } from '../../../dist/lib/index';
 import registerThreeNodes from './Nodes/ThreeNodes';
 
 async function main() {
+  Logger.onVerbose.clear();
+
   const registry = new GraphTypeRegistry();
   registerGenericNodes(registry);
   registerThreeNodes(registry);
@@ -15,20 +17,20 @@ async function main() {
     throw new Error('no path specified');
   }
 
-  Debug.logVerbose(`reading behavior graph: ${graphJsonPath}`);
+  Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const json = await (await fetch(graphJsonPath)).json();
   const graph = readGraphFromJSON(json, registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
 
-  Debug.logVerbose('creating behavior graph');
+  Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Debug.logVerbose('triggering start event');
+  Logger.verbose('triggering start event');
   graphEvaluator.triggerEvents('event/start');
 
-  Debug.logVerbose('executing all (async)');
+  Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }
 

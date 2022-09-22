@@ -1,4 +1,4 @@
-import Debug from '../../../Debug';
+import Logger from '../../../Logger';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
@@ -25,11 +25,11 @@ export default class ForLoop extends Node {
         const startIndex = context.getInputValue('startIndex');
         const endIndex = context.getInputValue('endIndex');
         const loopBodyIteration = function loopBodyIteration(i: number) {
-          Debug.logVerbose(`loop: loop body ${i} of [${startIndex}:${endIndex})`);
+          Logger.verbose(`loop: loop body ${i} of [${startIndex}:${endIndex})`);
           if (i < endIndex) {
             context.setOutputValue('index', i);
             context.commit('loopBody', () => {
-              Debug.logVerbose(`loop: body completed for ${i}!`);
+              Logger.verbose(`loop: body completed for ${i}!`);
               loopBodyIteration(i + 1);
             });
           } else {

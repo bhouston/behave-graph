@@ -1,10 +1,11 @@
-import Debug from '../../Debug';
+import Logger from '../../Logger';
 import { EventListener } from '../../EventListener';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
+import Assert from '../../Assert';
 
 export default class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];
@@ -49,7 +50,7 @@ export default class SyncExecutionBlock {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    Debug.logVerbose(`SyncExecutionBlock: evaluating immediate node ${upstreamNode.typeName}`);
+    Logger.verbose(`SyncExecutionBlock: evaluating immediate node ${upstreamNode.typeName}`);
 
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
@@ -64,18 +65,18 @@ export default class SyncExecutionBlock {
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
-    Debug.asset(this.nextEval === null);
+    Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Debug.logVerbose(`SyncExecutionBlock: commit: ${node.typeName}.${outputSocket.name}`);
+    Logger.verbose(`SyncExecutionBlock: commit: ${node.typeName}.${outputSocket.name}`);
 
     if (outputSocket.links.length > 1) {
       throw new Error('invalid for an output flow socket to have multiple downstream links:'
       + `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`);
     }
     if (outputSocket.links.length === 1) {
-      Debug.logVerbose(`SyncExecutionBlock: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
+      Logger.verbose(`SyncExecutionBlock: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       const link = outputSocket.links[0];
       if (link === undefined) {
@@ -84,7 +85,7 @@ export default class SyncExecutionBlock {
       this.nextEval = link;
     }
     if (outputSocket.links.length === 0) {
-      Debug.logVerbose('SyncExecutionBlock: nothing attached to output flow socket, no execution done');
+      Logger.verbose('SyncExecutionBlock: nothing attached to output flow socket, no execution done');
     }
 
     if (syncEvaluationCompletedListener !== undefined) {
@@ -112,7 +113,7 @@ export default class SyncExecutionBlock {
     }
 
     const node = this.graph.nodes[nodeSocketRef.nodeId];
-    Debug.logVerbose(`evaluating node: ${node.typeName}`);
+    Logger.verbose(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
@@ -126,7 +127,7 @@ export default class SyncExecutionBlock {
       }
     });
 
-    Debug.logVerbose(`GraphEvaluator: evaluating flow node ${node.typeName}`);
+    Logger.verbose(`GraphEvaluator: evaluating flow node ${node.typeName}`);
 
     const context = new NodeEvalContext(this, node);
     context.evalFlow();

@@ -1,4 +1,4 @@
-import Debug from '../Debug';
+import Logger from '../Logger';
 import EventEmitter from '../EventEmitter';
 import { EventListener } from '../EventListener';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
@@ -9,6 +9,7 @@ import Graph from '../Graphs/Graph';
 import Variable from '../Variables/Variable';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
+import Assert from '../Assert';
 
 // Purpose:
 //  - Avoid nodes having to access globals to reference the scene or trigger loaders.
@@ -29,20 +30,20 @@ export default class NodeEvalContext {
   }
 
   beginAsync() {
-    Debug.asset(this.async === false);
+    Assert.mustBeTrue(this.async === false);
     this.graphEvaluator.asyncNodes.push(this.node);
     this.async = true;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, true));
   }
 
   cancelAsync() {
-    Debug.asset(this.async === true);
+    Assert.mustBeTrue(this.async === true);
     this.onAsyncCancelled.emit();
     this.endAsync();
   }
 
   endAsync() {
-    Debug.asset(this.async === true);
+    Assert.mustBeTrue(this.async === true);
     const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
     this.graphEvaluator.asyncNodes.splice(index, 1);
     this.async = false;
@@ -51,7 +52,7 @@ export default class NodeEvalContext {
 
   evalFlow() {
     // confirm assumptions for an immediate evaluation
-    Debug.asset(this.node.isEvalNode, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
+    Assert.mustBeTrue(this.node.isEvalNode, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
 
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, false));
 
@@ -80,7 +81,7 @@ export default class NodeEvalContext {
     this.node.evalFunc(this);
 
     // confirm assumptions for immediate evaluation.
-    Debug.asset(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
+    Assert.mustBeTrue(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
 
     this.writeOutputs();
 
@@ -133,7 +134,7 @@ export default class NodeEvalContext {
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
   commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
-    Debug.logVerbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    Logger.verbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     if (this.async) throw new Error('can not commit as currently in async mode, use asyncCommit instead.');
     this.numCommits++;
     this.writeOutputs();
@@ -141,7 +142,7 @@ export default class NodeEvalContext {
   }
 
   asyncCommit(downstreamFlowSocketName: string) {
-    Debug.logVerbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
+    Logger.verbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
     if (!this.async) throw new Error('can not asyncCommit as not currently in async mode, use commit instead or set async mode enabled.');
     this.numCommits++;
     this.writeOutputs();
@@ -150,7 +151,7 @@ export default class NodeEvalContext {
 
   // eslint-disable-next-line class-methods-use-this
   log(text: string) {
-    Debug.logVerbose(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
+    Logger.verbose(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
     console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

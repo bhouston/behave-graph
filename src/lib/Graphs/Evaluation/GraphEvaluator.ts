@@ -12,7 +12,7 @@ export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   private readonly executionBlockQueue: SyncExecutionBlock[] = [];
   public readonly asyncNodes: Node[] = [];
-  public readonly nonBlockingAsyncNodes: Node[] = [];
+  public readonly interruptableAsyncNodes: Node[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
   constructor(public readonly graph: Graph) {
@@ -65,7 +65,7 @@ export default class GraphEvaluator {
         await sleep(0);
       }
       stepsExecuted += this.executeAll(stepLimit);
-      Logger.verbose(`this.nonBlockingAsyncNodes.length: ${this.nonBlockingAsyncNodes.length}`);
+      Logger.verbose(`this.nonBlockingAsyncNodes.length: ${this.interruptableAsyncNodes.length}`);
       Logger.verbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
       Logger.verbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;

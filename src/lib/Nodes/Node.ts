@@ -7,12 +7,13 @@ function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
 }
 
 export default class Node {
-  public readonly isEvalNode: boolean;
   public id: string = '';
   public label: string = '';
   public metadata: Metadata = {};
+  public readonly flow: boolean;
   public evaluateOnStartup = false;
-  public nonBlocking = false;
+  public async = false;
+  public interruptableAsync = false;
 
   constructor(
       public readonly category: string,
@@ -22,14 +23,14 @@ export default class Node {
       public readonly evalFunc: NodeEvalFunction,
   ) {
     // determine if this is an eval node
-    let areAnySocketsEvalType = false;
+    let areAnySocketsFlowType = false;
     this.inputSockets.forEach((socket) => {
-      areAnySocketsEvalType ||= (socket.valueTypeName === 'flow');
+      areAnySocketsFlowType ||= (socket.valueTypeName === 'flow');
     });
     this.outputSockets.forEach((socket) => {
-      areAnySocketsEvalType ||= (socket.valueTypeName === 'flow');
+      areAnySocketsFlowType ||= (socket.valueTypeName === 'flow');
     });
-    this.isEvalNode = areAnySocketsEvalType;
+    this.flow = areAnySocketsFlowType;
   }
 
   getInputSocket(socketName: string): Socket {

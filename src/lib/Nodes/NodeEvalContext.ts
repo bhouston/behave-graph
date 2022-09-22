@@ -21,56 +21,61 @@ export default class NodeEvalContext {
   public readonly onAsyncCancelled = new EventEmitter<void>();
   private readonly cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
   private readonly cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
-  public async = false;
-  public numCommits = 0;
+  private asyncPending = false;
+  private numCommits = 0;
 
   constructor(public readonly syncExecutionBlock: SyncExecutionBlock, public readonly node: Node) {
     this.graphEvaluator = syncExecutionBlock.graphEvaluator;
     this.graph = this.graphEvaluator.graph;
   }
 
-  beginAsync() {
-    Assert.mustBeTrue(this.async === false);
-    if (this.node.nonBlocking) {
-      this.graphEvaluator.nonBlockingAsyncNodes.push(this.node);
+  private beginAsync() {
+    Assert.mustBeTrue(this.node.async === true);
+    if (this.node.interruptableAsync) {
+      this.graphEvaluator.interruptableAsyncNodes.push(this.node);
     } else {
       this.graphEvaluator.asyncNodes.push(this.node);
     }
-    this.async = true;
+    this.asyncPending = true;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, true));
   }
 
   cancelAsync() {
-    Assert.mustBeTrue(this.async === true);
+    Assert.mustBeTrue(this.node.async === true);
+    Assert.mustBeTrue(this.asyncPending === true);
     this.onAsyncCancelled.emit();
     this.endAsync();
   }
 
   endAsync() {
-    Assert.mustBeTrue(this.async === true);
-    if (this.node.nonBlocking) {
-      const index = this.graphEvaluator.nonBlockingAsyncNodes.indexOf(this.node);
-      this.graphEvaluator.nonBlockingAsyncNodes.splice(index, 1);
+    Assert.mustBeTrue(this.node.async === true);
+    Assert.mustBeTrue(this.asyncPending === true);
+    if (this.node.interruptableAsync) {
+      const index = this.graphEvaluator.interruptableAsyncNodes.indexOf(this.node);
+      this.graphEvaluator.interruptableAsyncNodes.splice(index, 1);
     } else {
       const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
       this.graphEvaluator.asyncNodes.splice(index, 1);
     }
-    this.async = false;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false));
   }
 
   evalFlow() {
     // confirm assumptions for an immediate evaluation
-    Assert.mustBeTrue(this.node.isEvalNode, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
+    Assert.mustBeTrue(this.node.flow, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
 
-    this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, false));
+    if (this.node.async) {
+      this.beginAsync();
+    } else {
+      this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, false));
+    }
 
     // read inputs all at once to avoid async inconsistencies.
     this.readInputs();
 
     this.node.evalFunc(this);
 
-    if (!this.async) {
+    if (!this.node.async) {
       this.writeOutputs(); // TODO: replace this with commit(), no need for this overlapping duplicate codex
       this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false));
     }
@@ -78,7 +83,7 @@ export default class NodeEvalContext {
 
   evalImmediate() {
     // confirm assumptions for an immediate evaluation
-    if (this.node.isEvalNode) {
+    if (this.node.flow) {
       throw new Error('can not evalImmediate on Flow nodes, use evalFlow instead');
     }
 
@@ -90,7 +95,7 @@ export default class NodeEvalContext {
     this.node.evalFunc(this);
 
     // confirm assumptions for immediate evaluation.
-    Assert.mustBeTrue(!this.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
+    Assert.mustBeTrue(!this.node.async, 'evalImmediate can not handle evalPromise nodes, use evalFlow instead');
 
     this.writeOutputs();
 
@@ -144,7 +149,7 @@ export default class NodeEvalContext {
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
   commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
     Logger.verbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
-    if (this.async) throw new Error('can not commit as currently in async mode, use asyncCommit instead.');
+    if (this.node.async) throw new Error('can not commit on a node that is async, use asyncCommit instead.');
     this.numCommits++;
     this.writeOutputs();
     this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
@@ -152,15 +157,9 @@ export default class NodeEvalContext {
 
   asyncCommit(downstreamFlowSocketName: string) {
     Logger.verbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
-    if (!this.async) throw new Error('can not asyncCommit as not currently in async mode, use commit instead or set async mode enabled.');
+    if (!this.node.async) throw new Error('can not asyncCommit on a node that is not aync, use commit instead or set async mode enabled.');
     this.numCommits++;
     this.writeOutputs();
     this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  log(text: string) {
-    Logger.verbose(`${this.graphEvaluator.graph.name}: ${this.node.typeName}:`);
-    console.log(`[${new Date().toLocaleString()}] ${text}`);
   }
 }

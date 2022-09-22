@@ -25,14 +25,14 @@ export default class Tick extends Node {
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
-        context.beginAsync();
         context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.tickEvent.addListener(onTickEvent);
+          lifecycleEvents.tickEvent.removeListener(onTickEvent);
         });
       },
     );
 
+    this.async = true;
     this.evaluateOnStartup = true;
-    this.nonBlocking = true;
+    this.interruptableAsync = true;
   }
 }

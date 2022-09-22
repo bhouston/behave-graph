@@ -26,11 +26,12 @@ export default class Delay extends Node {
           context.endAsync();
         }, context.getInputValue('duration') * 1000);
 
-        context.beginAsync();
         context.onAsyncCancelled.addListener(() => {
           clearTimeout(timer);
         });
       },
     );
+
+    this.async = true;
   }
 }

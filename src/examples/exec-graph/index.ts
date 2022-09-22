@@ -70,6 +70,7 @@ async function main() {
     manualLifecycleEventEmitter.tickEvent.emit();
 
     Logger.verbose('executing all (async)');
+    // eslint-disable-next-line no-await-in-loop
     await graphEvaluator.executeAllAsync(5.0);
   }
 

@@ -13,7 +13,7 @@ export default class GraphEvaluator {
   // tracking the next node+input socket to execute.
   private readonly executionBlockQueue: SyncExecutionBlock[] = [];
   public readonly asyncNodes: Node[] = [];
-  public readonly interruptableAsyncNodes: Node[] = [];
+  public readonly interruptibleAsyncNodes: Node[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
   constructor(public readonly graph: Graph) {
@@ -39,7 +39,7 @@ export default class GraphEvaluator {
       Logger.verbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
       const syncExecutionBlock = new SyncExecutionBlock(this, outputSocket.links[0], syncEvaluationCompletedListener);
-      this.executionBlockQueue.push(new SyncExecutionBlock(this, outputSocket.links[0]));
+      this.executionBlockQueue.push(syncExecutionBlock);
     }
   }
 
@@ -67,7 +67,7 @@ export default class GraphEvaluator {
         await sleep(0);
       }
       stepsExecuted += this.executeAll(stepLimit);
-      Logger.verbose(`this.nonBlockingAsyncNodes.length: ${this.interruptableAsyncNodes.length}`);
+      Logger.verbose(`this.nonBlockingAsyncNodes.length: ${this.interruptibleAsyncNodes.length}`);
       Logger.verbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
       Logger.verbose(`this.executionBlockQueue.length: ${this.executionBlockQueue.length}`);
       elapsedTime = ( Date.now() - startDateTime ) * 0.001;

@@ -26,9 +26,6 @@ async function main() {
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Logger.verbose('triggering start event');
-  graphEvaluator.triggerEvents('event/start');
-
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }

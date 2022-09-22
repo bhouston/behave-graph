@@ -30,7 +30,7 @@ export { default as Registry } from './Registry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // interface registry
-export { default as AbstractionRegistry } from './Abstractions/ImplementationRegistry';
+export { default as ImplementationRegistry } from './Abstractions/ImplementationRegistry';
 export { default as ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
 export { default as DefaultLogger } from './Abstractions/Implementations/DefaultLogger';
 export { default as ManualLifecycleEventEmitter } from './Abstractions/Implementations/ManualLifecycleEventEmitter';

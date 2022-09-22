@@ -27,6 +27,6 @@ export default class End extends Node {
 
     this.async = true;
     this.evaluateOnStartup = true;
-    this.interruptableAsync = true;
+    this.interruptibleAsync = true;
   }
 }

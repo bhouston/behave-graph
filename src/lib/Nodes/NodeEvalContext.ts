@@ -21,8 +21,8 @@ export default class NodeEvalContext {
   public readonly onAsyncCancelled = new EventEmitter<void>();
   private readonly cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
   private readonly cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
-  private asyncPending = false;
-  private numCommits = 0;
+  public asyncPending = false;
+  public numCommits = 0;
 
   constructor(public readonly syncExecutionBlock: SyncExecutionBlock, public readonly node: Node) {
     this.graphEvaluator = syncExecutionBlock.graphEvaluator;

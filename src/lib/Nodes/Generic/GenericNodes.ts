@@ -4,6 +4,7 @@ import NumberSocket from '../../Sockets/Typed/NumberSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
 import NodeTypeRegistry from '../NodeTypeRegistry';
 import Log from './Actions/Log';
+import End from './Events/End';
 import Start from './Events/Start';
 import Tick from './Events/Tick';
 import Branch from './Flow/Branch';
@@ -25,6 +26,7 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
   // events
 
   registry.register('event/start', () => new Start());
+  registry.register('event/end', () => new End());
   registry.register('event/tick', () => new Tick());
 
   // flow control

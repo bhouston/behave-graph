@@ -1,12 +1,12 @@
-import Assert from '../Assert';
-import EventEmitter from '../EventEmitter';
-import { EventListener } from '../EventListener';
+import EventEmitter from '../DesignPatterns/EventEmitter';
+import { EventListener } from '../DesignPatterns/EventListener';
+import Assert from '../Diagnostics/Assert';
+import Logger from '../Diagnostics/Logger';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
-import Logger from '../Logger';
 import Variable from '../Variables/Variable';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';
@@ -31,7 +31,11 @@ export default class NodeEvalContext {
 
   beginAsync() {
     Assert.mustBeTrue(this.async === false);
-    this.graphEvaluator.asyncNodes.push(this.node);
+    if (this.node.nonBlocking) {
+      this.graphEvaluator.nonBlockingAsyncNodes.push(this.node);
+    } else {
+      this.graphEvaluator.asyncNodes.push(this.node);
+    }
     this.async = true;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, true));
   }
@@ -44,8 +48,13 @@ export default class NodeEvalContext {
 
   endAsync() {
     Assert.mustBeTrue(this.async === true);
-    const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
-    this.graphEvaluator.asyncNodes.splice(index, 1);
+    if (this.node.nonBlocking) {
+      const index = this.graphEvaluator.nonBlockingAsyncNodes.indexOf(this.node);
+      this.graphEvaluator.nonBlockingAsyncNodes.splice(index, 1);
+    } else {
+      const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
+      this.graphEvaluator.asyncNodes.splice(index, 1);
+    }
     this.async = false;
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false));
   }

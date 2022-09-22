@@ -1,6 +1,6 @@
-import Assert from '../../Assert';
-import { EventListener } from '../../EventListener';
-import Logger from '../../Logger';
+import { EventListener } from '../../DesignPatterns/EventListener';
+import Assert from '../../Diagnostics/Assert';
+import Logger from '../../Diagnostics/Logger';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
@@ -123,7 +123,7 @@ export default class SyncExecutionBlock {
         this.resolveInputValueFromSocket(inputSocket);
       } else {
         // eslint-disable-next-line no-param-reassign
-        inputSocket.value = (inputSocket.name === nodeSocketRef.socketName);
+        inputSocket.value = (inputSocket.name === nodeSocketRef.socketName); // is this required?
       }
     });
 

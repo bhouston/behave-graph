@@ -1,19 +1,20 @@
 import { promises as fs } from 'fs';
 
 import {
-  DefaultLogger, GraphEvaluator, Logger, ManualLifecycle,
+  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter,
+  NodeEvaluationType,
   readGraphFromJSON, registerGenericNodes,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
-  // Logger.onVerbose.clear();
+  Logger.onVerbose.clear();
 
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
-  registry.connectors.register('ILoggerConnector', new DefaultLogger());
-  const manualLifecycle = new ManualLifecycle();
-  registry.connectors.register('ILifecycleConnector', manualLifecycle);
+  registry.implementations.register('ILogger', new DefaultLogger());
+  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {
@@ -46,24 +47,34 @@ async function main() {
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  /*
-  graphEvaluator.evaluationListeners.push((node: Node, nodeEvaluationType: NodeEvaluationType, async: boolean) => {
-    if (nodeEvaluationType === NodeEvaluationType.None) {
-      console.log(`Node ${node.typeName} ${node.id} completed evaluation.`);
+  graphEvaluator.onNodeEvaluation.addListener((event) => {
+    if (event.nodeEvaluationType === NodeEvaluationType.None) {
+      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} completed evaluation.`);
     } else {
-      console.log(`Node ${node.typeName} ${node.id} started evaluation, mode: ${NodeEvaluationType[nodeEvaluationType]}, async: ${async}.`);
+      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} started evaluation, `
+      + `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${event.async}.`);
     }
   });
-  */
+
+  Logger.verbose('initialize graph');
+  await graphEvaluator.executeAll();
 
   Logger.verbose('triggering start event');
-  manualLifecycle.startEvent.emit();
+  manualLifecycleEventEmitter.startEvent.emit();
 
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync(5.0);
 
+  for (let tick = 0; tick < 5; tick++) {
+    Logger.verbose('triggering tick');
+    manualLifecycleEventEmitter.tickEvent.emit();
+
+    Logger.verbose('executing all (async)');
+    await graphEvaluator.executeAllAsync(5.0);
+  }
+
   Logger.verbose('triggering end event');
-  manualLifecycle.endEvent.emit();
+  manualLifecycleEventEmitter.endEvent.emit();
 
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync(5.0);

@@ -1,4 +1,4 @@
-import EventEmitter from './EventEmitter';
+import EventEmitter from '../DesignPatterns/EventEmitter';
 
 export default class Logger {
   public static readonly onVerbose = new EventEmitter<string>();

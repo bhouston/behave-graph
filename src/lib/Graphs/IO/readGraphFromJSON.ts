@@ -1,4 +1,4 @@
-import Logger from '../../Logger';
+import Logger from '../../Diagnostics/Logger';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Registry from '../../Registry';
 import Variable from '../../Variables/Variable';

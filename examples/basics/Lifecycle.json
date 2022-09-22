@@ -1,0 +1,67 @@
+{
+    "nodes": [
+        {
+            "type": "event/start",
+            "id": "0"
+        },
+        {
+            "type": "action/log",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Lifecycle: Start!"
+                }
+            }
+        },
+        {
+            "type": "event/end",
+            "id": "2"
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Lifecycle: End!"
+                }
+            }
+        },
+        {
+            "type": "event/tick",
+            "id": "4"
+        },
+        {
+            "type": "action/log",
+            "id": "5",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "4",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Lifecycle: Tick!"
+                }
+            }
+        }
+    ]
+}

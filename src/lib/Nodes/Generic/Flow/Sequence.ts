@@ -1,4 +1,4 @@
-import Logger from '../../../Logger';
+import Logger from '../../../Diagnostics/Logger';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';

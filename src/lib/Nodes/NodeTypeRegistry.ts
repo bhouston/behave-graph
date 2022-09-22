@@ -1,5 +1,5 @@
-import Assert from '../Assert';
-import { Factory } from '../Factory';
+import { Factory } from '../DesignPatterns/Factory';
+import Assert from '../Diagnostics/Assert';
 import generateUuid from '../generateUuid';
 import Node from './Node';
 

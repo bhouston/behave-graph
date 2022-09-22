@@ -1,4 +1,4 @@
-import ILifecycleConnector from '../../../Connectors/ILifecycleConnector';
+import ILifecycleEventEmitter from '../../../Abstractions/ILifecycleEventEmitter';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
@@ -16,7 +16,7 @@ export default class Start extends Node {
           context.asyncCommit('flow');
         };
 
-        const lifecycleEvents = context.graph.registry.connectors.get<ILifecycleConnector>('ILifecycleConnector');
+        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
         context.beginAsync();
@@ -25,5 +25,7 @@ export default class Start extends Node {
         });
       },
     );
+    this.evaluateOnStartup = true;
+    this.nonBlocking = true;
   }
 }

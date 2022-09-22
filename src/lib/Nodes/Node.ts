@@ -11,6 +11,8 @@ export default class Node {
   public id: string = '';
   public label: string = '';
   public metadata: Metadata = {};
+  public evaluateOnStartup = false;
+  public nonBlocking = false;
 
   constructor(
       public readonly category: string,

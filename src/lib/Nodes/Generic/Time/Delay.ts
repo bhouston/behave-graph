@@ -1,6 +1,6 @@
 import { clearTimeout } from 'timers';
 
-import Logger from '../../../Logger';
+import Logger from '../../../Diagnostics/Logger';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';

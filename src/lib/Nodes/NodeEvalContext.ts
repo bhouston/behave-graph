@@ -152,8 +152,7 @@ export default class NodeEvalContext {
     this.numCommits++;
     this.writeOutputs();
     if (this.node.async) {
-      Assert.mustBeTrue(syncEvaluationCompletedListener === undefined);
-      this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
+      this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
     } else {
       this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
     }

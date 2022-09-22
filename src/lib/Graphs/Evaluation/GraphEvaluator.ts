@@ -1,5 +1,6 @@
 /* eslint-disable space-in-parens */
 import EventEmitter from '../../DesignPatterns/EventEmitter';
+import { EventListener } from '../../DesignPatterns/EventListener';
 import Logger from '../../Diagnostics/Logger';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
@@ -24,7 +25,7 @@ export default class GraphEvaluator {
   }
 
   // asyncCommit
-  asyncCommit(outputFlowSocket: NodeSocketRef) {
+  asyncCommit(outputFlowSocket: NodeSocketRef, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
@@ -37,6 +38,7 @@ export default class GraphEvaluator {
     if (outputSocket.links.length === 1) {
       Logger.verbose(`GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`);
 
+      const syncExecutionBlock = new SyncExecutionBlock(this, outputSocket.links[0], syncEvaluationCompletedListener);
       this.executionBlockQueue.push(new SyncExecutionBlock(this, outputSocket.links[0]));
     }
   }

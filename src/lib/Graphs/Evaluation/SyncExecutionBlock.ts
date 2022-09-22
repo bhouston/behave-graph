@@ -11,8 +11,15 @@ export default class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];
   private readonly graph: Graph;
 
-  constructor(public graphEvaluator: GraphEvaluator, public nextEval: NodeSocketRef | null) {
+  constructor(
+    public graphEvaluator: GraphEvaluator,
+    public nextEval: NodeSocketRef | null,
+    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined,
+  ) {
     this.graph = graphEvaluator.graph;
+    if (syncEvaluationCompletedListener !== undefined) {
+      this.syncEvaluationCompletedListenerStack.push(syncEvaluationCompletedListener);
+    }
   }
 
   // NOTE: This is a simplistic recursive and wasteful approach.

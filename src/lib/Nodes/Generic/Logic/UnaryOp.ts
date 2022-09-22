@@ -14,7 +14,7 @@ export default class UnaryOp<Input, Output> extends Node {
         createTypedSocket(outputValueType, 'result'),
       ],
       (context: NodeEvalContext) => {
-        context.setOutputValue('result', this.unaryEvalFunc(context.getInputValue('a')));
+        context.writeOutput('result', this.unaryEvalFunc(context.readInput('a')));
       },
     );
   }

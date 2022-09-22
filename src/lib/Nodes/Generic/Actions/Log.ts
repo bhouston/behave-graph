@@ -13,7 +13,7 @@ export default class Log extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         const logger = context.graph.registry.implementations.get<ILogger>('ILogger');
-        logger.info(context.getInputValue('text'));
+        logger.info(context.readInput('text'));
       },
     );
   }

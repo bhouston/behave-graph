@@ -17,22 +17,22 @@ export default class Tick extends Node {
         const onTickEvent = () => {
           const currentTime = Date.now();
           const deltaSeconds = (currentTime - lastTickTime) * 0.001;
-          context.setOutputValue('deltaSeconds', deltaSeconds);
-          context.asyncCommit('flow');
+          context.writeOutput('deltaSeconds', deltaSeconds);
+          context.commit('flow');
           lastTickTime = currentTime;
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
-        context.beginAsync();
         context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.tickEvent.addListener(onTickEvent);
+          lifecycleEvents.tickEvent.removeListener(onTickEvent);
         });
       },
     );
 
+    this.async = true;
     this.evaluateOnStartup = true;
-    this.nonBlocking = true;
+    this.interruptableAsync = true;
   }
 }

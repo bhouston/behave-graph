@@ -37,7 +37,7 @@ export default class SyncExecutionBlock {
 
     // if upstream node is an eval, we just return its last value.
     const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeId];
-    if (upstreamNode.isEvalNode) {
+    if (upstreamNode.flow) {
       // eslint-disable-next-line no-param-reassign
       inputSocket.value = upstreamOutputSocket.value;
       return upstreamOutputSocket.value;
@@ -133,7 +133,7 @@ export default class SyncExecutionBlock {
     context.evalFlow();
 
     // Auto-commit if no existing commits and no promises waiting.
-    if (context.numCommits === 0 && !context.async) {
+    if (context.numCommits === 0 && !context.asyncPending) {
       // ensure this is auto-commit compatible.
       let numFlowOutputs = 0;
       node.outputSockets.forEach((outputSocket) => {

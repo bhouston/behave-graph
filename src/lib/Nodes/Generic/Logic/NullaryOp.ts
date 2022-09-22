@@ -10,7 +10,7 @@ export default class NullaryOp<Output> extends Node {
       [],
       [createTypedSocket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
-        context.setOutputValue('result', this.nullaryEvalFunc());
+        context.writeOutput('result', this.nullaryEvalFunc());
       },
     );
   }

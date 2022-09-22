@@ -13,19 +13,20 @@ export default class Start extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         const onStartEvent = () => {
-          context.asyncCommit('flow');
+          context.commit('flow');
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
-        context.beginAsync();
         context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.startEvent.addListener(onStartEvent);
+          lifecycleEvents.startEvent.removeListener(onStartEvent);
         });
       },
     );
+
+    this.async = true;
     this.evaluateOnStartup = true;
-    this.nonBlocking = true;
+    this.interruptableAsync = true;
   }
 }

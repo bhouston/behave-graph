@@ -1,4 +1,4 @@
-import ILifecycleConnector from '../../../Connectors/ILifecycleConnector';
+import ILifecycleAbstraction from '../../../Abstractions/ILifecycleAbstraction';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
@@ -22,7 +22,7 @@ export default class Tick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents = context.graph.registry.connectors.get<ILifecycleConnector>('ILifecycleConnector');
+        const lifecycleEvents = context.graph.registry.abstractions.get<ILifecycleAbstraction>('ILifecycleConnector');
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.beginAsync();

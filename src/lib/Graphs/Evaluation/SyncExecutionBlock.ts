@@ -1,6 +1,6 @@
-import Assert from '../../Assert';
-import { EventListener } from '../../EventListener';
-import Logger from '../../Logger';
+import { EventListener } from '../../DesignPatterns/EventListener';
+import Assert from '../../Diagnostics/Assert';
+import Logger from '../../Diagnostics/Logger';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';

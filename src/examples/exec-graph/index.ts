@@ -11,9 +11,9 @@ async function main() {
 
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
-  registry.connectors.register('ILoggerConnector', new DefaultLogger());
+  registry.abstractions.register('ILoggerConnector', new DefaultLogger());
   const manualLifecycle = new ManualLifecycle();
-  registry.connectors.register('ILifecycleConnector', manualLifecycle);
+  registry.abstractions.register('ILifecycleConnector', manualLifecycle);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {

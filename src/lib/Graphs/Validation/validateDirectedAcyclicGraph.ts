@@ -1,4 +1,4 @@
-import Logger from '../../Logger';
+import Logger from '../../Diagnostics/Logger';
 import Node from '../../Nodes/Node';
 import Graph from '../Graph';
 

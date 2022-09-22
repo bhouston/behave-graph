@@ -1,12 +1,12 @@
-import Assert from '../Assert';
-import EventEmitter from '../EventEmitter';
-import { EventListener } from '../EventListener';
+import EventEmitter from '../DesignPatterns/EventEmitter';
+import { EventListener } from '../DesignPatterns/EventListener';
+import Assert from '../Diagnostics/Assert';
+import Logger from '../Diagnostics/Logger';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
 import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
 import Graph from '../Graphs/Graph';
-import Logger from '../Logger';
 import Variable from '../Variables/Variable';
 import Node from './Node';
 import NodeSocketRef from './NodeSocketRef';

@@ -1,8 +1,7 @@
-import Logger from '../Logger';
+import Assert from '../Assert';
 import { Factory } from '../Factory';
 import generateUuid from '../generateUuid';
 import Node from './Node';
-import Assert from '../Assert';
 
 export default class NodeTypeRegistry {
   private readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();

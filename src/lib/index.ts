@@ -30,6 +30,13 @@ export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
 export { default as Registry } from './Registry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
+// interface registry
+export { default as ConnectorRegistry } from './Connectors/ConnectorRegistry';
+export { default as ILifecycleConnector } from './Connectors/ILifecycleConnector';
+export { default as DefaultLogger } from './Connectors/Implementations/DefaultLogger';
+export { default as ManualLifecycle } from './Connectors/Implementations/ManualLifecycle';
+export { default as ILoggerConnector } from './Connectors/ILoggerConnector';
+
 // graph validation
 export { default as validateDirectedAcyclicGraph } from './Graphs/Validation/validateDirectedAcyclicGraph';
 export { default as validateLinks } from './Graphs/Validation/validateLinks';

@@ -1,13 +1,13 @@
 import {
-  Logger, GraphEvaluator, GraphTypeRegistry, readGraphFromJSON, registerGenericNodes,
+  GraphEvaluator, Logger, readGraphFromJSON, registerGenericNodes, Registry,
 } from '../../../dist/lib/index';
 import registerThreeNodes from './Nodes/ThreeNodes';
 
 async function main() {
   Logger.onVerbose.clear();
 
-  const registry = new GraphTypeRegistry();
-  registerGenericNodes(registry);
+  const registry = new Registry();
+  registerGenericNodes(registry.nodes);
   registerThreeNodes(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);

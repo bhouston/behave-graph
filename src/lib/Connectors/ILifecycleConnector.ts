@@ -1,8 +1,8 @@
 /* eslint-disable semi */
 
-import EventEmitter from '../../../EventEmitter';
+import EventEmitter from '../EventEmitter';
 
-export default interface ILifecycleEvents {
+export default interface ILifecycleConnector {
   startEvent: EventEmitter<void>;
   endEvent: EventEmitter<void>;
   tickEvent: EventEmitter<void>;

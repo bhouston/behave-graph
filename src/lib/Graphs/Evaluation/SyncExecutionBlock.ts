@@ -1,11 +1,11 @@
-import Logger from '../../Logger';
+import Assert from '../../Assert';
 import { EventListener } from '../../EventListener';
+import Logger from '../../Logger';
 import NodeEvalContext from '../../Nodes/NodeEvalContext';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Socket from '../../Sockets/Socket';
 import Graph from '../Graph';
 import GraphEvaluator from './GraphEvaluator';
-import Assert from '../../Assert';
 
 export default class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack : EventListener<void>[] = [];

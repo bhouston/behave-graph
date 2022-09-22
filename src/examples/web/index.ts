@@ -1,5 +1,5 @@
 import {
-  Logger, GraphEvaluator, readGraphFromJSON, registerGenericNodes,
+  GraphEvaluator, Logger, readGraphFromJSON, registerGenericNodes,
   Registry,
 } from '../../../dist/lib/index';
 

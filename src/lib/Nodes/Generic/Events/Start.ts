@@ -1,7 +1,7 @@
+import ILifecycleConnector from '../../../Connectors/ILifecycleConnector';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
-import ILifecycleEvents from './ILifecycleEvents';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export default class Start extends Node {
@@ -16,7 +16,7 @@ export default class Start extends Node {
           context.asyncCommit('flow');
         };
 
-        const lifecycleEvents = context.graph.registry.interfaces.get('ILifecycleEvents') as ILifecycleEvents;
+        const lifecycleEvents = context.graph.registry.connectors.get<ILifecycleConnector>('ILifecycleConnector');
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
         context.beginAsync();

@@ -1,3 +1,4 @@
+import ILoggerConnector from '../../../Connectors/ILoggerConnector';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import StringSocket from '../../../Sockets/Typed/StringSocket';
 import Node from '../../Node';
@@ -11,7 +12,8 @@ export default class Log extends Node {
       [new FlowSocket(), new StringSocket('text')],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        context.log(context.getInputValue('text'));
+        const logger = context.graph.registry.connectors.get<ILoggerConnector>('ILoggerConnector');
+        logger.info(context.getInputValue('text'));
       },
     );
   }

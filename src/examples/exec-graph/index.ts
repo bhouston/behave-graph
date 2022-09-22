@@ -1,15 +1,19 @@
 import { promises as fs } from 'fs';
 
 import {
-  Logger, GraphEvaluator, readGraphFromJSON, registerGenericNodes,
+  DefaultLogger, GraphEvaluator, Logger, ManualLifecycle,
+  readGraphFromJSON, registerGenericNodes,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
-  Logger.onVerbose.clear();
+  // Logger.onVerbose.clear();
 
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
+  registry.connectors.register('ILoggerConnector', new DefaultLogger());
+  const manualLifecycle = new ManualLifecycle();
+  registry.connectors.register('ILifecycleConnector', manualLifecycle);
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {
@@ -53,7 +57,13 @@ async function main() {
   */
 
   Logger.verbose('triggering start event');
-  graphEvaluator.triggerEvents('event/start');
+  manualLifecycle.startEvent.emit();
+
+  Logger.verbose('executing all (async)');
+  await graphEvaluator.executeAllAsync(5.0);
+
+  Logger.verbose('triggering end event');
+  manualLifecycle.endEvent.emit();
 
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync(5.0);

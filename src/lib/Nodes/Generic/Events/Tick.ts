@@ -1,8 +1,8 @@
+import ILifecycleConnector from '../../../Connectors/ILifecycleConnector';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
-import ILifecycleEvents from './ILifecycleEvents';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export default class Tick extends Node {
@@ -22,7 +22,7 @@ export default class Tick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents = context.graph.registry.interfaces.get('ILifecycleEvents') as ILifecycleEvents;
+        const lifecycleEvents = context.graph.registry.connectors.get<ILifecycleConnector>('ILifecycleConnector');
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.beginAsync();

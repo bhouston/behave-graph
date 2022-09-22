@@ -1,12 +1,12 @@
 import { promises as fs } from 'fs';
 
 import {
-  registerGenericNodes, Logger, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
+  Logger, registerGenericNodes, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
 } from '../../../dist/lib/index';
 
 async function main() {
   Logger.onVerbose.clear();
-  
+
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
 

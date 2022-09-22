@@ -31,7 +31,7 @@ export default class VariableChanged extends Node {
     );
 
     this.async = true;
-    this.interruptableAsync = true;
+    this.interruptibleAsync = true;
     this.evaluateOnStartup = true;
   }
 }

@@ -13,7 +13,7 @@ export default class Node {
   public readonly flow: boolean;
   public evaluateOnStartup = false;
   public async = false;
-  public interruptableAsync = false;
+  public interruptibleAsync = false;
 
   constructor(
       public readonly category: string,

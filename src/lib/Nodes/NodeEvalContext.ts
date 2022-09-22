@@ -29,7 +29,7 @@ export default class NodeEvalContext {
     this.graph = this.graphEvaluator.graph;
   }
 
-  private beginAsync() {
+  private begin() {
     Assert.mustBeTrue(this.node.async === true);
     if (this.node.interruptableAsync) {
       this.graphEvaluator.interruptableAsyncNodes.push(this.node);
@@ -40,14 +40,14 @@ export default class NodeEvalContext {
     this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, true));
   }
 
-  cancelAsync() {
+  cancel() {
     Assert.mustBeTrue(this.node.async === true);
     Assert.mustBeTrue(this.asyncPending === true);
     this.onAsyncCancelled.emit();
-    this.endAsync();
+    this.finish();
   }
 
-  endAsync() {
+  finish() {
     Assert.mustBeTrue(this.node.async === true);
     Assert.mustBeTrue(this.asyncPending === true);
     if (this.node.interruptableAsync) {
@@ -65,7 +65,7 @@ export default class NodeEvalContext {
     Assert.mustBeTrue(this.node.flow, 'can not use evalFlow on non-Flow nodes, use evalImmediate instead');
 
     if (this.node.async) {
-      this.beginAsync();
+      this.begin();
     } else {
       this.graphEvaluator.onNodeEvaluation.emit(new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, false));
     }
@@ -149,17 +149,13 @@ export default class NodeEvalContext {
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
   commit(downstreamFlowSocketName: string, syncEvaluationCompletedListener: EventListener<void> | undefined = undefined) {
     Logger.verbose(`commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
-    if (this.node.async) throw new Error('can not commit on a node that is async, use asyncCommit instead.');
     this.numCommits++;
     this.writeOutputs();
-    this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
-  }
-
-  asyncCommit(downstreamFlowSocketName: string) {
-    Logger.verbose(`asyncCommit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`);
-    if (!this.node.async) throw new Error('can not asyncCommit on a node that is not aync, use commit instead or set async mode enabled.');
-    this.numCommits++;
-    this.writeOutputs();
-    this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
+    if (this.node.async) {
+      Assert.mustBeTrue(syncEvaluationCompletedListener === undefined);
+      this.graphEvaluator.asyncCommit(new NodeSocketRef(this.node.id, downstreamFlowSocketName));
+    } else {
+      this.syncExecutionBlock.commit(new NodeSocketRef(this.node.id, downstreamFlowSocketName), syncEvaluationCompletedListener);
+    }
   }
 }

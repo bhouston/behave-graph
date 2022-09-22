@@ -13,7 +13,7 @@ export default class End extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         const onEndEvent = () => {
-          context.asyncCommit('flow');
+          context.commit('flow');
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');

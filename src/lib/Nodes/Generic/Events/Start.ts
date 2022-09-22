@@ -13,7 +13,7 @@ export default class Start extends Node {
       [new FlowSocket()],
       (context: NodeEvalContext) => {
         const onStartEvent = () => {
-          context.asyncCommit('flow');
+          context.commit('flow');
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');

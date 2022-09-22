@@ -22,8 +22,8 @@ export default class Delay extends Node {
       (context: NodeEvalContext) => {
         const timer = setTimeout(() => {
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
-          context.asyncCommit('flow');
-          context.endAsync();
+          context.commit('flow');
+          context.finish();
         }, context.getInputValue('duration') * 1000);
 
         context.onAsyncCancelled.addListener(() => {

@@ -18,7 +18,7 @@ export default class Tick extends Node {
           const currentTime = Date.now();
           const deltaSeconds = (currentTime - lastTickTime) * 0.001;
           context.setOutputValue('deltaSeconds', deltaSeconds);
-          context.asyncCommit('flow');
+          context.commit('flow');
           lastTickTime = currentTime;
         };
 

@@ -11,12 +11,12 @@ export default class VariableGet extends Node {
       [new IdSocket('variable')],
       [socketFactory('result')],
       (context:NodeEvalContext) => {
-        const variableId = context.getInputValue('variable');
+        const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);
         if (this.valueTypeName !== variable.valueTypeName) {
           throw new Error(`type mismatch between VariableGet ${this.valueTypeName} and variable ${variable.valueTypeName}`);
         } const value = variable.get();
-        context.setOutputValue('result', value);
+        context.writeOutput('result', value);
       },
     );
   }

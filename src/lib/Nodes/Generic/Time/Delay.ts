@@ -24,7 +24,7 @@ export default class Delay extends Node {
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
           context.commit('flow');
           context.finish();
-        }, context.getInputValue('duration') * 1000);
+        }, context.readInput('duration') * 1000);
 
         context.onAsyncCancelled.addListener(() => {
           clearTimeout(timer);

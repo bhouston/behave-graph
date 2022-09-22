@@ -22,12 +22,12 @@ export default class ForLoop extends Node {
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.
         // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-        const startIndex = context.getInputValue('startIndex');
-        const endIndex = context.getInputValue('endIndex');
+        const startIndex = context.readInput('startIndex');
+        const endIndex = context.readInput('endIndex');
         const loopBodyIteration = function loopBodyIteration(i: number) {
           Logger.verbose(`loop: loop body ${i} of [${startIndex}:${endIndex})`);
           if (i < endIndex) {
-            context.setOutputValue('index', i);
+            context.writeOutput('index', i);
             context.commit('loopBody', () => {
               Logger.verbose(`loop: body completed for ${i}!`);
               loopBodyIteration(i + 1);

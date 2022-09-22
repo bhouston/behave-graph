@@ -12,12 +12,12 @@ export default class VariableSet extends Node {
       [new FlowSocket(), new IdSocket('variable'), socketFactory('value')],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        const variableId = context.getInputValue('variable');
+        const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);
         if (this.valueTypeName !== variable.valueTypeName) {
           throw new Error(`type mismatch between VariableSet ${this.valueTypeName} and variable ${variable.valueTypeName}`);
         }
-        variable.set(context.getInputValue('value'));
+        variable.set(context.readInput('value'));
       },
     );
   }

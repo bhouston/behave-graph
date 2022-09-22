@@ -15,7 +15,7 @@ export default class BinaryOp<Input, Output> extends Node {
         createTypedSocket(outputValueType, 'result'),
       ],
       (context: NodeEvalContext) => {
-        context.setOutputValue('result', this.binaryEvalFunc(context.getInputValue('a'), context.getInputValue('b')));
+        context.writeOutput('result', this.binaryEvalFunc(context.readInput('a'), context.readInput('b')));
       },
     );
   }

@@ -127,7 +127,7 @@ export default class NodeEvalContext {
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext
   // for re-entrant async operations, otherwise the inputs may change during operation.
-  getInputValue(inputName: string): any {
+  readInput(inputName: string): any {
     const inputSocket = this.node.inputSockets.find((socket) => socket.name === inputName);
     if (inputSocket === undefined) {
       throw new Error(`can not find input socket with name ${inputName}`);
@@ -135,7 +135,7 @@ export default class NodeEvalContext {
     return this.cachedInputValues.get(inputName);
   }
 
-  setOutputValue(outputName: string, value: any) {
+  writeOutput(outputName: string, value: any) {
     const outputSocket = this.node.outputSockets.find((socket) => socket.name === outputName);
     if (outputSocket === undefined) {
       throw new Error(`can not find output socket with name ${outputName}`);

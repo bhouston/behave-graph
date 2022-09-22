@@ -17,7 +17,7 @@ export default class GraphEvaluator {
 
   constructor(public readonly graph: Graph) {
     Object.values( this.graph.nodes ).forEach( ( node ) => {
-      if ( node.autoEvaluateOnStartup ) {
+      if ( node.evaluateOnStartup ) {
         this.executionBlockQueue.push(new SyncExecutionBlock(this, new NodeSocketRef( node.id, '' )));
       }
     });
@@ -39,47 +39,6 @@ export default class GraphEvaluator {
 
       this.executionBlockQueue.push(new SyncExecutionBlock(this, outputSocket.links[0]));
     }
-  }
-
-  // maybe this should have an id?
-  // IMPORTANT: should events somehow register themselves at graph initialization?  There is a missing step here.
-  // This simplistic approach is okay if events do no have filters themselves.
-  triggerEvents(nodeName: string, outputValues: Map<string, any> = new Map<string, any>()): number {
-    Logger.verbose( `triggering all events with the node name: ${nodeName}`);
-    // look up any nodes with this trigger name and add them to the executionQueue
-    const nodes = Object.values(this.graph.nodes).filter((node) => (node.typeName === nodeName));
-
-    nodes.forEach((node) => {
-      Logger.verbose( `triggering node: ${node.typeName}`);
-      // apply output values
-      outputValues.forEach((value, name) => {
-        // eslint-disable-next-line no-param-reassign
-        node.getOutputSocket(name).value = value;
-      });
-
-      let flowOutputCount = 0;
-      node.outputSockets.forEach((outputSocket) => {
-        // console.log(outputSocket);
-        if (outputSocket.valueTypeName === 'flow') {
-          if (outputSocket.links.length === 1) {
-            // TODO: Replace this triggerEvent function with proper asyncCommits from async functions. This is a hack and allows for
-            // multiple flow sockets and they all get scheduled.  It doesn't properly handle a single flow exeuction socket.
-            // TODO: It should also cache the values of the nodes that is being executed.
-            this.asyncCommit(new NodeSocketRef( node.id, outputSocket.name ) );
-            flowOutputCount++;
-          }
-          if (outputSocket.links.length > 1) {
-            throw new Error(`flow output ${node.typeName}.${outputSocket.name} has more than 1 downstream link, ${outputSocket.links.length}`);
-          }
-        }
-      });
-      if (flowOutputCount === 0) {
-        throw new Error(`no flow outputs for trigger event ${nodeName}`);
-      }
-    });
-
-    // inform how many trigger nodes were triggered
-    return nodes.length;
   }
 
   // NOTE: This does not execute all if there are promises.

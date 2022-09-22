@@ -31,7 +31,7 @@ export default class NodeEvalContext {
 
   beginAsync() {
     Assert.mustBeTrue(this.async === false);
-    if (this.node.nonBlockingAsync) {
+    if (this.node.nonBlocking) {
       this.graphEvaluator.nonBlockingAsyncNodes.push(this.node);
     } else {
       this.graphEvaluator.asyncNodes.push(this.node);
@@ -48,7 +48,7 @@ export default class NodeEvalContext {
 
   endAsync() {
     Assert.mustBeTrue(this.async === true);
-    if (this.node.nonBlockingAsync) {
+    if (this.node.nonBlocking) {
       const index = this.graphEvaluator.nonBlockingAsyncNodes.indexOf(this.node);
       this.graphEvaluator.nonBlockingAsyncNodes.splice(index, 1);
     } else {

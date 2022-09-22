@@ -25,7 +25,7 @@ export default class Start extends Node {
         });
       },
     );
-    this.autoEvaluateOnStartup = true;
-    this.nonBlockingAsync = true;
+    this.evaluateOnStartup = true;
+    this.nonBlocking = true;
   }
 }

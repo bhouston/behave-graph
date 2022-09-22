@@ -32,7 +32,7 @@ export default class Tick extends Node {
       },
     );
 
-    this.autoEvaluateOnStartup = true;
-    this.nonBlockingAsync = true;
+    this.evaluateOnStartup = true;
+    this.nonBlocking = true;
   }
 }

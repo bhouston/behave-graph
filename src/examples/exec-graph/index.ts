@@ -2,12 +2,13 @@ import { promises as fs } from 'fs';
 
 import {
   DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter,
+  NodeEvaluationType,
   readGraphFromJSON, registerGenericNodes,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
 async function main() {
-  // Logger.onVerbose.clear();
+  Logger.onVerbose.clear();
 
   const registry = new Registry();
   registerGenericNodes(registry.nodes);
@@ -46,15 +47,17 @@ async function main() {
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  /*
-  graphEvaluator.evaluationListeners.push((node: Node, nodeEvaluationType: NodeEvaluationType, async: boolean) => {
-    if (nodeEvaluationType === NodeEvaluationType.None) {
-      console.log(`Node ${node.typeName} ${node.id} completed evaluation.`);
+  graphEvaluator.onNodeEvaluation.addListener((event) => {
+    if (event.nodeEvaluationType === NodeEvaluationType.None) {
+      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} completed evaluation.`);
     } else {
-      console.log(`Node ${node.typeName} ${node.id} started evaluation, mode: ${NodeEvaluationType[nodeEvaluationType]}, async: ${async}.`);
+      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} started evaluation, `
+      + `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${event.async}.`);
     }
   });
-  */
+
+  Logger.verbose('initialize graph');
+  await graphEvaluator.executeAll();
 
   Logger.verbose('triggering start event');
   manualLifecycleEventEmitter.startEvent.emit();

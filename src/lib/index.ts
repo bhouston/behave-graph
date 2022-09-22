@@ -16,6 +16,11 @@ export { default as NumberSocket } from './Sockets/Typed/NumberSocket';
 export { default as StringSocket } from './Sockets/Typed/StringSocket';
 export { default as IdSocket } from './Sockets/Typed/IdSocket';
 
+// variables
+export { default as VariableSet } from './Nodes/Generic/Actions/VariableSet';
+export { default as VariableGet } from './Nodes/Generic/Queries/VariableGet';
+export { default as VariableChanged } from './Nodes/Generic/Events/VariableChanged';
+
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';
 export { NodeEvaluationType } from './Graphs/Evaluation/NodeEvaluationType';

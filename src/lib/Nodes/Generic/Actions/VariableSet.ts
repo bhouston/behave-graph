@@ -7,7 +7,7 @@ import NodeEvalContext from '../../NodeEvalContext';
 export default class VariableSet extends Node {
   constructor(name:string, public readonly valueTypeName: string, socketFactory: (socketName:string) => Socket) {
     super(
-      'Variabless',
+      'Action',
       name,
       [new FlowSocket(), new IdSocket('variable'), socketFactory('value')],
       [new FlowSocket()],

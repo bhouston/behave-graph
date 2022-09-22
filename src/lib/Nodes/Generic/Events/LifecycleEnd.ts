@@ -4,23 +4,23 @@ import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export default class Start extends Node {
+export default class End extends Node {
   constructor() {
     super(
       'Event',
-      'event/start',
+      'lifecycle/end',
       [],
       [new FlowSocket()],
       (context: NodeEvalContext) => {
-        const onStartEvent = () => {
+        const onEndEvent = () => {
           context.commit('flow');
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
-        lifecycleEvents.startEvent.addListener(onStartEvent);
+        lifecycleEvents.endEvent.addListener(onEndEvent);
 
         context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.startEvent.removeListener(onStartEvent);
+          lifecycleEvents.endEvent.removeListener(onEndEvent);
         });
       },
     );

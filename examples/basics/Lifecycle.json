@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "type": "event/start",
+            "type": "lifecycle/start",
             "id": "0"
         },
         {
@@ -22,7 +22,7 @@
             }
         },
         {
-            "type": "event/end",
+            "type": "lifecycle/end",
             "id": "2"
         },
         {
@@ -43,7 +43,7 @@
             }
         },
         {
-            "type": "event/tick",
+            "type": "lifecycle/tick",
             "id": "4"
         },
         {

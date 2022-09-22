@@ -23,7 +23,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {
@@ -56,7 +56,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {
@@ -77,7 +77,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {

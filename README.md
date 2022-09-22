@@ -63,7 +63,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 ```json
 [
     {
-        "type": "event/start"
+        "type": "lifecycle/start"
     },
     {
         "type": "action/log",
@@ -90,7 +90,7 @@ In this example, we use a pre-declared variable called "counter" to 1000 and the
 ```json
 [
     {
-        "type": "event/start",
+        "type": "lifecycle/start",
         "id": "0"
     },
     {
@@ -176,7 +176,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 ```json
 [
     {
-        "type": "event/start"
+        "type": "lifecycle/start"
     },
     {
         "type": "flow/branch",
@@ -217,7 +217,7 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
 ```json
 [
     {
-        "type": "event/start"
+        "type": "lifecycle/start"
     },
     {
         "type": "logic/numberConstant",
@@ -305,7 +305,7 @@ Behave-Graph support asynchronous nodes.  These are nodes which will continue ex
 ```json
 [
     {
-        "type": "event/start"
+        "type": "lifecycle/start"
     },
     {
         "type": "action/log",
@@ -347,7 +347,7 @@ Behave-Graph support waiting for the completion of downstream nodes.  This allow
 ```json
 [
     {
-        "type": "event/start",
+        "type": "lifecycle/start",
         "id": "0"
     },
     {
@@ -453,7 +453,7 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
 ```json
 [
     {
-        "type": "event/start",
+        "type": "lifecycle/start",
         "id": "0"
     },
     {

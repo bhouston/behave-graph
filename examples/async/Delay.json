@@ -1,7 +1,7 @@
 {
     "nodes": [
     {
-        "type": "event/start",
+        "type": "lifecycle/start",
         "id": "0"
     },
     {

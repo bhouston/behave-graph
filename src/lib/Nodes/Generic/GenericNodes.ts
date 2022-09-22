@@ -4,9 +4,11 @@ import NumberSocket from '../../Sockets/Typed/NumberSocket';
 import StringSocket from '../../Sockets/Typed/StringSocket';
 import NodeTypeRegistry from '../NodeTypeRegistry';
 import Log from './Actions/Log';
-import End from './Events/End';
-import Start from './Events/Start';
-import Tick from './Events/Tick';
+import VariableSet from './Actions/VariableSet';
+import LifecycleEnd from './Events/LifecycleEnd';
+import LifecycleStart from './Events/LifecycleStart';
+import LifecycleTick from './Events/LifecycleTick';
+import VariableChanged from './Events/VariableChanged';
 import Branch from './Flow/Branch';
 import FlipFlop from './Flow/FlipFlop';
 import ForLoop from './Flow/ForLoop';
@@ -14,10 +16,8 @@ import Sequence from './Flow/Sequence';
 import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UnaryOp from './Logic/UnaryOp';
+import VariableGet from './Queries/VariableGet';
 import Delay from './Time/Delay';
-import VariableChanged from './Variables/VariableChanged';
-import VariableGet from './Variables/VariableGet';
-import VariableSet from './Variables/VariableSet';
 
 export default function registerGenericNodes(registry: NodeTypeRegistry) {
   // actions
@@ -26,9 +26,9 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // events
 
-  registry.register('event/start', () => new Start());
-  registry.register('event/end', () => new End());
-  registry.register('event/tick', () => new Tick());
+  registry.register('lifecycle/start', () => new LifecycleStart());
+  registry.register('lifecycle/end', () => new LifecycleEnd());
+  registry.register('lifecycle/tick', () => new LifecycleTick());
 
   // flow control
 
@@ -116,17 +116,17 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // state
 
-  registry.register('state/booleanSet', () => new VariableSet('state/booleanSet', 'boolean', (socketName) => new BooleanSocket(socketName)));
-  registry.register('state/booleanGet', () => new VariableGet('state/booleanGet', 'boolean', (socketName) => new BooleanSocket(socketName)));
-  registry.register('state/booleanChanged', () => new VariableChanged('state/booleanChanged', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('variable/booleanSet', () => new VariableSet('variable/booleanSet', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('variable/booleanGet', () => new VariableGet('variable/booleanGet', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('variable/booleanChanged', () => new VariableChanged('variable/booleanChanged', 'boolean', (socketName) => new BooleanSocket(socketName)));
 
-  registry.register('state/numberSet', () => new VariableSet('state/numberSet', 'number', (socketName) => new NumberSocket(socketName)));
-  registry.register('state/numberGet', () => new VariableGet('state/numberGet', 'number', (socketName) => new NumberSocket(socketName)));
-  registry.register('state/numberChanged', () => new VariableChanged('state/numberChanged', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('variable/numberSet', () => new VariableSet('variable/numberSet', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('variable/numberGet', () => new VariableGet('variable/numberGet', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('variable/numberChanged', () => new VariableChanged('variable/numberChanged', 'number', (socketName) => new NumberSocket(socketName)));
 
-  registry.register('state/stringSet', () => new VariableSet('state/stringSet', 'string', (socketName) => new StringSocket(socketName)));
-  registry.register('state/stringGet', () => new VariableGet('state/stringGet', 'string', (socketName) => new StringSocket(socketName)));
-  registry.register('state/stringChanged', () => new VariableChanged('state/stringChanged', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('variable/stringSet', () => new VariableSet('variable/stringSet', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('variable/stringGet', () => new VariableGet('variable/stringGet', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('variable/stringChanged', () => new VariableChanged('variable/stringChanged', 'string', (socketName) => new StringSocket(socketName)));
 
   return registry;
 }

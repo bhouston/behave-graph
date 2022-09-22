@@ -6,7 +6,7 @@ import NodeEvalContext from '../../NodeEvalContext';
 export default class VariableGet extends Node {
   constructor(name:string, public valueTypeName: string, socketFactory: (socketName:string) => Socket) {
     super(
-      'Variables',
+      'Query',
       name,
       [new IdSocket('variable')],
       [socketFactory('value')],

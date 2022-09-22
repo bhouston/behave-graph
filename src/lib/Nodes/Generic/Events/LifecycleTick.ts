@@ -1,26 +1,32 @@
 import ILifecycleEventEmitter from '../../../Abstractions/ILifecycleEventEmitter';
 import FlowSocket from '../../../Sockets/Typed/FlowSocket';
+import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export default class End extends Node {
+export default class Tick extends Node {
   constructor() {
     super(
       'Event',
-      'event/end',
+      'lifecycle/tick',
       [],
-      [new FlowSocket()],
+      [new FlowSocket(), new NumberSocket('deltaSeconds')],
       (context: NodeEvalContext) => {
-        const onEndEvent = () => {
+        let lastTickTime = Date.now();
+        const onTickEvent = () => {
+          const currentTime = Date.now();
+          const deltaSeconds = (currentTime - lastTickTime) * 0.001;
+          context.writeOutput('deltaSeconds', deltaSeconds);
           context.commit('flow');
+          lastTickTime = currentTime;
         };
 
         const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
-        lifecycleEvents.endEvent.addListener(onEndEvent);
+        lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.endEvent.removeListener(onEndEvent);
+          lifecycleEvents.tickEvent.removeListener(onTickEvent);
         });
       },
     );

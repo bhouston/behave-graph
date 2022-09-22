@@ -13,7 +13,7 @@
             "id": "0"
         },
         {
-            "type": "state/getNumber",
+            "type": "state/numberGet",
             "id": "1",
             "inputs": {
                 "variable": {
@@ -29,7 +29,7 @@
                     "links": [
                         {
                             "nodeId": "1",
-                            "socket": "result"
+                            "socket": "value"
                         }
                     ]
                 }

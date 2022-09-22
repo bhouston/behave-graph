@@ -15,6 +15,7 @@ import BinaryOp from './Logic/BinaryOp';
 import NullaryOp from './Logic/NullaryOp';
 import UnaryOp from './Logic/UnaryOp';
 import Delay from './Time/Delay';
+import VariableChanged from './Variables/VariableChanged';
 import VariableGet from './Variables/VariableGet';
 import VariableSet from './Variables/VariableSet';
 
@@ -115,14 +116,17 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // state
 
-  registry.register('state/setBoolean', () => new VariableSet('state/setBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
-  registry.register('state/getBoolean', () => new VariableGet('state/getBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('state/booleanSet', () => new VariableSet('state/booleanSet', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('state/booleanGet', () => new VariableGet('state/booleanGet', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  registry.register('state/booleanChanged', () => new VariableChanged('state/booleanChanged', 'boolean', (socketName) => new BooleanSocket(socketName)));
 
-  registry.register('state/setNumber', () => new VariableSet('state/setNumber', 'number', (socketName) => new NumberSocket(socketName)));
-  registry.register('state/getNumber', () => new VariableGet('state/getNumber', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('state/numberSet', () => new VariableSet('state/numberSet', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('state/numberGet', () => new VariableGet('state/numberGet', 'number', (socketName) => new NumberSocket(socketName)));
+  registry.register('state/numberChanged', () => new VariableChanged('state/numberChanged', 'number', (socketName) => new NumberSocket(socketName)));
 
-  registry.register('state/setString', () => new VariableSet('state/setString', 'string', (socketName) => new StringSocket(socketName)));
-  registry.register('state/getString', () => new VariableGet('state/getString', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('state/stringSet', () => new VariableSet('state/stringSet', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('state/stringGet', () => new VariableGet('state/stringGet', 'string', (socketName) => new StringSocket(socketName)));
+  registry.register('state/stringChanged', () => new VariableChanged('state/stringChanged', 'string', (socketName) => new StringSocket(socketName)));
 
   return registry;
 }

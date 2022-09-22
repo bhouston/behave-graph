@@ -28,12 +28,12 @@
                     "value": "0"
                 },
                 "value": {
-                    "value": 1000
+                    "value": 391
                 }
             }
         },
         {
-            "type": "state/numberGet",
+            "type": "state/numberChanged",
             "id": "2",
             "inputs": {
                 "variable": {
@@ -62,7 +62,7 @@
                 "flow": {
                     "links": [
                         {
-                            "nodeId": "1",
+                            "nodeId": "2",
                             "socket": "flow"
                         }
                     ]

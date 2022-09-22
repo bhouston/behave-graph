@@ -138,7 +138,7 @@ export default class NodeEvalContext {
   writeOutput(outputName: string, value: any) {
     const outputSocket = this.node.outputSockets.find((socket) => socket.name === outputName);
     if (outputSocket === undefined) {
-      throw new Error(`can not find output socket with name ${outputName}`);
+      throw new Error(`can not find output socket with name ${outputName} on node of type ${this.node.typeName}`);
     }
     if (outputSocket.valueTypeName === 'flow') {
       throw new Error(`can not set the value of Flow output socket ${outputName}, use commit() instead`);

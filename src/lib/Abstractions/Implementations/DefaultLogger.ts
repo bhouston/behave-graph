@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import Logger from '../../Diagnostics/Logger';
-import ILoggerAbstraction from '../ILoggerAbstraction';
+import ILogger from '../ILogger';
 
-export default class DefaultLogger implements ILoggerAbstraction {
+export default class DefaultLogger implements ILogger {
   constructor() {
   }
 

@@ -1,6 +1,6 @@
 /* eslint-disable semi */
 
-export default interface ILoggerAbstraction {
+export default interface ILogger {
     verbose(text: string): void;
     info(text: string): void;
     warn(text: string): void;

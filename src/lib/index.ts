@@ -30,11 +30,11 @@ export { default as Registry } from './Registry';
 export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // interface registry
-export { default as ConnectorRegistry } from './Abstractions/AbstractionRegistry';
-export { default as ILifecycleConnector } from './Abstractions/ILifecycleAbstraction';
+export { default as AbstractionRegistry } from './Abstractions/ImplementationRegistry';
+export { default as ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
 export { default as DefaultLogger } from './Abstractions/Implementations/DefaultLogger';
-export { default as ManualLifecycle } from './Abstractions/Implementations/ManualLifecycle';
-export { default as ILoggerConnector } from './Abstractions/ILoggerAbstraction';
+export { default as ManualLifecycleEventEmitter } from './Abstractions/Implementations/ManualLifecycleEventEmitter';
+export { default as ILogger } from './Abstractions/ILogger';
 
 // graph validation
 export { default as validateDirectedAcyclicGraph } from './Graphs/Validation/validateDirectedAcyclicGraph';

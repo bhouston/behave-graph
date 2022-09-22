@@ -1,4 +1,4 @@
-export default class AbstractionRegistry {
+export default class ImplementationRegistry {
   private readonly abstractionNameToImplementationMap = new Map<string, any>();
 
   constructor() {

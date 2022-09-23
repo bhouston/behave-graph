@@ -4,7 +4,7 @@ import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export default class End extends Node {
+export default class OnLifecycleEnd extends Node {
   constructor() {
     super(
       'Event',

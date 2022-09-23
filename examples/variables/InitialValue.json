@@ -13,7 +13,7 @@
             "id": "0"
         },
         {
-            "type": "state/numberGet",
+            "type": "variable/getNumber",
             "id": "1",
             "inputs": {
                 "variable": {

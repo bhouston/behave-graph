@@ -1,37 +1,23 @@
 import Socket from '../../../Sockets/Socket';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import IdSocket from '../../../Sockets/Typed/IdSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
-export default class VariableChanged extends Node {
+export default class GetVariable extends Node {
   constructor(name:string, public valueTypeName: string, socketFactory: (socketName:string) => Socket) {
     super(
-      'Variables',
+      'Query',
       name,
       [new IdSocket('variable')],
-      [new FlowSocket(), socketFactory('value')],
+      [socketFactory('value')],
       (context:NodeEvalContext) => {
         const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);
         if (this.valueTypeName !== variable.valueTypeName) {
           throw new Error(`type mismatch between VariableGet ${this.valueTypeName} and variable ${variable.valueTypeName}`);
-        }
-
-        const onValueChanged = () => {
-          context.writeOutput('value', variable.get());
-          context.commit('flow');
-        };
-        variable.onChanged.addListener(onValueChanged);
-
-        context.onAsyncCancelled.addListener(() => {
-          variable.onChanged.removeListener(onValueChanged);
-        });
+        } const value = variable.get();
+        context.writeOutput('value', value);
       },
     );
-
-    this.async = true;
-    this.interruptibleAsync = true;
-    this.evaluateOnStartup = true;
   }
 }

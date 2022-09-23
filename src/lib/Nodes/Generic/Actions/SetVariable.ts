@@ -4,7 +4,7 @@ import IdSocket from '../../../Sockets/Typed/IdSocket';
 import Node from '../../Node';
 import NodeEvalContext from '../../NodeEvalContext';
 
-export default class VariableSet extends Node {
+export default class SetVariable extends Node {
   constructor(name:string, public readonly valueTypeName: string, socketFactory: (socketName:string) => Socket) {
     super(
       'Action',

@@ -17,9 +17,13 @@ export { default as StringSocket } from './Sockets/Typed/StringSocket';
 export { default as IdSocket } from './Sockets/Typed/IdSocket';
 
 // variables
-export { default as VariableSet } from './Nodes/Generic/Actions/VariableSet';
-export { default as VariableGet } from './Nodes/Generic/Queries/VariableGet';
-export { default as VariableChanged } from './Nodes/Generic/Events/VariableChanged';
+export { default as SetVariable } from './Nodes/Generic/Actions/SetVariable';
+export { default as GetVariable } from './Nodes/Generic/Queries/GetVariable';
+export { default as OnVariableChanged } from './Nodes/Generic/Events/OnVariableChanged';
+
+export { default as BinaryOp } from './Nodes/Generic/Logic/BinaryOp';
+export { default as UnaryOp } from './Nodes/Generic/Logic/UnaryOp';
+export { default as NullaryOp } from './Nodes/Generic/Logic/NullaryOp';
 
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';

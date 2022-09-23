@@ -13,7 +13,7 @@
             "id": "0"
         },
         {
-            "type": "state/numberSet",
+            "type": "variable/setNumber",
             "id": "1",
             "inputs": {
                 "flow": {
@@ -33,7 +33,7 @@
             }
         },
         {
-            "type": "state/numberChanged",
+            "type": "variable/onNumberChanged",
             "id": "2",
             "inputs": {
                 "variable": {

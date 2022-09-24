@@ -10,14 +10,14 @@ export default class ForLoop extends Node {
       'Flow',
       'flow/forLoop',
       [
-        new FlowSocket(),
-        new NumberSocket('startIndex'),
-        new NumberSocket('endIndex'),
+        new Socket('flow',),
+        new Socket('number','startIndex'),
+        new Socket('number','endIndex'),
       ],
       [
-        new FlowSocket('loopBody'),
-        new NumberSocket('index'),
-        new FlowSocket('completed'),
+        new Socket('flow','loopBody'),
+        new Socket('number','index'),
+        new Socket('flow','completed'),
       ],
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.

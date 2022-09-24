@@ -11,8 +11,8 @@ export default class OnSceneNodeClick extends Node {
       'event/nodeClick',
       [],
       [
-        new FlowSocket(),
-        new NumberSocket('nodeIndex'),
+        new Socket('flow',),
+        new Socket('number','nodeIndex'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('nodeIndex', -1); // TODO: Replace with real value.

@@ -5,6 +5,6 @@ export default class BooleanSocket extends Socket {
     name: string,
     value: boolean = true,
   ) {
-    super(name, 'boolean', value);
+    super('boolean', name, value);
   }
 }

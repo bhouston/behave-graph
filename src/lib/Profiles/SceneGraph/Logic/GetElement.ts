@@ -14,10 +14,10 @@ export default class GetElement<Component, Element> extends Node {
       'Logic',
       nodeName,
       [
-        new Socket('value', componentValueType),
+        new Socket(componentValueType, 'value'),
       ],
       [
-        new Socket('elementName', elementValueType),
+        new Socket(elementValueType, 'elementName'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.binaryEvalFunc(context.readInput('value')));

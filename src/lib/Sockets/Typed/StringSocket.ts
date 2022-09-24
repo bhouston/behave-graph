@@ -5,6 +5,6 @@ export default class StringSocket extends Socket {
     name: string,
     value: string = '',
   ) {
-    super(name, 'string', value);
+    super('string', name, value);
   }
 }

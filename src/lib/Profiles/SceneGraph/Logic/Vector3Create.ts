@@ -11,12 +11,12 @@ export default class Vector3Create extends Node {
       'Logic',
       'logic/vector3Create',
       [
-        new NumberSocket('x'),
-        new NumberSocket('y'),
-        new NumberSocket('z'),
+        new Socket('number','x'),
+        new Socket('number','y'),
+        new Socket('number','z'),
       ],
       [
-        new Vector3Socket('result'),
+        new Socket('vector3','result'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', new Vector3(context.readInput('x'), context.readInput('y'), context.readInput('z')));

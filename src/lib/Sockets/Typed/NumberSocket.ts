@@ -5,6 +5,6 @@ export default class NumberSocket extends Socket {
     name: string,
     value: number = 0,
   ) {
-    super(name, 'number', value);
+    super('number', name, value);
   }
 }

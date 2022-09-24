@@ -3,8 +3,6 @@ import { clearTimeout } from 'timers';
 import Logger from '../../../Diagnostics/Logger';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
@@ -15,10 +13,10 @@ export default class Delay extends Node {
       'Time',
       'time/delay',
       [
-        new FlowSocket(),
-        new NumberSocket('duration'),
+        new Socket('flow'),
+        new Socket('number', 'duration'),
       ],
-      [new FlowSocket()],
+      [new Socket('flow')],
       (context: NodeEvalContext) => {
         const timer = setTimeout(() => {
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');

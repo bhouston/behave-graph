@@ -5,6 +5,6 @@ export default class IdSocket extends Socket {
     name: string,
     value: string = '',
   ) {
-    super(name, 'id', value);
+    super('id', name, value);
   }
 }

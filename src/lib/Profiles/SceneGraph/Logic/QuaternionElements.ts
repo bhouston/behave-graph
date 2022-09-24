@@ -11,13 +11,13 @@ export default class QuaternionElements extends Node {
       'Logic',
       'logic/quaternionElements',
       [
-        new QuaternionSocket('value'),
+        new Socket('quaternion','value'),
       ],
       [
-        new NumberSocket('x'),
-        new NumberSocket('y'),
-        new NumberSocket('z'),
-        new NumberSocket('w'),
+        new Socket('number','x'),
+        new Socket('number','y'),
+        new Socket('number','z'),
+        new Socket('number','w'),
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Quaternion;

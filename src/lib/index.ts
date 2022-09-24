@@ -21,6 +21,8 @@ export { default as SetVariable } from './Nodes/Generic/Actions/SetVariable';
 export { default as GetVariable } from './Nodes/Generic/Queries/GetVariable';
 export { default as OnVariableChanged } from './Nodes/Generic/Events/OnVariableChanged';
 
+export { default as QuaternaryOp } from './Nodes/Generic/Logic/QuaternaryOp';
+export { default as TernaryOp } from './Nodes/Generic/Logic/TernaryOp';
 export { default as BinaryOp } from './Nodes/Generic/Logic/BinaryOp';
 export { default as UnaryOp } from './Nodes/Generic/Logic/UnaryOp';
 export { default as NullaryOp } from './Nodes/Generic/Logic/NullaryOp';
@@ -37,7 +39,7 @@ export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSO
 export { default as NodeTypeRegistry } from './Nodes/NodeTypeRegistry';
 export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
 export { default as Registry } from './Registry';
-export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
+export { default as registerGenericNodes } from './Nodes/Generic/registerGenericNodes';
 
 // interface registry
 export { default as ImplementationRegistry } from './Abstractions/ImplementationRegistry';

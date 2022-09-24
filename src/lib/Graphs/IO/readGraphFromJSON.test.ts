@@ -7,13 +7,13 @@ import exampleForLoop from '../../../../examples/flow/ForLoop.json';
 import exampleSequence from '../../../../examples/flow/Sequence.json';
 import exampleState from '../../../../examples/variables/SetGet.json';
 import Logger from '../../Diagnostics/Logger';
-import { registerGenericNodes } from '../../index';
+import registerCoreProfile from '../../Profiles/Core/registerCoreProfile';
 import Registry from '../../Registry';
 import { GraphJSON } from './GraphJSON';
 import readGraphFromJSON from './readGraphFromJSON';
 
 const registry = new Registry();
-registerGenericNodes(registry.nodes);
+registerCoreProfile(registry);
 
 Logger.onWarn.clear();
 

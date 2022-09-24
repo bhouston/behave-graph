@@ -15,6 +15,20 @@ export { default as BooleanSocket } from './Sockets/Typed/BooleanSocket';
 export { default as NumberSocket } from './Sockets/Typed/NumberSocket';
 export { default as StringSocket } from './Sockets/Typed/StringSocket';
 export { default as IdSocket } from './Sockets/Typed/IdSocket';
+export { default as Vector2Socket } from './Profiles/SceneGraph/Sockets/Vector2Socket';
+export { default as Vector3Socket } from './Profiles/SceneGraph/Sockets/Vector3Socket';
+export { default as QuaternionSocket } from './Profiles/SceneGraph/Sockets/QuaternionSocket';
+
+// variables
+export { default as SetVariable } from './Profiles/Core/Actions/SetVariable';
+export { default as GetVariable } from './Profiles/Core/Queries/GetVariable';
+export { default as OnVariableChanged } from './Profiles/Core/Events/OnVariableChanged';
+
+export { default as In4Out1FuncNode } from './Nodes/Templates/In4Out1FuncNode';
+export { default as In3Out1FuncNode } from './Nodes/Templates/In3Out1FuncNode';
+export { default as In2Out1FuncNode } from './Nodes/Templates/In2Out1FuncNode';
+export { default as In1Out1FuncNode } from './Nodes/Templates/In1Out1FuncNode';
+export { default as In0Out1FuncNode } from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';
@@ -28,7 +42,6 @@ export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSO
 export { default as NodeTypeRegistry } from './Nodes/NodeTypeRegistry';
 export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
 export { default as Registry } from './Registry';
-export { default as registerGenericNodes } from './Nodes/Generic/GenericNodes';
 
 // interface registry
 export { default as ImplementationRegistry } from './Abstractions/ImplementationRegistry';
@@ -36,6 +49,9 @@ export { default as ILifecycleEventEmitter } from './Abstractions/ILifecycleEven
 export { default as DefaultLogger } from './Abstractions/Implementations/DefaultLogger';
 export { default as ManualLifecycleEventEmitter } from './Abstractions/Implementations/ManualLifecycleEventEmitter';
 export { default as ILogger } from './Abstractions/ILogger';
+
+export { default as registerCoreProfile } from './Profiles/Core/registerCoreProfile';
+export { default as registerSceneGraphProfile } from './Profiles/SceneGraph/registerSceneGraphProfile';
 
 // graph validation
 export { default as validateDirectedAcyclicGraph } from './Graphs/Validation/validateDirectedAcyclicGraph';

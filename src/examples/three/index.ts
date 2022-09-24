@@ -29,7 +29,7 @@ async function main() {
   const graphEvaluator = new GraphEvaluator(graph);
 
   Logger.verbose('triggering start event');
-  graphEvaluator.triggerEvents('event/start');
+  graphEvaluator.triggerEvents('lifecycle/start');
 
   Logger.verbose('executing all (async)');
   await graphEvaluator.executeAllAsync();

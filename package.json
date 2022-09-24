@@ -1,6 +1,6 @@
 {
   "name": "behave-graph",
-  "version": "0.0.22",
+  "version": "0.1.0",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "src/lib/index.ts",
@@ -57,5 +57,8 @@
     "start": "es-dev-server --node-resolve --watch",
     "test": "jest src",
     "prepublishOnly": "npm run export-node-spec dist/node-spec.json"
+  },
+  "dependencies": {
+    "three": "^0.144.0"
   }
 }

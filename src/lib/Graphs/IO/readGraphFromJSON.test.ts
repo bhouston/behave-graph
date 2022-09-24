@@ -1,19 +1,19 @@
-import exampleDelay from '../../../../examples/async/Delay.json';
-import exampleBranch from '../../../../examples/basics/Branch.json';
-import exampleHelloWorld from '../../../../examples/basics/HelloWorld.json';
-import exampleMath from '../../../../examples/basics/Math.json';
-import exampleFlipFlop from '../../../../examples/flow/FlipFlop.json';
-import exampleForLoop from '../../../../examples/flow/ForLoop.json';
-import exampleSequence from '../../../../examples/flow/Sequence.json';
-import exampleState from '../../../../examples/variables/SetGet.json';
+import exampleDelay from '../../../../examples/core/async/Delay.json';
+import exampleBranch from '../../../../examples/core/flow/Branch.json';
+import exampleFlipFlop from '../../../../examples/core/flow/FlipFlop.json';
+import exampleForLoop from '../../../../examples/core/flow/ForLoop.json';
+import exampleSequence from '../../../../examples/core/flow/Sequence.json';
+import exampleHelloWorld from '../../../../examples/core/HelloWorld.json';
+import exampleMath from '../../../../examples/core/logic/Math.json';
+import exampleState from '../../../../examples/core/variables/SetGet.json';
 import Logger from '../../Diagnostics/Logger';
-import { registerGenericNodes } from '../../index';
+import registerCoreProfile from '../../Profiles/Core/registerCoreProfile';
 import Registry from '../../Registry';
 import { GraphJSON } from './GraphJSON';
 import readGraphFromJSON from './readGraphFromJSON';
 
 const registry = new Registry();
-registerGenericNodes(registry.nodes);
+registerCoreProfile(registry);
 
 Logger.onWarn.clear();
 
@@ -23,7 +23,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {
@@ -56,7 +56,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {
@@ -77,7 +77,7 @@ describe('readGraphFromJSON', () => {
       variables: [],
       nodes: [
         {
-          type: 'event/start',
+          type: 'lifecycle/start',
           id: '0',
         },
         {

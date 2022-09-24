@@ -1,0 +1,79 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0"
+        },
+        {
+            "type": "action/log",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Starting For Loop..."
+                }
+            }
+        },
+        {
+            "type": "flow/forLoop",
+            "id": "2",
+            "inputs": {
+                "startIndex": {
+                    "value": 0
+                },
+                "endIndex": {
+                    "value": 10
+                },
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "flow"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "loopBody"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Loop Body!"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "completed"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Completed For Loop!"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,81 @@
+{
+    "variables": [
+        {
+            "id": 0,
+            "name": "counter",
+            "valueTypeName": "number",
+            "initialValue": "-1"
+        }
+    ],
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0"
+        },
+        {
+            "type": "variable/setNumber",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "variable": {
+                    "value": "0"
+                },
+                "value": {
+                    "value": 1000
+                }
+            }
+        },
+        {
+            "type": "variable/getNumber",
+            "id": "2",
+            "inputs": {
+                "variable": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "logic/numberToString",
+            "id": "3",
+            "inputs": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "value"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

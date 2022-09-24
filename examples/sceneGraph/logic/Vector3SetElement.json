@@ -1,0 +1,76 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0"
+        },
+        {
+            "type": "logic/vector3Create",
+            "id": "1",
+            "inputs": {
+                "x": {
+                    "value": 1
+                },
+                "y": {
+                    "value": 0
+                },
+                "z": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "type": "logic/vector3SetZ",
+            "id": "2",
+            "inputs": {
+                "value": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "result"
+                        }
+                    ]
+                },
+                "z": {
+                    "value": 1
+                }
+            }
+        },
+        {
+            "type": "logic/vector3ToString",
+            "id": "3",
+            "inputs": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -78,7 +78,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/basics/HelloWorld.json
+> npm run exec-graph -- ./examples/core/HelloWorld.json
 
 Hello World!
 ```
@@ -164,7 +164,7 @@ In this example, we use a pre-declared variable called "counter" to 1000 and the
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/variables/GetSet.json
+> npm run exec-graph -- ./examples/core/variables/GetSet.json
 
 1000
 ```
@@ -205,7 +205,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/basics/Branch.json
+> npm run exec-graph -- ./examples/core/flow/Branch.json
 
 Condition is false!
 ```
@@ -293,7 +293,7 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/basics/Math.json
+> npm run exec-graph -- ./examples/core/logic/Math.json
 
 -9
 ```
@@ -334,7 +334,7 @@ Behave-Graph support asynchronous nodes.  These are nodes which will continue ex
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/async/Delay.json
+> npm run exec-graph -- ./examples/core/async/Delay.json
 
 Waiting...
 One Second Later!
@@ -438,7 +438,7 @@ Behave-Graph support waiting for the completion of downstream nodes.  This allow
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/flow/Sequence.json
+> npm run exec-graph -- ./examples/core/flow/Sequence.json
 
 Starting Sequence...
 First Sequence Output!
@@ -533,7 +533,7 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/flow/ForLoop.json
+> npm run exec-graph -- ./examples/core/flow/ForLoop.json
 
 Starting For Loop...
 Loop Body!

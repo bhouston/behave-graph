@@ -62,6 +62,7 @@ export default function registerSceneGraphProfile(registry: Registry) {
   nodes.register('logic/vector2Negate', () => new In1Out1FuncNode<Vector2, Vector2>('logic/vector2Negate', 'vector2', 'vector2', (a) => (a.clone().negate())));
   nodes.register('logic/vector2Normalize', () => new In1Out1FuncNode<Vector2, Vector2>('logic/vector2Normalize', 'vector2', 'vector2', (a) => (a.clone().normalize())));
   nodes.register('logic/vector2Length', () => new In1Out1FuncNode<Vector2, number>('logic/vector2Length', 'vector2', 'number', (a) => (a.length())));
+  nodes.register('logic/vector2ToString', () => new In1Out1FuncNode<Vector2, string>('logic/vector2ToString', 'vector2', 'string', (a) => (`(${a.x}, ${a.y})`)));
 
   // logic: vector3
 
@@ -83,6 +84,7 @@ export default function registerSceneGraphProfile(registry: Registry) {
   nodes.register('logic/vector3Negate', () => new In1Out1FuncNode<Vector3, Vector3>('logic/vector3Negate', 'vector3', 'vector3', (a) => (a.clone().negate())));
   nodes.register('logic/vector3Normalize', () => new In1Out1FuncNode<Vector3, Vector3>('logic/vector3Normalize', 'vector3', 'vector3', (a) => (a.clone().normalize())));
   nodes.register('logic/vector3Length', () => new In1Out1FuncNode<Vector3, number>('logic/vector3Length', 'vector3', 'number', (a) => (a.length())));
+  nodes.register('logic/vector3ToString', () => new In1Out1FuncNode<Vector3, string>('logic/vector3ToString', 'vector3', 'string', (a) => (`(${a.x}, ${a.y}, ${a.z})`)));
 
   // logic: quaternion
 
@@ -103,6 +105,7 @@ export default function registerSceneGraphProfile(registry: Registry) {
   nodes.register('logic/quaternionConjugate', () => new In1Out1FuncNode<Quaternion, Quaternion>('logic/quaternionConjugate', 'quaternion', 'quaternion', (a) => (a.clone().conjugate())));
   nodes.register('logic/quaternionNormalize', () => new In1Out1FuncNode<Quaternion, Quaternion>('logic/quaternionNormalize', 'quaternion', 'quaternion', (a) => (a.clone().normalize())));
   nodes.register('logic/quaternionLength', () => new In1Out1FuncNode<Quaternion, number>('logic/quaternionLength', 'quaternion', 'number', (a) => (a.length())));
+  nodes.register('logic/quaternionToString', () => new In1Out1FuncNode<Quaternion, string>('logic/quaternionToString', 'quaternion', 'string', (a) => (`(${a.x}, ${a.y}, ${a.z}, ${a.w})`)));
 
   // variables
 

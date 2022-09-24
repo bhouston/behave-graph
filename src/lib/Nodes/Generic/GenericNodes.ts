@@ -50,16 +50,16 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
   // logic: boolean logic
 
   registry.register('logic/booleanNot', () => new UnaryOp<boolean, boolean>('logic/booleanNot', 'boolean', 'boolean', (a) => (!a)));
-  registry.register('logic/booleanOr', () => new BinaryOp<boolean, boolean>('logic/booleanOr', 'boolean', 'boolean', (a, b) => (a || b)));
-  registry.register('logic/booleanAnd', () => new BinaryOp<boolean, boolean>('logic/booleanAnd', 'boolean', 'boolean', (a, b) => (a && b)));
+  registry.register('logic/booleanOr', () => new BinaryOp<boolean, boolean, boolean>('logic/booleanOr', 'boolean', 'boolean', 'boolean', (a, b) => (a || b)));
+  registry.register('logic/booleanAnd', () => new BinaryOp<boolean, boolean, boolean>('logic/booleanAnd', 'boolean', 'boolean', 'boolean', (a, b) => (a && b)));
 
   // logic: arithmetic
 
-  registry.register('logic/numberAdd', () => new BinaryOp<number, number>('logic/numberAdd', 'number', 'number', (a, b) => (a + b)));
-  registry.register('logic/numberSubtract', () => new BinaryOp<number, number>('logic/numberSubtract', 'number', 'number', (a, b) => (a - b)));
-  registry.register('logic/numberMultiply', () => new BinaryOp<number, number>('logic/numberMultiply', 'number', 'number', (a, b) => (a * b)));
-  registry.register('logic/numberDivide', () => new BinaryOp<number, number>('logic/numberDivide', 'number', 'number', (a, b) => (a / b)));
-  registry.register('logic/numberPow', () => new BinaryOp<number, number>('logic/numberPow', 'number', 'number', (a, b) => (a ** b)));
+  registry.register('logic/numberAdd', () => new BinaryOp<number, number, number>('logic/numberAdd', 'number', 'number', 'number', (a, b) => (a + b)));
+  registry.register('logic/numberSubtract', () => new BinaryOp<number, number, number>('logic/numberSubtract', 'number', 'number', 'number', (a, b) => (a - b)));
+  registry.register('logic/numberMultiply', () => new BinaryOp<number, number, number>('logic/numberMultiply', 'number', 'number', 'number', (a, b) => (a * b)));
+  registry.register('logic/numberDivide', () => new BinaryOp<number, number, number>('logic/numberDivide', 'number', 'number', 'number', (a, b) => (a / b)));
+  registry.register('logic/numberPow', () => new BinaryOp<number, number, number>('logic/numberPow', 'number', 'number', 'number', (a, b) => (a ** b)));
   registry.register('logic/numberNegate', () => new UnaryOp<number, number>('logic/numberNegate', 'number', 'number', (a) => (-a)));
   registry.register('logic/numberSqrt', () => new UnaryOp<number, number>('logic/numberSqrt', 'number', 'number', (a) => (Math.sqrt(a))));
 
@@ -83,8 +83,8 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // logic: ranges
 
-  registry.register('logic/numberMin', () => new BinaryOp<number, number>('logic/numberMin', 'number', 'number', (a, b) => (Math.min(a, b))));
-  registry.register('logic/numberMax', () => new BinaryOp<number, number>('logic/numberMax', 'number', 'number', (a, b) => (Math.max(a, b))));
+  registry.register('logic/numberMin', () => new BinaryOp<number, number, number>('logic/numberMin', 'number', 'number', 'number', (a, b) => (Math.min(a, b))));
+  registry.register('logic/numberMax', () => new BinaryOp<number, number, number>('logic/numberMax', 'number', 'number', 'number', (a, b) => (Math.max(a, b))));
   registry.register('logic/numberSign', () => new UnaryOp<number, number>('logic/numberSign', 'number', 'number', (a) => (Math.sign(a))));
   registry.register('logic/numberAbs', () => new UnaryOp<number, number>('logic/numberAbs', 'number', 'number', (a) => (Math.abs(a))));
   registry.register('logic/numberFloor', () => new UnaryOp<number, number>('logic/numberFloor', 'number', 'number', (a) => (Math.floor(a))));
@@ -98,18 +98,18 @@ export default function registerGenericNodes(registry: NodeTypeRegistry) {
 
   // logic: comparison
 
-  registry.register('logic/numberEqual', () => new BinaryOp<number, boolean>('logic/numberEqual', 'number', 'boolean', (a, b) => (a === b)));
-  registry.register('logic/numberGreaterThan', () => new BinaryOp<number, boolean>('logic/numberGreaterThan', 'number', 'boolean', (a, b) => (a > b)));
-  registry.register('logic/numberGreaterThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberGreaterThaOrEqual', 'number', 'boolean', (a, b) => (a >= b)));
-  registry.register('logic/numberLessThan', () => new BinaryOp<number, boolean>('logic/numberLessThan', 'number', 'boolean', (a, b) => (a < b)));
-  registry.register('logic/numberLessThaOrEqual', () => new BinaryOp<number, boolean>('logic/numberLessThaOrEqual', 'number', 'boolean', (a, b) => (a <= b)));
+  registry.register('logic/numberEqual', () => new BinaryOp<number, number, boolean>('logic/numberEqual', 'number', 'number', 'boolean', (a, b) => (a === b)));
+  registry.register('logic/numberGreaterThan', () => new BinaryOp<number, number, boolean>('logic/numberGreaterThan', 'number', 'number', 'boolean', (a, b) => (a > b)));
+  registry.register('logic/numberGreaterThaOrEqual', () => new BinaryOp<number, number, boolean>('logic/numberGreaterThaOrEqual', 'number', 'number', 'boolean', (a, b) => (a >= b)));
+  registry.register('logic/numberLessThan', () => new BinaryOp<number, number, boolean>('logic/numberLessThan', 'number', 'number', 'boolean', (a, b) => (a < b)));
+  registry.register('logic/numberLessThaOrEqual', () => new BinaryOp<number, number, boolean>('logic/numberLessThaOrEqual', 'number', 'number', 'boolean', (a, b) => (a <= b)));
   registry.register('logic/numberIsNan', () => new UnaryOp<number, boolean>('logic/numberIsNan', 'number', 'boolean', (a) => (Number.isNaN(a))));
   registry.register('logic/numberIsInf', () => new UnaryOp<number, boolean>('logic/numberIsInf', 'number', 'boolean', (a) => ((!Number.isFinite(a)) && !Number.isNaN(a))));
 
   // logic: string utilities
 
-  registry.register('logic/stringConcat', () => new BinaryOp<string, string>('logic/stringConcat', 'string', 'string', (a, b) => (a.concat(b))));
-  registry.register('logic/stringIncludes', () => new BinaryOp<string, boolean>('logic/stringIncludes', 'string', 'boolean', (a, b) => (a.includes(b))));
+  registry.register('logic/stringConcat', () => new BinaryOp<string, string, string>('logic/stringConcat', 'string', 'string', 'string', (a, b) => (a.concat(b))));
+  registry.register('logic/stringIncludes', () => new BinaryOp<string, string, boolean>('logic/stringIncludes', 'string', 'string', 'boolean', (a, b) => (a.includes(b))));
   registry.register('logic/numberToString', () => new UnaryOp<number, string>('logic/numberToString', 'number', 'string', (a) => (a.toString())));
   registry.register('logic/parseString', () => new UnaryOp<string, number>('logic/parseString', 'string', 'number', (a) => (parseFloat(a))));
   registry.register('logic/stringLength', () => new UnaryOp<string, number>('logic/stringLength', 'string', 'number', (a) => (a.length)));

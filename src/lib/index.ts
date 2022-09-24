@@ -17,15 +17,15 @@ export { default as StringSocket } from './Sockets/Typed/StringSocket';
 export { default as IdSocket } from './Sockets/Typed/IdSocket';
 
 // variables
-export { default as SetVariable } from './Nodes/Generic/Actions/SetVariable';
-export { default as GetVariable } from './Nodes/Generic/Queries/GetVariable';
-export { default as OnVariableChanged } from './Nodes/Generic/Events/OnVariableChanged';
+export { default as SetVariable } from './Profiles/Core/Actions/SetVariable';
+export { default as GetVariable } from './Profiles/Core/Queries/GetVariable';
+export { default as OnVariableChanged } from './Profiles/Core/Events/OnVariableChanged';
 
-export { default as QuaternaryOp } from './Nodes/Generic/Logic/QuaternaryOp';
-export { default as TernaryOp } from './Nodes/Generic/Logic/TernaryOp';
-export { default as BinaryOp } from './Nodes/Generic/Logic/BinaryOp';
-export { default as UnaryOp } from './Nodes/Generic/Logic/UnaryOp';
-export { default as NullaryOp } from './Nodes/Generic/Logic/NullaryOp';
+export { default as In4Out1FuncNode } from './Nodes/Templates/In4Out1FuncNode';
+export { default as In3Out1FuncNode } from './Nodes/Templates/In3Out1FuncNode';
+export { default as In2Out1FuncNode } from './Nodes/Templates/In2Out1FuncNode';
+export { default as In1Out1FuncNode } from './Nodes/Templates/In1Out1FuncNode';
+export { default as In0Out1FuncNode } from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
 export { default as GraphEvaluator } from './Graphs/Evaluation/GraphEvaluator';
@@ -39,7 +39,7 @@ export { default as writeNodeSpecsToJSON } from './Graphs/IO/writeNodeSpecsToJSO
 export { default as NodeTypeRegistry } from './Nodes/NodeTypeRegistry';
 export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
 export { default as Registry } from './Registry';
-export { default as registerGenericNodes } from './Nodes/Generic/registerGenericNodes';
+export { default as registerGenericNodes } from './Profiles/Core/registerCoreProfile';
 
 // interface registry
 export { default as ImplementationRegistry } from './Abstractions/ImplementationRegistry';

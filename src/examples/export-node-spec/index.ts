@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs';
 
 import {
-  Logger, registerGenericNodes, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
+  Logger, registerCoreProfile,
+  Registry, validateGraphRegistry, writeNodeSpecsToJSON,
 } from '../../../dist/lib/index';
 
 async function main() {
@@ -13,7 +14,7 @@ async function main() {
   }
 
   const registry = new Registry();
-  registerGenericNodes(registry.nodes);
+  registerCoreProfile(registry);
 
   Logger.verbose('validating:');
   const errorList: string[] = [];

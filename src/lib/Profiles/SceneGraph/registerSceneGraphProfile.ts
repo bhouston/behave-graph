@@ -5,7 +5,6 @@ import In1Out1FuncNode from '../../Nodes/Templates/In1Out1FuncNode';
 import In2Out1FuncNode from '../../Nodes/Templates/In2Out1FuncNode';
 import parseFloats from '../../parseFloats';
 import Registry from '../../Registry';
-import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
 import ValueType from '../../Values/ValueType';
 import SetVariable from '../Core/Actions/SetVariable';
 import OnVariableChanged from '../Core/Events/OnVariableChanged';
@@ -21,9 +20,6 @@ import Vector2Elements from './Logic/Vector2Elements';
 import Vector3Create from './Logic/Vector3Create';
 import Vector3Elements from './Logic/Vector3Elements';
 import GetSceneNodeProperty from './Queries/GetSceneNodeProperty';
-import QuaternionSocket from './Sockets/QuaternionSocket';
-import Vector2Socket from './Sockets/Vector2Socket';
-import Vector3Socket from './Sockets/Vector3Socket';
 
 export default function registerSceneGraphProfile(registry: Registry) {
   const { values, nodes } = registry;
@@ -38,17 +34,17 @@ export default function registerSceneGraphProfile(registry: Registry) {
 
   // actions
 
-  nodes.register('action/setSceneNodeVisible', () => new SetSceneNodeProperty<boolean>('setSceneNodeVisible', 'boolean', (socketName) => new BooleanSocket(socketName), (node, value) => { node.visible = value; }));
-  nodes.register('action/setSceneNodeTranslation', () => new SetSceneNodeProperty<Vector3>('setSceneNodeTranslation', 'vector3', (socketName) => new Vector3Socket(socketName), (node, value) => { node.position.copy(value); }));
-  nodes.register('action/setSceneNodeRotation', () => new SetSceneNodeProperty<Quaternion>('setSceneNodeRotation', 'quaternion', (socketName) => new QuaternionSocket(socketName), (node, value) => { node.quaternion.copy(value); }));
-  nodes.register('action/setSceneNodeScale', () => new SetSceneNodeProperty<Vector3>('setSceneNodeScale', 'vector3', (socketName) => new Vector3Socket(socketName), (node, value) => { node.scale.copy(value); }));
+  nodes.register('action/setSceneNodeVisible', () => new SetSceneNodeProperty<boolean>('setSceneNodeVisible', 'boolean', (node, value) => { node.visible = value; }));
+  nodes.register('action/setSceneNodeTranslation', () => new SetSceneNodeProperty<Vector3>('setSceneNodeTranslation', 'vector3', (node, value) => { node.position.copy(value); }));
+  nodes.register('action/setSceneNodeRotation', () => new SetSceneNodeProperty<Quaternion>('setSceneNodeRotation', 'quaternion', (node, value) => { node.quaternion.copy(value); }));
+  nodes.register('action/setSceneNodeScale', () => new SetSceneNodeProperty<Vector3>('setSceneNodeScale', 'vector3', (node, value) => { node.scale.copy(value); }));
 
   // queries
 
-  nodes.register('query/getSceneNodeVisible', () => new GetSceneNodeProperty('getSceneNodeVisible', 'boolean', (socketName) => new BooleanSocket(socketName), (node) => node.visible));
-  nodes.register('query/getSceneNodeTranslation', () => new GetSceneNodeProperty('getSceneNodeTranslation', 'vector3', (socketName) => new Vector3Socket(socketName), (node) => node.position.clone()));
-  nodes.register('query/getSceneNodeRotation', () => new GetSceneNodeProperty('getSceneNodeRotation', 'quaternion', (socketName) => new QuaternionSocket(socketName), (node) => node.quaternion.clone()));
-  nodes.register('query/getSceneNodeScale', () => new GetSceneNodeProperty('getSceneNodeScale', 'vector3', (socketName) => new Vector3Socket(socketName), (node) => node.scale.clone()));
+  nodes.register('query/getSceneNodeVisible', () => new GetSceneNodeProperty('getSceneNodeVisible', 'boolean', (node) => node.visible));
+  nodes.register('query/getSceneNodeTranslation', () => new GetSceneNodeProperty('getSceneNodeTranslation', 'vector3', (node) => node.position.clone()));
+  nodes.register('query/getSceneNodeRotation', () => new GetSceneNodeProperty('getSceneNodeRotation', 'quaternion', (node) => node.quaternion.clone()));
+  nodes.register('query/getSceneNodeScale', () => new GetSceneNodeProperty('getSceneNodeScale', 'vector3', (node) => node.scale.clone()));
 
   // logic: vector2
 
@@ -110,17 +106,17 @@ export default function registerSceneGraphProfile(registry: Registry) {
 
   // variables
 
-  nodes.register('variable/setVector3', () => new SetVariable('variable/setVector3', 'vector3', (socketName) => new Vector3Socket(socketName)));
-  nodes.register('variable/getVector3', () => new GetVariable('variable/getVector3', 'vector3', (socketName) => new Vector3Socket(socketName)));
-  nodes.register('variable/onVector3Changed', () => new OnVariableChanged('variable/onVector3Changed', 'vector3', (socketName) => new Vector3Socket(socketName)));
+  nodes.register('variable/setVector3', () => new SetVariable('variable/setVector3', 'vector3'));
+  nodes.register('variable/getVector3', () => new GetVariable('variable/getVector3', 'vector3'));
+  nodes.register('variable/onVector3Changed', () => new OnVariableChanged('variable/onVector3Changed', 'vector3'));
 
-  nodes.register('variable/setVector2', () => new SetVariable('variable/setVector2', 'vector2', (socketName) => new Vector2Socket(socketName)));
-  nodes.register('variable/getVector2', () => new GetVariable('variable/getVector2', 'vector2', (socketName) => new Vector2Socket(socketName)));
-  nodes.register('variable/onVector2Changed', () => new OnVariableChanged('variable/onVector2Changed', 'vector2', (socketName) => new Vector2Socket(socketName)));
+  nodes.register('variable/setVector2', () => new SetVariable('variable/setVector2', 'vector2'));
+  nodes.register('variable/getVector2', () => new GetVariable('variable/getVector2', 'vector2'));
+  nodes.register('variable/onVector2Changed', () => new OnVariableChanged('variable/onVector2Changed', 'vector2'));
 
-  nodes.register('variable/setQuaternion', () => new SetVariable('variable/setQuaternion', 'quaternion', (socketName) => new QuaternionSocket(socketName)));
-  nodes.register('variable/getQuaternion', () => new GetVariable('variable/getQuaternion', 'quaternion', (socketName) => new QuaternionSocket(socketName)));
-  nodes.register('variable/onQuaternionChanged', () => new OnVariableChanged('variable/onQuaternionChanged', 'quaternion', (socketName) => new QuaternionSocket(socketName)));
+  nodes.register('variable/setQuaternion', () => new SetVariable('variable/setQuaternion', 'quaternion'));
+  nodes.register('variable/getQuaternion', () => new GetVariable('variable/getQuaternion', 'quaternion'));
+  nodes.register('variable/onQuaternionChanged', () => new OnVariableChanged('variable/onQuaternionChanged', 'quaternion'));
 
   return registry;
 }

@@ -5,7 +5,7 @@ import FlowSocket from '../../../Sockets/Typed/FlowSocket';
 import IdSocket from '../../../Sockets/Typed/IdSocket';
 
 export default class OnVariableChanged extends Node {
-  constructor(name:string, public valueTypeName: string, socketFactory: (socketName:string) => Socket) {
+  constructor(name:string, public valueTypeName: string) {
     super(
       'Variables',
       name,

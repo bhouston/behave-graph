@@ -1,4 +1,4 @@
-import createTypedSocket from '../../Sockets/Typed/TypedSocketFactory';
+import Socket from '../../Sockets/Socket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 
@@ -8,7 +8,7 @@ export default class In0Out1FuncNode<Out1> extends Node {
       'Logic',
       nodeName,
       [],
-      [createTypedSocket(outputValueType, 'result')],
+      [new Socket('result', outputValueType)],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.nullaryEvalFunc());
       },

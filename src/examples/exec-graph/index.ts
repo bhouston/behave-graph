@@ -3,7 +3,8 @@ import { promises as fs } from 'fs';
 import {
   DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter,
   NodeEvaluationType,
-  readGraphFromJSON, registerGenericNodes,
+  readGraphFromJSON,
+  registerCoreProfile,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
@@ -11,7 +12,8 @@ async function main() {
   Logger.onVerbose.clear();
 
   const registry = new Registry();
-  registerGenericNodes(registry.nodes);
+  registerCoreProfile(registry);
+
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);

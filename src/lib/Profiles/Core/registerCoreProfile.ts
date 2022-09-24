@@ -3,9 +3,7 @@
 import In0Out1FuncNode from '../../Nodes/Templates/In0Out1FuncNode';
 import In1Out1FuncNode from '../../Nodes/Templates/In1Out1FuncNode';
 import In2Out1FuncNode from '../../Nodes/Templates/In2Out1FuncNode';
-import BooleanSocket from '../../Sockets/Typed/BooleanSocket';
-import NumberSocket from '../../Sockets/Typed/NumberSocket';
-import StringSocket from '../../Sockets/Typed/StringSocket';
+import Registry from '../../Registry';
 import Log from './Actions/Log';
 import SetVariable from './Actions/SetVariable';
 import OnLifecycleEnd from './Events/OnLifecycleEnd';
@@ -118,17 +116,17 @@ export default function registerCoreProfile(registry: Registry) {
 
   // state
 
-  nodes.register('variable/setBoolean', () => new SetVariable('variable/setBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
-  nodes.register('variable/getBoolean', () => new GetVariable('variable/getBoolean', 'boolean', (socketName) => new BooleanSocket(socketName)));
-  nodes.register('variable/onBooleanChanged', () => new OnVariableChanged('variable/onBooleanChanged', 'boolean', (socketName) => new BooleanSocket(socketName)));
+  nodes.register('variable/setBoolean', () => new SetVariable('variable/setBoolean', 'boolean'));
+  nodes.register('variable/getBoolean', () => new GetVariable('variable/getBoolean', 'boolean'));
+  nodes.register('variable/onBooleanChanged', () => new OnVariableChanged('variable/onBooleanChanged', 'boolean'));
 
-  nodes.register('variable/setNumber', () => new SetVariable('variable/setNumber', 'number', (socketName) => new NumberSocket(socketName)));
-  nodes.register('variable/getNumber', () => new GetVariable('variable/getNumber', 'number', (socketName) => new NumberSocket(socketName)));
-  nodes.register('variable/onNumberChanged', () => new OnVariableChanged('variable/onNumberChanged', 'number', (socketName) => new NumberSocket(socketName)));
+  nodes.register('variable/setNumber', () => new SetVariable('variable/setNumber', 'number'));
+  nodes.register('variable/getNumber', () => new GetVariable('variable/getNumber', 'number'));
+  nodes.register('variable/onNumberChanged', () => new OnVariableChanged('variable/onNumberChanged', 'number'));
 
-  nodes.register('variable/setString', () => new SetVariable('variable/setString', 'string', (socketName) => new StringSocket(socketName)));
-  nodes.register('variable/getString', () => new GetVariable('variable/getString', 'string', (socketName) => new StringSocket(socketName)));
-  nodes.register('variable/onStringChanged', () => new OnVariableChanged('variable/onStringChanged', 'string', (socketName) => new StringSocket(socketName)));
+  nodes.register('variable/setString', () => new SetVariable('variable/setString', 'string'));
+  nodes.register('variable/getString', () => new GetVariable('variable/getString', 'string'));
+  nodes.register('variable/onStringChanged', () => new OnVariableChanged('variable/onStringChanged', 'string'));
 
   return registry;
 }

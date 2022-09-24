@@ -1,4 +1,4 @@
-import createTypedSocket from '../../Sockets/Typed/TypedSocketFactory';
+import Socket from '../../Sockets/Socket';
 import Node from '../Node';
 import NodeEvalContext from '../NodeEvalContext';
 
@@ -14,11 +14,10 @@ export default class In2Out1FuncNode<In1, In2, Out1> extends Node {
       'Logic',
       nodeName,
       [
-        createTypedSocket(input1ValueType, 'a'),
-        createTypedSocket(input2ValueType, 'b'),
+        new Socket('a', input1ValueType), new Socket('b', input2ValueType),
       ],
       [
-        createTypedSocket(outputValueType, 'result'),
+        new Socket('result', outputValueType),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.binaryEvalFunc(context.readInput('a'), context.readInput('b')));

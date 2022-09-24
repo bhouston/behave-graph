@@ -1,13 +1,12 @@
 import {
-  GraphEvaluator, Logger, readGraphFromJSON, registerGenericNodes,
-  Registry,
+  GraphEvaluator, Logger, readGraphFromJSON, registerCoreProfile, Registry,
 } from '../../../dist/lib/index';
 
 async function main() {
   Logger.onVerbose.clear();
 
   const registry = new Registry();
-  registerGenericNodes(registry.nodes);
+  registerCoreProfile(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const graphName = urlSearchParams.get('graph');

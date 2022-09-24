@@ -5,6 +5,7 @@ import {
   NodeEvaluationType,
   readGraphFromJSON,
   registerCoreProfile,
+  registerSceneGraphProfile,
   Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
 } from '../../../dist/lib/index';
 
@@ -13,6 +14,7 @@ async function main() {
 
   const registry = new Registry();
   registerCoreProfile(registry);
+  registerSceneGraphProfile(registry);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();

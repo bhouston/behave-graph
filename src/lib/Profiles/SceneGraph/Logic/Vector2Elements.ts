@@ -9,7 +9,7 @@ export default class Vector2Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'three/vector2Elements',
+      'logic/vector2Elements',
       [
         new Vector2Socket('value'),
       ],

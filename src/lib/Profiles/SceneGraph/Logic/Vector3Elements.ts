@@ -9,7 +9,7 @@ export default class Vector3Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'three/vector3GetXYZ',
+      'logic/vector3Elements',
       [
         new Vector3Socket('value'),
       ],

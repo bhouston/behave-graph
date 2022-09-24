@@ -9,7 +9,7 @@ export default class QuaternionCreate extends Node {
   constructor() {
     super(
       'Logic',
-      'three/vector3Create',
+      'logic/quaternionCreate',
       [
         new NumberSocket('x'),
         new NumberSocket('y'),

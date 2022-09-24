@@ -9,7 +9,7 @@ export default class QuaternionElements extends Node {
   constructor() {
     super(
       'Logic',
-      'three/quaternionElements',
+      'logic/quaternionElements',
       [
         new QuaternionSocket('value'),
       ],

@@ -9,7 +9,7 @@ export default class Vector2Create extends Node {
   constructor() {
     super(
       'Logic',
-      'three/vector2Create',
+      'logic/vector2Create',
       [
         new NumberSocket('x'),
         new NumberSocket('y'),

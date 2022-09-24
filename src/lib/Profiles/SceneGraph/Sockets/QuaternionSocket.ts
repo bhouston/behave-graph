@@ -7,6 +7,6 @@ export default class QuaternionSocket extends Socket {
     name: string,
     value = new Quaternion(),
   ) {
-    super(name, 'Quaternion', value);
+    super(name, 'quaternion', value);
   }
 }

@@ -23,7 +23,7 @@ export default class NodeTypeRegistry {
     }
     const node = factory();
     node.id = nodeId;
-    Assert.mustBeTrue(node.typeName === nodeTypeName);
+    Assert.mustBeTrue(node.typeName === nodeTypeName, `node.typeName: ${node.typeName} must align with registered typeName: ${nodeTypeName}`);
     return node;
   }
 

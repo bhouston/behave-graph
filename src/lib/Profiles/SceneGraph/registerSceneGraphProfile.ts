@@ -34,17 +34,17 @@ export default function registerSceneGraphProfile(registry: Registry) {
 
   // actions
 
-  nodes.register('action/setSceneNodeVisible', () => new SetSceneNodeProperty<boolean>('setSceneNodeVisible', 'boolean', (node, value) => { node.visible = value; }));
-  nodes.register('action/setSceneNodeTranslation', () => new SetSceneNodeProperty<Vector3>('setSceneNodeTranslation', 'vector3', (node, value) => { node.position.copy(value); }));
-  nodes.register('action/setSceneNodeRotation', () => new SetSceneNodeProperty<Quaternion>('setSceneNodeRotation', 'quaternion', (node, value) => { node.quaternion.copy(value); }));
-  nodes.register('action/setSceneNodeScale', () => new SetSceneNodeProperty<Vector3>('setSceneNodeScale', 'vector3', (node, value) => { node.scale.copy(value); }));
+  nodes.register('action/setSceneNodeVisible', () => new SetSceneNodeProperty<boolean>('action/setSceneNodeVisible', 'boolean', (node, value) => { node.visible = value; }));
+  nodes.register('action/setSceneNodeTranslation', () => new SetSceneNodeProperty<Vector3>('action/setSceneNodeTranslation', 'vector3', (node, value) => { node.position.copy(value); }));
+  nodes.register('action/setSceneNodeRotation', () => new SetSceneNodeProperty<Quaternion>('action/setSceneNodeRotation', 'quaternion', (node, value) => { node.quaternion.copy(value); }));
+  nodes.register('action/setSceneNodeScale', () => new SetSceneNodeProperty<Vector3>('action/setSceneNodeScale', 'vector3', (node, value) => { node.scale.copy(value); }));
 
   // queries
 
-  nodes.register('query/getSceneNodeVisible', () => new GetSceneNodeProperty('getSceneNodeVisible', 'boolean', (node) => node.visible));
-  nodes.register('query/getSceneNodeTranslation', () => new GetSceneNodeProperty('getSceneNodeTranslation', 'vector3', (node) => node.position.clone()));
-  nodes.register('query/getSceneNodeRotation', () => new GetSceneNodeProperty('getSceneNodeRotation', 'quaternion', (node) => node.quaternion.clone()));
-  nodes.register('query/getSceneNodeScale', () => new GetSceneNodeProperty('getSceneNodeScale', 'vector3', (node) => node.scale.clone()));
+  nodes.register('query/getSceneNodeVisible', () => new GetSceneNodeProperty('query/getSceneNodeVisible', 'boolean', (node) => node.visible));
+  nodes.register('query/getSceneNodeTranslation', () => new GetSceneNodeProperty('query/getSceneNodeTranslation', 'vector3', (node) => node.position.clone()));
+  nodes.register('query/getSceneNodeRotation', () => new GetSceneNodeProperty('query/getSceneNodeRotation', 'quaternion', (node) => node.quaternion.clone()));
+  nodes.register('query/getSceneNodeScale', () => new GetSceneNodeProperty('query/getSceneNodeScale', 'vector3', (node) => node.scale.clone()));
 
   // logic: vector2
 

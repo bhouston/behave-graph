@@ -1,4 +1,4 @@
-import EventEmitter from '../../DesignPatterns/EventEmitter';
+import EventEmitter from '../../Events/EventEmitter';
 import ILifecycleEventEmitter from '../ILifecycleEventEmitter';
 
 export default class ManualLifecycleEventEmitter implements ILifecycleEventEmitter {

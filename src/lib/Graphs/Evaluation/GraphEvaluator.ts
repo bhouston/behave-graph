@@ -1,7 +1,7 @@
 /* eslint-disable space-in-parens */
-import EventEmitter from '../../DesignPatterns/EventEmitter';
-import { EventListener } from '../../DesignPatterns/EventListener';
 import Logger from '../../Diagnostics/Logger';
+import EventEmitter from '../../Events/EventEmitter';
+import { EventListener } from '../../Events/EventListener';
 import Node from '../../Nodes/Node';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import sleep from '../../sleep';

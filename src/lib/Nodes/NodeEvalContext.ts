@@ -1,7 +1,7 @@
-import EventEmitter from '../DesignPatterns/EventEmitter';
-import { EventListener } from '../DesignPatterns/EventListener';
 import Assert from '../Diagnostics/Assert';
 import Logger from '../Diagnostics/Logger';
+import EventEmitter from '../Events/EventEmitter';
+import { EventListener } from '../Events/EventListener';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';

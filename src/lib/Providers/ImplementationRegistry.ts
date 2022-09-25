@@ -1,18 +1,18 @@
 export default class ImplementationRegistry {
-  private readonly abstractionNameToImplementationMap = new Map<string, any>();
+  private readonly abstractionNameToImplementationMap: { [name:string]: any } = {};
 
   constructor() {
   }
 
   register(abstractionName: string, implementation: any) {
-    if (this.abstractionNameToImplementationMap.get(abstractionName) !== undefined) {
+    if (this.abstractionNameToImplementationMap[abstractionName] !== undefined) {
       throw new Error(`already registered abstraction ${abstractionName}`);
     }
-    this.abstractionNameToImplementationMap.set(abstractionName, implementation);
+    this.abstractionNameToImplementationMap[abstractionName] = implementation;
   }
 
   get<T>(abstractionName: string): T {
-    const interfaceImplementation = this.abstractionNameToImplementationMap.get(abstractionName);
+    const interfaceImplementation = this.abstractionNameToImplementationMap[abstractionName];
     if (interfaceImplementation === undefined) {
       throw new Error(`no registered abstraction with name ${abstractionName}`);
     }

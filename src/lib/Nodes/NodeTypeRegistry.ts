@@ -1,23 +1,22 @@
-import { Factory } from '../DesignPatterns/Factory';
 import Assert from '../Diagnostics/Assert';
 import generateUuid from '../generateUuid';
 import Node from './Node';
 
 export default class NodeTypeRegistry {
-  private readonly nodeTypeNameToNodeFactory = new Map<string, Factory<Node>>();
+  private readonly nodeTypeNameToNodeFactory: {[key:string]: () => Node} = {};
 
   constructor() {
   }
 
-  register(nodeTypeName: string, nodeTypeFactory: Factory<Node>) {
-    if (this.nodeTypeNameToNodeFactory.get(nodeTypeName) !== undefined) {
+  register(nodeTypeName: string, nodeTypeFactory: () => Node) {
+    if (this.nodeTypeNameToNodeFactory[nodeTypeName] !== undefined) {
       throw new Error(`already registered node type ${nodeTypeName}`);
     }
-    this.nodeTypeNameToNodeFactory.set(nodeTypeName, nodeTypeFactory);
+    this.nodeTypeNameToNodeFactory[nodeTypeName] = nodeTypeFactory;
   }
 
   create(nodeTypeName: string, nodeId = generateUuid()): Node {
-    const factory = this.nodeTypeNameToNodeFactory.get(nodeTypeName);
+    const factory = this.nodeTypeNameToNodeFactory[nodeTypeName];
     if (factory === undefined) {
       throw new Error(`no registered node with type name ${nodeTypeName}`);
     }
@@ -28,6 +27,6 @@ export default class NodeTypeRegistry {
   }
 
   getAllNames(): string[] {
-    return Array.from(this.nodeTypeNameToNodeFactory.keys());
+    return Object.keys(this.nodeTypeNameToNodeFactory);
   }
 }

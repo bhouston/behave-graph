@@ -1,4 +1,3 @@
-export { Factory } from './DesignPatterns/Factory';
 export { default as EventEmitter } from './DesignPatterns/EventEmitter';
 export { EventListener } from './DesignPatterns/EventListener';
 export { default as Logger } from './Diagnostics/Logger';

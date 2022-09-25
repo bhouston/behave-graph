@@ -1,7 +1,6 @@
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
+import Socket from '../../../Sockets/Socket';
 
 export default class Branch extends Node {
   constructor() {
@@ -9,12 +8,12 @@ export default class Branch extends Node {
       'Flow',
       'flow/branch',
       [
-        new FlowSocket(),
-        new BooleanSocket('condition'),
+        new Socket('flow', 'flow'),
+        new Socket('string', 'condition'),
       ],
       [
-        new FlowSocket('true'),
-        new FlowSocket('false'),
+        new Socket('flow', 'true'),
+        new Socket('flow', 'false'),
       ],
       (context: NodeEvalContext) => {
         context.commit(context.readInput('condition') ? 'true' : 'false');

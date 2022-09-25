@@ -18,7 +18,7 @@ import GetVariable from './Queries/GetVariable';
 import Delay from './Time/Delay';
 
 export default function registerCoreProfile(registry: Registry) {
-  const { values, nodes } = registry;
+  const { nodes } = registry;
 
   // actions
 

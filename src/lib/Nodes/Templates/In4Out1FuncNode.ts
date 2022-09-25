@@ -16,10 +16,10 @@ export default class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
       'Logic',
       nodeName,
       [
-        new Socket('a', input1ValueType), new Socket('b', input2ValueType), new Socket('c', input3ValueType), new Socket('d', input4ValueType),
+        new Socket(input1ValueType, 'a'), new Socket(input2ValueType, 'b'), new Socket(input3ValueType, 'c'), new Socket(input4ValueType, 'd'),
       ],
       [
-        new Socket('result', outputValueType),
+        new Socket(outputValueType, 'result'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.binaryEvalFunc(context.readInput('a'), context.readInput('b'), context.readInput('c'), context.readInput('d')));

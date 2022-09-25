@@ -2,8 +2,7 @@ import { Quaternion } from 'three';
 
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
-import QuaternionSocket from '../Sockets/QuaternionSocket';
+import Socket from '../../../Sockets/Socket';
 
 export default class QuaternionCreate extends Node {
   constructor() {
@@ -11,13 +10,13 @@ export default class QuaternionCreate extends Node {
       'Logic',
       'logic/quaternionCreate',
       [
-        new NumberSocket('x'),
-        new NumberSocket('y'),
-        new NumberSocket('z'),
-        new NumberSocket('w'),
+        new Socket('number', 'x'),
+        new Socket('number', 'y'),
+        new Socket('number', 'z'),
+        new Socket('number', 'w'),
       ],
       [
-        new QuaternionSocket('result'),
+        new Socket('quaternion', 'result'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', new Quaternion(context.readInput('x'), context.readInput('y'), context.readInput('z'), context.readInput('w')));

@@ -1,8 +1,7 @@
 import ILifecycleEventEmitter from '../../../Abstractions/ILifecycleEventEmitter';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
+import Socket from '../../../Sockets/Socket';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export default class OnLifecycleTick extends Node {
@@ -11,7 +10,10 @@ export default class OnLifecycleTick extends Node {
       'Event',
       'lifecycle/tick',
       [],
-      [new FlowSocket(), new NumberSocket('deltaSeconds')],
+      [
+        new Socket('flow', 'flow'),
+        new Socket('number', 'deltaSeconds'),
+      ],
       (context: NodeEvalContext) => {
         let lastTickTime = Date.now();
         const onTickEvent = () => {

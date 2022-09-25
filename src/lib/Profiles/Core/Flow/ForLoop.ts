@@ -1,8 +1,7 @@
 import Logger from '../../../Diagnostics/Logger';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
+import Socket from '../../../Sockets/Socket';
 
 export default class ForLoop extends Node {
   constructor() {
@@ -10,14 +9,14 @@ export default class ForLoop extends Node {
       'Flow',
       'flow/forLoop',
       [
-        new FlowSocket(),
-        new NumberSocket('startIndex'),
-        new NumberSocket('endIndex'),
+        new Socket('flow', 'flow'),
+        new Socket('number', 'startIndex'),
+        new Socket('number', 'endIndex'),
       ],
       [
-        new FlowSocket('loopBody'),
-        new NumberSocket('index'),
-        new FlowSocket('completed'),
+        new Socket('flow', 'loopBody'),
+        new Socket('number', 'index'),
+        new Socket('flow', 'completed'),
       ],
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.

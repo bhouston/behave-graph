@@ -8,7 +8,7 @@ export default class In0Out1FuncNode<Out1> extends Node {
       'Logic',
       nodeName,
       [],
-      [new Socket('result', outputValueType)],
+      [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.nullaryEvalFunc());
       },

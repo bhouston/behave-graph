@@ -1,7 +1,7 @@
 import Logger from '../../../Diagnostics/Logger';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
+import Socket from '../../../Sockets/Socket';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
@@ -10,11 +10,13 @@ export default class Sequence extends Node {
     super(
       'Flow',
       'flow/sequence',
-      [new FlowSocket()],
       [
-        new FlowSocket('1'),
-        new FlowSocket('2'),
-        new FlowSocket('3'),
+        new Socket('flow', 'flow'),
+      ],
+      [
+        new Socket('flow', '1'),
+        new Socket('flow', '2'),
+        new Socket('flow', '3'),
       ],
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.

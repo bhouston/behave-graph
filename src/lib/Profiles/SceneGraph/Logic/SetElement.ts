@@ -14,11 +14,11 @@ export default class SetElement<Component, Element> extends Node {
       'Logic',
       nodeName,
       [
-        new Socket('value', componentValueType),
-        new Socket(elementName, elementValueType),
+        new Socket(componentValueType, 'value'),
+        new Socket(elementValueType, elementName),
       ],
       [
-        new Socket('result', componentValueType),
+        new Socket(componentValueType, 'result'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.binaryEvalFunc(context.readInput('value'), context.readInput(elementName)));

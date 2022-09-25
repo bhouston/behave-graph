@@ -8,10 +8,10 @@ export default class In1Out1FuncNode<In1, Out1> extends Node {
       'Logic',
       nodeName,
       [
-        new Socket('a', inputValueType),
+        new Socket(inputValueType, 'a'),
       ],
       [
-        new Socket('result', outputValueType),
+        new Socket(outputValueType, 'result'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('result', this.unaryEvalFunc(context.readInput('a')));

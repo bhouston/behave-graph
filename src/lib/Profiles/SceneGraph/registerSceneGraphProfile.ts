@@ -34,6 +34,7 @@ export default function registerSceneGraphProfile(registry: Registry) {
 
   // actions
 
+  // eslint-disable-next-line no-param-reassign
   nodes.register('action/setSceneNodeVisible', () => new SetSceneNodeProperty<boolean>('action/setSceneNodeVisible', 'boolean', (node, value) => { node.visible = value; }));
   nodes.register('action/setSceneNodeTranslation', () => new SetSceneNodeProperty<Vector3>('action/setSceneNodeTranslation', 'vector3', (node, value) => { node.position.copy(value); }));
   nodes.register('action/setSceneNodeRotation', () => new SetSceneNodeProperty<Quaternion>('action/setSceneNodeRotation', 'quaternion', (node, value) => { node.quaternion.copy(value); }));

@@ -1,7 +1,6 @@
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import BooleanSocket from '../../../Sockets/Typed/BooleanSocket';
-import FlowSocket from '../../../Sockets/Typed/FlowSocket';
+import Socket from '../../../Sockets/Socket';
 
 export default class FlipFlop extends Node {
   private isOn = true;
@@ -11,12 +10,12 @@ export default class FlipFlop extends Node {
       'Flow',
       'flow/flipFlop',
       [
-        new FlowSocket(),
+        new Socket('flow', 'flow'),
       ],
       [
-        new FlowSocket('on'),
-        new FlowSocket('off'),
-        new BooleanSocket('isOn'),
+        new Socket('flow', 'on'),
+        new Socket('flow', 'off'),
+        new Socket('string', 'isOn'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('isOn', this.isOn);

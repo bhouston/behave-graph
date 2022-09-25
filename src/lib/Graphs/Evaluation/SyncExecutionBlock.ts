@@ -33,6 +33,10 @@ export default class SyncExecutionBlock {
 
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
+      // if not set, use the default value for this valueType
+      if (inputSocket.value === undefined) {
+        return this.graph.registry.values.get(inputSocket.valueTypeName).creator();
+      }
       return inputSocket.value;
     }
     if (inputSocket.links.length > 1) {

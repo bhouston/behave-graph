@@ -1,5 +1,6 @@
 import Assert from '../Diagnostics/Assert';
 import Logger from '../Diagnostics/Logger';
+import CustomEvent from '../Events/CustomEvent';
 import EventEmitter from '../Events/EventEmitter';
 import { EventListener } from '../Events/EventListener';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
@@ -117,6 +118,12 @@ export default class NodeEvalContext {
       // eslint-disable-next-line no-param-reassign
       socket.value = this.cachedOutputValues[socket.name];
     });
+  }
+
+  getCustomEvent(customEventId: string): CustomEvent {
+    const customEvent = this.graph.customEvents[customEventId];
+    if (customEvent === undefined) throw new Error(`can not find customEvent with the id ${customEventId}`);
+    return customEvent;
   }
 
   getVariable(variableId: string): Variable {

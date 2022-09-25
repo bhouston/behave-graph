@@ -26,9 +26,17 @@ export type VariableJSON = {
   metadata?: Metadata;
 };
 
+export type CustomEventJSON = {
+  label?: string;
+  id: string;
+  name: string;
+  metadata?: Metadata;
+};
+
 export type GraphJSON = {
   name?: string;
   nodes: NodeJSON[];
   variables: VariableJSON[];
+  customEvents: CustomEventJSON[];
   metadata?: Metadata;
 }

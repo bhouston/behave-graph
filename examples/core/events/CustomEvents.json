@@ -1,0 +1,71 @@
+{
+    "customEvents": [
+        {
+            "name": "oddFrame",
+            "id": "0"
+        }
+    ],
+    "nodes": [
+        {
+            "type": "lifecycle/tick",
+            "id": "0"
+        },
+        {
+            "type": "flow/flipFlop",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "flow"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "actions/triggerCustomEvent",
+            "id": "2",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "on"
+                        }
+                    ]
+                },
+                "eventId": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "event/customEvent",
+            "id": "3",
+            "inputs": {
+                "eventId": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Custom Event Fired: oddFrame!"
+                }
+            }
+        }
+    ]
+}

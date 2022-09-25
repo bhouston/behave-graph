@@ -1,5 +1,6 @@
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
+import Socket from '../../../Sockets/Socket';
 
 export default class Branch extends Node {
   constructor() {
@@ -7,7 +8,7 @@ export default class Branch extends Node {
       'Flow',
       'flow/branch',
       [
-        new Socket('flow'),
+        new Socket('flow', 'flow'),
         new Socket('string', 'condition'),
       ],
       [

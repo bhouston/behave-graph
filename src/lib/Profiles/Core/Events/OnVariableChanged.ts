@@ -7,8 +7,13 @@ export default class OnVariableChanged extends Node {
     super(
       'Variables',
       name,
-      [new Socket('id', 'variable')],
-      [new Socket('flow'), new Socket(valueTypeName, 'value')],
+      [
+        new Socket('id', 'variable'),
+      ],
+      [
+        new Socket('flow', 'flow'),
+        new Socket(valueTypeName, 'value'),
+      ],
       (context:NodeEvalContext) => {
         const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);

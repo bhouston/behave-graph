@@ -2,8 +2,7 @@ import { Vector2 } from 'three';
 
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import NumberSocket from '../../../Sockets/Typed/NumberSocket';
-import Vector2Socket from '../Sockets/Vector2Socket';
+import Socket from '../../../Sockets/Socket';
 
 export default class Vector2Elements extends Node {
   constructor() {
@@ -11,11 +10,11 @@ export default class Vector2Elements extends Node {
       'Logic',
       'logic/vector2Elements',
       [
-        new Socket('vector2','value'),
+        new Socket('vector2', 'value'),
       ],
       [
-        new Socket('number','x'),
-        new Socket('number','y'),
+        new Socket('number', 'x'),
+        new Socket('number', 'y'),
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vector2;

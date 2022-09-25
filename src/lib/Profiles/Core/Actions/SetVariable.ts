@@ -7,8 +7,14 @@ export default class SetVariable extends Node {
     super(
       'Action',
       name,
-      [new Socket('flow'), new Socket('id', 'variable'), new Socket(valueTypeName, 'value')],
-      [new Socket('flow')],
+      [
+        new Socket('flow', 'flow'),
+        new Socket('id', 'variable'),
+        new Socket(valueTypeName, 'value'),
+      ],
+      [
+        new Socket('flow', 'flow'),
+      ],
       (context: NodeEvalContext) => {
         const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);

@@ -1,6 +1,7 @@
 import ILifecycleEventEmitter from '../../../Abstractions/ILifecycleEventEmitter';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
+import Socket from '../../../Sockets/Socket';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export default class OnLifecycleEnd extends Node {
@@ -9,7 +10,9 @@ export default class OnLifecycleEnd extends Node {
       'Event',
       'lifecycle/end',
       [],
-      [new Socket('flow')],
+      [
+        new Socket('flow', 'flow'),
+      ],
       (context: NodeEvalContext) => {
         const onEndEvent = () => {
           context.commit('flow');

@@ -14,11 +14,11 @@ export default class SetSceneNodeProperty<T> extends Node {
       'Action',
       nodeName,
       [
-        new Socket('flow'),
+        new Socket('flow', 'flow'),
         new Socket('id', 'nodeId'),
         new Socket(valueTypeName, 'value'),
       ],
-      [new Socket('flow')],
+      [new Socket('flow', 'flow')],
       (context) => {
         const three = context.graph.registry.implementations.get<IThree>('IThree');
         const object3D = three.getObject3D(context.readInput('modeId'));

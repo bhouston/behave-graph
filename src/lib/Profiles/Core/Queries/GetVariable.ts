@@ -7,8 +7,12 @@ export default class GetVariable extends Node {
     super(
       'Query',
       name,
-      [new Socket('id', 'variable')],
-      [new Socket(valueTypeName, 'value')],
+      [
+        new Socket('id', 'variable'),
+      ],
+      [
+        new Socket(valueTypeName, 'value'),
+      ],
       (context:NodeEvalContext) => {
         const variableId = context.readInput('variable');
         const variable = context.getVariable(variableId);

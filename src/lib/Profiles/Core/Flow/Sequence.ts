@@ -1,6 +1,7 @@
 import Logger from '../../../Diagnostics/Logger';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
+import Socket from '../../../Sockets/Socket';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
@@ -9,7 +10,9 @@ export default class Sequence extends Node {
     super(
       'Flow',
       'flow/sequence',
-      [new Socket('flow')],
+      [
+        new Socket('flow', 'flow'),
+      ],
       [
         new Socket('flow', '1'),
         new Socket('flow', '2'),

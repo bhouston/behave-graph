@@ -10,10 +10,10 @@ export default class GetSceneNodeProperty<T> extends Node {
       'Query',
       nodeName,
       [
-        new Socket('flow'),
+        new Socket('flow', 'flow'),
         new Socket('id', 'nodeId'),
       ],
-      [new Socket('flow'),
+      [new Socket('flow', 'flow'),
         new Socket(valueTypeName, 'value')],
       (context) => {
         const three = context.graph.registry.implementations.get<IThree>('IThree');

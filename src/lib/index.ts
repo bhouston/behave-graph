@@ -10,14 +10,6 @@ export { default as Node } from './Nodes/Node';
 export { default as NodeSocketRef } from './Nodes/NodeSocketRef';
 export { default as ValueType } from './Values/ValueType';
 export { default as Socket } from './Sockets/Socket';
-export { default as FlowSocket } from './Sockets/Typed/FlowSocket';
-export { default as BooleanSocket } from './Sockets/Typed/BooleanSocket';
-export { default as NumberSocket } from './Sockets/Typed/NumberSocket';
-export { default as StringSocket } from './Sockets/Typed/StringSocket';
-export { default as IdSocket } from './Sockets/Typed/IdSocket';
-export { default as Vector2Socket } from './Profiles/SceneGraph/Sockets/Vector2Socket';
-export { default as Vector3Socket } from './Profiles/SceneGraph/Sockets/Vector3Socket';
-export { default as QuaternionSocket } from './Profiles/SceneGraph/Sockets/QuaternionSocket';
 
 // variables
 export { default as SetVariable } from './Profiles/Core/Actions/SetVariable';

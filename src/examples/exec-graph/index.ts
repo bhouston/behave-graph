@@ -60,14 +60,16 @@ async function main() {
     }
   });
 
+  const startTime = Date.now();
+
   Logger.verbose('initialize graph');
-  await graphEvaluator.executeAll();
+  let numSteps = await graphEvaluator.executeAll();
 
   Logger.verbose('triggering start event');
   manualLifecycleEventEmitter.startEvent.emit();
 
   Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5.0);
 
   for (let tick = 0; tick < 5; tick++) {
     Logger.verbose('triggering tick');
@@ -75,14 +77,18 @@ async function main() {
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
-    await graphEvaluator.executeAllAsync(5.0);
+    numSteps += await graphEvaluator.executeAllAsync(5.0);
   }
 
   Logger.verbose('triggering end event');
   manualLifecycleEventEmitter.endEvent.emit();
 
   Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5.0);
+
+  const deltaTime = Date.now() - startTime;
+
+  Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${(numSteps * 1000) / deltaTime} steps/second`);
 }
 
 main();

@@ -15,7 +15,7 @@ export default class FlipFlop extends Node {
       [
         new Socket('flow', 'on'),
         new Socket('flow', 'off'),
-        new Socket('string', 'isOn'),
+        new Socket('boolean', 'isOn'),
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('isOn', this.isOn);

@@ -1,5 +1,6 @@
 import { Metadata } from '../Graphs/Metadata';
 import Socket from '../Sockets/Socket';
+import { NodeCategory } from './NodeCategory';
 import { NodeEvalFunction } from './NodeEvalFunction';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
@@ -16,7 +17,7 @@ export default class Node {
   public interruptibleAsync = false;
 
   constructor(
-      public readonly category: string,
+      public readonly category: NodeCategory,
       public readonly typeName: string,
       public readonly inputSockets: Socket[],
       public readonly outputSockets: Socket[],

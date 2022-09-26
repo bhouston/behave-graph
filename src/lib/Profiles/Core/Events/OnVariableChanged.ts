@@ -5,7 +5,7 @@ import Socket from '../../../Sockets/Socket';
 export default class OnVariableChanged extends Node {
   constructor(name:string, public valueTypeName: string) {
     super(
-      'Variables',
+      'Event',
       name,
       [
         new Socket('id', 'variable'),

@@ -18,4 +18,8 @@ export default class EventEmitter<T> {
   emit(event: T) {
     this.listeners.forEach((listener) => { listener(event); });
   }
+
+  get listenerCount(): number {
+    return this.listeners.length;
+  }
 }

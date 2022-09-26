@@ -9,7 +9,7 @@ export default class Branch extends Node {
       'flow/branch',
       [
         new Socket('flow', 'flow'),
-        new Socket('string', 'condition'),
+        new Socket('boolean', 'condition'),
       ],
       [
         new Socket('flow', 'true'),

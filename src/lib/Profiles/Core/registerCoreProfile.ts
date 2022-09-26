@@ -64,6 +64,7 @@ export default function registerCoreProfile(registry: Registry) {
   nodes.register('logic/numberPow', () => new In2Out1FuncNode<number, number, number>('logic/numberPow', 'number', 'number', 'number', (a, b) => (a ** b)));
   nodes.register('logic/numberNegate', () => new In1Out1FuncNode<number, number>('logic/numberNegate', 'number', 'number', (a) => (-a)));
   nodes.register('logic/numberSqrt', () => new In1Out1FuncNode<number, number>('logic/numberSqrt', 'number', 'number', (a) => (Math.sqrt(a))));
+  nodes.register('logic/numberModulus', () => new In2Out1FuncNode<number, number, number>('logic/numberModulus', 'number', 'number', 'number', (a, b) => (a % b)));
 
   // logic: exponential
 

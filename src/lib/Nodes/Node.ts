@@ -1,7 +1,7 @@
-import { Metadata } from '../Graphs/Metadata';
+import { Metadata } from '../Metadata';
 import Socket from '../Sockets/Socket';
 import { NodeCategory } from './NodeCategory';
-import { NodeEvalFunction } from './NodeEvalFunction';
+import NodeEvalContext from './NodeEvalContext';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);
@@ -21,7 +21,7 @@ export default class Node {
       public readonly typeName: string,
       public readonly inputSockets: Socket[],
       public readonly outputSockets: Socket[],
-      public readonly evalFunc: NodeEvalFunction,
+      public readonly evalFunc: (context: NodeEvalContext) => void,
   ) {
     // determine if this is an eval node
     let areAnySocketsFlowType = false;

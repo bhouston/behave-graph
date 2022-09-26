@@ -1,9 +1,6 @@
 export default class ImplementationRegistry {
   private readonly abstractionNameToImplementationMap: { [name:string]: any } = {};
 
-  constructor() {
-  }
-
   register(abstractionName: string, implementation: any) {
     if (this.abstractionNameToImplementationMap[abstractionName] !== undefined) {
       throw new Error(`already registered abstraction ${abstractionName}`);

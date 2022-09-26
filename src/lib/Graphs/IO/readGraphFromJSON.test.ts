@@ -21,6 +21,7 @@ describe('readGraphFromJSON', () => {
   it('throws if node ids are not unique', () => {
     const json = {
       variables: [],
+      customEvents: [],
       nodes: [
         {
           type: 'lifecycle/start',
@@ -38,6 +39,7 @@ describe('readGraphFromJSON', () => {
   it('throws if input keys don\'t match known sockets', () => {
     const json = {
       variables: [],
+      customEvents: [],
       nodes: [
         {
           type: 'action/log',
@@ -54,6 +56,7 @@ describe('readGraphFromJSON', () => {
   it('throws if input points to non-existent node', () => {
     const json = {
       variables: [],
+      customEvents: [],
       nodes: [
         {
           type: 'lifecycle/start',
@@ -75,6 +78,7 @@ describe('readGraphFromJSON', () => {
   it('throws if input points to non-existent socket', () => {
     const json = {
       variables: [],
+      customEvents: [],
       nodes: [
         {
           type: 'lifecycle/start',

@@ -2,7 +2,7 @@ import EventEmitter from '../Events/EventEmitter';
 import { Metadata } from '../Metadata';
 
 export default class Variable {
-  public value: any;
+  private value: any;
   public label: string = '';
   public metadata: Metadata = {};
   public version = 0; // this is updated on each change to the variable state.

@@ -1,7 +1,7 @@
 {
     "customEvents": [
         {
-            "name": "oddFrame",
+            "name": "myCustomEvent",
             "id": "0"
         }
     ],
@@ -11,7 +11,7 @@
             "id": "0"
         },
         {
-            "type": "flow/flipFlop",
+            "type": "action/triggerCustomEvent",
             "id": "1",
             "inputs": {
                 "flow": {
@@ -19,20 +19,6 @@
                         {
                             "nodeId": "0",
                             "socket": "flow"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "action/triggerCustomEvent",
-            "id": "2",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "1",
-                            "socket": "on"
                         }
                     ]
                 },
@@ -43,7 +29,7 @@
         },
         {
             "type": "event/customEvent",
-            "id": "3",
+            "id": "2",
             "inputs": {
                 "customEvent": {
                     "value": "0"
@@ -52,24 +38,7 @@
         },
         {
             "type": "action/log",
-            "id": "4",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "3",
-                            "socket": "flow"
-                        }
-                    ]
-                },
-                "text": {
-                    "value": "On Custom Event: oddFrame!"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "5",
+            "id": "3",
             "inputs": {
                 "flow": {
                     "links": [
@@ -80,7 +49,7 @@
                     ]
                 },
                 "text": {
-                    "value": "Triggering Custom Event: oddFrame!"
+                    "value": "myCustomEvent Fired!"
                 }
             }
         }

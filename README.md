@@ -548,3 +548,79 @@ Loop Body!
 Loop Body!
 Completed For Loop!
 ```
+
+# Custom Events
+
+You can registry custom events, trigger then and listen on them.
+
+```json
+{
+    "customEvents": [
+        {
+            "name": "myCustomEvent",
+            "id": "0"
+        }
+    ],
+    "nodes": [
+        {
+            "type": "lifecycle/tick",
+            "id": "0"
+        },
+        {
+            "type": "action/triggerCustomEvent",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "customEvent": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "event/customEvent",
+            "id": "2",
+            "inputs": {
+                "customEvent": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "myCustomEvent Fired!"
+                }
+            }
+        }
+    ]
+}
+```
+
+Console output:
+
+```zsh
+> npm run exec-graph -- ./examples/core/events/CustomEvents.json
+
+myCustomEvent Fired!
+myCustomEvent Fired!
+myCustomEvent Fired!
+myCustomEvent Fired!
+myCustomEvent Fired!
+```

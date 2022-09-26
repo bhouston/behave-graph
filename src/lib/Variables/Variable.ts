@@ -6,7 +6,7 @@ export default class Variable {
   public label: string = '';
   public metadata: Metadata = {};
   public version = 0; // this is updated on each change to the variable state.
-  public onChanged = new EventEmitter<Variable>();
+  public readonly onChanged = new EventEmitter<Variable>();
 
   constructor(
     public readonly id: string,

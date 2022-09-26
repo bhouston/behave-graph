@@ -5,7 +5,7 @@ export default class CustomEvent {
   public label: string = '';
   public metadata: Metadata = {};
   public readonly eventEmitter = new EventEmitter<void>();
-  constructor(public readonly id: string, public readonly name: string) {
 
+  constructor(public readonly id: string, public readonly name: string) {
   }
 }

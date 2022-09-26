@@ -8,7 +8,6 @@ export default class OnCustomEvent extends Node {
       'Event',
       'event/customEvent',
       [
-        new Socket('flow', 'flow'),
         new Socket('id', 'customEvent'),
       ],
       [
@@ -22,6 +21,7 @@ export default class OnCustomEvent extends Node {
         });
       },
     );
+    this.evaluateOnStartup = true;
     this.async = true;
     this.interruptibleAsync = true;
   }

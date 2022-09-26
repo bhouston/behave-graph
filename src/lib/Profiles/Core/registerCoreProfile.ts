@@ -6,6 +6,8 @@ import In2Out1FuncNode from '../../Nodes/Templates/In2Out1FuncNode';
 import Registry from '../../Registry';
 import Log from './Actions/Log';
 import SetVariable from './Actions/SetVariable';
+import TriggerCustomEvent from './Actions/TriggerCustomEvent';
+import OnCustomEvent from './Events/OnCustomEvent';
 import OnLifecycleEnd from './Events/OnLifecycleEnd';
 import OnLifecycleStart from './Events/OnLifecycleStart';
 import OnLifecycleTick from './Events/OnLifecycleTick';
@@ -114,7 +116,12 @@ export default function registerCoreProfile(registry: Registry) {
   nodes.register('logic/parseString', () => new In1Out1FuncNode<string, number>('logic/parseString', 'string', 'number', (a) => (parseFloat(a))));
   nodes.register('logic/stringLength', () => new In1Out1FuncNode<string, number>('logic/stringLength', 'string', 'number', (a) => (a.length)));
 
-  // state
+  // custom events
+
+  nodes.register('event/customEvent', () => new OnCustomEvent());
+  nodes.register('action/triggerCustomEvent', () => new TriggerCustomEvent());
+
+  // variables
 
   nodes.register('variable/setBoolean', () => new SetVariable('variable/setBoolean', 'boolean'));
   nodes.register('variable/getBoolean', () => new GetVariable('variable/getBoolean', 'boolean'));

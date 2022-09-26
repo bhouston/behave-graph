@@ -6,8 +6,9 @@ export default class TriggerCustomEvent extends Node {
   constructor() {
     super(
       'Action',
-      'actions/triggerCustomEvent',
+      'action/triggerCustomEvent',
       [
+        new Socket('flow', 'flow'),
         new Socket('id', 'customEvent'),
       ],
       [
@@ -19,7 +20,5 @@ export default class TriggerCustomEvent extends Node {
         customEvent.eventEmitter.emit();
       },
     );
-    this.async = true;
-    this.interruptibleAsync = true;
   }
 };

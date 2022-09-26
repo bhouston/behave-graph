@@ -43,11 +43,12 @@ export default class SyncExecutionBlock {
       throw new Error(`input socket has too many links: ${inputSocket.name} has ${inputSocket.links.length} links`);
     }
 
+    const upstreamLink = inputSocket.links[0];
     // if upstream node is an eval, we just return its last value.
-    const upstreamNode = this.graph.nodes[inputSocket.links[0].nodeId];
+    const upstreamNode = this.graph.nodes[upstreamLink.nodeId];
 
     // what is inputSocket connected to?
-    const upstreamOutputSocket = upstreamNode.getOutputSocket(inputSocket.links[0].socketName);
+    const upstreamOutputSocket = upstreamNode.getOutputSocket(upstreamLink.socketName);
 
     if (upstreamNode.flow) {
       // eslint-disable-next-line no-param-reassign

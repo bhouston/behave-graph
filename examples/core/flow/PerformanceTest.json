@@ -17,7 +17,7 @@
                     ]
                 },
                 "text": {
-                    "value": "Starting 1,000,000 iteration for-loop..."
+                    "value": "Starting 10,000,000 iteration for-loop..."
                 }
             }
         },
@@ -112,7 +112,7 @@
                     ]
                 },
                 "text": {
-                    "value": "100,000 more iterations!"
+                    "value": "1,000,000 more iterations..."
                 }
             }
         },
@@ -129,7 +129,7 @@
                     ]
                 },
                 "text": {
-                    "value": "Completed For Loop!"
+                    "value": "Completed all iterations!"
                 }
             }
         }

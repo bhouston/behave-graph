@@ -9,7 +9,6 @@ Behavior graphs are used extensively in game development as a visual scripting l
 This library is intended to follow industry best practices in terms of behavior graphs.  It is also designed to be compatible with these existing implementations in terms of capabilities.  Although, like all node-based systems, behavior graphs are always limited by their node implementations.
 
 Another neat fact about behavior graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
-
 ## Discord
 
 You can join our Discord here:
@@ -24,7 +23,7 @@ This library, while small, contains a nearly complete implementation of behavior
 * **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
 * **Small** This is a very small library with no external dependencies.
 * **Simple** This library is implemented in a forward fashion without unnecessary complexity.
-
+* **High Performance** Currently in performance testing, the library achieves over 2M node executions per second.
 ### Node Types:
 * **Events** You can implement arbitrary events that start execution: Start, Tick
 * **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
@@ -623,4 +622,167 @@ myCustomEvent Fired!
 myCustomEvent Fired!
 myCustomEvent Fired!
 myCustomEvent Fired!
+```
+
+# Performance Testing
+
+Here is a test of 1,000,000 millions:
+
+```
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0"
+        },
+        {
+            "type": "action/log",
+            "id": "1",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "0",
+                            "socket": "flow"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Starting 10,000,000 iteration for-loop..."
+                }
+            }
+        },
+        {
+            "type": "flow/forLoop",
+            "id": "2",
+            "inputs": {
+                "startIndex": {
+                    "value": 0
+                },
+                "endIndex": {
+                    "value": 10000000
+                },
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "flow"
+                        }
+                    ]
+                }
+            }
+        },
+
+        {
+            "type": "logic/numberModulus",
+            "id": "3",
+            "inputs": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "index"
+                        }
+                    ]
+                },
+                "b": {
+                    "value": 1000000
+                }
+            }
+        },
+
+        {
+            "type": "logic/numberEqual",
+            "id": "4",
+            "inputs": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                },
+                "b": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "type": "flow/branch",
+            "id": "5",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "loopBody"
+                        }
+                    ]
+                },
+                "condition": {
+                    "links": [
+                        {
+                            "nodeId": "4",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "6",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "5",
+                            "socket": "true"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "1,000,000 more iterations..."
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "7",
+            "inputs": {
+                "flow": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "completed"
+                        }
+                    ]
+                },
+                "text": {
+                    "value": "Completed all iterations!"
+                }
+            }
+        }
+    ]
+}
+```
+
+Here is the console output:
+
+```
+Starting 10,000,000 iteration for-loop...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+1,000,000 more iterations...
+Completed all iterations!
+
+    20000016 nodes executed in 9.092 seconds, at a rate of 2199738 steps/second
 ```

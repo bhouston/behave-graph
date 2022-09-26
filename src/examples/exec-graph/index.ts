@@ -88,7 +88,7 @@ async function main() {
 
   const deltaTime = Date.now() - startTime;
 
-  Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${(numSteps * 1000) / deltaTime} steps/second`);
+  Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round((numSteps * 1000) / deltaTime)} steps/second`);
 }
 
 main();

@@ -1,4 +1,4 @@
-import { Metadata } from '../Graphs/Metadata';
+import { Metadata } from '../Metadata';
 import Socket from '../Sockets/Socket';
 import { NodeCategory } from './NodeCategory';
 import NodeEvalContext from './NodeEvalContext';

@@ -1,4 +1,4 @@
-import { Metadata } from '../Metadata';
+import { Metadata } from '../../Metadata';
 
 export type LinkJSON = { nodeId: string; socket: string };
 

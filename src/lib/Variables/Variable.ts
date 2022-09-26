@@ -1,5 +1,5 @@
 import EventEmitter from '../Events/EventEmitter';
-import { Metadata } from '../Graphs/Metadata';
+import { Metadata } from '../Metadata';
 
 export default class Variable {
   public value: any;

@@ -1,4 +1,4 @@
-import { Metadata } from '../Graphs/Metadata';
+import { Metadata } from '../Metadata';
 import EventEmitter from './EventEmitter';
 
 export default class CustomEvent {

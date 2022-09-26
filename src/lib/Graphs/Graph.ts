@@ -1,8 +1,8 @@
 import CustomEvent from '../Events/CustomEvent';
+import { Metadata } from '../Metadata';
 import Node from '../Nodes/Node';
 import Registry from '../Registry';
 import Variable from '../Variables/Variable';
-import { Metadata } from './Metadata';
 // Purpose:
 //  - stores the node graph
 

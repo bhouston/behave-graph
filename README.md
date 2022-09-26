@@ -551,7 +551,7 @@ Completed For Loop!
 
 # Custom Events
 
-You can registry custom events, trigger then and listen on them.
+You can register custom events, trigger then and listen on them.
 
 ```json
 {

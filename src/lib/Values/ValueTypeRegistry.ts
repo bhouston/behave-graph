@@ -1,7 +1,7 @@
 import ValueType from './ValueType';
 
 export default class ValueTypeRegistry {
-  private readonly valueTypeNameToValueType = new Map<string, ValueType>();
+  private readonly valueTypeNameToValueType: {[key:string]: ValueType} = {};
 
   constructor() {
     // register core types
@@ -25,14 +25,14 @@ export default class ValueTypeRegistry {
   }
 
   register(valueType: ValueType) {
-    if (this.valueTypeNameToValueType.get(valueType.name) !== undefined) {
+    if (this.valueTypeNameToValueType[valueType.name] !== undefined) {
       throw new Error(`already registered value type ${valueType.name}`);
     }
-    this.valueTypeNameToValueType.set(valueType.name, valueType);
+    this.valueTypeNameToValueType[valueType.name] = valueType;
   }
 
   get(valueTypeName: string): ValueType {
-    const valueType = this.valueTypeNameToValueType.get(valueTypeName);
+    const valueType = this.valueTypeNameToValueType[valueTypeName];
     if (valueType === undefined) {
       throw new Error(`can not find value type with name '${valueTypeName}`);
     }

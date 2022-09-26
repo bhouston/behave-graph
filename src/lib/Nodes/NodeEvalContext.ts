@@ -1,7 +1,8 @@
-import EventEmitter from '../DesignPatterns/EventEmitter';
-import { EventListener } from '../DesignPatterns/EventListener';
 import Assert from '../Diagnostics/Assert';
 import Logger from '../Diagnostics/Logger';
+import CustomEvent from '../Events/CustomEvent';
+import EventEmitter from '../Events/EventEmitter';
+import { EventListener } from '../Events/EventListener';
 import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
 import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
@@ -19,8 +20,8 @@ export default class NodeEvalContext {
   public readonly graph: Graph;
   public readonly graphEvaluator: GraphEvaluator;
   public readonly onAsyncCancelled = new EventEmitter<void>();
-  private readonly cachedInputValues = new Map<string, any>(); // TODO: figure out if this is really needed
-  private readonly cachedOutputValues = new Map<string, any>(); // TODO: figure out if this is really needed
+  private readonly cachedInputValues: {[name:string]: any} = {}; // TODO: figure out if this is really needed
+  private readonly cachedOutputValues: { [name:string]: any} = {}; // TODO: figure out if this is really needed
   public asyncPending = false;
   public numCommits = 0;
 
@@ -106,7 +107,7 @@ export default class NodeEvalContext {
     // cache all input values - required for proper async operation?  I think so.
     // Maybe not in loops where it wants to check inputs? Or only when there is a new eval?
     this.node.inputSockets.forEach((socket) => {
-      this.cachedInputValues.set(socket.name, socket.value);
+      this.cachedInputValues[socket.name] = socket.value;
     });
   }
 
@@ -115,8 +116,14 @@ export default class NodeEvalContext {
     // this feels like the correct behavior.
     this.node.outputSockets.forEach((socket) => {
       // eslint-disable-next-line no-param-reassign
-      socket.value = this.cachedOutputValues.get(socket.name);
+      socket.value = this.cachedOutputValues[socket.name];
     });
+  }
+
+  getCustomEvent(customEventId: string): CustomEvent {
+    const customEvent = this.graph.customEvents[customEventId];
+    if (customEvent === undefined) throw new Error(`can not find customEvent with the id ${customEventId}`);
+    return customEvent;
   }
 
   getVariable(variableId: string): Variable {
@@ -132,7 +139,7 @@ export default class NodeEvalContext {
     if (inputSocket === undefined) {
       throw new Error(`can not find input socket with name ${inputName}`);
     }
-    return this.cachedInputValues.get(inputName);
+    return this.cachedInputValues[inputName];
   }
 
   writeOutput(outputName: string, value: any) {
@@ -143,7 +150,7 @@ export default class NodeEvalContext {
     if (outputSocket.valueTypeName === 'flow') {
       throw new Error(`can not set the value of Flow output socket ${outputName}, use commit() instead`);
     }
-    this.cachedOutputValues.set(outputName, value);
+    this.cachedOutputValues[outputName] = value;
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.

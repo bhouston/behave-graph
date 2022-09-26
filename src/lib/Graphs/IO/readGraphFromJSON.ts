@@ -1,4 +1,5 @@
 import Logger from '../../Diagnostics/Logger';
+import CustomEvent from '../../Events/CustomEvent';
 import NodeSocketRef from '../../Nodes/NodeSocketRef';
 import Registry from '../../Registry';
 import Variable from '../../Variables/Variable';
@@ -31,6 +32,24 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       throw new Error(`duplicate variable id ${variable.id}`);
     }
     graph.variables[variableJson.id] = variable;
+  }
+
+  const customEventsJson = graphJson.customEvents || [];
+
+  for (let i = 0; i < customEventsJson.length; i += 1) {
+    const customEventJson = customEventsJson[i];
+
+    const customEvent = new CustomEvent(
+      customEventJson.id,
+      customEventJson.name,
+    );
+    customEvent.label = customEventJson.label || customEvent.label;
+    customEvent.metadata = customEventJson.metadata || customEvent.metadata;
+
+    if (graph.customEvents[customEvent.id] !== undefined) {
+      throw new Error(`duplicate variable id ${customEvent.id}`);
+    }
+    graph.customEvents[customEvent.id] = customEvent;
   }
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));

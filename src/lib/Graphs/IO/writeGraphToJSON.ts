@@ -5,7 +5,7 @@ import {
 } from './GraphJSON';
 
 export default function writeGraphToJSON(graph: Graph, registry: Registry): GraphJSON {
-  const graphJson: GraphJSON = { nodes: [], variables: [] };
+  const graphJson: GraphJSON = { nodes: [], variables: [], customEvents: [] };
 
   if (graph.name.length > 0) {
     graphJson.name = graph.name;

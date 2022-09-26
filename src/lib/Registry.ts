@@ -1,5 +1,5 @@
-import ImplementationRegistry from './Abstractions/ImplementationRegistry';
 import NodeTypeRegistry from './Nodes/NodeTypeRegistry';
+import ImplementationRegistry from './Providers/ImplementationRegistry';
 import ValueTypeRegistry from './Values/ValueTypeRegistry';
 
 export default class Registry {

@@ -1,4 +1,4 @@
-import EventEmitter from '../DesignPatterns/EventEmitter';
+import EventEmitter from '../Events/EventEmitter';
 import { Metadata } from '../Graphs/Metadata';
 
 export default class Variable {

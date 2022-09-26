@@ -1,0 +1,11 @@
+import { Metadata } from '../Graphs/Metadata';
+import EventEmitter from './EventEmitter';
+
+export default class CustomEvent {
+  public label: string = '';
+  public metadata: Metadata = {};
+  public readonly eventEmitter = new EventEmitter<void>();
+  constructor(public readonly id: string, public readonly name: string) {
+
+  }
+}

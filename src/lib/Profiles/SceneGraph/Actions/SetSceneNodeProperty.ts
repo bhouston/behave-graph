@@ -1,7 +1,7 @@
 import { Object3D } from 'three';
 
-import IThree from '../../../Abstractions/IThree';
 import Node from '../../../Nodes/Node';
+import IThree from '../../../Providers/IThree';
 import Socket from '../../../Sockets/Socket';
 
 export default class SetSceneNodeProperty<T> extends Node {

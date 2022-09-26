@@ -1,6 +1,5 @@
-export { Factory } from './DesignPatterns/Factory';
-export { default as EventEmitter } from './DesignPatterns/EventEmitter';
-export { EventListener } from './DesignPatterns/EventListener';
+export { default as EventEmitter } from './Events/EventEmitter';
+export { EventListener } from './Events/EventListener';
 export { default as Logger } from './Diagnostics/Logger';
 export { default as Assert } from './Diagnostics/Assert';
 
@@ -36,11 +35,11 @@ export { default as ValueTypeRegistry } from './Values/ValueTypeRegistry';
 export { default as Registry } from './Registry';
 
 // interface registry
-export { default as ImplementationRegistry } from './Abstractions/ImplementationRegistry';
-export { default as ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
-export { default as DefaultLogger } from './Abstractions/Implementations/DefaultLogger';
-export { default as ManualLifecycleEventEmitter } from './Abstractions/Implementations/ManualLifecycleEventEmitter';
-export { default as ILogger } from './Abstractions/ILogger';
+export { default as ImplementationRegistry } from './Providers/ImplementationRegistry';
+export { default as ILifecycleEventEmitter } from './Providers/ILifecycleEventEmitter';
+export { default as DefaultLogger } from './Providers/Implementations/DefaultLogger';
+export { default as ManualLifecycleEventEmitter } from './Providers/Implementations/ManualLifecycleEventEmitter';
+export { default as ILogger } from './Providers/ILogger';
 
 export { default as registerCoreProfile } from './Profiles/Core/registerCoreProfile';
 export { default as registerSceneGraphProfile } from './Profiles/SceneGraph/registerSceneGraphProfile';

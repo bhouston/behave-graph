@@ -1,6 +1,7 @@
 import Registry from '../../Registry';
 import Graph from '../Graph';
 import {
+  CustomEventJSON,
   GraphJSON, InputJSON, LinkJSON, NodeJSON, VariableJSON,
 } from './GraphJSON';
 
@@ -13,6 +14,21 @@ export default function writeGraphToJSON(graph: Graph, registry: Registry): Grap
   if (Object.keys(graph.metadata).length > 0) {
     graphJson.metadata = graph.metadata;
   }
+
+  // save custom events
+  Object.values(graph.customEvents).forEach((customEvent) => {
+    const customEventJson: CustomEventJSON = {
+      name: customEvent.name,
+      id: customEvent.id,
+    };
+    if (customEvent.label.length > 0) {
+      customEventJson.label = customEvent.label;
+    }
+    if (Object.keys(customEvent.metadata).length > 0) {
+      customEventJson.metadata = customEvent.metadata;
+    }
+    graphJson.customEvents.push(customEventJson);
+  });
 
   // save variables
   Object.values(graph.variables).forEach((variable) => {

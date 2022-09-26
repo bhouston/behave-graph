@@ -24,9 +24,9 @@ import GetSceneNodeProperty from './Queries/GetSceneNodeProperty';
 export default function registerSceneGraphProfile(registry: Registry) {
   const { values, nodes } = registry;
 
-  values.register(new ValueType('quaternion', () => new Quaternion(), (text: string) => new Quaternion().fromArray(parseFloats(text)), (value) => `(${value.x}, ${value.y}, ${value.z}, ${value.w})`));
-  values.register(new ValueType('vector3', () => new Vector3(), (text: string) => new Vector3().fromArray(parseFloats(text)), (value) => `(${value.x}, ${value.y}, ${value.z})`));
   values.register(new ValueType('vector2', () => new Vector2(), (text: string) => new Vector2().fromArray(parseFloats(text)), (value) => `(${value.x}, ${value.y})`));
+  values.register(new ValueType('vector3', () => new Vector3(), (text: string) => new Vector3().fromArray(parseFloats(text)), (value) => `(${value.x}, ${value.y}, ${value.z})`));
+  values.register(new ValueType('quaternion', () => new Quaternion(), (text: string) => new Quaternion().fromArray(parseFloats(text)), (value) => `(${value.x}, ${value.y}, ${value.z}, ${value.w})`));
 
   // events
 
@@ -110,13 +110,13 @@ export default function registerSceneGraphProfile(registry: Registry) {
 
   // variables
 
-  nodes.register('variable/setVector3', () => new SetVariable('variable/setVector3', 'vector3'));
-  nodes.register('variable/getVector3', () => new GetVariable('variable/getVector3', 'vector3'));
-  nodes.register('variable/onVector3Changed', () => new OnVariableChanged('variable/onVector3Changed', 'vector3'));
-
   nodes.register('variable/setVector2', () => new SetVariable('variable/setVector2', 'vector2'));
   nodes.register('variable/getVector2', () => new GetVariable('variable/getVector2', 'vector2'));
   nodes.register('variable/onVector2Changed', () => new OnVariableChanged('variable/onVector2Changed', 'vector2'));
+
+  nodes.register('variable/setVector3', () => new SetVariable('variable/setVector3', 'vector3'));
+  nodes.register('variable/getVector3', () => new GetVariable('variable/getVector3', 'vector3'));
+  nodes.register('variable/onVector3Changed', () => new OnVariableChanged('variable/onVector3Changed', 'vector3'));
 
   nodes.register('variable/setQuaternion', () => new SetVariable('variable/setQuaternion', 'quaternion'));
   nodes.register('variable/getQuaternion', () => new GetVariable('variable/getQuaternion', 'quaternion'));

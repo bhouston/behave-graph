@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/npm/l/behave-graph)](https://github.com/bhouston/behave-graph/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/behave-graph)](https://www.npmjs.com/package/behave-graph)
 
-Behave-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with no external run-time dependencies.  Behavior graphs are expressive, deterministic, and extensible state machines that can encode arbitrarily complex behavior.
+Behave-Graph is a standalone library that implements the concept of "behavior graphs" as a portable TypeScript library with no required external run-time dependencies.  Behavior graphs are expressive, deterministic, and extensible state machines that can encode arbitrarily complex behavior.
 
 Behavior graphs are used extensively in game development as a visual scripting language.  For example, look at Unreal Engine Blueprints or Unity's Visual Scripting or NVIDIA Omniverse's OmniGraph behavior graphs.
 
@@ -551,7 +551,7 @@ Completed For Loop!
 
 # Custom Events
 
-You can registry custom events, trigger then and listen on them.
+You can register custom events, trigger then and listen on them.
 
 ```json
 {
@@ -629,7 +629,7 @@ myCustomEvent Fired!
 
 Here is a test of 1,000,000 millions:
 
-```
+```json
 {
     "nodes": [
         {
@@ -771,7 +771,7 @@ Here is a test of 1,000,000 millions:
 
 Here is the console output:
 
-```
+```zsh
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
 1,000,000 more iterations...
@@ -787,3 +787,4 @@ Completed all iterations!
 
     20000016 nodes executed in 9.092 seconds, at a rate of 2199738 steps/second
 ```
+

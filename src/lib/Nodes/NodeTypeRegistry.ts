@@ -5,9 +5,6 @@ import Node from './Node';
 export default class NodeTypeRegistry {
   private readonly nodeTypeNameToNodeFactory: {[key:string]: () => Node} = {};
 
-  constructor() {
-  }
-
   register(nodeTypeName: string, nodeTypeFactory: () => Node) {
     if (this.nodeTypeNameToNodeFactory[nodeTypeName] !== undefined) {
       throw new Error(`already registered node type ${nodeTypeName}`);

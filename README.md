@@ -20,6 +20,8 @@ https://discord.gg/mrags8WyuH
 
 https://github.com/beeglebug/behave-flow
 
+![image](https://user-images.githubusercontent.com/954416/184598477-74997727-0d0d-48e5-9f29-1210812bd66c.png)
+
 ## Feature Overview
 
 This library, while small, contains a nearly complete implementation of behavior graphs.

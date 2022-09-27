@@ -32,7 +32,7 @@
     "@types/three": "^0.144.0",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
-    "es-dev-server": "^2.1.0",
+    "@web/dev-server": "^0.1.34",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
@@ -54,7 +54,7 @@
     "export-node-spec": "npm run build && node ./dist/examples/export-node-spec/index.js",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
-    "start": "es-dev-server --node-resolve --watch",
+    "start": "web-dev-server --node-resolve --open --watch",
     "test": "jest src",
     "prepublishOnly": "npm run export-node-spec dist/node-spec.json"
   },

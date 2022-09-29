@@ -1,5 +1,3 @@
-import { clearTimeout } from 'timers';
-
 import Logger from '../../../Diagnostics/Logger';
 import Node from '../../../Nodes/Node';
 import NodeEvalContext from '../../../Nodes/NodeEvalContext';
@@ -21,14 +19,17 @@ export default class Delay extends Node {
         new Socket('flow', 'flow'),
       ],
       (context: NodeEvalContext) => {
-        const timer = setTimeout(() => {
+        const cancelled = false;
+
+        setTimeout(() => {
+          if (cancelled) return;
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
           context.commit('flow');
           context.finish();
         }, context.readInput('duration') * 1000);
 
         context.onAsyncCancelled.addListener(() => {
-          clearTimeout(timer);
+          cancelled = true;
         });
       },
     );

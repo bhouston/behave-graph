@@ -49,7 +49,7 @@
     "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
-    "start": "web-dev-server --node-resolve --open --watch",
+    "start": "tsc --watch --preserveWatchOutput & web-dev-server --node-resolve --watch --open --app-index ./src/examples/web/index.html",
     "test": "jest ./src",
     "prepublishOnly": "npm run export-node-spec dist/node-spec.json"
   },

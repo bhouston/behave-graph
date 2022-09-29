@@ -52,7 +52,7 @@ The example behavior graphs are in the ```/examples``` folder.  You can execute 
 
 The main syntax is this one:
 ```zsh
-npm run exec-graph -- ./examples/[examplename].json
+npm run exec-graph -- ./src/graphs/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -78,7 +78,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/HelloWorld.json
+> npm run exec-graph -- ./src/graphs/core/HelloWorld.json
 
 Hello World!
 ```
@@ -164,7 +164,7 @@ In this example, we use a pre-declared variable called "counter" to 1000 and the
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/variables/GetSet.json
+> npm run exec-graph -- ./src/graphs/core/variables/GetSet.json
 
 1000
 ```
@@ -205,7 +205,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/flow/Branch.json
+> npm run exec-graph -- ./src/graphs/core/flow/Branch.json
 
 Condition is false!
 ```
@@ -293,7 +293,7 @@ This shows how to create math formulas in logic nodes.  In this case the equatio
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/logic/Math.json
+> npm run exec-graph -- ./src/graphs/core/logic/Math.json
 
 -9
 ```
@@ -334,7 +334,7 @@ Behave-Graph support asynchronous nodes.  These are nodes which will continue ex
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/async/Delay.json
+> npm run exec-graph -- ./src/graphs/core/async/Delay.json
 
 Waiting...
 One Second Later!
@@ -438,7 +438,7 @@ Behave-Graph support waiting for the completion of downstream nodes.  This allow
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/flow/Sequence.json
+> npm run exec-graph -- ./src/graphs/core/flow/Sequence.json
 
 Starting Sequence...
 First Sequence Output!
@@ -533,7 +533,7 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/flow/ForLoop.json
+> npm run exec-graph -- ./src/graphs/core/flow/ForLoop.json
 
 Starting For Loop...
 Loop Body!
@@ -616,7 +616,7 @@ You can register custom events, trigger then and listen on them.
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./examples/core/events/CustomEvents.json
+> npm run exec-graph -- ./src/graphs/core/events/CustomEvents.json
 
 myCustomEvent Fired!
 myCustomEvent Fired!

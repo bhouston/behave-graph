@@ -1,10 +1,8 @@
 import { promises as fs } from 'fs';
 
 import {
-  Logger, registerCoreProfile,
-  registerSceneGraphProfile,
-  Registry, validateGraphRegistry, writeNodeSpecsToJSON,
-} from '../../../dist/lib/index';
+  Logger, registerCoreProfile, registerSceneGraphProfile, Registry, validateGraphRegistry, writeNodeSpecsToJSON,
+} from '../../lib';
 
 async function main() {
   // Logger.onVerbose.clear();

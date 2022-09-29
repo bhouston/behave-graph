@@ -1,13 +1,9 @@
 import { promises as fs } from 'fs';
 
 import {
-  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter,
-  NodeEvaluationType,
-  readGraphFromJSON,
-  registerCoreProfile,
-  registerSceneGraphProfile,
-  Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
-} from '../../../dist/lib/index';
+  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter, NodeEvaluationType,
+  readGraphFromJSON, registerCoreProfile, registerSceneGraphProfile, Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
+} from '../../lib';
 
 async function main() {
   Logger.onVerbose.clear();

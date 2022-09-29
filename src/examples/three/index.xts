@@ -1,15 +1,13 @@
-import registerThreeNodes from 'behave-graph-three/src/lib/Nodes/ThreeNodes';
-
 import {
-  GraphEvaluator, Logger, readGraphFromJSON, registerGenericNodes, Registry,
-} from '../../../dist/lib/index';
+  GraphEvaluator, Logger, readGraphFromJSON, registerCoreProfile, registerSceneGraphProfile, Registry,
+} from '../../lib';
 
 async function main() {
   Logger.onVerbose.clear();
 
   const registry = new Registry();
-  registerGenericNodes(registry.nodes);
-  registerThreeNodes(registry);
+  registerCoreProfile(registry);
+  registerSceneGraphProfile(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const graphName = urlSearchParams.get('graph');

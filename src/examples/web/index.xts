@@ -1,14 +1,13 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+import { OrbitControls } from 'three/addons/controls/OrbitControls';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader';
 
 import {
-  DefaultLogger,
-  GraphEvaluator, Logger, ManualLifecycleEventEmitter, readGraphFromJSON, registerCoreProfile, registerSceneGraphProfile,
-  Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
-} from '../../../dist/lib/index';
+  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter, readGraphFromJSON,
+  registerCoreProfile, registerSceneGraphProfile, Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
+} from '../../lib';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;

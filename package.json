@@ -32,7 +32,6 @@
     "@typescript-eslint/parser": "^5.30.7",
     "@web/dev-server": "^0.1.34",
     "eslint": "^8.20.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.0",
     "eslint-plugin-react": "^7.30.1",

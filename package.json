@@ -54,7 +54,7 @@
     "start": "tsc --watch --preserveWatchOutput & web-dev-server --node-resolve --watch --open --app-index ./src/examples/web/index.html",
     "docs": "typedoc",
     "test": "jest ./src",
-    "prepublishOnly": "npm run export-node-spec dist/node-spec.json"
+    "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"
   },
   "dependencies": {
     "three": "^0.144.0"

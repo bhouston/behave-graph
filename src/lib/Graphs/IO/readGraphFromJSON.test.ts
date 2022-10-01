@@ -1,15 +1,6 @@
-import exampleDelay from '../../../graphs/core/async/Delay.json';
-import exampleBranch from '../../../graphs/core/flow/Branch.json';
-import exampleFlipFlop from '../../../graphs/core/flow/FlipFlop.json';
-import exampleForLoop from '../../../graphs/core/flow/ForLoop.json';
-import exampleSequence from '../../../graphs/core/flow/Sequence.json';
-import exampleHelloWorld from '../../../graphs/core/HelloWorld.json';
-import exampleMath from '../../../graphs/core/logic/Math.json';
-import exampleState from '../../../graphs/core/variables/SetGet.json';
 import Logger from '../../Diagnostics/Logger';
 import registerCoreProfile from '../../Profiles/Core/registerCoreProfile';
 import Registry from '../../Registry';
-import { GraphJSON } from './GraphJSON';
 import readGraphFromJSON from './readGraphFromJSON';
 
 const registry = new Registry();
@@ -97,12 +88,4 @@ describe('readGraphFromJSON', () => {
     expect(() => readGraphFromJSON(json, registry)).toThrow();
   });
 
-  it('parses all the examples without error', () => {
-    const examples = [exampleBranch, exampleDelay, exampleHelloWorld, exampleMath,
-      exampleState, exampleForLoop, exampleSequence, exampleFlipFlop] as GraphJSON[];
-
-    examples.forEach((json) => {
-      expect(() => readGraphFromJSON(json, registry)).not.toThrow();
-    });
-  });
 });

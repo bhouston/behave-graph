@@ -11,10 +11,10 @@ import { GraphJSON } from './GraphJSON';
 export default function readGraphFromJSON(graphJson: GraphJSON, registry: Registry): Graph {
   const graph = new Graph(registry);
 
-  graph.name = graphJson.name ?? graph.name;
-  graph.metadata = graphJson.metadata ?? graph.metadata;
+  graph.name = graphJson?.name ?? graph.name;
+  graph.metadata = graphJson?.metadata ?? graph.metadata;
 
-  const variablesJson = graphJson.variables ?? [];
+  const variablesJson = graphJson?.variables ?? [];
 
   for (let i = 0; i < variablesJson.length; i += 1) {
     const variableJson = variablesJson[i];
@@ -25,8 +25,8 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       variableJson.valueTypeName,
       registry.values.get(variableJson.valueTypeName).deserialize(variableJson.initialValue),
     );
-    variable.label = variableJson.label ?? variable.label;
-    variable.metadata = variableJson.metadata ?? variable.metadata;
+    variable.label = variableJson?.label ?? variable.label;
+    variable.metadata = variableJson?.metadata ?? variable.metadata;
 
     if (graph.variables[variableJson.id] !== undefined) {
       throw new Error(`duplicate variable id ${variable.id}`);
@@ -34,7 +34,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
     graph.variables[variableJson.id] = variable;
   }
 
-  const customEventsJson = graphJson.customEvents ?? [];
+  const customEventsJson = graphJson?.customEvents ?? [];
 
   for (let i = 0; i < customEventsJson.length; i += 1) {
     const customEventJson = customEventsJson[i];
@@ -43,8 +43,8 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       customEventJson.id,
       customEventJson.name,
     );
-    customEvent.label = customEventJson.label ?? customEvent.label;
-    customEvent.metadata = customEventJson.metadata ?? customEvent.metadata;
+    customEvent.label = customEventJson?.label ?? customEvent.label;
+    customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;
 
     if (graph.customEvents[customEvent.id] !== undefined) {
       throw new Error(`duplicate variable id ${customEvent.id}`);
@@ -53,7 +53,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
   }
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
-  const nodesJson = graphJson.nodes ?? [];
+  const nodesJson = graphJson?.nodes ?? [];
 
   if (nodesJson.length === 0) {
     Logger.warn('readGraphFromJSON: no nodes specified');
@@ -69,8 +69,8 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
     const nodeName = nodeJson.type;
     const node = registry.nodes.create(nodeName, nodeJson.id);
 
-    node.label = nodeJson.label ?? node.label;
-    node.metadata = nodeJson.metadata ?? node.metadata;
+    node.label = nodeJson?.label ?? node.label;
+    node.metadata = nodeJson?.metadata ?? node.metadata;
 
     const inputsJson = nodeJson.inputs;
     if (inputsJson !== undefined) {

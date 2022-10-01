@@ -2,7 +2,7 @@ import { Metadata } from '../Metadata';
 import EventEmitter from './EventEmitter';
 
 export default class CustomEvent {
-  public label: string = '';
+  public label = '';
   public metadata: Metadata = {};
   public readonly eventEmitter = new EventEmitter<void>();
 

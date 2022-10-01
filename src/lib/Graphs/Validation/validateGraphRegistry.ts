@@ -11,7 +11,7 @@ export default function validateGraphRegistry(graphRegistry: Registry): string[]
     }
 
     node.inputSockets.forEach((socket) => {
-      if (socket.valueTypeName === 'flow') return;
+      if (socket.valueTypeName === 'flow') {return;}
       const valueType = graphRegistry.values.get(socket.valueTypeName);
       // check to ensure all value types are supported.
       if (valueType === undefined) {
@@ -20,7 +20,7 @@ export default function validateGraphRegistry(graphRegistry: Registry): string[]
     });
 
     node.outputSockets.forEach((socket) => {
-      if (socket.valueTypeName === 'flow') return;
+      if (socket.valueTypeName === 'flow') {return;}
       const valueType = graphRegistry.values.get(socket.valueTypeName);
       // check to ensure all value types are supported.
       if (valueType === undefined) {

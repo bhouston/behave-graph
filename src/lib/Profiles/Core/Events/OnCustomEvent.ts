@@ -14,7 +14,7 @@ export default class OnCustomEvent extends Node {
         new Socket('flow', 'flow'),
       ],
       (context: NodeEvalContext) => {
-        const customEventId = context.readInput('customEvent');
+        const customEventId = context.readInput<string>('customEvent');
         const customEvent = context.getCustomEvent(customEventId);
         customEvent.eventEmitter.addListener(() => {
           context.commit('flow');
@@ -25,4 +25,4 @@ export default class OnCustomEvent extends Node {
     this.async = true;
     this.interruptibleAsync = true;
   }
-};
+}

@@ -8,8 +8,8 @@ function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
 }
 
 export default class Node {
-  public id: string = '';
-  public label: string = '';
+  public id = '';
+  public label = '';
   public metadata: Metadata = {};
   public readonly flow: boolean;
   public evaluateOnStartup = false;
@@ -36,13 +36,13 @@ export default class Node {
 
   getInputSocket(socketName: string): Socket {
     const socket = findSocketByName(this.inputSockets, socketName);
-    if (socket === undefined) throw new Error(`no input sockets with name: ${socketName} on node ${this.typeName}`);
+    if (socket === undefined) {throw new Error(`no input sockets with name: ${socketName} on node ${this.typeName}`);}
     return socket;
   }
 
   getOutputSocket(socketName: string): Socket {
     const socket = findSocketByName(this.outputSockets, socketName);
-    if (socket === undefined) throw new Error(`no output socket with name: ${socketName} on node ${this.typeName}`);
+    if (socket === undefined) {throw new Error(`no output socket with name: ${socketName} on node ${this.typeName}`);}
     return socket;
   }
 }

@@ -41,6 +41,7 @@
     "jest": "^28.1.3",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.23.15",
     "typescript": "^4.7.3"
   },
   "scripts": {
@@ -50,11 +51,11 @@
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
     "start": "tsc --watch --preserveWatchOutput & web-dev-server --node-resolve --watch --open --app-index ./src/examples/web/index.html",
+    "docs": "typedoc",
     "test": "jest ./src",
     "prepublishOnly": "npm run export-node-spec dist/node-spec.json"
   },
   "dependencies": {
-    "three": "^0.144.0",
-    "threeify": "^1.87.3"
+    "three": "^0.144.0"
   }
 }

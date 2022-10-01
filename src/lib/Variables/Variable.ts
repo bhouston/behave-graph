@@ -3,7 +3,7 @@ import { Metadata } from '../Metadata';
 
 export default class Variable {
   private value: any;
-  public label: string = '';
+  public label = '';
   public metadata: Metadata = {};
   public version = 0; // this is updated on each change to the variable state.
   public readonly onChanged = new EventEmitter<Variable>();

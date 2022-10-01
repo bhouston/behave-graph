@@ -6,4 +6,4 @@ export default class Registry {
   public readonly implementations = new ImplementationRegistry();
   public readonly values = new ValueTypeRegistry();
   public readonly nodes = new NodeTypeRegistry();
-};
+}

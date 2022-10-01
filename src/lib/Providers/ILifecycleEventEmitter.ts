@@ -6,4 +6,4 @@ export default interface ILifecycleEventEmitter {
   startEvent: EventEmitter<void>;
   endEvent: EventEmitter<void>;
   tickEvent: EventEmitter<void>;
-};
+}

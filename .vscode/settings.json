@@ -1,14 +1,18 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-      },
-      "eslint.validate": [
-        "javascript"
-      ],
-      "cSpell.words": [
-        "GLTF",
-        "interruptible",
-        "Nullary",
-        "threeify"
-      ]
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "eslint.validate": [
+    "javascript"
+  ],
+  "cSpell.words": [
+    "GLTF",
+    "threeify",
+    "interruptible",
+    "Nullary",
+    "threeify"
+  ]
 }

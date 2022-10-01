@@ -22,11 +22,11 @@ export default class Delay extends Node {
         let timeIsCancelled = false; // work around clearTimeout is not available on node.
 
         setTimeout(() => {
-          if (timeIsCancelled) return;
+          if (timeIsCancelled) { return; }
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
           context.commit('flow');
           context.finish();
-        }, context.readInput('duration') * 1000);
+        }, context.readInput<number>('duration') * 1000);
 
         context.onAsyncCancelled.addListener(() => {
           timeIsCancelled = true;

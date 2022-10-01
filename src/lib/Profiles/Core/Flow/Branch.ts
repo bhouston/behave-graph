@@ -16,7 +16,7 @@ export default class Branch extends Node {
         new Socket('flow', 'false'),
       ],
       (context: NodeEvalContext) => {
-        context.commit(context.readInput('condition') ? 'true' : 'false');
+        context.commit(context.readInput<boolean>('condition') === true ? 'true' : 'false');
       },
     );
   }

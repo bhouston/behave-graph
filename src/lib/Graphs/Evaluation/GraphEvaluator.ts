@@ -44,7 +44,7 @@ export default class GraphEvaluator {
   }
 
   // NOTE: This does not execute all if there are promises.
-  executeAll(stepLimit: number = 100000000): number {
+  executeAll(stepLimit = 100000000): number {
     let stepsExecuted = 0;
     while ((stepsExecuted < stepLimit) && this.executionBlockQueue.length > 0 ) {
       const currentExecutionBlock = this.executionBlockQueue[0];
@@ -56,7 +56,7 @@ export default class GraphEvaluator {
     return stepsExecuted;
   }
 
-  async executeAllAsync(timeLimit = 100, stepLimit: number = 100000000): Promise<number> {
+  async executeAllAsync(timeLimit = 100, stepLimit = 100000000): Promise<number> {
     const startDateTime = Date.now();
     let stepsExecuted = 0;
     let elapsedTime = 0;

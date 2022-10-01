@@ -20,8 +20,8 @@ export default class NodeEvalContext {
   public readonly graph: Graph;
   public readonly graphEvaluator: GraphEvaluator;
   public readonly onAsyncCancelled = new EventEmitter<void>();
-  private readonly cachedInputValues: {[name:string]: any} = {}; // TODO: figure out if this is really needed
-  private readonly cachedOutputValues: { [name:string]: any} = {}; // TODO: figure out if this is really needed
+  private readonly cachedInputValues: { [name: string]: any } = {}; // TODO: figure out if this is really needed
+  private readonly cachedOutputValues: { [name: string]: any } = {}; // TODO: figure out if this is really needed
   public asyncPending = false;
   public numCommits = 0;
 
@@ -122,27 +122,27 @@ export default class NodeEvalContext {
 
   getCustomEvent(customEventId: string): CustomEvent {
     const customEvent = this.graph.customEvents[customEventId];
-    if (customEvent === undefined) throw new Error(`can not find customEvent with the id ${customEventId}`);
+    if (customEvent === undefined) { throw new Error(`can not find customEvent with the id ${customEventId}`); }
     return customEvent;
   }
 
   getVariable(variableId: string): Variable {
     const variable = this.graph.variables[variableId];
-    if (variable === undefined) throw new Error(`can not find variable with the id ${variableId}`);
+    if (variable === undefined) { throw new Error(`can not find variable with the id ${variableId}`); }
     return variable;
   }
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext
   // for re-entrant async operations, otherwise the inputs may change during operation.
-  readInput(inputName: string): any {
+  readInput<T>(inputName: string): T {
     const inputSocket = this.node.inputSockets.find((socket) => socket.name === inputName);
     if (inputSocket === undefined) {
       throw new Error(`can not find input socket with name ${inputName}`);
     }
-    return this.cachedInputValues[inputName];
+    return this.cachedInputValues[inputName] as T;
   }
 
-  writeOutput(outputName: string, value: any) {
+  writeOutput<T>(outputName: string, value: T) {
     const outputSocket = this.node.outputSockets.find((socket) => socket.name === outputName);
     if (outputSocket === undefined) {
       throw new Error(`can not find output socket with name ${outputName} on node of type ${this.node.typeName}`);

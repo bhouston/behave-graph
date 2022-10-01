@@ -7,7 +7,7 @@ import Variable from '../Variables/Variable';
 //  - stores the node graph
 
 export default class Graph {
-  public name: string = '';
+  public name = '';
   public readonly nodes: { [id:string]: Node} = {};
   public readonly variables: { [id:string]: Variable } = {};
   public readonly customEvents: { [id:string]: CustomEvent} = {};

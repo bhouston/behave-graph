@@ -15,10 +15,10 @@ export default class TriggerCustomEvent extends Node {
         new Socket('flow', 'flow'),
       ],
       (context: NodeEvalContext) => {
-        const customEventId = context.readInput('customEvent');
+        const customEventId = context.readInput<string>('customEvent');
         const customEvent = context.getCustomEvent(customEventId);
         customEvent.eventEmitter.emit();
       },
     );
   }
-};
+}

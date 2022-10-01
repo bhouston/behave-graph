@@ -19,7 +19,7 @@ import {
   RenderingContext,
   ShaderMaterial,
   Texture,
-  Vector3,
+  Vector3
 } from 'threeify';
 
 import fragmentSource from './fragment.glsl';

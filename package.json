@@ -3,8 +3,7 @@
   "version": "0.1.5",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
-  "main": "src/lib/index.ts",
-  "module": "dist/lib/index.js",
+  "main": "dist/lib",
   "types": "dist/lib/index.d.ts",
   "files": [
     "dist"
@@ -25,6 +24,8 @@
     "url": "https://github.com/bhouston/behave-graph"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-typescript": "^8.5.0",
     "@types/glob": "^8.0.0",
     "@types/jest": "^28.1.7",
     "@types/node": "^18.0.6",
@@ -40,18 +41,24 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "glob": "^8.0.3",
     "jest": "^28.1.3",
+    "rollup": "^2.79.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "threeify": "^1.87.3",
+    "threeify-glsl-transpiler": "^2.0.1",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tgt; tsc",
     "exec-graph": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/exec-graph/index.ts",
     "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
     "lint": "eslint \"src/**\"",
     "lint:fix": "npm run lint -- --fix",
-    "start": "tsc --watch --preserveWatchOutput & web-dev-server --node-resolve --watch --open --app-index ./src/examples/web/index.html",
+    "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/threeify/index.html",
+    "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
     "docs": "typedoc",
     "test": "jest ./src",
     "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"

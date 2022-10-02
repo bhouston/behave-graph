@@ -1,6 +1,9 @@
+import * as THREEIFY from 'threeify';
 import {
+  DefaultLogger,
   GraphEvaluator,
   Logger,
+  ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
   registerSceneGraphProfile,
@@ -9,10 +12,18 @@ import {
 
 async function main() {
   Logger.onVerbose.clear();
-
+  //const geometry = icosahedronGeometry(0.75, 5);
+  console.log(THREEIFY);
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneGraphProfile(registry);
+
+  registry.implementations.register('ILogger', new DefaultLogger());
+  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  registry.implementations.register(
+    'ILifecycleEventEmitter',
+    manualLifecycleEventEmitter
+  );
 
   const graphJsonPath = '/dist/graphs/core/HelloWorld.json';
   if (graphJsonPath === undefined) {
@@ -29,10 +40,10 @@ async function main() {
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
 
-  Logger.verbose('creating behavior graph');
+  Logger.info('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Logger.verbose('executing all (async)');
+  Logger.info('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }
 

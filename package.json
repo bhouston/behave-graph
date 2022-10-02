@@ -6,7 +6,8 @@
   "main": "dist/lib",
   "types": "dist/lib/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "keywords": [
     "behavior",
@@ -35,8 +36,6 @@
     "glob": "^8.0.3",
     "jest": "^29.1.2",
     "prettier": "^2.7.1",
-    "three": "^0.145.0",
-    "threeify": "^1.87.3",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
@@ -53,5 +52,9 @@
     "docs": "typedoc",
     "test": "jest ./src",
     "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"
+  },
+  "dependencies": {
+    "three": "^0.145.0",
+    "threeify": "^2.0.2"
   }
 }

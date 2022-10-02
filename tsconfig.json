@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "CommonJS",
+    "target": "ES2020",
+    "module": "ES2020",
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,
@@ -9,19 +9,15 @@
     "rootDir": "./src",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "moduleResolution": "node",
     "removeComments": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": false
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "*.test.ts"
-  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["*.test.ts"],
   "typedocOptions": {
     "mode": "modules",
     "out": "./docs",

@@ -1,21 +1,21 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../threeify"
-		},
-		{
-			"path": "../threeify-glsl-transpiler"
-		}
-	],
-	"settings": {},
-	"extensions": {
-		"recommendations": [
-			"dbaeumer.vscode-eslint",
-			"orta.vscode-jest",
-			"esbenp.prettier-vscode"
-		]
-	}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../threeify"
+    },
+    {
+      "path": "../threeify-glsl-transpiler"
+    }
+  ],
+  "settings": {},
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "orta.vscode-jest",
+      "esbenp.prettier-vscode"
+    ]
+  }
 }

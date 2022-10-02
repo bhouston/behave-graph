@@ -1,17 +1,10 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-  },
-  "eslint.validate": [
-    "javascript"
-  ],
-  "cSpell.words": [
-    "GLTF",
-    "threeify",
-    "interruptible",
-    "Nullary",
-    "threeify"
-  ]
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "json.format.enable": false,
+  "html.format.enable": false,
+  "cSpell.words": ["GLTF", "threeify", "interruptible", "Nullary", "threeify"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

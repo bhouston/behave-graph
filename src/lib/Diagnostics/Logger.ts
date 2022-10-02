@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import EventEmitter from '../Events/EventEmitter';
 
 export default class Logger {

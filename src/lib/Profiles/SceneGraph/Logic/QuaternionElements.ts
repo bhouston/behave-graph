@@ -9,14 +9,12 @@ export default class QuaternionElements extends Node {
     super(
       'Logic',
       'logic/quaternionElements',
-      [
-        new Socket('quaternion', 'value'),
-      ],
+      [new Socket('quaternion', 'value')],
       [
         new Socket('number', 'x'),
         new Socket('number', 'y'),
         new Socket('number', 'z'),
-        new Socket('number', 'w'),
+        new Socket('number', 'w')
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Quaternion;
@@ -24,7 +22,7 @@ export default class QuaternionElements extends Node {
         context.writeOutput('y', value.y);
         context.writeOutput('z', value.z);
         context.writeOutput('w', value.w);
-      },
+      }
     );
   }
 }

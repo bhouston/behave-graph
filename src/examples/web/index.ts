@@ -1,5 +1,10 @@
 import {
-  GraphEvaluator, Logger, readGraphFromJSON, registerCoreProfile, registerSceneGraphProfile, Registry,
+  GraphEvaluator,
+  Logger,
+  readGraphFromJSON,
+  registerCoreProfile,
+  registerSceneGraphProfile,
+  Registry
 } from '../../lib';
 
 async function main() {

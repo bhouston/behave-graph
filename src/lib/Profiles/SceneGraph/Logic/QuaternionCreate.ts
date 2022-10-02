@@ -13,14 +13,20 @@ export default class QuaternionCreate extends Node {
         new Socket('number', 'x'),
         new Socket('number', 'y'),
         new Socket('number', 'z'),
-        new Socket('number', 'w'),
+        new Socket('number', 'w')
       ],
-      [
-        new Socket('quaternion', 'result'),
-      ],
+      [new Socket('quaternion', 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput('result', new Quaternion(context.readInput('x'), context.readInput('y'), context.readInput('z'), context.readInput('w')));
-      },
+        context.writeOutput(
+          'result',
+          new Quaternion(
+            context.readInput('x'),
+            context.readInput('y'),
+            context.readInput('z'),
+            context.readInput('w')
+          )
+        );
+      }
     );
   }
 }

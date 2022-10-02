@@ -2,7 +2,6 @@
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
   "eslint.validate": [

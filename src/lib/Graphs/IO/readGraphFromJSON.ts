@@ -8,7 +8,10 @@ import { GraphJSON } from './GraphJSON';
 
 // Purpose:
 //  - loads a node graph
-export default function readGraphFromJSON(graphJson: GraphJSON, registry: Registry): Graph {
+export default function readGraphFromJSON(
+  graphJson: GraphJSON,
+  registry: Registry
+): Graph {
   const graph = new Graph(registry);
 
   graph.name = graphJson?.name ?? graph.name;
@@ -23,7 +26,9 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       variableJson.id,
       variableJson.name,
       variableJson.valueTypeName,
-      registry.values.get(variableJson.valueTypeName).deserialize(variableJson.initialValue),
+      registry.values
+        .get(variableJson.valueTypeName)
+        .deserialize(variableJson.initialValue)
     );
     variable.label = variableJson?.label ?? variable.label;
     variable.metadata = variableJson?.metadata ?? variable.metadata;
@@ -41,7 +46,7 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
 
     const customEvent = new CustomEvent(
       customEventJson.id,
-      customEventJson.name,
+      customEventJson.name
     );
     customEvent.label = customEventJson?.label ?? customEvent.label;
     customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;
@@ -77,29 +82,39 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
       node.inputSockets.forEach((socket) => {
         // warn if no definition.
         if (inputsJson?.[socket.name] === undefined) {
-          Logger.warn(`readGraphFromJSON: no input socket value or links for node socket: ${nodeName}.${socket.name}`);
+          Logger.warn(
+            `readGraphFromJSON: no input socket value or links for node socket: ${nodeName}.${socket.name}`
+          );
           return;
         }
 
         const inputJson = inputsJson[socket.name];
         if (inputJson.value !== undefined) {
           // eslint-disable-next-line no-param-reassign
-          socket.value = registry.values.get(socket.valueTypeName).deserialize(inputJson.value);
+          socket.value = registry.values
+            .get(socket.valueTypeName)
+            .deserialize(inputJson.value);
         }
 
         if (inputJson.links !== undefined) {
           const linksJson = inputJson.links;
           linksJson.forEach((linkJson) => {
-            socket.links.push(new NodeSocketRef(linkJson.nodeId, linkJson.socket));
+            socket.links.push(
+              new NodeSocketRef(linkJson.nodeId, linkJson.socket)
+            );
           });
         }
       });
 
       // validate that there are no additional input sockets specified that were not read.
       Object.keys(inputsJson).forEach((inputName) => {
-        const inputSocket = node.inputSockets.find((socket) => socket.name === inputName);
+        const inputSocket = node.inputSockets.find(
+          (socket) => socket.name === inputName
+        );
         if (inputSocket === undefined) {
-          throw new Error(`node '${node.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`);
+          throw new Error(
+            `node '${node.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
+          );
         }
       });
     }
@@ -121,15 +136,23 @@ export default function readGraphFromJSON(graphJson: GraphJSON, registry: Regist
         // console.log(nodeSocketRef);
         const upstreamNode = graph.nodes[nodeSocketRef.nodeId];
         if (upstreamNode === undefined) {
-          throw new Error(`node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to `
-            + `a nonexistent upstream node id ${nodeSocketRef.nodeId}`);
+          throw new Error(
+            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+              `a nonexistent upstream node id ${nodeSocketRef.nodeId}`
+          );
         }
-        const upstreamOutputSocket = upstreamNode.outputSockets.find((socket) => socket.name === nodeSocketRef.socketName);
+        const upstreamOutputSocket = upstreamNode.outputSockets.find(
+          (socket) => socket.name === nodeSocketRef.socketName
+        );
         if (upstreamOutputSocket === undefined) {
-          throw new Error(`node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to `
-            + `a nonexistent output '${nodeSocketRef.socketName}' on upstream node '${upstreamNode.typeName}'`);
+          throw new Error(
+            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+              `a nonexistent output '${nodeSocketRef.socketName}' on upstream node '${upstreamNode.typeName}'`
+          );
         }
-        upstreamOutputSocket.links.push(new NodeSocketRef(node.id, inputSocket.name));
+        upstreamOutputSocket.links.push(
+          new NodeSocketRef(node.id, inputSocket.name)
+        );
       });
     });
   });

@@ -7,18 +7,15 @@ export default class OnVariableChanged extends Node {
     super(
       'Event',
       name,
-      [
-        new Socket('id', 'variable'),
-      ],
-      [
-        new Socket('flow', 'flow'),
-        new Socket(valueTypeName, 'value'),
-      ],
+      [new Socket('id', 'variable')],
+      [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
       (context: NodeEvalContext) => {
         const variableId = context.readInput<string>('variable');
         const variable = context.getVariable(variableId);
         if (this.valueTypeName !== variable.valueTypeName) {
-          throw new Error(`type mismatch between VariableGet ${this.valueTypeName} and variable ${variable.valueTypeName}`);
+          throw new Error(
+            `type mismatch between VariableGet ${this.valueTypeName} and variable ${variable.valueTypeName}`
+          );
         }
 
         const onValueChanged = () => {
@@ -30,7 +27,7 @@ export default class OnVariableChanged extends Node {
         context.onAsyncCancelled.addListener(() => {
           variable.onChanged.removeListener(onValueChanged);
         });
-      },
+      }
     );
 
     this.async = true;

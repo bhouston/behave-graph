@@ -11,12 +11,12 @@ export default class ForLoop extends Node {
       [
         new Socket('flow', 'flow'),
         new Socket('number', 'startIndex'),
-        new Socket('number', 'endIndex'),
+        new Socket('number', 'endIndex')
       ],
       [
         new Socket('flow', 'loopBody'),
         new Socket('number', 'index'),
-        new Socket('flow', 'completed'),
+        new Socket('flow', 'completed')
       ],
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.
@@ -36,7 +36,7 @@ export default class ForLoop extends Node {
           }
         };
         loopBodyIteration(startIndex);
-      },
+      }
     );
   }
 }

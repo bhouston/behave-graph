@@ -16,18 +16,18 @@ describe('readGraphFromJSON', () => {
       nodes: [
         {
           type: 'lifecycle/start',
-          id: '0',
+          id: '0'
         },
         {
           type: 'action/log',
-          id: '0',
-        },
-      ],
+          id: '0'
+        }
+      ]
     };
     expect(() => readGraphFromJSON(json, registry)).toThrow();
   });
 
-  it('throws if input keys don\'t match known sockets', () => {
+  it("throws if input keys don't match known sockets", () => {
     const json = {
       variables: [],
       customEvents: [],
@@ -36,10 +36,10 @@ describe('readGraphFromJSON', () => {
           type: 'action/log',
           id: '1',
           inputs: {
-            wrong: { value: 'Hello World!' },
-          },
-        },
-      ],
+            wrong: { value: 'Hello World!' }
+          }
+        }
+      ]
     };
     expect(() => readGraphFromJSON(json, registry)).toThrow();
   });
@@ -51,17 +51,17 @@ describe('readGraphFromJSON', () => {
       nodes: [
         {
           type: 'lifecycle/start',
-          id: '0',
+          id: '0'
         },
         {
           type: 'action/log',
           id: '1',
           inputs: {
             flow: { links: [{ nodeId: '2', socket: 'flow' }] },
-            text: { value: 'Hello World!' },
-          },
-        },
-      ],
+            text: { value: 'Hello World!' }
+          }
+        }
+      ]
     };
     expect(() => readGraphFromJSON(json, registry)).toThrow();
   });
@@ -73,19 +73,18 @@ describe('readGraphFromJSON', () => {
       nodes: [
         {
           type: 'lifecycle/start',
-          id: '0',
+          id: '0'
         },
         {
           type: 'action/log',
           id: '1',
           inputs: {
             flow: { links: [{ nodeId: '0', socket: 'text' }] },
-            text: { value: 'Hello World!' },
-          },
-        },
-      ],
+            text: { value: 'Hello World!' }
+          }
+        }
+      ]
     };
     expect(() => readGraphFromJSON(json, registry)).toThrow();
   });
-
 });

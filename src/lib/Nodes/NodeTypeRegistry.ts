@@ -3,7 +3,8 @@ import generateUuid from '../generateUuid';
 import Node from './Node';
 
 export default class NodeTypeRegistry {
-  private readonly nodeTypeNameToNodeFactory: {[key:string]: () => Node} = {};
+  private readonly nodeTypeNameToNodeFactory: { [key: string]: () => Node } =
+    {};
 
   register(nodeTypeName: string, nodeTypeFactory: () => Node) {
     if (this.nodeTypeNameToNodeFactory[nodeTypeName] !== undefined) {
@@ -19,7 +20,10 @@ export default class NodeTypeRegistry {
     }
     const node = factory();
     node.id = nodeId;
-    Assert.mustBeTrue(node.typeName === nodeTypeName, `node.typeName: ${node.typeName} must align with registered typeName: ${nodeTypeName}`);
+    Assert.mustBeTrue(
+      node.typeName === nodeTypeName,
+      `node.typeName: ${node.typeName} must align with registered typeName: ${nodeTypeName}`
+    );
     return node;
   }
 

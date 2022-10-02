@@ -1,7 +1,13 @@
 import Registry from '../../Registry';
-import { InputSocketSpecJSON, NodeSpecJSON, OutputSocketSpecJSON } from './NodeSpecJSON';
+import {
+  InputSocketSpecJSON,
+  NodeSpecJSON,
+  OutputSocketSpecJSON
+} from './NodeSpecJSON';
 
-export default function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
+export default function writeNodeSpecsToJSON(
+  registry: Registry
+): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   registry.nodes.getAllNames().forEach((nodeTypeName) => {
@@ -11,14 +17,14 @@ export default function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[]
       type: nodeTypeName,
       category: node.category,
       inputs: [],
-      outputs: [],
+      outputs: []
     };
 
     node.inputSockets.forEach((inputSocket) => {
       const socketSpecJSON: InputSocketSpecJSON = {
         name: inputSocket.name,
         defaultValue: inputSocket.value,
-        valueType: inputSocket.valueTypeName,
+        valueType: inputSocket.valueTypeName
       };
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
@@ -26,7 +32,7 @@ export default function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[]
     node.outputSockets.forEach((outputSocket) => {
       const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
-        valueType: outputSocket.valueTypeName,
+        valueType: outputSocket.valueTypeName
       };
       nodeSpecJSON.outputs.push(socketSpecJSON);
     });

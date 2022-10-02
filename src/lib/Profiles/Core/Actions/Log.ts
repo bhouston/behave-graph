@@ -8,17 +8,13 @@ export default class Log extends Node {
     super(
       'Action',
       'action/log',
-      [
-        new Socket('flow', 'flow'),
-        new Socket('string', 'text'),
-      ],
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow'), new Socket('string', 'text')],
+      [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
-        const logger = context.graph.registry.implementations.get<ILogger>('ILogger');
+        const logger =
+          context.graph.registry.implementations.get<ILogger>('ILogger');
         logger.info(context.readInput('text'));
-      },
+      }
     );
   }
 }

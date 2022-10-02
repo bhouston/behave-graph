@@ -7,17 +7,13 @@ export default class Branch extends Node {
     super(
       'Flow',
       'flow/branch',
-      [
-        new Socket('flow', 'flow'),
-        new Socket('boolean', 'condition'),
-      ],
-      [
-        new Socket('flow', 'true'),
-        new Socket('flow', 'false'),
-      ],
+      [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
+      [new Socket('flow', 'true'), new Socket('flow', 'false')],
       (context: NodeEvalContext) => {
-        context.commit(context.readInput<boolean>('condition') === true ? 'true' : 'false');
-      },
+        context.commit(
+          context.readInput<boolean>('condition') === true ? 'true' : 'false'
+        );
+      }
     );
   }
 }

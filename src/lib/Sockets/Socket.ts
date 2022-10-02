@@ -6,7 +6,6 @@ export default class Socket {
   constructor(
     public readonly valueTypeName: string,
     public readonly name: string,
-    public value: any | undefined = undefined,
-  ) {
-  }
+    public value: any | undefined = undefined
+  ) {}
 }

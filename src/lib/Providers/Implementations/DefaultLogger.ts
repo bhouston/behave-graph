@@ -3,8 +3,7 @@ import Logger from '../../Diagnostics/Logger';
 import ILogger from '../ILogger';
 
 export default class DefaultLogger implements ILogger {
-  constructor() {
-  }
+  constructor() {}
 
   verbose(text: string): void {
     Logger.verbose(text);

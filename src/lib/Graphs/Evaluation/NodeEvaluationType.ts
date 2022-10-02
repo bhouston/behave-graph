@@ -1,6 +1,6 @@
 export enum NodeEvaluationType {
-    None,
-    Immediate,
-    Flow,
-    FlowAsync
+  None,
+  Immediate,
+  Flow,
+  FlowAsync
 }

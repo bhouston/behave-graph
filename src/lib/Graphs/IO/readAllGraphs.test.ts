@@ -28,42 +28,40 @@ registerCoreProfile(registry);
 Logger.onWarn.clear();
 
 const exampleMap: { [key: string]: any } = {
-    delay: exampleDelay,
-    branch: exampleBranch,
-    flipFlip: exampleFlipFlop,
-    forLoop: exampleForLoop,
-    sequence: exampleSequence,
-    helloWorld: exampleHelloWorld,
-    setGet: exampleSetGet,
-    math: exampleMath,
-    customEvent: exampleCustomEvent,
-    lifeCycle: exampleLifecycle,
-    changed: exampleChanged,
-    frameCounter: exampleFrameCounter,
-    initialValue: exampleInitialValue
+  delay: exampleDelay,
+  branch: exampleBranch,
+  flipFlip: exampleFlipFlop,
+  forLoop: exampleForLoop,
+  sequence: exampleSequence,
+  helloWorld: exampleHelloWorld,
+  setGet: exampleSetGet,
+  math: exampleMath,
+  customEvent: exampleCustomEvent,
+  lifeCycle: exampleLifecycle,
+  changed: exampleChanged,
+  frameCounter: exampleFrameCounter,
+  initialValue: exampleInitialValue
 };
 
+Object.keys(exampleMap).forEach((key) => {
+  describe(`${key}.json`, () => {
+    const exampleJSON = exampleMap[key] as GraphJSON;
 
-
-Object.keys(exampleMap).forEach(key => {
-    describe(`${key}.json`, () => {
-        const exampleJSON = exampleMap[key] as GraphJSON;
-
-        let parsedGraphJson: Graph | undefined = undefined;
-        // test('glob json graphs', (done) => {
-        test('parse json to graph', () => {
-            expect(() => {
-                parsedGraphJson = readGraphFromJSON(exampleJSON, registry)
-            }).not.toThrow();
-        });
-        test('validate graph', () => {
-            // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-            expect(validateGraphRegistry(registry)).toHaveLength(0);
-            if (parsedGraphJson !== undefined) {
-                expect(validateLinks(parsedGraphJson)).toHaveLength(0);
-                Logger.verbose('validating that graph is directed acyclic');
-                expect(validateDirectedAcyclicGraph(parsedGraphJson)).toHaveLength(0);
-            }
-        });
+    let parsedGraphJson: Graph | undefined = undefined;
+    // test('glob json graphs', (done) => {
+    test('parse json to graph', () => {
+      expect(() => {
+        parsedGraphJson = readGraphFromJSON(exampleJSON, registry);
+      }).not.toThrow();
     });
+    test('validate graph', () => {
+      // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
+      expect(validateGraphRegistry(registry)).toHaveLength(0);
+      if (parsedGraphJson !== undefined) {
+        expect(validateLinks(parsedGraphJson)).toHaveLength(0);
+        Logger.verbose('validating that graph is directed acyclic');
+        expect(validateDirectedAcyclicGraph(parsedGraphJson)).toHaveLength(0);
+      }
+    });
+  });
 });

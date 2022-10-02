@@ -11,18 +11,15 @@ export default class Delay extends Node {
     super(
       'Time',
       'time/delay',
-      [
-        new Socket('flow', 'flow'),
-        new Socket('number', 'duration'),
-      ],
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow'), new Socket('number', 'duration')],
+      [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         let timeIsCancelled = false; // work around clearTimeout is not available on node.
 
         setTimeout(() => {
-          if (timeIsCancelled) { return; }
+          if (timeIsCancelled) {
+            return;
+          }
           Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
           context.commit('flow');
           context.finish();
@@ -31,7 +28,7 @@ export default class Delay extends Node {
         context.onAsyncCancelled.addListener(() => {
           timeIsCancelled = true;
         });
-      },
+      }
     );
 
     this.async = true;

@@ -8,11 +8,10 @@ import Variable from '../Variables/Variable';
 
 export default class Graph {
   public name = '';
-  public readonly nodes: { [id:string]: Node} = {};
-  public readonly variables: { [id:string]: Variable } = {};
-  public readonly customEvents: { [id:string]: CustomEvent} = {};
+  public readonly nodes: { [id: string]: Node } = {};
+  public readonly variables: { [id: string]: Variable } = {};
+  public readonly customEvents: { [id: string]: CustomEvent } = {};
   public metadata: Metadata = {};
 
-  constructor(public readonly registry: Registry) {
-  }
+  constructor(public readonly registry: Registry) {}
 }

@@ -54,9 +54,13 @@ export default function validateDirectedAcyclicGraph(graph: Graph): string[] {
   // also remove the metadata related to DAG marking
   Object.values(graph.nodes).forEach((node) => {
     // eslint-disable-next-line no-param-reassign
-    Logger.verbose(`node ${node.typeName} is marked ${node.metadata['dag.marked']}`);
+    Logger.verbose(
+      `node ${node.typeName} is marked ${node.metadata['dag.marked']}`
+    );
     if (node.metadata['dag.marked'] === 'false') {
-      errorList.push(`node ${node.typeName} is part of a cycle, not a directed acyclic graph`);
+      errorList.push(
+        `node ${node.typeName} is part of a cycle, not a directed acyclic graph`
+      );
     }
     // eslint-disable-next-line no-param-reassign
     delete node.metadata['dag.marked'];

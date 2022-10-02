@@ -9,18 +9,13 @@ export default class Vector2Elements extends Node {
     super(
       'Logic',
       'logic/vector2Elements',
-      [
-        new Socket('vector2', 'value'),
-      ],
-      [
-        new Socket('number', 'x'),
-        new Socket('number', 'y'),
-      ],
+      [new Socket('vector2', 'value')],
+      [new Socket('number', 'x'), new Socket('number', 'y')],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vector2;
         context.writeOutput('x', value.x);
         context.writeOutput('y', value.y);
-      },
+      }
     );
   }
 }

@@ -1,12 +1,26 @@
 import ValueType from './ValueType';
 
 export default class ValueTypeRegistry {
-  private readonly valueTypeNameToValueType: {[key:string]: ValueType} = {};
+  private readonly valueTypeNameToValueType: { [key: string]: ValueType } = {};
 
   constructor() {
     // register core types
-    this.register(new ValueType('string', () => '', (text: string) => text, (value) => (value as string)));
-    this.register(new ValueType('boolean', () => false, (text) => (text === 'true'), (value) => ((value as boolean) ? 'true' : 'false')));
+    this.register(
+      new ValueType(
+        'string',
+        () => '',
+        (text: string) => text,
+        (value) => value as string
+      )
+    );
+    this.register(
+      new ValueType(
+        'boolean',
+        () => false,
+        (text) => text === 'true',
+        (value) => ((value as boolean) ? 'true' : 'false')
+      )
+    );
     this.register(
       new ValueType(
         'number',
@@ -18,10 +32,17 @@ export default class ValueTypeRegistry {
 
           return text;
         },
-        (value) => value,
-      ),
+        (value) => value
+      )
     );
-    this.register(new ValueType('id', () => '', (text: string) => text, (value) => (value as string)));
+    this.register(
+      new ValueType(
+        'id',
+        () => '',
+        (text: string) => text,
+        (value) => value as string
+      )
+    );
   }
 
   register(valueType: ValueType) {

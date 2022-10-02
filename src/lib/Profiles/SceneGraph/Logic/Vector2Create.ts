@@ -9,16 +9,14 @@ export default class Vector2Create extends Node {
     super(
       'Logic',
       'logic/vector2Create',
-      [
-        new Socket('number', 'x'),
-        new Socket('number', 'y'),
-      ],
-      [
-        new Socket('vector2', 'result'),
-      ],
+      [new Socket('number', 'x'), new Socket('number', 'y')],
+      [new Socket('vector2', 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput('result', new Vector2(context.readInput('x'), context.readInput('y')));
-      },
+        context.writeOutput(
+          'result',
+          new Vector2(context.readInput('x'), context.readInput('y'))
+        );
+      }
     );
   }
 }

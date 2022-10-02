@@ -9,19 +9,17 @@ export default class FlipFlop extends Node {
     super(
       'Flow',
       'flow/flipFlop',
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow')],
       [
         new Socket('flow', 'on'),
         new Socket('flow', 'off'),
-        new Socket('boolean', 'isOn'),
+        new Socket('boolean', 'isOn')
       ],
       (context: NodeEvalContext) => {
         context.writeOutput('isOn', this.isOn);
         context.commit(this.isOn ? 'on' : 'off');
         this.isOn = !this.isOn;
-      },
+      }
     );
   }
 }

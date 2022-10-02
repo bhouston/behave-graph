@@ -10,10 +10,7 @@ export default class OnLifecycleTick extends Node {
       'Event',
       'lifecycle/tick',
       [],
-      [
-        new Socket('flow', 'flow'),
-        new Socket('number', 'deltaSeconds'),
-      ],
+      [new Socket('flow', 'flow'), new Socket('number', 'deltaSeconds')],
       (context: NodeEvalContext) => {
         let lastTickTime = Date.now();
         const onTickEvent = () => {
@@ -24,13 +21,16 @@ export default class OnLifecycleTick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
+        const lifecycleEvents =
+          context.graph.registry.implementations.get<ILifecycleEventEmitter>(
+            'ILifecycleEventEmitter'
+          );
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.onAsyncCancelled.addListener(() => {
           lifecycleEvents.tickEvent.removeListener(onTickEvent);
         });
-      },
+      }
     );
 
     this.async = true;

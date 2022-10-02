@@ -1,8 +1,18 @@
 import { promises as fs } from 'fs';
 
 import {
-  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter, NodeEvaluationType,
-  readGraphFromJSON, registerCoreProfile, registerSceneGraphProfile, Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
+  DefaultLogger,
+  GraphEvaluator,
+  Logger,
+  ManualLifecycleEventEmitter,
+  NodeEvaluationType,
+  readGraphFromJSON,
+  registerCoreProfile,
+  registerSceneGraphProfile,
+  Registry,
+  validateDirectedAcyclicGraph,
+  validateGraphRegistry,
+  validateLinks
 } from '../../lib';
 
 async function main() {
@@ -14,7 +24,10 @@ async function main() {
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
+  registry.implementations.register(
+    'ILifecycleEventEmitter',
+    manualLifecycleEventEmitter
+  );
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {
@@ -49,10 +62,16 @@ async function main() {
 
   graphEvaluator.onNodeEvaluation.addListener((event) => {
     if (event.nodeEvaluationType === NodeEvaluationType.None) {
-      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} completed evaluation.`);
+      Logger.verbose(
+        `Node ${event.node.typeName} ${event.node.id} completed evaluation.`
+      );
     } else {
-      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} started evaluation, `
-      + `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${event.async}.`);
+      Logger.verbose(
+        `Node ${event.node.typeName} ${event.node.id} started evaluation, ` +
+          `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${
+            event.async
+          }.`
+      );
     }
   });
 
@@ -84,7 +103,13 @@ async function main() {
 
   const deltaTime = Date.now() - startTime;
 
-  Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round((numSteps * 1000) / deltaTime)} steps/second`);
+  Logger.info(
+    `  ${numSteps} nodes executed in ${
+      deltaTime / 1000
+    } seconds, at a rate of ${Math.round(
+      (numSteps * 1000) / deltaTime
+    )} steps/second`
+  );
 }
 
 main();

@@ -10,21 +10,22 @@ export default class OnLifecycleStart extends Node {
       'Event',
       'lifecycle/start',
       [],
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         const onStartEvent = () => {
           context.commit('flow');
         };
 
-        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
+        const lifecycleEvents =
+          context.graph.registry.implementations.get<ILifecycleEventEmitter>(
+            'ILifecycleEventEmitter'
+          );
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
         context.onAsyncCancelled.addListener(() => {
           lifecycleEvents.startEvent.removeListener(onStartEvent);
         });
-      },
+      }
     );
 
     this.async = true;

@@ -10,13 +10,11 @@ export default class Sequence extends Node {
     super(
       'Flow',
       'flow/sequence',
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow')],
       [
         new Socket('flow', '1'),
         new Socket('flow', '2'),
-        new Socket('flow', '3'),
+        new Socket('flow', '3')
       ],
       (context: NodeEvalContext) => {
         // these outputs are fired sequentially in an async fashion but without delays.
@@ -24,7 +22,9 @@ export default class Sequence extends Node {
         const sequenceIteration = function sequenceIteration(i: number) {
           if (i < context.node.outputSockets.length) {
             const outputSocket = context.node.outputSockets[i];
-            Logger.verbose(`sequence: processing output socket ${outputSocket.name}`);
+            Logger.verbose(
+              `sequence: processing output socket ${outputSocket.name}`
+            );
             context.commit(outputSocket.name, () => {
               Logger.verbose('sequence: completed!');
               sequenceIteration(i + 1);
@@ -32,7 +32,7 @@ export default class Sequence extends Node {
           }
         };
         sequenceIteration(0);
-      },
+      }
     );
   }
 }

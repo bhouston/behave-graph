@@ -9,20 +9,18 @@ export default class Vector3Elements extends Node {
     super(
       'Logic',
       'logic/vector3Elements',
-      [
-        new Socket('vector3', 'value'),
-      ],
+      [new Socket('vector3', 'value')],
       [
         new Socket('number', 'x'),
         new Socket('number', 'y'),
-        new Socket('number', 'z'),
+        new Socket('number', 'z')
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vector3;
         context.writeOutput('x', value.x);
         context.writeOutput('y', value.y);
         context.writeOutput('z', value.z);
-      },
+      }
     );
   }
 }

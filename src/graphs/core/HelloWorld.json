@@ -1,16 +1,16 @@
 {
-    "nodes": [
+  "nodes": [
     {
-        "type": "lifecycle/start",
-        "id": "0"
+      "type": "lifecycle/start",
+      "id": "0"
     },
     {
-        "type": "action/log",
-        "id": "1",
-        "inputs": {
-            "flow": { "links": [ { "nodeId": "0", "socket": "flow" } ] },
-            "text": { "value": "Hello World!" }
-        }
+      "type": "action/log",
+      "id": "1",
+      "inputs": {
+        "flow": { "links": [{ "nodeId": "0", "socket": "flow" }] },
+        "text": { "value": "Hello World!" }
+      }
     }
-]
+  ]
 }

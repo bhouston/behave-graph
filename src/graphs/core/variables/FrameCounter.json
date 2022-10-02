@@ -1,120 +1,120 @@
 {
-    "variables": [
-        {
-            "id": 0,
-            "name": "frameCounter",
-            "valueTypeName": "number",
-            "initialValue": "-1"
+  "variables": [
+    {
+      "id": 0,
+      "name": "frameCounter",
+      "valueTypeName": "number",
+      "initialValue": "-1"
+    }
+  ],
+  "nodes": [
+    {
+      "type": "lifecycle/tick",
+      "id": "1"
+    },
+    {
+      "type": "variable/getNumber",
+      "id": "2",
+      "inputs": {
+        "variable": {
+          "value": "0"
         }
-    ],
-    "nodes": [
-        {
-            "type": "lifecycle/tick",
-            "id": "1"
-        },
-        {
-            "type": "variable/getNumber",
-            "id": "2",
-            "inputs": {
-                "variable": {
-                    "value": "0"
-                }
+      }
+    },
+    {
+      "type": "logic/numberAdd",
+      "id": "3",
+      "inputs": {
+        "a": {
+          "links": [
+            {
+              "nodeId": "2",
+              "socket": "value"
             }
+          ]
         },
-        {
-            "type": "logic/numberAdd",
-            "id": "3",
-            "inputs": {
-                "a": {
-                    "links": [
-                        {
-                            "nodeId": "2",
-                            "socket": "value"
-                        }
-                    ]
-                },
-                "b": {
-                    "value": 1
-                }
-            }
-        },
-        {
-            "type": "variable/setNumber",
-            "id": "4",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "1",
-                            "socket": "flow"
-                        }
-                    ]
-                },
-                "variable": {
-                    "value": "0"
-                },
-                "value": {
-                    "links": [
-                        {
-                            "nodeId": "3",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "logic/numberToString",
-            "id": "5",
-            "inputs": {
-                "a": {
-                    "links": [
-                        {
-                            "nodeId": "2",
-                            "socket": "value"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "logic/stringConcat",
-            "id": "6",
-            "inputs": {
-                "a": {
-                    "value": "Frame Count is "
-                },
-                "b": {
-                    "links": [
-                        {
-                            "nodeId": "5",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "7",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "4",
-                            "socket": "flow"
-                        }
-                    ]
-                },
-                "text": {
-                    "links": [
-                        {
-                            "nodeId": "6",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
+        "b": {
+          "value": 1
         }
-    ]
+      }
+    },
+    {
+      "type": "variable/setNumber",
+      "id": "4",
+      "inputs": {
+        "flow": {
+          "links": [
+            {
+              "nodeId": "1",
+              "socket": "flow"
+            }
+          ]
+        },
+        "variable": {
+          "value": "0"
+        },
+        "value": {
+          "links": [
+            {
+              "nodeId": "3",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "logic/numberToString",
+      "id": "5",
+      "inputs": {
+        "a": {
+          "links": [
+            {
+              "nodeId": "2",
+              "socket": "value"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "logic/stringConcat",
+      "id": "6",
+      "inputs": {
+        "a": {
+          "value": "Frame Count is "
+        },
+        "b": {
+          "links": [
+            {
+              "nodeId": "5",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "7",
+      "inputs": {
+        "flow": {
+          "links": [
+            {
+              "nodeId": "4",
+              "socket": "flow"
+            }
+          ]
+        },
+        "text": {
+          "links": [
+            {
+              "nodeId": "6",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    }
+  ]
 }

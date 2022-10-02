@@ -1,57 +1,57 @@
 {
-    "customEvents": [
-        {
-            "name": "myCustomEvent",
-            "id": "0"
+  "customEvents": [
+    {
+      "name": "myCustomEvent",
+      "id": "0"
+    }
+  ],
+  "nodes": [
+    {
+      "type": "lifecycle/tick",
+      "id": "0"
+    },
+    {
+      "type": "action/triggerCustomEvent",
+      "id": "1",
+      "inputs": {
+        "flow": {
+          "links": [
+            {
+              "nodeId": "0",
+              "socket": "flow"
+            }
+          ]
+        },
+        "customEvent": {
+          "value": "0"
         }
-    ],
-    "nodes": [
-        {
-            "type": "lifecycle/tick",
-            "id": "0"
-        },
-        {
-            "type": "action/triggerCustomEvent",
-            "id": "1",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "0",
-                            "socket": "flow"
-                        }
-                    ]
-                },
-                "customEvent": {
-                    "value": "0"
-                }
-            }
-        },
-        {
-            "type": "event/customEvent",
-            "id": "2",
-            "inputs": {
-                "customEvent": {
-                    "value": "0"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "3",
-            "inputs": {
-                "flow": {
-                    "links": [
-                        {
-                            "nodeId": "2",
-                            "socket": "flow"
-                        }
-                    ]
-                },
-                "text": {
-                    "value": "myCustomEvent Fired!"
-                }
-            }
+      }
+    },
+    {
+      "type": "event/customEvent",
+      "id": "2",
+      "inputs": {
+        "customEvent": {
+          "value": "0"
         }
-    ]
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "3",
+      "inputs": {
+        "flow": {
+          "links": [
+            {
+              "nodeId": "2",
+              "socket": "flow"
+            }
+          ]
+        },
+        "text": {
+          "value": "myCustomEvent Fired!"
+        }
+      }
+    }
+  ]
 }

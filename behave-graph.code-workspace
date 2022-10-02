@@ -11,11 +11,5 @@
     }
   ],
   "settings": {},
-  "extensions": {
-    "recommendations": [
-      "dbaeumer.vscode-eslint",
-      "orta.vscode-jest",
-      "esbenp.prettier-vscode"
-    ]
-  }
+  "extensions": {}
 }

@@ -1,9 +1,9 @@
-import Logger from '../../../Diagnostics/Logger';
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Logger } from '../../../Diagnostics/Logger';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class ForLoop extends Node {
+export class ForLoop extends Node {
   constructor() {
     super(
       'Flow',

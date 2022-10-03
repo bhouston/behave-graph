@@ -1,4 +1,4 @@
-export default class ImplementationRegistry {
+export class ImplementationRegistry {
   private readonly abstractionNameToImplementationMap: { [name: string]: any } =
     {};
 

@@ -1,14 +1,14 @@
-import Logger from '../../Diagnostics/Logger';
-import CustomEvent from '../../Events/CustomEvent';
-import NodeSocketRef from '../../Nodes/NodeSocketRef';
-import Registry from '../../Registry';
-import Variable from '../../Variables/Variable';
-import Graph from '../Graph';
+import { Logger } from '../../Diagnostics/Logger';
+import { CustomEvent } from '../../Events/CustomEvent';
+import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { Registry } from '../../Registry';
+import { Variable } from '../../Variables/Variable';
+import { Graph } from '../Graph';
 import { GraphJSON } from './GraphJSON';
 
 // Purpose:
 //  - loads a node graph
-export default function readGraphFromJSON(
+export function readGraphFromJSON(
   graphJson: GraphJSON,
   registry: Registry
 ): Graph {

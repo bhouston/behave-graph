@@ -1,6 +1,6 @@
-import Graph from '../Graph';
+import { Graph } from '../Graph';
 
-export default function validateLinks(graph: Graph): string[] {
+export function validateLinks(graph: Graph): string[] {
   const errorList: string[] = [];
   // for each node
   Object.values(graph.nodes).forEach((node) => {

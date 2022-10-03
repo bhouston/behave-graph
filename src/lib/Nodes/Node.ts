@@ -1,13 +1,13 @@
 import { Metadata } from '../Metadata';
-import Socket from '../Sockets/Socket';
+import { Socket } from '../Sockets/Socket';
 import { NodeCategory } from './NodeCategory';
-import NodeEvalContext from './NodeEvalContext';
+import { NodeEvalContext } from './NodeEvalContext';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);
 }
 
-export default class Node {
+export class Node {
   public id = '';
   public label = '';
   public metadata: Metadata = {};

@@ -1,10 +1,10 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import ILifecycleEventEmitter from '../../../Providers/ILifecycleEventEmitter';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { ILifecycleEventEmitter } from '../../../Providers/ILifecycleEventEmitter';
+import { Socket } from '../../../Sockets/Socket';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export default class OnLifecycleStart extends Node {
+export class OnLifecycleStart extends Node {
   constructor() {
     super(
       'Event',

@@ -1,8 +1,8 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class OnVariableChanged extends Node {
+export class OnVariableChanged extends Node {
   constructor(name: string, public valueTypeName: string) {
     super(
       'Event',

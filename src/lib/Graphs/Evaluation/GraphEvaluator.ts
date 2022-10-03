@@ -1,15 +1,16 @@
 /* eslint-disable space-in-parens */
-import Logger from '../../Diagnostics/Logger';
-import EventEmitter from '../../Events/EventEmitter';
-import { EventListener } from '../../Events/EventListener';
-import Node from '../../Nodes/Node';
-import NodeSocketRef from '../../Nodes/NodeSocketRef';
-import sleep from '../../sleep';
-import Graph from '../Graph';
-import NodeEvaluationEvent from './NodeEvaluationEvent';
-import SyncExecutionBlock from './SyncExecutionBlock';
 
-export default class GraphEvaluator {
+import { Logger } from '../../Diagnostics/Logger';
+import { EventEmitter } from '../../Events/EventEmitter';
+import { EventListener } from '../../Events/EventListener';
+import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { sleep } from '../../sleep';
+import { Graph } from '../Graph';
+import { NodeEvaluationEvent } from './NodeEvaluationEvent';
+import { SyncExecutionBlock } from './SyncExecutionBlock';
+import { Node } from '../../Nodes/Node';
+
+export class GraphEvaluator {
   // tracking the next node+input socket to execute.
   private readonly executionBlockQueue: SyncExecutionBlock[] = [];
   public readonly asyncNodes: Node[] = [];

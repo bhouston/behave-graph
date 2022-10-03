@@ -1,7 +1,7 @@
-import Logger from '../../Diagnostics/Logger';
-import registerCoreProfile from '../../Profiles/Core/registerCoreProfile';
-import Registry from '../../Registry';
-import readGraphFromJSON from './readGraphFromJSON';
+import { Logger } from '../../Diagnostics/Logger';
+import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
+import { Registry } from '../../Registry';
+import { readGraphFromJSON } from './readGraphFromJSON';
 
 const registry = new Registry();
 registerCoreProfile(registry);

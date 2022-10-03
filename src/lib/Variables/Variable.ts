@@ -1,7 +1,7 @@
-import EventEmitter from '../Events/EventEmitter';
+import { EventEmitter } from '../Events/EventEmitter';
 import { Metadata } from '../Metadata';
 
-export default class Variable {
+export class Variable {
   private value: any;
   public label = '';
   public metadata: Metadata = {};

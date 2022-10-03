@@ -1,8 +1,8 @@
-import Assert from '../Diagnostics/Assert';
-import generateUuid from '../generateUuid';
-import Node from './Node';
+import { Assert } from '../Diagnostics/Assert';
+import { generateUuid } from '../generateUuid';
+import { Node } from './Node';
 
-export default class NodeTypeRegistry {
+export class NodeTypeRegistry {
   private readonly nodeTypeNameToNodeFactory: { [key: string]: () => Node } =
     {};
 

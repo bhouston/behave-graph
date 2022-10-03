@@ -1,8 +1,8 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class SetVariable extends Node {
+export class SetVariable extends Node {
   constructor(name: string, public readonly valueTypeName: string) {
     super(
       'Action',

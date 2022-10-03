@@ -1,6 +1,6 @@
-import validateGraphRegistry from '../../Graphs/Validation/validateGraphRegistry';
-import Registry from '../../Registry';
-import registerCoreProfile from './registerCoreProfile';
+import { validateGraphRegistry } from '../../Graphs/Validation/validateGraphRegistry';
+import { Registry } from '../../Registry';
+import { registerCoreProfile } from './registerCoreProfile';
 
 describe('core profile', () => {
   const registry = new Registry();

@@ -1,10 +1,10 @@
 import { Quaternion } from 'three';
 
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class QuaternionCreate extends Node {
+export class QuaternionCreate extends Node {
   constructor() {
     super(
       'Logic',

@@ -1,8 +1,8 @@
-import Socket from '../../Sockets/Socket';
-import Node from '../Node';
-import NodeEvalContext from '../NodeEvalContext';
+import { Socket } from '../../Sockets/Socket';
+import { Node } from '../Node';
+import { NodeEvalContext } from '../NodeEvalContext';
 
-export default class In2Out1FuncNode<In1, In2, Out1> extends Node {
+export class In2Out1FuncNode<In1, In2, Out1> extends Node {
   constructor(
     nodeName: string,
     input1ValueType: string,

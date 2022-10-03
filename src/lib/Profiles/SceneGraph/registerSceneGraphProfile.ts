@@ -1,27 +1,27 @@
 /* eslint-disable max-len */
 import { Quaternion, Vector2, Vector3 } from 'three';
 
-import In1Out1FuncNode from '../../Nodes/Templates/In1Out1FuncNode';
-import In2Out1FuncNode from '../../Nodes/Templates/In2Out1FuncNode';
-import parseFloats from '../../parseFloats';
-import Registry from '../../Registry';
-import ValueType from '../../Values/ValueType';
-import SetVariable from '../Core/Actions/SetVariable';
-import OnVariableChanged from '../Core/Events/OnVariableChanged';
-import GetVariable from '../Core/Queries/GetVariable';
-import SetSceneNodeProperty from './Actions/SetSceneNodeProperty';
-import OnSceneNodeClick from './Events/OnSceneNodeClick';
-import GetElement from './Logic/GetElement';
-import QuaternionCreate from './Logic/QuaternionCreate';
-import QuaternionElements from './Logic/QuaternionElements';
-import SetElement from './Logic/SetElement';
-import Vector2Create from './Logic/Vector2Create';
-import Vector2Elements from './Logic/Vector2Elements';
-import Vector3Create from './Logic/Vector3Create';
-import Vector3Elements from './Logic/Vector3Elements';
-import GetSceneNodeProperty from './Queries/GetSceneNodeProperty';
+import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
+import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
+import { parseFloats } from '../../parseFloats';
+import { Registry } from '../../Registry';
+import { ValueType } from '../../Values/ValueType';
+import { SetVariable } from '../Core/Actions/SetVariable';
+import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
+import { GetVariable } from '../Core/Queries/GetVariable';
+import { SetSceneNodeProperty } from './Actions/SetSceneNodeProperty';
+import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
+import { GetElement } from './Logic/GetElement';
+import { QuaternionCreate } from './Logic/QuaternionCreate';
+import { QuaternionElements } from './Logic/QuaternionElements';
+import { SetElement } from './Logic/SetElement';
+import { Vector2Create } from './Logic/Vector2Create';
+import { Vector2Elements } from './Logic/Vector2Elements';
+import { Vector3Create } from './Logic/Vector3Create';
+import { Vector3Elements } from './Logic/Vector3Elements';
+import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
 
-export default function registerSceneGraphProfile(registry: Registry) {
+export function registerSceneGraphProfile(registry: Registry) {
   const { values, nodes } = registry;
 
   values.register(

@@ -1,10 +1,10 @@
 import { Object3D } from 'three';
 
-import Node from '../../../Nodes/Node';
-import IThree from '../../../Providers/IThree';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { IThree } from '../../../Providers/IThree';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class GetSceneNodeProperty<T> extends Node {
+export class GetSceneNodeProperty<T> extends Node {
   constructor(
     nodeName: string,
     public readonly valueTypeName: string,

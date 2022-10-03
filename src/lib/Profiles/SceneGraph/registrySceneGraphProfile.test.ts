@@ -1,7 +1,7 @@
-import validateGraphRegistry from '../../Graphs/Validation/validateGraphRegistry';
-import Registry from '../../Registry';
-import registerCoreProfile from '../Core/registerCoreProfile';
-import registerSceneGraphProfile from './registerSceneGraphProfile';
+import { validateGraphRegistry } from '../../Graphs/Validation/validateGraphRegistry';
+import { Registry } from '../../Registry';
+import { registerCoreProfile } from '../Core/registerCoreProfile';
+import { registerSceneGraphProfile } from './registerSceneGraphProfile';
 
 describe('scene graph profile', () => {
   const registry = new Registry();

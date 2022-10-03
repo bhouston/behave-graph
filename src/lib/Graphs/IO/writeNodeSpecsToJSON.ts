@@ -1,13 +1,11 @@
-import Registry from '../../Registry';
+import { Registry } from '../../Registry';
 import {
   InputSocketSpecJSON,
   NodeSpecJSON,
   OutputSocketSpecJSON
 } from './NodeSpecJSON';
 
-export default function writeNodeSpecsToJSON(
-  registry: Registry
-): NodeSpecJSON[] {
+export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   registry.nodes.getAllNames().forEach((nodeTypeName) => {

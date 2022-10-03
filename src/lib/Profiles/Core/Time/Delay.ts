@@ -1,12 +1,12 @@
-import Logger from '../../../Diagnostics/Logger';
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Logger } from '../../../Diagnostics/Logger';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
 
-export default class Delay extends Node {
+export class Delay extends Node {
   constructor() {
     super(
       'Time',

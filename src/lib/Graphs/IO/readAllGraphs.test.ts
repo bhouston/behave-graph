@@ -1,8 +1,8 @@
-import Logger from '../../Diagnostics/Logger';
-import registerCoreProfile from '../../Profiles/Core/registerCoreProfile';
-import Registry from '../../Registry';
+import { Logger } from '../../Diagnostics/Logger';
+import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
+import { Registry } from '../../Registry';
 import { GraphJSON } from './GraphJSON';
-import readGraphFromJSON from './readGraphFromJSON';
+import { readGraphFromJSON } from './readGraphFromJSON';
 
 import exampleDelay from '../../../graphs/core/async/Delay.json';
 import exampleCustomEvent from '../../../graphs/core/events/CustomEvents.json';
@@ -17,10 +17,10 @@ import exampleChanged from '../../../graphs/core/variables/Changed.json';
 import exampleFrameCounter from '../../../graphs/core/variables/FrameCounter.json';
 import exampleInitialValue from '../../../graphs/core/variables/InitialValue.json';
 import exampleSetGet from '../../../graphs/core/variables/SetGet.json';
-import Graph from '../Graph';
-import validateDirectedAcyclicGraph from '../Validation/validateDirectedAcyclicGraph';
-import validateGraphRegistry from '../Validation/validateGraphRegistry';
-import validateLinks from '../Validation/validateLinks';
+import { Graph } from '../Graph';
+import { validateDirectedAcyclicGraph } from '../Validation/validateDirectedAcyclicGraph';
+import { validateGraphRegistry } from '../Validation/validateGraphRegistry';
+import { validateLinks } from '../Validation/validateLinks';
 
 const registry = new Registry();
 registerCoreProfile(registry);

@@ -1,6 +1,6 @@
-import NodeSocketRef from '../Nodes/NodeSocketRef';
+import { NodeSocketRef } from '../Nodes/NodeSocketRef';
 
-export default class Socket {
+export class Socket {
   public readonly links: NodeSocketRef[] = [];
 
   constructor(

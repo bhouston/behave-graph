@@ -1,10 +1,10 @@
 import { Vector2 } from 'three';
 
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class Vector2Elements extends Node {
+export class Vector2Elements extends Node {
   constructor() {
     super(
       'Logic',

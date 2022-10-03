@@ -1,22 +1,22 @@
-import Assert from '../Diagnostics/Assert';
-import Logger from '../Diagnostics/Logger';
-import CustomEvent from '../Events/CustomEvent';
-import EventEmitter from '../Events/EventEmitter';
+import { Assert } from '../Diagnostics/Assert';
+import { Logger } from '../Diagnostics/Logger';
+import { CustomEvent } from '../Events/CustomEvent';
+import { EventEmitter } from '../Events/EventEmitter';
 import { EventListener } from '../Events/EventListener';
-import GraphEvaluator from '../Graphs/Evaluation/GraphEvaluator';
-import NodeEvaluationEvent from '../Graphs/Evaluation/NodeEvaluationEvent';
+import { GraphEvaluator } from '../Graphs/Evaluation/GraphEvaluator';
+import { NodeEvaluationEvent } from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
-import SyncExecutionBlock from '../Graphs/Evaluation/SyncExecutionBlock';
-import Graph from '../Graphs/Graph';
-import Variable from '../Variables/Variable';
-import Node from './Node';
-import NodeSocketRef from './NodeSocketRef';
+import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock';
+import { Graph } from '../Graphs/Graph';
+import { Variable } from '../Variables/Variable';
+import { Node } from './Node';
+import { NodeSocketRef } from './NodeSocketRef';
 
 // Purpose:
 //  - Avoid nodes having to access globals to reference the scene or trigger loaders.
 //  - Everything should be accessible via this context.
 // Q: Should I store the promises in this structure?  Probably.
-export default class NodeEvalContext {
+export class NodeEvalContext {
   public readonly graph: Graph;
   public readonly graphEvaluator: GraphEvaluator;
   public readonly onAsyncCancelled = new EventEmitter<void>();

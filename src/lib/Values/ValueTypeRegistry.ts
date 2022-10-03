@@ -1,6 +1,6 @@
-import ValueType from './ValueType';
+import { ValueType } from './ValueType';
 
-export default class ValueTypeRegistry {
+export class ValueTypeRegistry {
   private readonly valueTypeNameToValueType: { [key: string]: ValueType } = {};
 
   constructor() {

@@ -1,8 +1,8 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class OnCustomEvent extends Node {
+export class OnCustomEvent extends Node {
   constructor() {
     super(
       'Event',

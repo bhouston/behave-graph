@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import EventEmitter from '../Events/EventEmitter';
 
-export default class Logger {
+import { EventEmitter } from '../Events/EventEmitter';
+
+export class Logger {
   public static readonly onVerbose = new EventEmitter<string>();
   public static readonly onInfo = new EventEmitter<string>();
   public static readonly onWarn = new EventEmitter<string>();

@@ -1,7 +1,7 @@
 import { Metadata } from '../Metadata';
-import EventEmitter from './EventEmitter';
+import { EventEmitter } from './EventEmitter';
 
-export default class CustomEvent {
+export class CustomEvent {
   public label = '';
   public metadata: Metadata = {};
   public readonly eventEmitter = new EventEmitter<void>();

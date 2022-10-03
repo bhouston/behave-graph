@@ -1,13 +1,13 @@
-import Assert from '../../Diagnostics/Assert';
-import Logger from '../../Diagnostics/Logger';
+import { Assert } from '../../Diagnostics/Assert';
+import { Logger } from '../../Diagnostics/Logger';
 import { EventListener } from '../../Events/EventListener';
-import NodeEvalContext from '../../Nodes/NodeEvalContext';
-import NodeSocketRef from '../../Nodes/NodeSocketRef';
-import Socket from '../../Sockets/Socket';
-import Graph from '../Graph';
-import GraphEvaluator from './GraphEvaluator';
+import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
+import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { Socket } from '../../Sockets/Socket';
+import { Graph } from '../Graph';
+import { GraphEvaluator } from './GraphEvaluator';
 
-export default class SyncExecutionBlock {
+export class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack: EventListener<void>[] =
     [];
   private readonly graph: Graph;

@@ -1,25 +1,25 @@
 /* eslint-disable max-len */
 
-import In0Out1FuncNode from '../../Nodes/Templates/In0Out1FuncNode';
-import In1Out1FuncNode from '../../Nodes/Templates/In1Out1FuncNode';
-import In2Out1FuncNode from '../../Nodes/Templates/In2Out1FuncNode';
-import Registry from '../../Registry';
-import Log from './Actions/Log';
-import SetVariable from './Actions/SetVariable';
-import TriggerCustomEvent from './Actions/TriggerCustomEvent';
-import OnCustomEvent from './Events/OnCustomEvent';
-import OnLifecycleEnd from './Events/OnLifecycleEnd';
-import OnLifecycleStart from './Events/OnLifecycleStart';
-import OnLifecycleTick from './Events/OnLifecycleTick';
-import OnVariableChanged from './Events/OnVariableChanged';
-import Branch from './Flow/Branch';
-import FlipFlop from './Flow/FlipFlop';
-import ForLoop from './Flow/ForLoop';
-import Sequence from './Flow/Sequence';
-import GetVariable from './Queries/GetVariable';
-import Delay from './Time/Delay';
+import { In0Out1FuncNode } from '../../Nodes/Templates/In0Out1FuncNode';
+import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
+import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
+import { Registry } from '../../Registry';
+import { Log } from './Actions/Log';
+import { SetVariable } from './Actions/SetVariable';
+import { TriggerCustomEvent } from './Actions/TriggerCustomEvent';
+import { OnCustomEvent } from './Events/OnCustomEvent';
+import { OnLifecycleEnd } from './Events/OnLifecycleEnd';
+import { OnLifecycleStart } from './Events/OnLifecycleStart';
+import { OnLifecycleTick } from './Events/OnLifecycleTick';
+import { OnVariableChanged } from './Events/OnVariableChanged';
+import { Branch } from './Flow/Branch';
+import { FlipFlop } from './Flow/FlipFlop';
+import { ForLoop } from './Flow/ForLoop';
+import { Sequence } from './Flow/Sequence';
+import { GetVariable } from './Queries/GetVariable';
+import { Delay } from './Time/Delay';
 
-export default function registerCoreProfile(registry: Registry) {
+export function registerCoreProfile(registry: Registry) {
   const { nodes } = registry;
 
   // actions

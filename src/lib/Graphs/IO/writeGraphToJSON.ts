@@ -1,5 +1,5 @@
-import Registry from '../../Registry';
-import Graph from '../Graph';
+import { Registry } from '../../Registry';
+import { Graph } from '../Graph';
 import {
   CustomEventJSON,
   GraphJSON,
@@ -9,10 +9,7 @@ import {
   VariableJSON
 } from './GraphJSON';
 
-export default function writeGraphToJSON(
-  graph: Graph,
-  registry: Registry
-): GraphJSON {
+export function writeGraphToJSON(graph: Graph, registry: Registry): GraphJSON {
   const graphJson: GraphJSON = { nodes: [], variables: [], customEvents: [] };
 
   if (graph.name.length > 0) {

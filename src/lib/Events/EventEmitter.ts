@@ -1,6 +1,6 @@
 import { EventListener } from './EventListener';
 
-export default class EventEmitter<T> {
+export class EventEmitter<T> {
   private readonly listeners: EventListener<T>[] = [];
 
   addListener(listener: EventListener<T>) {

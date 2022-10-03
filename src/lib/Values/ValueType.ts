@@ -1,4 +1,4 @@
-export default class ValueType<TValue = any, TJson = any> {
+export class ValueType<TValue = any, TJson = any> {
   constructor(
     public readonly name: string,
     public readonly creator: () => TValue,

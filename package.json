@@ -47,13 +47,14 @@
     "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
     "lint": "eslint \"src/**/*.{ts,json}\"",
     "prettier-format": "npx prettier --config .prettierrc \"src/**/*.{ts,json,html}\" --write",
-    "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/threeify/index.html",
+    "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/three/index.html",
     "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
     "docs": "typedoc",
     "test": "jest ./src",
     "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"
   },
   "dependencies": {
+    "@types/offscreencanvas": "^2019.7.0",
     "three": "^0.145.0",
     "threeify": "^2.0.2"
   }

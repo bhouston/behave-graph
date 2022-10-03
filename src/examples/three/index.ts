@@ -1,12 +1,21 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import {
-  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter, readGraphFromJSON,
-  registerCoreProfile, registerSceneGraphProfile, Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
+  DefaultLogger,
+  GraphEvaluator,
+  Logger,
+  ManualLifecycleEventEmitter,
+  readGraphFromJSON,
+  registerCoreProfile,
+  registerSceneGraphProfile,
+  Registry,
+  validateDirectedAcyclicGraph,
+  validateGraphRegistry,
+  validateLinks
 } from '../../lib';
 
 let camera: THREE.PerspectiveCamera | null = null;
@@ -72,7 +81,12 @@ async function main() {
   const container = document.createElement('div');
   document.body.appendChild(container);
 
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 20);
+  camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    0.25,
+    20
+  );
   camera.position.set(-1.8, 0.6, 2.7);
 
   const localScene = new THREE.Scene();
@@ -90,7 +104,9 @@ async function main() {
 
       // model
 
-      const loader = new GLTFLoader().setPath('models/gltf/DamagedHelmet/glTF/');
+      const loader = new GLTFLoader().setPath(
+        'models/gltf/DamagedHelmet/glTF/'
+      );
       loader.load('DamagedHelmet.gltf', (gltf) => {
         localScene.add(gltf.scene);
 
@@ -122,7 +138,10 @@ async function main() {
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
+  registry.implementations.register(
+    'ILifecycleEventEmitter',
+    manualLifecycleEventEmitter
+  );
 
   // const startTime = Date.now();
 

@@ -11,8 +11,16 @@ export type NodeJSON = {
   label?: string;
   type: string;
   id: string;
+
+  // old style.
   inputs?: {
     [key: string]: InputJSON;
+  };
+  parameters?: {
+    [key: string]: InputJSON;
+  };
+  flows?: {
+    [key: string]: LinkJSON;
   };
   metadata?: Metadata;
 };

@@ -11,10 +11,20 @@ This library is intended to follow industry best practices in terms of behavior 
 Another neat fact about behavior graphs is that they offer a sand boxed execution model. Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs. This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
 
 ## Discord
+=======
+Another neat fact about behavior graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
+
+## Community Resources
 
 You can join our Discord here:
 
 https://discord.gg/mrags8WyuH
+
+@beeglebug has started an amazing interactive React node graph editor for behave-graph here:
+
+https://github.com/beeglebug/behave-flow
+
+![image](https://user-images.githubusercontent.com/954416/184598477-74997727-0d0d-48e5-9f29-1210812bd66c.png)
 
 ## Feature Overview
 

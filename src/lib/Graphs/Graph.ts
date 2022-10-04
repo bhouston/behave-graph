@@ -1,18 +1,17 @@
-import CustomEvent from '../Events/CustomEvent';
+import { CustomEvent } from '../Events/CustomEvent';
 import { Metadata } from '../Metadata';
-import Node from '../Nodes/Node';
-import Registry from '../Registry';
-import Variable from '../Variables/Variable';
+import { Node } from '../Nodes/Node';
+import { Registry } from '../Registry';
+import { Variable } from '../Variables/Variable';
 // Purpose:
 //  - stores the node graph
 
-export default class Graph {
-  public name: string = '';
-  public readonly nodes: { [id:string]: Node} = {};
-  public readonly variables: { [id:string]: Variable } = {};
-  public readonly customEvents: { [id:string]: CustomEvent} = {};
+export class Graph {
+  public name = '';
+  public readonly nodes: { [id: string]: Node } = {};
+  public readonly variables: { [id: string]: Variable } = {};
+  public readonly customEvents: { [id: string]: CustomEvent } = {};
   public metadata: Metadata = {};
 
-  constructor(public readonly registry: Registry) {
-  }
+  constructor(public readonly registry: Registry) {}
 }

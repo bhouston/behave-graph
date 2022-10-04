@@ -1,23 +1,19 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { Socket } from '../../../Sockets/Socket';
 
-export default class Branch extends Node {
+export class Branch extends Node {
   constructor() {
     super(
       'Flow',
       'flow/branch',
-      [
-        new Socket('flow', 'flow'),
-        new Socket('boolean', 'condition'),
-      ],
-      [
-        new Socket('flow', 'true'),
-        new Socket('flow', 'false'),
-      ],
+      [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
+      [new Socket('flow', 'true'), new Socket('flow', 'false')],
       (context: NodeEvalContext) => {
-        context.commit(context.readInput('condition') ? 'true' : 'false');
-      },
+        context.commit(
+          context.readInput<boolean>('condition') === true ? 'true' : 'false'
+        );
+      }
     );
   }
 }

@@ -1,0 +1,118 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/tick",
+            "id": "1",
+            "flows": {
+                "flow": {
+                    "nodeId": "4",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "variable/getNumber",
+            "id": "2",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "logic/numberAdd",
+            "id": "3",
+            "parameters": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "value"
+                        }
+                    ]
+                },
+                "b": {
+                    "value": 1
+                }
+            }
+        },
+        {
+            "type": "variable/setNumber",
+            "id": "4",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                },
+                "value": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "7",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "logic/numberToString",
+            "id": "5",
+            "parameters": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "value"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "logic/stringConcat",
+            "id": "6",
+            "parameters": {
+                "a": {
+                    "value": "Frame Count is "
+                },
+                "b": {
+                    "links": [
+                        {
+                            "nodeId": "5",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "7",
+            "parameters": {
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "6",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "variables": [
+        {
+            "valueTypeName": "number",
+            "name": "frameCounter",
+            "id": 0,
+            "initialValue": -1
+        }
+    ],
+    "customEvents": [],
+    "name": "./src/graphs/core/variables/FrameCounter.json"
+}

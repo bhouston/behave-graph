@@ -1,0 +1,61 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0",
+            "flows": {
+                "flow": {
+                    "nodeId": "3",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "variable/getNumber",
+            "id": "1",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "logic/numberToString",
+            "id": "2",
+            "parameters": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "1",
+                            "socket": "value"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "parameters": {
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "variables": [
+        {
+            "valueTypeName": "number",
+            "name": "counter",
+            "id": 0,
+            "initialValue": 3.14156
+        }
+    ],
+    "customEvents": [],
+    "name": "./src/graphs/core/variables/InitialValue.json"
+}

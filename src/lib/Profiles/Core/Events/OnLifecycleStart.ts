@@ -1,30 +1,31 @@
-import Node from '../../../Nodes/Node';
-import NodeEvalContext from '../../../Nodes/NodeEvalContext';
-import ILifecycleEventEmitter from '../../../Providers/ILifecycleEventEmitter';
-import Socket from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
+import { ILifecycleEventEmitter } from '../../../Providers/ILifecycleEventEmitter';
+import { Socket } from '../../../Sockets/Socket';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export default class OnLifecycleStart extends Node {
+export class OnLifecycleStart extends Node {
   constructor() {
     super(
       'Event',
       'lifecycle/start',
       [],
-      [
-        new Socket('flow', 'flow'),
-      ],
+      [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         const onStartEvent = () => {
           context.commit('flow');
         };
 
-        const lifecycleEvents = context.graph.registry.implementations.get<ILifecycleEventEmitter>('ILifecycleEventEmitter');
+        const lifecycleEvents =
+          context.graph.registry.implementations.get<ILifecycleEventEmitter>(
+            'ILifecycleEventEmitter'
+          );
         lifecycleEvents.startEvent.addListener(onStartEvent);
 
         context.onAsyncCancelled.addListener(() => {
           lifecycleEvents.startEvent.removeListener(onStartEvent);
         });
-      },
+      }
     );
 
     this.async = true;

@@ -1,9 +1,9 @@
-import EventEmitter from '../Events/EventEmitter';
+import { EventEmitter } from '../Events/EventEmitter';
 import { Metadata } from '../Metadata';
 
-export default class Variable {
+export class Variable {
   private value: any;
-  public label: string = '';
+  public label = '';
   public metadata: Metadata = {};
   public version = 0; // this is updated on each change to the variable state.
   public readonly onChanged = new EventEmitter<Variable>();
@@ -12,7 +12,7 @@ export default class Variable {
     public readonly id: string,
     public readonly name: string,
     public readonly valueTypeName: string,
-    public initialValue: any = undefined, // this is assumed to be properly deseriealized from a string.
+    public initialValue: any = undefined // this is assumed to be properly deseriealized from a string.
   ) {
     this.value = this.initialValue;
   }

@@ -1,0 +1,79 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0",
+            "flows": {
+                "flow": {
+                    "nodeId": "1",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "variable/setNumber",
+            "id": "1",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                },
+                "value": {
+                    "value": 1000
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "4",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "variable/getNumber",
+            "id": "2",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "logic/numberToString",
+            "id": "3",
+            "parameters": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "value"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "parameters": {
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "variables": [
+        {
+            "valueTypeName": "number",
+            "name": "counter",
+            "id": 0,
+            "initialValue": -1
+        }
+    ],
+    "customEvents": [],
+    "name": "./src/graphs/core/variables/SetGet.json"
+}

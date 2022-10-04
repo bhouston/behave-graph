@@ -1,6 +1,6 @@
 import { EventListener } from './EventListener';
 
-export default class EventEmitter<T> {
+export class EventEmitter<T> {
   private readonly listeners: EventListener<T>[] = [];
 
   addListener(listener: EventListener<T>) {
@@ -8,7 +8,10 @@ export default class EventEmitter<T> {
   }
 
   removeListener(listener: EventListener<T>) {
-    this.listeners.splice(this.listeners.findIndex((value) => (value === listener)), 1);
+    this.listeners.splice(
+      this.listeners.findIndex((value) => value === listener),
+      1
+    );
   }
 
   clear() {
@@ -16,7 +19,9 @@ export default class EventEmitter<T> {
   }
 
   emit(event: T) {
-    this.listeners.forEach((listener) => { listener(event); });
+    this.listeners.forEach((listener) => {
+      listener(event);
+    });
   }
 
   get listenerCount(): number {

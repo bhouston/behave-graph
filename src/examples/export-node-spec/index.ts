@@ -1,10 +1,13 @@
 import { promises as fs } from 'fs';
 
 import {
-  Logger, registerCoreProfile,
+  Logger,
+  registerCoreProfile,
   registerSceneGraphProfile,
-  Registry, validateGraphRegistry, writeNodeSpecsToJSON,
-} from '../../../dist/lib/index';
+  Registry,
+  validateGraphRegistry,
+  writeNodeSpecsToJSON
+} from '../../lib';
 
 async function main() {
   // Logger.onVerbose.clear();
@@ -31,7 +34,11 @@ async function main() {
     return;
   }
 
-  await fs.writeFile(outputPath, JSON.stringify(writeNodeSpecsToJSON(registry), null, ' '), { encoding: 'utf-8' });
+  await fs.writeFile(
+    outputPath,
+    JSON.stringify(writeNodeSpecsToJSON(registry), null, ' '),
+    { encoding: 'utf-8' }
+  );
 }
 
 main();

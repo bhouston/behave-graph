@@ -1,8 +1,8 @@
-import Logger from '../../Diagnostics/Logger';
-import Node from '../../Nodes/Node';
-import Graph from '../Graph';
+import { Logger } from '../../Diagnostics/Logger';
+import { Node } from '../../Nodes/Node';
+import { Graph } from '../Graph';
 
-export default function validateDirectedAcyclicGraph(graph: Graph): string[] {
+export function validateDirectedAcyclicGraph(graph: Graph): string[] {
   // apparently if you can topological sort, it is a DAG according to: https://stackoverflow.com/questions/4168/graph-serialization/4577#4577
 
   // instead of modifying the graph, I will use metadata to mark it in place.
@@ -54,9 +54,13 @@ export default function validateDirectedAcyclicGraph(graph: Graph): string[] {
   // also remove the metadata related to DAG marking
   Object.values(graph.nodes).forEach((node) => {
     // eslint-disable-next-line no-param-reassign
-    Logger.verbose(`node ${node.typeName} is marked ${node.metadata['dag.marked']}`);
+    Logger.verbose(
+      `node ${node.typeName} is marked ${node.metadata['dag.marked']}`
+    );
     if (node.metadata['dag.marked'] === 'false') {
-      errorList.push(`node ${node.typeName} is part of a cycle, not a directed acyclic graph`);
+      errorList.push(
+        `node ${node.typeName} is part of a cycle, not a directed acyclic graph`
+      );
     }
     // eslint-disable-next-line no-param-reassign
     delete node.metadata['dag.marked'];

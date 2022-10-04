@@ -1,12 +1,20 @@
-import Registry from '../../Registry';
-import Graph from '../Graph';
+import { Registry } from '../../Registry';
+import { Graph } from '../Graph';
 import {
   CustomEventJSON,
-  GraphJSON, InputJSON, LinkJSON, NodeJSON, VariableJSON,
+  GraphJSON,
+  InputJSON,
+  LinkJSON,
+  NodeJSON,
+  VariableJSON
 } from './GraphJSON';
 
-export default function writeGraphToJSON(graph: Graph, registry: Registry): GraphJSON {
-  const graphJson: GraphJSON = { nodes: [], variables: [], customEvents: [] };
+export function writeGraphToJSON(graph: Graph): GraphJSON {
+  const graphJson: GraphJSON = {
+    nodes: [],
+    variables: [],
+    customEvents: []
+  };
 
   if (graph.name.length > 0) {
     graphJson.name = graph.name;
@@ -19,7 +27,7 @@ export default function writeGraphToJSON(graph: Graph, registry: Registry): Grap
   Object.values(graph.customEvents).forEach((customEvent) => {
     const customEventJson: CustomEventJSON = {
       name: customEvent.name,
-      id: customEvent.id,
+      id: customEvent.id
     };
     if (customEvent.label.length > 0) {
       customEventJson.label = customEvent.label;
@@ -36,7 +44,9 @@ export default function writeGraphToJSON(graph: Graph, registry: Registry): Grap
       valueTypeName: variable.valueTypeName,
       name: variable.name,
       id: variable.id,
-      initialValue: registry.values.get(variable.valueTypeName).serialize(variable.initialValue),
+      initialValue: graph.registry.values
+        .get(variable.valueTypeName)
+        .serialize(variable.initialValue)
     };
     if (variable.label.length > 0) {
       variableJson.label = variable.label;
@@ -51,7 +61,7 @@ export default function writeGraphToJSON(graph: Graph, registry: Registry): Grap
   Object.values(graph.nodes).forEach((node) => {
     const nodeJson: NodeJSON = {
       type: node.typeName,
-      id: node.id,
+      id: node.id
     };
     if (node.label.length > 0) {
       nodeJson.label = node.label;
@@ -60,29 +70,50 @@ export default function writeGraphToJSON(graph: Graph, registry: Registry): Grap
       nodeJson.metadata = node.metadata;
     }
 
-    if (node.inputSockets.length > 0) {
-      const inputsJson: NodeJSON['inputs'] = {};
+    const parametersJson: NodeJSON['inputs'] = {};
+    node.inputSockets.forEach((inputSocket) => {
+      if (inputSocket.valueTypeName === 'flow') return;
 
-      node.inputSockets.forEach((inputSocket) => {
-        const inputJson: InputJSON = {};
+      const parameterJson: InputJSON = {};
 
-        if (inputSocket.links.length === 0) {
-          inputJson.value = registry.values.get(inputSocket.valueTypeName).serialize(inputSocket.value);
-        } else {
-          const linksJson: LinkJSON[] = [];
-          inputSocket.links.forEach((nodeSocketRef) => {
-            linksJson.push({
-              nodeId: nodeSocketRef.nodeId,
-              socket: nodeSocketRef.socketName,
-            });
+      if (inputSocket.links.length === 0) {
+        parameterJson.value = graph.registry.values
+          .get(inputSocket.valueTypeName)
+          .serialize(inputSocket.value);
+      } else {
+        const linksJson: LinkJSON[] = [];
+        inputSocket.links.forEach((link) => {
+          linksJson.push({
+            nodeId: link.nodeId,
+            socket: link.socketName
           });
+        });
 
-          inputJson.links = linksJson;
-        }
+        parameterJson.links = linksJson;
+      }
+      parametersJson[inputSocket.name] = parameterJson;
+    });
 
-        inputsJson[inputSocket.name] = inputJson;
-      });
-      nodeJson.inputs = inputsJson;
+    if (Object.keys(parametersJson).length) {
+      nodeJson.parameters = parametersJson;
+    }
+
+    const flowsJson: { [output: string]: LinkJSON } = {};
+    node.outputSockets.forEach((outputSocket) => {
+      if (outputSocket.valueTypeName !== 'flow') return;
+
+      if (outputSocket.links.length === 0) return;
+
+      const linkJson = {
+        nodeId: outputSocket.links[0].nodeId,
+        socket: outputSocket.links[0].socketName
+      };
+
+      flowsJson[outputSocket.name] = linkJson;
+    });
+
+    if (Object.keys(flowsJson).length) {
+      nodeJson.flows = flowsJson;
     }
 
     graphJson.nodes.push(nodeJson);

@@ -1,0 +1,17 @@
+{
+    "glsl": {
+        "rootDir": "./src",
+        "includeDirs": [
+            "../threeify/dist/lib/shaders/includes"
+        ],
+        "outDir": "./dist",
+        "extensions": [
+            "glsl",
+            "frag",
+            "vert"
+        ],
+        "minify": false,
+        "allowJSIncludes": true,
+        "verboseLevel": 0
+    }
+}

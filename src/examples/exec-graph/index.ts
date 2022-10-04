@@ -1,13 +1,19 @@
 import { promises as fs } from 'fs';
-
 import {
-  DefaultLogger, GraphEvaluator, Logger, ManualLifecycleEventEmitter,
+  DefaultLogger,
+  GraphEvaluator,
+  Logger,
+  ManualLifecycleEventEmitter,
   NodeEvaluationType,
   readGraphFromJSON,
   registerCoreProfile,
   registerSceneGraphProfile,
-  Registry, validateDirectedAcyclicGraph, validateGraphRegistry, validateLinks,
-} from '../../../dist/lib/index';
+  Registry,
+  validateDirectedAcyclicGraph,
+  validateGraphRegistry,
+  validateLinks,
+  writeGraphToJSON
+} from '../../lib';
 
 async function main() {
   Logger.onVerbose.clear();
@@ -18,7 +24,10 @@ async function main() {
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
+  registry.implementations.register(
+    'ILifecycleEventEmitter',
+    manualLifecycleEventEmitter
+  );
 
   const graphJsonPath = process.argv[2];
   if (graphJsonPath === undefined) {
@@ -30,7 +39,6 @@ async function main() {
   const graph = readGraphFromJSON(JSON.parse(textFile), registry);
   graph.name = graphJsonPath;
 
-  // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   Logger.verbose('validating:');
   const errorList: string[] = [];
   Logger.verbose('validating registry');
@@ -53,10 +61,16 @@ async function main() {
 
   graphEvaluator.onNodeEvaluation.addListener((event) => {
     if (event.nodeEvaluationType === NodeEvaluationType.None) {
-      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} completed evaluation.`);
+      Logger.verbose(
+        `Node ${event.node.typeName} ${event.node.id} completed evaluation.`
+      );
     } else {
-      Logger.verbose(`Node ${event.node.typeName} ${event.node.id} started evaluation, `
-      + `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${event.async}.`);
+      Logger.verbose(
+        `Node ${event.node.typeName} ${event.node.id} started evaluation, ` +
+          `mode: ${NodeEvaluationType[event.nodeEvaluationType]}, async: ${
+            event.async
+          }.`
+      );
     }
   });
 
@@ -88,7 +102,13 @@ async function main() {
 
   const deltaTime = Date.now() - startTime;
 
-  Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round((numSteps * 1000) / deltaTime)} steps/second`);
+  Logger.info(
+    `  ${numSteps} nodes executed in ${
+      deltaTime / 1000
+    } seconds, at a rate of ${Math.round(
+      (numSteps * 1000) / deltaTime
+    )} steps/second`
+  );
 }
 
 main();

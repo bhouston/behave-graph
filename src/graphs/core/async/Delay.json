@@ -1,0 +1,56 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0",
+            "flows": {
+                "flow": {
+                    "nodeId": "1",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "1",
+            "parameters": {
+                "text": {
+                    "value": "Waiting..."
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "2",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "time/delay",
+            "id": "2",
+            "parameters": {
+                "duration": {
+                    "value": 1
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "3",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/log",
+            "id": "3",
+            "parameters": {
+                "text": {
+                    "value": "One Second Later!"
+                }
+            }
+        }
+    ],
+    "variables": [],
+    "customEvents": [],
+    "name": "./src/graphs/core/async/Delay.json"
+}

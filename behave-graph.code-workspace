@@ -1,8 +1,15 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../threeify"
+    },
+    {
+      "path": "../threeify-glsl-transpiler"
+    }
+  ],
+  "settings": {},
+  "extensions": {}
 }

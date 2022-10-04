@@ -5,14 +5,22 @@ export type LinkJSON = { nodeId: string; socket: string };
 export type InputJSON = {
   value?: string;
   links?: LinkJSON[];
-}
+};
 
 export type NodeJSON = {
   label?: string;
   type: string;
   id: string;
+
+  // old style.
   inputs?: {
     [key: string]: InputJSON;
+  };
+  parameters?: {
+    [key: string]: InputJSON;
+  };
+  flows?: {
+    [key: string]: LinkJSON;
   };
   metadata?: Metadata;
 };
@@ -39,4 +47,4 @@ export type GraphJSON = {
   variables: VariableJSON[];
   customEvents: CustomEventJSON[];
   metadata?: Metadata;
-}
+};

@@ -1,31 +1,49 @@
+import * as THREEIFY from 'threeify';
 import {
-  GraphEvaluator, Logger, readGraphFromJSON, registerCoreProfile, Registry,
-} from '../../../dist/lib/index';
+  DefaultLogger,
+  GraphEvaluator,
+  Logger,
+  ManualLifecycleEventEmitter,
+  readGraphFromJSON,
+  registerCoreProfile,
+  registerSceneGraphProfile,
+  Registry
+} from '../../lib';
 
 async function main() {
   Logger.onVerbose.clear();
-
+  //const geometry = icosahedronGeometry(0.75, 5);
+  console.log(THREEIFY);
   const registry = new Registry();
   registerCoreProfile(registry);
+  registerSceneGraphProfile(registry);
 
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const graphName = urlSearchParams.get('graph');
-  const graphJsonPath = `/examples/basics/${graphName}.json`;
+  registry.implementations.register('ILogger', new DefaultLogger());
+  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  registry.implementations.register(
+    'ILifecycleEventEmitter',
+    manualLifecycleEventEmitter
+  );
+
+  const graphJsonPath = '/dist/graphs/core/HelloWorld.json';
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }
 
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const json = await (await fetch(graphJsonPath)).json();
+  const request = await fetch(graphJsonPath);
+  console.log('request', request);
+  const json = await request.json();
+  console.log('json', json);
   const graph = readGraphFromJSON(json, registry);
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
 
-  Logger.verbose('creating behavior graph');
+  Logger.info('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
 
-  Logger.verbose('executing all (async)');
+  Logger.info('executing all (async)');
   await graphEvaluator.executeAllAsync();
 }
 

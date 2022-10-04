@@ -1,10 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import Logger from '../../Diagnostics/Logger';
-import ILogger from '../ILogger';
+import { Logger } from '../../Diagnostics/Logger';
+import { ILogger } from '../ILogger';
 
-export default class DefaultLogger implements ILogger {
-  constructor() {
-  }
+export class DefaultLogger implements ILogger {
+  constructor() {}
 
   verbose(text: string): void {
     Logger.verbose(text);

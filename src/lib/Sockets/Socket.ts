@@ -1,12 +1,11 @@
-import NodeSocketRef from '../Nodes/NodeSocketRef';
+import { Link } from '../Nodes/Link';
 
-export default class Socket {
-  public readonly links: NodeSocketRef[] = [];
+export class Socket {
+  public readonly links: Link[] = [];
 
   constructor(
     public readonly valueTypeName: string,
     public readonly name: string,
-    public value: any | undefined = undefined,
-  ) {
-  }
+    public value: any | undefined = undefined
+  ) {}
 }

@@ -1,16 +1,26 @@
-import EventEmitter from '../Events/EventEmitter';
+/* eslint-disable no-console */
 
-export default class Logger {
+import { EventEmitter } from '../Events/EventEmitter';
+
+export class Logger {
   public static readonly onVerbose = new EventEmitter<string>();
   public static readonly onInfo = new EventEmitter<string>();
   public static readonly onWarn = new EventEmitter<string>();
   public static readonly onError = new EventEmitter<string>();
 
   static {
-    Logger.onVerbose.addListener((text: string) => { console.log(`[${new Date().toLocaleString()}] VERBOSE: ${text}`); });
-    Logger.onInfo.addListener((text: string) => { console.log(`[${new Date().toLocaleString()}] INFO:  ${text}`); });
-    Logger.onWarn.addListener((text: string) => { console.warn(`[${new Date().toLocaleString()}] WARNING:  ${text}`); });
-    Logger.onError.addListener((text: string) => { console.error(`[${new Date().toLocaleString()}] ERROR:  ${text}`); });
+    Logger.onVerbose.addListener((text: string) => {
+      console.log(`[${new Date().toLocaleString()}] VERBOSE: ${text}`);
+    });
+    Logger.onInfo.addListener((text: string) => {
+      console.log(`[${new Date().toLocaleString()}] INFO:  ${text}`);
+    });
+    Logger.onWarn.addListener((text: string) => {
+      console.warn(`[${new Date().toLocaleString()}] WARNING:  ${text}`);
+    });
+    Logger.onError.addListener((text: string) => {
+      console.error(`[${new Date().toLocaleString()}] ERROR:  ${text}`);
+    });
   }
 
   static verbose(text: string) {

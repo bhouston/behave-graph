@@ -47,6 +47,7 @@
     "exec-graph": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/exec-graph/index.ts",
     "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
     "lint": "eslint \"src/**/*.{ts,json}\"",
+    "lint:fix": "npm run lint -- --fix",
     "prettier-format": "npx prettier --config .prettierrc \"src/**/*.{ts,json,html}\" --write",
     "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/three/index.html",
     "watch": "tsc --watch --preserveWatchOutput & tgt --watch",

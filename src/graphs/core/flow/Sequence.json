@@ -1,92 +1,92 @@
 {
-    "nodes": [
-        {
-            "type": "lifecycle/start",
-            "id": "0",
-            "flows": {
-                "flow": {
-                    "nodeId": "1",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "1",
-            "parameters": {
-                "text": {
-                    "value": "Starting Sequence..."
-                }
-            },
-            "flows": {
-                "flow": {
-                    "nodeId": "2",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "flow/sequence",
-            "id": "2",
-            "flows": {
-                "1": {
-                    "nodeId": "3",
-                    "socket": "flow"
-                },
-                "2": {
-                    "nodeId": "4",
-                    "socket": "flow"
-                },
-                "3": {
-                    "nodeId": "5",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "3",
-            "parameters": {
-                "text": {
-                    "value": "First Sequence Output!"
-                }
-            },
-            "flows": {
-                "flow": {
-                    "nodeId": "6",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "4",
-            "parameters": {
-                "text": {
-                    "value": "Second Sequence Output!"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "5",
-            "parameters": {
-                "text": {
-                    "value": "Third Sequence Output!"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "6",
-            "parameters": {
-                "text": {
-                    "value": "Downstream of First Sequence!"
-                }
-            }
+  "nodes": [
+    {
+      "type": "lifecycle/start",
+      "id": "0",
+      "flows": {
+        "flow": {
+          "nodeId": "1",
+          "socket": "flow"
         }
-    ],
-    "variables": [],
-    "customEvents": [],
-    "name": "./src/graphs/core/flow/Sequence.json"
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "1",
+      "parameters": {
+        "text": {
+          "value": "Starting Sequence..."
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "2",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "flow/sequence",
+      "id": "2",
+      "flows": {
+        "1": {
+          "nodeId": "3",
+          "socket": "flow"
+        },
+        "2": {
+          "nodeId": "4",
+          "socket": "flow"
+        },
+        "3": {
+          "nodeId": "5",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "3",
+      "parameters": {
+        "text": {
+          "value": "First Sequence Output!"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "6",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "4",
+      "parameters": {
+        "text": {
+          "value": "Second Sequence Output!"
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "5",
+      "parameters": {
+        "text": {
+          "value": "Third Sequence Output!"
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "6",
+      "parameters": {
+        "text": {
+          "value": "Downstream of First Sequence!"
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": [],
+  "name": "./src/graphs/core/flow/Sequence.json"
 }

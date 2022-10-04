@@ -4,28 +4,24 @@ import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
 
-export class QuaternionCreate extends Node {
+export class Vec4Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/quaternionCreate',
+      'logic/vec4Elements',
+      [new Socket('vec4', 'value')],
       [
         new Socket('number', 'x'),
         new Socket('number', 'y'),
         new Socket('number', 'z'),
         new Socket('number', 'w')
       ],
-      [new Socket('quaternion', 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
-          'result',
-          new Quaternion(
-            context.readInput('x'),
-            context.readInput('y'),
-            context.readInput('z'),
-            context.readInput('w')
-          )
-        );
+        const value = context.readInput('value') as Vec4;
+        context.writeOutput('x', value.x);
+        context.writeOutput('y', value.y);
+        context.writeOutput('z', value.z);
+        context.writeOutput('w', value.w);
       }
     );
   }

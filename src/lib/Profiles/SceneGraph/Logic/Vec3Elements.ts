@@ -1,27 +1,26 @@
-import { Quaternion } from 'three';
+import { Vector3 } from 'three';
 
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
+import { Vec3 } from '../Values/Vec3';
 
-export class QuaternionElements extends Node {
+export class Vec3Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/quaternionElements',
-      [new Socket('quaternion', 'value')],
+      'logic/vec3Elements',
+      [new Socket('vec3', 'value')],
       [
         new Socket('number', 'x'),
         new Socket('number', 'y'),
-        new Socket('number', 'z'),
-        new Socket('number', 'w')
+        new Socket('number', 'z')
       ],
       (context: NodeEvalContext) => {
-        const value = context.readInput('value') as Quaternion;
+        const value = context.readInput('value') as Vec3;
         context.writeOutput('x', value.x);
         context.writeOutput('y', value.y);
         context.writeOutput('z', value.z);
-        context.writeOutput('w', value.w);
       }
     );
   }

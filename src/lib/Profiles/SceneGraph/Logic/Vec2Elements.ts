@@ -3,19 +3,19 @@ import { Vector2 } from 'three';
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
+import { Vec2 } from '../Values/Vec2';
 
-export class Vector2Create extends Node {
+export class Vec2Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/vector2Create',
+      'logic/vec2Elements',
+      [new Socket('vec2', 'value')],
       [new Socket('number', 'x'), new Socket('number', 'y')],
-      [new Socket('vector2', 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
-          'result',
-          new Vector2(context.readInput('x'), context.readInput('y'))
-        );
+        const value = context.readInput('value') as Vec2;
+        context.writeOutput('x', value.x);
+        context.writeOutput('y', value.y);
       }
     );
   }

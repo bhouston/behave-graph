@@ -1,77 +1,77 @@
 {
-    "nodes": [
-        {
-            "type": "lifecycle/start",
-            "id": "0",
-            "flows": {
-                "flow": {
-                    "nodeId": "4",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "logic/vector3Create",
-            "id": "1",
-            "parameters": {
-                "x": {
-                    "value": 1
-                },
-                "y": {
-                    "value": 0
-                },
-                "z": {
-                    "value": 0
-                }
-            }
-        },
-        {
-            "type": "logic/vector3SetZ",
-            "id": "2",
-            "parameters": {
-                "value": {
-                    "links": [
-                        {
-                            "nodeId": "1",
-                            "socket": "result"
-                        }
-                    ]
-                },
-                "z": {
-                    "value": 1
-                }
-            }
-        },
-        {
-            "type": "logic/vector3ToString",
-            "id": "3",
-            "parameters": {
-                "a": {
-                    "links": [
-                        {
-                            "nodeId": "2",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "4",
-            "parameters": {
-                "text": {
-                    "links": [
-                        {
-                            "nodeId": "3",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
+  "nodes": [
+    {
+      "type": "lifecycle/start",
+      "id": "0",
+      "flows": {
+        "flow": {
+          "nodeId": "4",
+          "socket": "flow"
         }
-    ],
-    "variables": [],
-    "customEvents": [],
-    "name": "./src/graphs/sceneGraph/logic/Vector3SetElement.json"
+      }
+    },
+    {
+      "type": "logic/vector3Create",
+      "id": "1",
+      "parameters": {
+        "x": {
+          "value": 1
+        },
+        "y": {
+          "value": 0
+        },
+        "z": {
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "logic/vector3SetZ",
+      "id": "2",
+      "parameters": {
+        "value": {
+          "links": [
+            {
+              "nodeId": "1",
+              "socket": "result"
+            }
+          ]
+        },
+        "z": {
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "logic/vector3ToString",
+      "id": "3",
+      "parameters": {
+        "a": {
+          "links": [
+            {
+              "nodeId": "2",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "4",
+      "parameters": {
+        "text": {
+          "links": [
+            {
+              "nodeId": "3",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": [],
+  "name": "./src/graphs/sceneGraph/logic/Vector3SetElement.json"
 }

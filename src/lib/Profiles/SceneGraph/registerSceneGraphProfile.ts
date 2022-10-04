@@ -1,6 +1,4 @@
 /* eslint-disable max-len */
-import { Quaternion, Vector2, Vector3 } from 'three';
-
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
 import { parseFloats } from '../../parseFloats';
@@ -11,41 +9,73 @@ import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
 import { GetVariable } from '../Core/Queries/GetVariable';
 import { SetSceneNodeProperty } from './Actions/SetSceneNodeProperty';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
-import { GetElement } from './Logic/GetElement';
-import { QuaternionCreate } from './Logic/QuaternionCreate';
-import { QuaternionElements } from './Logic/QuaternionElements';
-import { SetElement } from './Logic/SetElement';
-import { Vector2Create } from './Logic/Vector2Create';
-import { Vector2Elements } from './Logic/Vector2Elements';
-import { Vector3Create } from './Logic/Vector3Create';
-import { Vector3Elements } from './Logic/Vector3Elements';
+import { Vec4Create } from './Logic/Vec4Create';
+import { Vec4Elements } from './Logic/Vec4Elements';
+import { Vec2Create } from './Logic/Vec2Create';
+import { Vec2Elements } from './Logic/Vec2Elements';
+import { Vec3Create } from './Logic/Vec3Create';
+import { Vec3Elements } from './Logic/Vec3Elements';
 import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
+import {
+  Vec2,
+  vec2Add,
+  vec2FromArray,
+  vec2Length,
+  vec2Negate,
+  vec2Normalize,
+  vec2Scale,
+  vec2Subtract,
+  vec2ToString
+} from './Values/Vec2';
+import {
+  Vec3,
+  vec3Add,
+  vec3Cross,
+  vec3Dot,
+  vec3FromArray,
+  vec3Length,
+  vec3Negate,
+  vec3Normalize,
+  vec3Scale,
+  vec3Subtract,
+  vec3ToString
+} from './Values/Vec3';
+import {
+  quatConjugate,
+  quatMultiply,
+  Vec4,
+  vec4Dot,
+  vec4FromArray,
+  vec4Length,
+  vec4Normalize,
+  vec4ToString
+} from './Values/Vec4';
 
 export function registerSceneGraphProfile(registry: Registry) {
   const { values, nodes } = registry;
 
   values.register(
     new ValueType(
-      'vector2',
-      () => new Vector2(),
-      (text: string) => new Vector2().fromArray(parseFloats(text)),
-      (value) => `(${value.x}, ${value.y})`
+      'vec2',
+      () => new Vec2(),
+      (text: string) => vec2FromArray(parseFloats(text)),
+      (value) => vec2ToString(value)
     )
   );
   values.register(
     new ValueType(
-      'vector3',
-      () => new Vector3(),
-      (text: string) => new Vector3().fromArray(parseFloats(text)),
-      (value) => `(${value.x}, ${value.y}, ${value.z})`
+      'vec3',
+      () => new Vec3(),
+      (text: string) => vec3FromArray(parseFloats(text)),
+      (value) => vec3ToString(value)
     )
   );
   values.register(
     new ValueType(
-      'quaternion',
-      () => new Quaternion(),
-      (text: string) => new Quaternion().fromArray(parseFloats(text)),
-      (value) => `(${value.x}, ${value.y}, ${value.z}, ${value.w})`
+      'vec4',
+      () => new Vec4(),
+      (text: string) => vec4FromArray(parseFloats(text)),
+      (value) => vec4ToString(value)
     )
   );
 
@@ -70,9 +100,9 @@ export function registerSceneGraphProfile(registry: Registry) {
   nodes.register(
     'action/setSceneNodeTranslation',
     () =>
-      new SetSceneNodeProperty<Vector3>(
+      new SetSceneNodeProperty<Vec3>(
         'action/setSceneNodeTranslation',
-        'vector3',
+        'vec3',
         (node, value) => {
           node.position.copy(value);
         }
@@ -81,9 +111,9 @@ export function registerSceneGraphProfile(registry: Registry) {
   nodes.register(
     'action/setSceneNodeRotation',
     () =>
-      new SetSceneNodeProperty<Quaternion>(
+      new SetSceneNodeProperty<Vec4>(
         'action/setSceneNodeRotation',
-        'quaternion',
+        'vec4',
         (node, value) => {
           node.quaternion.copy(value);
         }
@@ -92,9 +122,9 @@ export function registerSceneGraphProfile(registry: Registry) {
   nodes.register(
     'action/setSceneNodeScale',
     () =>
-      new SetSceneNodeProperty<Vector3>(
+      new SetSceneNodeProperty<Vec3>(
         'action/setSceneNodeScale',
-        'vector3',
+        'vec3',
         (node, value) => {
           node.scale.copy(value);
         }
@@ -117,531 +147,308 @@ export function registerSceneGraphProfile(registry: Registry) {
     () =>
       new GetSceneNodeProperty(
         'query/getSceneNodeTranslation',
-        'vector3',
+        'vec3',
         (node) => node.position.clone()
       )
   );
   nodes.register(
     'query/getSceneNodeRotation',
     () =>
-      new GetSceneNodeProperty(
-        'query/getSceneNodeRotation',
-        'quaternion',
-        (node) => node.quaternion.clone()
+      new GetSceneNodeProperty('query/getSceneNodeRotation', 'vec4', (node) =>
+        node.quaternion.clone()
       )
   );
   nodes.register(
     'query/getSceneNodeScale',
     () =>
-      new GetSceneNodeProperty('query/getSceneNodeScale', 'vector3', (node) =>
+      new GetSceneNodeProperty('query/getSceneNodeScale', 'vec3', (node) =>
         node.scale.clone()
       )
   );
 
-  // logic: vector2
+  // logic: vec2
 
-  nodes.register('logic/vector2Create', () => new Vector2Create());
-  nodes.register(
-    'logic/vector2SetX',
-    () =>
-      new SetElement<Vector2, number>(
-        'logic/vector2SetX',
-        'vector2',
-        'number',
-        'x',
-        (a, b) => a.clone().setX(b)
-      )
-  );
-  nodes.register(
-    'logic/vector2SetY',
-    () =>
-      new SetElement<Vector2, number>(
-        'logic/vector2SetY',
-        'vector2',
-        'number',
-        'y',
-        (a, b) => a.clone().setY(b)
-      )
-  );
+  nodes.register('logic/vec2Create', () => new Vec2Create());
 
-  nodes.register('logic/vector2Elements', () => new Vector2Elements());
-  nodes.register(
-    'logic/vector2GetX',
-    () =>
-      new GetElement<Vector2, number>(
-        'logic/vector2GetX',
-        'vector2',
-        'number',
-        'x',
-        (a) => a.x
-      )
-  );
-  nodes.register(
-    'logic/vector2GetY',
-    () =>
-      new GetElement<Vector2, number>(
-        'logic/vector2GetY',
-        'vector2',
-        'number',
-        'y',
-        (a) => a.y
-      )
-  );
+  nodes.register('logic/vec2Elements', () => new Vec2Elements());
 
   nodes.register(
-    'logic/vector2Add',
+    'logic/vec2Add',
     () =>
-      new In2Out1FuncNode<Vector2, Vector2, Vector2>(
-        'logic/vector2Add',
-        'vector2',
-        'vector2',
-        'vector2',
-        (a, b) => a.clone().add(b)
+      new In2Out1FuncNode<Vec2, Vec2, Vec2>(
+        'logic/vec2Add',
+        'vec2',
+        'vec2',
+        'vec2',
+        (a, b) => vec2Add(a, b)
       )
   );
   nodes.register(
-    'logic/vector2Subtract',
+    'logic/vec2Subtract',
     () =>
-      new In2Out1FuncNode<Vector2, Vector2, Vector2>(
-        'logic/vector2Subtract',
-        'vector2',
-        'vector2',
-        'vector2',
-        (a, b) => a.clone().sub(b)
+      new In2Out1FuncNode<Vec2, Vec2, Vec2>(
+        'logic/vec2Subtract',
+        'vec2',
+        'vec2',
+        'vec2',
+        (a, b) => vec2Subtract(a, b)
       )
   );
   nodes.register(
-    'logic/vector2Scale',
+    'logic/vec2Scale',
     () =>
-      new In2Out1FuncNode<Vector2, number, Vector2>(
-        'logic/vector2Scale',
-        'vector2',
+      new In2Out1FuncNode<Vec2, number, Vec2>(
+        'logic/vec2Scale',
+        'vec2',
         'number',
-        'vector2',
-        (a, b) => a.clone().multiplyScalar(b)
+        'vec2',
+        (a, b) => vec2Scale(a, b)
       )
   );
   nodes.register(
-    'logic/vector2Negate',
+    'logic/vec2Negate',
     () =>
-      new In1Out1FuncNode<Vector2, Vector2>(
-        'logic/vector2Negate',
-        'vector2',
-        'vector2',
-        (a) => a.clone().negate()
+      new In1Out1FuncNode<Vec2, Vec2>('logic/vec2Negate', 'vec2', 'vec2', (a) =>
+        vec2Negate(a)
       )
   );
   nodes.register(
-    'logic/vector2Normalize',
+    'logic/vec2Normalize',
     () =>
-      new In1Out1FuncNode<Vector2, Vector2>(
-        'logic/vector2Normalize',
-        'vector2',
-        'vector2',
-        (a) => a.clone().normalize()
+      new In1Out1FuncNode<Vec2, Vec2>(
+        'logic/vec2Normalize',
+        'vec2',
+        'vec2',
+        (a) => vec2Normalize(a)
       )
   );
   nodes.register(
-    'logic/vector2Length',
+    'logic/vec2Length',
     () =>
-      new In1Out1FuncNode<Vector2, number>(
-        'logic/vector2Length',
-        'vector2',
+      new In1Out1FuncNode<Vec2, number>(
+        'logic/vec2Length',
+        'vec2',
         'number',
-        (a) => a.length()
+        (a) => vec2Length(a)
       )
   );
   nodes.register(
-    'logic/vector2ToString',
+    'logic/vec2ToString',
     () =>
-      new In1Out1FuncNode<Vector2, string>(
-        'logic/vector2ToString',
-        'vector2',
+      new In1Out1FuncNode<Vec2, string>(
+        'logic/vec2ToString',
+        'vec2',
         'string',
-        (a) => `(${a.x}, ${a.y})`
+        (a) => vec2ToString(a)
       )
   );
 
-  // logic: vector3
+  // logic: vec3
 
-  nodes.register('logic/vector3Create', () => new Vector3Create());
-  nodes.register(
-    'logic/vector3SetX',
-    () =>
-      new SetElement<Vector3, number>(
-        'logic/vector3SetX',
-        'vector3',
-        'number',
-        'x',
-        (a, b) => a.clone().setX(b)
-      )
-  );
-  nodes.register(
-    'logic/vector3SetY',
-    () =>
-      new SetElement<Vector3, number>(
-        'logic/vector3SetY',
-        'vector3',
-        'number',
-        'y',
-        (a, b) => a.clone().setY(b)
-      )
-  );
-  nodes.register(
-    'logic/vector3SetZ',
-    () =>
-      new SetElement<Vector3, number>(
-        'logic/vector3SetZ',
-        'vector3',
-        'number',
-        'z',
-        (a, b) => a.clone().setZ(b)
-      )
-  );
+  nodes.register('logic/vec3Create', () => new Vec3Create());
 
-  nodes.register('logic/vector3Elements', () => new Vector3Elements());
-  nodes.register(
-    'logic/vector3GetX',
-    () =>
-      new GetElement<Vector3, number>(
-        'logic/vector3GetX',
-        'vector3',
-        'number',
-        'x',
-        (a) => a.x
-      )
-  );
-  nodes.register(
-    'logic/vector3GetY',
-    () =>
-      new GetElement<Vector3, number>(
-        'logic/vector3GetY',
-        'vector3',
-        'number',
-        'y',
-        (a) => a.y
-      )
-  );
-  nodes.register(
-    'logic/vector3GetZ',
-    () =>
-      new GetElement<Vector3, number>(
-        'logic/vector3GetZ',
-        'vector3',
-        'number',
-        'z',
-        (a) => a.z
-      )
-  );
+  nodes.register('logic/vec3Elements', () => new Vec3Elements());
 
   nodes.register(
-    'logic/vector3Add',
+    'logic/vec3Add',
     () =>
-      new In2Out1FuncNode<Vector3, Vector3, Vector3>(
-        'logic/vector3Add',
-        'vector3',
-        'vector3',
-        'vector3',
-        (a, b) => a.clone().add(b)
+      new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+        'logic/vec3Add',
+        'vec3',
+        'vec3',
+        'vec3',
+        (a, b) => vec3Add(a, b)
       )
   );
   nodes.register(
-    'logic/vector3Subtract',
+    'logic/vec3Subtract',
     () =>
-      new In2Out1FuncNode<Vector3, Vector3, Vector3>(
-        'logic/vector3Subtract',
-        'vector3',
-        'vector3',
-        'vector3',
-        (a, b) => a.clone().sub(b)
+      new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+        'logic/vec3Subtract',
+        'vec3',
+        'vec3',
+        'vec3',
+        (a, b) => vec3Subtract(a, b)
       )
   );
   nodes.register(
-    'logic/vector3Scale',
+    'logic/vec3Scale',
     () =>
-      new In2Out1FuncNode<Vector3, number, Vector3>(
-        'logic/vector3Scale',
-        'vector3',
+      new In2Out1FuncNode<Vec3, number, Vec3>(
+        'logic/vec3Scale',
+        'vec3',
         'number',
-        'vector3',
-        (a, b) => a.clone().multiplyScalar(b)
+        'vec3',
+        (a, b) => vec3Scale(a, b)
       )
   );
   nodes.register(
-    'logic/vector3Cross',
+    'logic/vec3Cross',
     () =>
-      new In2Out1FuncNode<Vector3, Vector3, Vector3>(
-        'logic/vector3Cross',
-        'vector3',
-        'vector3',
-        'vector3',
-        (a, b) => a.clone().cross(b)
+      new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+        'logic/vec3Cross',
+        'vec3',
+        'vec3',
+        'vec3',
+        (a, b) => vec3Cross(a, b)
       )
   );
   nodes.register(
-    'logic/vector3Dot',
+    'logic/vec3Dot',
     () =>
-      new In2Out1FuncNode<Vector3, Vector3, number>(
-        'logic/vector3Dot',
-        'vector3',
-        'vector3',
+      new In2Out1FuncNode<Vec3, Vec3, number>(
+        'logic/vec3Dot',
+        'vec3',
+        'vec3',
         'number',
-        (a, b) => a.dot(b)
+        (a, b) => vec3Dot(a, b)
       )
   );
   nodes.register(
-    'logic/vector3Negate',
+    'logic/vec3Negate',
     () =>
-      new In1Out1FuncNode<Vector3, Vector3>(
-        'logic/vector3Negate',
-        'vector3',
-        'vector3',
-        (a) => a.clone().negate()
+      new In1Out1FuncNode<Vec3, Vec3>('logic/vec3Negate', 'vec3', 'vec3', (a) =>
+        vec3Negate(a)
       )
   );
   nodes.register(
-    'logic/vector3Normalize',
+    'logic/vec3Normalize',
     () =>
-      new In1Out1FuncNode<Vector3, Vector3>(
-        'logic/vector3Normalize',
-        'vector3',
-        'vector3',
-        (a) => a.clone().normalize()
+      new In1Out1FuncNode<Vec3, Vec3>(
+        'logic/vec3Normalize',
+        'vec3',
+        'vec3',
+        (a) => vec3Normalize(a)
       )
   );
   nodes.register(
-    'logic/vector3Length',
+    'logic/vec3Length',
     () =>
-      new In1Out1FuncNode<Vector3, number>(
-        'logic/vector3Length',
-        'vector3',
+      new In1Out1FuncNode<Vec3, number>(
+        'logic/vec3Length',
+        'vec3',
         'number',
-        (a) => a.length()
+        (a) => vec3Length(a)
       )
   );
   nodes.register(
-    'logic/vector3ToString',
+    'logic/vec3ToString',
     () =>
-      new In1Out1FuncNode<Vector3, string>(
-        'logic/vector3ToString',
-        'vector3',
+      new In1Out1FuncNode<Vec3, string>(
+        'logic/vec3ToString',
+        'vec3',
         'string',
-        (a) => `(${a.x}, ${a.y}, ${a.z})`
+        (a) => vec3ToString(a)
       )
   );
 
-  // logic: quaternion
+  // logic: vec4
 
-  nodes.register('logic/quaternionCreate', () => new QuaternionCreate());
-  nodes.register(
-    'logic/quaternionSetX',
-    () =>
-      new SetElement<Quaternion, number>(
-        'logic/quaternionSetX',
-        'quaternion',
-        'number',
-        'x',
-        (a, b) => {
-          const q = a.clone();
-          q.x = b;
-          return q;
-        }
-      )
-  );
-  nodes.register(
-    'logic/quaternionSetY',
-    () =>
-      new SetElement<Quaternion, number>(
-        'logic/quaternionSetY',
-        'quaternion',
-        'number',
-        'y',
-        (a, b) => {
-          const q = a.clone();
-          q.y = b;
-          return q;
-        }
-      )
-  );
-  nodes.register(
-    'logic/quaternionSetZ',
-    () =>
-      new SetElement<Quaternion, number>(
-        'logic/quaternionSetZ',
-        'quaternion',
-        'number',
-        'z',
-        (a, b) => {
-          const q = a.clone();
-          q.z = b;
-          return q;
-        }
-      )
-  );
-  nodes.register(
-    'logic/quaternionSetW',
-    () =>
-      new SetElement<Quaternion, number>(
-        'logic/quaternionSetW',
-        'quaternion',
-        'number',
-        'w',
-        (a, b) => {
-          const q = a.clone();
-          q.w = b;
-          return q;
-        }
-      )
-  );
-
-  nodes.register('logic/quaternionElements', () => new QuaternionElements());
-  nodes.register(
-    'logic/quaternionGetX',
-    () =>
-      new GetElement<Quaternion, number>(
-        'logic/quaternionGetX',
-        'quaternion',
-        'number',
-        'x',
-        (a) => a.x
-      )
-  );
-  nodes.register(
-    'logic/quaternionGetY',
-    () =>
-      new GetElement<Quaternion, number>(
-        'logic/quaternionGetY',
-        'quaternion',
-        'number',
-        'y',
-        (a) => a.y
-      )
-  );
-  nodes.register(
-    'logic/quaternionGetZ',
-    () =>
-      new GetElement<Quaternion, number>(
-        'logic/quaternionGetZ',
-        'quaternion',
-        'number',
-        'z',
-        (a) => a.z
-      )
-  );
-  nodes.register(
-    'logic/quaternionGetW',
-    () =>
-      new GetElement<Quaternion, number>(
-        'logic/quaternionGetW',
-        'quaternion',
-        'number',
-        'w',
-        (a) => a.w
-      )
-  );
+  nodes.register('logic/vec4Create', () => new Vec4Create());
+  nodes.register('logic/vec4Elements', () => new Vec4Elements());
 
   nodes.register(
-    'logic/quaternionMultiply',
+    'logic/quatMultiply',
     () =>
-      new In2Out1FuncNode<Quaternion, Quaternion, Quaternion>(
-        'logic/quaternionMultiply',
-        'quaternion',
-        'quaternion',
-        'quaternion',
-        (a, b) => a.clone().multiply(b)
+      new In2Out1FuncNode<Vec4, Vec4, Vec4>(
+        'logic/quatMultiply',
+        'vec4',
+        'vec4',
+        'vec4',
+        (a, b) => quatMultiply(a, b)
       )
   );
   nodes.register(
-    'logic/quaternionDot',
+    'logic/vec4Dot',
     () =>
-      new In2Out1FuncNode<Quaternion, Quaternion, number>(
-        'logic/quaternionDot',
-        'quaternion',
-        'quaternion',
+      new In2Out1FuncNode<Vec4, Vec4, number>(
+        'logic/vec4Dot',
+        'vec4',
+        'vec4',
         'number',
-        (a, b) => a.dot(b)
+        (a, b) => vec4Dot(a, b)
       )
   );
   nodes.register(
-    'logic/quaternionConjugate',
+    'logic/vec4Conjugate',
     () =>
-      new In1Out1FuncNode<Quaternion, Quaternion>(
-        'logic/quaternionConjugate',
-        'quaternion',
-        'quaternion',
-        (a) => a.clone().conjugate()
+      new In1Out1FuncNode<Vec4, Vec4>(
+        'logic/vec4Conjugate',
+        'vec4',
+        'vec4',
+        (a) => quatConjugate(a)
       )
   );
   nodes.register(
-    'logic/quaternionNormalize',
+    'logic/vec4Normalize',
     () =>
-      new In1Out1FuncNode<Quaternion, Quaternion>(
-        'logic/quaternionNormalize',
-        'quaternion',
-        'quaternion',
-        (a) => a.clone().normalize()
+      new In1Out1FuncNode<Vec4, Vec4>(
+        'logic/vec4Normalize',
+        'vec4',
+        'vec4',
+        (a) => vec4Normalize(a)
       )
   );
   nodes.register(
-    'logic/quaternionLength',
+    'logic/vec4Length',
     () =>
-      new In1Out1FuncNode<Quaternion, number>(
-        'logic/quaternionLength',
-        'quaternion',
+      new In1Out1FuncNode<Vec4, number>(
+        'logic/vec4Length',
+        'vec4',
         'number',
-        (a) => a.length()
+        (a) => vec4Length(a)
       )
   );
   nodes.register(
-    'logic/quaternionToString',
+    'logic/vec4ToString',
     () =>
-      new In1Out1FuncNode<Quaternion, string>(
-        'logic/quaternionToString',
-        'quaternion',
+      new In1Out1FuncNode<Vec4, string>(
+        'logic/vec4ToString',
+        'vec4',
         'string',
-        (a) => `(${a.x}, ${a.y}, ${a.z}, ${a.w})`
+        (a) => vec4ToString(a)
       )
   );
 
   // variables
 
   nodes.register(
-    'variable/setVector2',
-    () => new SetVariable('variable/setVector2', 'vector2')
+    'variable/setVec2',
+    () => new SetVariable('variable/setVec2', 'vec2')
   );
   nodes.register(
-    'variable/getVector2',
-    () => new GetVariable('variable/getVector2', 'vector2')
+    'variable/getVec2',
+    () => new GetVariable('variable/getVec2', 'vec2')
   );
   nodes.register(
-    'variable/onVector2Changed',
-    () => new OnVariableChanged('variable/onVector2Changed', 'vector2')
-  );
-
-  nodes.register(
-    'variable/setVector3',
-    () => new SetVariable('variable/setVector3', 'vector3')
-  );
-  nodes.register(
-    'variable/getVector3',
-    () => new GetVariable('variable/getVector3', 'vector3')
-  );
-  nodes.register(
-    'variable/onVector3Changed',
-    () => new OnVariableChanged('variable/onVector3Changed', 'vector3')
+    'variable/onVec2Changed',
+    () => new OnVariableChanged('variable/onVec2Changed', 'vec2')
   );
 
   nodes.register(
-    'variable/setQuaternion',
-    () => new SetVariable('variable/setQuaternion', 'quaternion')
+    'variable/setVec3',
+    () => new SetVariable('variable/setVec3', 'vec3')
   );
   nodes.register(
-    'variable/getQuaternion',
-    () => new GetVariable('variable/getQuaternion', 'quaternion')
+    'variable/getVec3',
+    () => new GetVariable('variable/getVec3', 'vec3')
   );
   nodes.register(
-    'variable/onQuaternionChanged',
-    () => new OnVariableChanged('variable/onQuaternionChanged', 'quaternion')
+    'variable/onVec3Changed',
+    () => new OnVariableChanged('variable/onVec3Changed', 'vec3')
+  );
+
+  nodes.register(
+    'variable/setVec4',
+    () => new SetVariable('variable/setVec4', 'vec4')
+  );
+  nodes.register(
+    'variable/getVec4',
+    () => new GetVariable('variable/getVec4', 'vec4')
+  );
+  nodes.register(
+    'variable/onVec4Changed',
+    () => new OnVariableChanged('variable/onVec4Changed', 'vec4')
   );
 
   return registry;

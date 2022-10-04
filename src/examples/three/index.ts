@@ -56,7 +56,8 @@ async function main() {
   }
 
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const json = await (await fetch(graphJsonPath)).json();
+  const response = await fetch(graphJsonPath);
+  const json = await response.json();
   const graph = readGraphFromJSON(json, registry);
   graph.name = graphJsonPath;
 
@@ -143,16 +144,14 @@ async function main() {
     manualLifecycleEventEmitter
   );
 
-  // const startTime = Date.now();
-
   Logger.verbose('initialize graph');
-  let numSteps = await graphEvaluator.executeAll();
+  await graphEvaluator.executeAll();
 
   Logger.verbose('triggering start event');
   manualLifecycleEventEmitter.startEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5);
+  await graphEvaluator.executeAllAsync(5);
 
   for (let tick = 0; tick < 5; tick++) {
     Logger.verbose('triggering tick');
@@ -160,18 +159,14 @@ async function main() {
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
-    numSteps += await graphEvaluator.executeAllAsync(5);
+    await graphEvaluator.executeAllAsync(5);
   }
 
   Logger.verbose('triggering end event');
   manualLifecycleEventEmitter.endEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5);
-
-  // const deltaTime = Date.now() - startTime;
-
-  // Logger.info(`  ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round((numSteps * 1000) / deltaTime)} steps/second`);
+  await graphEvaluator.executeAllAsync(5);
 }
 
 main();

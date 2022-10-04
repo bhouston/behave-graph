@@ -36,7 +36,7 @@ export * from './Registry';
 
 // interface registry
 export * from './Providers/ImplementationRegistry';
-export * from './Providers/ILifecycleEventEmitter';
+export * from './Profiles/Core/Providers/ILifecycleEventEmitter';
 export * from './Providers/Implementations/DefaultLogger';
 export * from './Providers/Implementations/ManualLifecycleEventEmitter';
 export * from './Providers/ILogger';

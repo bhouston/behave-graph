@@ -87,7 +87,7 @@ export function registerSceneGraphProfile(registry: Registry) {
 
   // eslint-disable-next-line no-param-reassign
   nodes.register(
-    'action/setSceneNodeVisible',
+    'action/setSceneNodeProperty',
     () =>
       new SetSceneNodeProperty<boolean>(
         'action/setSceneNodeVisible',

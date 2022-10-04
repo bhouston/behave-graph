@@ -38,11 +38,7 @@ async function main() {
   const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
   const graph = readGraphFromJSON(JSON.parse(textFile), registry);
   graph.name = graphJsonPath;
-  await fs.writeFile(graphJsonPath, JSON.stringify(writeGraphToJSON(graph)), {
-    encoding: 'utf-8'
-  });
 
-  // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   Logger.verbose('validating:');
   const errorList: string[] = [];
   Logger.verbose('validating registry');

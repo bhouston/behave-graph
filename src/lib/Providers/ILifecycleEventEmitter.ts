@@ -1,5 +1,3 @@
-/* eslint-disable semi */
-
 import { EventEmitter } from '../Events/EventEmitter';
 
 export interface ILifecycleEventEmitter {

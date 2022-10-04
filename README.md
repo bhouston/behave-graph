@@ -10,10 +10,6 @@ This library is intended to follow industry best practices in terms of behavior 
 
 Another neat fact about behavior graphs is that they offer a sand boxed execution model. Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs. This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
 
-## Discord
-=======
-Another neat fact about behavior graphs is that they offer a sand boxed execution model.  Because one can only execute what is defined by nodes exposed by the host system, you can restrict what can be executed by these graphs.  This type of sand-boxing is not possible when you just load and execute arbitrary scripts.
-
 ## Community Resources
 
 You can join our Discord here:

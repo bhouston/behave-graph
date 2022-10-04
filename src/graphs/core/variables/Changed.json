@@ -1,81 +1,79 @@
 {
-  "variables": [
-    {
-      "id": 0,
-      "name": "counter",
-      "valueTypeName": "number",
-      "initialValue": "-1"
-    }
-  ],
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0"
-    },
-    {
-      "type": "variable/setNumber",
-      "id": "1",
-      "inputs": {
-        "flow": {
-          "links": [
-            {
-              "nodeId": "0",
-              "socket": "flow"
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0",
+            "flows": {
+                "flow": {
+                    "nodeId": "1",
+                    "socket": "flow"
+                }
             }
-          ]
         },
-        "variable": {
-          "value": "0"
+        {
+            "type": "variable/setNumber",
+            "id": "1",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                },
+                "value": {
+                    "value": 391
+                }
+            }
         },
-        "value": {
-          "value": 391
-        }
-      }
-    },
-    {
-      "type": "variable/onNumberChanged",
-      "id": "2",
-      "inputs": {
-        "variable": {
-          "value": "0"
-        }
-      }
-    },
-    {
-      "type": "logic/numberToString",
-      "id": "3",
-      "inputs": {
-        "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "value"
+        {
+            "type": "variable/onNumberChanged",
+            "id": "2",
+            "parameters": {
+                "variable": {
+                    "value": "0"
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "4",
+                    "socket": "flow"
+                }
             }
-          ]
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "4",
-      "inputs": {
-        "flow": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "flow"
-            }
-          ]
         },
-        "text": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
+        {
+            "type": "logic/numberToString",
+            "id": "3",
+            "parameters": {
+                "a": {
+                    "links": [
+                        {
+                            "nodeId": "2",
+                            "socket": "value"
+                        }
+                    ]
+                }
             }
-          ]
+        },
+        {
+            "type": "action/log",
+            "id": "4",
+            "parameters": {
+                "text": {
+                    "links": [
+                        {
+                            "nodeId": "3",
+                            "socket": "result"
+                        }
+                    ]
+                }
+            }
         }
-      }
-    }
-  ]
+    ],
+    "variables": [
+        {
+            "valueTypeName": "number",
+            "name": "counter",
+            "id": 0,
+            "initialValue": -1
+        }
+    ],
+    "customEvents": [],
+    "name": "./src/graphs/core/variables/Changed.json"
 }

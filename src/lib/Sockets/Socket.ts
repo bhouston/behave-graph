@@ -1,7 +1,7 @@
-import { NodeSocketRef } from '../Nodes/NodeSocketRef';
+import { Link } from '../Nodes/Link';
 
 export class Socket {
-  public readonly links: NodeSocketRef[] = [];
+  public readonly links: Link[] = [];
 
   constructor(
     public readonly valueTypeName: string,

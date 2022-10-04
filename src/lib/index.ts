@@ -6,7 +6,7 @@ export * from './Diagnostics/Assert';
 // main data model
 export * from './Graphs/Graph';
 export * from './Nodes/Node';
-export * from './Nodes/NodeSocketRef';
+export * from './Nodes/Link';
 export * from './Values/ValueType';
 export * from './Sockets/Socket';
 

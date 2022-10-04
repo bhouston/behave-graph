@@ -4,8 +4,8 @@
       "type": "lifecycle/start",
       "id": "0",
       "flows": {
-        "next": {
-          "nodeId": "0",
+        "flow": {
+          "nodeId": "1",
           "socket": "flow"
         }
       }
@@ -19,5 +19,8 @@
         }
       }
     }
-  ]
+  ],
+  "variables": [],
+  "customEvents": [],
+  "name": "./src/graphs/core/HelloWorld.json"
 }

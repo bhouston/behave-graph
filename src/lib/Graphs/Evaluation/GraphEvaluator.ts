@@ -3,7 +3,7 @@
 import { Logger } from '../../Diagnostics/Logger';
 import { EventEmitter } from '../../Events/EventEmitter';
 import { EventListener } from '../../Events/EventListener';
-import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { Link } from '../../Nodes/Link';
 import { sleep } from '../../sleep';
 import { Graph } from '../Graph';
 import { NodeEvaluationEvent } from './NodeEvaluationEvent';
@@ -21,7 +21,7 @@ export class GraphEvaluator {
     Object.values(this.graph.nodes).forEach((node) => {
       if (node.evaluateOnStartup) {
         this.executionBlockQueue.push(
-          new SyncExecutionBlock(this, new NodeSocketRef(node.id, ''))
+          new SyncExecutionBlock(this, new Link(node.id, ''))
         );
       }
     });
@@ -29,7 +29,7 @@ export class GraphEvaluator {
 
   // asyncCommit
   asyncCommit(
-    outputFlowSocket: NodeSocketRef,
+    outputFlowSocket: Link,
     syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];

@@ -2,7 +2,7 @@ import { Assert } from '../../Diagnostics/Assert';
 import { Logger } from '../../Diagnostics/Logger';
 import { EventListener } from '../../Events/EventListener';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
-import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { Link } from '../../Nodes/Link';
 import { Socket } from '../../Sockets/Socket';
 import { Graph } from '../Graph';
 import { GraphEvaluator } from './GraphEvaluator';
@@ -14,7 +14,7 @@ export class SyncExecutionBlock {
 
   constructor(
     public graphEvaluator: GraphEvaluator,
-    public nextEval: NodeSocketRef | null,
+    public nextEval: Link | null,
     syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
   ) {
     this.graph = graphEvaluator.graph;
@@ -91,7 +91,7 @@ export class SyncExecutionBlock {
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
-    outputFlowSocket: NodeSocketRef,
+    outputFlowSocket: Link,
     syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
   ) {
     Assert.mustBeTrue(this.nextEval === null);
@@ -135,11 +135,11 @@ export class SyncExecutionBlock {
   // returns the number of new execution steps created as a result of this one step
   executeStep(): boolean {
     // pop the next node off the queue
-    const nodeSocketRef = this.nextEval;
+    const link = this.nextEval;
     this.nextEval = null;
 
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
-    if (nodeSocketRef === null) {
+    if (link === null) {
       if (this.syncEvaluationCompletedListenerStack.length === 0) {
         return false;
       }
@@ -151,7 +151,7 @@ export class SyncExecutionBlock {
       return true;
     }
 
-    const node = this.graph.nodes[nodeSocketRef.nodeId];
+    const node = this.graph.nodes[link.nodeId];
     Logger.verbose(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
@@ -162,7 +162,7 @@ export class SyncExecutionBlock {
         this.resolveInputValueFromSocket(inputSocket);
       } else {
         // eslint-disable-next-line no-param-reassign
-        inputSocket.value = inputSocket.name === nodeSocketRef.socketName; // is this required?
+        inputSocket.value = inputSocket.name === link.socketName; // is this required?
       }
     });
 
@@ -189,9 +189,7 @@ export class SyncExecutionBlock {
 
       node.outputSockets.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
-          this.commit(
-            new NodeSocketRef(nodeSocketRef.nodeId, outputSocket.name)
-          );
+          this.commit(new Link(link.nodeId, outputSocket.name));
         }
       });
     }

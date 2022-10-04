@@ -1,7 +1,7 @@
 import { Logger } from '../../Diagnostics/Logger';
 import { CustomEvent } from '../../Events/CustomEvent';
 import { Node } from '../../Nodes/Node';
-import { NodeSocketRef } from '../../Nodes/NodeSocketRef';
+import { Link } from '../../Nodes/Link';
 import { Registry } from '../../Registry';
 import { Variable } from '../../Variables/Variable';
 import { Graph } from '../Graph';
@@ -50,70 +50,70 @@ export function readGraphFromJSON(
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
       // console.log(inputSocket);
-      inputSocket.links.forEach((nodeSocketRef) => {
-        // console.log(nodeSocketRef);
-        const upstreamNode = graph.nodes[nodeSocketRef.nodeId];
+      inputSocket.links.forEach((link) => {
+        // console.log(link);
+        const upstreamNode = graph.nodes[link.nodeId];
         if (upstreamNode === undefined) {
           throw new Error(
             `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent upstream node id ${nodeSocketRef.nodeId}`
+              `a nonexistent upstream node id ${link.nodeId}`
           );
         }
         const upstreamOutputSocket = upstreamNode.outputSockets.find(
-          (socket) => socket.name === nodeSocketRef.socketName
+          (socket) => socket.name === link.socketName
         );
         if (upstreamOutputSocket === undefined) {
           throw new Error(
             `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent output '${nodeSocketRef.socketName}' on upstream node '${upstreamNode.typeName}'`
+              `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.typeName}'`
           );
         }
 
         // add, only if unique
-        const newLink = new NodeSocketRef(node.id, inputSocket.name);
+        const upstreamLink = new Link(node.id, inputSocket.name);
         if (
           upstreamOutputSocket.links.findIndex(
             (value) =>
-              value.nodeId == newLink.nodeId &&
-              value.socketName == newLink.socketName
+              value.nodeId == upstreamLink.nodeId &&
+              value.socketName == upstreamLink.socketName
           ) < 0
         ) {
-          upstreamOutputSocket.links.push(newLink);
+          upstreamOutputSocket.links.push(upstreamLink);
         }
       });
     });
 
     node.outputSockets.forEach((outputSocket) => {
       // console.log(inputSocket);
-      outputSocket.links.forEach((nodeSocketRef) => {
-        // console.log(nodeSocketRef);
-        const downstreamNode = graph.nodes[nodeSocketRef.nodeId];
+      outputSocket.links.forEach((link) => {
+        // console.log(link);
+        const downstreamNode = graph.nodes[link.nodeId];
         if (downstreamNode === undefined) {
           throw new Error(
             `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
-              `a nonexistent downstream node id ${nodeSocketRef.nodeId}`
+              `a nonexistent downstream node id ${link.nodeId}`
           );
         }
         const downstreamInputSocket = downstreamNode.inputSockets.find(
-          (socket) => socket.name === nodeSocketRef.socketName
+          (socket) => socket.name === link.socketName
         );
         if (downstreamInputSocket === undefined) {
           throw new Error(
             `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
-              `a nonexistent input '${nodeSocketRef.socketName}' on downstream node '${downstreamNode.typeName}'`
+              `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.typeName}'`
           );
         }
 
         // add, only if unique
-        const newLink = new NodeSocketRef(node.id, outputSocket.name);
+        const downstreamLink = new Link(node.id, outputSocket.name);
         if (
           downstreamInputSocket.links.findIndex(
             (value) =>
-              value.nodeId == newLink.nodeId &&
-              value.socketName == newLink.socketName
+              value.nodeId == downstreamLink.nodeId &&
+              value.socketName == downstreamLink.socketName
           ) < 0
         ) {
-          downstreamInputSocket.links.push(newLink);
+          downstreamInputSocket.links.push(downstreamLink);
         }
       });
     });
@@ -162,9 +162,9 @@ function readNodeInputsJSON(
   node.inputSockets.forEach((socket) => {
     // warn if no definition.
     if (inputsJson?.[socket.name] === undefined) {
-      Logger.warn(
-        `readGraphFromJSON: no input socket value or links for node socket: ${node.typeName}.${socket.name}`
-      );
+      //Logger.warn(
+      //  `readGraphFromJSON: no input socket value or links for node socket: ${node.typeName}.${socket.name}`
+      //);
       return;
     }
 
@@ -179,7 +179,7 @@ function readNodeInputsJSON(
     if (inputJson.links !== undefined) {
       const linksJson = inputJson.links;
       linksJson.forEach((linkJson) => {
-        socket.links.push(new NodeSocketRef(linkJson.nodeId, linkJson.socket));
+        socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
       });
     }
   });
@@ -213,9 +213,7 @@ function readNodeOutputLinksJSON(
 
     const outputLinkJson = outputLinksJson[socket.name];
     if (outputLinkJson !== undefined) {
-      socket.links.push(
-        new NodeSocketRef(outputLinkJson.nodeId, outputLinkJson.socket)
-      );
+      socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));
     }
   });
 

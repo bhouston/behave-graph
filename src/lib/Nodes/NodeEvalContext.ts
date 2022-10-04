@@ -10,7 +10,7 @@ import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock';
 import { Graph } from '../Graphs/Graph';
 import { Variable } from '../Variables/Variable';
 import { Node } from './Node';
-import { NodeSocketRef } from './NodeSocketRef';
+import { Link } from './Link';
 
 // Purpose:
 //  - Avoid nodes having to access globals to reference the scene or trigger loaders.
@@ -202,12 +202,12 @@ export class NodeEvalContext {
     this.writeOutputs();
     if (this.node.async) {
       this.graphEvaluator.asyncCommit(
-        new NodeSocketRef(this.node.id, downstreamFlowSocketName),
+        new Link(this.node.id, downstreamFlowSocketName),
         syncEvaluationCompletedListener
       );
     } else {
       this.syncExecutionBlock.commit(
-        new NodeSocketRef(this.node.id, downstreamFlowSocketName),
+        new Link(this.node.id, downstreamFlowSocketName),
         syncEvaluationCompletedListener
       );
     }

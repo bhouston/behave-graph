@@ -7,24 +7,24 @@ export function validateLinks(graph: Graph): string[] {
     // for each input socket
     node.inputSockets.forEach((inputSocket) => {
       // ensure that connected output sockets are the same type
-      inputSocket.links.forEach((nodeSocketRef) => {
+      inputSocket.links.forEach((link) => {
         // check if the node id is correct
-        const upstreamNode = graph.nodes[nodeSocketRef.nodeId];
+        const upstreamNode = graph.nodes[link.nodeId];
         if (upstreamNode === undefined) {
           errorList.push(
-            `node ${node.typeName}.${inputSocket.name} has link using invalid nodeid: ${nodeSocketRef.nodeId}`
+            `node ${node.typeName}.${inputSocket.name} has link using invalid nodeid: ${link.nodeId}`
           );
           return;
         }
 
         // check if the socketName is correct
         const outputSocket = upstreamNode.outputSockets.find(
-          (socket) => socket.name === nodeSocketRef.socketName
+          (socket) => socket.name === link.socketName
         );
         if (outputSocket === undefined) {
           errorList.push(
             `node ${node.typeName}.${inputSocket.name} has link using a non-existant socket name: ` +
-              `${nodeSocketRef.socketName}, it can not be found on upstream output node: ${upstreamNode.typeName}`
+              `${link.socketName}, it can not be found on upstream output node: ${upstreamNode.typeName}`
           );
           return;
         }

@@ -12,7 +12,7 @@ export class Variable {
     public readonly id: string,
     public readonly name: string,
     public readonly valueTypeName: string,
-    public initialValue: any = undefined // this is assumed to be properly deseriealized from a string.
+    public initialValue: any // this is assumed to be properly deseriealized from a string.
   ) {
     this.value = this.initialValue;
   }

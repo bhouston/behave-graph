@@ -1,9 +1,3 @@
-import { Logger } from '../../Diagnostics/Logger';
-import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
-import { Registry } from '../../Registry';
-import { GraphJSON } from './GraphJSON';
-import { readGraphFromJSON } from './readGraphFromJSON';
-
 import exampleDelay from '../../../graphs/core/async/Delay.json';
 import exampleCustomEvent from '../../../graphs/core/events/CustomEvents.json';
 import exampleLifecycle from '../../../graphs/core/events/Lifecycle.json';
@@ -17,10 +11,15 @@ import exampleChanged from '../../../graphs/core/variables/Changed.json';
 import exampleFrameCounter from '../../../graphs/core/variables/FrameCounter.json';
 import exampleInitialValue from '../../../graphs/core/variables/InitialValue.json';
 import exampleSetGet from '../../../graphs/core/variables/SetGet.json';
+import { Logger } from '../../Diagnostics/Logger';
+import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
+import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import { validateDirectedAcyclicGraph } from '../Validation/validateDirectedAcyclicGraph';
 import { validateGraphRegistry } from '../Validation/validateGraphRegistry';
 import { validateLinks } from '../Validation/validateLinks';
+import { GraphJSON } from './GraphJSON';
+import { readGraphFromJSON } from './readGraphFromJSON';
 
 const registry = new Registry();
 registerCoreProfile(registry);
@@ -47,7 +46,7 @@ Object.keys(exampleMap).forEach((key) => {
   describe(`${key}.json`, () => {
     const exampleJSON = exampleMap[key] as GraphJSON;
 
-    let parsedGraphJson: Graph | undefined = undefined;
+    let parsedGraphJson: Graph | undefined;
     // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {

@@ -1,5 +1,3 @@
-import { Vector3 } from 'three';
-
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';

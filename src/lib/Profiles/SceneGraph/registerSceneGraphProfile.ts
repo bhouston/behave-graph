@@ -9,12 +9,12 @@ import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
 import { GetVariable } from '../Core/Queries/GetVariable';
 import { SetSceneNodeProperty } from './Actions/SetSceneNodeProperty';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
-import { Vec4Create } from './Logic/Vec4Create';
-import { Vec4Elements } from './Logic/Vec4Elements';
 import { Vec2Create } from './Logic/Vec2Create';
 import { Vec2Elements } from './Logic/Vec2Elements';
 import { Vec3Create } from './Logic/Vec3Create';
 import { Vec3Elements } from './Logic/Vec3Elements';
+import { Vec4Create } from './Logic/Vec4Create';
+import { Vec4Elements } from './Logic/Vec4Elements';
 import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
 import {
   Vec2,

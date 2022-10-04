@@ -528,7 +528,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/parseString',
         'string',
         'number',
-        (a) => parseFloat(a)
+        (a) => Number.parseFloat(a)
       )
   );
   nodes.register(

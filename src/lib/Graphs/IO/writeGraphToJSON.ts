@@ -1,4 +1,3 @@
-import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import {
   CustomEventJSON,
@@ -94,7 +93,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
       parametersJson[inputSocket.name] = parameterJson;
     });
 
-    if (Object.keys(parametersJson).length) {
+    if (Object.keys(parametersJson).length > 0) {
       nodeJson.parameters = parametersJson;
     }
 
@@ -112,7 +111,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
       flowsJson[outputSocket.name] = linkJson;
     });
 
-    if (Object.keys(flowsJson).length) {
+    if (Object.keys(flowsJson).length > 0) {
       nodeJson.flows = flowsJson;
     }
 

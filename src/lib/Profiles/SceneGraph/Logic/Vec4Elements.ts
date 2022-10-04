@@ -1,8 +1,7 @@
-import { Quaternion } from 'three';
-
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
+import { Vec4 } from '../Values/Vec4';
 
 export class Vec4Elements extends Node {
   constructor() {

@@ -25,13 +25,16 @@ export function vec4Length(a: Vec4): number {
   return Math.sqrt(vec4Dot(a, a));
 }
 export function vec4Normalize(a: Vec4): Vec4 {
-  const invLength = 1.0 / vec4Length(a);
+  const invLength = 1 / vec4Length(a);
   return vec4Scale(a, invLength);
 }
 export function vec4Dot(a: Vec4, b: Vec4): number {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
-export function vec4FromArray(array: Float32Array, offset = 0): Vec4 {
+export function vec4FromArray(
+  array: Float32Array | number[],
+  offset = 0
+): Vec4 {
   return new Vec4(
     array[offset + 0],
     array[offset + 1],
@@ -39,7 +42,11 @@ export function vec4FromArray(array: Float32Array, offset = 0): Vec4 {
     array[offset + 3]
   );
 }
-export function vec4ToArray(a: Vec4, array: Float32Array, offset = 0): void {
+export function vec4ToArray(
+  a: Vec4,
+  array: Float32Array | number[],
+  offset = 0
+): void {
   array[offset + 0] = a.x;
   array[offset + 1] = a.y;
   array[offset + 2] = a.z;

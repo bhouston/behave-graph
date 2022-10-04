@@ -152,7 +152,7 @@ async function main() {
   manualLifecycleEventEmitter.startEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5);
 
   for (let tick = 0; tick < 5; tick++) {
     Logger.verbose('triggering tick');
@@ -160,14 +160,14 @@ async function main() {
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
-    numSteps += await graphEvaluator.executeAllAsync(5.0);
+    numSteps += await graphEvaluator.executeAllAsync(5);
   }
 
   Logger.verbose('triggering end event');
   manualLifecycleEventEmitter.endEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5);
 
   // const deltaTime = Date.now() - startTime;
 

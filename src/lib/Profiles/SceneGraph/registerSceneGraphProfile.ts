@@ -85,85 +85,50 @@ export function registerSceneGraphProfile(registry: Registry) {
 
   // actions
 
-  // eslint-disable-next-line no-param-reassign
   nodes.register(
-    'action/setSceneNodeProperty',
+    'action/setSceneNodeBoolean',
     () =>
-      new SetSceneNodeProperty<boolean>(
-        'action/setSceneNodeVisible',
-        'boolean',
-        (node, value) => {
-          node.visible = value;
-        }
-      )
+      new SetSceneNodeProperty<boolean>('action/setSceneNodeBoolean', 'boolean')
   );
   nodes.register(
-    'action/setSceneNodeTranslation',
+    'action/setSceneNodeNumber',
     () =>
-      new SetSceneNodeProperty<Vec3>(
-        'action/setSceneNodeTranslation',
-        'vec3',
-        (node, value) => {
-          node.position.copy(value);
-        }
-      )
+      new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'number')
   );
   nodes.register(
-    'action/setSceneNodeRotation',
-    () =>
-      new SetSceneNodeProperty<Vec4>(
-        'action/setSceneNodeRotation',
-        'vec4',
-        (node, value) => {
-          node.quaternion.copy(value);
-        }
-      )
+    'action/setSceneNodeVec2',
+    () => new SetSceneNodeProperty<Vec2>('action/setSceneNodeVec2', 'vec2')
   );
   nodes.register(
-    'action/setSceneNodeScale',
-    () =>
-      new SetSceneNodeProperty<Vec3>(
-        'action/setSceneNodeScale',
-        'vec3',
-        (node, value) => {
-          node.scale.copy(value);
-        }
-      )
+    'action/setSceneNodeVec3',
+    () => new SetSceneNodeProperty<Vec3>('action/setSceneNodeVec3', 'vec3')
+  );
+  nodes.register(
+    'action/setSceneNodeVec4',
+    () => new SetSceneNodeProperty<Vec4>('action/setSceneNodeVec4', 'vec4')
   );
 
   // queries
 
   nodes.register(
-    'query/getSceneNodeVisible',
-    () =>
-      new GetSceneNodeProperty(
-        'query/getSceneNodeVisible',
-        'boolean',
-        (node) => node.visible
-      )
+    'query/getSceneNodeBoolean',
+    () => new GetSceneNodeProperty('query/getSceneNodeBoolean', 'boolean')
   );
   nodes.register(
-    'query/getSceneNodeTranslation',
-    () =>
-      new GetSceneNodeProperty(
-        'query/getSceneNodeTranslation',
-        'vec3',
-        (node) => node.position.clone()
-      )
+    'query/getSceneNodeNumber',
+    () => new GetSceneNodeProperty('query/getSceneNodeNumber', 'number')
   );
   nodes.register(
-    'query/getSceneNodeRotation',
-    () =>
-      new GetSceneNodeProperty('query/getSceneNodeRotation', 'vec4', (node) =>
-        node.quaternion.clone()
-      )
+    'query/getSceneNodeVec2',
+    () => new GetSceneNodeProperty('query/getSceneNodeVec2', 'vec2')
   );
   nodes.register(
-    'query/getSceneNodeScale',
-    () =>
-      new GetSceneNodeProperty('query/getSceneNodeScale', 'vec3', (node) =>
-        node.scale.clone()
-      )
+    'query/getSceneNodeVec3',
+    () => new GetSceneNodeProperty('query/getSceneNodeVec3', 'vec3')
+  );
+  nodes.register(
+    'query/getSceneNodeVec4',
+    () => new GetSceneNodeProperty('query/getSceneNodeVec4', 'vec4')
   );
 
   // logic: vec2

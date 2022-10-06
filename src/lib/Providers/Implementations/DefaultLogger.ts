@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { Logger } from '../../Diagnostics/Logger';
-import { ILogger } from '../ILogger';
+import { ILogger } from '../../Profiles/Core/Providers/ILogger';
 
 export class DefaultLogger implements ILogger {
   verbose(text: string): void {

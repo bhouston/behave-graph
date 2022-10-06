@@ -7,7 +7,8 @@ export class GetSceneNodeProperty<T> extends Node {
     super(
       'Query',
       nodeName,
-      [new Socket('flow', 'flow'), new Socket('id', 'nodeId')],
+      [new Socket('flow', 'flow'), new Socket('string', 'jsonPath')],
+
       [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
       (context) => {
         const sceneGraph =

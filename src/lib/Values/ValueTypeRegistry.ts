@@ -41,7 +41,7 @@ export class ValueTypeRegistry {
         () => 0n,
         (text: string): bigint => {
           if (typeof text === 'string') {
-            return BigInt(Number.parseFloat(text));
+            return BigInt(text);
           }
 
           return BigInt(text);

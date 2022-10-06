@@ -10,9 +10,9 @@ export class Vec3Elements extends Node {
       'logic/vec3Elements',
       [new Socket('vec3', 'value')],
       [
-        new Socket('number', 'x'),
-        new Socket('number', 'y'),
-        new Socket('number', 'z')
+        new Socket('float', 'x'),
+        new Socket('float', 'y'),
+        new Socket('float', 'z')
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vec3;

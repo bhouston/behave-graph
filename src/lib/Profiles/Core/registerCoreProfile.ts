@@ -56,12 +56,12 @@ export function registerCoreProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/numberCreate',
+    'logic/floatCreate',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberCreate',
-        'number',
-        'number',
+        'logic/floatCreate',
+        'float',
+        'float',
         (a) => a
       )
   );
@@ -114,88 +114,154 @@ export function registerCoreProfile(registry: Registry) {
   // logic: arithmetic
 
   nodes.register(
-    'logic/numberAdd',
+    'logic/floatAdd',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberAdd',
-        'number',
-        'number',
-        'number',
+        'logic/floatAdd',
+        'float',
+        'float',
+        'float',
         (a, b) => a + b
       )
   );
   nodes.register(
-    'logic/numberSubtract',
+    'logic/floatSubtract',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberSubtract',
-        'number',
-        'number',
-        'number',
+        'logic/floatSubtract',
+        'float',
+        'float',
+        'float',
         (a, b) => a - b
       )
   );
   nodes.register(
-    'logic/numberMultiply',
+    'logic/floatMultiply',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberMultiply',
-        'number',
-        'number',
-        'number',
+        'logic/floatMultiply',
+        'float',
+        'float',
+        'float',
         (a, b) => a * b
       )
   );
   nodes.register(
-    'logic/numberDivide',
+    'logic/floatDivide',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberDivide',
-        'number',
-        'number',
-        'number',
+        'logic/floatDivide',
+        'float',
+        'float',
+        'float',
         (a, b) => a / b
       )
   );
   nodes.register(
-    'logic/numberPow',
+    'logic/floatPow',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberPow',
-        'number',
-        'number',
-        'number',
+        'logic/floatPow',
+        'float',
+        'float',
+        'float',
         (a, b) => a ** b
       )
   );
   nodes.register(
-    'logic/numberNegate',
+    'logic/floatNegate',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberNegate',
-        'number',
-        'number',
+        'logic/floatNegate',
+        'float',
+        'float',
         (a) => -a
       )
   );
   nodes.register(
-    'logic/numberSqrt',
+    'logic/floatSqrt',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberSqrt',
-        'number',
-        'number',
+        'logic/floatSqrt',
+        'float',
+        'float',
         (a) => Math.sqrt(a)
       )
   );
   nodes.register(
-    'logic/numberModulus',
+    'logic/floatModulus',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberModulus',
-        'number',
-        'number',
-        'number',
+        'logic/floatModulus',
+        'float',
+        'float',
+        'float',
+        (a, b) => a % b
+      )
+  );
+
+  nodes.register(
+    'logic/integerAdd',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerAdd',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => a + b
+      )
+  );
+  nodes.register(
+    'logic/integerSubtract',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerSubtract',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => a - b
+      )
+  );
+  nodes.register(
+    'logic/integerMultiply',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerMultiply',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => a * b
+      )
+  );
+  nodes.register(
+    'logic/integerDivide',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerDivide',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => a / b
+      )
+  );
+  nodes.register(
+    'logic/integerNegate',
+    () =>
+      new In1Out1FuncNode<bigint, bigint>(
+        'logic/integerNegate',
+        'integer',
+        'integer',
+        (a) => -a
+      )
+  );
+  nodes.register(
+    'logic/integerModulus',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerModulus',
+        'integer',
+        'integer',
+        'integer',
         (a, b) => a % b
       )
   );
@@ -203,46 +269,46 @@ export function registerCoreProfile(registry: Registry) {
   // logic: exponential
 
   nodes.register(
-    'logic/numberE',
-    () => new In0Out1FuncNode<number>('logic/numberE', 'number', () => Math.E)
+    'logic/floatE',
+    () => new In0Out1FuncNode<number>('logic/floatE', 'float', () => Math.E)
   );
   nodes.register(
-    'logic/numberExp',
+    'logic/floatExp',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberExp',
-        'number',
-        'number',
+        'logic/floatExp',
+        'float',
+        'float',
         (a) => Math.exp(a)
       )
   );
   nodes.register(
-    'logic/numberLog',
+    'logic/floatLog',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberLog',
-        'number',
-        'number',
+        'logic/floatLog',
+        'float',
+        'float',
         (a) => Math.log(a)
       )
   );
   nodes.register(
-    'logic/numberLog2',
+    'logic/floatLog2',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberLog2',
-        'number',
-        'number',
+        'logic/floatLog2',
+        'float',
+        'float',
         (a) => Math.log2(a)
       )
   );
   nodes.register(
-    'logic/numberLog10',
+    'logic/floatLog10',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberLog10',
-        'number',
-        'number',
+        'logic/floatLog10',
+        'float',
+        'float',
         (a) => Math.log10(a)
       )
   );
@@ -250,161 +316,183 @@ export function registerCoreProfile(registry: Registry) {
   // logic: trigonometry
 
   nodes.register(
-    'logic/numberPi',
-    () => new In0Out1FuncNode<number>('logic/numberPi', 'number', () => Math.PI)
+    'logic/floatPi',
+    () => new In0Out1FuncNode<number>('logic/floatPi', 'float', () => Math.PI)
   );
   nodes.register(
-    'logic/numberSin',
+    'logic/floatSin',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberSin',
-        'number',
-        'number',
+        'logic/floatSin',
+        'float',
+        'float',
         (a) => Math.sin(a)
       )
   );
   nodes.register(
-    'logic/numberAsin',
+    'logic/floatAsin',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberAsin',
-        'number',
-        'number',
+        'logic/floatAsin',
+        'float',
+        'float',
         (a) => Math.asin(a)
       )
   );
   nodes.register(
-    'logic/numberCos',
+    'logic/floatCos',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberCos',
-        'number',
-        'number',
+        'logic/floatCos',
+        'float',
+        'float',
         (a) => Math.cos(a)
       )
   );
   nodes.register(
-    'logic/numberAcos',
+    'logic/floatAcos',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberAcos',
-        'number',
-        'number',
+        'logic/floatAcos',
+        'float',
+        'float',
         (a) => Math.acos(a)
       )
   );
   nodes.register(
-    'logic/numberTan',
+    'logic/floatTan',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberTan',
-        'number',
-        'number',
+        'logic/floatTan',
+        'float',
+        'float',
         (a) => Math.tan(a)
       )
   );
   nodes.register(
-    'logic/numberAtan',
+    'logic/floatAtan',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberAtan',
-        'number',
-        'number',
+        'logic/floatAtan',
+        'float',
+        'float',
         (a) => Math.atan(a)
       )
   );
 
   // logic: ranges
+  nodes.register(
+    'logic/integerMin',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerMin',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => (a > b ? b : a)
+      )
+  );
+  nodes.register(
+    'logic/integerMax',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, bigint>(
+        'logic/integerMax',
+        'integer',
+        'integer',
+        'integer',
+        (a, b) => (a > b ? a : b)
+      )
+  );
 
   nodes.register(
-    'logic/numberMin',
+    'logic/floatMin',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberMin',
-        'number',
-        'number',
-        'number',
+        'logic/floatMin',
+        'float',
+        'float',
+        'float',
         (a, b) => Math.min(a, b)
       )
   );
   nodes.register(
-    'logic/numberMax',
+    'logic/floatMax',
     () =>
       new In2Out1FuncNode<number, number, number>(
-        'logic/numberMax',
-        'number',
-        'number',
-        'number',
+        'logic/floatMax',
+        'float',
+        'float',
+        'float',
         (a, b) => Math.max(a, b)
       )
   );
   nodes.register(
-    'logic/numberSign',
+    'logic/floatSign',
     () =>
-      new In1Out1FuncNode<number, number>(
-        'logic/numberSign',
-        'number',
-        'number',
-        (a) => Math.sign(a)
+      new In1Out1FuncNode<number, bigint>(
+        'logic/floatSign',
+        'float',
+        'integer',
+        (a) => BigInt(Math.sign(a))
       )
   );
   nodes.register(
-    'logic/numberAbs',
+    'logic/floatAbs',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberAbs',
-        'number',
-        'number',
+        'logic/floatAbs',
+        'float',
+        'float',
         (a) => Math.abs(a)
       )
   );
   nodes.register(
-    'logic/numberFloor',
+    'logic/floatFloor',
     () =>
-      new In1Out1FuncNode<number, number>(
-        'logic/numberFloor',
-        'number',
-        'number',
-        (a) => Math.floor(a)
+      new In1Out1FuncNode<number, bigint>(
+        'logic/floatFloor',
+        'float',
+        'integer',
+        (a) => BigInt(Math.floor(a))
       )
   );
   nodes.register(
-    'logic/numberCeil',
+    'logic/floatCeil',
     () =>
-      new In1Out1FuncNode<number, number>(
-        'logic/numberCeil',
-        'number',
-        'number',
-        (a) => Math.ceil(a)
+      new In1Out1FuncNode<number, bigint>(
+        'logic/floatCeil',
+        'float',
+        'integer',
+        (a) => BigInt(Math.ceil(a))
       )
   );
   nodes.register(
-    'logic/numberRound',
+    'logic/floatRound',
     () =>
-      new In1Out1FuncNode<number, number>(
-        'logic/numberRound',
-        'number',
-        'number',
-        (a) => Math.round(a)
+      new In1Out1FuncNode<number, bigint>(
+        'logic/floatRound',
+        'float',
+        'integer',
+        (a) => BigInt(Math.round(a))
       )
   );
   nodes.register(
-    'logic/numberTrunc',
+    'logic/floatTrunc',
     () =>
-      new In1Out1FuncNode<number, number>(
-        'logic/numberTrunc',
-        'number',
-        'number',
-        (a) => Math.trunc(a)
+      new In1Out1FuncNode<number, bigint>(
+        'logic/floatTrunc',
+        'float',
+        'integer',
+        (a) => BigInt(Math.trunc(a))
       )
   );
 
   // logic: sampling
 
   nodes.register(
-    'logic/numberSample',
+    'logic/floatSample',
     () =>
-      new In0Out1FuncNode<number>('logic/numberSample', 'number', () =>
+      new In0Out1FuncNode<number>('logic/floatSample', 'float', () =>
         Math.random()
       )
   );
@@ -412,76 +500,133 @@ export function registerCoreProfile(registry: Registry) {
   // logic: comparison
 
   nodes.register(
-    'logic/numberEqual',
+    'logic/floatEqual',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/numberEqual',
-        'number',
-        'number',
+        'logic/floatEqual',
+        'float',
+        'float',
         'boolean',
         (a, b) => a === b
       )
   );
   nodes.register(
-    'logic/numberGreaterThan',
+    'logic/floatGreaterThan',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/numberGreaterThan',
-        'number',
-        'number',
+        'logic/floatGreaterThan',
+        'float',
+        'float',
         'boolean',
         (a, b) => a > b
       )
   );
   nodes.register(
-    'logic/numberGreaterThaOrEqual',
+    'logic/floatGreaterThaOrEqual',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/numberGreaterThaOrEqual',
-        'number',
-        'number',
+        'logic/floatGreaterThaOrEqual',
+        'float',
+        'float',
         'boolean',
         (a, b) => a >= b
       )
   );
   nodes.register(
-    'logic/numberLessThan',
+    'logic/floatLessThan',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/numberLessThan',
-        'number',
-        'number',
+        'logic/floatLessThan',
+        'float',
+        'float',
         'boolean',
         (a, b) => a < b
       )
   );
   nodes.register(
-    'logic/numberLessThaOrEqual',
+    'logic/floatLessThaOrEqual',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/numberLessThaOrEqual',
-        'number',
-        'number',
+        'logic/floatLessThaOrEqual',
+        'float',
+        'float',
         'boolean',
         (a, b) => a <= b
       )
   );
+
   nodes.register(
-    'logic/numberIsNan',
+    'logic/integerEqual',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, boolean>(
+        'logic/integerEqual',
+        'integer',
+        'integer',
+        'boolean',
+        (a, b) => a === b
+      )
+  );
+  nodes.register(
+    'logic/integerGreaterThan',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, boolean>(
+        'logic/integerGreaterThan',
+        'integer',
+        'integer',
+        'boolean',
+        (a, b) => a > b
+      )
+  );
+  nodes.register(
+    'logic/integerGreaterThaOrEqual',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, boolean>(
+        'logic/integerGreaterThaOrEqual',
+        'integer',
+        'integer',
+        'boolean',
+        (a, b) => a >= b
+      )
+  );
+  nodes.register(
+    'logic/integerLessThan',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, boolean>(
+        'logic/integerLessThan',
+        'integer',
+        'integer',
+        'boolean',
+        (a, b) => a < b
+      )
+  );
+  nodes.register(
+    'logic/integerLessThaOrEqual',
+    () =>
+      new In2Out1FuncNode<bigint, bigint, boolean>(
+        'logic/integerLessThaOrEqual',
+        'integer',
+        'integer',
+        'boolean',
+        (a, b) => a <= b
+      )
+  );
+
+  nodes.register(
+    'logic/floatIsNan',
     () =>
       new In1Out1FuncNode<number, boolean>(
-        'logic/numberIsNan',
-        'number',
+        'logic/floatIsNan',
+        'float',
         'boolean',
         (a) => Number.isNaN(a)
       )
   );
   nodes.register(
-    'logic/numberIsInf',
+    'logic/floatIsInf',
     () =>
       new In1Out1FuncNode<number, boolean>(
-        'logic/numberIsInf',
-        'number',
+        'logic/floatIsInf',
+        'float',
         'boolean',
         (a) => !Number.isFinite(a) && !Number.isNaN(a)
       )
@@ -512,11 +657,22 @@ export function registerCoreProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/numberToString',
+    'logic/floatToString',
     () =>
       new In1Out1FuncNode<number, string>(
-        'logic/numberToString',
-        'number',
+        'logic/floatToString',
+        'float',
+        'string',
+        (a) => a.toString()
+      )
+  );
+
+  nodes.register(
+    'logic/integerToString',
+    () =>
+      new In1Out1FuncNode<number, string>(
+        'logic/integerToString',
+        'integer',
         'string',
         (a) => a.toString()
       )
@@ -527,7 +683,7 @@ export function registerCoreProfile(registry: Registry) {
       new In1Out1FuncNode<string, number>(
         'logic/parseString',
         'string',
-        'number',
+        'float',
         (a) => Number.parseFloat(a)
       )
   );
@@ -537,7 +693,7 @@ export function registerCoreProfile(registry: Registry) {
       new In1Out1FuncNode<string, number>(
         'logic/stringLength',
         'string',
-        'number',
+        'float',
         (a) => a.length
       )
   );
@@ -563,16 +719,29 @@ export function registerCoreProfile(registry: Registry) {
   );
 
   nodes.register(
-    'variable/setNumber',
-    () => new SetVariable('variable/setNumber', 'number')
+    'variable/setFloat',
+    () => new SetVariable('variable/setFloat', 'float')
   );
   nodes.register(
-    'variable/getNumber',
-    () => new GetVariable('variable/getNumber', 'number')
+    'variable/getFloat',
+    () => new GetVariable('variable/getFloat', 'float')
   );
   nodes.register(
-    'variable/onNumberChanged',
-    () => new OnVariableChanged('variable/onNumberChanged', 'number')
+    'variable/onFloatChanged',
+    () => new OnVariableChanged('variable/onFloatChanged', 'float')
+  );
+
+  nodes.register(
+    'variable/setInteger',
+    () => new SetVariable('variable/setInteger', 'integer')
+  );
+  nodes.register(
+    'variable/getInteger',
+    () => new GetVariable('variable/getInteger', 'integer')
+  );
+  nodes.register(
+    'variable/onIntegerChanged',
+    () => new OnVariableChanged('variable/onIntegerChanged', 'integer')
   );
 
   nodes.register(

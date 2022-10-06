@@ -23,7 +23,7 @@ export class ValueTypeRegistry {
     );
     this.register(
       new ValueType(
-        'number',
+        'float',
         () => 0,
         (text: string | number) => {
           if (typeof text === 'string') {
@@ -33,6 +33,20 @@ export class ValueTypeRegistry {
           return text;
         },
         (value) => value
+      )
+    );
+    this.register(
+      new ValueType(
+        'integer',
+        () => 0n,
+        (text: string | number): bigint => {
+          if (typeof text === 'string') {
+            return BigInt(Number.parseFloat(text));
+          }
+
+          return BigInt(text);
+        },
+        (value: bigint) => value.toString()
       )
     );
     this.register(

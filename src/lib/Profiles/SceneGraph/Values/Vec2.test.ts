@@ -6,9 +6,11 @@ import {
   vec2Length,
   vec2Negate,
   vec2Normalize,
+  vec2Parse,
   vec2Scale,
   vec2Subtract,
-  vec2ToArray
+  vec2ToArray,
+  vec2ToString
 } from './Vec2';
 
 describe('vec2 value type', () => {
@@ -60,5 +62,12 @@ describe('vec2 value type', () => {
     vec2ToArray(new Vec2(6, 7), array, 1);
     expect(array[1]).toEqual(6);
     expect(array[2]).toEqual(7);
+  });
+  test('toString/parser', () => {
+    const v = new Vec2(10, 5.5);
+    const text = vec2ToString(v);
+    const v2 = vec2Parse(text);
+    expect(v.x).toEqual(v2.x);
+    expect(v.y).toEqual(v2.y);
   });
 });

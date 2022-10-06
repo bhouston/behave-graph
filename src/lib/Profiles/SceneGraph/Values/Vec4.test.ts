@@ -6,9 +6,11 @@ import {
   vec4Length,
   vec4Negate,
   vec4Normalize,
+  vec4Parse,
   vec4Scale,
   vec4Subtract,
-  vec4ToArray
+  vec4ToArray,
+  vec4ToString
 } from './Vec4';
 
 describe('vec4 value type', () => {
@@ -76,5 +78,13 @@ describe('vec4 value type', () => {
     expect(array[2]).toEqual(7);
     expect(array[3]).toEqual(8);
     expect(array[4]).toEqual(9);
+  });
+  test('toString/parser', () => {
+    const v = new Vec4(10, 5.5, -9, 99999);
+    const text = vec4ToString(v);
+    const v2 = vec4Parse(text);
+    expect(v.x).toEqual(v2.x);
+    expect(v.y).toEqual(v2.y);
+    expect(v.z).toEqual(v2.z);
   });
 });

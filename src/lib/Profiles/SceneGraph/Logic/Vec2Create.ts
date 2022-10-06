@@ -8,7 +8,7 @@ export class Vec2Create extends Node {
     super(
       'Logic',
       'logic/vec2Create',
-      [new Socket('number', 'x'), new Socket('number', 'y')],
+      [new Socket('float', 'x'), new Socket('float', 'y')],
       [new Socket('vec2', 'result')],
       (context: NodeEvalContext) => {
         context.writeOutput(

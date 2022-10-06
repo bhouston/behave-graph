@@ -9,7 +9,7 @@ export class Vec2Elements extends Node {
       'Logic',
       'logic/vec2Elements',
       [new Socket('vec2', 'value')],
-      [new Socket('number', 'x'), new Socket('number', 'y')],
+      [new Socket('float', 'x'), new Socket('float', 'y')],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vec2;
         context.writeOutput('x', value.x);

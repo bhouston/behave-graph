@@ -11,7 +11,7 @@ export class Delay extends Node {
     super(
       'Time',
       'time/delay',
-      [new Socket('flow', 'flow'), new Socket('number', 'duration')],
+      [new Socket('flow', 'flow'), new Socket('float', 'duration')],
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         let timeIsCancelled = false; // work around clearTimeout is not available on node.

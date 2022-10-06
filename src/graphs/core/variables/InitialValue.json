@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "variable/getNumber",
+      "type": "variable/getFloat",
       "id": "1",
       "parameters": {
         "variable": {
@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "logic/numberToString",
+      "type": "logic/floatToString",
       "id": "2",
       "parameters": {
         "a": {
@@ -50,7 +50,7 @@
   ],
   "variables": [
     {
-      "valueTypeName": "number",
+      "valueTypeName": "float",
       "name": "counter",
       "id": 0,
       "initialValue": 3.14156

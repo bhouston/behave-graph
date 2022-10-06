@@ -10,7 +10,7 @@ export class OnLifecycleTick extends Node {
       'Event',
       'lifecycle/tick',
       [],
-      [new Socket('flow', 'flow'), new Socket('number', 'deltaSeconds')],
+      [new Socket('flow', 'flow'), new Socket('float', 'deltaSeconds')],
       (context: NodeEvalContext) => {
         let lastTickTime = Date.now();
         const onTickEvent = () => {

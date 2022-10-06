@@ -10,10 +10,10 @@ export class Vec4Elements extends Node {
       'logic/vec4Elements',
       [new Socket('vec4', 'value')],
       [
-        new Socket('number', 'x'),
-        new Socket('number', 'y'),
-        new Socket('number', 'z'),
-        new Socket('number', 'w')
+        new Socket('float', 'x'),
+        new Socket('float', 'y'),
+        new Socket('float', 'z'),
+        new Socket('float', 'w')
       ],
       (context: NodeEvalContext) => {
         const value = context.readInput('value') as Vec4;

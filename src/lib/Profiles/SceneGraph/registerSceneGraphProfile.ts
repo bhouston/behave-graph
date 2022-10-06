@@ -94,7 +94,7 @@ export function registerSceneGraphProfile(registry: Registry) {
   nodes.register(
     'action/setSceneNodeNumber',
     () =>
-      new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'number')
+      new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'float')
   );
   nodes.register(
     'action/setSceneNodeVec2',
@@ -117,7 +117,7 @@ export function registerSceneGraphProfile(registry: Registry) {
   );
   nodes.register(
     'query/getSceneNodeNumber',
-    () => new GetSceneNodeProperty('query/getSceneNodeNumber', 'number')
+    () => new GetSceneNodeProperty('query/getSceneNodeNumber', 'float')
   );
   nodes.register(
     'query/getSceneNodeVec2',
@@ -166,7 +166,7 @@ export function registerSceneGraphProfile(registry: Registry) {
       new In2Out1FuncNode<Vec2, number, Vec2>(
         'logic/vec2Scale',
         'vec2',
-        'number',
+        'float',
         'vec2',
         (a, b) => vec2Scale(a, b)
       )
@@ -194,7 +194,7 @@ export function registerSceneGraphProfile(registry: Registry) {
       new In1Out1FuncNode<Vec2, number>(
         'logic/vec2Length',
         'vec2',
-        'number',
+        'float',
         (a) => vec2Length(a)
       )
   );
@@ -243,7 +243,7 @@ export function registerSceneGraphProfile(registry: Registry) {
       new In2Out1FuncNode<Vec3, number, Vec3>(
         'logic/vec3Scale',
         'vec3',
-        'number',
+        'float',
         'vec3',
         (a, b) => vec3Scale(a, b)
       )
@@ -266,7 +266,7 @@ export function registerSceneGraphProfile(registry: Registry) {
         'logic/vec3Dot',
         'vec3',
         'vec3',
-        'number',
+        'float',
         (a, b) => vec3Dot(a, b)
       )
   );
@@ -293,7 +293,7 @@ export function registerSceneGraphProfile(registry: Registry) {
       new In1Out1FuncNode<Vec3, number>(
         'logic/vec3Length',
         'vec3',
-        'number',
+        'float',
         (a) => vec3Length(a)
       )
   );
@@ -331,7 +331,7 @@ export function registerSceneGraphProfile(registry: Registry) {
         'logic/vec4Dot',
         'vec4',
         'vec4',
-        'number',
+        'float',
         (a, b) => vec4Dot(a, b)
       )
   );
@@ -352,7 +352,7 @@ export function registerSceneGraphProfile(registry: Registry) {
         'logic/quatSlerp',
         'vec4',
         'vec4',
-        'number',
+        'float',
         'vec4',
         (a, b, c) => quatSlerp(a, b, c)
       )
@@ -373,7 +373,7 @@ export function registerSceneGraphProfile(registry: Registry) {
       new In1Out1FuncNode<Vec4, number>(
         'logic/vec4Length',
         'vec4',
-        'number',
+        'float',
         (a) => vec4Length(a)
       )
   );

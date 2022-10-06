@@ -9,9 +9,9 @@ export class Vec3Create extends Node {
       'Logic',
       'logic/vec3Create',
       [
-        new Socket('number', 'x'),
-        new Socket('number', 'y'),
-        new Socket('number', 'z')
+        new Socket('float', 'x'),
+        new Socket('float', 'y'),
+        new Socket('float', 'z')
       ],
       [new Socket('vec3', 'result')],
       (context: NodeEvalContext) => {

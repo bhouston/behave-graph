@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "variable/setNumber",
+      "type": "variable/setFloat",
       "id": "1",
       "parameters": {
         "variable": {
@@ -23,7 +23,7 @@
       }
     },
     {
-      "type": "variable/onNumberChanged",
+      "type": "variable/onFloatChanged",
       "id": "2",
       "parameters": {
         "variable": {
@@ -38,7 +38,7 @@
       }
     },
     {
-      "type": "logic/numberToString",
+      "type": "logic/floatToString",
       "id": "3",
       "parameters": {
         "a": {
@@ -68,7 +68,7 @@
   ],
   "variables": [
     {
-      "valueTypeName": "number",
+      "valueTypeName": "float",
       "name": "counter",
       "id": 0,
       "initialValue": -1

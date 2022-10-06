@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
-import { parseFloats } from '../../parseFloats';
+import { In3Out1FuncNode } from '../../Nodes/Templates/In3Out1FuncNode';
 import { Registry } from '../../Registry';
 import { ValueType } from '../../Values/ValueType';
 import { SetVariable } from '../Core/Actions/SetVariable';
@@ -19,10 +19,10 @@ import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
 import {
   Vec2,
   vec2Add,
-  vec2FromArray,
   vec2Length,
   vec2Negate,
   vec2Normalize,
+  vec2Parse,
   vec2Scale,
   vec2Subtract,
   vec2ToString
@@ -32,10 +32,10 @@ import {
   vec3Add,
   vec3Cross,
   vec3Dot,
-  vec3FromArray,
   vec3Length,
   vec3Negate,
   vec3Normalize,
+  vec3Parse,
   vec3Scale,
   vec3Subtract,
   vec3ToString
@@ -43,11 +43,12 @@ import {
 import {
   quatConjugate,
   quatMultiply,
+  quatSlerp,
   Vec4,
   vec4Dot,
-  vec4FromArray,
   vec4Length,
   vec4Normalize,
+  vec4Parse,
   vec4ToString
 } from './Values/Vec4';
 
@@ -58,7 +59,7 @@ export function registerSceneGraphProfile(registry: Registry) {
     new ValueType(
       'vec2',
       () => new Vec2(),
-      (text: string) => vec2FromArray(parseFloats(text)),
+      (text: string) => vec2Parse(text),
       (value) => vec2ToString(value)
     )
   );
@@ -66,7 +67,7 @@ export function registerSceneGraphProfile(registry: Registry) {
     new ValueType(
       'vec3',
       () => new Vec3(),
-      (text: string) => vec3FromArray(parseFloats(text)),
+      (text: string) => vec3Parse(text),
       (value) => vec3ToString(value)
     )
   );
@@ -74,7 +75,7 @@ export function registerSceneGraphProfile(registry: Registry) {
     new ValueType(
       'vec4',
       () => new Vec4(),
-      (text: string) => vec4FromArray(parseFloats(text)),
+      (text: string) => vec4Parse(text),
       (value) => vec4ToString(value)
     )
   );
@@ -335,13 +336,25 @@ export function registerSceneGraphProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec4Conjugate',
+    'logic/quatConjugate',
     () =>
       new In1Out1FuncNode<Vec4, Vec4>(
-        'logic/vec4Conjugate',
+        'logic/quatConjugate',
         'vec4',
         'vec4',
         (a) => quatConjugate(a)
+      )
+  );
+  nodes.register(
+    'logic/quatSlerp',
+    () =>
+      new In3Out1FuncNode<Vec4, Vec4, number, Vec4>(
+        'logic/quatSlerp',
+        'vec4',
+        'vec4',
+        'number',
+        'vec4',
+        (a, b, c) => quatSlerp(a, b, c)
       )
   );
   nodes.register(

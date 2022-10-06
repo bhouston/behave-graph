@@ -1,3 +1,5 @@
+import { parseFloats } from '../../../parseFloats';
+
 export class Vec2 {
   constructor(public x: number = 0, public y: number = 0) {}
 
@@ -78,4 +80,7 @@ export function vec2ToArray(
 
 export function vec2ToString(a: Vec2): string {
   return `(${a.x}, ${a.y})`;
+}
+export function vec2Parse(text: string, optionalResult = new Vec2()): Vec2 {
+  return vec2FromArray(parseFloats(text), 0, optionalResult);
 }

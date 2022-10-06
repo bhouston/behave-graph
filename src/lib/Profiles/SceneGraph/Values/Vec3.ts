@@ -1,3 +1,5 @@
+import { parseFloats } from '../../../parseFloats';
+
 export class Vec3 {
   constructor(
     public x: number = 0,
@@ -99,4 +101,7 @@ export function vec3ToArray(
 }
 export function vec3ToString(a: Vec3): string {
   return `(${a.x}, ${a.y}, ${a.z})`;
+}
+export function vec3Parse(text: string, optionalResult = new Vec3()): Vec3 {
+  return vec3FromArray(parseFloats(text), 0, optionalResult);
 }

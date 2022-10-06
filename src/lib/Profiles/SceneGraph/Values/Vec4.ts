@@ -1,3 +1,5 @@
+import { parseFloats } from '../../../parseFloats';
+
 export class Vec4 {
   constructor(
     public x: number = 0,
@@ -87,6 +89,9 @@ export function vec4ToArray(
 }
 export function vec4ToString(a: Vec4): string {
   return `(${a.x}, ${a.y}, ${a.z}, ${a.w})`;
+}
+export function vec4Parse(text: string, optionalResult = new Vec4()): Vec4 {
+  return vec4FromArray(parseFloats(text), 0, optionalResult);
 }
 export function quatConjugate(a: Vec4, optionalResult = new Vec4()): Vec4 {
   return optionalResult.set(-a.x, -a.y, -a.z, a.w);

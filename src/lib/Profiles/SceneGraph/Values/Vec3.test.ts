@@ -6,9 +6,11 @@ import {
   vec3Length,
   vec3Negate,
   vec3Normalize,
+  vec3Parse,
   vec3Scale,
   vec3Subtract,
-  vec3ToArray
+  vec3ToArray,
+  vec3ToString
 } from './Vec3';
 
 describe('vec3 value type', () => {
@@ -68,5 +70,13 @@ describe('vec3 value type', () => {
     expect(array[1]).toEqual(6);
     expect(array[2]).toEqual(7);
     expect(array[3]).toEqual(8);
+  });
+  test('toString/parser', () => {
+    const v = new Vec3(10, 5.5, -9);
+    const text = vec3ToString(v);
+    const v2 = vec3Parse(text);
+    expect(v.x).toEqual(v2.x);
+    expect(v.y).toEqual(v2.y);
+    expect(v.z).toEqual(v2.z);
   });
 });

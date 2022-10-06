@@ -25,21 +25,21 @@ export class ValueTypeRegistry {
       new ValueType(
         'float',
         () => 0,
-        (text: string | number) => {
+        (text: string) => {
           if (typeof text === 'string') {
             return Number.parseFloat(text);
           }
 
           return text;
         },
-        (value) => value
+        (value) => value.toString()
       )
     );
     this.register(
       new ValueType(
         'integer',
         () => 0n,
-        (text: string | number): bigint => {
+        (text: string): bigint => {
           if (typeof text === 'string') {
             return BigInt(Number.parseFloat(text));
           }

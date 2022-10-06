@@ -20,7 +20,7 @@ import { GetVariable } from './Queries/GetVariable';
 import { Delay } from './Time/Delay';
 
 export function registerCoreProfile(registry: Registry) {
-  const { nodes } = registry;
+  const { nodes, values } = registry;
 
   // actions
 
@@ -666,6 +666,9 @@ export function registerCoreProfile(registry: Registry) {
         (a, b) => a.includes(b)
       )
   );
+
+  // string - number conversion
+  
   nodes.register(
     'logic/floatToString',
     () =>
@@ -673,30 +676,42 @@ export function registerCoreProfile(registry: Registry) {
         'logic/floatToString',
         'float',
         'string',
-        (a) => a.toString()
+        (a) => values.get("float").deserialize(a)
       )
   );
 
   nodes.register(
     'logic/integerToString',
     () =>
-      new In1Out1FuncNode<number, string>(
+      new In1Out1FuncNode<bigint, string>(
         'logic/integerToString',
         'integer',
         'string',
-        (a) => a.toString()
+        (a: bigint) => values.get("integer").serialize(a)
+      )
+  );
+
+  nodes.register(
+    'logic/stringToFloat',
+    () =>
+      new In1Out1FuncNode<string, number>(
+        'logic/stringToFloat',
+        'string',
+        'float',
+        (a: string) => values.get("float").serialize(a)
       )
   );
   nodes.register(
-    'logic/parseString',
+    'logic/stringToInteger',
     () =>
-      new In1Out1FuncNode<string, number>(
-        'logic/parseString',
+      new In1Out1FuncNode<string, bigint>(
+        'logic/stringToInteger',
         'string',
-        'float',
-        (a) => Number.parseFloat(a)
+        'integer',
+        (a: string) => values.get("integer").deserialize(a)
       )
   );
+
   nodes.register(
     'logic/stringLength',
     () =>

@@ -265,6 +265,16 @@ export function registerCoreProfile(registry: Registry) {
         (a, b) => a % b
       )
   );
+  nodes.register(
+    'logic/integerToFloat',
+    () =>
+      new In1Out1FuncNode<bigint, number>(
+        'logic/integerToFloat',
+        'integer',
+        'float',
+        (a) => Number(a)
+      )
+  );
 
   // logic: exponential
 

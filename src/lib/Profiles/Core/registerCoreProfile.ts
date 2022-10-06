@@ -668,7 +668,7 @@ export function registerCoreProfile(registry: Registry) {
   );
 
   // string - number conversion
-  
+
   nodes.register(
     'logic/floatToString',
     () =>
@@ -676,7 +676,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/floatToString',
         'float',
         'string',
-        (a) => values.get("float").deserialize(a)
+        (a) => values.get('float').serialize(a)
       )
   );
 
@@ -687,7 +687,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/integerToString',
         'integer',
         'string',
-        (a: bigint) => values.get("integer").serialize(a)
+        (a: bigint) => values.get('integer').serialize(a)
       )
   );
 
@@ -698,7 +698,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/stringToFloat',
         'string',
         'float',
-        (a: string) => values.get("float").serialize(a)
+        (a: string) => values.get('float').deserialize(a)
       )
   );
   nodes.register(
@@ -708,7 +708,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/stringToInteger',
         'string',
         'integer',
-        (a: string) => values.get("integer").deserialize(a)
+        (a: string) => values.get('integer').deserialize(a)
       )
   );
 

@@ -93,8 +93,7 @@ export function registerSceneGraphProfile(registry: Registry) {
   );
   nodes.register(
     'action/setSceneNodeNumber',
-    () =>
-      new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'float')
+    () => new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'float')
   );
   nodes.register(
     'action/setSceneNodeVec2',

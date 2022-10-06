@@ -10,42 +10,30 @@ export class ValueTypeRegistry {
         'string',
         () => '',
         (text: string) => text,
-        (value) => value as string
+        (value: string) => value as string
       )
     );
     this.register(
       new ValueType(
         'boolean',
         () => false,
-        (text) => text === 'true',
-        (value) => ((value as boolean) ? 'true' : 'false')
+        (text: string) => text.toLowerCase() === 'true',
+        (value: boolean) => ((value as boolean) ? 'true' : 'false')
       )
     );
     this.register(
       new ValueType(
         'float',
         () => 0,
-        (text: string) => {
-          if (typeof text === 'string') {
-            return Number.parseFloat(text);
-          }
-
-          return text;
-        },
-        (value) => value.toString()
+        (text: string) => Number.parseFloat(text),
+        (value: number) => value.toString()
       )
     );
     this.register(
       new ValueType(
         'integer',
         () => 0n,
-        (text: string): bigint => {
-          if (typeof text === 'string') {
-            return BigInt(text);
-          }
-
-          return BigInt(text);
-        },
+        (text: string): bigint => BigInt(text),
         (value: bigint) => value.toString()
       )
     );
@@ -54,7 +42,7 @@ export class ValueTypeRegistry {
         'id',
         () => '',
         (text: string) => text,
-        (value) => value as string
+        (value: string) => value as string
       )
     );
   }

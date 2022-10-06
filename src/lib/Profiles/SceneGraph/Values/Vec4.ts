@@ -133,8 +133,6 @@ export function quatSlerp(
 
   let cosHalfTheta = vec4Dot(a, b);
 
-  const c = new Vec4();
-
   if (cosHalfTheta < 0) {
     vec4Negate(b, optionalResult);
 

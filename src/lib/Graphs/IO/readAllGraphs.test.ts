@@ -16,7 +16,6 @@ import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
 import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import { validateDirectedAcyclicGraph } from '../Validation/validateDirectedAcyclicGraph';
-import { validateGraphRegistry } from '../Validation/validateGraphRegistry';
 import { validateLinks } from '../Validation/validateLinks';
 import { GraphJSON } from './GraphJSON';
 import { readGraphFromJSON } from './readGraphFromJSON';
@@ -55,7 +54,6 @@ Object.keys(exampleMap).forEach((key) => {
     });
     test('validate graph', () => {
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-      expect(validateGraphRegistry(registry)).toHaveLength(0);
       if (parsedGraphJson !== undefined) {
         expect(validateLinks(parsedGraphJson)).toHaveLength(0);
         Logger.verbose('validating that graph is directed acyclic');

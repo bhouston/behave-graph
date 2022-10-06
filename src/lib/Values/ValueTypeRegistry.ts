@@ -61,4 +61,8 @@ export class ValueTypeRegistry {
     }
     return valueType;
   }
+
+  getAllNames(): string[] {
+    return Object.keys(this.valueTypeNameToValueType);
+  }
 }

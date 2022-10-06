@@ -44,10 +44,13 @@ export * from './Profiles/Core/Providers/ILogger';
 export * from './Profiles/Core/registerCoreProfile';
 export * from './Profiles/SceneGraph/registerSceneGraphProfile';
 
+// registry validation
+export * from './Nodes/Validation/validateNodeRegistry';
+export * from './Values/Validation/validateValueRegistry';
+
 // graph validation
 export * from './Graphs/Validation/validateDirectedAcyclicGraph';
 export * from './Graphs/Validation/validateLinks';
-export * from './Graphs/Validation/validateGraphRegistry';
 
 // types
 export * from './Graphs/IO/GraphJSON';

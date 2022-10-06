@@ -11,8 +11,8 @@ import {
   registerSceneGraphProfile,
   Registry,
   validateDirectedAcyclicGraph,
-  validateGraphRegistry,
-  validateLinks
+  validateLinks,
+  validateNodeRegistry
 } from '../../lib';
 
 async function main() {
@@ -45,7 +45,7 @@ async function main() {
   Logger.verbose('validating:');
   const errorList: string[] = [];
   Logger.verbose('validating registry');
-  errorList.push(...validateGraphRegistry(registry));
+  errorList.push(...validateNodeRegistry(registry));
   Logger.verbose('validating socket links have matching types on either end');
   errorList.push(...validateLinks(graph));
   Logger.verbose('validating that graph is directed acyclic');

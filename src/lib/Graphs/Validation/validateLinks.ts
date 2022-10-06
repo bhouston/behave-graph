@@ -12,7 +12,7 @@ export function validateLinks(graph: Graph): string[] {
         const upstreamNode = graph.nodes[link.nodeId];
         if (upstreamNode === undefined) {
           errorList.push(
-            `node ${node.typeName}.${inputSocket.name} has link using invalid nodeid: ${link.nodeId}`
+            `node ${node.typeName}.${inputSocket.name} has link using invalid nodeId: ${link.nodeId}`
           );
           return;
         }
@@ -23,7 +23,7 @@ export function validateLinks(graph: Graph): string[] {
         );
         if (outputSocket === undefined) {
           errorList.push(
-            `node ${node.typeName}.${inputSocket.name} has link using a non-existant socket name: ` +
+            `node ${node.typeName}.${inputSocket.name} has link using a non-existent socket name: ` +
               `${link.socketName}, it can not be found on upstream output node: ${upstreamNode.typeName}`
           );
           return;

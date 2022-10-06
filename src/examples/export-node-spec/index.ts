@@ -5,7 +5,7 @@ import {
   registerCoreProfile,
   registerSceneGraphProfile,
   Registry,
-  validateGraphRegistry,
+  validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '../../lib';
 
@@ -24,7 +24,7 @@ async function main() {
   Logger.verbose('validating:');
   const errorList: string[] = [];
   Logger.verbose('validating registry');
-  errorList.push(...validateGraphRegistry(registry));
+  errorList.push(...validateNodeRegistry(registry));
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);

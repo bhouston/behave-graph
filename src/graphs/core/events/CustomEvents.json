@@ -1,55 +1,55 @@
 {
-    "nodes": [
-        {
-            "type": "lifecycle/tick",
-            "id": "0",
-            "flows": {
-                "flow": {
-                    "nodeId": "1",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "action/triggerCustomEvent",
-            "id": "1",
-            "parameters": {
-                "customEvent": {
-                    "value": "0"
-                }
-            }
-        },
-        {
-            "type": "event/customEvent",
-            "id": "2",
-            "parameters": {
-                "customEvent": {
-                    "value": "0"
-                }
-            },
-            "flows": {
-                "flow": {
-                    "nodeId": "3",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "3",
-            "parameters": {
-                "text": {
-                    "value": "myCustomEvent Fired!"
-                }
-            }
+  "nodes": [
+    {
+      "type": "lifecycle/tick",
+      "id": "0",
+      "flows": {
+        "flow": {
+          "nodeId": "1",
+          "socket": "flow"
         }
-    ],
-    "variables": [],
-    "customEvents": [
-        {
-            "name": "myCustomEvent",
-            "id": "0"
+      }
+    },
+    {
+      "type": "action/triggerCustomEvent",
+      "id": "1",
+      "parameters": {
+        "customEvent": {
+          "value": "0"
         }
-    ],
-    "name": "./src/graphs/core/events/CustomEvents.json"
+      }
+    },
+    {
+      "type": "event/customEvent",
+      "id": "2",
+      "parameters": {
+        "customEvent": {
+          "value": "0"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "3",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "3",
+      "parameters": {
+        "text": {
+          "value": "myCustomEvent Fired!"
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": [
+    {
+      "name": "myCustomEvent",
+      "id": "0"
+    }
+  ],
+  "name": "./src/graphs/core/events/CustomEvents.json"
 }

@@ -1,7 +1,7 @@
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
-import { ILifecycleEventEmitter } from '../../../Providers/ILifecycleEventEmitter';
 import { Socket } from '../../../Sockets/Socket';
+import { ILifecycleEventEmitter } from '../Providers/ILifecycleEventEmitter';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class OnLifecycleTick extends Node {

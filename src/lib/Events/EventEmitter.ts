@@ -8,10 +8,7 @@ export class EventEmitter<T> {
   }
 
   removeListener(listener: EventListener<T>) {
-    this.listeners.splice(
-      this.listeners.findIndex((value) => value === listener),
-      1
-    );
+    this.listeners.splice(this.listeners.indexOf(listener), 1);
   }
 
   clear() {

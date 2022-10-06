@@ -1,6 +1,4 @@
-/* eslint-disable semi */
-
-import { EventEmitter } from '../Events/EventEmitter';
+import { EventEmitter } from '../../../Events/EventEmitter';
 
 export interface ILifecycleEventEmitter {
   startEvent: EventEmitter<void>;

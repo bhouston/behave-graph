@@ -1,7 +1,7 @@
 import { Logger } from '../../Diagnostics/Logger';
 import { CustomEvent } from '../../Events/CustomEvent';
-import { Node } from '../../Nodes/Node';
 import { Link } from '../../Nodes/Link';
+import { Node } from '../../Nodes/Node';
 import { Registry } from '../../Registry';
 import { Variable } from '../../Variables/Variable';
 import { Graph } from '../Graph';

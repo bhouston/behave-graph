@@ -1,63 +1,63 @@
 {
-    "nodes": [
-        {
-            "type": "lifecycle/start",
-            "id": "0",
-            "flows": {
-                "flow": {
-                    "nodeId": "3",
-                    "socket": "flow"
-                }
-            }
-        },
-        {
-            "type": "logic/quaternionCreate",
-            "id": "1",
-            "parameters": {
-                "x": {
-                    "value": 1
-                },
-                "y": {
-                    "value": 0
-                },
-                "z": {
-                    "value": 0
-                },
-                "w": {
-                    "value": 0
-                }
-            }
-        },
-        {
-            "type": "logic/quaternionToString",
-            "id": "2",
-            "parameters": {
-                "a": {
-                    "links": [
-                        {
-                            "nodeId": "1",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "type": "action/log",
-            "id": "3",
-            "parameters": {
-                "text": {
-                    "links": [
-                        {
-                            "nodeId": "2",
-                            "socket": "result"
-                        }
-                    ]
-                }
-            }
+  "nodes": [
+    {
+      "type": "lifecycle/start",
+      "id": "0",
+      "flows": {
+        "flow": {
+          "nodeId": "3",
+          "socket": "flow"
         }
-    ],
-    "variables": [],
-    "customEvents": [],
-    "name": "./src/graphs/sceneGraph/logic/Quaternion.json"
+      }
+    },
+    {
+      "type": "logic/quaternionCreate",
+      "id": "1",
+      "parameters": {
+        "x": {
+          "value": 1
+        },
+        "y": {
+          "value": 0
+        },
+        "z": {
+          "value": 0
+        },
+        "w": {
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "logic/quaternionToString",
+      "id": "2",
+      "parameters": {
+        "a": {
+          "links": [
+            {
+              "nodeId": "1",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "action/log",
+      "id": "3",
+      "parameters": {
+        "text": {
+          "links": [
+            {
+              "nodeId": "2",
+              "socket": "result"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": [],
+  "name": "./src/graphs/sceneGraph/logic/Quaternion.json"
 }

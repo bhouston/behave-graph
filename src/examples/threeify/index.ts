@@ -47,24 +47,24 @@ async function init(): Promise<null> {
   const uniforms = {
     // vertices
     localToWorld: new Matrix4(),
-    worldToView: makeMatrix4Translation(new Vector3(0, 0, -3.0)),
+    worldToView: makeMatrix4Translation(new Vector3(0, 0, -3)),
     viewToScreen: makeMatrix4PerspectiveFov(
       25,
       0.1,
-      4.0,
-      1.0,
+      4,
+      1,
       canvasFramebuffer.aspectRatio
     ),
 
     // lights
-    pointLightViewPosition: new Vector3(0.0, 0, 0.0),
-    pointLightIntensity: new Vector3(1, 1, 1).multiplyByScalar(30.0),
-    pointLightRange: 6.0,
+    pointLightViewPosition: new Vector3(0, 0, 0),
+    pointLightIntensity: new Vector3(1, 1, 1).multiplyByScalar(30),
+    pointLightRange: 6,
 
     // materials
     albedoMap,
 
-    clearCoatBumpModulator: 1.0,
+    clearCoatBumpModulator: 1,
     clearCoatBumpMap: bumpMap
   };
   const bufferGeometry = makeBufferGeometryFromGeometry(context, geometry);
@@ -72,7 +72,7 @@ async function init(): Promise<null> {
     true,
     DepthTestFunc.Less
   );
-  canvasFramebuffer.clearState = new ClearState(new Vector3(0, 0, 0), 1.0);
+  canvasFramebuffer.clearState = new ClearState(new Vector3(0, 0, 0), 1);
   canvasFramebuffer.cullingState = new CullingState(true);
 
   function animate(): void {
@@ -83,8 +83,8 @@ async function init(): Promise<null> {
       uniforms.localToWorld
     );
     uniforms.pointLightViewPosition = new Vector3(
-      Math.cos(now * 0.001) * 3.0,
-      2.0,
+      Math.cos(now * 0.001) * 3,
+      2,
       0.5
     );
 

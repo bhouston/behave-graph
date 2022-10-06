@@ -1,25 +1,24 @@
-import { Object3D } from 'three';
-
 import { Node } from '../../../Nodes/Node';
-import { IThree } from '../../../Providers/IThree';
 import { Socket } from '../../../Sockets/Socket';
+import { ISceneGraph } from '../Providers/ISceneGraph';
 
 export class GetSceneNodeProperty<T> extends Node {
-  constructor(
-    nodeName: string,
-    public readonly valueTypeName: string,
-    getter: (node: Object3D) => T
-  ) {
+  constructor(nodeName: string, public readonly valueTypeName: string) {
     super(
       'Query',
       nodeName,
-      [new Socket('flow', 'flow'), new Socket('id', 'nodeId')],
+      [new Socket('flow', 'flow'), new Socket('string', 'jsonPath')],
+
       [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
       (context) => {
-        const three =
-          context.graph.registry.implementations.get<IThree>('IThree');
-        const object3D = three.getObject3D(context.readInput('modeId'));
-        context.writeOutput('value', getter(object3D));
+        const sceneGraph =
+          context.graph.registry.implementations.get<ISceneGraph>(
+            'ISceneGraph'
+          );
+        context.writeOutput(
+          'value',
+          sceneGraph.getProperty(context.readInput('jsonPath'))
+        );
       }
     );
   }

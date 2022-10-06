@@ -56,20 +56,20 @@ export function registerCoreProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/numberConstant',
+    'logic/numberCreate',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/numberConstant',
+        'logic/numberCreate',
         'number',
         'number',
         (a) => a
       )
   );
   nodes.register(
-    'logic/stringConstant',
+    'logic/stringCreate',
     () =>
       new In1Out1FuncNode<string, string>(
-        'logic/stringConstant',
+        'logic/stringCreate',
         'string',
         'string',
         (a) => a
@@ -528,7 +528,7 @@ export function registerCoreProfile(registry: Registry) {
         'logic/parseString',
         'string',
         'number',
-        (a) => parseFloat(a)
+        (a) => Number.parseFloat(a)
       )
   );
   nodes.register(

@@ -1,29 +1,24 @@
-import { Vector3 } from 'three';
-
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
+import { Vec3 } from '../Values/Vec3';
 
-export class Vector3Create extends Node {
+export class Vec3Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/vector3Create',
+      'logic/vec3Elements',
+      [new Socket('vec3', 'value')],
       [
         new Socket('number', 'x'),
         new Socket('number', 'y'),
         new Socket('number', 'z')
       ],
-      [new Socket('vector3', 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
-          'result',
-          new Vector3(
-            context.readInput('x'),
-            context.readInput('y'),
-            context.readInput('z')
-          )
-        );
+        const value = context.readInput('value') as Vec3;
+        context.writeOutput('x', value.x);
+        context.writeOutput('y', value.y);
+        context.writeOutput('z', value.z);
       }
     );
   }

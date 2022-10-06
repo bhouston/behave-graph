@@ -27,7 +27,7 @@ export class ValueTypeRegistry {
         () => 0,
         (text: string | number) => {
           if (typeof text === 'string') {
-            return parseFloat(text);
+            return Number.parseFloat(text);
           }
 
           return text;

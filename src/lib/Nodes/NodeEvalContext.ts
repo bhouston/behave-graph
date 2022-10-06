@@ -9,8 +9,8 @@ import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
 import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock';
 import { Graph } from '../Graphs/Graph';
 import { Variable } from '../Variables/Variable';
-import { Node } from './Node';
 import { Link } from './Link';
+import { Node } from './Node';
 
 // Purpose:
 //  - Avoid nodes having to access globals to reference the scene or trigger loaders.

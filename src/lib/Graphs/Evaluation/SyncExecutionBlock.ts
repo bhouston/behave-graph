@@ -1,8 +1,8 @@
 import { Assert } from '../../Diagnostics/Assert';
 import { Logger } from '../../Diagnostics/Logger';
 import { EventListener } from '../../Events/EventListener';
-import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
 import { Link } from '../../Nodes/Link';
+import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
 import { Socket } from '../../Sockets/Socket';
 import { Graph } from '../Graph';
 import { GraphEvaluator } from './GraphEvaluator';

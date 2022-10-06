@@ -1,5 +1,3 @@
-/* eslint-disable semi */
-
 export interface ILogger {
   verbose(text: string): void;
   info(text: string): void;

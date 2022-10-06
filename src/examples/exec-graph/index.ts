@@ -1,4 +1,5 @@
-import { promises as fs } from 'fs';
+import { promises as fs } from 'node:fs';
+
 import {
   DefaultLogger,
   GraphEvaluator,
@@ -11,8 +12,7 @@ import {
   Registry,
   validateDirectedAcyclicGraph,
   validateGraphRegistry,
-  validateLinks,
-  writeGraphToJSON
+  validateLinks
 } from '../../lib';
 
 async function main() {
@@ -35,8 +35,11 @@ async function main() {
   }
 
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const textFile = await fs.readFile(graphJsonPath, { encoding: 'utf-8' });
-  const graph = readGraphFromJSON(JSON.parse(textFile), registry);
+  const textFile = await fs.readFile(graphJsonPath);
+  const graph = readGraphFromJSON(
+    JSON.parse(textFile.toString('utf8')),
+    registry
+  );
   graph.name = graphJsonPath;
 
   Logger.verbose('validating:');
@@ -83,7 +86,7 @@ async function main() {
   manualLifecycleEventEmitter.startEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5);
 
   for (let tick = 0; tick < 5; tick++) {
     Logger.verbose('triggering tick');
@@ -91,14 +94,14 @@ async function main() {
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
-    numSteps += await graphEvaluator.executeAllAsync(5.0);
+    numSteps += await graphEvaluator.executeAllAsync(5);
   }
 
   Logger.verbose('triggering end event');
   manualLifecycleEventEmitter.endEvent.emit();
 
   Logger.verbose('executing all (async)');
-  numSteps += await graphEvaluator.executeAllAsync(5.0);
+  numSteps += await graphEvaluator.executeAllAsync(5);
 
   const deltaTime = Date.now() - startTime;
 

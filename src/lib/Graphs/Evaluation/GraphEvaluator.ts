@@ -4,11 +4,11 @@ import { Logger } from '../../Diagnostics/Logger';
 import { EventEmitter } from '../../Events/EventEmitter';
 import { EventListener } from '../../Events/EventListener';
 import { Link } from '../../Nodes/Link';
+import { Node } from '../../Nodes/Node';
 import { sleep } from '../../sleep';
 import { Graph } from '../Graph';
 import { NodeEvaluationEvent } from './NodeEvaluationEvent';
 import { SyncExecutionBlock } from './SyncExecutionBlock';
-import { Node } from '../../Nodes/Node';
 
 export class GraphEvaluator {
   // tracking the next node+input socket to execute.
@@ -30,7 +30,7 @@ export class GraphEvaluator {
   // asyncCommit
   asyncCommit(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: EventListener<void> | undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);

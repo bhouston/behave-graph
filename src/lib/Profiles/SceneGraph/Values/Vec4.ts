@@ -5,37 +5,70 @@ export class Vec4 {
     public z: number = 0,
     public w: number = 0
   ) {}
+  clone(optionalResult = new Vec4()): Vec4 {
+    return optionalResult.set(this.x, this.y, this.z, this.w);
+  }
+  set(x: number, y: number, z: number, w: number): this {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
+    return this;
+  }
 }
 export function vec4Equals(a: Vec4, b: Vec4): boolean {
   return a.x === b.x && a.y === b.y && a.z === b.z && a.w == b.w;
 }
-export function vec4Add(a: Vec4, b: Vec4): Vec4 {
-  return new Vec4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+export function vec4Add(a: Vec4, b: Vec4, optionalResult = new Vec4()): Vec4 {
+  return optionalResult.set(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
-export function vec4Subtract(a: Vec4, b: Vec4): Vec4 {
-  return new Vec4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+export function vec4Subtract(
+  a: Vec4,
+  b: Vec4,
+  optionalResult = new Vec4()
+): Vec4 {
+  return optionalResult.set(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
-export function vec4Scale(a: Vec4, b: number): Vec4 {
-  return new Vec4(a.x * b, a.y * b, a.z * b, a.w * b);
+export function vec4Scale(
+  a: Vec4,
+  b: number,
+  optionalResult = new Vec4()
+): Vec4 {
+  return optionalResult.set(a.x * b, a.y * b, a.z * b, a.w * b);
 }
-export function vec4Negate(a: Vec4): Vec4 {
-  return new Vec4(-a.x, -a.y, -a.z, -a.w);
+export function vec4Negate(a: Vec4, optionalResult = new Vec4()): Vec4 {
+  return optionalResult.set(-a.x, -a.y, -a.z, -a.w);
 }
 export function vec4Length(a: Vec4): number {
   return Math.sqrt(vec4Dot(a, a));
 }
-export function vec4Normalize(a: Vec4): Vec4 {
+export function vec4Normalize(a: Vec4, optionalResult = new Vec4()): Vec4 {
   const invLength = 1 / vec4Length(a);
-  return vec4Scale(a, invLength);
+  return vec4Scale(a, invLength, optionalResult);
 }
 export function vec4Dot(a: Vec4, b: Vec4): number {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
+export function vec4Mix(
+  a: Vec4,
+  b: Vec4,
+  t: number,
+  optionalResult = new Vec4()
+): Vec4 {
+  const s = 1 - t;
+  return optionalResult.set(
+    a.x * s + b.x * t,
+    a.y * s + b.y * t,
+    a.z * s + b.z * t,
+    a.w * s + b.w * t
+  );
+}
 export function vec4FromArray(
   array: Float32Array | number[],
-  offset = 0
+  offset = 0,
+  optionalResult = new Vec4()
 ): Vec4 {
-  return new Vec4(
+  return optionalResult.set(
     array[offset + 0],
     array[offset + 1],
     array[offset + 2],
@@ -55,10 +88,14 @@ export function vec4ToArray(
 export function vec4ToString(a: Vec4): string {
   return `(${a.x}, ${a.y}, ${a.z}, ${a.w})`;
 }
-export function quatConjugate(a: Vec4): Vec4 {
-  return new Vec4(-a.x, -a.y, -a.z, a.w);
+export function quatConjugate(a: Vec4, optionalResult = new Vec4()): Vec4 {
+  return optionalResult.set(-a.x, -a.y, -a.z, a.w);
 }
-export function quatMultiply(a: Vec4, b: Vec4): Vec4 {
+export function quatMultiply(
+  a: Vec4,
+  b: Vec4,
+  optionalResult = new Vec4()
+): Vec4 {
   // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
 
   const qax = a.x;
@@ -70,75 +107,59 @@ export function quatMultiply(a: Vec4, b: Vec4): Vec4 {
   const qbz = b.z;
   const qbw = b.w;
 
-  return new Vec4(
+  return optionalResult.set(
     qax * qbw + qaw * qbx + qay * qbz - qaz * qby,
     qay * qbw + qaw * qby + qaz * qbx - qax * qbz,
     qaz * qbw + qaw * qbz + qax * qby - qay * qbx,
     qaw * qbw - qax * qbx - qay * qby - qaz * qbz
   );
 }
-/*
- quatSlerp(qb: Quaternion, t: number): this {
-    if (t === 0) {
-      return this;
-    }
-    if (t === 1) {
-      return this.copy(qb);
-    }
 
-    const { x } = this;
-    const { y } = this;
-    const { z } = this;
-    const { w } = this;
+export function quatSlerp(
+  a: Vec4,
+  b: Vec4,
+  t: number,
+  optionalResult = new Vec4()
+): Vec4 {
+  if (t <= 0) return a.clone(optionalResult);
+  if (t >= 1) return b.clone(optionalResult);
 
-    // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
-    // TODO, allocate x, y, z, w and only set this.* at the end.
+  // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
 
-    let cosHalfTheta = w * qb.w + x * qb.x + y * qb.y + z * qb.z;
+  let cosHalfTheta = vec4Dot(a, b);
 
-    if (cosHalfTheta < 0) {
-      this.w = -qb.w;
-      this.x = -qb.x;
-      this.y = -qb.y;
-      this.z = -qb.z;
+  const c = new Vec4();
 
-      cosHalfTheta = -cosHalfTheta;
-    } else {
-      this.copy(qb);
-    }
+  if (cosHalfTheta < 0) {
+    vec4Negate(b, optionalResult);
 
-    if (cosHalfTheta >= 1.0) {
-      this.w = w;
-      this.x = x;
-      this.y = y;
-      this.z = z;
+    cosHalfTheta = -cosHalfTheta;
+  } else {
+    b.clone(optionalResult);
+  }
 
-      return this;
-    }
+  if (cosHalfTheta >= 1) {
+    return optionalResult;
+  }
 
-    const sqrSinHalfTheta = 1.0 - cosHalfTheta * cosHalfTheta;
+  const sqrSinHalfTheta = 1 - cosHalfTheta * cosHalfTheta;
 
-    if (sqrSinHalfTheta <= Number.EPSILON) {
-      const s = 1 - t;
-      this.w = s * w + t * this.w;
-      this.x = s * x + t * this.x;
-      this.y = s * y + t * this.y;
-      this.z = s * z + t * this.z;
+  if (sqrSinHalfTheta <= Number.EPSILON) {
+    vec4Mix(a, optionalResult, t);
+    vec4Normalize(optionalResult, optionalResult);
 
-      this.normalize();
+    return optionalResult;
+  }
 
-      return this;
-    }
+  const sinHalfTheta = Math.sqrt(sqrSinHalfTheta);
+  const halfTheta = Math.atan2(sinHalfTheta, cosHalfTheta);
+  const ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
+  const ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
 
-    const sinHalfTheta = Math.sqrt(sqrSinHalfTheta);
-    const halfTheta = Math.atan2(sinHalfTheta, cosHalfTheta);
-    const ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
-    const ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
+  optionalResult.w = a.w * ratioA + optionalResult.w * ratioB;
+  optionalResult.x = a.x * ratioA + optionalResult.x * ratioB;
+  optionalResult.y = a.y * ratioA + optionalResult.y * ratioB;
+  optionalResult.z = a.z * ratioA + optionalResult.z * ratioB;
 
-    this.w = w * ratioA + this.w * ratioB;
-    this.x = x * ratioA + this.x * ratioB;
-    this.y = y * ratioA + this.y * ratioB;
-    this.z = z * ratioA + this.z * ratioB;
-
-    return this;
-  }*/
+  return optionalResult;
+}

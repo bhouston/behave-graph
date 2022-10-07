@@ -32,6 +32,8 @@ describe('core profile', () => {
         const serializedValue = valueType.serialize(deserializedValue);
         const redeserializedValue = valueType.deserialize(serializedValue);
         expect(deserializedValue).toBe(redeserializedValue);
+        const reserializedValue = valueType.serialize(redeserializedValue);
+        expect(serializedValue).toBe(reserializedValue);
       });
     });
   });

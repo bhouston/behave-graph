@@ -15,4 +15,24 @@ describe('scene profile', () => {
   test('validate value registry', () => {
     expect(validateValueRegistry(registry)).toHaveLength(0);
   });
+
+  const valueTypeNameToExampleValues: { [key: string]: any[] } = {
+    vec2: ['(0,0)', '1,0', '(100,-60.0)'],
+    vec3: ['(0,0,0)', '1,0,0', '100,-60.0,40'],
+    vec4: ['(0,0,0,0)', '1,0,0,0', '(100,-60.0,40,-9e9)']
+  };
+
+  Object.keys(valueTypeNameToExampleValues).forEach((valueTypeName) => {
+    test(`${valueTypeName} serialization/deserialization`, () => {
+      const valueType = registry.values.get(valueTypeName);
+      const exampleValues: any[] = valueTypeNameToExampleValues[valueTypeName];
+      exampleValues.forEach((exampleValue: any) => {
+        const deserializedValue = valueType.deserialize(exampleValue);
+        const serializedValue = valueType.serialize(deserializedValue);
+        const redeserializedValue = valueType.deserialize(serializedValue);
+        const reserializedValue = valueType.serialize(redeserializedValue);
+        expect(serializedValue).toBe(reserializedValue);
+      });
+    });
+  });
 });

@@ -41,20 +41,20 @@ const exampleMap: { [key: string]: any } = {
   initialValue: exampleInitialValue
 };
 
-console.log('exampleMap', exampleMap);
+//console.log('exampleMap', exampleMap);
 
 Object.keys(exampleMap).forEach((key) => {
   describe(`${key}.json`, () => {
-    console.log('exampleMap[key]', exampleMap[key]);
+    //console.log('exampleMap[key]', exampleMap[key]);
     const exampleJSON = exampleMap[key] as GraphJSON;
-    console.log('exampleJSON', exampleJSON);
+    //console.log('exampleJSON', exampleJSON);
 
     let parsedGraphJson: Graph | undefined;
     // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {
         parsedGraphJson = readGraphFromJSON(exampleJSON, registry);
-        console.log(parsedGraphJson);
+        //console.log(parsedGraphJson);
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {

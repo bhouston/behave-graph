@@ -46,10 +46,10 @@ export function registerCoreProfile(registry: Registry) {
   // logic: constants
 
   nodes.register(
-    'logic/booleanConstant',
+    'logic/booleanCreate',
     () =>
       new In1Out1FuncNode<boolean, boolean>(
-        'logic/booleanConstant',
+        'logic/booleanCreate',
         'boolean',
         'boolean',
         (a) => a

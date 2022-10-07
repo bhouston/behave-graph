@@ -42,7 +42,7 @@ export * from './Providers/Implementations/ManualLifecycleEventEmitter';
 export * from './Profiles/Core/Providers/ILogger';
 
 export * from './Profiles/Core/registerCoreProfile';
-export * from './Profiles/SceneGraph/registerSceneGraphProfile';
+export * from './Profiles/Scene/registerSceneProfile';
 
 // registry validation
 export * from './Nodes/Validation/validateNodeRegistry';

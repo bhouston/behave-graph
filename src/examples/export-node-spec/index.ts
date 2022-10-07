@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import {
   Logger,
   registerCoreProfile,
-  registerSceneGraphProfile,
+  registerSceneProfile,
   Registry,
   validateNodeRegistry,
   writeNodeSpecsToJSON
@@ -19,7 +19,7 @@ async function main() {
 
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneGraphProfile(registry);
+  registerSceneProfile(registry);
 
   Logger.verbose('validating:');
   const errorList: string[] = [];

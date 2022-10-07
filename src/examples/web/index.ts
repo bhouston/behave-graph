@@ -7,7 +7,7 @@ import {
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
-  registerSceneGraphProfile,
+  registerSceneProfile,
   Registry
 } from '../../lib';
 
@@ -17,7 +17,7 @@ async function main() {
   console.log(THREEIFY);
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneGraphProfile(registry);
+  registerSceneProfile(registry);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();

@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/vector2Create",
+      "type": "logic/vec3Create",
       "id": "1",
       "parameters": {
         "x": {
@@ -19,11 +19,14 @@
         },
         "y": {
           "value": 0
+        },
+        "z": {
+          "value": 0
         }
       }
     },
     {
-      "type": "logic/vector2ToString",
+      "type": "logic/vec3ToString",
       "id": "2",
       "parameters": {
         "a": {
@@ -53,5 +56,5 @@
   ],
   "variables": [],
   "customEvents": [],
-  "name": "./src/graphs/sceneGraph/logic/Vector2.json"
+  "name": "./src/graphs/sceneGraph/logic/Vector3.json"
 }

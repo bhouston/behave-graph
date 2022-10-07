@@ -11,7 +11,7 @@ import {
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
-  registerSceneGraphProfile,
+  registerSceneProfile,
   Registry,
   validateDirectedAcyclicGraph,
   validateLinks,
@@ -46,7 +46,7 @@ async function main() {
 
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneGraphProfile(registry);
+  registerSceneProfile(registry);
 
   const urlSearchParams = new URLSearchParams(window.location.search);
   const graphName = urlSearchParams.get('graph');

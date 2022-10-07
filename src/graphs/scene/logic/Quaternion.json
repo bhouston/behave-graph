@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/quaternionCreate",
+      "type": "logic/vec4Create",
       "id": "1",
       "parameters": {
         "x": {
@@ -29,7 +29,7 @@
       }
     },
     {
-      "type": "logic/quaternionToString",
+      "type": "logic/vec4ToString",
       "id": "2",
       "parameters": {
         "a": {

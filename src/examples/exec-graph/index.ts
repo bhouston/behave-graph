@@ -8,7 +8,7 @@ import {
   NodeEvaluationType,
   readGraphFromJSON,
   registerCoreProfile,
-  registerSceneGraphProfile,
+  registerSceneProfile,
   Registry,
   validateDirectedAcyclicGraph,
   validateLinks,
@@ -20,7 +20,7 @@ async function main() {
 
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneGraphProfile(registry);
+  registerSceneProfile(registry);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();

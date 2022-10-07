@@ -52,7 +52,7 @@ import {
   vec4ToString
 } from './Values/Vec4';
 
-export function registerSceneGraphProfile(registry: Registry) {
+export function registerSceneProfile(registry: Registry) {
   const { values, nodes } = registry;
 
   values.register(

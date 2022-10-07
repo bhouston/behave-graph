@@ -1,4 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
+import { Logger } from '../Diagnostics/Logger';
 import { generateUuid } from '../generateUuid';
 import { Node } from './Node';
 
@@ -14,8 +15,10 @@ export class NodeTypeRegistry {
   }
 
   create(nodeTypeName: string, nodeId = generateUuid()): Node {
+    Logger.info(`nodeTypeName of new node: ${nodeTypeName}`);
     const factory = this.nodeTypeNameToNodeFactory[nodeTypeName];
     if (factory === undefined) {
+      Logger.info(`nodeTypeName not found in registry: ${nodeTypeName}`);
       throw new Error(`no registered node with type name ${nodeTypeName}`);
     }
     const node = factory();

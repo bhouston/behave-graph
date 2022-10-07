@@ -1,5 +1,7 @@
 import { parseFloats } from '../../../parseFloats';
 
+export type Vec4JSON = { x: number; y: number; z: number; w: number };
+
 export class Vec4 {
   constructor(
     public x: number = 0,

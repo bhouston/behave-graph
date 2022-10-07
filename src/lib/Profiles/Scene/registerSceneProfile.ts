@@ -19,6 +19,7 @@ import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
 import {
   Vec2,
   vec2Add,
+  Vec2JSON,
   vec2Length,
   vec2Negate,
   vec2Normalize,
@@ -32,6 +33,7 @@ import {
   vec3Add,
   vec3Cross,
   vec3Dot,
+  Vec3JSON,
   vec3Length,
   vec3Negate,
   vec3Normalize,
@@ -46,6 +48,7 @@ import {
   quatSlerp,
   Vec4,
   vec4Dot,
+  Vec4JSON,
   vec4Length,
   vec4Normalize,
   vec4Parse,
@@ -59,24 +62,34 @@ export function registerSceneProfile(registry: Registry) {
     new ValueType(
       'vec2',
       () => new Vec2(),
-      (text: string) => vec2Parse(text),
-      (value) => vec2ToString(value)
+      (value: string | Vec2JSON) =>
+        typeof value === 'string'
+          ? vec2Parse(value)
+          : new Vec2(value.x, value.y),
+      (value) => ({ x: value.x, y: value.y } as Vec2JSON)
     )
   );
   values.register(
     new ValueType(
       'vec3',
       () => new Vec3(),
-      (text: string) => vec3Parse(text),
-      (value) => vec3ToString(value)
+      (value: string | Vec3JSON) =>
+        typeof value === 'string'
+          ? vec3Parse(value)
+          : new Vec3(value.x, value.y, value.z),
+      (value) => ({ x: value.x, y: value.y, z: value.z } as Vec3JSON)
     )
   );
   values.register(
     new ValueType(
       'vec4',
       () => new Vec4(),
-      (text: string) => vec4Parse(text),
-      (value) => vec4ToString(value)
+      (value: string | Vec4JSON) =>
+        typeof value === 'string'
+          ? vec4Parse(value)
+          : new Vec4(value.x, value.y, value.z, value.w),
+      (value) =>
+        ({ x: value.x, y: value.y, z: value.z, w: value.w } as Vec4JSON)
     )
   );
 

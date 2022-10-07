@@ -11,9 +11,12 @@ export function validateValueRegistry(graphRegistry: Registry): string[] {
     const deserializedValue = valueType.deserialize(serializedValue);
     const reserializedValue = valueType.serialize(deserializedValue);
     const redeserializedValue = valueType.deserialize(reserializedValue);
-    if (serializedValue !== reserializedValue) {
+
+    if (JSON.stringify(serializedValue) !== JSON.stringify(reserializedValue)) {
       errorList.push(
-        `value type (${valueTypeName}) reserialization mismatch between ${serializedValue} and ${reserializedValue}`
+        `value type (${valueTypeName}) reserialization mismatch between ${JSON.stringify(
+          serializedValue
+        )} and ${JSON.stringify(reserializedValue)}`
       );
     }
 

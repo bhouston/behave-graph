@@ -4,6 +4,7 @@ import * as exampleLifecycle from '../../../graphs/core/events/Lifecycle.json';
 import * as exampleBranch from '../../../graphs/core/flow/Branch.json';
 import * as exampleFlipFlop from '../../../graphs/core/flow/FlipFlop.json';
 import * as exampleForLoop from '../../../graphs/core/flow/ForLoop.json';
+import * as examplePerformanceTest from '../../../graphs/core/flow/PerformanceTest.json';
 import * as exampleSequence from '../../../graphs/core/flow/Sequence.json';
 import * as exampleHelloWorld from '../../../graphs/core/HelloWorld.json';
 import * as exampleMath from '../../../graphs/core/logic/Math.json';
@@ -38,7 +39,8 @@ const exampleMap: { [key: string]: any } = {
   lifeCycle: exampleLifecycle,
   changed: exampleChanged,
   frameCounter: exampleFrameCounter,
-  initialValue: exampleInitialValue
+  initialValue: exampleInitialValue,
+  performanceTest: examplePerformanceTest
 };
 
 //console.log('exampleMap', exampleMap);

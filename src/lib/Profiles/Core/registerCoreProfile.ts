@@ -66,6 +66,16 @@ export function registerCoreProfile(registry: Registry) {
       )
   );
   nodes.register(
+    'logic/integerCreate',
+    () =>
+      new In1Out1FuncNode<bigint, bigint>(
+        'logic/integerCreate',
+        'integer',
+        'integer',
+        (a) => a
+      )
+  );
+  nodes.register(
     'logic/stringCreate',
     () =>
       new In1Out1FuncNode<string, string>(

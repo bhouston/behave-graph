@@ -48,7 +48,7 @@
       }
     },
     {
-      "type": "logic/floatModulus",
+      "type": "logic/integerModulus",
       "id": "3",
       "parameters": {
         "a": {
@@ -65,7 +65,7 @@
       }
     },
     {
-      "type": "logic/floatEqual",
+      "type": "logic/integerEqual",
       "id": "4",
       "parameters": {
         "a": {

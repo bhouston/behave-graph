@@ -1,3 +1,4 @@
+import { generateUuid } from '../../generateUuid';
 import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry';
 import { Registry } from '../../Registry';
 import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry';
@@ -12,5 +13,26 @@ describe('core profile', () => {
   });
   test('validate value registry', () => {
     expect(validateValueRegistry(registry)).toHaveLength(0);
+  });
+
+  const valueTypeNameToExampleValues: { [key: string]: any[] } = {
+    boolean: ['true', 'false', true, false],
+    string: ['hello'],
+    float: [0.9, -0.1, '-999.1', '9e9'],
+    integer: [5, -5, '-999', '9223372036854775807'], // mac int64 value
+    id: [generateUuid()]
+  };
+
+  Object.keys(valueTypeNameToExampleValues).forEach((valueTypeName) => {
+    test(`${valueTypeName} serialization/deserialization`, () => {
+      const valueType = registry.values.get(valueTypeName);
+      const exampleValues: any[] = valueTypeNameToExampleValues[valueTypeName];
+      exampleValues.forEach((exampleValue: any) => {
+        const deserializedValue = valueType.deserialize(exampleValue);
+        const serializedValue = valueType.serialize(deserializedValue);
+        const redeserializedValue = valueType.deserialize(serializedValue);
+        expect(deserializedValue).toBe(redeserializedValue);
+      });
+    });
   });
 });

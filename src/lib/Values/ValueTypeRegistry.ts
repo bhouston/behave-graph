@@ -17,24 +17,26 @@ export class ValueTypeRegistry {
       new ValueType(
         'boolean',
         () => false,
-        (value: string) => value.toLowerCase() === 'true',
-        (value: boolean) => ((value as boolean) ? 'true' : 'false')
+        (value: string | boolean) =>
+          typeof value === 'string' ? value.toLowerCase() === 'true' : value,
+        (value: boolean) => value
       )
     );
     this.register(
       new ValueType(
         'float',
         () => 0,
-        (value: string) => Number.parseFloat(value),
-        (value: number) => value.toString()
+        (value: string | number) =>
+          typeof value === 'string' ? Number.parseFloat(value) : value,
+        (value: number) => value
       )
     );
     this.register(
       new ValueType(
         'integer',
         () => 0n,
-        (value: string): bigint => BigInt(value),
-        (value: bigint) => value.toString()
+        (value: string | number): bigint => BigInt(value),
+        (value: bigint) => value.toString() // prefer string to ensure full range is covered
       )
     );
     this.register(

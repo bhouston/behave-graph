@@ -7,6 +7,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import {
   DefaultLogger,
+  EventEmitter,
   GraphEvaluator,
   IScene,
   Logger,
@@ -26,17 +27,20 @@ let scene: THREE.Scene | null = null;
 let renderer: THREE.WebGLRenderer | null = null;
 
 class ThreeScene implements IScene {
+  public onSceneChanged = new EventEmitter<void>();
+
+  constructor(public glTFRoot: THREE.Object3D) {}
+
   getProperty(jsonPath: string): any {
-    if (scene === null || renderer === null || camera === null) return;
     switch (jsonPath) {
       case '/nodes/0/material/baseColor': {
-        const mesh = scene?.children[0].children[0] as Mesh;
+        const mesh = this.glTFRoot.children[0] as Mesh;
         const physicalMaterial = mesh.material as MeshStandardMaterial;
         const color = physicalMaterial.color;
         return new Vec3(color.r, color.g, color.b);
       }
       case '/nodes/0/visible': {
-        const mesh = scene?.children[0].children[0] as Mesh;
+        const mesh = this.glTFRoot.children[0] as Mesh;
         return mesh.visible;
       }
       default:
@@ -44,20 +48,19 @@ class ThreeScene implements IScene {
     }
   }
   setProperty(jsonPath: string, value: any): void {
-    if (scene === null || renderer === null || camera === null) return;
     switch (jsonPath) {
       case '/nodes/0/material/baseColor': {
-        const mesh = scene.children[0].children[0] as Mesh;
+        const mesh = this.glTFRoot.children[0] as Mesh;
         const physicalMaterial = mesh.material as MeshStandardMaterial;
         const colorValue = value as Vec3;
         physicalMaterial.color.setRGB(colorValue.x, colorValue.y, colorValue.z);
-        renderer?.render(scene, camera);
+        this.onSceneChanged.emit();
         break;
       }
       case '/nodes/0/visible': {
-        const mesh = scene.children[0].children[0] as Mesh;
+        const mesh = this.glTFRoot.children[0] as Mesh;
         mesh.visible = value as boolean;
-        renderer.render(scene, camera);
+        this.onSceneChanged.emit();
         break;
       }
       default:
@@ -97,7 +100,6 @@ async function main() {
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-  registry.implementations.register('IScene', new ThreeScene());
   const graphJsonPath = `/src/graphs/scene/actions/FlashSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
@@ -165,6 +167,11 @@ async function main() {
   localScene.environment = texture;
 
   localScene.add(gltf.scene);
+  const threeScene = new ThreeScene(gltf.scene);
+  threeScene.onSceneChanged.addListener(() => {
+    render();
+  });
+  registry.implementations.register('IScene', threeScene);
 
   render();
 

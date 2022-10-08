@@ -1,13 +1,11 @@
-import { EventListener } from './EventListener';
-
 export class EventEmitter<T> {
-  private readonly listeners: EventListener<T>[] = [];
+  private readonly listeners: ((t: T) => void)[] = [];
 
-  addListener(listener: EventListener<T>) {
+  addListener(listener: (t: T) => void) {
     this.listeners.push(listener);
   }
 
-  removeListener(listener: EventListener<T>) {
+  removeListener(listener: (t: T) => void) {
     this.listeners.splice(this.listeners.indexOf(listener), 1);
   }
 

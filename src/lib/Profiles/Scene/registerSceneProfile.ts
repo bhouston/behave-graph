@@ -104,8 +104,12 @@ export function registerSceneProfile(registry: Registry) {
     () => new SetSceneProperty<boolean>('action/setSceneBoolean', 'boolean')
   );
   nodes.register(
-    'action/setSceneNumber',
-    () => new SetSceneProperty<number>('action/setSceneNumber', 'float')
+    'action/setSceneFloat',
+    () => new SetSceneProperty<number>('action/setSceneFloat', 'float')
+  );
+  nodes.register(
+    'action/setSceneInteger',
+    () => new SetSceneProperty<bigint>('action/setSceneInteger', 'integer')
   );
   nodes.register(
     'action/setSceneVec2',
@@ -124,23 +128,27 @@ export function registerSceneProfile(registry: Registry) {
 
   nodes.register(
     'query/getSceneBoolean',
-    () => new GetSceneProperty('query/getSceneBoolean', 'boolean')
+    () => new GetSceneProperty<boolean>('query/getSceneBoolean', 'boolean')
   );
   nodes.register(
-    'query/getSceneNumber',
-    () => new GetSceneProperty('query/getSceneNumber', 'float')
+    'query/getSceneFloat',
+    () => new GetSceneProperty<number>('query/getSceneFloat', 'float')
+  );
+  nodes.register(
+    'query/getSceneInteger',
+    () => new GetSceneProperty<bigint>('query/getSceneInteger', 'integer')
   );
   nodes.register(
     'query/getSceneVec2',
-    () => new GetSceneProperty('query/getSceneVec2', 'vec2')
+    () => new GetSceneProperty<Vec2>('query/getSceneVec2', 'vec2')
   );
   nodes.register(
     'query/getSceneVec3',
-    () => new GetSceneProperty('query/getSceneVec3', 'vec3')
+    () => new GetSceneProperty<Vec3>('query/getSceneVec3', 'vec3')
   );
   nodes.register(
     'query/getSceneVec4',
-    () => new GetSceneProperty('query/getSceneVec4', 'vec4')
+    () => new GetSceneProperty<Vec4>('query/getSceneVec4', 'vec4')
   );
 
   // logic: vec2

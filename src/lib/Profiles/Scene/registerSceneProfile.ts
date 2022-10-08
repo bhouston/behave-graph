@@ -7,7 +7,7 @@ import { ValueType } from '../../Values/ValueType';
 import { SetVariable } from '../Core/Actions/SetVariable';
 import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
 import { GetVariable } from '../Core/Queries/GetVariable';
-import { SetSceneNodeProperty } from './Actions/SetSceneNodeProperty';
+import { SetSceneProperty } from './Actions/SetSceneProperty';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
 import { Vec2Create } from './Logic/Vec2Create';
 import { Vec2Elements } from './Logic/Vec2Elements';
@@ -15,7 +15,7 @@ import { Vec3Create } from './Logic/Vec3Create';
 import { Vec3Elements } from './Logic/Vec3Elements';
 import { Vec4Create } from './Logic/Vec4Create';
 import { Vec4Elements } from './Logic/Vec4Elements';
-import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
+import { GetSceneProperty } from './Queries/GetSceneProperty';
 import {
   Vec2,
   vec2Add,
@@ -100,48 +100,47 @@ export function registerSceneProfile(registry: Registry) {
   // actions
 
   nodes.register(
-    'action/setSceneNodeBoolean',
-    () =>
-      new SetSceneNodeProperty<boolean>('action/setSceneNodeBoolean', 'boolean')
+    'action/setSceneBoolean',
+    () => new SetSceneProperty<boolean>('action/setSceneBoolean', 'boolean')
   );
   nodes.register(
-    'action/setSceneNodeNumber',
-    () => new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'float')
+    'action/setSceneNumber',
+    () => new SetSceneProperty<number>('action/setSceneNumber', 'float')
   );
   nodes.register(
-    'action/setSceneNodeVec2',
-    () => new SetSceneNodeProperty<Vec2>('action/setSceneNodeVec2', 'vec2')
+    'action/setSceneVec2',
+    () => new SetSceneProperty<Vec2>('action/setSceneVec2', 'vec2')
   );
   nodes.register(
-    'action/setSceneNodeVec3',
-    () => new SetSceneNodeProperty<Vec3>('action/setSceneNodeVec3', 'vec3')
+    'action/setSceneVec3',
+    () => new SetSceneProperty<Vec3>('action/setSceneVec3', 'vec3')
   );
   nodes.register(
-    'action/setSceneNodeVec4',
-    () => new SetSceneNodeProperty<Vec4>('action/setSceneNodeVec4', 'vec4')
+    'action/setSceneVec4',
+    () => new SetSceneProperty<Vec4>('action/setSceneVec4', 'vec4')
   );
 
   // queries
 
   nodes.register(
-    'query/getSceneNodeBoolean',
-    () => new GetSceneNodeProperty('query/getSceneNodeBoolean', 'boolean')
+    'query/getSceneBoolean',
+    () => new GetSceneProperty('query/getSceneBoolean', 'boolean')
   );
   nodes.register(
-    'query/getSceneNodeNumber',
-    () => new GetSceneNodeProperty('query/getSceneNodeNumber', 'float')
+    'query/getSceneNumber',
+    () => new GetSceneProperty('query/getSceneNumber', 'float')
   );
   nodes.register(
-    'query/getSceneNodeVec2',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec2', 'vec2')
+    'query/getSceneVec2',
+    () => new GetSceneProperty('query/getSceneVec2', 'vec2')
   );
   nodes.register(
-    'query/getSceneNodeVec3',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec3', 'vec3')
+    'query/getSceneVec3',
+    () => new GetSceneProperty('query/getSceneVec3', 'vec3')
   );
   nodes.register(
-    'query/getSceneNodeVec4',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec4', 'vec4')
+    'query/getSceneVec4',
+    () => new GetSceneProperty('query/getSceneVec4', 'vec4')
   );
 
   // logic: vec2

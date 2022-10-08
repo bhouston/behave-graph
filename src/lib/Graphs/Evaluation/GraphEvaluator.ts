@@ -1,6 +1,5 @@
 /* eslint-disable space-in-parens */
 
-import { Logger } from '../../Diagnostics/Logger';
 import { EventEmitter } from '../../Events/EventEmitter';
 import { EventListener } from '../../Events/EventListener';
 import { Link } from '../../Nodes/Link';
@@ -35,10 +34,6 @@ export class GraphEvaluator {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
 
-    Logger.verbose(
-      `GraphEvaluator: asyncCommit: ${node.typeName}.${outputSocket.name}`
-    );
-
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
@@ -46,10 +41,6 @@ export class GraphEvaluator {
       );
     }
     if (outputSocket.links.length === 1) {
-      Logger.verbose(
-        `GraphEvaluator: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`
-      );
-
       const syncExecutionBlock = new SyncExecutionBlock(
         this,
         outputSocket.links[0],
@@ -87,13 +78,6 @@ export class GraphEvaluator {
         await sleep(0);
       }
       stepsExecuted += this.executeAll(stepLimit);
-      Logger.verbose(
-        `this.nonBlockingAsyncNodes.length: ${this.interruptibleAsyncNodes.length}`
-      );
-      Logger.verbose(`this.asyncNodes.length: ${this.asyncNodes.length}`);
-      Logger.verbose(
-        `this.executionBlockQueue.length: ${this.executionBlockQueue.length}`
-      );
       elapsedTime = (Date.now() - startDateTime) * 0.001;
       iterations += 1;
     } while (

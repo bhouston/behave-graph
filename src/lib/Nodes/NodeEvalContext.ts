@@ -1,5 +1,4 @@
 import { Assert } from '../Diagnostics/Assert';
-import { Logger } from '../Diagnostics/Logger';
 import { CustomEvent } from '../Events/CustomEvent';
 import { EventEmitter } from '../Events/EventEmitter';
 import { EventListener } from '../Events/EventListener';
@@ -195,9 +194,6 @@ export class NodeEvalContext {
     downstreamFlowSocketName: string,
     syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
   ) {
-    Logger.verbose(
-      `commit: nodeId ${this.node.id} and output socket name ${downstreamFlowSocketName}, and the node type is ${this.node.typeName}`
-    );
     this.numCommits++;
     this.writeOutputs();
     if (this.node.async) {

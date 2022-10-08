@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import * as THREE from 'three';
+import { Mesh, MeshStandardMaterial } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
@@ -7,6 +8,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import {
   DefaultLogger,
   GraphEvaluator,
+  IScene,
   Logger,
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
@@ -15,12 +17,60 @@ import {
   Registry,
   validateDirectedAcyclicGraph,
   validateLinks,
-  validateNodeRegistry
+  validateNodeRegistry,
+  Vec3
 } from '../../lib';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;
 let renderer: THREE.WebGLRenderer | null = null;
+
+class ThreeScene implements IScene {
+  getProperty(jsonPath: string): any {
+    if (scene === null || renderer === null || camera === null) return;
+    switch (jsonPath) {
+      case '/nodes/0/material/baseColor': {
+        const mesh = scene?.children[0].children[0] as Mesh;
+        const physicalMaterial = mesh.material as MeshStandardMaterial;
+        const color = physicalMaterial.color;
+        return new Vec3(color.r, color.g, color.b);
+      }
+      case '/nodes/0/visible': {
+        const mesh = scene?.children[0].children[0] as Mesh;
+        return mesh.visible;
+      }
+      default:
+        throw new Error(`unsupported json path ${jsonPath}`);
+    }
+  }
+  setProperty(jsonPath: string, value: any): void {
+    if (scene === null || renderer === null || camera === null) return;
+    switch (jsonPath) {
+      case '/nodes/0/material/baseColor': {
+        const mesh = scene.children[0].children[0] as Mesh;
+        const physicalMaterial = mesh.material as MeshStandardMaterial;
+        const colorValue = value as Vec3;
+        physicalMaterial.color.setRGB(colorValue.x, colorValue.y, colorValue.z);
+        renderer?.render(scene, camera);
+        break;
+      }
+      case '/nodes/0/visible': {
+        const mesh = scene.children[0].children[0] as Mesh;
+        mesh.visible = value as boolean;
+        renderer.render(scene, camera);
+        break;
+      }
+      default:
+        throw new Error(`unsupported json path ${jsonPath}`);
+    }
+  }
+  addOnClickedListener(
+    jsonPath: string,
+    callback: (jsonPath: string) => void
+  ): void {
+    throw new Error('Method not implemented.');
+  }
+}
 
 function render() {
   if (camera !== null && renderer !== null && scene !== null) {
@@ -47,10 +97,8 @@ async function main() {
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const graphName = urlSearchParams.get('graph');
-  const graphJsonPath = `/examples/core/basics/${graphName}.json`;
+  registry.implementations.register('IScene', new ThreeScene());
+  const graphJsonPath = `/src/graphs/scene/actions/FlashSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }
@@ -62,14 +110,12 @@ async function main() {
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Logger.verbose('validating registry');
-  errorList.push(...validateNodeRegistry(registry));
-  Logger.verbose('validating socket links have matching types on either end');
-  errorList.push(...validateLinks(graph));
-  Logger.verbose('validating that graph is directed acyclic');
-  errorList.push(...validateDirectedAcyclicGraph(graph));
+  errorList.push(
+    ...validateNodeRegistry(registry),
+    ...validateLinks(graph),
+    ...validateDirectedAcyclicGraph(graph)
+  );
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
@@ -93,27 +139,12 @@ async function main() {
   const localScene = new THREE.Scene();
   scene = localScene;
 
-  new RGBELoader()
-    .setPath('textures/equirectangular/')
-    .load('royal_esplanade_1k.hdr', (texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
-
-      localScene.background = texture;
-      localScene.environment = texture;
-
-      render();
-
-      // model
-
-      const loader = new GLTFLoader().setPath(
-        'models/gltf/DamagedHelmet/glTF/'
-      );
-      loader.load('DamagedHelmet.gltf', (gltf) => {
-        localScene.add(gltf.scene);
-
-        render();
-      });
-    });
+  const texturePromise = new RGBELoader()
+    .setPath('/assets/envmaps/')
+    .loadAsync('pedestrian_overpass_1k.hdr');
+  const gltfPromise = new GLTFLoader()
+    .setPath('/src/graphs/scene/actions/')
+    .loadAsync('FlashSuzanne.gltf');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);
@@ -124,6 +155,18 @@ async function main() {
   container.appendChild(localRenderer.domElement);
 
   renderer = localRenderer;
+
+  const texture = await texturePromise;
+  const gltf = await gltfPromise;
+
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+  localScene.background = texture;
+  localScene.environment = texture;
+
+  localScene.add(gltf.scene);
+
+  render();
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render); // use if there is no animation loop

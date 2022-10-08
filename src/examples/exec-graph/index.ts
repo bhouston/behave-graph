@@ -42,14 +42,12 @@ async function main() {
   );
   graph.name = graphJsonPath;
 
-  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Logger.verbose('validating registry');
-  errorList.push(...validateNodeRegistry(registry));
-  Logger.verbose('validating socket links have matching types on either end');
-  errorList.push(...validateLinks(graph));
-  Logger.verbose('validating that graph is directed acyclic');
-  errorList.push(...validateDirectedAcyclicGraph(graph));
+  errorList.push(
+    ...validateNodeRegistry(registry),
+    ...validateLinks(graph),
+    ...validateDirectedAcyclicGraph(graph)
+  );
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);

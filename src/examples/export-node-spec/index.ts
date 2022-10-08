@@ -21,9 +21,7 @@ async function main() {
   registerCoreProfile(registry);
   registerSceneProfile(registry);
 
-  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Logger.verbose('validating registry');
   errorList.push(...validateNodeRegistry(registry));
 
   if (errorList.length > 0) {

@@ -137,11 +137,11 @@
     "variables": [],
     "customEvents": [
         {
-            "name": "flashSuzanneRed",
+            "name": "hideSuzanne",
             "id": "0"
         },
         {
-            "name": "flashSuzanneBlue",
+            "name": "showSuzanne",
             "id": "1"
         }
     ],

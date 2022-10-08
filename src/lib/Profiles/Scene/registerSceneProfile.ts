@@ -29,6 +29,10 @@ import {
   vec2ToString
 } from './Values/Vec2';
 import {
+  hexToRGB,
+  hslToRGB,
+  rgbToHex,
+  rgbToHSL,
   Vec3,
   vec3Add,
   vec3Cross,
@@ -43,6 +47,8 @@ import {
   vec3ToString
 } from './Values/Vec3';
 import {
+  angleAxisToQuat,
+  eulerToQuat,
   quatConjugate,
   quatMultiply,
   quatSlerp,
@@ -326,12 +332,67 @@ export function registerSceneProfile(registry: Registry) {
         (a) => vec3ToString(a)
       )
   );
+  nodes.register(
+    'logic/hslToRGB',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec3>('logic/hslToRGB', 'vec3', 'vec3', (a) =>
+        hslToRGB(a)
+      )
+  );
+  nodes.register(
+    'logic/rgbToHSL',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec3>('logic/rgbToHSL', 'vec3', 'vec3', (a) =>
+        rgbToHSL(a)
+      )
+  );
+  nodes.register(
+    'logic/rgbToHex',
+    () =>
+      new In1Out1FuncNode<Vec3, number>(
+        'logic/rgbToHex',
+        'vec3',
+        'float',
+        (a) => rgbToHex(a)
+      )
+  );
+  nodes.register(
+    'logic/hexToRGB',
+    () =>
+      new In1Out1FuncNode<number, Vec3>(
+        'logic/hexToRGB',
+        'float',
+        'vec3',
+        (a) => hexToRGB(a)
+      )
+  );
 
   // logic: vec4
 
   nodes.register('logic/vec4Create', () => new Vec4Create());
   nodes.register('logic/vec4Elements', () => new Vec4Elements());
 
+  nodes.register(
+    'logic/eulerToQuat',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec4>(
+        'logic/eulerToQuat',
+        'vec3',
+        'vec4',
+        (a) => eulerToQuat(a)
+      )
+  );
+  nodes.register(
+    'logic/angleAxisToQuat',
+    () =>
+      new In2Out1FuncNode<number, Vec3, Vec4>(
+        'logic/angleAxisToQuat',
+        'float',
+        'vec3',
+        'vec4',
+        (a, b) => angleAxisToQuat(a, b)
+      )
+  );
   nodes.register(
     'logic/quatMultiply',
     () =>

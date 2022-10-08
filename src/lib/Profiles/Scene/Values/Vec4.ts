@@ -1,4 +1,5 @@
 import { parseFloats } from '../../../parseFloats';
+import { Vec3 } from './Vec3';
 
 export type Vec4JSON = { x: number; y: number; z: number; w: number };
 
@@ -167,4 +168,47 @@ export function quatSlerp(
   optionalResult.z = a.z * ratioA + optionalResult.z * ratioB;
 
   return optionalResult;
+}
+export function eulerToQuat(
+  euler: Vec3,
+  optionalResult: Vec4 = new Vec4()
+): Vec4 {
+  // eslint-disable-next-line max-len
+  // http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
+
+  const c1 = Math.cos(euler.x / 2);
+  const c2 = Math.cos(euler.y / 2);
+  const c3 = Math.cos(euler.z / 2);
+
+  const s1 = Math.sin(euler.x / 2);
+  const s2 = Math.sin(euler.y / 2);
+  const s3 = Math.sin(euler.z / 2);
+
+  // XYZ order only
+  return optionalResult.set(
+    s1 * c2 * c3 + c1 * s2 * s3,
+    c1 * s2 * c3 - s1 * c2 * s3,
+    c1 * c2 * s3 + s1 * s2 * c3,
+    c1 * c2 * c3 - s1 * s2 * s3
+  );
+}
+
+export function angleAxisToQuat(
+  angle: number,
+  axis: Vec3,
+  optionalResult = new Vec4()
+): Vec4 {
+  // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
+
+  // assumes axis is normalized
+
+  const halfAngle = angle / 2;
+  const s = Math.sin(halfAngle);
+
+  return optionalResult.set(
+    axis.x * s,
+    axis.y * s,
+    axis.z * s,
+    Math.cos(halfAngle)
+  );
 }

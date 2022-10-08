@@ -39,7 +39,7 @@
             "id": "3",
             "parameters": {
                 "jsonPath": {
-                    "value": "/nodes/0/visible"
+                    "value": "/nodes/3/visible"
                 },
                 "value": {
                     "value": false
@@ -96,7 +96,7 @@
             "id": "7",
             "parameters": {
                 "jsonPath": {
-                    "value": "/nodes/0/visible"
+                    "value": "/nodes/3/visible"
                 },
                 "value": {
                     "value": true
@@ -137,13 +137,13 @@
     "variables": [],
     "customEvents": [
         {
-            "name": "hideSuzanne",
+            "name": "hideHierarchy",
             "id": "0"
         },
         {
-            "name": "showSuzanne",
+            "name": "showHierarchy",
             "id": "1"
         }
     ],
-    "name": "./src/graphs/scene/actions/FlashSuzanne.json"
+    "name": "./src/graphs/scene/actions/Hierarchy.json"
 }

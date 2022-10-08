@@ -18,6 +18,7 @@ export class SetSceneProperty<T> extends Node {
           context.graph.registry.implementations.get<IScene>('IScene');
         sceneGraph.setProperty(
           context.readInput('jsonPath'),
+          valueTypeName,
           context.readInput('value')
         );
       }

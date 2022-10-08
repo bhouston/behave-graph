@@ -1,7 +1,6 @@
 /* eslint-disable space-in-parens */
 
 import { EventEmitter } from '../../Events/EventEmitter';
-import { EventListener } from '../../Events/EventListener';
 import { Link } from '../../Nodes/Link';
 import { Node } from '../../Nodes/Node';
 import { sleep } from '../../sleep';
@@ -29,7 +28,7 @@ export class GraphEvaluator {
   // asyncCommit
   asyncCommit(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: EventListener<void> | undefined
+    syncEvaluationCompletedListener: (() => void) | undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);

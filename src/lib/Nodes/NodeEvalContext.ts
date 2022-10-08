@@ -1,7 +1,6 @@
 import { Assert } from '../Diagnostics/Assert';
 import { CustomEvent } from '../Events/CustomEvent';
 import { EventEmitter } from '../Events/EventEmitter';
-import { EventListener } from '../Events/EventListener';
 import { GraphEvaluator } from '../Graphs/Evaluation/GraphEvaluator';
 import { NodeEvaluationEvent } from '../Graphs/Evaluation/NodeEvaluationEvent';
 import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
@@ -192,7 +191,7 @@ export class NodeEvalContext {
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
   commit(
     downstreamFlowSocketName: string,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     this.numCommits++;
     this.writeOutputs();

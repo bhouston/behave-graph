@@ -1,6 +1,6 @@
 export interface IScene {
-  getProperty(jsonPath: string): any;
-  setProperty(jsonPath: string, value: any): void;
+  getProperty(jsonPath: string, valueTypeName: string): any;
+  setProperty(jsonPath: string, valueTypeName: string, value: any): void;
   addOnClickedListener(
     jsonPath: string,
     callback: (jsonPath: string) => void

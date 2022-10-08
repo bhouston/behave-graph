@@ -1,5 +1,4 @@
 import { Assert } from '../../Diagnostics/Assert';
-import { EventListener } from '../../Events/EventListener';
 import { Link } from '../../Nodes/Link';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
 import { Socket } from '../../Sockets/Socket';
@@ -7,14 +6,13 @@ import { Graph } from '../Graph';
 import { GraphEvaluator } from './GraphEvaluator';
 
 export class SyncExecutionBlock {
-  private readonly syncEvaluationCompletedListenerStack: EventListener<void>[] =
-    [];
+  private readonly syncEvaluationCompletedListenerStack: (() => void)[] = [];
   private readonly graph: Graph;
 
   constructor(
     public graphEvaluator: GraphEvaluator,
     public nextEval: Link | null,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     this.graph = graphEvaluator.graph;
     if (syncEvaluationCompletedListener !== undefined) {
@@ -87,7 +85,7 @@ export class SyncExecutionBlock {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];

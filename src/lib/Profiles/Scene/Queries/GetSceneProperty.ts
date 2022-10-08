@@ -14,7 +14,7 @@ export class GetSceneProperty<T> extends Node {
           context.graph.registry.implementations.get<IScene>('IScene');
         context.writeOutput<T>(
           'value',
-          sceneGraph.getProperty(context.readInput('jsonPath'))
+          sceneGraph.getProperty(context.readInput('jsonPath'), valueTypeName)
         );
       }
     );

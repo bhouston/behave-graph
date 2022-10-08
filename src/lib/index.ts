@@ -1,5 +1,4 @@
 export * from './Events/EventEmitter';
-export * from './Events/EventListener';
 export * from './Diagnostics/Logger';
 export * from './Diagnostics/Assert';
 

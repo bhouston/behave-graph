@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import {
+  Assert,
   DefaultLogger,
   EventEmitter,
   GraphEvaluator,
@@ -21,17 +22,54 @@ import {
   validateNodeRegistry,
   Vec3
 } from '../../lib';
+import { GLTFJson } from './GLTFJson';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;
 let renderer: THREE.WebGLRenderer | null = null;
 
 class ThreeScene implements IScene {
+  private glTFNodeIndexToThreeNode: { [index: number]: THREE.Object3D } = {};
+  private glTFMaterialIndexToThreeMaterial: {
+    [index: number]: THREE.Material;
+  } = {};
+
   public onSceneChanged = new EventEmitter<void>();
 
-  constructor(public glTFRoot: THREE.Object3D) {}
+  constructor(public glTFRoot: THREE.Object3D, public glTFJson: GLTFJson) {
+    const traverseChildren = (
+      threeNode: THREE.Object3D,
+      glTFNodeIndex: number
+    ) => {
+      const glTFNode = glTFJson.nodes[glTFNodeIndex];
+      if (glTFNode.children === undefined) return;
+      for (let i = 0; i < glTFNode.children.length; i++) {
+        const childGLTFNodeIndex = glTFNode.children[i];
+        const childThreeNode = threeNode.children[i];
+        this.glTFNodeIndexToThreeNode[childGLTFNodeIndex] = childThreeNode;
+        traverseChildren(childThreeNode, childGLTFNodeIndex);
+
+        Assert.mustBeTrue(
+          glTFJson.nodes[childGLTFNodeIndex].name === childThreeNode.name
+        );
+      }
+    };
+    for (let i = 0; i < glTFJson.scenes[0].nodes.length; i++) {
+      const glTFNodeIndex = glTFJson.scenes[0].nodes[i];
+      const threeNode = glTFRoot.children[i];
+      this.glTFNodeIndexToThreeNode[glTFNodeIndex] = threeNode;
+      traverseChildren(threeNode, glTFNodeIndex);
+    }
+    console.log(this);
+  }
 
   getProperty(jsonPath: string): any {
+    // look for node regex "/node/{nodeIndex}/{property}"
+    //  switch on property name.
+
+    // look for material regex "/materia/{materialIndex}/{property}"
+    //  switch on property name.
+
     switch (jsonPath) {
       case '/nodes/0/material/baseColor': {
         const mesh = this.glTFRoot.children[0] as Mesh;
@@ -106,11 +144,14 @@ async function main() {
   }
 
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const response = await fetch(graphJsonPath);
-  const json = await response.json();
-  const graph = readGraphFromJSON(json, registry);
+  const graphFetchResponse = await fetch(graphJsonPath);
+  const graphJson = await graphFetchResponse.json();
+  const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
 
+  const glTFJsonPath = '/src/graphs/scene/actions/Hierarchy.gltf';
+  const glTFFetchResponse = await fetch(glTFJsonPath);
+  const glTFJson = await glTFFetchResponse.json();
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   const errorList: string[] = [];
   errorList.push(
@@ -146,7 +187,7 @@ async function main() {
     .loadAsync('pedestrian_overpass_1k.hdr');
   const gltfPromise = new GLTFLoader()
     .setPath('/src/graphs/scene/actions/')
-    .loadAsync('FlashSuzanne.gltf');
+    .loadAsync('Hierarchy.gltf');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);
@@ -165,9 +206,10 @@ async function main() {
 
   localScene.background = texture;
   localScene.environment = texture;
+  console.log(gltf.scene);
 
   localScene.add(gltf.scene);
-  const threeScene = new ThreeScene(gltf.scene);
+  const threeScene = new ThreeScene(gltf.scene, glTFJson);
   threeScene.onSceneChanged.addListener(() => {
     render();
   });

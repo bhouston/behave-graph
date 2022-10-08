@@ -379,7 +379,12 @@ export function registerSceneProfile(registry: Registry) {
         'logic/eulerToQuat',
         'vec3',
         'vec4',
-        (a) => eulerToQuat(a)
+        (a) => {
+          console.log('helllo world!!!!');
+          const result = eulerToQuat(a);
+          console.log('result', result);
+          return result;
+        }
       )
   );
   nodes.register(

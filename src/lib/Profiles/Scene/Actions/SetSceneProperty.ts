@@ -16,10 +16,12 @@ export class SetSceneProperty<T> extends Node {
       (context) => {
         const sceneGraph =
           context.graph.registry.implementations.get<IScene>('IScene');
+        const value = context.readInput('value');
+        console.log('value', value);
         sceneGraph.setProperty(
           context.readInput('jsonPath'),
           valueTypeName,
-          context.readInput('value')
+          value
         );
       }
     );

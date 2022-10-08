@@ -107,6 +107,7 @@ export class ThreeScene implements IScene {
   }
   setProperty(jsonPath: string, valueTypeName: string, value: any): void {
     const path = parseJsonPath(jsonPath);
+    console.log(path, value);
     switch (path.resource) {
       case 'nodes': {
         const threeNode = this.glTFNodeIndexToThreeNode[path.index];

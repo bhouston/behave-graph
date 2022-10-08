@@ -46,7 +46,7 @@ async function main() {
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-  const graphJsonPath = `/src/graphs/scene/actions/Hierarchy.json`;
+  const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }
@@ -57,7 +57,7 @@ async function main() {
   const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
 
-  const glTFJsonPath = '/src/graphs/scene/actions/Hierarchy.gltf';
+  const glTFJsonPath = '/src/graphs/scene/actions/SpinningSuzanne.gltf';
   const glTFFetchResponse = await fetch(glTFJsonPath);
   const glTFJson = await glTFFetchResponse.json();
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
@@ -95,7 +95,7 @@ async function main() {
     .loadAsync('pedestrian_overpass_1k.hdr');
   const gltfPromise = new GLTFLoader()
     .setPath('/src/graphs/scene/actions/')
-    .loadAsync('Hierarchy.gltf');
+    .loadAsync('SpinningSuzanne.gltf');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);

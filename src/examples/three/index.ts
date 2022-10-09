@@ -13,7 +13,6 @@ import {
   registerCoreProfile,
   registerSceneProfile,
   Registry,
-  traceToLogger,
   validateDirectedAcyclicGraph,
   validateLinks,
   validateNodeRegistry
@@ -136,7 +135,7 @@ async function main() {
 
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
-  graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
+  //graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
@@ -156,24 +155,26 @@ async function main() {
     await graphEvaluator.executeAllAsync(5);
   }
 
-  if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-    for (let tick = 0; tick < 5; tick++) {
-      Logger.verbose('triggering tick');
-      manualLifecycleEventEmitter.tickEvent.emit();
+  const onTick = async () => {
+    Logger.verbose('triggering tick');
+    manualLifecycleEventEmitter.tickEvent.emit();
 
-      Logger.verbose('executing all (async)');
-      // eslint-disable-next-line no-await-in-loop
-      await graphEvaluator.executeAllAsync(5);
-    }
-  }
+    Logger.verbose('executing all (async)');
+    // eslint-disable-next-line no-await-in-loop
+    await graphEvaluator.executeAllAsync(500);
 
-  if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+    setTimeout(onTick, 50);
+  };
+
+  setTimeout(onTick, 50);
+
+  /*if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
     Logger.verbose('triggering end event');
     manualLifecycleEventEmitter.endEvent.emit();
 
     Logger.verbose('executing all (async)');
     await graphEvaluator.executeAllAsync(5);
-  }
+  }*/
 }
 
 main();

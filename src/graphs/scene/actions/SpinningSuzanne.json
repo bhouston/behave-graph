@@ -17,7 +17,7 @@
                 "x": {
                     "link": {
                         "nodeId": 0,
-                        "socket": "deltaSeconds"
+                        "socket": "time"
                     }
                 },
                 "y": {

@@ -4,10 +4,7 @@
       "path": "."
     },
     {
-      "path": "../threeify"
-    },
-    {
-      "path": "../threeify-glsl-transpiler"
+      "path": "../behave-flow"
     }
   ],
   "settings": {},

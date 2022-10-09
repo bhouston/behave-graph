@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/floatCreate",
+      "type": "logic/float",
       "id": "1",
       "parameters": {
         "a": {

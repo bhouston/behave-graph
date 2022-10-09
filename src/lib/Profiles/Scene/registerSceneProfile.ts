@@ -159,7 +159,7 @@ export function registerSceneProfile(registry: Registry) {
 
   // logic: vec2
 
-  nodes.register('logic/vec2Create', () => new Vec2Create());
+  nodes.register('logic/vec2', () => new Vec2Create());
 
   nodes.register('logic/vec2Elements', () => new Vec2Elements());
 
@@ -236,7 +236,7 @@ export function registerSceneProfile(registry: Registry) {
 
   // logic: vec3
 
-  nodes.register('logic/vec3Create', () => new Vec3Create());
+  nodes.register('logic/vec3', () => new Vec3Create());
 
   nodes.register('logic/vec3Elements', () => new Vec3Elements());
 
@@ -369,7 +369,7 @@ export function registerSceneProfile(registry: Registry) {
 
   // logic: vec4
 
-  nodes.register('logic/vec4Create', () => new Vec4Create());
+  nodes.register('logic/vec4', () => new Vec4Create());
   nodes.register('logic/vec4Elements', () => new Vec4Elements());
 
   nodes.register(

@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/vec4Create",
+      "type": "logic/vec4",
       "id": "1",
       "parameters": {
         "x": {

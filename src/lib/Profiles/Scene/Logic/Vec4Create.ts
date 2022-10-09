@@ -7,7 +7,7 @@ export class Vec4Create extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/vec4Create',
+      'logic/vec4',
       [
         new Socket('float', 'x'),
         new Socket('float', 'y'),

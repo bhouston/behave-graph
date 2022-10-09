@@ -46,40 +46,40 @@ export function registerCoreProfile(registry: Registry) {
   // logic: constants
 
   nodes.register(
-    'logic/booleanCreate',
+    'logic/boolean',
     () =>
       new In1Out1FuncNode<boolean, boolean>(
-        'logic/booleanCreate',
+        'logic/boolean',
         'boolean',
         'boolean',
         (a) => a
       )
   );
   nodes.register(
-    'logic/floatCreate',
+    'logic/float',
     () =>
       new In1Out1FuncNode<number, number>(
-        'logic/floatCreate',
+        'logic/float',
         'float',
         'float',
         (a) => a
       )
   );
   nodes.register(
-    'logic/integerCreate',
+    'logic/integer',
     () =>
       new In1Out1FuncNode<bigint, bigint>(
-        'logic/integerCreate',
+        'logic/integer',
         'integer',
         'integer',
         (a) => a
       )
   );
   nodes.register(
-    'logic/stringCreate',
+    'logic/string',
     () =>
       new In1Out1FuncNode<string, string>(
-        'logic/stringCreate',
+        'logic/string',
         'string',
         'string',
         (a) => a

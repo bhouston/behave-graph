@@ -16,6 +16,7 @@ import {
   validateRegistry,
   writeGraphToJSON
 } from '../../lib';
+import { parseSafeFloat } from '../../lib/parseFloats';
 
 async function main() {
   Logger.onVerbose.clear();
@@ -28,7 +29,8 @@ async function main() {
     .option(
       '-u, --upgrade',
       `write json graph back to read location, upgrading format`
-    );
+    )
+    .option('-i, --iterations <iterations>', 'number of tick iterations', '5');
 
   program.parse(process.argv);
   const programOptions = program.opts();
@@ -89,8 +91,9 @@ async function main() {
   }
 
   if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-    for (let tick = 0; tick < 5; tick++) {
-      Logger.verbose('triggering tick');
+    const iteations = parseSafeFloat(programOptions.iterations, 5);
+    for (let tick = 0; tick < iteations; tick++) {
+      Logger.verbose(`triggering tick (${tick} of ${iteations})`);
       manualLifecycleEventEmitter.tickEvent.emit();
 
       Logger.verbose('executing all (async)');

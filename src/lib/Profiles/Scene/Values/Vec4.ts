@@ -1,4 +1,4 @@
-import { parseFloats } from '../../../parseFloats';
+import { parseSafeFloats } from '../../../parseFloats';
 import { Vec3 } from './Vec3';
 
 export type Vec4JSON = { x: number; y: number; z: number; w: number };
@@ -94,7 +94,7 @@ export function vec4ToString(a: Vec4): string {
   return `(${a.x}, ${a.y}, ${a.z}, ${a.w})`;
 }
 export function vec4Parse(text: string, optionalResult = new Vec4()): Vec4 {
-  return vec4FromArray(parseFloats(text), 0, optionalResult);
+  return vec4FromArray(parseSafeFloats(text), 0, optionalResult);
 }
 export function quatConjugate(a: Vec4, optionalResult = new Vec4()): Vec4 {
   return optionalResult.set(-a.x, -a.y, -a.z, a.w);

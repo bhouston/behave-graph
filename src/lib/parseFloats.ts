@@ -1,8 +1,15 @@
 const cSeparator = /[^\d+.-]+/;
 
-export function parseFloats(text: string): number[] {
+export function parseSafeFloat(text: string, fallback = 0): number {
+  try {
+    return Number.parseFloat(text);
+  } catch {
+    return fallback;
+  }
+}
+export function parseSafeFloats(text: string, fallback = 0): number[] {
   return text
     .split(cSeparator)
     .filter(Boolean)
-    .map((value) => Number.parseFloat(value));
+    .map((value) => parseSafeFloat(value, fallback));
 }

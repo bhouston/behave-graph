@@ -1,3 +1,4 @@
+import { parseSafeFloat } from '../parseFloats';
 import { ValueType } from './ValueType';
 
 export class ValueTypeRegistry {
@@ -27,7 +28,7 @@ export class ValueTypeRegistry {
         'float',
         () => 0,
         (value: string | number) =>
-          typeof value === 'string' ? Number.parseFloat(value) : value,
+          typeof value === 'string' ? parseSafeFloat(value, 0) : value,
         (value: number) => value
       )
     );

@@ -1,4 +1,4 @@
-import { parseFloats } from '../../../parseFloats';
+import { parseSafeFloats as parseSafeFloats } from '../../../parseFloats';
 
 export type Vec2JSON = { x: number; y: number };
 
@@ -84,5 +84,5 @@ export function vec2ToString(a: Vec2): string {
   return `(${a.x}, ${a.y})`;
 }
 export function vec2Parse(text: string, optionalResult = new Vec2()): Vec2 {
-  return vec2FromArray(parseFloats(text), 0, optionalResult);
+  return vec2FromArray(parseSafeFloats(text), 0, optionalResult);
 }

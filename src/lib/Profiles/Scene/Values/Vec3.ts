@@ -1,4 +1,4 @@
-import { parseFloats } from '../../../parseFloats';
+import { parseSafeFloats } from '../../../parseFloats';
 
 export type Vec3JSON = { x: number; y: number; z: number };
 
@@ -105,7 +105,7 @@ export function vec3ToString(a: Vec3): string {
   return `(${a.x}, ${a.y}, ${a.z})`;
 }
 export function vec3Parse(text: string, optionalResult = new Vec3()): Vec3 {
-  return vec3FromArray(parseFloats(text), 0, optionalResult);
+  return vec3FromArray(parseSafeFloats(text), 0, optionalResult);
 }
 
 export function hslToRGB(hsl: Vec3, optionalResult = new Vec3()): Vec3 {

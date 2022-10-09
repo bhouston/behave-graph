@@ -14,7 +14,8 @@ import {
   traceToLogger,
   validateDirectedAcyclicGraph,
   validateLinks,
-  validateNodeRegistry
+  validateNodeRegistry,
+  writeGraphToJSON
 } from '../../lib';
 
 async function main() {
@@ -24,7 +25,11 @@ async function main() {
     .name('exec-graph')
     .argument('<filename>', 'path to the behavior-graph json to execute')
     .option('-t, --trace', `trace node execution`)
-    .option('-p, --profile', `profile execution time`);
+    .option('-p, --profile', `profile execution time`)
+    .option(
+      '-u, --upgrade',
+      `write json graph back to read location, upgrading format`
+    );
 
   program.parse(process.argv);
   const programOptions = program.opts();
@@ -62,6 +67,11 @@ async function main() {
       Logger.error(`${errorIndex}: ${errorText}`);
     });
     return;
+  }
+
+  if (programOptions.upgrade) {
+    const newGraphJson = writeGraphToJSON(graph);
+    await fs.writeFile(graphJsonPath, JSON.stringify(newGraphJson, null, 2));
   }
 
   Logger.verbose('creating behavior graph');

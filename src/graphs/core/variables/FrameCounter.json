@@ -24,12 +24,10 @@
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "value"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "value"
+          }
         },
         "b": {
           "value": 1
@@ -44,12 +42,10 @@
           "value": "0"
         },
         "value": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       },
       "flows": {
@@ -64,12 +60,10 @@
       "id": "5",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "value"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "value"
+          }
         }
       }
     },
@@ -81,12 +75,10 @@
           "value": "Frame Count is "
         },
         "b": {
-          "links": [
-            {
-              "nodeId": "5",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "5",
+            "socket": "result"
+          }
         }
       }
     },
@@ -95,12 +87,10 @@
       "id": "7",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "6",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "6",
+            "socket": "result"
+          }
         }
       }
     }

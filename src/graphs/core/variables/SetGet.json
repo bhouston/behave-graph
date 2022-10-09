@@ -42,12 +42,10 @@
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "value"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "value"
+          }
         }
       }
     },
@@ -56,12 +54,10 @@
       "id": "4",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       }
     }

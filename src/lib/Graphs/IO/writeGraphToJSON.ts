@@ -79,16 +79,16 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
         parameterJson.value = graph.registry.values
           .get(inputSocket.valueTypeName)
           .serialize(inputSocket.value);
+      } else if (inputSocket.links.length === 1) {
+        const link = inputSocket.links[0];
+        parameterJson.link = {
+          nodeId: link.nodeId,
+          socket: link.socketName
+        };
       } else {
-        const linksJson: LinkJSON[] = [];
-        inputSocket.links.forEach((link) => {
-          linksJson.push({
-            nodeId: link.nodeId,
-            socket: link.socketName
-          });
-        });
-
-        parameterJson.links = linksJson;
+        throw new Error(
+          `should not get here, inputSocket.links.length = ${inputSocket.links.length} > 1`
+        );
       }
       parametersJson[inputSocket.name] = parameterJson;
     });

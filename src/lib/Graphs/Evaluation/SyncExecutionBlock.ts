@@ -1,4 +1,5 @@
 import { Assert } from '../../Diagnostics/Assert';
+import { Logger } from '../../Diagnostics/Logger';
 import { Link } from '../../Nodes/Link';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
 import { Socket } from '../../Sockets/Socket';
@@ -35,6 +36,9 @@ export class SyncExecutionBlock {
 
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
+      Logger.verbose(
+        `returning value on input socket as it has no links: ${inputSocket.value}`
+      );
       // if not set, use the default value for this valueType
       if (inputSocket.value === undefined) {
         return this.graph.registry.values
@@ -59,6 +63,7 @@ export class SyncExecutionBlock {
     );
 
     if (upstreamNode.flow) {
+      Logger.verbose(`upstreamNode is a flow node: ${upstreamNode.typeName}`);
       // eslint-disable-next-line no-param-reassign
       inputSocket.value = upstreamOutputSocket.value;
       return upstreamOutputSocket.value;
@@ -67,6 +72,9 @@ export class SyncExecutionBlock {
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     upstreamNode.inputSockets.forEach((upstreamInputSocket) => {
+      Logger.verbose(
+        `recursively tracing input sockets: ${upstreamInputSocket.name}`
+      );
       // eslint-disable-next-line no-param-reassign
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
@@ -136,12 +144,16 @@ export class SyncExecutionBlock {
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSockets.forEach((inputSocket) => {
+      Logger.verbose(`scanning input socket: ${inputSocket.name}`);
       if (inputSocket.valueTypeName !== 'flow') {
         // eslint-disable-next-line no-param-reassign
+        Logger.verbose(
+          `resolving input value for non-flow socket: ${inputSocket.name}`
+        );
         this.resolveInputValueFromSocket(inputSocket);
       } else {
         // eslint-disable-next-line no-param-reassign
-        inputSocket.value = inputSocket.name === link.socketName; // is this required?
+        inputSocket.value = inputSocket.name === link.socketName; // is this required?  if there are multiple input flows, yes it is.
       }
     });
 

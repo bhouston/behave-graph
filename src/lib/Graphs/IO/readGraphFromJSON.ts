@@ -174,9 +174,17 @@ function readNodeInputsJSON(
 
     if (inputJson.links !== undefined) {
       const linksJson = inputJson.links;
+      if (inputJson.links.length > 1)
+        throw new Error(
+          `should not get here, only at most 1 link supported per parameter`
+        );
       linksJson.forEach((linkJson) => {
         socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
       });
+    }
+    if (inputJson.link !== undefined) {
+      const linkJson = inputJson.link;
+      socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
     }
   });
 

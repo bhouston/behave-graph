@@ -14,15 +14,12 @@ export class SetSceneProperty<T> extends Node {
       ],
       [new Socket('flow', 'flow')],
       (context) => {
-        const sceneGraph =
+        const scene =
           context.graph.registry.implementations.get<IScene>('IScene');
-        const value = context.readInput('value');
+        const value = context.readInput<T>('value');
+        console.log('valueTypeName', valueTypeName);
         console.log('value', value);
-        sceneGraph.setProperty(
-          context.readInput('jsonPath'),
-          valueTypeName,
-          value
-        );
+        scene.setProperty(context.readInput('jsonPath'), valueTypeName, value);
       }
     );
   }

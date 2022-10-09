@@ -7,7 +7,7 @@ import { ValueType } from '../../Values/ValueType';
 import { SetVariable } from '../Core/Actions/SetVariable';
 import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
 import { GetVariable } from '../Core/Queries/GetVariable';
-import { SetSceneNodeProperty } from './Actions/SetSceneNodeProperty';
+import { SetSceneProperty } from './Actions/SetSceneProperty';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
 import { Vec2Create } from './Logic/Vec2Create';
 import { Vec2Elements } from './Logic/Vec2Elements';
@@ -15,7 +15,7 @@ import { Vec3Create } from './Logic/Vec3Create';
 import { Vec3Elements } from './Logic/Vec3Elements';
 import { Vec4Create } from './Logic/Vec4Create';
 import { Vec4Elements } from './Logic/Vec4Elements';
-import { GetSceneNodeProperty } from './Queries/GetSceneNodeProperty';
+import { GetSceneProperty } from './Queries/GetSceneProperty';
 import {
   Vec2,
   vec2Add,
@@ -29,6 +29,10 @@ import {
   vec2ToString
 } from './Values/Vec2';
 import {
+  hexToRGB,
+  hslToRGB,
+  rgbToHex,
+  rgbToHSL,
   Vec3,
   vec3Add,
   vec3Cross,
@@ -43,6 +47,8 @@ import {
   vec3ToString
 } from './Values/Vec3';
 import {
+  angleAxisToQuat,
+  eulerToQuat,
   quatConjugate,
   quatMultiply,
   quatSlerp,
@@ -100,48 +106,55 @@ export function registerSceneProfile(registry: Registry) {
   // actions
 
   nodes.register(
-    'action/setSceneNodeBoolean',
-    () =>
-      new SetSceneNodeProperty<boolean>('action/setSceneNodeBoolean', 'boolean')
+    'action/setSceneBoolean',
+    () => new SetSceneProperty<boolean>('action/setSceneBoolean', 'boolean')
   );
   nodes.register(
-    'action/setSceneNodeNumber',
-    () => new SetSceneNodeProperty<number>('action/setSceneNodeNumber', 'float')
+    'action/setSceneFloat',
+    () => new SetSceneProperty<number>('action/setSceneFloat', 'float')
   );
   nodes.register(
-    'action/setSceneNodeVec2',
-    () => new SetSceneNodeProperty<Vec2>('action/setSceneNodeVec2', 'vec2')
+    'action/setSceneInteger',
+    () => new SetSceneProperty<bigint>('action/setSceneInteger', 'integer')
   );
   nodes.register(
-    'action/setSceneNodeVec3',
-    () => new SetSceneNodeProperty<Vec3>('action/setSceneNodeVec3', 'vec3')
+    'action/setSceneVec2',
+    () => new SetSceneProperty<Vec2>('action/setSceneVec2', 'vec2')
   );
   nodes.register(
-    'action/setSceneNodeVec4',
-    () => new SetSceneNodeProperty<Vec4>('action/setSceneNodeVec4', 'vec4')
+    'action/setSceneVec3',
+    () => new SetSceneProperty<Vec3>('action/setSceneVec3', 'vec3')
+  );
+  nodes.register(
+    'action/setSceneVec4',
+    () => new SetSceneProperty<Vec4>('action/setSceneVec4', 'vec4')
   );
 
   // queries
 
   nodes.register(
-    'query/getSceneNodeBoolean',
-    () => new GetSceneNodeProperty('query/getSceneNodeBoolean', 'boolean')
+    'query/getSceneBoolean',
+    () => new GetSceneProperty<boolean>('query/getSceneBoolean', 'boolean')
   );
   nodes.register(
-    'query/getSceneNodeNumber',
-    () => new GetSceneNodeProperty('query/getSceneNodeNumber', 'float')
+    'query/getSceneFloat',
+    () => new GetSceneProperty<number>('query/getSceneFloat', 'float')
   );
   nodes.register(
-    'query/getSceneNodeVec2',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec2', 'vec2')
+    'query/getSceneInteger',
+    () => new GetSceneProperty<bigint>('query/getSceneInteger', 'integer')
   );
   nodes.register(
-    'query/getSceneNodeVec3',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec3', 'vec3')
+    'query/getSceneVec2',
+    () => new GetSceneProperty<Vec2>('query/getSceneVec2', 'vec2')
   );
   nodes.register(
-    'query/getSceneNodeVec4',
-    () => new GetSceneNodeProperty('query/getSceneNodeVec4', 'vec4')
+    'query/getSceneVec3',
+    () => new GetSceneProperty<Vec3>('query/getSceneVec3', 'vec3')
+  );
+  nodes.register(
+    'query/getSceneVec4',
+    () => new GetSceneProperty<Vec4>('query/getSceneVec4', 'vec4')
   );
 
   // logic: vec2
@@ -319,12 +332,67 @@ export function registerSceneProfile(registry: Registry) {
         (a) => vec3ToString(a)
       )
   );
+  nodes.register(
+    'logic/hslToRGB',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec3>('logic/hslToRGB', 'vec3', 'vec3', (a) =>
+        hslToRGB(a)
+      )
+  );
+  nodes.register(
+    'logic/rgbToHSL',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec3>('logic/rgbToHSL', 'vec3', 'vec3', (a) =>
+        rgbToHSL(a)
+      )
+  );
+  nodes.register(
+    'logic/rgbToHex',
+    () =>
+      new In1Out1FuncNode<Vec3, number>(
+        'logic/rgbToHex',
+        'vec3',
+        'float',
+        (a) => rgbToHex(a)
+      )
+  );
+  nodes.register(
+    'logic/hexToRGB',
+    () =>
+      new In1Out1FuncNode<number, Vec3>(
+        'logic/hexToRGB',
+        'float',
+        'vec3',
+        (a) => hexToRGB(a)
+      )
+  );
 
   // logic: vec4
 
   nodes.register('logic/vec4Create', () => new Vec4Create());
   nodes.register('logic/vec4Elements', () => new Vec4Elements());
 
+  nodes.register(
+    'logic/eulerToQuat',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec4>(
+        'logic/eulerToQuat',
+        'vec3',
+        'vec4',
+        (a) => eulerToQuat(a)
+      )
+  );
+  nodes.register(
+    'logic/angleAxisToQuat',
+    () =>
+      new In2Out1FuncNode<number, Vec3, Vec4>(
+        'logic/angleAxisToQuat',
+        'float',
+        'vec3',
+        'vec4',
+        (a, b) => angleAxisToQuat(a, b)
+      )
+  );
   nodes.register(
     'logic/quatMultiply',
     () =>

@@ -1,0 +1,149 @@
+{
+    "nodes": [
+        {
+            "type": "lifecycle/start",
+            "id": "0",
+            "flows": {
+                "flow": {
+                    "nodeId": "1",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/triggerCustomEvent",
+            "id": "1",
+            "parameters": {
+                "customEvent": {
+                    "value": "0"
+                }
+            }
+        },
+        {
+            "type": "event/customEvent",
+            "id": "2",
+            "parameters": {
+                "customEvent": {
+                    "value": "0"
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "3",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/setSceneBoolean",
+            "id": "3",
+            "parameters": {
+                "jsonPath": {
+                    "value": "/nodes/3/visible"
+                },
+                "value": {
+                    "value": false
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "4",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "time/delay",
+            "id": "4",
+            "parameters": {
+                "duration": {
+                    "value": 1
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "5",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/triggerCustomEvent",
+            "id": "5",
+            "parameters": {
+                "customEvent": {
+                    "value": "1"
+                }
+            }
+        },
+        {
+            "type": "event/customEvent",
+            "id": "6",
+            "parameters": {
+                "customEvent": {
+                    "value": "1"
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "7",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/setSceneBoolean",
+            "id": "7",
+            "parameters": {
+                "jsonPath": {
+                    "value": "/nodes/3/visible"
+                },
+                "value": {
+                    "value": true
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "8",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "time/delay",
+            "id": "8",
+            "parameters": {
+                "duration": {
+                    "value": 1
+                }
+            },
+            "flows": {
+                "flow": {
+                    "nodeId": "9",
+                    "socket": "flow"
+                }
+            }
+        },
+        {
+            "type": "action/triggerCustomEvent",
+            "id": "9",
+            "parameters": {
+                "customEvent": {
+                    "value": "0"
+                }
+            }
+        }
+    ],
+    "variables": [],
+    "customEvents": [
+        {
+            "name": "hideHierarchy",
+            "id": "0"
+        },
+        {
+            "name": "showHierarchy",
+            "id": "1"
+        }
+    ],
+    "name": "./src/graphs/scene/actions/Hierarchy.json"
+}

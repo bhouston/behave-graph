@@ -30,12 +30,10 @@
       "id": "2",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         }
       }
     },
@@ -44,17 +42,15 @@
       "id": "3",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
         }
       }
     }
   ],
   "variables": [],
   "customEvents": [],
-  "name": "./src/graphs/sceneGraph/logic/Vector3.json"
+  "name": "./src/graphs/scene/logic/Vector3.json"
 }

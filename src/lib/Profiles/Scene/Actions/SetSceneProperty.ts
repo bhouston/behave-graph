@@ -1,8 +1,8 @@
 import { Node } from '../../../Nodes/Node';
 import { Socket } from '../../../Sockets/Socket';
-import { ISceneGraph } from '../Providers/ISceneGraph';
+import { IScene } from '../Providers/IScene';
 
-export class SetSceneNodeProperty<T> extends Node {
+export class SetSceneProperty<T> extends Node {
   constructor(nodeName: string, public readonly valueTypeName: string) {
     super(
       'Action',
@@ -14,14 +14,10 @@ export class SetSceneNodeProperty<T> extends Node {
       ],
       [new Socket('flow', 'flow')],
       (context) => {
-        const sceneGraph =
-          context.graph.registry.implementations.get<ISceneGraph>(
-            'ISceneGraph'
-          );
-        sceneGraph.setProperty(
-          context.readInput('jsonPath'),
-          context.readInput('value')
-        );
+        const scene =
+          context.graph.registry.implementations.get<IScene>('IScene');
+        const value = context.readInput<T>('value');
+        scene.setProperty(context.readInput('jsonPath'), valueTypeName, value);
       }
     );
   }

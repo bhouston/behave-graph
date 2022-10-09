@@ -24,12 +24,10 @@
       "id": "2",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 1
@@ -41,12 +39,10 @@
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 2
@@ -58,12 +54,10 @@
       "id": "4",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 3
@@ -75,12 +69,10 @@
       "id": "5",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 3
@@ -92,20 +84,16 @@
       "id": "6",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "5",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "5",
+            "socket": "result"
+          }
         },
         "b": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       }
     },
@@ -114,12 +102,10 @@
       "id": "7",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "4",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "4",
+            "socket": "result"
+          }
         }
       }
     },
@@ -128,20 +114,16 @@
       "id": "8",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "6",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "6",
+            "socket": "result"
+          }
         },
         "b": {
-          "links": [
-            {
-              "nodeId": "7",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "7",
+            "socket": "result"
+          }
         }
       }
     },
@@ -150,12 +132,10 @@
       "id": "9",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "8",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "8",
+            "socket": "result"
+          }
         }
       }
     },
@@ -164,12 +144,10 @@
       "id": "10",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "9",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "9",
+            "socket": "result"
+          }
         }
       }
     }

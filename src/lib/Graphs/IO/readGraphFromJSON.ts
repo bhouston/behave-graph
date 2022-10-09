@@ -160,11 +160,7 @@ function readNodeInputsJSON(
   inputsJson: { [key: string]: InputJSON }
 ) {
   node.inputSockets.forEach((socket) => {
-    // warn if no definition.
     if (inputsJson?.[socket.name] === undefined) {
-      //Logger.warn(
-      //  `readGraphFromJSON: no input socket value or links for node socket: ${node.typeName}.${socket.name}`
-      //);
       return;
     }
 
@@ -178,9 +174,17 @@ function readNodeInputsJSON(
 
     if (inputJson.links !== undefined) {
       const linksJson = inputJson.links;
+      if (inputJson.links.length > 1)
+        throw new Error(
+          `should not get here, only at most 1 link supported per parameter`
+        );
       linksJson.forEach((linkJson) => {
         socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
       });
+    }
+    if (inputJson.link !== undefined) {
+      const linkJson = inputJson.link;
+      socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
     }
   });
 
@@ -203,11 +207,7 @@ function readNodeOutputLinksJSON(
   outputLinksJson: { [key: string]: LinkJSON }
 ) {
   node.outputSockets.forEach((socket) => {
-    // warn if no definition.
     if (outputLinksJson[socket.name] === undefined) {
-      Logger.warn(
-        `readGraphFromJSON: no output socket value or links for node socket: ${node.typeName}.${socket.name}`
-      );
       return;
     }
 

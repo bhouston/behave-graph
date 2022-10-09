@@ -10,8 +10,6 @@ export function validateDirectedAcyclicGraph(graph: Graph): string[] {
     node.metadata['dag.marked'] = 'false';
   });
 
-  //Logger.verbose(`total nodes: ${Object.values(graph.nodes).length}`);
-
   // it appears that we can just keep trimming nodes whose input sockets have no connections.
   // if we can remove all nodes, that means that there are no cycles.
 
@@ -40,7 +38,6 @@ export function validateDirectedAcyclicGraph(graph: Graph): string[] {
         nodesToMark.push(node);
       }
     });
-    //Logger.verbose(`marking ${nodesToMark.length} nodes`);
     nodesToMark.forEach((node) => {
       // eslint-disable-next-line no-param-reassign
       node.metadata['dag.marked'] = 'true';
@@ -52,10 +49,6 @@ export function validateDirectedAcyclicGraph(graph: Graph): string[] {
   // output errors for each unmarked node
   // also remove the metadata related to DAG marking
   Object.values(graph.nodes).forEach((node) => {
-    // eslint-disable-next-line no-param-reassign
-    //Logger.verbose(
-    //  `node ${node.typeName} is marked ${node.metadata['dag.marked']}`
-    //);
     if (node.metadata['dag.marked'] === 'false') {
       errorList.push(
         `node ${node.typeName} is part of a cycle, not a directed acyclic graph`

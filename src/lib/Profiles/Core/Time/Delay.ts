@@ -1,4 +1,3 @@
-import { Logger } from '../../../Diagnostics/Logger';
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
@@ -20,7 +19,6 @@ export class Delay extends Node {
           if (timeIsCancelled) {
             return;
           }
-          Logger.verbose('setTimeout on Delay fired, context.commit("flow")');
           context.commit('flow');
           context.finish();
         }, context.readInput<number>('duration') * 1000);

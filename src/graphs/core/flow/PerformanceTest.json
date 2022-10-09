@@ -52,12 +52,10 @@
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "index"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "index"
+          }
         },
         "b": {
           "value": 1000000
@@ -69,12 +67,10 @@
       "id": "4",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 0
@@ -86,12 +82,10 @@
       "id": "5",
       "parameters": {
         "condition": {
-          "links": [
-            {
-              "nodeId": "4",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "4",
+            "socket": "result"
+          }
         }
       },
       "flows": {

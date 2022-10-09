@@ -17,6 +17,7 @@ import {
   validateLinks,
   validateNodeRegistry
 } from '../../lib';
+import { ThreeScene } from './ThreeScene';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;
@@ -42,34 +43,30 @@ function onWindowResize() {
 //
 
 async function main() {
-  Logger.onVerbose.clear();
-
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const graphName = urlSearchParams.get('graph');
-  const graphJsonPath = `/examples/core/basics/${graphName}.json`;
+  const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }
 
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const response = await fetch(graphJsonPath);
-  const json = await response.json();
-  const graph = readGraphFromJSON(json, registry);
+  const graphFetchResponse = await fetch(graphJsonPath);
+  const graphJson = await graphFetchResponse.json();
+  const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
 
+  const glTFJsonPath = '/src/graphs/scene/actions/SpinningSuzanne.gltf';
+  const glTFFetchResponse = await fetch(glTFJsonPath);
+  const glTFJson = await glTFFetchResponse.json();
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
-  Logger.verbose('validating:');
   const errorList: string[] = [];
-  Logger.verbose('validating registry');
-  errorList.push(...validateNodeRegistry(registry));
-  Logger.verbose('validating socket links have matching types on either end');
-  errorList.push(...validateLinks(graph));
-  Logger.verbose('validating that graph is directed acyclic');
-  errorList.push(...validateDirectedAcyclicGraph(graph));
+  errorList.push(
+    ...validateNodeRegistry(registry),
+    ...validateLinks(graph),
+    ...validateDirectedAcyclicGraph(graph)
+  );
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
@@ -93,27 +90,12 @@ async function main() {
   const localScene = new THREE.Scene();
   scene = localScene;
 
-  new RGBELoader()
-    .setPath('textures/equirectangular/')
-    .load('royal_esplanade_1k.hdr', (texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
-
-      localScene.background = texture;
-      localScene.environment = texture;
-
-      render();
-
-      // model
-
-      const loader = new GLTFLoader().setPath(
-        'models/gltf/DamagedHelmet/glTF/'
-      );
-      loader.load('DamagedHelmet.gltf', (gltf) => {
-        localScene.add(gltf.scene);
-
-        render();
-      });
-    });
+  const texturePromise = new RGBELoader()
+    .setPath('/assets/envmaps/')
+    .loadAsync('pedestrian_overpass_1k.hdr');
+  const gltfPromise = new GLTFLoader()
+    .setPath('/src/graphs/scene/actions/')
+    .loadAsync('SpinningSuzanne.gltf');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);
@@ -124,6 +106,23 @@ async function main() {
   container.appendChild(localRenderer.domElement);
 
   renderer = localRenderer;
+
+  const texture = await texturePromise;
+  const gltf = await gltfPromise;
+
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+  localScene.background = texture;
+  localScene.environment = texture;
+
+  localScene.add(gltf.scene);
+  const threeScene = new ThreeScene(gltf.scene, glTFJson);
+  threeScene.onSceneChanged.addListener(() => {
+    render();
+  });
+  registry.implementations.register('IScene', threeScene);
+
+  render();
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render); // use if there is no animation loop
@@ -136,6 +135,7 @@ async function main() {
 
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
+  //graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
@@ -147,26 +147,34 @@ async function main() {
   Logger.verbose('initialize graph');
   await graphEvaluator.executeAll();
 
-  Logger.verbose('triggering start event');
-  manualLifecycleEventEmitter.startEvent.emit();
+  if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
+    Logger.verbose('triggering start event');
+    manualLifecycleEventEmitter.startEvent.emit();
 
-  Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5);
+    Logger.verbose('executing all (async)');
+    await graphEvaluator.executeAllAsync(5);
+  }
 
-  for (let tick = 0; tick < 5; tick++) {
+  const onTick = async () => {
     Logger.verbose('triggering tick');
     manualLifecycleEventEmitter.tickEvent.emit();
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
+    await graphEvaluator.executeAllAsync(500);
+
+    setTimeout(onTick, 50);
+  };
+
+  setTimeout(onTick, 50);
+
+  /*if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+    Logger.verbose('triggering end event');
+    manualLifecycleEventEmitter.endEvent.emit();
+
+    Logger.verbose('executing all (async)');
     await graphEvaluator.executeAllAsync(5);
-  }
-
-  Logger.verbose('triggering end event');
-  manualLifecycleEventEmitter.endEvent.emit();
-
-  Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5);
+  }*/
 }
 
 main();

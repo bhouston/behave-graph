@@ -1,6 +1,4 @@
 import { Assert } from '../../Diagnostics/Assert';
-import { Logger } from '../../Diagnostics/Logger';
-import { EventListener } from '../../Events/EventListener';
 import { Link } from '../../Nodes/Link';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
 import { Socket } from '../../Sockets/Socket';
@@ -8,14 +6,13 @@ import { Graph } from '../Graph';
 import { GraphEvaluator } from './GraphEvaluator';
 
 export class SyncExecutionBlock {
-  private readonly syncEvaluationCompletedListenerStack: EventListener<void>[] =
-    [];
+  private readonly syncEvaluationCompletedListenerStack: (() => void)[] = [];
   private readonly graph: Graph;
 
   constructor(
     public graphEvaluator: GraphEvaluator,
     public nextEval: Link | null,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     this.graph = graphEvaluator.graph;
     if (syncEvaluationCompletedListener !== undefined) {
@@ -38,6 +35,9 @@ export class SyncExecutionBlock {
 
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
+      //Logger.verbose(
+      //  `returning value on input socket as it has no links: ${inputSocket.value}`
+      // );
       // if not set, use the default value for this valueType
       if (inputSocket.value === undefined) {
         return this.graph.registry.values
@@ -62,6 +62,7 @@ export class SyncExecutionBlock {
     );
 
     if (upstreamNode.flow) {
+      //Logger.verbose(`upstreamNode is a flow node: ${upstreamNode.typeName}`);
       // eslint-disable-next-line no-param-reassign
       inputSocket.value = upstreamOutputSocket.value;
       return upstreamOutputSocket.value;
@@ -70,13 +71,12 @@ export class SyncExecutionBlock {
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     upstreamNode.inputSockets.forEach((upstreamInputSocket) => {
+      //Logger.verbose(
+      //  `recursively tracing input sockets: ${upstreamInputSocket.name}`
+      //);
       // eslint-disable-next-line no-param-reassign
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
-
-    Logger.verbose(
-      `SyncExecutionBlock: evaluating immediate node ${upstreamNode.typeName}`
-    );
 
     const context = new NodeEvalContext(this, upstreamNode);
     context.evalImmediate();
@@ -92,15 +92,11 @@ export class SyncExecutionBlock {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: EventListener<void> | undefined = undefined
+    syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
-
-    Logger.verbose(
-      `SyncExecutionBlock: commit: ${node.typeName}.${outputSocket.name}`
-    );
 
     if (outputSocket.links.length > 1) {
       throw new Error(
@@ -109,20 +105,11 @@ export class SyncExecutionBlock {
       );
     }
     if (outputSocket.links.length === 1) {
-      Logger.verbose(
-        `SyncExecutionBlock: scheduling next flow node: ${outputSocket.links[0].nodeId}.${outputSocket.links[0].socketName}`
-      );
-
       const link = outputSocket.links[0];
       if (link === undefined) {
         throw new Error('link must be defined');
       }
       this.nextEval = link;
-    }
-    if (outputSocket.links.length === 0) {
-      Logger.verbose(
-        'SyncExecutionBlock: nothing attached to output flow socket, no execution done'
-      );
     }
 
     if (syncEvaluationCompletedListener !== undefined) {
@@ -152,21 +139,22 @@ export class SyncExecutionBlock {
     }
 
     const node = this.graph.nodes[link.nodeId];
-    Logger.verbose(`evaluating node: ${node.typeName}`);
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSockets.forEach((inputSocket) => {
+      //Logger.verbose(`scanning input socket: ${inputSocket.name}`);
       if (inputSocket.valueTypeName !== 'flow') {
         // eslint-disable-next-line no-param-reassign
+        //Logger.verbose(
+        //  `resolving input value for non-flow socket: ${inputSocket.name}`
+        //);
         this.resolveInputValueFromSocket(inputSocket);
       } else {
         // eslint-disable-next-line no-param-reassign
-        inputSocket.value = inputSocket.name === link.socketName; // is this required?
+        inputSocket.value = inputSocket.name === link.socketName; // is this required?  if there are multiple input flows, yes it is.
       }
     });
-
-    Logger.verbose(`GraphEvaluator: evaluating flow node ${node.typeName}`);
 
     const context = new NodeEvalContext(this, node);
     context.evalFlow();

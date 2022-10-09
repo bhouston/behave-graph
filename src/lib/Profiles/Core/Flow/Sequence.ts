@@ -1,4 +1,3 @@
-import { Logger } from '../../../Diagnostics/Logger';
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
@@ -22,11 +21,7 @@ export class Sequence extends Node {
         const sequenceIteration = function sequenceIteration(i: number) {
           if (i < context.node.outputSockets.length) {
             const outputSocket = context.node.outputSockets[i];
-            Logger.verbose(
-              `sequence: processing output socket ${outputSocket.name}`
-            );
             context.commit(outputSocket.name, () => {
-              Logger.verbose('sequence: completed!');
               sequenceIteration(i + 1);
             });
           }

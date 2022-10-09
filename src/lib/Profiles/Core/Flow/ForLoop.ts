@@ -1,4 +1,3 @@
-import { Logger } from '../../../Diagnostics/Logger';
 import { Node } from '../../../Nodes/Node';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
 import { Socket } from '../../../Sockets/Socket';
@@ -24,11 +23,9 @@ export class ForLoop extends Node {
         const startIndex = context.readInput<bigint>('startIndex');
         const endIndex = context.readInput<bigint>('endIndex');
         const loopBodyIteration = function loopBodyIteration(i: bigint) {
-          Logger.verbose(`loop: loop body ${i} of [${startIndex}:${endIndex})`);
           if (i < endIndex) {
             context.writeOutput('index', i);
             context.commit('loopBody', () => {
-              Logger.verbose(`loop: body completed for ${i}!`);
               loopBodyIteration(i + 1n);
             });
           } else {

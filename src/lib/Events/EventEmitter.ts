@@ -1,13 +1,11 @@
-import { EventListener } from './EventListener';
-
 export class EventEmitter<T> {
-  private readonly listeners: EventListener<T>[] = [];
+  private readonly listeners: ((t: T) => void)[] = [];
 
-  addListener(listener: EventListener<T>) {
+  addListener(listener: (t: T) => void) {
     this.listeners.push(listener);
   }
 
-  removeListener(listener: EventListener<T>) {
+  removeListener(listener: (t: T) => void) {
     this.listeners.splice(this.listeners.indexOf(listener), 1);
   }
 
@@ -16,7 +14,9 @@ export class EventEmitter<T> {
   }
 
   emit(event: T) {
-    this.listeners.forEach((listener) => {
+    // copy array before emitting event to ensure even if listener array is modified, everyone listening initially gets the event.
+    // inspired by mrdoob's EventDispatcher
+    this.listeners.slice(0).forEach((listener) => {
       listener(event);
     });
   }

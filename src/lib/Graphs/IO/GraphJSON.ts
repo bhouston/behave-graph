@@ -4,7 +4,8 @@ export type LinkJSON = { nodeId: string; socket: string };
 
 export type InputJSON = {
   value?: string;
-  links?: LinkJSON[];
+  link?: LinkJSON;
+  links?: LinkJSON[]; // depreciated
 };
 
 export type NodeJSON = {

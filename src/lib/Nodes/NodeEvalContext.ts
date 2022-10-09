@@ -1,4 +1,3 @@
-import { Assert } from '../Diagnostics/Assert';
 import { CustomEvent } from '../Events/CustomEvent';
 import { EventEmitter } from '../Events/EventEmitter';
 import { GraphEvaluator } from '../Graphs/Evaluation/GraphEvaluator';
@@ -32,7 +31,7 @@ export class NodeEvalContext {
   }
 
   private begin() {
-    Assert.mustBeTrue(this.node.async === true);
+    // Assert.mustBeTrue(this.node.async === true);
     if (this.node.interruptibleAsync) {
       this.graphEvaluator.interruptibleAsyncNodes.push(this.node);
     } else {
@@ -45,15 +44,15 @@ export class NodeEvalContext {
   }
 
   cancel() {
-    Assert.mustBeTrue(this.node.async === true);
-    Assert.mustBeTrue(this.asyncPending === true);
+    //Assert.mustBeTrue(this.node.async === true);
+    //Assert.mustBeTrue(this.asyncPending === true);
     this.onAsyncCancelled.emit();
     this.finish();
   }
 
   finish() {
-    Assert.mustBeTrue(this.node.async === true);
-    Assert.mustBeTrue(this.asyncPending === true);
+    //Assert.mustBeTrue(this.node.async === true);
+    //Assert.mustBeTrue(this.asyncPending === true);
     if (this.node.interruptibleAsync) {
       const index = this.graphEvaluator.interruptibleAsyncNodes.indexOf(
         this.node
@@ -70,10 +69,10 @@ export class NodeEvalContext {
 
   evalFlow() {
     // confirm assumptions for an immediate evaluation
-    Assert.mustBeTrue(
-      this.node.flow,
-      'can not use evalFlow on non-Flow nodes, use evalImmediate instead'
-    );
+    //Assert.mustBeTrue(
+    //  this.node.flow,
+    //  'can not use evalFlow on non-Flow nodes, use evalImmediate instead'
+    //);
 
     if (this.node.async) {
       this.begin();
@@ -114,10 +113,10 @@ export class NodeEvalContext {
     this.node.evalFunc(this);
 
     // confirm assumptions for immediate evaluation.
-    Assert.mustBeTrue(
-      !this.node.async,
-      'evalImmediate can not handle evalPromise nodes, use evalFlow instead'
-    );
+    //Assert.mustBeTrue(
+    //  !this.node.async,
+    //  'evalImmediate can not handle evalPromise nodes, use evalFlow instead'
+    //);
 
     this.writeOutputs();
 

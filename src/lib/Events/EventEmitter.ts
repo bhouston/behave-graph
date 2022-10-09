@@ -14,6 +14,7 @@ export class EventEmitter<T> {
   }
 
   emit(event: T) {
+    if (this.listeners.length === 0) return;
     // copy array before emitting event to ensure even if listener array is modified, everyone listening initially gets the event.
     // inspired by mrdoob's EventDispatcher
     this.listeners.slice(0).forEach((listener) => {

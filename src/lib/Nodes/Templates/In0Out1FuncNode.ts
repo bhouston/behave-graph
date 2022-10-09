@@ -6,7 +6,7 @@ export class In0Out1FuncNode<Out1> extends Node {
   constructor(
     nodeName: string,
     outputValueType: string,
-    public nullaryEvalFunc: () => Out1
+    public readonly nullaryEvalFunc: () => Out1
   ) {
     super(
       'Logic',

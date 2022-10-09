@@ -10,7 +10,7 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
     input3ValueType: string,
     input4ValueType: string,
     outputValueType: string,
-    public binaryEvalFunc: (a: In1, b: In2, c: In3, d: In4) => Out1
+    public readonly binaryEvalFunc: (a: In1, b: In2, c: In3, d: In4) => Out1
   ) {
     super(
       'Logic',

@@ -7,7 +7,7 @@ export class In1Out1FuncNode<In1, Out1> extends Node {
     nodeName: string,
     inputValueType: string,
     outputValueType: string,
-    public unaryEvalFunc: (a: In1) => Out1
+    public readonly unaryEvalFunc: (a: In1) => Out1
   ) {
     super(
       'Logic',

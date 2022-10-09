@@ -78,14 +78,14 @@ async function main() {
   const startTime = Date.now();
 
   Logger.verbose('initialize graph');
-  const numSteps = await graphEvaluator.executeAll();
+  let numSteps = await graphEvaluator.executeAll();
 
   if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');
     manualLifecycleEventEmitter.startEvent.emit();
 
     Logger.verbose('executing all (async)');
-    await graphEvaluator.executeAllAsync(5);
+    numSteps += await graphEvaluator.executeAllAsync(5);
   }
 
   if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
@@ -95,7 +95,7 @@ async function main() {
 
       Logger.verbose('executing all (async)');
       // eslint-disable-next-line no-await-in-loop
-      await graphEvaluator.executeAllAsync(5);
+      numSteps += await graphEvaluator.executeAllAsync(5);
     }
   }
 
@@ -104,7 +104,7 @@ async function main() {
     manualLifecycleEventEmitter.endEvent.emit();
 
     Logger.verbose('executing all (async)');
-    await graphEvaluator.executeAllAsync(5);
+    numSteps += await graphEvaluator.executeAllAsync(5);
   }
 
   if (programOptions.profile) {

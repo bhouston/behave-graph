@@ -9,17 +9,20 @@ export class Logger {
   public static readonly onError = new EventEmitter<string>();
 
   static {
+    const prefix = () => {
+      return new Date().toLocaleTimeString().padStart(11, '0');
+    };
     Logger.onVerbose.addListener((text: string) => {
-      console.log(`[${new Date().toLocaleString()}] VERBOSE: ${text}`);
+      console.log(prefix() + ` VERB:  ${text}`);
     });
     Logger.onInfo.addListener((text: string) => {
-      console.log(`[${new Date().toLocaleString()}] INFO:  ${text}`);
+      console.log(prefix() + ` INFO:  ${text}`);
     });
     Logger.onWarn.addListener((text: string) => {
-      console.warn(`[${new Date().toLocaleString()}] WARNING:  ${text}`);
+      console.warn(prefix() + ` WARN:  ${text}`);
     });
     Logger.onError.addListener((text: string) => {
-      console.error(`[${new Date().toLocaleString()}] ERROR:  ${text}`);
+      console.error(prefix() + ` ERR:  ${text}`);
     });
   }
 

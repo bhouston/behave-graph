@@ -17,6 +17,7 @@ export * from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
 export * from './Graphs/Evaluation/GraphEvaluator';
+export * from './Graphs/Evaluation/tracerToLogger';
 export * from './Graphs/Evaluation/NodeEvaluationType';
 export * from './Nodes/NodeEvalContext';
 export * from './Graphs/IO/readGraphFromJSON';

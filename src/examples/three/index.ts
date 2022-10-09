@@ -13,6 +13,7 @@ import {
   registerCoreProfile,
   registerSceneProfile,
   Registry,
+  traceToLogger,
   validateDirectedAcyclicGraph,
   validateLinks,
   validateNodeRegistry
@@ -114,7 +115,6 @@ async function main() {
 
   localScene.background = texture;
   localScene.environment = texture;
-  console.log(gltf.scene);
 
   localScene.add(gltf.scene);
   const threeScene = new ThreeScene(gltf.scene, glTFJson);
@@ -136,6 +136,7 @@ async function main() {
 
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
+  graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
 
   registry.implementations.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
@@ -147,26 +148,32 @@ async function main() {
   Logger.verbose('initialize graph');
   await graphEvaluator.executeAll();
 
-  Logger.verbose('triggering start event');
-  manualLifecycleEventEmitter.startEvent.emit();
-
-  Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5);
-
-  for (let tick = 0; tick < 5; tick++) {
-    Logger.verbose('triggering tick');
-    manualLifecycleEventEmitter.tickEvent.emit();
+  if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
+    Logger.verbose('triggering start event');
+    manualLifecycleEventEmitter.startEvent.emit();
 
     Logger.verbose('executing all (async)');
-    // eslint-disable-next-line no-await-in-loop
     await graphEvaluator.executeAllAsync(5);
   }
 
-  Logger.verbose('triggering end event');
-  manualLifecycleEventEmitter.endEvent.emit();
+  if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
+    for (let tick = 0; tick < 5; tick++) {
+      Logger.verbose('triggering tick');
+      manualLifecycleEventEmitter.tickEvent.emit();
 
-  Logger.verbose('executing all (async)');
-  await graphEvaluator.executeAllAsync(5);
+      Logger.verbose('executing all (async)');
+      // eslint-disable-next-line no-await-in-loop
+      await graphEvaluator.executeAllAsync(5);
+    }
+  }
+
+  if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+    Logger.verbose('triggering end event');
+    manualLifecycleEventEmitter.endEvent.emit();
+
+    Logger.verbose('executing all (async)');
+    await graphEvaluator.executeAllAsync(5);
+  }
 }
 
 main();

@@ -12,9 +12,8 @@ import {
   registerSceneProfile,
   Registry,
   traceToLogger,
-  validateDirectedAcyclicGraph,
-  validateLinks,
-  validateNodeRegistry,
+  validateGraph,
+  validateRegistry,
   writeGraphToJSON
 } from '../../lib';
 
@@ -55,11 +54,7 @@ async function main() {
   graph.name = graphJsonPath;
 
   const errorList: string[] = [];
-  errorList.push(
-    ...validateNodeRegistry(registry),
-    ...validateLinks(graph),
-    ...validateDirectedAcyclicGraph(graph)
-  );
+  errorList.push(...validateRegistry(registry), ...validateGraph(graph));
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);

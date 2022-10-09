@@ -1,9 +1,15 @@
 import { Registry } from '../../Registry';
 
+const valueTypeNameRegex = /^\w+$/;
+
 export function validateValueRegistry(graphRegistry: Registry): string[] {
   const errorList: string[] = [];
 
   graphRegistry.values.getAllNames().forEach((valueTypeName) => {
+    if (!valueTypeNameRegex.test(valueTypeName)) {
+      errorList.push(`invalid value type name ${valueTypeName}`);
+    }
+
     const valueType = graphRegistry.values.get(valueTypeName);
 
     const value = valueType.creator();

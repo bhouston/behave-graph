@@ -13,10 +13,9 @@ import {
   registerCoreProfile,
   registerSceneProfile,
   Registry,
-  validateDirectedAcyclicGraph,
-  validateLinks,
-  validateNodeRegistry
+  validateRegistry
 } from '../../lib';
+import { validateGraph } from '../../lib/Graphs/Validation/validateGraph';
 import { ThreeScene } from './ThreeScene';
 
 let camera: THREE.PerspectiveCamera | null = null;
@@ -62,11 +61,7 @@ async function main() {
   const glTFJson = await glTFFetchResponse.json();
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   const errorList: string[] = [];
-  errorList.push(
-    ...validateNodeRegistry(registry),
-    ...validateLinks(graph),
-    ...validateDirectedAcyclicGraph(graph)
-  );
+  errorList.push(...validateRegistry(registry), ...validateGraph(graph));
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);

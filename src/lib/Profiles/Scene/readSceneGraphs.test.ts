@@ -5,8 +5,8 @@ import { Logger } from '../../Diagnostics/Logger';
 import { Graph } from '../../Graphs/Graph';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
-import { validateDirectedAcyclicGraph } from '../../Graphs/Validation/validateDirectedAcyclicGraph';
-import { validateLinks } from '../../Graphs/Validation/validateLinks';
+import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';
+import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks';
 import { Registry } from '../../Registry';
 import { registerCoreProfile } from '../Core/registerCoreProfile';
 import { registerSceneProfile } from './registerSceneProfile';
@@ -39,8 +39,8 @@ Object.keys(exampleMap).forEach((key) => {
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {
-        expect(validateLinks(parsedGraphJson)).toHaveLength(0);
-        expect(validateDirectedAcyclicGraph(parsedGraphJson)).toHaveLength(0);
+        expect(validateGraphLinks(parsedGraphJson)).toHaveLength(0);
+        expect(validateGraphAcyclic(parsedGraphJson)).toHaveLength(0);
       } else {
         expect(parsedGraphJson).toBeDefined();
       }

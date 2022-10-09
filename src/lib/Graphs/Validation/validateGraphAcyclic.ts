@@ -1,7 +1,7 @@
 import { Node } from '../../Nodes/Node';
 import { Graph } from '../Graph';
 
-export function validateDirectedAcyclicGraph(graph: Graph): string[] {
+export function validateGraphAcyclic(graph: Graph): string[] {
   // apparently if you can topological sort, it is a DAG according to: https://stackoverflow.com/questions/4168/graph-serialization/4577#4577
 
   // instead of modifying the graph, I will use metadata to mark it in place.

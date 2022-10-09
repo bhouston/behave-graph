@@ -137,16 +137,7 @@ In this example, we use set a variable and also listen to when it changes.
           "value": "0"
         },
         "value": {
-          "value": 391
-        }
-      }
-    },
-    {
-      "type": "variable/onFloatChanged",
-      "id": "2",
-      "parameters": {
-        "variable": {
-          "value": "0"
+          "value": 1000
         }
       },
       "flows": {
@@ -157,16 +148,23 @@ In this example, we use set a variable and also listen to when it changes.
       }
     },
     {
+      "type": "variable/getFloat",
+      "id": "2",
+      "parameters": {
+        "variable": {
+          "value": "0"
+        }
+      }
+    },
+    {
       "type": "logic/floatToString",
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "value"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "value"
+          }
         }
       }
     },
@@ -175,12 +173,10 @@ In this example, we use set a variable and also listen to when it changes.
       "id": "4",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       }
     }
@@ -194,7 +190,7 @@ In this example, we use set a variable and also listen to when it changes.
     }
   ],
   "customEvents": [],
-  "name": "./src/graphs/core/variables/Changed.json"
+  "name": "./src/graphs/core/variables/SetGet.json"
 }
 ```
 
@@ -228,7 +224,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
       "id": "1",
       "parameters": {
         "condition": {
-          "value": "false"
+          "value": false
         }
       },
       "flows": {
@@ -293,7 +289,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatConstant",
+      "type": "logic/floatCreate",
       "id": "1",
       "parameters": {
         "a": {
@@ -306,12 +302,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "2",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 1
@@ -323,12 +317,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 2
@@ -340,12 +332,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "4",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "1",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 3
@@ -357,12 +347,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "5",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 3
@@ -374,20 +362,16 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "6",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "5",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "5",
+            "socket": "result"
+          }
         },
         "b": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       }
     },
@@ -396,12 +380,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "7",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "4",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "4",
+            "socket": "result"
+          }
         }
       }
     },
@@ -410,20 +392,16 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "8",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "6",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "6",
+            "socket": "result"
+          }
         },
         "b": {
-          "links": [
-            {
-              "nodeId": "7",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "7",
+            "socket": "result"
+          }
         }
       }
     },
@@ -432,12 +410,10 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "9",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "8",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "8",
+            "socket": "result"
+          }
         }
       }
     },
@@ -446,26 +422,24 @@ This shows how to create math formulas in logic nodes. In this case the equation
       "id": "10",
       "parameters": {
         "text": {
-          "links": [
-            {
-              "nodeId": "9",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "9",
+            "socket": "result"
+          }
         }
       }
     }
   ],
   "variables": [],
   "customEvents": [],
-  "name": "./src/graphs/core/logic/Math.json"
+  "name": "./src/graphs/core/logic/Polynomial.json"
 }
 ```
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/logic/Math.json
+> npm run exec-graph -- ./src/graphs/core/logic/Polynomial.json
 
 -9
 ```
@@ -769,16 +743,14 @@ Here is a test of 10,000,000 iteration for loop:
       }
     },
     {
-      "type": "logic/floatModulus",
+      "type": "logic/integerModulus",
       "id": "3",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "2",
-              "socket": "index"
-            }
-          ]
+          "link": {
+            "nodeId": "2",
+            "socket": "index"
+          }
         },
         "b": {
           "value": 1000000
@@ -786,16 +758,14 @@ Here is a test of 10,000,000 iteration for loop:
       }
     },
     {
-      "type": "logic/floatEqual",
+      "type": "logic/integerEqual",
       "id": "4",
       "parameters": {
         "a": {
-          "links": [
-            {
-              "nodeId": "3",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         },
         "b": {
           "value": 0
@@ -807,12 +777,10 @@ Here is a test of 10,000,000 iteration for loop:
       "id": "5",
       "parameters": {
         "condition": {
-          "links": [
-            {
-              "nodeId": "4",
-              "socket": "result"
-            }
-          ]
+          "link": {
+            "nodeId": "4",
+            "socket": "result"
+          }
         }
       },
       "flows": {

@@ -32,10 +32,12 @@ export * from './Registry';
 // registry validation
 export * from './Nodes/Validation/validateNodeRegistry';
 export * from './Values/Validation/validateValueRegistry';
+export * from './validateRegistry';
 
 // graph validation
-export * from './Graphs/Validation/validateDirectedAcyclicGraph';
-export * from './Graphs/Validation/validateLinks';
+export * from './Graphs/Validation/validateGraphAcyclic';
+export * from './Graphs/Validation/validateGraphLinks';
+export * from './Graphs/Validation/validateGraph';
 
 // types
 export * from './Graphs/IO/GraphJSON';

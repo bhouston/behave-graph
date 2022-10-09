@@ -1,5 +1,8 @@
 import { Registry } from '../../Registry';
 
+const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
+const socketNameRegex = /^\w+$/;
+
 export function validateNodeRegistry(graphRegistry: Registry): string[] {
   const errorList: string[] = [];
   graphRegistry.nodes.getAllNames().forEach((nodeTypeName) => {
@@ -12,7 +15,17 @@ export function validateNodeRegistry(graphRegistry: Registry): string[] {
       );
     }
 
+    if (!nodeTypeNameRegex.test(node.typeName)) {
+      errorList.push(`invalid node type name on node ${node.typeName}`);
+    }
+
     node.inputSockets.forEach((socket) => {
+      if (!socketNameRegex.test(socket.name)) {
+        errorList.push(
+          `invalid socket name for input socket ${socket.name} on node ${node.typeName}`
+        );
+      }
+
       if (socket.valueTypeName === 'flow') {
         return;
       }
@@ -26,6 +39,11 @@ export function validateNodeRegistry(graphRegistry: Registry): string[] {
     });
 
     node.outputSockets.forEach((socket) => {
+      if (!socketNameRegex.test(socket.name)) {
+        errorList.push(
+          `invalid socket name for output socket ${socket.name} on node ${node.typeName}`
+        );
+      }
       if (socket.valueTypeName === 'flow') {
         return;
       }

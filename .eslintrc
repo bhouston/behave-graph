@@ -54,7 +54,7 @@
     "unicorn/no-array-method-this-argument": "error",
     "unicorn/no-array-push-push": "error",
     "unicorn/no-await-expression-member": "error",
-    "unicorn/no-new-buffer": "warning",
+    "unicorn/no-new-buffer": "warn",
     "unicorn/no-this-assignment": "error",
     "unicorn/no-unreadable-array-destructuring": "error",
     "unicorn/no-unreadable-iife": "error",

@@ -1,6 +1,6 @@
-import { Node } from '../../../Nodes/Node';
-import { Socket } from '../../../Sockets/Socket';
-import { IScene } from '../Providers/IScene';
+import { Node } from '../../../Nodes/Node.js';
+import { Socket } from '../../../Sockets/Socket.js';
+import { IScene } from '../Providers/IScene.js';
 
 export class SetSceneProperty<T> extends Node {
   constructor(nodeName: string, public readonly valueTypeName: string) {

@@ -1,6 +1,6 @@
-import { validateNodeRegistry } from './Nodes/Validation/validateNodeRegistry';
-import { Registry } from './Registry';
-import { validateValueRegistry } from './Values/Validation/validateValueRegistry';
+import { validateNodeRegistry } from './Nodes/Validation/validateNodeRegistry.js';
+import { Registry } from './Registry.js';
+import { validateValueRegistry } from './Values/Validation/validateValueRegistry.js';
 
 export function validateRegistry(registry: Registry): string[] {
   const errorList: string[] = [];

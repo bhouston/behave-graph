@@ -1,9 +1,9 @@
-import { Registry } from '../../Registry';
+import { Registry } from '../../Registry.js';
 import {
   InputSocketSpecJSON,
   NodeSpecJSON,
   OutputSocketSpecJSON
-} from './NodeSpecJSON';
+} from './NodeSpecJSON.js';
 
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
@@ -19,11 +19,19 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
     };
 
     node.inputSockets.forEach((inputSocket) => {
-      const socketSpecJSON: InputSocketSpecJSON = {
-        name: inputSocket.name,
-        defaultValue: inputSocket.value,
-        valueType: inputSocket.valueTypeName
-      };
+      const valueType = inputSocket.valueTypeName === 'flow' ?
+         undefined : registry.values.get(
+        inputSocket.valueTypeName
+      );
+      let defaultValue = inputSocket.value;
+      if (defaultValue === undefined && valueType !== undefined) {
+        defaultValue = valueType.serialize(valueType.creator());
+      }
+        const socketSpecJSON: InputSocketSpecJSON = {
+          name: inputSocket.name,
+          valueType: inputSocket.valueTypeName,
+          defaultValue
+        };
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 

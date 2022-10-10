@@ -1,15 +1,15 @@
 import * as exampleQuaternion from '../../../graphs/scene/logic/Quaternion.json';
 import * as exampleVector2 from '../../../graphs/scene/logic/Vector2.json';
 import * as exampleVector3 from '../../../graphs/scene/logic/Vector3.json';
-import { Logger } from '../../Diagnostics/Logger';
-import { Graph } from '../../Graphs/Graph';
-import { GraphJSON } from '../../Graphs/IO/GraphJSON';
-import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
-import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';
-import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks';
-import { Registry } from '../../Registry';
-import { registerCoreProfile } from '../Core/registerCoreProfile';
-import { registerSceneProfile } from './registerSceneProfile';
+import { Logger } from '../../Diagnostics/Logger.js';
+import { Graph } from '../../Graphs/Graph.js';
+import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
+import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON.js';
+import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic.js';
+import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks.js';
+import { Registry } from '../../Registry.js';
+import { registerCoreProfile } from '../Core/registerCoreProfile.js';
+import { registerSceneProfile } from './registerSceneProfile.js';
 
 const registry = new Registry();
 registerCoreProfile(registry);

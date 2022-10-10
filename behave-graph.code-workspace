@@ -5,6 +5,12 @@
     },
     {
       "path": "../behave-flow"
+    },
+    {
+      "path": "../threeify"
+    },
+    {
+      "path": "../threeify-glsl-transpiler"
     }
   ],
   "settings": {},

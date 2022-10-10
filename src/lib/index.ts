@@ -1,66 +1,66 @@
-export * from './Events/EventEmitter';
-export * from './Diagnostics/Logger';
-export * from './Diagnostics/Assert';
+export * from './Events/EventEmitter.js';
+export * from './Diagnostics/Logger.js';
+export * from './Diagnostics/Assert.js';
 
 // main data model
-export * from './Graphs/Graph';
-export * from './Nodes/Node';
-export * from './Nodes/Link';
-export * from './Values/ValueType';
-export * from './Sockets/Socket';
+export * from './Graphs/Graph.js';
+export * from './Nodes/Node.js';
+export * from './Nodes/Link.js';
+export * from './Values/ValueType.js';
+export * from './Sockets/Socket.js';
 
-export * from './Nodes/Templates/In4Out1FuncNode';
-export * from './Nodes/Templates/In3Out1FuncNode';
-export * from './Nodes/Templates/In2Out1FuncNode';
-export * from './Nodes/Templates/In1Out1FuncNode';
-export * from './Nodes/Templates/In0Out1FuncNode';
+export * from './Nodes/Templates/In4Out1FuncNode.js';
+export * from './Nodes/Templates/In3Out1FuncNode.js';
+export * from './Nodes/Templates/In2Out1FuncNode.js';
+export * from './Nodes/Templates/In1Out1FuncNode.js';
+export * from './Nodes/Templates/In0Out1FuncNode.js';
 
 // loading & execution
-export * from './Graphs/Evaluation/GraphEvaluator';
-export * from './Graphs/Evaluation/traceToLogger';
-export * from './Graphs/Evaluation/NodeEvaluationType';
-export * from './Nodes/NodeEvalContext';
-export * from './Graphs/IO/readGraphFromJSON';
-export * from './Graphs/IO/writeGraphToJSON';
-export * from './Graphs/IO/writeNodeSpecsToJSON';
+export * from './Graphs/Evaluation/GraphEvaluator.js';
+export * from './Graphs/Evaluation/traceToLogger.js';
+export * from './Graphs/Evaluation/NodeEvaluationType.js';
+export * from './Nodes/NodeEvalContext.js';
+export * from './Graphs/IO/readGraphFromJSON.js';
+export * from './Graphs/IO/writeGraphToJSON.js';
+export * from './Graphs/IO/writeNodeSpecsToJSON.js';
 
 // node registry
-export * from './Nodes/NodeTypeRegistry';
-export * from './Values/ValueTypeRegistry';
-export * from './Registry';
+export * from './Nodes/NodeTypeRegistry.js';
+export * from './Values/ValueTypeRegistry.js';
+export * from './Registry.js';
 
 // registry validation
-export * from './Nodes/Validation/validateNodeRegistry';
-export * from './Values/Validation/validateValueRegistry';
-export * from './validateRegistry';
+export * from './Nodes/Validation/validateNodeRegistry.js';
+export * from './Values/Validation/validateValueRegistry.js';
+export * from './validateRegistry.js';
 
 // graph validation
-export * from './Graphs/Validation/validateGraphAcyclic';
-export * from './Graphs/Validation/validateGraphLinks';
-export * from './Graphs/Validation/validateGraph';
+export * from './Graphs/Validation/validateGraphAcyclic.js';
+export * from './Graphs/Validation/validateGraphLinks.js';
+export * from './Graphs/Validation/validateGraph.js';
 
 // types
-export * from './Graphs/IO/GraphJSON';
-export * from './Graphs/IO/NodeSpecJSON';
+export * from './Graphs/IO/GraphJSON.js';
+export * from './Graphs/IO/NodeSpecJSON.js';
 
-export * from './Providers/ImplementationRegistry';
+export * from './Providers/ImplementationRegistry.js';
 
-export * from './Providers/Implementations/DefaultLogger';
-export * from './Providers/Implementations/ManualLifecycleEventEmitter';
+export * from './Providers/Implementations/DefaultLogger.js';
+export * from './Providers/Implementations/ManualLifecycleEventEmitter.js';
 
 // core profile
 
-export * from './Profiles/Core/Actions/SetVariable';
-export * from './Profiles/Core/Queries/GetVariable';
-export * from './Profiles/Core/Events/OnVariableChanged';
-export * from './Profiles/Core/Providers/ILifecycleEventEmitter';
-export * from './Profiles/Core/Providers/ILogger';
-export * from './Profiles/Core/registerCoreProfile';
+export * from './Profiles/Core/Actions/SetVariable.js';
+export * from './Profiles/Core/Queries/GetVariable.js';
+export * from './Profiles/Core/Events/OnVariableChanged.js';
+export * from './Profiles/Core/Providers/ILifecycleEventEmitter.js';
+export * from './Profiles/Core/Providers/ILogger.js';
+export * from './Profiles/Core/registerCoreProfile.js';
 
 // scene profile
 
-export * from './Profiles/Scene/Providers/IScene';
-export * from './Profiles/Scene/Values/Vec2';
-export * from './Profiles/Scene/Values/Vec3';
-export * from './Profiles/Scene/Values/Vec4';
-export * from './Profiles/Scene/registerSceneProfile';
+export * from './Profiles/Scene/Providers/IScene.js';
+export * from './Profiles/Scene/Values/Vec2.js';
+export * from './Profiles/Scene/Values/Vec3.js';
+export * from './Profiles/Scene/Values/Vec4.js';
+export * from './Profiles/Scene/registerSceneProfile.js';

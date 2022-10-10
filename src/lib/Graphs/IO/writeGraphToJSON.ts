@@ -1,4 +1,4 @@
-import { Graph } from '../Graph';
+import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   GraphJSON,
@@ -6,7 +6,7 @@ import {
   LinkJSON,
   NodeJSON,
   VariableJSON
-} from './GraphJSON';
+} from './GraphJSON.js';
 
 export function writeGraphToJSON(graph: Graph): GraphJSON {
   const graphJson: GraphJSON = {

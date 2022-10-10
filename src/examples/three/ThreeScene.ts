@@ -7,8 +7,13 @@ import {
   Vector4
 } from 'three';
 
-import { Assert, EventEmitter, IScene, Vec2, Vec3, Vec4 } from '../../lib';
-import { GLTFJson } from './GLTFJson';
+import { Assert } from '../../lib/Diagnostics/Assert.js';
+import { EventEmitter } from '../../lib/Events/EventEmitter.js';
+import { IScene } from '../../lib/Profiles/Scene/Providers/IScene.js';
+import { Vec2 } from '../../lib/Profiles/Scene/Values/Vec2.js';
+import { Vec3 } from '../../lib/Profiles/Scene/Values/Vec3.js';
+import { Vec4 } from '../../lib/Profiles/Scene/Values/Vec4.js';
+import { GLTFJson } from './GLTFJson.js';
 
 function mapGlTFNodeIndicesToThreeObject3Ds(
   glTFJson: GLTFJson,

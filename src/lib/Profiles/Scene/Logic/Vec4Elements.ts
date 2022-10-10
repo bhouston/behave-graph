@@ -1,7 +1,7 @@
-import { Node } from '../../../Nodes/Node';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
-import { Socket } from '../../../Sockets/Socket';
-import { Vec4 } from '../Values/Vec4';
+import { Node } from '../../../Nodes/Node.js';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { Socket } from '../../../Sockets/Socket.js';
+import { Vec4 } from '../Values/Vec4.js';
 
 export class Vec4Elements extends Node {
   constructor() {

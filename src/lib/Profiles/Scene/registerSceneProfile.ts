@@ -1,21 +1,21 @@
 /* eslint-disable max-len */
-import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../Nodes/Templates/In3Out1FuncNode';
-import { Registry } from '../../Registry';
-import { ValueType } from '../../Values/ValueType';
-import { SetVariable } from '../Core/Actions/SetVariable';
-import { OnVariableChanged } from '../Core/Events/OnVariableChanged';
-import { GetVariable } from '../Core/Queries/GetVariable';
-import { SetSceneProperty } from './Actions/SetSceneProperty';
-import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
-import { Vec2Create } from './Logic/Vec2Create';
-import { Vec2Elements } from './Logic/Vec2Elements';
-import { Vec3Create } from './Logic/Vec3Create';
-import { Vec3Elements } from './Logic/Vec3Elements';
-import { Vec4Create } from './Logic/Vec4Create';
-import { Vec4Elements } from './Logic/Vec4Elements';
-import { GetSceneProperty } from './Queries/GetSceneProperty';
+import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
+import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode.js';
+import { In3Out1FuncNode } from '../../Nodes/Templates/In3Out1FuncNode.js';
+import { Registry } from '../../Registry.js';
+import { ValueType } from '../../Values/ValueType.js';
+import { SetVariable } from '../Core/Actions/SetVariable.js';
+import { OnVariableChanged } from '../Core/Events/OnVariableChanged.js';
+import { GetVariable } from '../Core/Queries/GetVariable.js';
+import { SetSceneProperty } from './Actions/SetSceneProperty.js';
+import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
+import { Vec2Create } from './Logic/Vec2Create.js';
+import { Vec2Elements } from './Logic/Vec2Elements.js';
+import { Vec3Create } from './Logic/Vec3Create.js';
+import { Vec3Elements } from './Logic/Vec3Elements.js';
+import { Vec4Create } from './Logic/Vec4Create.js';
+import { Vec4Elements } from './Logic/Vec4Elements.js';
+import { GetSceneProperty } from './Queries/GetSceneProperty.js';
 import {
   Vec2,
   vec2Add,
@@ -27,7 +27,7 @@ import {
   vec2Scale,
   vec2Subtract,
   vec2ToString
-} from './Values/Vec2';
+} from './Values/Vec2.js';
 import {
   hexToRGB,
   hslToRGB,
@@ -45,7 +45,7 @@ import {
   vec3Scale,
   vec3Subtract,
   vec3ToString
-} from './Values/Vec3';
+} from './Values/Vec3.js';
 import {
   angleAxisToQuat,
   eulerToQuat,
@@ -59,7 +59,7 @@ import {
   vec4Normalize,
   vec4Parse,
   vec4ToString
-} from './Values/Vec4';
+} from './Values/Vec4.js';
 
 export function registerSceneProfile(registry: Registry) {
   const { values, nodes } = registry;

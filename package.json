@@ -35,6 +35,7 @@
     "commander": "^9.4.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-simple-import-sort": "^8.0.0",
@@ -46,23 +47,24 @@
     "three": "^0.145.0",
     "threeify": "^2.0.2",
     "ts-jest": "^29.0.3",
+    "ts-jest-resolver": "^2.0.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "build": "tgt; tsc",
-    "exec-graph": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/exec-graph/index.ts",
-    "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
+    "start": "npm run watch & web-dev-server --watch --open --app-index ./src/examples/three/index.html",
     "lint": "npx eslint \"src/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier \"src/**/*.{ts,json}\" --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
-    "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/three/index.html",
-    "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
     "docs": "typedoc",
     "test": "jest ./src",
-    "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"
+    "prepare": "npm run build && npm run export-node-spec dist/node-spec.json",
+    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
+    "export-node-spec": "npm run build && node --enable-source-maps ./dist/examples/export-node-spec/index.js"
   }
 }

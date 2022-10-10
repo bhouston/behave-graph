@@ -1,6 +1,6 @@
-import { Logger } from '../../Diagnostics/Logger';
-import { NodeEvaluationEvent } from './NodeEvaluationEvent';
-import { NodeEvaluationType } from './NodeEvaluationType';
+import { Logger } from '../../Diagnostics/Logger.js';
+import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
+import { NodeEvaluationType } from './NodeEvaluationType.js';
 
 export function traceToLogger(event: NodeEvaluationEvent) {
   const prefix = `<< ${event.node.typeName}:${event.node.id} >> `;

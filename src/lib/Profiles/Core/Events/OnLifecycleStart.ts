@@ -1,7 +1,7 @@
-import { Node } from '../../../Nodes/Node';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
-import { Socket } from '../../../Sockets/Socket';
-import { ILifecycleEventEmitter } from '../Providers/ILifecycleEventEmitter';
+import { Node } from '../../../Nodes/Node.js';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { Socket } from '../../../Sockets/Socket.js';
+import { ILifecycleEventEmitter } from '../Providers/ILifecycleEventEmitter.js';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class OnLifecycleStart extends Node {

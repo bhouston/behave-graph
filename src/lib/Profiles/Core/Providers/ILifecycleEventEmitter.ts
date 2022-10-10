@@ -1,4 +1,4 @@
-import { EventEmitter } from '../../../Events/EventEmitter';
+import { EventEmitter } from '../../../Events/EventEmitter.js';
 
 export interface ILifecycleEventEmitter {
   startEvent: EventEmitter<void>;

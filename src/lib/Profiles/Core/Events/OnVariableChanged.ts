@@ -1,6 +1,6 @@
-import { Node } from '../../../Nodes/Node';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
-import { Socket } from '../../../Sockets/Socket';
+import { Node } from '../../../Nodes/Node.js';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { Socket } from '../../../Sockets/Socket.js';
 
 export class OnVariableChanged extends Node {
   constructor(name: string, public valueTypeName: string) {

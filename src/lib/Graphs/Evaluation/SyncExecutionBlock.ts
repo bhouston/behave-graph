@@ -1,9 +1,9 @@
-import { Assert } from '../../Diagnostics/Assert';
-import { Link } from '../../Nodes/Link';
-import { NodeEvalContext } from '../../Nodes/NodeEvalContext';
-import { Socket } from '../../Sockets/Socket';
-import { Graph } from '../Graph';
-import { GraphEvaluator } from './GraphEvaluator';
+import { Assert } from '../../Diagnostics/Assert.js';
+import { Link } from '../../Nodes/Link.js';
+import { NodeEvalContext } from '../../Nodes/NodeEvalContext.js';
+import { Socket } from '../../Sockets/Socket.js';
+import { Graph } from '../Graph.js';
+import { GraphEvaluator } from './GraphEvaluator.js';
 
 export class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack: (() => void)[] = [];

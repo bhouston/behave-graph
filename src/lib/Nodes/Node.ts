@@ -1,7 +1,7 @@
-import { Metadata } from '../Metadata';
-import { Socket } from '../Sockets/Socket';
-import { NodeCategory } from './NodeCategory';
-import { NodeEvalContext } from './NodeEvalContext';
+import { Metadata } from '../Metadata.js';
+import { Socket } from '../Sockets/Socket.js';
+import { NodeCategory } from './NodeCategory.js';
+import { NodeEvalContext } from './NodeEvalContext.js';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
   return sockets.find((socket) => socket.name === name);

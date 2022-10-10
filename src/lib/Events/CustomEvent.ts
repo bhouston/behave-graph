@@ -1,5 +1,5 @@
-import { Metadata } from '../Metadata';
-import { EventEmitter } from './EventEmitter';
+import { Metadata } from '../Metadata.js';
+import { EventEmitter } from './EventEmitter.js';
 
 export class CustomEvent {
   public label = '';

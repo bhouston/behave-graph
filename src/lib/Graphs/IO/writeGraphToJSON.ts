@@ -2,7 +2,7 @@ import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   GraphJSON,
-  InputJSON,
+  ParameterJSON,
   LinkJSON,
   NodeJSON,
   VariableJSON
@@ -34,7 +34,9 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(customEvent.metadata).length > 0) {
       customEventJson.metadata = customEvent.metadata;
     }
-    graphJson.customEvents.push(customEventJson);
+    if( graphJson.customEvents !== undefined ) {
+      graphJson.customEvents.push(customEventJson);
+    }
   });
 
   // save variables
@@ -53,7 +55,10 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(variable.metadata).length > 0) {
       variableJson.metadata = variable.metadata;
     }
-    graphJson.variables.push(variableJson);
+ 
+    if (graphJson.variables !== undefined) {
+      graphJson.variables.push(variableJson);
+    }
   });
 
   // save nodes
@@ -69,11 +74,11 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
       nodeJson.metadata = node.metadata;
     }
 
-    const parametersJson: NodeJSON['inputs'] = {};
+    const parametersJson: NodeJSON['parameters'] = {};
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName === 'flow') return;
 
-      const parameterJson: InputJSON = {};
+      const parameterJson: ParameterJSON = {};
 
       if (inputSocket.links.length === 0) {
         parameterJson.value = graph.registry.values
@@ -114,8 +119,9 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(flowsJson).length > 0) {
       nodeJson.flows = flowsJson;
     }
-
-    graphJson.nodes.push(nodeJson);
+    if (graphJson.nodes !== undefined ) {
+      graphJson.nodes.push(nodeJson);
+    }
   });
 
   return graphJson;

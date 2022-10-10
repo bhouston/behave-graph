@@ -8,7 +8,9 @@ import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   GraphJSON,
-  InputJSON,
+  ParameterJSON,
+  ParametersJSON,
+  FlowsJSON,
   LinkJSON,
   NodeJSON,
   VariableJSON
@@ -133,18 +135,11 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
 
-  // old style
-  if (nodeJson.inputs !== undefined) {
-    const inputsJson = nodeJson.inputs;
-    readNodeInputsJSON(graph, node, inputsJson);
-  }
   if (nodeJson.parameters !== undefined) {
-    const parametersJson = nodeJson.parameters;
-    readNodeInputsJSON(graph, node, parametersJson);
+    readNodeParameterJSON(graph, node, nodeJson.parameters);
   }
   if (nodeJson.flows !== undefined) {
-    const flowsJson = nodeJson.flows;
-    readNodeOutputLinksJSON(graph, node, flowsJson);
+    readNodeFlowsJSON(graph, node, nodeJson.flows);
   }
 
   // TODO: apply nodeJson.inputs to node.
@@ -154,17 +149,17 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   graph.nodes[node.id] = node;
 }
 
-function readNodeInputsJSON(
+function readNodeParameterJSON(
   graph: Graph,
   node: Node,
-  inputsJson: { [key: string]: InputJSON }
+  parametersJson: ParametersJSON
 ) {
   node.inputSockets.forEach((socket) => {
-    if (inputsJson?.[socket.name] === undefined) {
+    if (parametersJson?.[socket.name] === undefined) {
       return;
     }
 
-    const inputJson = inputsJson[socket.name];
+    const inputJson = parametersJson[socket.name];
     if (inputJson.value !== undefined) {
       // eslint-disable-next-line no-param-reassign
       socket.value = graph.registry.values
@@ -172,16 +167,6 @@ function readNodeInputsJSON(
         .deserialize(inputJson.value);
     }
 
-    if (inputJson.links !== undefined) {
-      const linksJson = inputJson.links;
-      if (inputJson.links.length > 1)
-        throw new Error(
-          `should not get here, only at most 1 link supported per parameter`
-        );
-      linksJson.forEach((linkJson) => {
-        socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
-      });
-    }
     if (inputJson.link !== undefined) {
       const linkJson = inputJson.link;
       socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
@@ -189,7 +174,7 @@ function readNodeInputsJSON(
   });
 
   // validate that there are no additional input sockets specified that were not read.
-  Object.keys(inputsJson).forEach((inputName) => {
+  Object.keys(parametersJson).forEach((inputName) => {
     const inputSocket = node.inputSockets.find(
       (socket) => socket.name === inputName
     );
@@ -201,24 +186,24 @@ function readNodeInputsJSON(
   });
 }
 
-function readNodeOutputLinksJSON(
+function readNodeFlowsJSON(
   graph: Graph,
   node: Node,
-  outputLinksJson: { [key: string]: LinkJSON }
+  flowsJson: FlowsJSON
 ) {
   node.outputSockets.forEach((socket) => {
-    if (outputLinksJson[socket.name] === undefined) {
+    if (flowsJson[socket.name] === undefined) {
       return;
     }
 
-    const outputLinkJson = outputLinksJson[socket.name];
+    const outputLinkJson = flowsJson[socket.name];
     if (outputLinkJson !== undefined) {
       socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));
     }
   });
 
   // validate that there are no additional input sockets specified that were not read.
-  Object.keys(outputLinksJson).forEach((outputName) => {
+  Object.keys(flowsJson).forEach((outputName) => {
     const outputSocket = node.outputSockets.find(
       (socket) => socket.name === outputName
     );

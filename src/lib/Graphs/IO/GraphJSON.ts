@@ -1,28 +1,30 @@
 import { Metadata } from '../../Metadata.js';
 
+
+export type ValueJSON = string | boolean | number;
+
 export type LinkJSON = { nodeId: string; socket: string };
 
-export type InputJSON = {
-  value?: string;
+export type ParameterJSON = {
+  value?: ValueJSON;
   link?: LinkJSON;
-  links?: LinkJSON[]; // depreciated
 };
+
+export type ParametersJSON = {
+  [key: string]: ParameterJSON;
+};
+
+export type FlowsJSON = {
+  [key: string]: LinkJSON;
+}
 
 export type NodeJSON = {
   label?: string;
   type: string;
   id: string;
 
-  // old style.
-  inputs?: {
-    [key: string]: InputJSON;
-  };
-  parameters?: {
-    [key: string]: InputJSON;
-  };
-  flows?: {
-    [key: string]: LinkJSON;
-  };
+  parameters?: ParametersJSON;
+  flows?: FlowsJSON;
   metadata?: Metadata;
 };
 
@@ -31,7 +33,7 @@ export type VariableJSON = {
   id: string;
   name: string;
   valueTypeName: string;
-  initialValue: string;
+  initialValue: ValueJSON;
   metadata?: Metadata;
 };
 

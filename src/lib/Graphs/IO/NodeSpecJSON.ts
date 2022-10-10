@@ -1,9 +1,10 @@
 import { NodeCategory } from '../../Nodes/NodeCategory.js';
+import { ValueJSON } from './GraphJSON.js';
 
 export type InputSocketSpecJSON = {
   name: string;
   valueType: string;
-  defaultValue?: string;
+  defaultValue?: ValueJSON;
 };
 
 export type OutputSocketSpecJSON = {

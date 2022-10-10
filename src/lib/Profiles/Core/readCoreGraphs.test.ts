@@ -12,6 +12,7 @@ import * as exampleChanged from '../../../graphs/core/variables/Changed.json';
 import * as exampleFrameCounter from '../../../graphs/core/variables/FrameCounter.json';
 import * as exampleInitialValue from '../../../graphs/core/variables/InitialValue.json';
 import * as exampleSetGet from '../../../graphs/core/variables/SetGet.json';
+
 import { Logger } from '../../Diagnostics/Logger.js';
 import { Graph } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
@@ -26,9 +27,10 @@ registerCoreProfile(registry);
 
 Logger.onWarn.clear();
 
-const exampleMap: { [key: string]: any } = {
-  delay: exampleDelay,
+
+const exampleMap: { [key: string]: any  } = {
   branch: exampleBranch,
+  delay: exampleDelay,
   flipFlip: exampleFlipFlop,
   forLoop: exampleForLoop,
   sequence: exampleSequence,
@@ -43,7 +45,7 @@ const exampleMap: { [key: string]: any } = {
   performanceTest: examplePerformanceTest
 };
 
-//console.log('exampleMap', exampleMap);
+//console.log('forLoop', exampleForLoop);
 
 Object.keys(exampleMap).forEach((key) => {
   describe(`${key}.json`, () => {

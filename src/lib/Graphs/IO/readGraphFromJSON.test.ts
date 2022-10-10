@@ -35,7 +35,7 @@ describe('readGraphFromJSON', () => {
         {
           type: 'action/log',
           id: '1',
-          inputs: {
+          parameters: {
             wrong: { value: 'Hello World!' }
           }
         }
@@ -56,9 +56,11 @@ describe('readGraphFromJSON', () => {
         {
           type: 'action/log',
           id: '1',
-          inputs: {
-            flow: { links: [{ nodeId: '2', socket: 'flow' }] },
+          parameters: {
             text: { value: 'Hello World!' }
+          },
+          flows: {
+            flow: { nodeId: '2', socket: 'flow'}
           }
         }
       ]
@@ -78,9 +80,11 @@ describe('readGraphFromJSON', () => {
         {
           type: 'action/log',
           id: '1',
-          inputs: {
-            flow: { links: [{ nodeId: '0', socket: 'text' }] },
+          parameters: {
             text: { value: 'Hello World!' }
+          },
+          flows: {
+            flow: { nodeId: '0', socket: 'text' }
           }
         }
       ]

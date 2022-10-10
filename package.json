@@ -53,18 +53,18 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "build": "tgt; tsc",
-    "exec-graph": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/exec-graph/index.ts",
-    "export-node-spec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/examples/export-node-spec/index.ts",
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
+    "start": "npm run watch & web-dev-server --watch --open --app-index ./src/examples/three/index.html",
     "lint": "npx eslint \"src/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier \"src/**/*.{ts,json}\" --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
-    "start": "npm run watch & web-dev-server --node-resolve --watch --open --app-index ./src/examples/three/index.html",
-    "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
     "docs": "typedoc",
     "test": "jest ./src",
-    "prepare": "npm run build; npm run export-node-spec dist/node-spec.json"
+    "prepare": "npm run build && npm run export-node-spec dist/node-spec.json",
+    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
+    "export-node-spec": "npm run build && node --enable-source-maps ./dist/examples/export-node-spec/index.js"
   }
 }

@@ -1,5 +1,5 @@
-import { Node } from '../../Nodes/Node';
-import { NodeEvaluationType } from './NodeEvaluationType';
+import { Node } from '../../Nodes/Node.js';
+import { NodeEvaluationType } from './NodeEvaluationType.js';
 
 export class NodeEvaluationEvent {
   constructor(

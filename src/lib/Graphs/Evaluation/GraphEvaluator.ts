@@ -1,12 +1,12 @@
 /* eslint-disable space-in-parens */
 
-import { EventEmitter } from '../../Events/EventEmitter';
-import { Link } from '../../Nodes/Link';
-import { Node } from '../../Nodes/Node';
-import { sleep } from '../../sleep';
-import { Graph } from '../Graph';
-import { NodeEvaluationEvent } from './NodeEvaluationEvent';
-import { SyncExecutionBlock } from './SyncExecutionBlock';
+import { EventEmitter } from '../../Events/EventEmitter.js';
+import { Link } from '../../Nodes/Link.js';
+import { Node } from '../../Nodes/Node.js';
+import { sleep } from '../../sleep.js';
+import { Graph } from '../Graph.js';
+import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
+import { SyncExecutionBlock } from './SyncExecutionBlock.js';
 
 export class GraphEvaluator {
   // tracking the next node+input socket to execute.

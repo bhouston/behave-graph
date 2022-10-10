@@ -5,6 +5,9 @@
     },
     {
       "path": "../behave-flow"
+    },
+    {
+      "path": "../threeify"
     }
   ],
   "settings": {},

@@ -1,5 +1,5 @@
-import { EventEmitter } from '../Events/EventEmitter';
-import { Metadata } from '../Metadata';
+import { EventEmitter } from '../Events/EventEmitter.js';
+import { Metadata } from '../Metadata.js';
 
 export class Variable {
   private value: any;

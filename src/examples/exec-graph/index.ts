@@ -2,21 +2,19 @@ import { promises as fs } from 'node:fs';
 
 import { program } from 'commander';
 
-import {
-  DefaultLogger,
-  GraphEvaluator,
-  Logger,
-  ManualLifecycleEventEmitter,
-  readGraphFromJSON,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
-  traceToLogger,
-  validateGraph,
-  validateRegistry,
-  writeGraphToJSON
-} from '../../lib';
-import { parseSafeFloat } from '../../lib/parseFloats';
+import { Logger } from '../../lib/Diagnostics/Logger.js';
+import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
+import { traceToLogger } from '../../lib/Graphs/Evaluation/traceToLogger.js';
+import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
+import { writeGraphToJSON } from '../../lib/Graphs/IO/writeGraphToJSON.js';
+import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
+import { parseSafeFloat } from '../../lib/parseFloats.js';
+import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
+import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
+import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
+import { Registry } from '../../lib/Registry.js';
+import { validateRegistry } from '../../lib/validateRegistry.js';
 
 async function main() {
   Logger.onVerbose.clear();

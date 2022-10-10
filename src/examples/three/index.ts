@@ -4,19 +4,17 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import {
-  DefaultLogger,
-  GraphEvaluator,
-  Logger,
-  ManualLifecycleEventEmitter,
-  readGraphFromJSON,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
-  validateRegistry
-} from '../../lib';
-import { validateGraph } from '../../lib/Graphs/Validation/validateGraph';
-import { ThreeScene } from './ThreeScene';
+import { Logger } from '../../lib/Diagnostics/Logger.js';
+import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
+import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
+import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
+import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
+import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
+import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
+import { Registry } from '../../lib/Registry.js';
+import { validateRegistry } from '../../lib/validateRegistry.js';
+import { ThreeScene } from './ThreeScene.js';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;

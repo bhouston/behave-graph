@@ -7,7 +7,8 @@
     "unicorn",
     "promise",
     "simple-import-sort",
-    "prettier"
+    "prettier",
+    "import"
   ],
   "extends": [
     "eslint:recommended",
@@ -29,6 +30,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
+    "import/extensions": ["error", "always", {"ignorePackages": true} ],
     "simple-import-sort/imports": "error",
     "promise/always-return": "error",
     "promise/no-return-wrap": "error",
@@ -52,7 +54,7 @@
     "unicorn/no-array-method-this-argument": "error",
     "unicorn/no-array-push-push": "error",
     "unicorn/no-await-expression-member": "error",
-    "unicorn/no-new-buffer": "error",
+    "unicorn/no-new-buffer": "warning",
     "unicorn/no-this-assignment": "error",
     "unicorn/no-unreadable-array-destructuring": "error",
     "unicorn/no-unreadable-iife": "error",

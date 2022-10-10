@@ -1,13 +1,11 @@
 import { promises as fs } from 'node:fs';
 
-import {
-  Logger,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
-  validateNodeRegistry,
-  writeNodeSpecsToJSON
-} from '../../lib';
+import { Logger } from '../../lib/Diagnostics/Logger.js';
+import { writeNodeSpecsToJSON } from '../../lib/Graphs/IO/writeNodeSpecsToJSON.js';
+import { validateNodeRegistry } from '../../lib/Nodes/Validation/validateNodeRegistry.js';
+import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
+import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
+import { Registry } from '../../lib/Registry.js';
 
 async function main() {
   // Logger.onVerbose.clear();

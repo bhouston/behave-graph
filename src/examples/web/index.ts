@@ -1,15 +1,13 @@
 import * as THREEIFY from 'threeify';
 
-import {
-  DefaultLogger,
-  GraphEvaluator,
-  Logger,
-  ManualLifecycleEventEmitter,
-  readGraphFromJSON,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry
-} from '../../lib';
+import { Logger } from '../../lib/Diagnostics/Logger.js';
+import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
+import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
+import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
+import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
+import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
+import { Registry } from '../../lib/Registry.js';
 
 async function main() {
   Logger.onVerbose.clear();

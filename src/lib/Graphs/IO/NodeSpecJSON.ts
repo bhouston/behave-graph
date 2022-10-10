@@ -1,4 +1,4 @@
-import { NodeCategory } from '../../Nodes/NodeCategory';
+import { NodeCategory } from '../../Nodes/NodeCategory.js';
 
 export type InputSocketSpecJSON = {
   name: string;

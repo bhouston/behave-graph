@@ -1,8 +1,8 @@
-import { CustomEvent } from '../Events/CustomEvent';
-import { Metadata } from '../Metadata';
-import { Node } from '../Nodes/Node';
-import { Registry } from '../Registry';
-import { Variable } from '../Variables/Variable';
+import { CustomEvent } from '../Events/CustomEvent.js';
+import { Metadata } from '../Metadata.js';
+import { Node } from '../Nodes/Node.js';
+import { Registry } from '../Registry.js';
+import { Variable } from '../Variables/Variable.js';
 // Purpose:
 //  - stores the node graph
 

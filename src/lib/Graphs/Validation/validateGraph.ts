@@ -1,6 +1,6 @@
-import { Graph } from '../Graph';
-import { validateGraphAcyclic } from './validateGraphAcyclic';
-import { validateGraphLinks } from './validateGraphLinks';
+import { Graph } from '../Graph.js';
+import { validateGraphAcyclic } from './validateGraphAcyclic.js';
+import { validateGraphLinks } from './validateGraphLinks.js';
 
 export function validateGraph(graph: Graph): string[] {
   const errorList: string[] = [];

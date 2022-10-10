@@ -1,10 +1,10 @@
-import { Logger } from '../../Diagnostics/Logger';
-import { CustomEvent } from '../../Events/CustomEvent';
-import { Link } from '../../Nodes/Link';
-import { Node } from '../../Nodes/Node';
-import { Registry } from '../../Registry';
-import { Variable } from '../../Variables/Variable';
-import { Graph } from '../Graph';
+import { Logger } from '../../Diagnostics/Logger.js';
+import { CustomEvent } from '../../Events/CustomEvent.js';
+import { Link } from '../../Nodes/Link.js';
+import { Node } from '../../Nodes/Node.js';
+import { Registry } from '../../Registry.js';
+import { Variable } from '../../Variables/Variable.js';
+import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   GraphJSON,
@@ -12,7 +12,7 @@ import {
   LinkJSON,
   NodeJSON,
   VariableJSON
-} from './GraphJSON';
+} from './GraphJSON.js';
 
 // Purpose:
 //  - loads a node graph

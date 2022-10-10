@@ -1,7 +1,7 @@
-import { Node } from '../../../Nodes/Node';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext';
-import { Socket } from '../../../Sockets/Socket';
-import { ILogger } from '../Providers/ILogger';
+import { Node } from '../../../Nodes/Node.js';
+import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { Socket } from '../../../Sockets/Socket.js';
+import { ILogger } from '../Providers/ILogger.js';
 
 export class Log extends Node {
   constructor() {

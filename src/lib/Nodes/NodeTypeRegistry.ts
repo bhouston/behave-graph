@@ -1,6 +1,6 @@
-import { Assert } from '../Diagnostics/Assert';
-import { generateUuid } from '../generateUuid';
-import { Node } from './Node';
+import { Assert } from '../Diagnostics/Assert.js';
+import { generateUuid } from '../generateUuid.js';
+import { Node } from './Node.js';
 
 export class NodeTypeRegistry {
   private readonly nodeTypeNameToNodeFactory: { [key: string]: () => Node } =

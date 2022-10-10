@@ -1,5 +1,5 @@
-import { Node } from '../../Nodes/Node';
-import { Graph } from '../Graph';
+import { Node } from '../../Nodes/Node.js';
+import { Graph } from '../Graph.js';
 
 export function validateGraphAcyclic(graph: Graph): string[] {
   // apparently if you can topological sort, it is a DAG according to: https://stackoverflow.com/questions/4168/graph-serialization/4577#4577

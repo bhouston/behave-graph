@@ -1,13 +1,13 @@
-import { CustomEvent } from '../Events/CustomEvent';
-import { EventEmitter } from '../Events/EventEmitter';
-import { GraphEvaluator } from '../Graphs/Evaluation/GraphEvaluator';
-import { NodeEvaluationEvent } from '../Graphs/Evaluation/NodeEvaluationEvent';
-import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType';
-import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock';
-import { Graph } from '../Graphs/Graph';
-import { Variable } from '../Variables/Variable';
-import { Link } from './Link';
-import { Node } from './Node';
+import { CustomEvent } from '../Events/CustomEvent.js';
+import { EventEmitter } from '../Events/EventEmitter.js';
+import { GraphEvaluator } from '../Graphs/Evaluation/GraphEvaluator.js';
+import { NodeEvaluationEvent } from '../Graphs/Evaluation/NodeEvaluationEvent.js';
+import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType.js';
+import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock.js';
+import { Graph } from '../Graphs/Graph.js';
+import { Variable } from '../Variables/Variable.js';
+import { Link } from './Link.js';
+import { Node } from './Node.js';
 
 // Purpose:
 //  - Avoid nodes having to access globals to reference the scene or trigger loaders.

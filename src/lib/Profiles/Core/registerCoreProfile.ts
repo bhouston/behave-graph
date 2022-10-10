@@ -1,23 +1,23 @@
 /* eslint-disable max-len */
 
-import { In0Out1FuncNode } from '../../Nodes/Templates/In0Out1FuncNode';
-import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode';
-import { Registry } from '../../Registry';
-import { Log } from './Actions/Log';
-import { SetVariable } from './Actions/SetVariable';
-import { TriggerCustomEvent } from './Actions/TriggerCustomEvent';
-import { OnCustomEvent } from './Events/OnCustomEvent';
-import { OnLifecycleEnd } from './Events/OnLifecycleEnd';
-import { OnLifecycleStart } from './Events/OnLifecycleStart';
-import { OnLifecycleTick } from './Events/OnLifecycleTick';
-import { OnVariableChanged } from './Events/OnVariableChanged';
-import { Branch } from './Flow/Branch';
-import { FlipFlop } from './Flow/FlipFlop';
-import { ForLoop } from './Flow/ForLoop';
-import { Sequence } from './Flow/Sequence';
-import { GetVariable } from './Queries/GetVariable';
-import { Delay } from './Time/Delay';
+import { In0Out1FuncNode } from '../../Nodes/Templates/In0Out1FuncNode.js';
+import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
+import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode.js';
+import { Registry } from '../../Registry.js';
+import { Log } from './Actions/Log.js';
+import { SetVariable } from './Actions/SetVariable.js';
+import { TriggerCustomEvent } from './Actions/TriggerCustomEvent.js';
+import { OnCustomEvent } from './Events/OnCustomEvent.js';
+import { OnLifecycleEnd } from './Events/OnLifecycleEnd.js';
+import { OnLifecycleStart } from './Events/OnLifecycleStart.js';
+import { OnLifecycleTick } from './Events/OnLifecycleTick.js';
+import { OnVariableChanged } from './Events/OnVariableChanged.js';
+import { Branch } from './Flow/Branch.js';
+import { FlipFlop } from './Flow/FlipFlop.js';
+import { ForLoop } from './Flow/ForLoop.js';
+import { Sequence } from './Flow/Sequence.js';
+import { GetVariable } from './Queries/GetVariable.js';
+import { Delay } from './Time/Delay.js';
 
 export function registerCoreProfile(registry: Registry) {
   const { nodes, values } = registry;

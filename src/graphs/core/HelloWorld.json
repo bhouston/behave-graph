@@ -19,8 +19,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/HelloWorld.json"
+  ]
 }

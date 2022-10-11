@@ -2,22 +2,15 @@ import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   GraphJSON,
-  ParameterJSON,
   LinkJSON,
   NodeJSON,
+  ParameterJSON,
   VariableJSON
 } from './GraphJSON.js';
 
 export function writeGraphToJSON(graph: Graph): GraphJSON {
-  const graphJson: GraphJSON = {
-    nodes: [],
-    variables: [],
-    customEvents: []
-  };
+  const graphJson: GraphJSON = {};
 
-  if (graph.name.length > 0) {
-    graphJson.name = graph.name;
-  }
   if (Object.keys(graph.metadata).length > 0) {
     graphJson.metadata = graph.metadata;
   }
@@ -34,9 +27,10 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(customEvent.metadata).length > 0) {
       customEventJson.metadata = customEvent.metadata;
     }
-    if( graphJson.customEvents !== undefined ) {
-      graphJson.customEvents.push(customEventJson);
+    if (graphJson.customEvents === undefined) {
+      graphJson.customEvents = [];
     }
+    graphJson.customEvents.push(customEventJson);
   });
 
   // save variables
@@ -55,10 +49,10 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(variable.metadata).length > 0) {
       variableJson.metadata = variable.metadata;
     }
- 
-    if (graphJson.variables !== undefined) {
-      graphJson.variables.push(variableJson);
+    if (graphJson.variables === undefined) {
+      graphJson.variables = [];
     }
+    graphJson.variables.push(variableJson);
   });
 
   // save nodes
@@ -119,9 +113,10 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     if (Object.keys(flowsJson).length > 0) {
       nodeJson.flows = flowsJson;
     }
-    if (graphJson.nodes !== undefined ) {
-      graphJson.nodes.push(nodeJson);
+    if (graphJson.nodes === undefined) {
+      graphJson.nodes = [];
     }
+    graphJson.nodes.push(nodeJson);
   });
 
   return graphJson;

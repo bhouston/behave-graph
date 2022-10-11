@@ -1,4 +1,14 @@
 {
+  "customEvents": [
+    {
+      "name": "hideHierarchy",
+      "id": "0"
+    },
+    {
+      "name": "showHierarchy",
+      "id": "1"
+    }
+  ],
   "nodes": [
     {
       "type": "lifecycle/start",
@@ -133,17 +143,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [
-    {
-      "name": "hideHierarchy",
-      "id": "0"
-    },
-    {
-      "name": "showHierarchy",
-      "id": "1"
-    }
-  ],
-  "name": "./src/graphs/scene/actions/Hierarchy.json"
+  ]
 }

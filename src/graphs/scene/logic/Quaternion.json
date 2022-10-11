@@ -52,8 +52,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/scene/logic/Quaternion.json"
+  ]
 }

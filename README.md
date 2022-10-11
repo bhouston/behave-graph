@@ -97,10 +97,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/HelloWorld.json"
+  ]
 }
 ```
 
@@ -188,9 +185,7 @@ In this example, we use set a variable and also listen to when it changes.
       "id": 0,
       "initialValue": -1
     }
-  ],
-  "customEvents": [],
-  "name": "./src/graphs/core/variables/SetGet.json"
+  ]
 }
 ```
 
@@ -256,10 +251,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/Branch.json"
+  ]
 }
 ```
 
@@ -429,10 +421,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/logic/Polynomial.json"
+  ]
 }
 ```
 
@@ -500,10 +489,7 @@ Behave-Graph support asynchronous nodes. These are nodes which will continue exe
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/async/Delay.json"
+  ]
 }
 ```
 
@@ -588,10 +574,7 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/ForLoop.json"
+  ]
 }
 ```
 
@@ -665,14 +648,12 @@ You can register custom events, trigger then and listen on them.
       }
     }
   ],
-  "variables": [],
   "customEvents": [
     {
       "name": "myCustomEvent",
       "id": "0"
     }
-  ],
-  "name": "./src/graphs/core/events/CustomEvents.json"
+  ]
 }
 ```
 
@@ -808,10 +789,7 @@ Here is a test of 10,000,000 iteration for loop:
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/PerformanceTest.json"
+  ]
 }
 ```
 

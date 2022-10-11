@@ -57,8 +57,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/events/Lifecycle.json"
+  ]
 }

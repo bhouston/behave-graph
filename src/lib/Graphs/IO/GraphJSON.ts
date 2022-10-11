@@ -1,6 +1,5 @@
 import { Metadata } from '../../Metadata.js';
 
-
 export type ValueJSON = string | boolean | number;
 
 export type LinkJSON = { nodeId: string; socket: string };
@@ -16,7 +15,7 @@ export type ParametersJSON = {
 
 export type FlowsJSON = {
   [key: string]: LinkJSON;
-}
+};
 
 export type NodeJSON = {
   label?: string;
@@ -46,8 +45,8 @@ export type CustomEventJSON = {
 
 export type GraphJSON = {
   name?: string;
-  nodes: NodeJSON[];
-  variables: VariableJSON[];
-  customEvents: CustomEventJSON[];
+  nodes?: NodeJSON[];
+  variables?: VariableJSON[];
+  customEvents?: CustomEventJSON[];
   metadata?: Metadata;
 };

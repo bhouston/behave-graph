@@ -1,4 +1,14 @@
 {
+  "customEvents": [
+    {
+      "name": "hideSuzanne",
+      "id": "0"
+    },
+    {
+      "name": "showSuzanne",
+      "id": "1"
+    }
+  ],
   "nodes": [
     {
       "type": "lifecycle/start",
@@ -133,17 +143,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [
-    {
-      "name": "hideSuzanne",
-      "id": "0"
-    },
-    {
-      "name": "showSuzanne",
-      "id": "1"
-    }
-  ],
-  "name": "./src/graphs/scene/actions/FlashSuzanne.json"
+  ]
 }

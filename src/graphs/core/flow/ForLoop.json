@@ -65,8 +65,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/ForLoop.json"
+  ]
 }

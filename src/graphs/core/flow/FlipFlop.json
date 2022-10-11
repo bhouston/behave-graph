@@ -30,10 +30,10 @@
       "id": "2",
       "parameters": {
         "startIndex": {
-          "value": "0"
+          "value": 0
         },
         "endIndex": {
-          "value": "10"
+          "value": 10
         }
       },
       "flows": {
@@ -88,8 +88,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/FlipFlop.json"
+  ]
 }

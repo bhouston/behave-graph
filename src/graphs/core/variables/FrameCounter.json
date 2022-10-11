@@ -1,4 +1,12 @@
 {
+  "variables": [
+    {
+      "valueTypeName": "float",
+      "name": "frameCounter",
+      "id": 0,
+      "initialValue": -1
+    }
+  ],
   "nodes": [
     {
       "type": "lifecycle/tick",
@@ -94,15 +102,5 @@
         }
       }
     }
-  ],
-  "variables": [
-    {
-      "valueTypeName": "float",
-      "name": "frameCounter",
-      "id": 0,
-      "initialValue": -1
-    }
-  ],
-  "customEvents": [],
-  "name": "./src/graphs/core/variables/FrameCounter.json"
+  ]
 }

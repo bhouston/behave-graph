@@ -7,12 +7,10 @@ import { Variable } from '../../Variables/Variable.js';
 import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
-  GraphJSON,
-  ParameterJSON,
-  ParametersJSON,
   FlowsJSON,
-  LinkJSON,
+  GraphJSON,
   NodeJSON,
+  ParametersJSON,
   VariableJSON
 } from './GraphJSON.js';
 
@@ -186,11 +184,7 @@ function readNodeParameterJSON(
   });
 }
 
-function readNodeFlowsJSON(
-  graph: Graph,
-  node: Node,
-  flowsJson: FlowsJSON
-) {
+function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
   node.outputSockets.forEach((socket) => {
     if (flowsJson[socket.name] === undefined) {
       return;

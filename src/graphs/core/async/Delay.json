@@ -49,8 +49,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/async/Delay.json"
+  ]
 }

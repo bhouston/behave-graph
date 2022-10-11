@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 
 import { program } from 'commander';
+import glob from 'glob';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
 import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
@@ -17,13 +18,14 @@ import { Registry } from '../../lib/Registry.js';
 import { validateRegistry } from '../../lib/validateRegistry.js';
 
 async function main() {
-  Logger.onVerbose.clear();
+  //Logger.onVerbose.clear();
 
   program
     .name('exec-graph')
     .argument('<filename>', 'path to the behavior-graph json to execute')
     .option('-t, --trace', `trace node execution`)
     .option('-p, --profile', `profile execution time`)
+    .option('-d, --dryRun', `do not run graph`)
     .option(
       '-u, --upgrade',
       `write json graph back to read location, upgrading format`
@@ -44,80 +46,95 @@ async function main() {
     manualLifecycleEventEmitter
   );
 
-  const graphJsonPath = program.args[0];
-  Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-  const textFile = await fs.readFile(graphJsonPath);
-  const graph = readGraphFromJSON(
-    JSON.parse(textFile.toString('utf8')),
-    registry
-  );
-  graph.name = graphJsonPath;
+  const jsonPattern = program.args[0];
 
-  const errorList: string[] = [];
-  errorList.push(...validateRegistry(registry), ...validateGraph(graph));
+  glob(jsonPattern, {}, async (err, matches) => {
+    console.log(matches);
+    for (let i = 0; i < matches.length; i++) {
+      const graphJsonPath = matches[i];
+      Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
+      const textFile = await fs.readFile(graphJsonPath);
+      const graph = readGraphFromJSON(
+        JSON.parse(textFile.toString('utf8')),
+        registry
+      );
+      graph.name = graphJsonPath;
 
-  if (errorList.length > 0) {
-    Logger.error(`${errorList.length} errors found:`);
-    errorList.forEach((errorText, errorIndex) => {
-      Logger.error(`${errorIndex}: ${errorText}`);
-    });
-    return;
-  }
+      const errorList: string[] = [];
+      errorList.push(...validateRegistry(registry), ...validateGraph(graph));
 
-  if (programOptions.upgrade) {
-    const newGraphJson = writeGraphToJSON(graph);
-    await fs.writeFile(graphJsonPath, JSON.stringify(newGraphJson, null, 2));
-  }
+      if (errorList.length > 0) {
+        Logger.error(`${errorList.length} errors found:`);
+        errorList.forEach((errorText, errorIndex) => {
+          Logger.error(`${errorIndex}: ${errorText}`);
+        });
+        return;
+      }
 
-  Logger.verbose('creating behavior graph');
-  const graphEvaluator = new GraphEvaluator(graph);
+      if (programOptions.upgrade) {
+        const newGraphJson = writeGraphToJSON(graph);
+        await fs.writeFile(
+          graphJsonPath,
+          JSON.stringify(newGraphJson, null, 2)
+        );
+      }
 
-  if (programOptions.trace) {
-    graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
-  }
-  const startTime = Date.now();
+      Logger.verbose('creating behavior graph');
+      const graphEvaluator = new GraphEvaluator(graph);
 
-  Logger.verbose('initialize graph');
-  let numSteps = await graphEvaluator.executeAll();
+      if (programOptions.trace) {
+        graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
+      }
 
-  if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
-    Logger.verbose('triggering start event');
-    manualLifecycleEventEmitter.startEvent.emit();
+      if (programOptions.dryRun) {
+        continue;
+      }
 
-    Logger.verbose('executing all (async)');
-    numSteps += await graphEvaluator.executeAllAsync(5);
-  }
+      const startTime = Date.now();
 
-  if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-    const iteations = parseSafeFloat(programOptions.iterations, 5);
-    for (let tick = 0; tick < iteations; tick++) {
-      Logger.verbose(`triggering tick (${tick} of ${iteations})`);
-      manualLifecycleEventEmitter.tickEvent.emit();
+      Logger.verbose('initialize graph');
+      let numSteps = await graphEvaluator.executeAll();
 
-      Logger.verbose('executing all (async)');
-      // eslint-disable-next-line no-await-in-loop
-      numSteps += await graphEvaluator.executeAllAsync(5);
+      if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
+        Logger.verbose('triggering start event');
+        manualLifecycleEventEmitter.startEvent.emit();
+
+        Logger.verbose('executing all (async)');
+        numSteps += await graphEvaluator.executeAllAsync(5);
+      }
+
+      if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
+        const iteations = parseSafeFloat(programOptions.iterations, 5);
+        for (let tick = 0; tick < iteations; tick++) {
+          Logger.verbose(`triggering tick (${tick} of ${iteations})`);
+          manualLifecycleEventEmitter.tickEvent.emit();
+
+          Logger.verbose('executing all (async)');
+          // eslint-disable-next-line no-await-in-loop
+          numSteps += await graphEvaluator.executeAllAsync(5);
+        }
+      }
+
+      if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+        Logger.verbose('triggering end event');
+        manualLifecycleEventEmitter.endEvent.emit();
+
+        Logger.verbose('executing all (async)');
+        numSteps += await graphEvaluator.executeAllAsync(5);
+      }
+
+      if (programOptions.profile) {
+        const deltaTime = Date.now() - startTime;
+        Logger.info(
+          `Profile Results: ${numSteps} nodes executed in ${
+            deltaTime / 1000
+          } seconds, at a rate of ${Math.round(
+            (numSteps * 1000) / deltaTime
+          )} steps/second`
+        );
+      }
     }
-  }
-
-  if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
-    Logger.verbose('triggering end event');
-    manualLifecycleEventEmitter.endEvent.emit();
-
-    Logger.verbose('executing all (async)');
-    numSteps += await graphEvaluator.executeAllAsync(5);
-  }
-
-  if (programOptions.profile) {
-    const deltaTime = Date.now() - startTime;
-    Logger.info(
-      `Profile Results: ${numSteps} nodes executed in ${
-        deltaTime / 1000
-      } seconds, at a rate of ${Math.round(
-        (numSteps * 1000) / deltaTime
-      )} steps/second`
-    );
-  }
+  });
 }
 
 main();

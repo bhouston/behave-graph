@@ -47,8 +47,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/Branch.json"
+  ]
 }

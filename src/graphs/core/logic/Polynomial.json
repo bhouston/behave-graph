@@ -151,8 +151,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/logic/Polynomial.json"
+  ]
 }

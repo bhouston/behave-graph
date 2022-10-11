@@ -1,4 +1,12 @@
 {
+  "variables": [
+    {
+      "valueTypeName": "float",
+      "name": "counter",
+      "id": 0,
+      "initialValue": 3.14156
+    }
+  ],
   "nodes": [
     {
       "type": "lifecycle/start",
@@ -43,15 +51,5 @@
         }
       }
     }
-  ],
-  "variables": [
-    {
-      "valueTypeName": "float",
-      "name": "counter",
-      "id": 0,
-      "initialValue": 3.14156
-    }
-  ],
-  "customEvents": [],
-  "name": "./src/graphs/core/variables/InitialValue.json"
+  ]
 }

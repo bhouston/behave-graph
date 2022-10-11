@@ -85,8 +85,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/core/flow/Sequence.json"
+  ]
 }

@@ -1,4 +1,10 @@
 {
+  "customEvents": [
+    {
+      "name": "myCustomEvent",
+      "id": "0"
+    }
+  ],
   "nodes": [
     {
       "type": "lifecycle/tick",
@@ -43,13 +49,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [
-    {
-      "name": "myCustomEvent",
-      "id": "0"
-    }
-  ],
-  "name": "./src/graphs/core/events/CustomEvents.json"
+  ]
 }

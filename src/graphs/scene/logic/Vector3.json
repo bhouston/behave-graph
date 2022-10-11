@@ -49,8 +49,5 @@
         }
       }
     }
-  ],
-  "variables": [],
-  "customEvents": [],
-  "name": "./src/graphs/scene/logic/Vector3.json"
+  ]
 }

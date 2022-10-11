@@ -41,7 +41,7 @@
       }
     },
     {
-      "type": "action/setSceneVec4",
+      "type": "scene/set/vec4",
       "id": "3",
       "parameters": {
         "jsonPath": {

@@ -35,7 +35,7 @@
       }
     },
     {
-      "type": "action/setSceneBoolean",
+      "type": "scene/set/boolean",
       "id": "3",
       "parameters": {
         "jsonPath": {
@@ -92,7 +92,7 @@
       }
     },
     {
-      "type": "action/setSceneBoolean",
+      "type": "scene/set/boolean",
       "id": "7",
       "parameters": {
         "jsonPath": {

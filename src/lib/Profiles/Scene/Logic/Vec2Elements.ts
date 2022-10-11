@@ -7,7 +7,7 @@ export class Vec2Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/vec2Elements',
+      'logic/elements/vec2',
       [new Socket('vec2', 'value')],
       [new Socket('float', 'x'), new Socket('float', 'y')],
       (context: NodeEvalContext) => {

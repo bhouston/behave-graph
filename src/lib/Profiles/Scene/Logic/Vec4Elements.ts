@@ -7,7 +7,7 @@ export class Vec4Elements extends Node {
   constructor() {
     super(
       'Logic',
-      'logic/vec4Elements',
+      'logic/elements/vec4',
       [new Socket('vec4', 'value')],
       [
         new Socket('float', 'x'),

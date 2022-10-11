@@ -106,68 +106,72 @@ export function registerSceneProfile(registry: Registry) {
   // actions
 
   nodes.register(
-    'action/setSceneBoolean',
-    () => new SetSceneProperty<boolean>('action/setSceneBoolean', 'boolean')
+    'scene/set/boolean',
+    () => new SetSceneProperty<boolean>('scene/set/boolean', 'boolean')
   );
   nodes.register(
-    'action/setSceneFloat',
-    () => new SetSceneProperty<number>('action/setSceneFloat', 'float')
+    'scene/set/float',
+    () => new SetSceneProperty<number>('scene/set/float', 'float')
   );
   nodes.register(
-    'action/setSceneInteger',
-    () => new SetSceneProperty<bigint>('action/setSceneInteger', 'integer')
+    'scene/set/integer',
+    () => new SetSceneProperty<bigint>('scene/set/integer', 'integer')
   );
   nodes.register(
-    'action/setSceneVec2',
-    () => new SetSceneProperty<Vec2>('action/setSceneVec2', 'vec2')
+    'scene/set/vec2',
+    () => new SetSceneProperty<Vec2>('scene/set/vec2', 'vec2')
   );
   nodes.register(
-    'action/setSceneVec3',
-    () => new SetSceneProperty<Vec3>('action/setSceneVec3', 'vec3')
+    'scene/set/vec3',
+    () => new SetSceneProperty<Vec3>('scene/set/vec3', 'vec3')
   );
   nodes.register(
-    'action/setSceneVec4',
-    () => new SetSceneProperty<Vec4>('action/setSceneVec4', 'vec4')
+    'scene/set/vec4',
+    () => new SetSceneProperty<Vec4>('scene/set/vec4', 'vec4')
   );
 
   // queries
 
   nodes.register(
-    'query/getSceneBoolean',
-    () => new GetSceneProperty<boolean>('query/getSceneBoolean', 'boolean')
+    'scene/get/boolean',
+    () => new GetSceneProperty<boolean>('scene/get/boolean', 'boolean')
   );
   nodes.register(
-    'query/getSceneFloat',
-    () => new GetSceneProperty<number>('query/getSceneFloat', 'float')
+    'scene/get/float',
+    () => new GetSceneProperty<number>('scene/get/float', 'float')
   );
   nodes.register(
-    'query/getSceneInteger',
-    () => new GetSceneProperty<bigint>('query/getSceneInteger', 'integer')
+    'scene/get/integer',
+    () => new GetSceneProperty<bigint>('scene/get/integer', 'integer')
   );
   nodes.register(
-    'query/getSceneVec2',
-    () => new GetSceneProperty<Vec2>('query/getSceneVec2', 'vec2')
+    'scene/get/vec2',
+    () => new GetSceneProperty<Vec2>('scene/get/vec2', 'vec2')
   );
   nodes.register(
-    'query/getSceneVec3',
-    () => new GetSceneProperty<Vec3>('query/getSceneVec3', 'vec3')
+    'scene/get/vec3',
+    () => new GetSceneProperty<Vec3>('scene/get/vec3', 'vec3')
   );
   nodes.register(
-    'query/getSceneVec4',
-    () => new GetSceneProperty<Vec4>('query/getSceneVec4', 'vec4')
+    'scene/get/vec4',
+    () => new GetSceneProperty<Vec4>('scene/get/vec4', 'vec4')
   );
 
   // logic: vec2
 
-  nodes.register('logic/vec2', () => new Vec2Create());
-
-  nodes.register('logic/vec2Elements', () => new Vec2Elements());
+  nodes.register('logic/create/vec2', () => new Vec2Create());
+  nodes.register(
+    'logic/vec2',
+    () =>
+      new In1Out1FuncNode<Vec2, Vec2>('logic/vec2', 'vec2', 'vec2', (a) => a)
+  );
+  nodes.register('logic/elements/vec2', () => new Vec2Elements());
 
   nodes.register(
-    'logic/vec2Add',
+    'logic/add/vec2',
     () =>
       new In2Out1FuncNode<Vec2, Vec2, Vec2>(
-        'logic/vec2Add',
+        'logic/add/vec2',
         'vec2',
         'vec2',
         'vec2',
@@ -175,10 +179,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec2Subtract',
+    'logic/subtract/vec2',
     () =>
       new In2Out1FuncNode<Vec2, Vec2, Vec2>(
-        'logic/vec2Subtract',
+        'logic/subtract/vec2',
         'vec2',
         'vec2',
         'vec2',
@@ -186,10 +190,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec2Scale',
+    'logic/scale/vec2',
     () =>
       new In2Out1FuncNode<Vec2, number, Vec2>(
-        'logic/vec2Scale',
+        'logic/scale/vec2',
         'vec2',
         'float',
         'vec2',
@@ -197,37 +201,40 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec2Negate',
+    'logic/negate/vec2',
     () =>
-      new In1Out1FuncNode<Vec2, Vec2>('logic/vec2Negate', 'vec2', 'vec2', (a) =>
-        vec2Negate(a)
+      new In1Out1FuncNode<Vec2, Vec2>(
+        'logic/negate/vec2',
+        'vec2',
+        'vec2',
+        (a) => vec2Negate(a)
       )
   );
   nodes.register(
-    'logic/vec2Normalize',
+    'logic/normalize/vec2',
     () =>
       new In1Out1FuncNode<Vec2, Vec2>(
-        'logic/vec2Normalize',
+        'logic/normalize/vec2',
         'vec2',
         'vec2',
         (a) => vec2Normalize(a)
       )
   );
   nodes.register(
-    'logic/vec2Length',
+    'logic/length/vec2',
     () =>
       new In1Out1FuncNode<Vec2, number>(
-        'logic/vec2Length',
+        'logic/length/vec2',
         'vec2',
         'float',
         (a) => vec2Length(a)
       )
   );
   nodes.register(
-    'logic/vec2ToString',
+    'logic/toString/vec2',
     () =>
       new In1Out1FuncNode<Vec2, string>(
-        'logic/vec2ToString',
+        'logic/toString/vec2',
         'vec2',
         'string',
         (a) => vec2ToString(a)
@@ -236,15 +243,19 @@ export function registerSceneProfile(registry: Registry) {
 
   // logic: vec3
 
-  nodes.register('logic/vec3', () => new Vec3Create());
-
-  nodes.register('logic/vec3Elements', () => new Vec3Elements());
+  nodes.register('logic/create/vec3', () => new Vec3Create());
+  nodes.register(
+    'logic/vec3',
+    () =>
+      new In1Out1FuncNode<Vec3, Vec3>('logic/vec3', 'vec3', 'vec3', (a) => a)
+  );
+  nodes.register('logic/elements/vec3', () => new Vec3Elements());
 
   nodes.register(
-    'logic/vec3Add',
+    'logic/add/vec3',
     () =>
       new In2Out1FuncNode<Vec3, Vec3, Vec3>(
-        'logic/vec3Add',
+        'logic/add/vec3',
         'vec3',
         'vec3',
         'vec3',
@@ -252,10 +263,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec3Subtract',
+    'logic/subtract/vec3',
     () =>
       new In2Out1FuncNode<Vec3, Vec3, Vec3>(
-        'logic/vec3Subtract',
+        'logic/subtract/vec3',
         'vec3',
         'vec3',
         'vec3',
@@ -263,10 +274,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec3Scale',
+    'logic/scale/vec3',
     () =>
       new In2Out1FuncNode<Vec3, number, Vec3>(
-        'logic/vec3Scale',
+        'logic/scale/vec3',
         'vec3',
         'float',
         'vec3',
@@ -274,10 +285,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec3Cross',
+    'logic/cross/vec3',
     () =>
       new In2Out1FuncNode<Vec3, Vec3, Vec3>(
-        'logic/vec3Cross',
+        'logic/cross/vec3',
         'vec3',
         'vec3',
         'vec3',
@@ -285,10 +296,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec3Dot',
+    'logic/dot/vec3',
     () =>
       new In2Out1FuncNode<Vec3, Vec3, number>(
-        'logic/vec3Dot',
+        'logic/dot/vec3',
         'vec3',
         'vec3',
         'float',
@@ -296,37 +307,40 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec3Negate',
+    'logic/negate/vec3',
     () =>
-      new In1Out1FuncNode<Vec3, Vec3>('logic/vec3Negate', 'vec3', 'vec3', (a) =>
-        vec3Negate(a)
+      new In1Out1FuncNode<Vec3, Vec3>(
+        'logic/negate/vec3',
+        'vec3',
+        'vec3',
+        (a) => vec3Negate(a)
       )
   );
   nodes.register(
-    'logic/vec3Normalize',
+    'logic/normalize/vec3',
     () =>
       new In1Out1FuncNode<Vec3, Vec3>(
-        'logic/vec3Normalize',
+        'logic/normalize/vec3',
         'vec3',
         'vec3',
         (a) => vec3Normalize(a)
       )
   );
   nodes.register(
-    'logic/vec3Length',
+    'logic/length/vec3',
     () =>
       new In1Out1FuncNode<Vec3, number>(
-        'logic/vec3Length',
+        'logic/length/vec3',
         'vec3',
         'float',
         (a) => vec3Length(a)
       )
   );
   nodes.register(
-    'logic/vec3ToString',
+    'logic/toString/vec3',
     () =>
       new In1Out1FuncNode<Vec3, string>(
-        'logic/vec3ToString',
+        'logic/toString/vec3',
         'vec3',
         'string',
         (a) => vec3ToString(a)
@@ -369,8 +383,13 @@ export function registerSceneProfile(registry: Registry) {
 
   // logic: vec4
 
-  nodes.register('logic/vec4', () => new Vec4Create());
-  nodes.register('logic/vec4Elements', () => new Vec4Elements());
+  nodes.register('logic/create/vec4', () => new Vec4Create());
+  nodes.register(
+    'logic/vec4',
+    () =>
+      new In1Out1FuncNode<Vec4, Vec4>('logic/vec4', 'vec4', 'vec4', (a) => a)
+  );
+  nodes.register('logic/elements/vec4', () => new Vec4Elements());
 
   nodes.register(
     'logic/eulerToQuat',
@@ -405,10 +424,10 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec4Dot',
+    'logic/dot/vec4',
     () =>
       new In2Out1FuncNode<Vec4, Vec4, number>(
-        'logic/vec4Dot',
+        'logic/dot/vec4',
         'vec4',
         'vec4',
         'float',
@@ -438,30 +457,30 @@ export function registerSceneProfile(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/vec4Normalize',
+    'logic/normalize/vec4',
     () =>
       new In1Out1FuncNode<Vec4, Vec4>(
-        'logic/vec4Normalize',
+        'logic/normalize/vec4',
         'vec4',
         'vec4',
         (a) => vec4Normalize(a)
       )
   );
   nodes.register(
-    'logic/vec4Length',
+    'logic/length/vec4',
     () =>
       new In1Out1FuncNode<Vec4, number>(
-        'logic/vec4Length',
+        'logic/length/vec4',
         'vec4',
         'float',
         (a) => vec4Length(a)
       )
   );
   nodes.register(
-    'logic/vec4ToString',
+    'logic/toString/vec4',
     () =>
       new In1Out1FuncNode<Vec4, string>(
-        'logic/vec4ToString',
+        'logic/toString/vec4',
         'vec4',
         'string',
         (a) => vec4ToString(a)
@@ -471,42 +490,42 @@ export function registerSceneProfile(registry: Registry) {
   // variables
 
   nodes.register(
-    'variable/setVec2',
-    () => new SetVariable('variable/setVec2', 'vec2')
+    'variable/set/vec2',
+    () => new SetVariable('variable/set/vec2', 'vec2')
   );
   nodes.register(
-    'variable/getVec2',
-    () => new GetVariable('variable/getVec2', 'vec2')
+    'variable/get/vec2',
+    () => new GetVariable('variable/get/vec2', 'vec2')
   );
   nodes.register(
-    'variable/onVec2Changed',
-    () => new OnVariableChanged('variable/onVec2Changed', 'vec2')
-  );
-
-  nodes.register(
-    'variable/setVec3',
-    () => new SetVariable('variable/setVec3', 'vec3')
-  );
-  nodes.register(
-    'variable/getVec3',
-    () => new GetVariable('variable/getVec3', 'vec3')
-  );
-  nodes.register(
-    'variable/onVec3Changed',
-    () => new OnVariableChanged('variable/onVec3Changed', 'vec3')
+    'variable/onChanged/vec2',
+    () => new OnVariableChanged('variable/onChanged/vec2', 'vec2')
   );
 
   nodes.register(
-    'variable/setVec4',
-    () => new SetVariable('variable/setVec4', 'vec4')
+    'variable/set/vec3',
+    () => new SetVariable('variable/set/vec3', 'vec3')
   );
   nodes.register(
-    'variable/getVec4',
-    () => new GetVariable('variable/getVec4', 'vec4')
+    'variable/get/vec3',
+    () => new GetVariable('variable/get/vec3', 'vec3')
   );
   nodes.register(
-    'variable/onVec4Changed',
-    () => new OnVariableChanged('variable/onVec4Changed', 'vec4')
+    'variable/onChanged/vec3',
+    () => new OnVariableChanged('variable/onChanged/vec3', 'vec3')
+  );
+
+  nodes.register(
+    'variable/set/vec4',
+    () => new SetVariable('variable/set/vec4', 'vec4')
+  );
+  nodes.register(
+    'variable/get/vec4',
+    () => new GetVariable('variable/get/vec4', 'vec4')
+  );
+  nodes.register(
+    'variable/onChanged/vec4',
+    () => new OnVariableChanged('variable/onChanged/vec4', 'vec4')
   );
 
   return registry;

@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "variable/getFloat",
+      "type": "variable/get/float",
       "id": "2",
       "parameters": {
         "variable": {
@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "logic/floatAdd",
+      "type": "logic/add/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -35,7 +35,7 @@
       }
     },
     {
-      "type": "variable/setFloat",
+      "type": "variable/set/float",
       "id": "4",
       "parameters": {
         "variable": {
@@ -56,7 +56,7 @@
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "5",
       "parameters": {
         "a": {
@@ -68,7 +68,7 @@
       }
     },
     {
-      "type": "logic/stringConcat",
+      "type": "logic/concat/string",
       "id": "6",
       "parameters": {
         "a": {

@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/vec2",
+      "type": "logic/create/vec2",
       "id": "1",
       "parameters": {
         "x": {
@@ -23,7 +23,7 @@
       }
     },
     {
-      "type": "logic/vec2ToString",
+      "type": "logic/toString/vec2",
       "id": "2",
       "parameters": {
         "a": {

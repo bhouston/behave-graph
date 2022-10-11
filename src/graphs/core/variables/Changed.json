@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "variable/setFloat",
+      "type": "variable/set/float",
       "id": "1",
       "parameters": {
         "variable": {
@@ -23,7 +23,7 @@
       }
     },
     {
-      "type": "variable/onFloatChanged",
+      "type": "variable/onChanged/float",
       "id": "2",
       "parameters": {
         "variable": {
@@ -38,7 +38,7 @@
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "3",
       "parameters": {
         "a": {

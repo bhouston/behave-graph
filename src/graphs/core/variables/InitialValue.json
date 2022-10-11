@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "variable/getFloat",
+      "type": "variable/get/float",
       "id": "1",
       "parameters": {
         "variable": {
@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "2",
       "parameters": {
         "a": {

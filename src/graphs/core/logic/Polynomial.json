@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "2",
       "parameters": {
         "a": {
@@ -35,7 +35,7 @@
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -50,7 +50,7 @@
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "4",
       "parameters": {
         "a": {
@@ -65,7 +65,7 @@
       }
     },
     {
-      "type": "logic/floatMultiply",
+      "type": "logic/multiply/float",
       "id": "5",
       "parameters": {
         "a": {
@@ -80,7 +80,7 @@
       }
     },
     {
-      "type": "logic/floatAdd",
+      "type": "logic/add/float",
       "id": "6",
       "parameters": {
         "a": {
@@ -98,7 +98,7 @@
       }
     },
     {
-      "type": "logic/floatNegate",
+      "type": "logic/negate/float",
       "id": "7",
       "parameters": {
         "a": {
@@ -110,7 +110,7 @@
       }
     },
     {
-      "type": "logic/floatAdd",
+      "type": "logic/add/float",
       "id": "8",
       "parameters": {
         "a": {
@@ -128,7 +128,7 @@
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "9",
       "parameters": {
         "a": {

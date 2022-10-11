@@ -3,21 +3,16 @@ export class ImplementationRegistry {
     {};
 
   register(abstractionName: string, implementation: any) {
-    if (
-      this.abstractionNameToImplementationMap[abstractionName] !== undefined
-    ) {
+    if (abstractionName in this.abstractionNameToImplementationMap) {
       throw new Error(`already registered abstraction ${abstractionName}`);
     }
     this.abstractionNameToImplementationMap[abstractionName] = implementation;
   }
 
   get<T>(abstractionName: string): T {
-    const interfaceImplementation =
-      this.abstractionNameToImplementationMap[abstractionName];
-    if (interfaceImplementation === undefined) {
+    if (!(abstractionName in this.abstractionNameToImplementationMap)) {
       throw new Error(`no registered abstraction with name ${abstractionName}`);
     }
-
-    return interfaceImplementation as T;
+    return this.abstractionNameToImplementationMap[abstractionName] as T;
   }
 }

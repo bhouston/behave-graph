@@ -54,18 +54,17 @@ export class ValueTypeRegistry {
   }
 
   register(valueType: ValueType) {
-    if (this.valueTypeNameToValueType[valueType.name] !== undefined) {
+    if (valueType.name in this.valueTypeNameToValueType) {
       throw new Error(`already registered value type ${valueType.name}`);
     }
     this.valueTypeNameToValueType[valueType.name] = valueType;
   }
 
   get(valueTypeName: string): ValueType {
-    const valueType = this.valueTypeNameToValueType[valueTypeName];
-    if (valueType === undefined) {
+    if (!(valueTypeName in this.valueTypeNameToValueType)) {
       throw new Error(`can not find value type with name '${valueTypeName}`);
     }
-    return valueType;
+    return this.valueTypeNameToValueType[valueTypeName];
   }
 
   getAllNames(): string[] {

@@ -156,7 +156,7 @@ function readNodeParameterJSON(
   parametersJson: ParametersJSON
 ) {
   node.inputSockets.forEach((socket) => {
-    if (parametersJson?.[socket.name] === undefined) {
+    if (!(socket.name in parametersJson)) {
       return;
     }
 

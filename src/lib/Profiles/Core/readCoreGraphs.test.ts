@@ -1,18 +1,17 @@
-import * as exampleDelay from '../../../graphs/core/async/Delay.json';
-import * as exampleCustomEvent from '../../../graphs/core/events/CustomEvents.json';
-import * as exampleLifecycle from '../../../graphs/core/events/Lifecycle.json';
-import * as exampleBranch from '../../../graphs/core/flow/Branch.json';
-import * as exampleFlipFlop from '../../../graphs/core/flow/FlipFlop.json';
-import * as exampleForLoop from '../../../graphs/core/flow/ForLoop.json';
-import * as examplePerformanceTest from '../../../graphs/core/flow/PerformanceTest.json';
-import * as exampleSequence from '../../../graphs/core/flow/Sequence.json';
-import * as exampleHelloWorld from '../../../graphs/core/HelloWorld.json';
-import * as examplePolynomial from '../../../graphs/core/logic/Polynomial.json';
-import * as exampleChanged from '../../../graphs/core/variables/Changed.json';
-import * as exampleFrameCounter from '../../../graphs/core/variables/FrameCounter.json';
-import * as exampleInitialValue from '../../../graphs/core/variables/InitialValue.json';
-import * as exampleSetGet from '../../../graphs/core/variables/SetGet.json';
-
+import * as delayJson from '../../../graphs/core/async/Delay.json';
+import * as customEventJson from '../../../graphs/core/events/CustomEvents.json';
+import * as lifecycleJson from '../../../graphs/core/events/Lifecycle.json';
+import * as branchJson from '../../../graphs/core/flow/Branch.json';
+import * as flipFlopJson from '../../../graphs/core/flow/FlipFlop.json';
+import * as forLoopJson from '../../../graphs/core/flow/ForLoop.json';
+import * as performanceTestJson from '../../../graphs/core/flow/PerformanceTest.json';
+import * as sequenceJson from '../../../graphs/core/flow/Sequence.json';
+import * as helloWorldJson from '../../../graphs/core/HelloWorld.json';
+import * as polynomialJson from '../../../graphs/core/logic/Polynomial.json';
+import * as changedJson from '../../../graphs/core/variables/Changed.json';
+import * as frameCounterJson from '../../../graphs/core/variables/FrameCounter.json';
+import * as initialValueJson from '../../../graphs/core/variables/InitialValue.json';
+import * as setGetJson from '../../../graphs/core/variables/SetGet.json';
 import { Logger } from '../../Diagnostics/Logger.js';
 import { Graph } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
@@ -27,37 +26,36 @@ registerCoreProfile(registry);
 
 Logger.onWarn.clear();
 
-
-const exampleMap: { [key: string]: any  } = {
-  branch: exampleBranch,
-  delay: exampleDelay,
-  flipFlip: exampleFlipFlop,
-  forLoop: exampleForLoop,
-  sequence: exampleSequence,
-  helloWorld: exampleHelloWorld,
-  setGet: exampleSetGet,
-  math: examplePolynomial,
-  customEvent: exampleCustomEvent,
-  lifeCycle: exampleLifecycle,
-  changed: exampleChanged,
-  frameCounter: exampleFrameCounter,
-  initialValue: exampleInitialValue,
-  performanceTest: examplePerformanceTest
+const exampleMap: { [key: string]: any } = {
+  branchJson,
+  delayJson,
+  flipFlopJson,
+  forLoopJson,
+  sequenceJson,
+  helloWorldJson,
+  setGetJson,
+  polynomialJson,
+  customEventJson,
+  lifecycleJson,
+  changedJson,
+  frameCounterJson,
+  initialValueJson,
+  performanceTestJson
 };
 
-//console.log('forLoop', exampleForLoop);
+//console.log('forLoop',forLoopJson);
 
 Object.keys(exampleMap).forEach((key) => {
-  describe(`${key}.json`, () => {
-    //console.log('exampleMap[key]', exampleMap[key]);
-    const exampleJSON = exampleMap[key] as GraphJSON;
-    //console.log('exampleJSON', exampleJSON);
+  describe(`${key}`, () => {
+    //console.log('exampleMap[key]',mapJson[key]);
+    const exampleJson = exampleMap[key] as GraphJSON;
+    //console.log('exampleJSON',jSONJson);
 
     let parsedGraphJson: Graph | undefined;
     // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {
-        parsedGraphJson = readGraphFromJSON(exampleJSON, registry);
+        parsedGraphJson = readGraphFromJSON(exampleJson, registry);
         //console.log(parsedGraphJson);
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });

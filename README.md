@@ -130,7 +130,7 @@ In this example, we use set a variable and also listen to when it changes.
       }
     },
     {
-      "type": "variable/setFloat",
+      "type": "variable/set/float",
       "id": "1",
       "parameters": {
         "variable": {
@@ -148,7 +148,7 @@ In this example, we use set a variable and also listen to when it changes.
       }
     },
     {
-      "type": "variable/getFloat",
+      "type": "variable/get/float",
       "id": "2",
       "parameters": {
         "variable": {
@@ -157,7 +157,7 @@ In this example, we use set a variable and also listen to when it changes.
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -289,7 +289,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatCreate",
+      "type": "logic/float",
       "id": "1",
       "parameters": {
         "a": {
@@ -298,7 +298,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "2",
       "parameters": {
         "a": {
@@ -313,7 +313,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -328,7 +328,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatPow",
+      "type": "logic/pow/float",
       "id": "4",
       "parameters": {
         "a": {
@@ -343,7 +343,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatMultiply",
+      "type": "logic/multiply/float",
       "id": "5",
       "parameters": {
         "a": {
@@ -358,7 +358,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatAdd",
+      "type": "logic/add/float",
       "id": "6",
       "parameters": {
         "a": {
@@ -376,7 +376,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatNegate",
+      "type": "logic/negate/float",
       "id": "7",
       "parameters": {
         "a": {
@@ -388,7 +388,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatAdd",
+      "type": "logic/add/float",
       "id": "8",
       "parameters": {
         "a": {
@@ -406,7 +406,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
       }
     },
     {
-      "type": "logic/floatToString",
+      "type": "logic/toString/float",
       "id": "9",
       "parameters": {
         "a": {
@@ -743,7 +743,7 @@ Here is a test of 10,000,000 iteration for loop:
       }
     },
     {
-      "type": "logic/integerModulus",
+      "type": "logic/modulus/integer",
       "id": "3",
       "parameters": {
         "a": {
@@ -758,7 +758,7 @@ Here is a test of 10,000,000 iteration for loop:
       }
     },
     {
-      "type": "logic/integerEqual",
+      "type": "logic/equal/integer",
       "id": "4",
       "parameters": {
         "a": {

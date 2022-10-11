@@ -1,6 +1,9 @@
-import * as exampleQuaternion from '../../../graphs/scene/logic/Quaternion.json';
-import * as exampleVector2 from '../../../graphs/scene/logic/Vector2.json';
-import * as exampleVector3 from '../../../graphs/scene/logic/Vector3.json';
+import * as flashSuzanneJson from '../../../graphs/scene/actions/FlashSuzanne.json';
+import * as hierarchyJson from '../../../graphs/scene/actions/Hierarchy.json';
+import * as spinningSuzanneJson from '../../../graphs/scene/actions/SpinningSuzanne.json';
+import * as quaternionJson from '../../../graphs/scene/logic/Quaternion.json';
+import * as vector2Json from '../../../graphs/scene/logic/Vector2.json';
+import * as vector3Json from '../../../graphs/scene/logic/Vector3.json';
 import { Logger } from '../../Diagnostics/Logger.js';
 import { Graph } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
@@ -18,23 +21,26 @@ registerSceneProfile(registry);
 Logger.onWarn.clear();
 
 const exampleMap: { [key: string]: any } = {
-  vector2: exampleVector2,
-  vector3: exampleVector3,
-  quaternion: exampleQuaternion
+  vector2Json,
+  vector3Json,
+  quaternionJson,
+  flashSuzanneJson,
+  hierarchyJson,
+  spinningSuzanneJson
 };
 //console.log('exampleMap', exampleMap);
 
 Object.keys(exampleMap).forEach((key) => {
-  describe(`${key}.json`, () => {
+  describe(`${key}`, () => {
     //console.log('exampleMap[key]', exampleMap[key]);
-    const exampleJSON = exampleMap[key] as GraphJSON;
+    const exampleJson = exampleMap[key] as GraphJSON;
     //console.log('exampleJSON', exampleJSON);
 
     let parsedGraphJson: Graph | undefined;
     // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {
-        parsedGraphJson = readGraphFromJSON(exampleJSON, registry);
+        parsedGraphJson = readGraphFromJSON(exampleJson, registry);
         //console.log(parsedGraphJson);
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });

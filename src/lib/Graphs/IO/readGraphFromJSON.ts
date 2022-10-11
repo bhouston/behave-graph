@@ -25,11 +25,12 @@ export function readGraphFromJSON(
   graph.name = graphJson?.name ?? graph.name;
   graph.metadata = graphJson?.metadata ?? graph.metadata;
 
-  const variablesJson = graphJson?.variables ?? [];
-  readVariablesJSON(graph, variablesJson);
-
-  const customEventsJson = graphJson?.customEvents ?? [];
-  readCustomEventsJSON(graph, customEventsJson);
+  if ('variables' in graphJson) {
+    readVariablesJSON(graph, graphJson.variables ?? []);
+  }
+  if ('customEvents' in graphJson) {
+    readCustomEventsJSON(graph, graphJson.customEvents ?? []);
+  }
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
   const nodesJson = graphJson?.nodes ?? [];
@@ -52,13 +53,13 @@ export function readGraphFromJSON(
       // console.log(inputSocket);
       inputSocket.links.forEach((link) => {
         // console.log(link);
-        const upstreamNode = graph.nodes[link.nodeId];
-        if (upstreamNode === undefined) {
+        if (!(link.nodeId in graph.nodes)) {
           throw new Error(
             `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
               `a nonexistent upstream node id ${link.nodeId}`
           );
         }
+        const upstreamNode = graph.nodes[link.nodeId];
         const upstreamOutputSocket = upstreamNode.outputSockets.find(
           (socket) => socket.name === link.socketName
         );
@@ -87,13 +88,15 @@ export function readGraphFromJSON(
       // console.log(inputSocket);
       outputSocket.links.forEach((link) => {
         // console.log(link);
-        const downstreamNode = graph.nodes[link.nodeId];
-        if (downstreamNode === undefined) {
+
+        if (!(link.nodeId in graph.nodes)) {
           throw new Error(
             `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
               `a nonexistent downstream node id ${link.nodeId}`
           );
         }
+
+        const downstreamNode = graph.nodes[link.nodeId];
         const downstreamInputSocket = downstreamNode.inputSockets.find(
           (socket) => socket.name === link.socketName
         );
@@ -141,7 +144,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   }
 
   // TODO: apply nodeJson.inputs to node.
-  if (graph.nodes[node.id] !== undefined) {
+  if (node.id in graph.nodes) {
     throw new Error(`multiple nodes with the same "unique id": ${node.id}`);
   }
   graph.nodes[node.id] = node;
@@ -186,12 +189,8 @@ function readNodeParameterJSON(
 
 function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
   node.outputSockets.forEach((socket) => {
-    if (flowsJson[socket.name] === undefined) {
-      return;
-    }
-
-    const outputLinkJson = flowsJson[socket.name];
-    if (outputLinkJson !== undefined) {
+    if (socket.name in flowsJson) {
+      const outputLinkJson = flowsJson[socket.name];
       socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));
     }
   });
@@ -224,7 +223,7 @@ function readVariablesJSON(graph: Graph, variablesJson: VariableJSON[]) {
     variable.label = variableJson?.label ?? variable.label;
     variable.metadata = variableJson?.metadata ?? variable.metadata;
 
-    if (graph.variables[variableJson.id] !== undefined) {
+    if (variableJson.id in graph.variables) {
       throw new Error(`duplicate variable id ${variable.id}`);
     }
     graph.variables[variableJson.id] = variable;
@@ -245,7 +244,7 @@ function readCustomEventsJSON(
     customEvent.label = customEventJson?.label ?? customEvent.label;
     customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;
 
-    if (graph.customEvents[customEvent.id] !== undefined) {
+    if (customEvent.id in graph.customEvents) {
       throw new Error(`duplicate variable id ${customEvent.id}`);
     }
     graph.customEvents[customEvent.id] = customEvent;

@@ -158,14 +158,14 @@ function readNodeParameterJSON(
     }
 
     const inputJson = parametersJson[socket.name];
-    if (inputJson.value !== undefined) {
+    if ('value' in inputJson) {
       // eslint-disable-next-line no-param-reassign
       socket.value = graph.registry.values
         .get(socket.valueTypeName)
         .deserialize(inputJson.value);
     }
 
-    if (inputJson.link !== undefined) {
+    if ('link' in inputJson) {
       const linkJson = inputJson.link;
       socket.links.push(new Link(linkJson.nodeId, linkJson.socket));
     }

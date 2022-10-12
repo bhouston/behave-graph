@@ -16,6 +16,7 @@ import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger
 import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
 import { Registry } from '../../lib/Registry.js';
 import { validateRegistry } from '../../lib/validateRegistry.js';
+import { DummyScene } from './DummyScene.js';
 
 async function main() {
   //Logger.onVerbose.clear();
@@ -45,6 +46,7 @@ async function main() {
     'ILifecycleEventEmitter',
     manualLifecycleEventEmitter
   );
+  registry.implementations.register('IScene', new DummyScene(registry));
 
   const jsonPattern = program.args[0];
 

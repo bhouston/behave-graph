@@ -1,9 +1,12 @@
 import * as flashSuzanneJson from '../../../graphs/scene/actions/FlashSuzanne.json';
 import * as hierarchyJson from '../../../graphs/scene/actions/Hierarchy.json';
 import * as spinningSuzanneJson from '../../../graphs/scene/actions/SpinningSuzanne.json';
+import * as colorJson from '../../../graphs/scene/logic/Color.json';
+import * as eulerJson from '../../../graphs/scene/logic/Euler.json';
 import * as quaternionJson from '../../../graphs/scene/logic/Quaternion.json';
 import * as vector2Json from '../../../graphs/scene/logic/Vector2.json';
 import * as vector3Json from '../../../graphs/scene/logic/Vector3.json';
+import * as vector4Json from '../../../graphs/scene/logic/Vector4.json';
 import { Logger } from '../../Diagnostics/Logger.js';
 import { Graph } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
@@ -23,7 +26,10 @@ Logger.onWarn.clear();
 const exampleMap: { [key: string]: any } = {
   vector2Json,
   vector3Json,
+  vector4Json,
   quaternionJson,
+  colorJson,
+  eulerJson,
   flashSuzanneJson,
   hierarchyJson,
   spinningSuzanneJson

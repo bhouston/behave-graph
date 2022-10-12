@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/create/quat",
+      "type": "logic/create/euler",
       "id": "1",
       "parameters": {
         "x": {
@@ -22,14 +22,11 @@
         },
         "z": {
           "value": 0
-        },
-        "w": {
-          "value": 0
         }
       }
     },
     {
-      "type": "logic/toString/quat",
+      "type": "logic/toString/euler",
       "id": "2",
       "parameters": {
         "a": {

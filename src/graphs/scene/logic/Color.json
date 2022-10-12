@@ -11,25 +11,22 @@
       }
     },
     {
-      "type": "logic/create/quat",
+      "type": "logic/create/color",
       "id": "1",
       "parameters": {
-        "x": {
+        "r": {
           "value": 1
         },
-        "y": {
+        "g": {
           "value": 0
         },
-        "z": {
-          "value": 0
-        },
-        "w": {
+        "b": {
           "value": 0
         }
       }
     },
     {
-      "type": "logic/toString/quat",
+      "type": "logic/toString/color",
       "id": "2",
       "parameters": {
         "a": {

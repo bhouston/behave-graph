@@ -1,6 +1,7 @@
 import { parseSafeFloats } from '../../../parseFloats.js';
 
 export type Vec3JSON = { x: number; y: number; z: number };
+export type ColorJSON = { r: number; g: number; b: number };
 
 export class Vec3 {
   constructor(

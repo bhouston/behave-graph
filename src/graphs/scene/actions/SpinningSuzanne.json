@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/create/vec3",
+      "type": "logic/create/euler",
       "id": "1",
       "parameters": {
         "x": {
@@ -29,7 +29,7 @@
       }
     },
     {
-      "type": "logic/eulerToQuat",
+      "type": "logic/toQuat/euler",
       "id": "2",
       "parameters": {
         "a": {
@@ -41,7 +41,7 @@
       }
     },
     {
-      "type": "scene/set/vec4",
+      "type": "scene/set/quat",
       "id": "3",
       "parameters": {
         "jsonPath": {

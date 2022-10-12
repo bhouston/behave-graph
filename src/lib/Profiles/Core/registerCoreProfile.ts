@@ -4,6 +4,7 @@ import { In0Out1FuncNode } from '../../Nodes/Templates/In0Out1FuncNode.js';
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode.js';
 import { Registry } from '../../Registry.js';
+import { ExpectTrue } from './Actions/ExpectTrue.js';
 import { Log } from './Actions/Log.js';
 import { SetVariable } from './Actions/SetVariable.js';
 import { TriggerCustomEvent } from './Actions/TriggerCustomEvent.js';
@@ -25,6 +26,7 @@ export function registerCoreProfile(registry: Registry) {
   // actions
 
   nodes.register('action/log', () => new Log());
+  nodes.register('assert/expectTrue', () => new ExpectTrue());
 
   // events
 

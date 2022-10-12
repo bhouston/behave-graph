@@ -4,10 +4,9 @@ export type ValueJSON = string | boolean | number;
 
 export type LinkJSON = { nodeId: string; socket: string };
 
-export type ParameterJSON = {
-  value?: ValueJSON;
-  link?: LinkJSON;
-};
+export type ParameterValueJSON = { value: ValueJSON };
+export type ParameterLinkJSON = { link: LinkJSON };
+export type ParameterJSON = ParameterValueJSON | ParameterLinkJSON;
 
 export type ParametersJSON = {
   [key: string]: ParameterJSON;

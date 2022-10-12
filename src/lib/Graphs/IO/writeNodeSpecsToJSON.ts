@@ -19,19 +19,19 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
     };
 
     node.inputSockets.forEach((inputSocket) => {
-      const valueType = inputSocket.valueTypeName === 'flow' ?
-         undefined : registry.values.get(
-        inputSocket.valueTypeName
-      );
+      const valueType =
+        inputSocket.valueTypeName === 'flow'
+          ? undefined
+          : registry.values.get(inputSocket.valueTypeName);
       let defaultValue = inputSocket.value;
       if (defaultValue === undefined && valueType !== undefined) {
         defaultValue = valueType.serialize(valueType.creator());
       }
-        const socketSpecJSON: InputSocketSpecJSON = {
-          name: inputSocket.name,
-          valueType: inputSocket.valueTypeName,
-          defaultValue
-        };
+      const socketSpecJSON: InputSocketSpecJSON = {
+        name: inputSocket.name,
+        valueType: inputSocket.valueTypeName,
+        defaultValue
+      };
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 

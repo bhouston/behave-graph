@@ -143,19 +143,17 @@ export class NodeEvalContext {
   }
 
   getCustomEvent(customEventId: string): CustomEvent {
-    const customEvent = this.graph.customEvents[customEventId];
-    if (customEvent === undefined) {
+    if (!(customEventId in this.graph.customEvents)) {
       throw new Error(`can not find customEvent with the id ${customEventId}`);
     }
-    return customEvent;
+    return this.graph.customEvents[customEventId];
   }
 
   getVariable(variableId: string): Variable {
-    const variable = this.graph.variables[variableId];
-    if (variable === undefined) {
+    if (!(variableId in this.graph.variables)) {
       throw new Error(`can not find variable with the id ${variableId}`);
     }
-    return variable;
+    return this.graph.variables[variableId];
   }
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext

@@ -72,17 +72,21 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName === 'flow') return;
 
-      const parameterJson: ParameterJSON = {};
+      let parameterJson: ParameterJSON | undefined = undefined;
 
       if (inputSocket.links.length === 0) {
-        parameterJson.value = graph.registry.values
-          .get(inputSocket.valueTypeName)
-          .serialize(inputSocket.value);
+        parameterJson = {
+          value: graph.registry.values
+            .get(inputSocket.valueTypeName)
+            .serialize(inputSocket.value)
+        };
       } else if (inputSocket.links.length === 1) {
         const link = inputSocket.links[0];
-        parameterJson.link = {
-          nodeId: link.nodeId,
-          socket: link.socketName
+        parameterJson = {
+          link: {
+            nodeId: link.nodeId,
+            socket: link.socketName
+          }
         };
       } else {
         throw new Error(

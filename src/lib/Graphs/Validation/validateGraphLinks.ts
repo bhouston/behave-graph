@@ -9,8 +9,7 @@ export function validateGraphLinks(graph: Graph): string[] {
       // ensure that connected output sockets are the same type
       inputSocket.links.forEach((link) => {
         // check if the node id is correct
-        const upstreamNode = graph.nodes[link.nodeId];
-        if (upstreamNode === undefined) {
+        if (!(link.nodeId in graph.nodes)) {
           errorList.push(
             `node ${node.typeName}.${inputSocket.name} has link using invalid nodeId: ${link.nodeId}`
           );
@@ -18,6 +17,7 @@ export function validateGraphLinks(graph: Graph): string[] {
         }
 
         // check if the socketName is correct
+        const upstreamNode = graph.nodes[link.nodeId];
         const outputSocket = upstreamNode.outputSockets.find(
           (socket) => socket.name === link.socketName
         );

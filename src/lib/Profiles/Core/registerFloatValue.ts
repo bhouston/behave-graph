@@ -3,6 +3,7 @@
 import { In0Out1FuncNode } from '../../Nodes/Templates/In0Out1FuncNode.js';
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../Nodes/Templates/In2Out1FuncNode.js';
+import { In3Out1FuncNode } from '../../Nodes/Templates/In3Out1FuncNode.js';
 import { Registry } from '../../Registry.js';
 
 export function registerFloatValue(registry: Registry) {
@@ -220,6 +221,21 @@ export function registerFloatValue(registry: Registry) {
       )
   );
 
+  nodes.register(
+    'logic/mix/float',
+    () =>
+      new In3Out1FuncNode<number, number, number, number>(
+        'logic/mix/float',
+        'float',
+        'float',
+        'float',
+        'float',
+        (a, b, c) => {
+          const s = 1 - c;
+          return a.x * s + b.x * c;
+        }
+      )
+  );
   nodes.register(
     'logic/min/float',
     () =>

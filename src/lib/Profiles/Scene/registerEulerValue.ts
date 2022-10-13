@@ -12,8 +12,7 @@ import {
   Vec3JSON,
   vec3Mix,
   vec3Parse,
-  vec3ToArray,
-  vec3ToString
+  vec3ToArray
 } from './Values/Vec3.js';
 import { eulerToQuat, Vec4 } from './Values/Vec4.js';
 
@@ -81,16 +80,6 @@ export function registerEulerValue(registry: Registry) {
         'float',
         'euler',
         (a, b, c) => vec3Mix(a, b, c)
-      )
-  );
-  nodes.register(
-    'logic/toString/euler',
-    () =>
-      new In1Out1FuncNode<Vec3, string>(
-        'logic/toString/euler',
-        'euler',
-        'string',
-        (a) => vec3ToString(a)
       )
   );
   nodes.register(

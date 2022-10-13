@@ -18,8 +18,7 @@ import {
   vec3Parse,
   vec3Scale,
   vec3Subtract,
-  vec3ToArray,
-  vec3ToString
+  vec3ToArray
 } from './Values/Vec3.js';
 
 export function registerColorValue(registry: Registry) {
@@ -74,16 +73,6 @@ export function registerColorValue(registry: Registry) {
         'color',
         'color',
         (a, b) => vec3Add(a, b)
-      )
-  );
-  nodes.register(
-    'logic/toString/color',
-    () =>
-      new In1Out1FuncNode<Vec3, string>(
-        'logic/toString/color',
-        'color',
-        'string',
-        (a) => vec3ToString(a)
       )
   );
   nodes.register(

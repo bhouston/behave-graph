@@ -18,8 +18,7 @@ import {
   vec4Length,
   vec4Normalize,
   vec4Parse,
-  vec4ToArray,
-  vec4ToString
+  vec4ToArray
 } from './Values/Vec4.js';
 
 export function registerQuatValue(registry: Registry) {
@@ -139,16 +138,6 @@ export function registerQuatValue(registry: Registry) {
         'quat',
         'float',
         (a) => vec4Length(a)
-      )
-  );
-  nodes.register(
-    'logic/toString/quat',
-    () =>
-      new In1Out1FuncNode<Vec4, string>(
-        'logic/toString/quat',
-        'quat',
-        'string',
-        (a) => vec4ToString(a)
       )
   );
 }

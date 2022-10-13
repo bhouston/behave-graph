@@ -18,8 +18,7 @@ import {
   vec2Parse,
   vec2Scale,
   vec2Subtract,
-  vec2ToArray,
-  vec2ToString
+  vec2ToArray
 } from './Values/Vec2.js';
 
 export function registerVec2Value(registry: Registry) {
@@ -101,7 +100,7 @@ export function registerVec2Value(registry: Registry) {
     'logic/dot/vec2',
     () =>
       new In2Out1FuncNode<Vec2, Vec2, number>(
-        'logic/scale/vec2',
+        'logic/dot/vec2',
         'vec2',
         'vec2',
         'float',
@@ -149,16 +148,6 @@ export function registerVec2Value(registry: Registry) {
         'vec2',
         'float',
         (a) => vec2Length(a)
-      )
-  );
-  nodes.register(
-    'logic/toString/vec2',
-    () =>
-      new In1Out1FuncNode<Vec2, string>(
-        'logic/toString/vec2',
-        'vec2',
-        'string',
-        (a) => vec2ToString(a)
       )
   );
 }

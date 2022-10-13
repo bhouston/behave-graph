@@ -57,7 +57,7 @@ export function registerCoreProfile(registry: Registry) {
 
   // string converters
 
-  ['boolean', 'float', 'integer', 'string'].forEach((valueTypeName) => {
+  ['boolean', 'float', 'integer'].forEach((valueTypeName) => {
     registerSerializersForValueType(registry, valueTypeName);
   });
 

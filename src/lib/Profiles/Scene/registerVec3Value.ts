@@ -19,8 +19,7 @@ import {
   vec3Parse,
   vec3Scale,
   vec3Subtract,
-  vec3ToArray,
-  vec3ToString
+  vec3ToArray
 } from './Values/Vec3.js';
 
 export function registerVec3Value(registry: Registry) {
@@ -161,16 +160,6 @@ export function registerVec3Value(registry: Registry) {
         'vec3',
         'float',
         (a) => vec3Length(a)
-      )
-  );
-  nodes.register(
-    'logic/toString/vec3',
-    () =>
-      new In1Out1FuncNode<Vec3, string>(
-        'logic/toString/vec3',
-        'vec3',
-        'string',
-        (a) => vec3ToString(a)
       )
   );
 }

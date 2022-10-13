@@ -17,8 +17,7 @@ import {
   vec4Parse,
   vec4Scale,
   vec4Subtract,
-  vec4ToArray,
-  vec4ToString
+  vec4ToArray
 } from './Values/Vec4.js';
 
 export function registerVec4Value(registry: Registry) {
@@ -141,16 +140,6 @@ export function registerVec4Value(registry: Registry) {
         'vec4',
         'float',
         (a) => vec4Length(a)
-      )
-  );
-  nodes.register(
-    'logic/toString/vec4',
-    () =>
-      new In1Out1FuncNode<Vec4, string>(
-        'logic/toString/vec4',
-        'vec4',
-        'string',
-        (a) => vec4ToString(a)
       )
   );
 }

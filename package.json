@@ -1,6 +1,6 @@
 {
   "name": "behave-graph",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "dist/lib",
@@ -33,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@web/dev-server": "^0.1.34",
     "commander": "^9.4.1",
+    "csv-stringify": "^6.2.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",

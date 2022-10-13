@@ -12,6 +12,7 @@
     "Nullary",
     "reserialization",
     "reserialized",
+    "Slerp",
     "threeify"
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",

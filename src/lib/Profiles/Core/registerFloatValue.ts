@@ -232,7 +232,7 @@ export function registerFloatValue(registry: Registry) {
         'float',
         (a, b, c) => {
           const s = 1 - c;
-          return a.x * s + b.x * c;
+          return a * s + b * c;
         }
       )
   );

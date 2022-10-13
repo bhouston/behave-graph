@@ -8,6 +8,7 @@ import { VecElements } from './Logic/VecElements.js';
 import {
   Vec2,
   vec2Add,
+  vec2Dot,
   vec2FromArray,
   Vec2JSON,
   vec2Length,

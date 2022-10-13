@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 import { Registry } from '../../Registry.js';
-import { SetVariable } from '../Core/Actions/SetVariable.js';
-import { OnVariableChanged } from '../Core/Events/OnVariableChanged.js';
-import { GetVariable } from '../Core/Queries/GetVariable.js';
+import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
+import { registryVariableForValueType } from '../Core/registerVariableForValueType.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
 import { GetSceneProperty } from './Queries/GetSceneProperty.js';
@@ -51,26 +50,17 @@ export function registerSceneProfile(registry: Registry) {
     );
   });
 
+  ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
+    (valueTypeName) => {
+      registerSerializersForValueType(registry, valueTypeName);
+    }
+  );
+
   // variables
 
   ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
     (valueTypeName) => {
-      nodes.register(
-        `variable/set/${valueTypeName}`,
-        () => new SetVariable(`variable/set/${valueTypeName}`, valueTypeName)
-      );
-      nodes.register(
-        `variable/get/${valueTypeName}`,
-        () => new GetVariable(`variable/get/${valueTypeName}`, valueTypeName)
-      );
-      nodes.register(
-        `variable/onChanged/${valueTypeName}`,
-        () =>
-          new OnVariableChanged(
-            `variable/onChanged/${valueTypeName}`,
-            valueTypeName
-          )
-      );
+      registryVariableForValueType(nodes, valueTypeName);
     }
   );
 

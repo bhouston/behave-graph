@@ -117,6 +117,16 @@ export function registerIntegerValue(registry: Registry) {
         (a, b) => (a > b ? a : b)
       )
   );
+  nodes.register(
+    'logic/abs/integer',
+    () =>
+      new In1Out1FuncNode<bigint, bigint>(
+        'logic/abs/integer',
+        'integer',
+        'integer',
+        (a) => (a < 0n ? -a : a)
+      )
+  );
 
   // logic: comparison
 

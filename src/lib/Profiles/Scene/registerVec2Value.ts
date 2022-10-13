@@ -97,6 +97,17 @@ export function registerVec2Value(registry: Registry) {
       )
   );
   nodes.register(
+    'logic/dot/vec2',
+    () =>
+      new In2Out1FuncNode<Vec2, Vec2, number>(
+        'logic/scale/vec2',
+        'vec2',
+        'vec2',
+        'float',
+        (a, b) => vec2Dot(a, b)
+      )
+  );
+  nodes.register(
     'logic/negate/vec2',
     () =>
       new In1Out1FuncNode<Vec2, Vec2>(

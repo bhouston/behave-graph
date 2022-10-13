@@ -127,6 +127,16 @@ export function registerIntegerValue(registry: Registry) {
         (a) => (a < 0n ? -a : a)
       )
   );
+  nodes.register(
+    'logic/sign/integer',
+    () =>
+      new In1Out1FuncNode<bigint, bigint>(
+        'logic/sign/integer',
+        'integer',
+        'integer',
+        (a) => (a < 0n ? -1n : a > 0n ? 1n : 0n)
+      )
+  );
 
   // logic: comparison
 
@@ -153,10 +163,10 @@ export function registerIntegerValue(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/greaterThaOrEqual/integer',
+    'logic/greaterThanOrEqual/integer',
     () =>
       new In2Out1FuncNode<bigint, bigint, boolean>(
-        'logic/greaterThaOrEqual/integer',
+        'logic/greaterThanOrEqual/integer',
         'integer',
         'integer',
         'boolean',

@@ -46,10 +46,10 @@ export function registerStringValue(registry: Registry) {
   // string - number conversion
 
   nodes.register(
-    'logic/stringLength',
+    'logic/length/string',
     () =>
       new In1Out1FuncNode<string, number>(
-        'logic/stringLength',
+        'logic/length/string',
         'string',
         'float',
         (a) => a.length

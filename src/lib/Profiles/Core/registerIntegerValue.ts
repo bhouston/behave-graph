@@ -185,10 +185,10 @@ export function registerIntegerValue(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/lessThaOrEqual/integer',
+    'logic/lessThanOrEqual/integer',
     () =>
       new In2Out1FuncNode<bigint, bigint, boolean>(
-        'logic/lessThaOrEqual/integer',
+        'logic/lessThanOrEqual/integer',
         'integer',
         'integer',
         'boolean',

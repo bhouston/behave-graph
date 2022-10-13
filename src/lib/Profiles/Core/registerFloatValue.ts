@@ -376,10 +376,10 @@ export function registerFloatValue(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/lessThaOrEqual/float',
+    'logic/lessThanOrEqual/float',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/lessThaOrEqual/float',
+        'logic/lessThanOrEqual/float',
         'float',
         'float',
         'boolean',

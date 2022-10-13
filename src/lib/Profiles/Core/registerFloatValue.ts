@@ -354,10 +354,10 @@ export function registerFloatValue(registry: Registry) {
       )
   );
   nodes.register(
-    'logic/greaterThaOrEqual/float',
+    'logic/greaterThanOrEqual/float',
     () =>
       new In2Out1FuncNode<number, number, boolean>(
-        'logic/greaterThaOrEqual/float',
+        'logic/greaterThanOrEqual/float',
         'float',
         'float',
         'boolean',

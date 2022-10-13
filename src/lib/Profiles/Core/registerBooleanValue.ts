@@ -57,5 +57,17 @@ export function registerBooleanValue(registry: Registry) {
       )
   );
 
+  nodes.register(
+    'logic/equal/boolean',
+    () =>
+      new In2Out1FuncNode<boolean, boolean, boolean>(
+        'logic/equal/boolean',
+        'boolean',
+        'boolean',
+        'boolean',
+        (a, b) => a === b
+      )
+  );
+
   return registry;
 }

@@ -13,6 +13,7 @@ import {
   Vec4JSON,
   vec4Length,
   vec4Mix,
+  vec4Negate,
   vec4Normalize,
   vec4Parse,
   vec4Scale,
@@ -97,6 +98,16 @@ export function registerVec4Value(registry: Registry) {
         'vec4',
         'vec4',
         (a, b) => vec4Add(a, b)
+      )
+  );
+  nodes.register(
+    'logic/negate/vec4',
+    () =>
+      new In1Out1FuncNode<Vec4, Vec4>(
+        'logic/negate/vec4',
+        'vec4',
+        'vec4',
+        (a) => vec4Negate(a)
       )
   );
   nodes.register(

@@ -45,8 +45,8 @@ export * from './Graphs/IO/NodeSpecJSON.js';
 
 export * from './Abstractions/AbstractionsRegistry.js';
 
-export * from './Profiles/Core/Abstractions/Implementations/DefaultLogger.js';
-export * from './Profiles/Core/Abstractions/Implementations/ManualLifecycleEventEmitter.js';
+export * from './Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
+export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
 
 // core profile
 

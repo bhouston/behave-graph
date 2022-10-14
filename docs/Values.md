@@ -2,7 +2,7 @@
 
 Behave-graph supports a pluggable value system where you can easily add new values to the system.  Values are what are passed between nodes via sockets.
 
-Values are registered into the central registry as instances of the ValueType class.  The value type class controls the creation, serialization, deserialization.
+Values are registered into the central registry as instances of the ValueType class.  The value type class controls creation, serialization, deserialization.
 
 ```typescript
 export class ValueType<TValue = any, TJson = any> {

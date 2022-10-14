@@ -51,7 +51,6 @@ async function main() {
   const jsonPattern = program.args[0];
 
   glob(jsonPattern, {}, async (err, matches) => {
-    console.log(matches);
     for (let i = 0; i < matches.length; i++) {
       const graphJsonPath = matches[i];
       Logger.verbose(`reading behavior graph: ${graphJsonPath}`);

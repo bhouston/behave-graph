@@ -10,10 +10,10 @@ import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { writeGraphToJSON } from '../../lib/Graphs/IO/writeGraphToJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
 import { parseSafeFloat } from '../../lib/parseFloats.js';
+import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Implementations/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from '../../lib/Profiles/Core/Abstractions/Implementations/ManualLifecycleEventEmitter.js';
 import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
-import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger.js';
-import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
 import { Registry } from '../../lib/Registry.js';
 import { validateRegistry } from '../../lib/validateRegistry.js';
 import { DummyScene } from './DummyScene.js';
@@ -40,13 +40,13 @@ async function main() {
   registerCoreProfile(registry);
   registerSceneProfile(registry);
 
-  registry.implementations.register('ILogger', new DefaultLogger());
+  registry.abstractions.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register(
+  registry.abstractions.register(
     'ILifecycleEventEmitter',
     manualLifecycleEventEmitter
   );
-  registry.implementations.register('IScene', new DummyScene(registry));
+  registry.abstractions.register('IScene', new DummyScene(registry));
 
   const jsonPattern = program.args[0];
 

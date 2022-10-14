@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../lib/Events/EventEmitter.js';
-import { IScene } from '../../lib/Profiles/Scene/Providers/IScene.js';
+import { IScene } from '../../lib/Profiles/Scene/Abstractions/IScene.js';
 import { Registry } from '../../lib/Registry.js';
 
 export class DummyScene implements IScene {

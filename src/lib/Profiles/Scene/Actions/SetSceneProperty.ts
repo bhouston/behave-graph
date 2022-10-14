@@ -1,6 +1,6 @@
 import { Node } from '../../../Nodes/Node.js';
 import { Socket } from '../../../Sockets/Socket.js';
-import { IScene } from '../Providers/IScene.js';
+import { IScene } from '../Abstractions/IScene.js';
 
 export class SetSceneProperty extends Node {
   constructor(nodeName: string, public readonly valueTypeName: string) {
@@ -14,8 +14,7 @@ export class SetSceneProperty extends Node {
       ],
       [new Socket('flow', 'flow')],
       (context) => {
-        const scene =
-          context.graph.registry.implementations.get<IScene>('IScene');
+        const scene = context.graph.registry.abstractions.get<IScene>('IScene');
         const value = context.readInput('value');
         scene.setProperty(context.readInput('jsonPath'), valueTypeName, value);
       }

@@ -1,7 +1,7 @@
 import { Node } from '../../../Nodes/Node.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
-import { ILifecycleEventEmitter } from '../Providers/ILifecycleEventEmitter.js';
+import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class OnLifecycleEnd extends Node {
@@ -17,7 +17,7 @@ export class OnLifecycleEnd extends Node {
         };
 
         const lifecycleEvents =
-          context.graph.registry.implementations.get<ILifecycleEventEmitter>(
+          context.graph.registry.abstractions.get<ILifecycleEventEmitter>(
             'ILifecycleEventEmitter'
           );
         lifecycleEvents.endEvent.addListener(onEndEvent);

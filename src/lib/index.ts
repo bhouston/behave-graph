@@ -43,23 +43,23 @@ export * from './Graphs/Validation/validateGraph.js';
 export * from './Graphs/IO/GraphJSON.js';
 export * from './Graphs/IO/NodeSpecJSON.js';
 
-export * from './Providers/ImplementationRegistry.js';
+export * from './Abstractions/AbstractionsRegistry.js';
 
-export * from './Providers/Implementations/DefaultLogger.js';
-export * from './Providers/Implementations/ManualLifecycleEventEmitter.js';
+export * from './Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
+export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
 
 // core profile
 
 export * from './Profiles/Core/Actions/SetVariable.js';
 export * from './Profiles/Core/Queries/GetVariable.js';
 export * from './Profiles/Core/Events/OnVariableChanged.js';
-export * from './Profiles/Core/Providers/ILifecycleEventEmitter.js';
-export * from './Profiles/Core/Providers/ILogger.js';
+export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter.js';
+export * from './Profiles/Core/Abstractions/ILogger.js';
 export * from './Profiles/Core/registerCoreProfile.js';
 
 // scene profile
 
-export * from './Profiles/Scene/Providers/IScene.js';
+export * from './Profiles/Scene/Abstractions/IScene.js';
 export * from './Profiles/Scene/Values/Vec2.js';
 export * from './Profiles/Scene/Values/Vec3.js';
 export * from './Profiles/Scene/Values/Vec4.js';

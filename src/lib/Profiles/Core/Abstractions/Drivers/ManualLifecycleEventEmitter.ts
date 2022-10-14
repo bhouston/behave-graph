@@ -1,5 +1,5 @@
-import { EventEmitter } from '../../Events/EventEmitter.js';
-import { ILifecycleEventEmitter } from '../../Profiles/Core/Providers/ILifecycleEventEmitter.js';
+import { EventEmitter } from '../../../../Events/EventEmitter.js';
+import { ILifecycleEventEmitter } from '../ILifecycleEventEmitter.js';
 
 export class ManualLifecycleEventEmitter implements ILifecycleEventEmitter {
   public readonly startEvent = new EventEmitter<void>();

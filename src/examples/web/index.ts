@@ -3,10 +3,10 @@ import * as THREEIFY from 'threeify';
 import { Logger } from '../../lib/Diagnostics/Logger.js';
 import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
+import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from '../../lib/Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
 import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
-import { DefaultLogger } from '../../lib/Providers/Implementations/DefaultLogger.js';
-import { ManualLifecycleEventEmitter } from '../../lib/Providers/Implementations/ManualLifecycleEventEmitter.js';
 import { Registry } from '../../lib/Registry.js';
 
 async function main() {
@@ -17,9 +17,9 @@ async function main() {
   registerCoreProfile(registry);
   registerSceneProfile(registry);
 
-  registry.implementations.register('ILogger', new DefaultLogger());
+  registry.abstractions.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.implementations.register(
+  registry.abstractions.register(
     'ILifecycleEventEmitter',
     manualLifecycleEventEmitter
   );

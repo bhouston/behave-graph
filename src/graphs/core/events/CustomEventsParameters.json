@@ -1,8 +1,15 @@
 {
   "customEvents": [
     {
-      "name": "myCustomEvent",
-      "id": "0"
+      "name": "OutputDebugString",
+      "id": "0",
+      "parameters": [
+        {
+          "name": "text",
+          "valueTypeName": "string",
+          "defaultValue": ""
+        }
+      ]
     }
   ],
   "nodes": [
@@ -35,7 +42,10 @@
       "id": "3",
       "parameters": {
         "text": {
-          "value": "myCustomEvent Fired!"
+          "link": {
+            "nodeId": 2,
+            "socket": "text"
+          }
         }
       }
     }

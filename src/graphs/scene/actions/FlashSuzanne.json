@@ -21,22 +21,12 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent",
-      "id": "1",
-      "parameters": {
-        "customEvent": {
-          "value": "0"
-        }
-      }
+      "type": "action/triggerCustomEvent/0",
+      "id": "1"
     },
     {
-      "type": "event/customEvent",
+      "type": "event/customEvent/0",
       "id": "2",
-      "parameters": {
-        "customEvent": {
-          "value": "0"
-        }
-      },
       "flows": {
         "flow": {
           "nodeId": "3",
@@ -78,22 +68,12 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent",
-      "id": "5",
-      "parameters": {
-        "customEvent": {
-          "value": "1"
-        }
-      }
+      "type": "action/triggerCustomEvent/1",
+      "id": "5"
     },
     {
-      "type": "event/customEvent",
+      "type": "event/customEvent/1",
       "id": "6",
-      "parameters": {
-        "customEvent": {
-          "value": "1"
-        }
-      },
       "flows": {
         "flow": {
           "nodeId": "7",
@@ -135,13 +115,8 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent",
-      "id": "9",
-      "parameters": {
-        "customEvent": {
-          "value": "0"
-        }
-      }
+      "type": "action/triggerCustomEvent/0",
+      "id": "9"
     }
   ]
 }

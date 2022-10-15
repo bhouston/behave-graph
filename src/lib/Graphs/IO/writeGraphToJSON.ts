@@ -1,10 +1,11 @@
 import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
+  CustomEventParameterJSON,
   GraphJSON,
   LinkJSON,
   NodeJSON,
-  ParameterJSON,
+  NodeParameterJSON,
   VariableJSON
 } from './GraphJSON.js';
 
@@ -23,6 +24,17 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     };
     if (customEvent.label.length > 0) {
       customEventJson.label = customEvent.label;
+    }
+    if (customEvent.parameters.length > 0) {
+      const parametersJson: CustomEventParameterJSON[] = [];
+      customEvent.parameters.forEach((parameter) => {
+        parametersJson.push({
+          name: parameter.name,
+          valueTypeName: parameter.valueTypeName,
+          defaultValue: parameter.value
+        });
+      });
+      customEventJson.parameters = parametersJson;
     }
     if (Object.keys(customEvent.metadata).length > 0) {
       customEventJson.metadata = customEvent.metadata;
@@ -72,7 +84,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName === 'flow') return;
 
-      let parameterJson: ParameterJSON | undefined = undefined;
+      let parameterJson: NodeParameterJSON | undefined = undefined;
 
       if (inputSocket.links.length === 0) {
         parameterJson = {

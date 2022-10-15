@@ -3,6 +3,7 @@ import { CustomEvent } from '../../Events/CustomEvent.js';
 import { Link } from '../../Nodes/Link.js';
 import { Node } from '../../Nodes/Node.js';
 import { Registry } from '../../Registry.js';
+import { Socket } from '../../Sockets/Socket.js';
 import { Variable } from '../../Variables/Variable.js';
 import { Graph } from '../Graph.js';
 import {
@@ -10,7 +11,7 @@ import {
   FlowsJSON,
   GraphJSON,
   NodeJSON,
-  ParametersJSON,
+  NodeParametersJSON,
   VariableJSON
 } from './GraphJSON.js';
 
@@ -31,6 +32,9 @@ export function readGraphFromJSON(
   if ('customEvents' in graphJson) {
     readCustomEventsJSON(graph, graphJson.customEvents ?? []);
   }
+
+  // register node based on variables and custom events.
+  graph.registerLocalNodeTypes();
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
   const nodesJson = graphJson?.nodes ?? [];
@@ -131,7 +135,8 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
     throw new Error('readGraphFromJSON: no type for node');
   }
   const nodeName = nodeJson.type;
-  const node = graph.registry.nodes.create(nodeName, nodeJson.id);
+  const node = graph.createNode(nodeName, nodeJson.id);
+  console.log(node);
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
@@ -153,7 +158,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
 function readNodeParameterJSON(
   graph: Graph,
   node: Node,
-  parametersJson: ParametersJSON
+  parametersJson: NodeParametersJSON
 ) {
   node.inputSockets.forEach((socket) => {
     if (!(socket.name in parametersJson)) {
@@ -237,9 +242,23 @@ function readCustomEventsJSON(
   for (let i = 0; i < customEventsJson.length; i += 1) {
     const customEventJson = customEventsJson[i];
 
+    const parameters: Socket[] = [];
+    (customEventJson.parameters ?? []).forEach((parameterJson) => {
+      parameters.push(
+        new Socket(
+          parameterJson.name,
+          parameterJson.valueTypeName,
+          graph.registry.values
+            .get(parameterJson.valueTypeName)
+            .deserialize(parameterJson.defaultValue)
+        )
+      );
+    });
+
     const customEvent = new CustomEvent(
       customEventJson.id,
-      customEventJson.name
+      customEventJson.name,
+      parameters
     );
     customEvent.label = customEventJson?.label ?? customEvent.label;
     customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;

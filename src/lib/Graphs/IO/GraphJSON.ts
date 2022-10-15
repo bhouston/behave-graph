@@ -4,12 +4,12 @@ export type ValueJSON = string | boolean | number;
 
 export type LinkJSON = { nodeId: string; socket: string };
 
-export type ParameterValueJSON = { value: ValueJSON };
-export type ParameterLinkJSON = { link: LinkJSON };
-export type ParameterJSON = ParameterValueJSON | ParameterLinkJSON;
+export type NodeParameterValueJSON = { value: ValueJSON };
+export type NodeParameterLinkJSON = { link: LinkJSON };
+export type NodeParameterJSON = NodeParameterValueJSON | NodeParameterLinkJSON;
 
-export type ParametersJSON = {
-  [key: string]: ParameterJSON;
+export type NodeParametersJSON = {
+  [key: string]: NodeParameterJSON;
 };
 
 export type FlowsJSON = {
@@ -21,7 +21,7 @@ export type NodeJSON = {
   type: string;
   id: string;
 
-  parameters?: ParametersJSON;
+  parameters?: NodeParametersJSON;
   flows?: FlowsJSON;
   metadata?: Metadata;
 };
@@ -35,10 +35,17 @@ export type VariableJSON = {
   metadata?: Metadata;
 };
 
+export type CustomEventParameterJSON = {
+  name: string;
+  valueTypeName: string;
+  defaultValue: ValueJSON;
+};
+
 export type CustomEventJSON = {
   label?: string;
   id: string;
   name: string;
+  parameters?: CustomEventParameterJSON[];
   metadata?: Metadata;
 };
 

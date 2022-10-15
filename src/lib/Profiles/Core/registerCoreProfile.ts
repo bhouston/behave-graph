@@ -3,8 +3,6 @@
 import { Registry } from '../../Registry.js';
 import { ExpectTrue } from './Actions/ExpectTrue.js';
 import { Log } from './Actions/Log.js';
-import { TriggerCustomEvent } from './Actions/TriggerCustomEvent.js';
-import { OnCustomEvent } from './Events/OnCustomEvent.js';
 import { OnLifecycleEnd } from './Events/OnLifecycleEnd.js';
 import { OnLifecycleStart } from './Events/OnLifecycleStart.js';
 import { OnLifecycleTick } from './Events/OnLifecycleTick.js';
@@ -52,8 +50,9 @@ export function registerCoreProfile(registry: Registry) {
 
   // custom events
 
-  nodes.register('event/customEvent', () => new OnCustomEvent());
-  nodes.register('action/triggerCustomEvent', () => new TriggerCustomEvent());
+  // now handled by dynamically created nodes.
+  //nodes.register('event/customEvent', () => new OnCustomEvent());
+  //nodes.register('action/triggerCustomEvent', () => new TriggerCustomEvent());
 
   // string converters
 

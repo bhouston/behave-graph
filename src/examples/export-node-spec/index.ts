@@ -43,7 +43,7 @@ async function main() {
   const nodeSpecJson = writeNodeSpecsToJSON(registry);
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
-  console.log(programOptions);
+  //console.log(programOptions);
   if (programOptions.csv) {
     const csvRows: string[][] = [];
     nodeSpecJson.forEach((nodeSpec) => {

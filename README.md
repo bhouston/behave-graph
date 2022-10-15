@@ -82,36 +82,13 @@ Here are some example graphs in their native JSON form:
 
 Print out the text "Hello World!" as soon as the graph starts up!
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "1",
-      "parameters": {
-        "text": {
-          "value": "Hello World!"
-        }
-      }
-    }
-  ]
-}
-```
+[/src/graphs/core/HelloWorld.json](/src/graphs/core/HelloWorld.json)
 
 Console output:
 
 ```zsh
 > npm run exec-graph -- ./src/graphs/core/HelloWorld.json
+```)
 
 Hello World!
 ```
@@ -120,81 +97,8 @@ Hello World!
 
 In this example, we use set a variable and also listen to when it changes.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "variable/set/float",
-      "id": "1",
-      "parameters": {
-        "variable": {
-          "value": "0"
-        },
-        "value": {
-          "value": 1000
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "4",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "variable/get/float",
-      "id": "2",
-      "parameters": {
-        "variable": {
-          "value": "0"
-        }
-      }
-    },
-    {
-      "type": "logic/toString/float",
-      "id": "3",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "2",
-            "socket": "value"
-          }
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "4",
-      "parameters": {
-        "text": {
-          "link": {
-            "nodeId": "3",
-            "socket": "result"
-          }
-        }
-      }
-    }
-  ],
-  "variables": [
-    {
-      "valueTypeName": "float",
-      "name": "counter",
-      "id": 0,
-      "initialValue": -1
-    }
-  ]
-}
-```
+[/src/graphs/variables/Changed.json](/src/graphs/variables/Changed.json)
+
 
 Console output:
 
@@ -208,59 +112,7 @@ Console output:
 
 This example shows how to branching execution works. The "flow/branch" node has two flow outputs, "true" and "false". The value of it's "condition" input determines the path of execution.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "flow/branch",
-      "id": "1",
-      "parameters": {
-        "condition": {
-          "value": false
-        }
-      },
-      "flows": {
-        "true": {
-          "nodeId": "2",
-          "socket": "flow"
-        },
-        "false": {
-          "nodeId": "3",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "2",
-      "parameters": {
-        "text": {
-          "value": "Condition is true!"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "3",
-      "parameters": {
-        "text": {
-          "value": "Condition is false!"
-        }
-      }
-    }
-  ]
-}
-```
+[/src/graphs/core/flow/Branch.json](/src/graphs/core/flow/Branch.json)
 
 Console output:
 
@@ -274,163 +126,7 @@ Condition is false!
 
 This shows how to create math formulas in logic nodes. In this case the equation is: ( a^1 \* 3 + a^2 + (-a^3) ), where a = 3. The answer is -9.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "10",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "logic/float",
-      "id": "1",
-      "parameters": {
-        "a": {
-          "value": 3
-        }
-      }
-    },
-    {
-      "type": "logic/pow/float",
-      "id": "2",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "1",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "value": 1
-        }
-      }
-    },
-    {
-      "type": "logic/pow/float",
-      "id": "3",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "1",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "value": 2
-        }
-      }
-    },
-    {
-      "type": "logic/pow/float",
-      "id": "4",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "1",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "value": 3
-        }
-      }
-    },
-    {
-      "type": "logic/multiply/float",
-      "id": "5",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "2",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "value": 3
-        }
-      }
-    },
-    {
-      "type": "logic/add/float",
-      "id": "6",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "5",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "link": {
-            "nodeId": "3",
-            "socket": "result"
-          }
-        }
-      }
-    },
-    {
-      "type": "logic/negate/float",
-      "id": "7",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "4",
-            "socket": "result"
-          }
-        }
-      }
-    },
-    {
-      "type": "logic/add/float",
-      "id": "8",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "6",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "link": {
-            "nodeId": "7",
-            "socket": "result"
-          }
-        }
-      }
-    },
-    {
-      "type": "logic/toString/float",
-      "id": "9",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "8",
-            "socket": "result"
-          }
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "10",
-      "parameters": {
-        "text": {
-          "link": {
-            "nodeId": "9",
-            "socket": "result"
-          }
-        }
-      }
-    }
-  ]
-}
-```
+[/src/graphs/core/logic/Polynomial.json](/src/graphs/core/logic/Polynomial.json)
 
 Console output:
 
@@ -444,61 +140,7 @@ Console output:
 
 Behave-Graph support asynchronous nodes. These are nodes which will continue execution non-immediately but on their own self-determined schedule. This allows for things such as "Delay" nodes that can sleep for a period of time.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "1",
-      "parameters": {
-        "text": {
-          "value": "Waiting..."
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "2",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "time/delay",
-      "id": "2",
-      "parameters": {
-        "duration": {
-          "value": 1
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "3",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "3",
-      "parameters": {
-        "text": {
-          "value": "One Second Later!"
-        }
-      }
-    }
-  ]
-}
-```
+[/src/graphs/core/async/Delay.json](/src/graphs/core/async/Delay.json)
 
 Console output:
 
@@ -513,77 +155,8 @@ One Second Later!
 
 Building upon waiting for downstream nodes to execute, you can also execute For Loops within Behave-Graph.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "1",
-      "parameters": {
-        "text": {
-          "value": "Starting For Loop..."
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "2",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "flow/forLoop",
-      "id": "2",
-      "parameters": {
-        "startIndex": {
-          "value": 0
-        },
-        "endIndex": {
-          "value": 10
-        }
-      },
-      "flows": {
-        "loopBody": {
-          "nodeId": "3",
-          "socket": "flow"
-        },
-        "completed": {
-          "nodeId": "4",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "3",
-      "parameters": {
-        "text": {
-          "value": "Loop Body!"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "4",
-      "parameters": {
-        "text": {
-          "value": "Completed For Loop!"
-        }
-      }
-    }
-  ]
-}
-```
+
+[/src/graphs/core/flow/ForLoop.json](/src/graphs/core/flow/ForLoop.json)
 
 Console output:
 
@@ -608,61 +181,7 @@ Completed For Loop!
 
 You can register custom events, trigger then and listen on them.
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/tick",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/triggerCustomEvent",
-      "id": "1",
-      "parameters": {
-        "customEvent": {
-          "value": "0"
-        }
-      }
-    },
-    {
-      "type": "event/customEvent",
-      "id": "2",
-      "parameters": {
-        "customEvent": {
-          "value": "0"
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "3",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "3",
-      "parameters": {
-        "text": {
-          "value": "myCustomEvent Fired!"
-        }
-      }
-    }
-  ],
-  "customEvents": [
-    {
-      "name": "myCustomEvent",
-      "id": "0"
-    }
-  ]
-}
-```
+[/src/graphs/core/events/CustomEvents.json](/src/graphs/core/events/CustomEvents.json)
 
 Console output:
 
@@ -680,129 +199,14 @@ myCustomEvent Fired!
 
 Here is a test of 10,000,000 iteration for loop:
 
-```json
-{
-  "nodes": [
-    {
-      "type": "lifecycle/start",
-      "id": "0",
-      "flows": {
-        "flow": {
-          "nodeId": "1",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "1",
-      "parameters": {
-        "text": {
-          "value": "Starting 10,000,000 iteration for-loop..."
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "2",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "flow/forLoop",
-      "id": "2",
-      "parameters": {
-        "startIndex": {
-          "value": 0
-        },
-        "endIndex": {
-          "value": 10000000
-        }
-      },
-      "flows": {
-        "loopBody": {
-          "nodeId": "5",
-          "socket": "flow"
-        },
-        "completed": {
-          "nodeId": "7",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "logic/modulus/integer",
-      "id": "3",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "2",
-            "socket": "index"
-          }
-        },
-        "b": {
-          "value": 1000000
-        }
-      }
-    },
-    {
-      "type": "logic/equal/integer",
-      "id": "4",
-      "parameters": {
-        "a": {
-          "link": {
-            "nodeId": "3",
-            "socket": "result"
-          }
-        },
-        "b": {
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "flow/branch",
-      "id": "5",
-      "parameters": {
-        "condition": {
-          "link": {
-            "nodeId": "4",
-            "socket": "result"
-          }
-        }
-      },
-      "flows": {
-        "true": {
-          "nodeId": "6",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "6",
-      "parameters": {
-        "text": {
-          "value": "1,000,000 more iterations..."
-        }
-      }
-    },
-    {
-      "type": "action/log",
-      "id": "7",
-      "parameters": {
-        "text": {
-          "value": "Completed all iterations!"
-        }
-      }
-    }
-  ]
-}
-```
+[/src/graphs/core/flow/PerformanceTest.json](/src/graphs/core/flow/PerformanceTest.json)
+
 
 Here is the console output:
 
 ```zsh
+> npm run exec-graph -- ./src/graphs/core/flow/PerformanceTest.json
+
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
 1,000,000 more iterations...

@@ -1,8 +1,15 @@
 {
   "customEvents": [
     {
-      "name": "myCustomEvent",
-      "id": "0"
+      "name": "OutputDebugString",
+      "id": "0",
+      "parameters": [
+        {
+          "name": "text",
+          "valueTypeName": "string",
+          "defaultValue": "Default Value"
+        }
+      ]
     }
   ],
   "nodes": [
@@ -18,7 +25,12 @@
     },
     {
       "type": "action/triggerCustomEvent/0",
-      "id": "1"
+      "id": "1",
+      "parameters": {
+        "text": {
+          "value": "Custom Text"
+        }
+      }
     },
     {
       "type": "event/customEvent/0",
@@ -35,7 +47,10 @@
       "id": "3",
       "parameters": {
         "text": {
-          "value": "myCustomEvent Fired!"
+          "link": {
+            "nodeId": 2,
+            "socket": "text"
+          }
         }
       }
     }

@@ -138,7 +138,7 @@ async function main() {
   );
 
   Logger.verbose('initialize graph');
-  await graphEvaluator.executeAll();
+  await graphEvaluator.executeAllSync();
 
   if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');

@@ -50,25 +50,32 @@ export class GraphEvaluator {
   }
 
   // NOTE: This does not execute all if there are promises.
-  executeAll(stepLimit = 100000000): number {
-    let stepsExecuted = 0;
-    while (stepsExecuted < stepLimit && this.executionBlockQueue.length > 0) {
+  executeAllSync(limitInSeconds = 100, limitInSteps = 100000000): number {
+    const startDateTime = Date.now();
+    let elapsedSeconds = 0;
+    let elapsedSteps = 0;
+    while (
+      elapsedSteps < limitInSteps &&
+      elapsedSeconds < limitInSeconds &&
+      this.executionBlockQueue.length > 0
+    ) {
       const currentExecutionBlock = this.executionBlockQueue[0];
       if (!currentExecutionBlock.executeStep()) {
         // remove first element
         this.executionBlockQueue.shift();
       }
-      stepsExecuted++;
+      elapsedSeconds = (Date.now() - startDateTime) * 0.001;
+      elapsedSteps++;
     }
-    return stepsExecuted;
+    return elapsedSteps;
   }
 
   async executeAllAsync(
-    timeLimit = 100,
-    stepLimit = 100000000
+    limitInSeconds = 100,
+    limitInSteps = 100000000
   ): Promise<number> {
     const startDateTime = Date.now();
-    let stepsExecuted = 0;
+    let elapsedSteps = 0;
     let elapsedTime = 0;
     let iterations = 0;
     do {
@@ -76,15 +83,18 @@ export class GraphEvaluator {
         // eslint-disable-next-line no-await-in-loop
         await sleep(0);
       }
-      stepsExecuted += this.executeAll(stepLimit);
+      elapsedSteps += this.executeAllSync(
+        limitInSeconds - elapsedTime,
+        limitInSteps - elapsedSteps
+      );
       elapsedTime = (Date.now() - startDateTime) * 0.001;
       iterations += 1;
     } while (
       (this.asyncNodes.length > 0 || this.executionBlockQueue.length > 0) &&
-      elapsedTime < timeLimit &&
-      stepsExecuted < stepLimit
+      elapsedTime < limitInSeconds &&
+      elapsedSteps < limitInSteps
     );
 
-    return stepsExecuted;
+    return elapsedSteps;
   }
 }

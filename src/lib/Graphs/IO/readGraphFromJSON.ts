@@ -136,7 +136,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   }
   const nodeName = nodeJson.type;
   const node = graph.createNode(nodeName, nodeJson.id);
-  console.log(node);
+  //console.log(node);
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
@@ -246,8 +246,8 @@ function readCustomEventsJSON(
     (customEventJson.parameters ?? []).forEach((parameterJson) => {
       parameters.push(
         new Socket(
-          parameterJson.name,
           parameterJson.valueTypeName,
+          parameterJson.name,
           graph.registry.values
             .get(parameterJson.valueTypeName)
             .deserialize(parameterJson.defaultValue)

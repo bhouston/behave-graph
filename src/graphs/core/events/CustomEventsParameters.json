@@ -7,7 +7,7 @@
         {
           "name": "text",
           "valueTypeName": "string",
-          "defaultValue": ""
+          "defaultValue": "Default Value"
         }
       ]
     }
@@ -25,7 +25,12 @@
     },
     {
       "type": "action/triggerCustomEvent/0",
-      "id": "1"
+      "id": "1",
+      "parameters": {
+        "text": {
+          "value": "Custom Text"
+        }
+      }
     },
     {
       "type": "event/customEvent/0",

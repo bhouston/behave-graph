@@ -23,7 +23,6 @@ export class TriggerCustomEvent extends Node {
       inputSockets,
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
-        const customEventId = context.readInput<string>('customEvent');
         const customEvent = context.getCustomEvent(customEventId);
         const parameters: { [parameterName: string]: any } = {};
         for (let i = 1; i < this.inputSockets.length; i++) {

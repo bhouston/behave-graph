@@ -5,7 +5,7 @@ import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { Variable } from '../../../Variables/Variable.js';
 
-export class VariableQuery extends Node {
+export class VariableGet extends Node {
   public static GetDescription(graph: Graph, variableId: string) {
     const variable = graph.variables[variableId];
     return new NodeDescription(
@@ -13,7 +13,7 @@ export class VariableQuery extends Node {
       'Query',
       '', // these nodes have no name in Unreal Engine Blueprints
       (nodeDescription, graph) =>
-        new VariableQuery(nodeDescription, graph, variable)
+        new VariableGet(nodeDescription, graph, variable)
     );
   }
 

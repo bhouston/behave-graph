@@ -9,12 +9,12 @@ export class ForLoop extends Node {
     'flow/forLoop',
     'Flow',
     'For Loop',
-    (nodeDescription, graph) => new ForLoop(nodeDescription, graph)
+    (description, graph) => new ForLoop(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [
         new Socket('flow', 'flow'),

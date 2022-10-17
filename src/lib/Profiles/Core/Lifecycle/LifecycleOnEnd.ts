@@ -11,12 +11,12 @@ export class LifecycleOnEnd extends Node {
     'lifecycle/onEnd',
     'Event',
     'On End',
-    (nodeDescription, graph) => new LifecycleOnEnd(nodeDescription, graph)
+    (description, graph) => new LifecycleOnEnd(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [],
       [new Socket('flow', 'flow')],

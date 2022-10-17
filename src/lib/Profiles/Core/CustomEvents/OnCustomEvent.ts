@@ -12,18 +12,17 @@ export class OnCustomEvent extends Node {
       `customEvent/ontriggered/${customEvent.id}`,
       'Event',
       `On ${customEvent.name}`,
-      (nodeDescription, graph) =>
-        new OnCustomEvent(nodeDescription, graph, customEvent)
+      (description, graph) => new OnCustomEvent(description, graph, customEvent)
     );
   }
 
   constructor(
-    nodeDescription: NodeDescription,
+    description: NodeDescription,
     graph: Graph,
     public readonly customEvent: CustomEvent
   ) {
     super(
-      nodeDescription,
+      description,
       graph,
       [],
       [

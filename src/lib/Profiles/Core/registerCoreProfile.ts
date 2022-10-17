@@ -13,16 +13,20 @@ import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart.js';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
 import { registerBooleanValue } from './registerBooleanValue.js';
 import { registerFloatValue } from './registerFloatValue.js';
-import { registerIntegerValue } from './registerIntegerValue.js';
 import { registerSerializersForValueType } from './registerSerializersForValueType.js';
 import { registerStringValue } from './registerStringValue.js';
+import { IntegerNodes } from './Values/IntegerNodes.js';
 
 export function registerCoreProfile(registry: Registry) {
   const { nodes, values } = registry;
 
   registerBooleanValue(registry);
   registerStringValue(registry);
-  registerIntegerValue(registry);
+
+  Object.values(IntegerNodes).forEach((description) => {
+    return nodes.register(description);
+  });
+
   registerFloatValue(registry);
 
   // actions

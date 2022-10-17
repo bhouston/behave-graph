@@ -10,12 +10,12 @@ export class ExpectTrue extends Node {
     'debug/expectTrue',
     'Action',
     'Assert Expect True',
-    (nodeDescription, graph) => new ExpectTrue(nodeDescription, graph)
+    (description, graph) => new ExpectTrue(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [
         new Socket('flow', 'flow'),

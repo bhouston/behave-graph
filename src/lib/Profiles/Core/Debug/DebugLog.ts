@@ -10,12 +10,12 @@ export class Log extends Node {
     'debug/log',
     'Action',
     'Debug Log',
-    (nodeDescription, graph) => new Log(nodeDescription, graph)
+    (description, graph) => new Log(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'text')],
       [new Socket('flow', 'flow')],

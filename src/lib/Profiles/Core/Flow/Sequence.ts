@@ -11,12 +11,12 @@ export class Sequence extends Node {
     'flow/sequence',
     'Flow',
     'Sequence',
-    (nodeDescription, graph) => new Sequence(nodeDescription, graph)
+    (description, graph) => new Sequence(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [new Socket('flow', 'flow')],
       [

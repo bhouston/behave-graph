@@ -12,12 +12,12 @@ export class Delay extends Node {
     'flow/delay',
     'Flow',
     'Delay',
-    (nodeDescription, graph) => new Delay(nodeDescription, graph)
+    (description, graph) => new Delay(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [new Socket('flow', 'flow'), new Socket('float', 'duration')],
       [new Socket('flow', 'flow')],

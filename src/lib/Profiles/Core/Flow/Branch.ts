@@ -9,12 +9,12 @@ export class Branch extends Node {
     'flow/branch',
     'Flow',
     'Branch',
-    (nodeDescription, graph) => new Branch(nodeDescription, graph)
+    (description, graph) => new Branch(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
       [new Socket('flow', 'true'), new Socket('flow', 'false')],

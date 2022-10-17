@@ -6,10 +6,10 @@ import { Socket } from '../../../Sockets/Socket.js';
 import { IScene } from '../Abstractions/IScene.js';
 
 export class SetSceneProperty extends Node {
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
-    const valueTypeName = extractPostfixFromNodeType(nodeDescription.typeName);
+  constructor(description: NodeDescription, graph: Graph) {
+    const valueTypeName = extractPostfixFromNodeType(description.typeName);
     super(
-      nodeDescription,
+      description,
       graph,
       [
         new Socket('flow', 'flow'),

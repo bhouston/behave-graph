@@ -12,18 +12,18 @@ export class TriggerCustomEvent extends Node {
       `customEvent/trigger/${customEvent.id}`,
       'Action',
       `Trigger ${customEvent.name}`,
-      (nodeDescription, graph) =>
-        new TriggerCustomEvent(nodeDescription, graph, customEvent)
+      (description, graph) =>
+        new TriggerCustomEvent(description, graph, customEvent)
     );
   }
 
   constructor(
-    nodeDescription: NodeDescription,
+    description: NodeDescription,
     graph: Graph,
     public readonly customEvent: CustomEvent
   ) {
     super(
-      nodeDescription,
+      description,
       graph,
       [
         new Socket('flow', 'flow'),

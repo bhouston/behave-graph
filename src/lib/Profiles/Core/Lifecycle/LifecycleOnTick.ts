@@ -11,12 +11,12 @@ export class LifecycleOnTick extends Node {
     'lifecycle/onTick',
     'Event',
     'On Tick',
-    (nodeDescription, graph) => new LifecycleOnTick(nodeDescription, graph)
+    (description, graph) => new LifecycleOnTick(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [],
       [

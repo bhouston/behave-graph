@@ -11,12 +11,12 @@ export class LifecycleOnStart extends Node {
     'lifecycle/onStart',
     'Event',
     'On Start',
-    (nodeDescription, graph) => new LifecycleOnStart(nodeDescription, graph)
+    (description, graph) => new LifecycleOnStart(description, graph)
   );
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [],
       [new Socket('flow', 'flow')],

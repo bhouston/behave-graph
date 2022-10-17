@@ -12,18 +12,17 @@ export class VariableSet extends Node {
       `variable/set/${variable.id}`,
       'Action',
       `Set`,
-      (nodeDescription, graph) =>
-        new VariableSet(nodeDescription, graph, variable)
+      (description, graph) => new VariableSet(description, graph, variable)
     );
   }
 
   constructor(
-    nodeDescription: NodeDescription,
+    description: NodeDescription,
     graph: Graph,
     public readonly variable: Variable
   ) {
     super(
-      nodeDescription,
+      description,
       graph,
       [
         new Socket('flow', 'flow'),

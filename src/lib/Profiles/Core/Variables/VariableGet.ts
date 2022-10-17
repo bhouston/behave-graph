@@ -12,18 +12,17 @@ export class VariableGet extends Node {
       `variable/get/${variable.id}`,
       'Query',
       '', // these nodes have no name in Unreal Engine Blueprints
-      (nodeDescription, graph) =>
-        new VariableGet(nodeDescription, graph, variable)
+      (description, graph) => new VariableGet(description, graph, variable)
     );
   }
 
   constructor(
-    nodeDescription: NodeDescription,
+    description: NodeDescription,
     graph: Graph,
     public readonly variable: Variable
   ) {
     super(
-      nodeDescription,
+      description,
       graph,
       [],
       [new Socket(variable.valueTypeName, 'value', undefined, variable.name)], // output socket label uses variable name like UE4, but name is value to avoid breaking graph when variable is renamed

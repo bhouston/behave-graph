@@ -5,13 +5,13 @@ export class NodeTypeRegistry {
     [type: string]: NodeDescription;
   } = {};
 
-  register(nodeDescription: NodeDescription) {
-    if (nodeDescription.typeName in this.typeNameToNodeDescriptions) {
+  register(description: NodeDescription) {
+    if (description.typeName in this.typeNameToNodeDescriptions) {
       throw new Error(
-        `already registered node type ${nodeDescription.typeName} (string)`
+        `already registered node type ${description.typeName} (string)`
       );
     }
-    this.typeNameToNodeDescriptions[nodeDescription.typeName] = nodeDescription;
+    this.typeNameToNodeDescriptions[description.typeName] = description;
   }
 
   get(typeName: string): NodeDescription {

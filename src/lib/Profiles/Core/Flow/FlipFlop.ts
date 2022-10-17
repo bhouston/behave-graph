@@ -9,14 +9,14 @@ export class FlipFlop extends Node {
     'flow/flipFlop',
     'Flow',
     'Flip Flop',
-    (nodeDescription, graph) => new FlipFlop(nodeDescription, graph)
+    (description, graph) => new FlipFlop(description, graph)
   );
 
   private isOn = true;
 
-  constructor(nodeDescription: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      nodeDescription,
+      description,
       graph,
       [new Socket('flow', 'flow')],
       [

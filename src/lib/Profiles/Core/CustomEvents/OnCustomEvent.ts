@@ -30,7 +30,12 @@ export class OnCustomEvent extends Node {
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>
-            new Socket(parameter.valueTypeName, parameter.name, parameter.value)
+            new Socket(
+              parameter.valueTypeName,
+              parameter.name,
+              parameter.value,
+              parameter.label
+            )
         )
       ],
       (context: NodeEvalContext) => {

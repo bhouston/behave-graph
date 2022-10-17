@@ -10,8 +10,8 @@ export class TriggerCustomEvent extends Node {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
       `customEvent/trigger/${customEvent.id}`,
-      'Event',
-      `On ${customEvent.name}`,
+      'Action',
+      `Trigger ${customEvent.name}`,
       (nodeDescription, graph) =>
         new TriggerCustomEvent(nodeDescription, graph, customEvent)
     );
@@ -29,7 +29,12 @@ export class TriggerCustomEvent extends Node {
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>
-            new Socket(parameter.valueTypeName, parameter.name, parameter.value)
+            new Socket(
+              parameter.valueTypeName,
+              parameter.name,
+              parameter.value,
+              parameter.label
+            )
         )
       ],
       [new Socket('flow', 'flow')],

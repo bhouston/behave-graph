@@ -11,7 +11,7 @@ export class VariableSet extends Node {
     return new NodeDescription(
       `variable/set/${variable.id}`,
       'Action',
-      `Set ${variable.name}`,
+      `Set`,
       (nodeDescription, graph) =>
         new VariableSet(nodeDescription, graph, variable)
     );
@@ -25,7 +25,10 @@ export class VariableSet extends Node {
     super(
       nodeDescription,
       graph,
-      [new Socket('flow', 'flow'), new Socket(variable.valueTypeName, 'value')],
+      [
+        new Socket('flow', 'flow'),
+        new Socket(variable.valueTypeName, 'value', undefined, variable.name) // variable name is a label so variable can be renamed without breaking graph.
+      ],
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         variable.set(context.readInput('value'));

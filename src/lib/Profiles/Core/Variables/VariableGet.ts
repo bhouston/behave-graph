@@ -9,9 +9,9 @@ export class VariableQuery extends Node {
   public static GetDescription(graph: Graph, variableId: string) {
     const variable = graph.variables[variableId];
     return new NodeDescription(
-      `variable/query/${variable.id}`,
+      `variable/get/${variable.id}`,
       'Query',
-      `${variable.name}`,
+      '', // these nodes have no name in Unreal Engine Blueprints
       (nodeDescription, graph) =>
         new VariableQuery(nodeDescription, graph, variable)
     );
@@ -26,7 +26,7 @@ export class VariableQuery extends Node {
       nodeDescription,
       graph,
       [],
-      [new Socket(variable.valueTypeName, 'value')],
+      [new Socket(variable.valueTypeName, 'value', undefined, variable.name)], // output socket label uses variable name like UE4, but name is value to avoid breaking graph when variable is renamed
       (context: NodeEvalContext) => {
         context.writeOutput('value', variable.get());
       }

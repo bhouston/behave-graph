@@ -51,8 +51,7 @@ export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.
 // core profile
 
 export * from './Profiles/Core/Variables/VariableSet.js';
-export * from './Profiles/Core/Variables/VariableQuery.js';
-export * from './Profiles/Core/Variables/VariableOnChanged.js';
+export * from './Profiles/Core/Variables/VariableGet.js';
 export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter.js';
 export * from './Profiles/Core/Abstractions/ILogger.js';
 export * from './Profiles/Core/registerCoreProfile.js';

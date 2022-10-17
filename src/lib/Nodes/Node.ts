@@ -18,7 +18,7 @@ export class Node {
   public interruptibleAsync = false;
 
   constructor(
-    public readonly nodeDescription: NodeDescription,
+    public readonly description: NodeDescription,
     public readonly graph: Graph,
     public readonly inputSockets: Socket[],
     public readonly outputSockets: Socket[],
@@ -39,7 +39,7 @@ export class Node {
     const socket = findSocketByName(this.inputSockets, socketName);
     if (socket === undefined) {
       throw new Error(
-        `no input sockets with name: ${socketName} on node ${this.nodeDescription.typeName}`
+        `no input sockets with name: ${socketName} on node ${this.description.typeName}`
       );
     }
     return socket;
@@ -49,7 +49,7 @@ export class Node {
     const socket = findSocketByName(this.outputSockets, socketName);
     if (socket === undefined) {
       throw new Error(
-        `no output socket with name: ${socketName} on node ${this.nodeDescription.typeName}`
+        `no output socket with name: ${socketName} on node ${this.description.typeName}`
       );
     }
     return socket;

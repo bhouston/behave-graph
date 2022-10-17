@@ -40,9 +40,17 @@ export class OnCustomEvent extends Node {
       ],
       (context: NodeEvalContext) => {
         customEvent.eventEmitter.addListener((parameters) => {
-          Object.keys(parameters).forEach((parameterName) =>
-            context.writeOutput(parameterName, parameters[parameterName])
-          );
+          customEvent.parameters.forEach((parameterSocket) => {
+            if (!(parameterSocket.name in parameters)) {
+              throw new Error(
+                `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
+              );
+            }
+            context.writeOutput(
+              parameterSocket.name,
+              parameters[parameterSocket.name]
+            );
+          });
           context.commit('flow');
         });
       }

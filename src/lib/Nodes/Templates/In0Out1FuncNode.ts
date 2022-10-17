@@ -4,13 +4,15 @@ import { NodeEvalContext } from '../NodeEvalContext.js';
 
 export class In0Out1FuncNode<Out1> extends Node {
   constructor(
-    nodeName: string,
+    graph: Graph,
+    nodeType: string,
     outputValueType: string,
     public readonly nullaryEvalFunc: () => Out1
   ) {
     super(
+      graph,
+      nodeType,
       'Logic',
-      nodeName,
       [],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {

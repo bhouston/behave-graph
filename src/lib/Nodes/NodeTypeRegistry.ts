@@ -1,33 +1,27 @@
-import { Assert } from '../Diagnostics/Assert.js';
-import { generateUuid } from '../generateUuid.js';
-import { Node } from './Node.js';
+import { NodeDescription } from './NodeDescription.js';
 
 export class NodeTypeRegistry {
-  private readonly nodeTypeNameToNodeFactory: { [key: string]: () => Node } =
-    {};
+  private readonly typeNameToNodeDescriptions: {
+    [type: string]: NodeDescription;
+  } = {};
 
-  register(nodeTypeName: string, nodeTypeFactory: () => Node) {
-    if (nodeTypeName in this.nodeTypeNameToNodeFactory) {
-      throw new Error(`already registered node type ${nodeTypeName}`);
+  register(nodeDescription: NodeDescription) {
+    if (nodeDescription.typeName in this.typeNameToNodeDescriptions) {
+      throw new Error(
+        `already registered node type ${nodeDescription.typeName} (string)`
+      );
     }
-    this.nodeTypeNameToNodeFactory[nodeTypeName] = nodeTypeFactory;
+    this.typeNameToNodeDescriptions[nodeDescription.typeName] = nodeDescription;
   }
 
-  create(nodeTypeName: string, nodeId = generateUuid()): Node {
-    if (!(nodeTypeName in this.nodeTypeNameToNodeFactory)) {
-      throw new Error(`no registered node with type name ${nodeTypeName}`);
+  get(typeName: string): NodeDescription {
+    if (!(typeName in this.typeNameToNodeDescriptions)) {
+      throw new Error(`no registered node with type name ${typeName}`);
     }
-    const factory = this.nodeTypeNameToNodeFactory[nodeTypeName];
-    const node = factory();
-    node.id = nodeId;
-    Assert.mustBeTrue(
-      node.typeName === nodeTypeName,
-      `node.typeName: ${node.typeName} must align with registered typeName: ${nodeTypeName}`
-    );
-    return node;
+    return this.typeNameToNodeDescriptions[typeName];
   }
 
   getAllNames(): string[] {
-    return Object.keys(this.nodeTypeNameToNodeFactory);
+    return Object.keys(this.typeNameToNodeDescriptions);
   }
 }

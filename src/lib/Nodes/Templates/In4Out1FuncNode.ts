@@ -4,7 +4,8 @@ import { NodeEvalContext } from '../NodeEvalContext.js';
 
 export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
   constructor(
-    nodeName: string,
+    graph: Graph,
+    nodeType: string,
     input1ValueType: string,
     input2ValueType: string,
     input3ValueType: string,
@@ -13,8 +14,9 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
     public readonly binaryEvalFunc: (a: In1, b: In2, c: In3, d: In4) => Out1
   ) {
     super(
+      graph,
+      nodeType,
       'Logic',
-      nodeName,
       [
         new Socket(input1ValueType, 'a'),
         new Socket(input2ValueType, 'b'),

@@ -1,22 +1,21 @@
 /* eslint-disable max-len */
 
 import { Registry } from '../../Registry.js';
-import { ExpectTrue } from './Actions/ExpectTrue.js';
-import { Log } from './Actions/Log.js';
-import { OnLifecycleEnd } from './Events/OnLifecycleEnd.js';
-import { OnLifecycleStart } from './Events/OnLifecycleStart.js';
-import { OnLifecycleTick } from './Events/OnLifecycleTick.js';
+import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue.js';
+import { Log as DebugLog } from './Debug/DebugLog.js';
 import { Branch } from './Flow/Branch.js';
+import { Delay } from './Flow/Delay.js';
 import { FlipFlop } from './Flow/FlipFlop.js';
 import { ForLoop } from './Flow/ForLoop.js';
 import { Sequence } from './Flow/Sequence.js';
+import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd.js';
+import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart.js';
+import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
 import { registerBooleanValue } from './registerBooleanValue.js';
 import { registerFloatValue } from './registerFloatValue.js';
 import { registerIntegerValue } from './registerIntegerValue.js';
 import { registerSerializersForValueType } from './registerSerializersForValueType.js';
 import { registerStringValue } from './registerStringValue.js';
-import { registryVariableForValueType } from './registerVariableForValueType.js';
-import { Delay } from './Time/Delay.js';
 
 export function registerCoreProfile(registry: Registry) {
   const { nodes, values } = registry;
@@ -28,42 +27,27 @@ export function registerCoreProfile(registry: Registry) {
 
   // actions
 
-  nodes.register('action/log', () => new Log());
-  nodes.register('assert/expectTrue', () => new ExpectTrue());
+  nodes.register(DebugLog.Description);
+  nodes.register(AssertExpectTrue.Description);
 
   // events
 
-  nodes.register('lifecycle/start', () => new OnLifecycleStart());
-  nodes.register('lifecycle/end', () => new OnLifecycleEnd());
-  nodes.register('lifecycle/tick', () => new OnLifecycleTick());
+  nodes.register(LifecycleOnStart.Description);
+  nodes.register(LifecycleOnEnd.Description);
+  nodes.register(LifecycleOnTick.Description);
 
   // flow control
 
-  nodes.register('flow/branch', () => new Branch());
-  nodes.register('flow/flipFlop', () => new FlipFlop());
-  nodes.register('flow/forLoop', () => new ForLoop());
-  nodes.register('flow/sequence', () => new Sequence());
-
-  // time
-
-  nodes.register('time/delay', () => new Delay());
-
-  // custom events
-
-  // now handled by dynamically created nodes.
-  //nodes.register('event/customEvent', () => new OnCustomEvent());
-  //nodes.register('action/triggerCustomEvent', () => new TriggerCustomEvent());
+  nodes.register(Branch.Description);
+  nodes.register(FlipFlop.Description);
+  nodes.register(ForLoop.Description);
+  nodes.register(Sequence.Description);
+  nodes.register(Delay.Description);
 
   // string converters
 
   ['boolean', 'float', 'integer'].forEach((valueTypeName) => {
     registerSerializersForValueType(registry, valueTypeName);
-  });
-
-  // variables
-
-  ['boolean', 'float', 'integer', 'string'].forEach((valueTypeName) => {
-    registryVariableForValueType(nodes, valueTypeName);
   });
 
   return registry;

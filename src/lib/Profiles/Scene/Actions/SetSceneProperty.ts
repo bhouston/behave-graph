@@ -1,12 +1,16 @@
+import { extractPostfixFromNodeType } from '../../../extractIdFromNodeType.js';
+import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
+import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { IScene } from '../Abstractions/IScene.js';
 
 export class SetSceneProperty extends Node {
-  constructor(nodeName: string, public readonly valueTypeName: string) {
+  constructor(nodeDescription: NodeDescription, graph: Graph) {
+    const valueTypeName = extractPostfixFromNodeType(nodeDescription.typeName);
     super(
-      'Action',
-      nodeName,
+      nodeDescription,
+      graph,
       [
         new Socket('flow', 'flow'),
         new Socket('string', 'jsonPath'),

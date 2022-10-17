@@ -1,17 +1,20 @@
+import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 export class VecElements<T> extends Node {
   constructor(
-    nodeTypeName: string,
+    graph: Graph,
+    typeName: string,
     valueTypeName: string,
     elementNames: string[] = ['x', 'y', 'z', 'w'],
     toArray: (value: T, array: number[], offset: number) => void
   ) {
     super(
+      graph,
+      typeName,
       'Logic',
-      nodeTypeName,
       [new Socket(valueTypeName, 'value')],
       elementNames.map((elementName) => new Socket('float', elementName)),
       (context: NodeEvalContext) => {

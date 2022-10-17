@@ -8,9 +8,10 @@ export function registerSerializersForValueType(
 ) {
   registry.nodes.register(
     `logic/to${toCamelCase(valueTypeName)}/string`,
-    () =>
+    (graph, nodeType) =>
       new In1Out1FuncNode<string, any>(
-        `logic/to${toCamelCase(valueTypeName)}/string`,
+        graph,
+        nodeType,
         'string',
         valueTypeName,
         (a: string) => registry.values.get(valueTypeName).deserialize(a)
@@ -18,9 +19,10 @@ export function registerSerializersForValueType(
   );
   registry.nodes.register(
     `logic/toString/${valueTypeName}`,
-    () =>
+    (graph, nodeType) =>
       new In1Out1FuncNode<any, string>(
-        `logic/toString/${valueTypeName}`,
+        graph,
+        nodeType,
         valueTypeName,
         'string',
         (a: any) => registry.values.get(valueTypeName).serialize(a)

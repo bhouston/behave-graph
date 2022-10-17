@@ -1,4 +1,6 @@
+import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
+import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -6,10 +8,17 @@ import { Socket } from '../../../Sockets/Socket.js';
 // also called "delay"
 
 export class Delay extends Node {
-  constructor() {
+  public static Description = new NodeDescription(
+    'flow/delay',
+    'Flow',
+    'Delay',
+    (nodeDescription, graph) => new Delay(nodeDescription, graph)
+  );
+
+  constructor(nodeDescription: NodeDescription, graph: Graph) {
     super(
-      'Time',
-      'time/delay',
+      nodeDescription,
+      graph,
       [new Socket('flow', 'flow'), new Socket('float', 'duration')],
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {

@@ -11,17 +11,29 @@ export class In2Out1FuncNode<In1, In2, Out1> extends Node {
     input1ValueType: string,
     input2ValueType: string,
     outputValueType: string,
-    public readonly binaryEvalFunc: (a: In1, b: In2) => Out1
+    public readonly binaryEvalFunc: (a: In1, b: In2) => Out1,
+    public readonly inputNames: string[] = ['a', 'b']
   ) {
+    if (inputNames.length !== 2) {
+      throw new Error(
+        `inputNames must have a length of 2, it is instead ${inputNames.length}`
+      );
+    }
     super(
       description,
       graph,
-      [new Socket(input1ValueType, 'a'), new Socket(input2ValueType, 'b')],
+      [
+        new Socket(input1ValueType, inputNames[0]),
+        new Socket(input2ValueType, inputNames[1])
+      ],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
         context.writeOutput(
           'result',
-          this.binaryEvalFunc(context.readInput('a'), context.readInput('b'))
+          this.binaryEvalFunc(
+            context.readInput(inputNames[0]),
+            context.readInput(inputNames[1])
+          )
         );
       }
     );

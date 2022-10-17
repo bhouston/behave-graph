@@ -8,18 +8,31 @@ import { GetSceneProperty } from './Queries/GetSceneProperty.js';
 import { registerColorValue } from './registerColorValue.js';
 import { registerEulerValue } from './registerEulerValue.js';
 import { registerQuatValue } from './registerQuatValue.js';
-import { registerVec2Value } from './registerVec2Value.js';
-import { registerVec3Value } from './registerVec3Value.js';
-import { registerVec4Value } from './registerVec4Value.js';
+import { Vec2Nodes, Vec2Value } from './Values/Vec2Nodes.js';
+import { Vec3Nodes, Vec3Value } from './Values/Vec3Nodes.js';
+import { Vec4Nodes, Vec4Value } from './Values/Vec4Nodes.js';
 
 export function registerSceneProfile(registry: Registry) {
   const { values, nodes } = registry;
 
+  // pull in value type nodes
+  values.register(Vec2Value);
+  Object.values(Vec2Nodes).forEach((description) => {
+    return nodes.register(description);
+  });
+
+  values.register(Vec3Value);
+  Object.values(Vec3Nodes).forEach((description) => {
+    return nodes.register(description);
+  });
+
+  values.register(Vec4Value);
+  Object.values(Vec4Nodes).forEach((description) => {
+    return nodes.register(description);
+  });
+
   // values
 
-  registerVec2Value(registry);
-  registerVec3Value(registry);
-  registerVec4Value(registry);
   registerQuatValue(registry);
   registerEulerValue(registry);
   registerColorValue(registry);

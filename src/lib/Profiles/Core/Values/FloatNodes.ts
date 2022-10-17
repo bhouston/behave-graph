@@ -4,7 +4,9 @@ import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
 
-export const IntegerNodes: { [key: string]: NodeDescription } = {
+// Unreal Engine Blueprint Float nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Float/
+
+export const FloatNodes: { [key: string]: NodeDescription } = {
   Constant: new NodeDescription(
     'math/float',
     'Logic',
@@ -290,10 +292,11 @@ export const IntegerNodes: { [key: string]: NodeDescription } = {
         'float',
         'float',
         'float',
-        (a, b, c) => {
-          const s = 1 - c;
-          return a * s + b * c;
-        }
+        (a, b, t) => {
+          const s = 1 - t;
+          return a * s + b * t;
+        },
+        ['a', 'b', 't']
       )
   ),
 
@@ -339,6 +342,22 @@ export const IntegerNodes: { [key: string]: NodeDescription } = {
         (a, b) => Math.max(a, b)
       )
   ),
+  Clamp: new NodeDescription(
+    'math/clamp/float',
+    'Logic',
+    'CLAMP',
+    (description, graph) =>
+      new In3Out1FuncNode<number, number, number, number>(
+        description,
+        graph,
+        'float',
+        'float',
+        'float',
+        'float',
+        (value, min, max) => (value < min ? min : value > max ? max : value),
+        ['value', 'min', 'max']
+      )
+  ),
 
   Abs: new NodeDescription(
     'math/abs/float',
@@ -378,6 +397,55 @@ export const IntegerNodes: { [key: string]: NodeDescription } = {
         'float',
         'float',
         (a) => Math.floor(a)
+      )
+  ),
+  Ceil: new NodeDescription(
+    'math/ceil/float',
+    'Logic',
+    'CEIL',
+    (description, graph) =>
+      new In1Out1FuncNode<number, number>(
+        description,
+        graph,
+        'float',
+        'float',
+        (a) => Math.ceil(a)
+      )
+  ),
+  Round: new NodeDescription(
+    'math/round/float',
+    'Logic',
+    'ROUND',
+    (description, graph) =>
+      new In1Out1FuncNode<number, number>(
+        description,
+        graph,
+        'float',
+        'float',
+        (a) => Math.round(a)
+      )
+  ),
+  Trunc: new NodeDescription(
+    'math/trunc/float',
+    'Logic',
+    'TRUNC',
+    (description, graph) =>
+      new In1Out1FuncNode<number, number>(
+        description,
+        graph,
+        'float',
+        'float',
+        (a) => Math.trunc(a)
+      )
+  ),
+
+  Random: new NodeDescription(
+    'math/random/float',
+    'Logic',
+    'RANDOM',
+    (description, graph) =>
+      new In0Out1FuncNode<number>(description, graph, 'float', () =>
+        Math.random()
       )
   ),
 
@@ -437,7 +505,7 @@ export const IntegerNodes: { [key: string]: NodeDescription } = {
         (a, b) => a < b
       )
   ),
-  IntegerLessThanOrEqual: new NodeDescription(
+  LessThanOrEqual: new NodeDescription(
     'math/lessThanOrEqual/float',
     'Logic',
     '≤',
@@ -449,6 +517,33 @@ export const IntegerNodes: { [key: string]: NodeDescription } = {
         'float',
         'boolean',
         (a, b) => a <= b
+      )
+  ),
+
+  IsNaN: new NodeDescription(
+    'math/isNaN/float',
+    'Logic',
+    'isNaN',
+    (description, graph) =>
+      new In1Out1FuncNode<number, boolean>(
+        description,
+        graph,
+        'float',
+        'boolean',
+        (a) => Number.isNaN(a)
+      )
+  ),
+  IsInf: new NodeDescription(
+    'math/isInf/float',
+    'Logic',
+    'isInf',
+    (description, graph) =>
+      new In1Out1FuncNode<number, boolean>(
+        description,
+        graph,
+        'float',
+        'boolean',
+        (a) => !Number.isFinite(a) && !Number.isNaN(a)
       )
   )
 };

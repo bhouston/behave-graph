@@ -1,262 +1,243 @@
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
 
-// Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
-
-export const IntegerNodes: { [key: string]: NodeDescription } = {
+export const StringNodes: { [key: string]: NodeDescription } = {
   Constant: new NodeDescription(
-    'math/integer',
+    'logic/string',
     'Logic',
     'Constant',
     (description, graph) =>
-      new In1Out1FuncNode<bigint, bigint>(
+      new In1Out1FuncNode<string, string>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         (a) => a
       )
   ),
 
-  Add: new NodeDescription(
-    'math/add/integer',
+  Concat: new NodeDescription(
+    'logic/concat/string',
     'Logic',
-    '+',
+    'CONCAT',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
-        (a, b) => a + b
+        'string',
+        'string',
+        'string',
+        (a, b) => a.concat(b)
       )
   ),
-  Subtract: new NodeDescription(
-    'math/subtract/integer',
+  Includes: new NodeDescription(
+    'logic/includes/string',
     'Logic',
-    '-',
+    'INCLUDES',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
-        (a, b) => a - b
+        'string',
+        'string',
+        'boolean',
+        (a, b) => a.includes(b)
       )
   ),
-  Negate: new NodeDescription(
-    'math/negate/integer',
+  Length: new NodeDescription(
+    'logic/length/string',
     'Logic',
-    '-',
+    'LENGTH',
     (description, graph) =>
-      new In1Out1FuncNode<bigint, bigint>(
+      new In1Out1FuncNode<string, bigint>(
         description,
         graph,
+        'string',
         'integer',
-        'integer',
-        (a) => -a
+        (a) => BigInt(a.length)
       )
   ),
 
   Multiply: new NodeDescription(
-    'math/multiply/integer',
+    'math/multiply/string',
     'Logic',
     '×',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
+        'string',
+        'string',
+        'string',
         (a, b) => a * b
       )
   ),
   Divide: new NodeDescription(
-    'math/divide/integer',
+    'math/divide/string',
     'Logic',
     '÷',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
+        'string',
+        'string',
+        'string',
         (a, b) => a / b
       )
   ),
   Modulus: new NodeDescription(
-    'math/modulus/integer',
+    'math/modulus/string',
     'Logic',
     'MOD',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
+        'string',
+        'string',
+        'string',
         (a, b) => a % b
       )
   ),
 
   ToFloat: new NodeDescription(
-    'math/toFloat/integer',
+    'math/toFloat/string',
     'Logic',
     'To Float',
     (description, graph) =>
-      new In1Out1FuncNode<bigint, number>(
+      new In1Out1FuncNode<string, number>(
         description,
         graph,
-        'integer',
+        'string',
         'float',
         (a) => Number(a)
       )
   ),
 
   Min: new NodeDescription(
-    'math/min/integer',
+    'math/min/string',
     'Logic',
     'MIN',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
+        'string',
+        'string',
+        'string',
         (a, b) => (a > b ? b : a)
       )
   ),
   Max: new NodeDescription(
-    'math/max/integer',
+    'math/max/string',
     'Logic',
     'MAX',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, bigint>(
+      new In2Out1FuncNode<string, string, string>(
         description,
         graph,
-        'integer',
-        'integer',
-        'integer',
+        'string',
+        'string',
+        'string',
         (a, b) => (a > b ? a : b)
-      )
-  ),
-  Clamp: new NodeDescription(
-    'math/clamp/integer',
-    'Logic',
-    'CLAMP',
-    (description, graph) =>
-      new In3Out1FuncNode<bigint, bigint, bigint, bigint>(
-        description,
-        graph,
-        'integer',
-        'integer',
-        'integer',
-        'integer',
-        (value, min, max) => (value < min ? min : value > max ? max : value),
-        ['value', 'min', 'max']
       )
   ),
 
   Abs: new NodeDescription(
-    'math/abs/integer',
+    'math/abs/string',
     'Logic',
     'ABS',
     (description, graph) =>
-      new In1Out1FuncNode<bigint, bigint>(
+      new In1Out1FuncNode<string, string>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         (a) => (a < 0n ? -a : a)
       )
   ),
   Sign: new NodeDescription(
-    'math/sign/integer',
+    'math/sign/string',
     'Logic',
     'SIGN',
     (description, graph) =>
-      new In1Out1FuncNode<bigint, bigint>(
+      new In1Out1FuncNode<string, string>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         (a) => (a < 0n ? -1n : a > 0n ? 1n : 0n)
       )
   ),
 
   Equal: new NodeDescription(
-    'math/equal/integer',
+    'math/equal/string',
     'Logic',
     '=',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, boolean>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         'boolean',
         (a, b) => a === b
       )
   ),
   GreaterThan: new NodeDescription(
-    'math/greaterThan/integer',
+    'math/greaterThan/string',
     'Logic',
     '>',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, boolean>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         'boolean',
         (a, b) => a > b
       )
   ),
   GreaterThanOrEqual: new NodeDescription(
-    'math/greaterThanOrEqual/integer',
+    'math/greaterThanOrEqual/string',
     'Logic',
     '≥',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, boolean>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         'boolean',
         (a, b) => a >= b
       )
   ),
   LessThan: new NodeDescription(
-    'math/lessThan/integer',
+    'math/lessThan/string',
     'Logic',
     '<',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, boolean>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         'boolean',
         (a, b) => a < b
       )
   ),
   LessThanOrEqual: new NodeDescription(
-    'math/lessThanOrEqual/integer',
+    'math/lessThanOrEqual/string',
     'Logic',
     '≤',
     (description, graph) =>
-      new In2Out1FuncNode<bigint, bigint, boolean>(
+      new In2Out1FuncNode<string, string, boolean>(
         description,
         graph,
-        'integer',
-        'integer',
+        'string',
+        'string',
         'boolean',
         (a, b) => a <= b
       )

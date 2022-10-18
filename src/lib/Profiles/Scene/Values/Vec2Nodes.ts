@@ -2,32 +2,19 @@ import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
-import { ValueType } from '../../../Values/ValueType.js';
-import { VecCreate } from '../Logic/VecCreate.js';
 import { VecElements } from '../Logic/VecElements.js';
 import {
   Vec2,
   vec2Add,
   vec2Dot,
-  vec2FromArray,
-  Vec2JSON,
   vec2Length,
   vec2Mix,
   vec2Negate,
   vec2Normalize,
-  vec2Parse,
   vec2Scale,
   vec2Subtract,
   vec2ToArray
-} from './Vec2.js';
-
-export const Vec2Value = new ValueType(
-  'vec2',
-  () => new Vec2(),
-  (value: string | Vec2JSON) =>
-    typeof value === 'string' ? vec2Parse(value) : new Vec2(value.x, value.y),
-  (value) => ({ x: value.x, y: value.y } as Vec2JSON)
-);
+} from './Internal/Vec2.js';
 
 export const Vec2Nodes: { [key: string]: NodeDescription } = {
   Constant: new NodeDescription(
@@ -49,12 +36,14 @@ export const Vec2Nodes: { [key: string]: NodeDescription } = {
     'Logic',
     'CREATE',
     (description, graph) =>
-      new VecCreate<Vec2>(
+      new In2Out1FuncNode<number, number, Vec2>(
         description,
         graph,
-        'vec2',
-        ['x', 'y', 'z'],
-        (elements: number[]) => vec2FromArray(elements)
+        'float',
+        'float',
+        'vec3',
+        (x, y) => new Vec2(x, y),
+        ['x', 'y']
       )
   ),
   Elements: new NodeDescription(

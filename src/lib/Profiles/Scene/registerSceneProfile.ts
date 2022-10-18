@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { toNodeDescriptions } from '../../Nodes/toNodeDescriptions.js';
 import { Registry } from '../../Registry.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
 import { registryVariableForValueType } from '../Core/registerVariableForValueType.js';
@@ -8,28 +9,25 @@ import { GetSceneProperty } from './Queries/GetSceneProperty.js';
 import { registerColorValue } from './registerColorValue.js';
 import { registerEulerValue } from './registerEulerValue.js';
 import { registerQuatValue } from './registerQuatValue.js';
-import { Vec2Nodes, Vec2Value } from './Values/Vec2Nodes.js';
-import { Vec3Nodes, Vec3Value } from './Values/Vec3Nodes.js';
-import { Vec4Nodes, Vec4Value } from './Values/Vec4Nodes.js';
+import * as Vec2Nodes from './Values/Vec2Nodes.js';
+import { Vec2Value } from './Values/Vec2Nodes.js';
+import * as Vec3Nodes from './Values/Vec3Nodes.js';
+import { Vec3Value } from './Values/Vec3Nodes.js';
+import * as Vec4Nodes from './Values/Vec4Nodes.js';
+import { Vec4Value } from './Values/Vec4Nodes.js';
 
 export function registerSceneProfile(registry: Registry) {
   const { values, nodes } = registry;
 
   // pull in value type nodes
   values.register(Vec2Value);
-  Object.values(Vec2Nodes).forEach((description) => {
-    return nodes.register(description);
-  });
-
   values.register(Vec3Value);
-  Object.values(Vec3Nodes).forEach((description) => {
-    return nodes.register(description);
-  });
-
   values.register(Vec4Value);
-  Object.values(Vec4Nodes).forEach((description) => {
-    return nodes.register(description);
-  });
+
+  // pull in value type nodes
+  nodes.register(...toNodeDescriptions(Vec2Nodes));
+  nodes.register(...toNodeDescriptions(Vec3Nodes));
+  nodes.register(...toNodeDescriptions(Vec4Nodes));
 
   // values
 

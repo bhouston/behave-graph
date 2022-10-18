@@ -53,11 +53,13 @@ export class ValueTypeRegistry {
     );
   }
 
-  register(valueType: ValueType) {
-    if (valueType.name in this.valueTypeNameToValueType) {
-      throw new Error(`already registered value type ${valueType.name}`);
-    }
-    this.valueTypeNameToValueType[valueType.name] = valueType;
+  register(...valueTypes: Array<ValueType>) {
+    valueTypes.forEach((valueType) => {
+      if (valueType.name in this.valueTypeNameToValueType) {
+        throw new Error(`already registered value type ${valueType.name}`);
+      }
+      this.valueTypeNameToValueType[valueType.name] = valueType;
+    });
   }
 
   get(valueTypeName: string): ValueType {

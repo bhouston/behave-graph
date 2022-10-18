@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 
+import { toNodeDescriptions } from '../../Nodes/toNodeDescriptions.js';
 import { Registry } from '../../Registry.js';
 import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue.js';
 import { Log as DebugLog } from './Debug/DebugLog.js';
@@ -12,27 +13,20 @@ import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd.js';
 import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart.js';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
 import { registerSerializersForValueType } from './registerSerializersForValueType.js';
-import { BooleanNodes } from './Values/BooleanNodes.js';
-import { FloatNodes } from './Values/FloatNodes.js';
-import { IntegerNodes } from './Values/IntegerNodes.js';
-import { StringNodes } from './Values/StringNodes.js';
+import * as BooleanNodes from './Values/BooleanNodes.js';
+import * as FloatNodes from './Values/FloatNodes.js';
+import * as IntegerNodes from './Values/IntegerNodes.js';
+import * as StringNodes from './Values/StringNodes.js';
 
 export function registerCoreProfile(registry: Registry) {
   const { nodes, values } = registry;
 
   // pull in value type nodes
-  Object.values(StringNodes).forEach((description) => {
-    return nodes.register(description);
-  });
-  Object.values(BooleanNodes).forEach((description) => {
-    return nodes.register(description);
-  });
-  Object.values(IntegerNodes).forEach((description) => {
-    return nodes.register(description);
-  });
-  Object.values(FloatNodes).forEach((description) => {
-    return nodes.register(description);
-  });
+  nodes.register(...toNodeDescriptions(StringNodes));
+  nodes.register(...toNodeDescriptions(BooleanNodes));
+  nodes.register(...toNodeDescriptions(IntegerNodes));
+  nodes.register(...toNodeDescriptions(FloatNodes));
+
   // actions
 
   nodes.register(DebugLog.Description);

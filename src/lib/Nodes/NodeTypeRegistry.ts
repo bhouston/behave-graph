@@ -5,13 +5,15 @@ export class NodeTypeRegistry {
     [type: string]: NodeDescription;
   } = {};
 
-  register(description: NodeDescription) {
-    if (description.typeName in this.typeNameToNodeDescriptions) {
-      throw new Error(
-        `already registered node type ${description.typeName} (string)`
-      );
-    }
-    this.typeNameToNodeDescriptions[description.typeName] = description;
+  register(...descriptions: Array<NodeDescription>) {
+    descriptions.forEach((description) => {
+      if (description.typeName in this.typeNameToNodeDescriptions) {
+        throw new Error(
+          `already registered node type ${description.typeName} (string)`
+        );
+      }
+      this.typeNameToNodeDescriptions[description.typeName] = description;
+    });
   }
 
   get(typeName: string): NodeDescription {

@@ -1,4 +1,4 @@
-import { parseSafeFloats } from '../../../parseFloats.js';
+import { parseSafeFloats } from '../../../../parseFloats.js';
 import { Vec3 } from './Vec3.js';
 
 export type Vec4JSON = { x: number; y: number; z: number; w: number };

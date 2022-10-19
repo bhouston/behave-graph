@@ -6,7 +6,7 @@ const socketNameRegex = /^\w+$/;
 export function validateNodeRegistry(graphRegistry: Registry): string[] {
   const errorList: string[] = [];
   graphRegistry.nodes.getAllNames().forEach((nodeTypeName) => {
-    const node = graphRegistry.nodes.create(nodeTypeName);
+    const node = graphRegistry.nodes.get(nodeTypeName).factory();
 
     // ensure node is registered correctly.
     if (node.typeName !== nodeTypeName) {

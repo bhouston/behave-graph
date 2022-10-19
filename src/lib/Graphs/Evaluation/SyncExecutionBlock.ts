@@ -101,7 +101,7 @@ export class SyncExecutionBlock {
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
-          `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
+          `${node.description.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
       );
     }
     if (outputSocket.links.length === 1) {
@@ -171,7 +171,7 @@ export class SyncExecutionBlock {
 
       if (numFlowOutputs !== 1) {
         throw new Error(
-          `can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.typeName}`
+          `can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.description.typeName}`
         );
       }
 

@@ -1,4 +1,3 @@
-import { extractPostfixFromNodeType } from '../../../extractIdFromNodeType.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';

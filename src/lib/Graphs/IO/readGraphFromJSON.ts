@@ -59,7 +59,7 @@ export function readGraphFromJSON(
         // console.log(link);
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
-            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+            `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
               `a nonexistent upstream node id ${link.nodeId}`
           );
         }
@@ -69,8 +69,8 @@ export function readGraphFromJSON(
         );
         if (upstreamOutputSocket === undefined) {
           throw new Error(
-            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.typeName}'`
+            `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+              `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.description.typeName}'`
           );
         }
 
@@ -95,7 +95,7 @@ export function readGraphFromJSON(
 
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
-            `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+            `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
               `a nonexistent downstream node id ${link.nodeId}`
           );
         }
@@ -106,8 +106,8 @@ export function readGraphFromJSON(
         );
         if (downstreamInputSocket === undefined) {
           throw new Error(
-            `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
-              `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.typeName}'`
+            `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+              `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.description.typeName}'`
           );
         }
 
@@ -135,7 +135,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
     throw new Error('readGraphFromJSON: no type for node');
   }
   const nodeName = nodeJson.type;
-  const node = graph.createNode(nodeName, nodeJson.id);
+  const node = graph.registry.nodes.get(nodeName, nodeJson.id);
   //console.log(node);
 
   node.label = nodeJson?.label ?? node.label;

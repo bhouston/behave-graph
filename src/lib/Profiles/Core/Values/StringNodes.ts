@@ -58,20 +58,6 @@ export const Length = new NodeDescription(
     )
 );
 
-export const ToFloat = new NodeDescription(
-  'math/toFloat/string',
-  'Logic',
-  'To Float',
-  (description, graph) =>
-    new In1Out1FuncNode<string, number>(
-      description,
-      graph,
-      'string',
-      'float',
-      (a) => Number(a)
-    )
-);
-
 export const Equal = new NodeDescription(
   'math/equal/string',
   'Logic',

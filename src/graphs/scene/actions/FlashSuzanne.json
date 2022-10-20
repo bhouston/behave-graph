@@ -11,7 +11,7 @@
   ],
   "nodes": [
     {
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "id": "0",
       "flows": {
         "flow": {

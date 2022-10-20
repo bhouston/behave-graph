@@ -1,4 +1,3 @@
-import { generateUuid } from '../../generateUuid.js';
 import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
 import { Registry } from '../../Registry.js';
 import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
@@ -19,8 +18,7 @@ describe('core profile', () => {
     boolean: ['true', 'false', true, false],
     string: ['hello'],
     float: [0.9, -0.1, '-999.1', '9e9'],
-    integer: [5, -5, '-999', '9223372036854775807'], // mac int64 value
-    id: [generateUuid()]
+    integer: [5, -5, '-999', '9223372036854775807'] // mac int64 value
   };
 
   Object.keys(valueTypeNameToExampleValues).forEach((valueTypeName) => {

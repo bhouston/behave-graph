@@ -133,7 +133,7 @@ export const Mix = new NodeDescription(
 );
 
 export const HslToColor = new NodeDescription(
-  'logic/ToColor/hsl',
+  'math/ToColor/hsl',
   'Logic',
   'HSL to COLOR',
   (description, graph) =>
@@ -142,7 +142,7 @@ export const HslToColor = new NodeDescription(
     )
 );
 export const ColorToHsl = new NodeDescription(
-  'logic/toHsl/color',
+  'math/toHsl/color',
   'Logic',
   'COLOR to HSL',
   (description, graph) =>
@@ -152,7 +152,7 @@ export const ColorToHsl = new NodeDescription(
 );
 
 export const HexToColor = new NodeDescription(
-  'logic/toColor/hex',
+  'math/toColor/hex',
   'Logic',
   'HEX to COLOR',
   (description, graph) =>
@@ -165,7 +165,7 @@ export const HexToColor = new NodeDescription(
     )
 );
 export const ColorToHex = new NodeDescription(
-  'logic/toHex/color',
+  'math/toHex/color',
   'Logic',
   'COLOR to HEX',
   (description, graph) =>

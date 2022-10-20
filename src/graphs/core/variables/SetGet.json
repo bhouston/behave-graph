@@ -9,7 +9,7 @@
   ],
   "nodes": [
     {
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "id": "0",
       "flows": {
         "flow": {
@@ -19,12 +19,9 @@
       }
     },
     {
-      "type": "variable/set/float",
+      "type": "variable/set/0",
       "id": "1",
       "parameters": {
-        "variable": {
-          "value": "0"
-        },
         "value": {
           "value": 1000
         }
@@ -37,16 +34,11 @@
       }
     },
     {
-      "type": "variable/get/float",
-      "id": "2",
-      "parameters": {
-        "variable": {
-          "value": "0"
-        }
-      }
+      "type": "variable/get/0",
+      "id": "2"
     },
     {
-      "type": "logic/toString/float",
+      "type": "math/toString/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -58,7 +50,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "4",
       "parameters": {
         "text": {

@@ -34,7 +34,7 @@ export function readGraphFromJSON(
   }
 
   // register node based on variables and custom events.
-  graph.registerLocalNodeTypes();
+  graph.updateDynamicNodeDescriptions();
 
   // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
   const nodesJson = graphJson?.nodes ?? [];
@@ -135,7 +135,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
     throw new Error('readGraphFromJSON: no type for node');
   }
   const nodeName = nodeJson.type;
-  const node = graph.registry.nodes.get(nodeName, nodeJson.id);
+  const node = graph.createNode(nodeName, nodeJson.id);
   //console.log(node);
 
   node.label = nodeJson?.label ?? node.label;
@@ -147,12 +147,6 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   if (nodeJson.flows !== undefined) {
     readNodeFlowsJSON(graph, node, nodeJson.flows);
   }
-
-  // TODO: apply nodeJson.inputs to node.
-  if (node.id in graph.nodes) {
-    throw new Error(`multiple nodes with the same "unique id": ${node.id}`);
-  }
-  graph.nodes[node.id] = node;
 }
 
 function readNodeParameterJSON(
@@ -186,7 +180,7 @@ function readNodeParameterJSON(
     );
     if (inputSocket === undefined) {
       throw new Error(
-        `node '${node.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
+        `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
       );
     }
   });
@@ -207,7 +201,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
     );
     if (outputSocket === undefined) {
       throw new Error(
-        `node '${node.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`
+        `node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`
       );
     }
   });

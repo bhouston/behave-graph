@@ -59,7 +59,7 @@ export function registerSceneProfile(registry: Registry) {
     );
     nodes.register(
       `scene/get/${valueTypeName}`,
-      () => new GetSceneProperty(`scene/get/${valueTypeName}`, valueTypeName)
+      () => new GetSceneProperty(x`scene/get/${valueTypeName}`, valueTypeName)
     );
   });
 

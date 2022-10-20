@@ -1,6 +1,12 @@
 import { CustomEvent } from '../Events/CustomEvent.js';
+import { generateUuid } from '../generateUuid.js';
 import { Metadata } from '../Metadata.js';
 import { Node } from '../Nodes/Node.js';
+import { NodeTypeRegistry } from '../Nodes/NodeTypeRegistry.js';
+import { OnCustomEvent } from '../Profiles/Core/CustomEvents/OnCustomEvent.js';
+import { TriggerCustomEvent } from '../Profiles/Core/CustomEvents/TriggerCustomEvent.js';
+import { VariableGet } from '../Profiles/Core/Variables/VariableGet.js';
+import { VariableSet } from '../Profiles/Core/Variables/VariableSet.js';
 import { Registry } from '../Registry.js';
 import { Variable } from '../Variables/Variable.js';
 // Purpose:
@@ -8,30 +14,56 @@ import { Variable } from '../Variables/Variable.js';
 
 export class Graph {
   public name = '';
+  // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly nodes: { [id: string]: Node } = {};
+  // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly variables: { [id: string]: Variable } = {};
+  // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly customEvents: { [id: string]: CustomEvent } = {};
   public metadata: Metadata = {};
-  public readonly localNodeRegistry: { [nodeType: string]: () => Node } = {};
+  public readonly dynamicNodeRegistry = new NodeTypeRegistry();
   public version = 0;
 
   constructor(public readonly registry: Registry) {}
 
-  getNodeTypeNames(): string[] {
-    const nodeTypeNames = this.registry.nodes.getAllNames();
+  updateDynamicNodeDescriptions() {
+    // delete existing nodes
+    this.dynamicNodeRegistry.clear();
+    // re-add variable nodes
     Object.keys(this.variables).forEach((variableId) => {
-      nodeTypeNames.push(
-        `event/onVariableChanged/${variableId}`,
-        `action/setVariable/${variableId}`,
-        `query/getVariable/${variableId}`
+      this.dynamicNodeRegistry.register(
+        VariableGet.GetDescription(this, variableId),
+        VariableSet.GetDescription(this, variableId)
       );
     });
+    // re-add custom event nodes
     Object.keys(this.customEvents).forEach((customEventId) => {
-      nodeTypeNames.push(
-        `event/onCustomEvent/${customEventId}`,
-        `action/triggerCustomEvent/${customEventId}`
+      this.dynamicNodeRegistry.register(
+        OnCustomEvent.GetDescription(this, customEventId),
+        TriggerCustomEvent.GetDescription(this, customEventId)
       );
     });
-    return nodeTypeNames;
+  }
+  createNode(nodeTypeName: string, nodeId: string = generateUuid()): Node {
+    if (nodeId in this.nodes) {
+      throw new Error(
+        `can not create new node of type ${nodeTypeName} with id ${nodeId} as one with that id already exists.`
+      );
+    }
+    if (this.registry.nodes.contains(nodeTypeName)) {
+      const nodeDescription = this.registry.nodes.get(nodeTypeName);
+      const node = nodeDescription.factory(nodeDescription, this);
+      this.nodes[nodeId] = node;
+      return node;
+    }
+    if (this.dynamicNodeRegistry.contains(nodeTypeName)) {
+      const nodeDescription = this.dynamicNodeRegistry.get(nodeTypeName);
+      const node = nodeDescription.factory(nodeDescription, this);
+      this.nodes[nodeId] = node;
+      return node;
+    }
+    throw new Error(
+      `no registered node descriptions with the typeName ${nodeTypeName}`
+    );
   }
 }

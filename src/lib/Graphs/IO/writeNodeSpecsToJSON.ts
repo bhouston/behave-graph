@@ -1,4 +1,5 @@
 import { Registry } from '../../Registry.js';
+import { Graph } from '../Graph.js';
 import {
   InputSocketSpecJSON,
   NodeSpecJSON,
@@ -8,12 +9,14 @@ import {
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
+  const graph = new Graph(registry);
+
   registry.nodes.getAllNames().forEach((nodeTypeName) => {
-    const node = registry.nodes.create(nodeTypeName);
+    const node = graph.createNode(nodeTypeName);
 
     const nodeSpecJSON: NodeSpecJSON = {
       type: nodeTypeName,
-      category: node.category,
+      category: node.description.category,
       inputs: [],
       outputs: []
     };

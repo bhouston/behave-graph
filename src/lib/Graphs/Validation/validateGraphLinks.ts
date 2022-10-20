@@ -11,7 +11,7 @@ export function validateGraphLinks(graph: Graph): string[] {
         // check if the node id is correct
         if (!(link.nodeId in graph.nodes)) {
           errorList.push(
-            `node ${node.typeName}.${inputSocket.name} has link using invalid nodeId: ${link.nodeId}`
+            `node ${node.description.typeName}.${inputSocket.name} has link using invalid nodeId: ${link.nodeId}`
           );
           return;
         }
@@ -23,8 +23,8 @@ export function validateGraphLinks(graph: Graph): string[] {
         );
         if (outputSocket === undefined) {
           errorList.push(
-            `node ${node.typeName}.${inputSocket.name} has link using a non-existent socket name: ` +
-              `${link.socketName}, it can not be found on upstream output node: ${upstreamNode.typeName}`
+            `node ${node.description.typeName}.${inputSocket.name} has link using a non-existent socket name: ` +
+              `${link.socketName}, it can not be found on upstream output node: ${upstreamNode.description.typeName}`
           );
           return;
         }
@@ -32,8 +32,8 @@ export function validateGraphLinks(graph: Graph): string[] {
         // check if the socket types align
         if (inputSocket.valueTypeName !== outputSocket.valueTypeName) {
           errorList.push(
-            `type mismatch between ${node.typeName}.${inputSocket.name} [${inputSocket.valueTypeName}] ` +
-              `and ${upstreamNode.typeName}.${outputSocket.name} [${outputSocket.valueTypeName}]`
+            `type mismatch between ${node.description.typeName}.${inputSocket.name} [${inputSocket.valueTypeName}] ` +
+              `and ${upstreamNode.description.typeName}.${outputSocket.name} [${outputSocket.valueTypeName}]`
           );
         }
       });

@@ -5,6 +5,11 @@ export class NodeTypeRegistry {
     [type: string]: NodeDescription;
   } = {};
 
+  clear() {
+    Object.keys(this.typeNameToNodeDescriptions).forEach((nodeTypeName) => {
+      delete this.typeNameToNodeDescriptions[nodeTypeName];
+    });
+  }
   register(...descriptions: Array<NodeDescription>) {
     descriptions.forEach((description) => {
       if (description.typeName in this.typeNameToNodeDescriptions) {
@@ -16,6 +21,9 @@ export class NodeTypeRegistry {
     });
   }
 
+  contains(typeName: string): boolean {
+    return typeName in this.typeNameToNodeDescriptions;
+  }
   get(typeName: string): NodeDescription {
     if (!(typeName in this.typeNameToNodeDescriptions)) {
       throw new Error(`no registered node with type name ${typeName}`);
@@ -25,5 +33,9 @@ export class NodeTypeRegistry {
 
   getAllNames(): string[] {
     return Object.keys(this.typeNameToNodeDescriptions);
+  }
+
+  getAllDescriptions(): NodeDescription[] {
+    return Object.values(this.typeNameToNodeDescriptions);
   }
 }

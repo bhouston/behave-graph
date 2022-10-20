@@ -8,7 +8,6 @@ import * as performanceTestJson from '../../../graphs/core/flow/PerformanceTest.
 import * as sequenceJson from '../../../graphs/core/flow/Sequence.json';
 import * as helloWorldJson from '../../../graphs/core/HelloWorld.json';
 import * as polynomialJson from '../../../graphs/core/logic/Polynomial.json';
-import * as changedJson from '../../../graphs/core/variables/Changed.json';
 import * as frameCounterJson from '../../../graphs/core/variables/FrameCounter.json';
 import * as initialValueJson from '../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../graphs/core/variables/SetGet.json';
@@ -37,7 +36,6 @@ const exampleMap: { [key: string]: any } = {
   polynomialJson,
   customEventJson,
   lifecycleJson,
-  changedJson,
   frameCounterJson,
   initialValueJson,
   performanceTestJson

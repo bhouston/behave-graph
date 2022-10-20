@@ -21,11 +21,11 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent/0",
+      "type": "customEvent/trigger/0",
       "id": "1"
     },
     {
-      "type": "event/customEvent/0",
+      "type": "customEvent/onTriggered/0",
       "id": "2",
       "flows": {
         "flow": {
@@ -68,11 +68,11 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent/1",
+      "type": "customEvent/trigger/1",
       "id": "5"
     },
     {
-      "type": "event/customEvent/1",
+      "type": "customEvent/onTriggered/1",
       "id": "6",
       "flows": {
         "flow": {
@@ -115,7 +115,7 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent/0",
+      "type": "customEvent/trigger/0",
       "id": "9"
     }
   ]

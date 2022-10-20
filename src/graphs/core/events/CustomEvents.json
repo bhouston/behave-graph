@@ -17,11 +17,11 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent/0",
+      "type": "customEvent/trigger/0",
       "id": "1"
     },
     {
-      "type": "event/customEvent/0",
+      "type": "customEvent/onTriggered/0",
       "id": "2",
       "flows": {
         "flow": {

@@ -9,7 +9,7 @@ export class OnCustomEvent extends Node {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
-      `customEvent/ontriggered/${customEvent.id}`,
+      `customEvent/onTriggered/${customEvent.id}`,
       'Event',
       `On ${customEvent.name}`,
       (description, graph) => new OnCustomEvent(description, graph, customEvent)

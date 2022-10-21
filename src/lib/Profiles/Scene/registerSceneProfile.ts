@@ -42,22 +42,20 @@ export function registerSceneProfile(registry: Registry) {
   nodes.register(OnSceneNodeClick.Description);
 
   // actions
-  nodes.register(...SetSceneProperty.Descriptions);
-  nodes.register(...GetSceneProperty.Descriptions);
+  const allValueTypeNames = values.getAllNames();
+  nodes.register(...SetSceneProperty.GetDescriptions(...allValueTypeNames));
+  nodes.register(...GetSceneProperty.GetDescriptions(...allValueTypeNames));
 
-  ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
-    (valueTypeName) => {
-      registerSerializersForValueType(registry, valueTypeName);
-    }
-  );
+  const newValueTypeNames = ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'];
 
   // variables
 
-  ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
-    (valueTypeName) => {
-      registerSerializersForValueType(registry, valueTypeName);
-    }
-  );
+  newValueTypeNames.forEach((valueTypeName) => {
+    registerSerializersForValueType(registry, valueTypeName);
+  });
+  newValueTypeNames.forEach((valueTypeName) => {
+    registerSerializersForValueType(registry, valueTypeName);
+  });
 
   return registry;
 }

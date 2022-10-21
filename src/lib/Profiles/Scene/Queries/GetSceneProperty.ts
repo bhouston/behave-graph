@@ -6,26 +6,18 @@ import { toCamelCase } from '../../../toCamelCase.js';
 import { IScene } from '../Abstractions/IScene.js';
 
 export class GetSceneProperty extends Node {
-  public static Descriptions = [
-    'boolean',
-    'float',
-    'integer',
-    'vec2',
-    'vec3',
-    'vec4',
-    'quat',
-    'euler',
-    'color'
-  ].map(
-    (valueTypeName) =>
-      new NodeDescription(
-        `scene/get/${valueTypeName}`,
-        'Query',
-        `Get Scene ${toCamelCase(valueTypeName)}`,
-        (description, graph) =>
-          new GetSceneProperty(description, graph, valueTypeName)
-      )
-  );
+  public static GetDescriptions(...valueTypeNames: string[]) {
+    return valueTypeNames.map(
+      (valueTypeName) =>
+        new NodeDescription(
+          `scene/get/${valueTypeName}`,
+          'Query',
+          `Get Scene ${toCamelCase(valueTypeName)}`,
+          (description, graph) =>
+            new GetSceneProperty(description, graph, valueTypeName)
+        )
+    );
+  }
 
   constructor(
     description: NodeDescription,

@@ -51,16 +51,16 @@ export function readGraphFromJSON(
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
-    // console.log(node);
+    console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
-      // console.log(inputSocket);
+      console.log(inputSocket);
       inputSocket.links.forEach((link) => {
-        // console.log(link);
+        console.log(link);
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
             `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent upstream node id ${link.nodeId}`
+              `a nonexistent upstream node id: ${link.nodeId}`
           );
         }
         const upstreamNode = graph.nodes[link.nodeId];

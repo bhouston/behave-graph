@@ -50,20 +50,21 @@ export class Graph {
         `can not create new node of type ${nodeTypeName} with id ${nodeId} as one with that id already exists.`
       );
     }
+    let nodeDescription = undefined;
     if (this.registry.nodes.contains(nodeTypeName)) {
-      const nodeDescription = this.registry.nodes.get(nodeTypeName);
-      const node = nodeDescription.factory(nodeDescription, this);
-      this.nodes[nodeId] = node;
-      return node;
+      nodeDescription = this.registry.nodes.get(nodeTypeName);
     }
     if (this.dynamicNodeRegistry.contains(nodeTypeName)) {
-      const nodeDescription = this.dynamicNodeRegistry.get(nodeTypeName);
-      const node = nodeDescription.factory(nodeDescription, this);
-      this.nodes[nodeId] = node;
-      return node;
+      nodeDescription = this.dynamicNodeRegistry.get(nodeTypeName);
     }
-    throw new Error(
-      `no registered node descriptions with the typeName ${nodeTypeName}`
-    );
+    if (nodeDescription === undefined) {
+      throw new Error(
+        `no registered node descriptions with the typeName ${nodeTypeName}`
+      );
+    }
+    const node = nodeDescription.factory(nodeDescription, this);
+    node.id = nodeId;
+    this.nodes[nodeId] = node;
+    return node;
   }
 }

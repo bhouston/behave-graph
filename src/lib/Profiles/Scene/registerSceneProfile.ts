@@ -39,29 +39,11 @@ export function registerSceneProfile(registry: Registry) {
 
   // events
 
-  nodes.register('event/nodeClick', () => new OnSceneNodeClick());
+  nodes.register(OnSceneNodeClick.Description);
 
   // actions
-  [
-    'boolean',
-    'float',
-    'integer',
-    'vec2',
-    'vec3',
-    'vec4',
-    'quat',
-    'euler',
-    'color'
-  ].forEach((valueTypeName) => {
-    nodes.register(
-      `scene/set/${valueTypeName}`,
-      () => new SetSceneProperty(`scene/set/${valueTypeName}`, valueTypeName)
-    );
-    nodes.register(
-      `scene/get/${valueTypeName}`,
-      () => new GetSceneProperty(x`scene/get/${valueTypeName}`, valueTypeName)
-    );
-  });
+  nodes.register(...SetSceneProperty.Descriptions);
+  nodes.register(...GetSceneProperty.Descriptions);
 
   ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
     (valueTypeName) => {
@@ -73,7 +55,7 @@ export function registerSceneProfile(registry: Registry) {
 
   ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'].forEach(
     (valueTypeName) => {
-      registerSerializersForValueType(nodes, valueTypeName);
+      registerSerializersForValueType(registry, valueTypeName);
     }
   );
 

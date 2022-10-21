@@ -6,6 +6,13 @@ import { Socket } from '../../../Sockets/Socket.js';
 
 // very 3D specific.
 export class OnSceneNodeClick extends Node {
+  public static Description = new NodeDescription(
+    'scene/nodeClick',
+    'Event',
+    'On Node Click',
+    (description, graph) => new OnSceneNodeClick(description, graph)
+  );
+
   constructor(description: NodeDescription, graph: Graph) {
     super(
       description,

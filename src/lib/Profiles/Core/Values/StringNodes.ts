@@ -7,12 +7,12 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<string, string>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['string'],
       'string',
-      'string',
-      (a) => a
+      (a: string) => a
     )
 );
 
@@ -21,13 +21,12 @@ export const Concat = new NodeDescription(
   'Logic',
   'CONCAT',
   (description, graph) =>
-    new In2Out1FuncNode<string, string, string>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['string', 'string'],
       'string',
-      'string',
-      'string',
-      (a, b) => a.concat(b)
+      (a: string, b: string) => a.concat(b)
     )
 );
 export const Includes = new NodeDescription(
@@ -35,13 +34,12 @@ export const Includes = new NodeDescription(
   'Logic',
   'INCLUDES',
   (description, graph) =>
-    new In2Out1FuncNode<string, string, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'string',
-      'string',
+      ['string', 'string'],
       'boolean',
-      (a, b) => a.includes(b)
+      (a: string, b: string) => a.includes(b)
     )
 );
 export const Length = new NodeDescription(
@@ -49,12 +47,12 @@ export const Length = new NodeDescription(
   'Logic',
   'LENGTH',
   (description, graph) =>
-    new In1Out1FuncNode<string, bigint>(
+    new In1Out1FuncNode(
       description,
       graph,
-      'string',
+      ['string'],
       'integer',
-      (a) => BigInt(a.length)
+      (a: string) => BigInt(a.length)
     )
 );
 
@@ -63,12 +61,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<string, string, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'string',
-      'string',
+      ['string', 'string'],
       'boolean',
-      (a, b) => a === b
+      (a: string, b: string) => a === b
     )
 );

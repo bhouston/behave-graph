@@ -11,12 +11,12 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['float'],
       'float',
-      'float',
-      (a) => a
+      (a: number) => a
     )
 );
 
@@ -25,13 +25,12 @@ export const Add = new NodeDescription(
   'Logic',
   '+',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a + b
+      (a: number, b: number) => a + b
     )
 );
 export const Subtract = new NodeDescription(
@@ -39,13 +38,12 @@ export const Subtract = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a - b
+      (a: number, b: number) => a - b
     )
 );
 export const Negate = new NodeDescription(
@@ -53,12 +51,12 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['float'],
       'float',
-      'float',
-      (a) => -a
+      (a: number) => -a
     )
 );
 
@@ -67,13 +65,12 @@ export const Multiply = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a * b
+      (a: number, b: number) => a * b
     )
 );
 export const Divide = new NodeDescription(
@@ -81,13 +78,12 @@ export const Divide = new NodeDescription(
   'Logic',
   '÷',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a / b
+      (a: number, b: number) => a / b
     )
 );
 export const Modulus = new NodeDescription(
@@ -95,13 +91,12 @@ export const Modulus = new NodeDescription(
   'Logic',
   'MOD',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a % b
+      (a: number, b: number) => a % b
     )
 );
 
@@ -110,13 +105,12 @@ export const Power = new NodeDescription(
   'Logic',
   'POW',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => a ** b
+      Math.pow
     )
 );
 export const SquareRoot = new NodeDescription(
@@ -124,13 +118,7 @@ export const SquareRoot = new NodeDescription(
   'Logic',
   'SQRT',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.sqrt(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sqrt)
 );
 
 export const E = new NodeDescription(
@@ -138,59 +126,35 @@ export const E = new NodeDescription(
   'Logic',
   'e',
   (description, graph) =>
-    new In0Out1FuncNode<number>(description, graph, 'float', () => Math.E)
+    new In0Out1FuncNode(description, graph, 'float', () => Math.E)
 );
 export const Exp = new NodeDescription(
   'math/exp/float',
   'Logic',
   'EXP',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.exp(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.exp)
 );
 export const Ln = new NodeDescription(
   'math/ln/float',
   'Logic',
   'LN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.log(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log)
 );
 export const Log2 = new NodeDescription(
   'math/log2/float',
   'Logic',
   'LOG2',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.log2(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log2)
 );
 export const Log10 = new NodeDescription(
   'math/log10/float',
   'Logic',
   'LOG10',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.log10(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log10)
 );
 
 export const PI = new NodeDescription(
@@ -198,85 +162,49 @@ export const PI = new NodeDescription(
   'Logic',
   'π',
   (description, graph) =>
-    new In0Out1FuncNode<number>(description, graph, 'float', () => Math.PI)
+    new In0Out1FuncNode(description, graph, 'float', () => Math.PI)
 );
 export const Sin = new NodeDescription(
   'math/sin/float',
   'Logic',
   'SIN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.sin(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sin)
 );
 export const Asin = new NodeDescription(
   'math/asin/float',
   'Logic',
   'ASIN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.asin(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.asin)
 );
 export const Cos = new NodeDescription(
   'math/cos/float',
   'Logic',
   'COS',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.cos(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.cos)
 );
 export const Acos = new NodeDescription(
   'math/acos/float',
   'Logic',
   'ACOS',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.acos(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.acos)
 );
 export const Tan = new NodeDescription(
   'math/tan/float',
   'Logic',
   'TAN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.tan(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.tan)
 );
 export const Atan = new NodeDescription(
   'math/atan/float',
   'Logic',
   'ATAN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.atan(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.atan)
 );
 
 export const Mix = new NodeDescription(
@@ -284,14 +212,12 @@ export const Mix = new NodeDescription(
   'Logic',
   'MIX',
   (description, graph) =>
-    new In3Out1FuncNode<number, number, number, number>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['float', 'float', 'float'],
       'float',
-      'float',
-      'float',
-      'float',
-      (a, b, t) => {
+      (a: number, b: number, t: number) => {
         const s = 1 - t;
         return a * s + b * t;
       },
@@ -304,12 +230,8 @@ export const ToFloat = new NodeDescription(
   'Logic',
   'To Float',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Number(a)
+    new In1Out1FuncNode(description, graph, ['float'], 'float', (a: number) =>
+      Number(a)
     )
 );
 
@@ -318,13 +240,12 @@ export const Min = new NodeDescription(
   'Logic',
   'MIN',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => Math.min(a, b)
+      (a: number, b: number) => Math.min(a, b) // TODO: can I jsut pass in Math.min?
     )
 );
 export const Max = new NodeDescription(
@@ -332,13 +253,12 @@ export const Max = new NodeDescription(
   'Logic',
   'MAX',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, number>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['float', 'float'],
       'float',
-      'float',
-      'float',
-      (a, b) => Math.max(a, b)
+      (a: number, b: number) => Math.max(a, b) // TODO: can I jsut pass in Math.max?
     )
 );
 export const Clamp = new NodeDescription(
@@ -346,14 +266,13 @@ export const Clamp = new NodeDescription(
   'Logic',
   'CLAMP',
   (description, graph) =>
-    new In3Out1FuncNode<number, number, number, number>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['float', 'float', 'float'],
       'float',
-      'float',
-      'float',
-      'float',
-      (value, min, max) => (value < min ? min : value > max ? max : value),
+      (value: number, min: number, max: number) =>
+        value < min ? min : value > max ? max : value,
       ['value', 'min', 'max']
     )
 );
@@ -363,26 +282,14 @@ export const Abs = new NodeDescription(
   'Logic',
   'ABS',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.abs(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.abs)
 );
 export const Sign = new NodeDescription(
   'math/sign/float',
   'Logic',
   'SIGN',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.sign(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sign)
 );
 
 export const Floor = new NodeDescription(
@@ -390,52 +297,28 @@ export const Floor = new NodeDescription(
   'Logic',
   'FLOOR',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.floor(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.floor)
 );
 export const Ceil = new NodeDescription(
   'math/ceil/float',
   'Logic',
   'CEIL',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.ceil(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.ceil)
 );
 export const Round = new NodeDescription(
   'math/round/float',
   'Logic',
   'ROUND',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.round(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.round)
 );
 export const Trunc = new NodeDescription(
   'math/trunc/float',
   'Logic',
   'TRUNC',
   (description, graph) =>
-    new In1Out1FuncNode<number, number>(
-      description,
-      graph,
-      'float',
-      'float',
-      (a) => Math.trunc(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.trunc)
 );
 
 export const Random = new NodeDescription(
@@ -443,9 +326,7 @@ export const Random = new NodeDescription(
   'Logic',
   'RANDOM',
   (description, graph) =>
-    new In0Out1FuncNode<number>(description, graph, 'float', () =>
-      Math.random()
-    )
+    new In0Out1FuncNode(description, graph, 'float', Math.random)
 );
 
 export const Equal = new NodeDescription(
@@ -453,13 +334,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
+      ['float', 'float'],
       'boolean',
-      (a, b) => a === b
+      (a: number, b: number) => a === b
     )
 );
 export const GreaterThan = new NodeDescription(
@@ -467,13 +347,12 @@ export const GreaterThan = new NodeDescription(
   'Logic',
   '>',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
+      ['float', 'float'],
       'boolean',
-      (a, b) => a > b
+      (a: number, b: number) => a > b
     )
 );
 export const GreaterThanOrEqual = new NodeDescription(
@@ -481,13 +360,12 @@ export const GreaterThanOrEqual = new NodeDescription(
   'Logic',
   '≥',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
+      ['float', 'float'],
       'boolean',
-      (a, b) => a >= b
+      (a: number, b: number) => a >= b
     )
 );
 export const LessThan = new NodeDescription(
@@ -495,13 +373,12 @@ export const LessThan = new NodeDescription(
   'Logic',
   '<',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
+      ['float', 'float'],
       'boolean',
-      (a, b) => a < b
+      (a: number, b: number) => a < b
     )
 );
 export const LessThanOrEqual = new NodeDescription(
@@ -509,13 +386,12 @@ export const LessThanOrEqual = new NodeDescription(
   'Logic',
   '≤',
   (description, graph) =>
-    new In2Out1FuncNode<number, number, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
+      ['float', 'float'],
       'boolean',
-      (a, b) => a <= b
+      (a: number, b: number) => a <= b
     )
 );
 
@@ -524,24 +400,18 @@ export const IsNaN = new NodeDescription(
   'Logic',
   'isNaN',
   (description, graph) =>
-    new In1Out1FuncNode<number, boolean>(
-      description,
-      graph,
-      'float',
-      'boolean',
-      (a) => Number.isNaN(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'boolean', Number.isNaN)
 );
 export const IsInf = new NodeDescription(
   'math/isInf/float',
   'Logic',
   'isInf',
   (description, graph) =>
-    new In1Out1FuncNode<number, boolean>(
+    new In1Out1FuncNode(
       description,
       graph,
-      'float',
+      ['float'],
       'boolean',
-      (a) => !Number.isFinite(a) && !Number.isNaN(a)
+      (a: number) => !Number.isFinite(a) && !Number.isNaN(a)
     )
 );

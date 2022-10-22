@@ -13,7 +13,7 @@ import {
   vec3Subtract,
   vec3ToArray
 } from './Internal/Vec3.js';
-import { eulerToQuat, Vec4 } from './Internal/Vec4.js';
+import { eulerToQuat } from './Internal/Vec4.js';
 
 export const Constant = new NodeDescription(
   'math/euler',
@@ -33,14 +33,13 @@ export const Create = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new In3Out1FuncNode<number, number, number, Vec3>(
+    new In3Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
-      'float',
+      ['float', 'float', 'float'],
       'euler',
-      (x, y, z) => new Vec3(x, y, z)
+      (x: number, y: number, z: number) => new Vec3(x, y, z),
+      ['x', 'y', 'z']
     )
 );
 
@@ -49,13 +48,7 @@ export const Elements = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new VecElements<Vec3>(
-      description,
-      graph,
-      'euler',
-      ['x', 'y', 'z'],
-      vec3ToArray
-    )
+    new VecElements(description, graph, 'euler', ['x', 'y', 'z'], vec3ToArray)
 );
 
 export const Add = new NodeDescription(
@@ -63,13 +56,12 @@ export const Add = new NodeDescription(
   'Logic',
   '+',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['euler', 'euler'],
       'euler',
-      'euler',
-      'euler',
-      (a, b) => vec3Add(a, b)
+      vec3Add
     )
 );
 export const Subtract = new NodeDescription(
@@ -77,13 +69,12 @@ export const Subtract = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['euler', 'euler'],
       'euler',
-      'euler',
-      'euler',
-      (a, b) => vec3Subtract(a, b)
+      vec3Subtract
     )
 );
 export const Negate = new NodeDescription(
@@ -91,9 +82,7 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(description, graph, 'euler', 'euler', (a) =>
-      vec3Negate(a)
-    )
+    new In1Out1FuncNode(description, graph, ['euler'], 'euler', vec3Negate)
 );
 
 export const Scale = new NodeDescription(
@@ -101,13 +90,12 @@ export const Scale = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, number, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['euler', 'float'],
       'euler',
-      'float',
-      'euler',
-      (a, b) => vec3Scale(a, b)
+      vec3Scale
     )
 );
 
@@ -116,14 +104,12 @@ export const Mix = new NodeDescription(
   'Logic',
   '÷',
   (description, graph) =>
-    new In3Out1FuncNode<Vec3, Vec3, number, Vec3>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['euler', 'euler', 'float'],
       'euler',
-      'euler',
-      'float',
-      'euler',
-      (a, b, t) => vec3Mix(a, b, t),
+      vec3Mix,
       ['a', 'b', 't']
     )
 );
@@ -133,9 +119,7 @@ export const toQuat = new NodeDescription(
   'Logic',
   '÷',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec4>(description, graph, 'euler', 'quat', (a) =>
-      eulerToQuat(a)
-    )
+    new In1Out1FuncNode(description, graph, ['euler'], 'quat', eulerToQuat)
 );
 
 export const Equal = new NodeDescription(
@@ -143,12 +127,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'euler',
-      'euler',
+      ['euler', 'euler'],
       'boolean',
-      (a, b) => vec3Equals(a, b)
+      vec3Equals
     )
 );

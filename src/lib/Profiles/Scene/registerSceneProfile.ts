@@ -53,9 +53,6 @@ export function registerSceneProfile(registry: Registry) {
   newValueTypeNames.forEach((valueTypeName) => {
     registerSerializersForValueType(registry, valueTypeName);
   });
-  newValueTypeNames.forEach((valueTypeName) => {
-    registerSerializersForValueType(registry, valueTypeName);
-  });
 
   return registry;
 }

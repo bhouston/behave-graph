@@ -8,12 +8,16 @@ export class In2Out1FuncNode<In1, In2, Out1> extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    input1ValueType: string,
-    input2ValueType: string,
+    inputValueTypes: string[],
     outputValueType: string,
     public readonly binaryEvalFunc: (a: In1, b: In2) => Out1,
     public readonly inputNames: string[] = ['a', 'b']
   ) {
+    if (inputValueTypes.length !== 2) {
+      throw new Error(
+        `inputValueTypes must have a length of 2, it is instead ${inputValueTypes.length}`
+      );
+    }
     if (inputNames.length !== 2) {
       throw new Error(
         `inputNames must have a length of 2, it is instead ${inputNames.length}`
@@ -23,8 +27,8 @@ export class In2Out1FuncNode<In1, In2, Out1> extends Node {
       description,
       graph,
       [
-        new Socket(input1ValueType, inputNames[0]),
-        new Socket(input2ValueType, inputNames[1])
+        new Socket(inputValueTypes[0], inputNames[0]),
+        new Socket(inputValueTypes[1], inputNames[1])
       ],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {

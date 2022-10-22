@@ -26,7 +26,7 @@ export const Constant = new NodeDescription(
     new In1Out1FuncNode<Vec4, Vec4>(
       description,
       graph,
-      'vec4',
+      ['vec4'],
       'vec4',
       (a) => a
     )
@@ -36,15 +36,12 @@ export const Create = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new In4Out1FuncNode<number, number, number, number, Vec4>(
+    new In4Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
-      'float',
-      'float',
+      ['float', 'float', 'float', 'float'],
       'vec3',
-      (x, y, z, w) => new Vec4(x, y, z, w),
+      (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w),
       ['x', 'y', 'z', 'w']
     )
 );
@@ -53,7 +50,7 @@ export const Elements = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new VecElements<Vec4>(
+    new VecElements(
       description,
       graph,
       'vec4',
@@ -66,27 +63,19 @@ export const Add = new NodeDescription(
   'Logic',
   '+',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, Vec4>(
-      description,
-      graph,
-      'vec4',
-      'vec4',
-      'vec4',
-      (a, b) => vec4Add(a, b)
-    )
+    new In2Out1FuncNode(description, graph, ['vec4', 'vec4'], 'vec4', vec4Add)
 );
 export const Subtract = new NodeDescription(
   'math/subtract/vec4',
   'Logic',
   '-',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, Vec4>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['vec4', 'vec4'],
       'vec4',
-      'vec4',
-      'vec4',
-      (a, b) => vec4Subtract(a, b)
+      vec4Subtract
     )
 );
 export const Negate = new NodeDescription(
@@ -94,22 +83,19 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, Vec4>(description, graph, 'vec4', 'vec4', (a) =>
-      vec4Negate(a)
-    )
+    new In1Out1FuncNode(description, graph, ['vec4'], 'vec4', vec4Negate)
 );
 export const Scale = new NodeDescription(
   'math/scale/vec4',
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, number, Vec4>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['vec4', 'float'],
       'vec4',
-      'float',
-      'vec4',
-      (a, b) => vec4Scale(a, b)
+      vec4Scale
     )
 );
 export const Length = new NodeDescription(
@@ -117,50 +103,33 @@ export const Length = new NodeDescription(
   'Logic',
   'LENGTH',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, number>(
-      description,
-      graph,
-      'vec4',
-      'float',
-      (a) => vec4Length(a)
-    )
+    new In1Out1FuncNode(description, graph, ['vec4'], 'float', vec4Length)
 );
 export const Normalize = new NodeDescription(
   'math/normalize/vec4',
   'Logic',
   'NORMALIZE',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, Vec4>(description, graph, 'vec4', 'vec4', (a) =>
-      vec4Normalize(a)
-    )
+    new In1Out1FuncNode(description, graph, ['vec4'], 'vec4', vec4Normalize)
 );
 export const Dot = new NodeDescription(
   'math/dot/vec4',
   'Logic',
   'DOT',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, number>(
-      description,
-      graph,
-      'vec4',
-      'vec4',
-      'float',
-      (a, b) => vec4Dot(a, b)
-    )
+    new In2Out1FuncNode(description, graph, ['vec4', 'vec4'], 'float', vec4Dot)
 );
 export const Mix = new NodeDescription(
   'math/mix/vec4',
   'Logic',
   '÷',
   (description, graph) =>
-    new In3Out1FuncNode<Vec4, Vec4, number, Vec4>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['vec4', 'vec4', 'float'],
       'vec4',
-      'vec4',
-      'float',
-      'vec4',
-      (a, b, t) => vec4Mix(a, b, t),
+      vec4Mix,
       ['a', 'b', 't']
     )
 );
@@ -170,12 +139,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'vec4',
-      'vec4',
+      ['vec4', 'vec4'],
       'boolean',
-      (a, b) => vec4Equals(a, b)
+      vec4Equals
     )
 );

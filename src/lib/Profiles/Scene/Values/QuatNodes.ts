@@ -4,7 +4,6 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
 import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode.js';
 import { VecElements } from '../Logic/VecElements.js';
-import { Vec3 } from './Internal/Vec3.js';
 import {
   angleAxisToQuat,
   quatConjugate,
@@ -50,15 +49,12 @@ export const Create = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new In4Out1FuncNode<number, number, number, number, Vec4>(
+    new In4Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
-      'float',
-      'float',
-      'vec3',
-      (x, y, z, w) => new Vec4(x, y, z, w),
+      ['float', 'float', 'float', 'float'],
+      'quat',
+      (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w),
       ['x', 'y', 'z', 'w']
     )
 );
@@ -67,7 +63,7 @@ export const Elements = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new VecElements<Vec4>(
+    new VecElements(
       description,
       graph,
       'quat',
@@ -81,9 +77,7 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, Vec4>(description, graph, 'quat', 'quat', (a) =>
-      quatConjugate(a)
-    )
+    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatConjugate)
 );
 
 export const Multiply = new NodeDescription(
@@ -91,13 +85,12 @@ export const Multiply = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, Vec4>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['quat', 'quat'],
       'quat',
-      'quat',
-      'quat',
-      (a, b) => quatMultiply(a, b)
+      quatMultiply
     )
 );
 export const Scale = new NodeDescription(
@@ -105,13 +98,12 @@ export const Scale = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, number, Vec4>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['quat', 'float'],
       'quat',
-      'float',
-      'quat',
-      (a, b) => vec4Scale(a, b)
+      vec4Scale
     )
 );
 export const Length = new NodeDescription(
@@ -119,36 +111,21 @@ export const Length = new NodeDescription(
   'Logic',
   'LENGTH',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, number>(
-      description,
-      graph,
-      'quat',
-      'float',
-      (a) => vec4Length(a)
-    )
+    new In1Out1FuncNode(description, graph, ['quat'], 'float', vec4Length)
 );
 export const Normalize = new NodeDescription(
   'math/normalize/quat',
   'Logic',
   'NORMALIZE',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, Vec4>(description, graph, 'quat', 'quat', (a) =>
-      vec4Normalize(a)
-    )
+    new In1Out1FuncNode(description, graph, ['quat'], 'quat', vec4Normalize)
 );
 export const Dot = new NodeDescription(
   'math/dot/quat',
   'Logic',
   'DOT',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, number>(
-      description,
-      graph,
-      'quat',
-      'quat',
-      'float',
-      (a, b) => vec4Dot(a, b)
-    )
+    new In2Out1FuncNode(description, graph, ['quat', 'quat'], 'float', vec4Dot)
 );
 
 export const FromAngleAxis = new NodeDescription(
@@ -156,13 +133,12 @@ export const FromAngleAxis = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<number, Vec3, Vec4>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'float',
-      'vec3',
+      ['float', 'vec3'],
       'quat',
-      (a, b) => angleAxisToQuat(a, b)
+      angleAxisToQuat
     )
 );
 export const Mix = new NodeDescription(
@@ -170,14 +146,12 @@ export const Mix = new NodeDescription(
   'Logic',
   'SLERP',
   (description, graph) =>
-    new In3Out1FuncNode<Vec4, Vec4, number, Vec4>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['quat', 'quat', 'float'],
       'quat',
-      'quat',
-      'float',
-      'quat',
-      (a, b, t) => quatSlerp(a, b, t),
+      quatSlerp,
       ['a', 'b', 't']
     )
 );
@@ -186,12 +160,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<Vec4, Vec4, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'quat',
-      'quat',
+      ['quat', 'quat'],
       'boolean',
-      (a, b) => vec4Equals(a, b)
+      vec4Equals
     )
 );

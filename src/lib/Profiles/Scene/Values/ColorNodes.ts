@@ -23,27 +23,19 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(
-      description,
-      graph,
-      'color',
-      'color',
-      (a) => a
-    )
+    new In1Out1FuncNode(description, graph, ['color'], 'color', (a: Vec3) => a)
 );
 export const Create = new NodeDescription(
   'math/create/color',
   'Logic',
   'CREATE',
   (description, graph) =>
-    new In3Out1FuncNode<number, number, number, Vec3>(
+    new In3Out1FuncNode(
       description,
       graph,
-      'float',
-      'float',
-      'float',
+      ['float', 'float', 'float'],
       'color',
-      (r, g, b) => new Vec3(r, g, b),
+      (r: number, g: number, b: number) => new Vec3(r, g, b),
       ['r', 'g', 'b']
     )
 );
@@ -53,13 +45,7 @@ export const Elements = new NodeDescription(
   'Logic',
   'CREATE',
   (description, graph) =>
-    new VecElements<Vec3>(
-      description,
-      graph,
-      'color',
-      ['r', 'g', 'b'],
-      vec3ToArray
-    )
+    new VecElements(description, graph, 'color', ['r', 'g', 'b'], vec3ToArray)
 );
 
 export const Add = new NodeDescription(
@@ -67,13 +53,12 @@ export const Add = new NodeDescription(
   'Logic',
   '+',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['color', 'color'],
       'color',
-      'color',
-      'color',
-      (a, b) => vec3Add(a, b)
+      vec3Add
     )
 );
 export const Subtract = new NodeDescription(
@@ -81,13 +66,12 @@ export const Subtract = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['color', 'color'],
       'color',
-      'color',
-      'color',
-      (a, b) => vec3Subtract(a, b)
+      vec3Subtract
     )
 );
 export const Negate = new NodeDescription(
@@ -95,9 +79,7 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(description, graph, 'color', 'color', (a) =>
-      vec3Negate(a)
-    )
+    new In1Out1FuncNode(description, graph, ['color'], 'color', vec3Negate)
 );
 
 export const Scale = new NodeDescription(
@@ -105,13 +87,12 @@ export const Scale = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, number, Vec3>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['color', 'float'],
       'color',
-      'float',
-      'color',
-      (a, b) => vec3Scale(a, b)
+      vec3Scale
     )
 );
 
@@ -120,14 +101,12 @@ export const Mix = new NodeDescription(
   'Logic',
   '÷',
   (description, graph) =>
-    new In3Out1FuncNode<Vec3, Vec3, number, Vec3>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['color', 'color', 'float'],
       'color',
-      'color',
-      'float',
-      'color',
-      (a, b, t) => vec3Mix(a, b, t),
+      vec3Mix,
       ['a', 'b', 't']
     )
 );
@@ -137,18 +116,14 @@ export const HslToColor = new NodeDescription(
   'Logic',
   'HSL to COLOR',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(description, graph, 'vec3', 'color', (a) =>
-      hslToRGB(a)
-    )
+    new In1Out1FuncNode(description, graph, ['vec3'], 'color', hslToRGB)
 );
 export const ColorToHsl = new NodeDescription(
   'math/toHsl/color',
   'Logic',
   'COLOR to HSL',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(description, graph, 'color', 'vec3', (a) =>
-      rgbToHSL(a)
-    )
+    new In1Out1FuncNode(description, graph, ['color'], 'vec3', rgbToHSL)
 );
 
 export const HexToColor = new NodeDescription(
@@ -156,26 +131,14 @@ export const HexToColor = new NodeDescription(
   'Logic',
   'HEX to COLOR',
   (description, graph) =>
-    new In1Out1FuncNode<number, Vec3>(
-      description,
-      graph,
-      'float',
-      'color',
-      (a) => hexToRGB(a)
-    )
+    new In1Out1FuncNode(description, graph, ['float'], 'color', hexToRGB)
 );
 export const ColorToHex = new NodeDescription(
   'math/toHex/color',
   'Logic',
   'COLOR to HEX',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, number>(
-      description,
-      graph,
-      'color',
-      'float',
-      (a) => rgbToHex(a)
-    )
+    new In1Out1FuncNode(description, graph, ['color'], 'float', rgbToHex)
 );
 
 export const Equal = new NodeDescription(
@@ -183,12 +146,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<Vec3, Vec3, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'color',
-      'color',
+      ['color', 'color'],
       'boolean',
-      (a, b) => vec3Equals(a, b)
+      vec3Equals
     )
 );

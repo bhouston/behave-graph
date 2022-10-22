@@ -7,12 +7,12 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<boolean, boolean>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['boolean'],
       'boolean',
-      'boolean',
-      (a) => a
+      (a: boolean) => a
     )
 );
 export const And = new NodeDescription(
@@ -20,13 +20,12 @@ export const And = new NodeDescription(
   'Logic',
   'AND',
   (description, graph) =>
-    new In2Out1FuncNode<boolean, boolean, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['boolean', 'boolean'],
       'boolean',
-      'boolean',
-      'boolean',
-      (a, b) => a && b
+      (a: boolean, b: boolean) => a && b
     )
 );
 export const Or = new NodeDescription(
@@ -34,13 +33,12 @@ export const Or = new NodeDescription(
   'Logic',
   'OR',
   (description, graph) =>
-    new In2Out1FuncNode<boolean, boolean, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['boolean', 'boolean'],
       'boolean',
-      'boolean',
-      'boolean',
-      (a, b) => a || b
+      (a: boolean, b: boolean) => a || b
     )
 );
 export const Not = new NodeDescription(
@@ -48,12 +46,12 @@ export const Not = new NodeDescription(
   'Logic',
   'NOT',
   (description, graph) =>
-    new In1Out1FuncNode<boolean, boolean>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['boolean'],
       'boolean',
-      'boolean',
-      (a) => !a
+      (a: boolean) => !a
     )
 );
 export const ToFloat = new NodeDescription(
@@ -61,12 +59,12 @@ export const ToFloat = new NodeDescription(
   'Logic',
   'To Float',
   (description, graph) =>
-    new In1Out1FuncNode<boolean, number>(
+    new In1Out1FuncNode(
       description,
       graph,
-      'boolean',
+      ['boolean'],
       'float',
-      (a) => (a ? 1 : 0)
+      (a: boolean) => (a ? 1 : 0)
     )
 );
 export const Equal = new NodeDescription(
@@ -74,12 +72,11 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<boolean, boolean, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['boolean', 'boolean'],
       'boolean',
-      'boolean',
-      'boolean',
-      (a, b) => a === b
+      (a: boolean, b: boolean) => a === b
     )
 );

@@ -10,12 +10,12 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<bigint, bigint>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['integer'],
       'integer',
-      'integer',
-      (a) => a
+      (a: bigint) => a
     )
 );
 
@@ -24,13 +24,12 @@ export const Add = new NodeDescription(
   'Logic',
   '+',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => a + b
+      (a: bigint, b: bigint) => a + b
     )
 );
 export const Subtract = new NodeDescription(
@@ -38,13 +37,12 @@ export const Subtract = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => a - b
+      (a: bigint, b: bigint) => a - b
     )
 );
 export const Negate = new NodeDescription(
@@ -52,12 +50,12 @@ export const Negate = new NodeDescription(
   'Logic',
   '-',
   (description, graph) =>
-    new In1Out1FuncNode<bigint, bigint>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['integer'],
       'integer',
-      'integer',
-      (a) => -a
+      (a: bigint) => -a
     )
 );
 
@@ -66,13 +64,12 @@ export const Multiply = new NodeDescription(
   'Logic',
   '×',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => a * b
+      (a: bigint, b: bigint) => a * b
     )
 );
 export const Divide = new NodeDescription(
@@ -80,13 +77,12 @@ export const Divide = new NodeDescription(
   'Logic',
   '÷',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => a / b
+      (a: bigint, b: bigint) => a / b
     )
 );
 export const Modulus = new NodeDescription(
@@ -94,13 +90,12 @@ export const Modulus = new NodeDescription(
   'Logic',
   'MOD',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => a % b
+      (a: bigint, b: bigint) => a % b
     )
 );
 
@@ -109,12 +104,8 @@ export const ToFloat = new NodeDescription(
   'Logic',
   'To Float',
   (description, graph) =>
-    new In1Out1FuncNode<bigint, number>(
-      description,
-      graph,
-      'integer',
-      'float',
-      (a) => Number(a)
+    new In1Out1FuncNode(description, graph, ['integer'], 'float', (a: bigint) =>
+      Number(a)
     )
 );
 
@@ -123,13 +114,12 @@ export const Min = new NodeDescription(
   'Logic',
   'MIN',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => (a > b ? b : a)
+      (a: bigint, b: bigint) => (a > b ? b : a)
     )
 );
 export const Max = new NodeDescription(
@@ -137,13 +127,12 @@ export const Max = new NodeDescription(
   'Logic',
   'MAX',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, bigint>(
+    new In2Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      (a, b) => (a > b ? a : b)
+      (a: bigint, b: bigint) => (a > b ? a : b)
     )
 );
 export const Clamp = new NodeDescription(
@@ -151,14 +140,13 @@ export const Clamp = new NodeDescription(
   'Logic',
   'CLAMP',
   (description, graph) =>
-    new In3Out1FuncNode<bigint, bigint, bigint, bigint>(
+    new In3Out1FuncNode(
       description,
       graph,
+      ['integer', 'integer', 'integer'],
       'integer',
-      'integer',
-      'integer',
-      'integer',
-      (value, min, max) => (value < min ? min : value > max ? max : value),
+      (value: bigint, min: bigint, max: bigint) =>
+        value < min ? min : value > max ? max : value,
       ['value', 'min', 'max']
     )
 );
@@ -168,12 +156,12 @@ export const Abs = new NodeDescription(
   'Logic',
   'ABS',
   (description, graph) =>
-    new In1Out1FuncNode<bigint, bigint>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['integer'],
       'integer',
-      'integer',
-      (a) => (a < 0n ? -a : a)
+      (a: bigint) => (a < 0n ? -a : a)
     )
 );
 export const Sign = new NodeDescription(
@@ -181,12 +169,12 @@ export const Sign = new NodeDescription(
   'Logic',
   'SIGN',
   (description, graph) =>
-    new In1Out1FuncNode<bigint, bigint>(
+    new In1Out1FuncNode(
       description,
       graph,
+      ['integer'],
       'integer',
-      'integer',
-      (a) => (a < 0n ? -1n : a > 0n ? 1n : 0n)
+      (a: bigint) => (a < 0n ? -1n : a > 0n ? 1n : 0n)
     )
 );
 
@@ -195,13 +183,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'integer',
-      'integer',
+      ['integer', 'integer'],
       'boolean',
-      (a, b) => a === b
+      (a: bigint, b: bigint) => a === b
     )
 );
 export const GreaterThan = new NodeDescription(
@@ -209,13 +196,12 @@ export const GreaterThan = new NodeDescription(
   'Logic',
   '>',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'integer',
-      'integer',
+      ['integer', 'integer'],
       'boolean',
-      (a, b) => a > b
+      (a: bigint, b: bigint) => a > b
     )
 );
 export const GreaterThanOrEqual = new NodeDescription(
@@ -223,13 +209,12 @@ export const GreaterThanOrEqual = new NodeDescription(
   'Logic',
   '≥',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'integer',
-      'integer',
+      ['integer', 'integer'],
       'boolean',
-      (a, b) => a >= b
+      (a: bigint, b: bigint) => a >= b
     )
 );
 export const LessThan = new NodeDescription(
@@ -237,13 +222,12 @@ export const LessThan = new NodeDescription(
   'Logic',
   '<',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'integer',
-      'integer',
+      ['integer', 'integer'],
       'boolean',
-      (a, b) => a < b
+      (a: bigint, b: bigint) => a < b
     )
 );
 export const LessThanOrEqual = new NodeDescription(
@@ -251,12 +235,11 @@ export const LessThanOrEqual = new NodeDescription(
   'Logic',
   '≤',
   (description, graph) =>
-    new In2Out1FuncNode<bigint, bigint, boolean>(
+    new In2Out1FuncNode(
       description,
       graph,
-      'integer',
-      'integer',
+      ['integer', 'integer'],
       'boolean',
-      (a, b) => a <= b
+      (a: bigint, b: bigint) => a <= b
     )
 );

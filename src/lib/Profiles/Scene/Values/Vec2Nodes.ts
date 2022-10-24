@@ -22,13 +22,7 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<Vec2, Vec2>(
-      description,
-      graph,
-      'vec2',
-      'vec2',
-      (a) => a
-    )
+    new In1Out1FuncNode(description, graph, ['vec2'], 'vec2', (a: Vec2) => a)
 );
 
 export const Create = new NodeDescription(
@@ -40,7 +34,7 @@ export const Create = new NodeDescription(
       description,
       graph,
       ['float', 'float'],
-      'vec3',
+      'vec2',
       (x: number, y: number) => new Vec2(x, y),
       ['x', 'y']
     )

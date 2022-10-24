@@ -20,13 +20,7 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<Vec3, Vec3>(
-      description,
-      graph,
-      'euler',
-      'euler',
-      (a) => a
-    )
+    new In1Out1FuncNode(description, graph, ['euler'], 'euler', (a: Vec3) => a)
 );
 export const Create = new NodeDescription(
   'math/create/euler',

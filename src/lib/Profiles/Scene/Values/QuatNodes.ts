@@ -36,13 +36,7 @@ export const Constant = new NodeDescription(
   'Logic',
   'Constant',
   (description, graph) =>
-    new In1Out1FuncNode<Vec4, Vec4>(
-      description,
-      graph,
-      'quat',
-      'quat',
-      (a) => a
-    )
+    new In1Out1FuncNode(description, graph, ['quat'], 'quat', (a: Vec4) => a)
 );
 export const Create = new NodeDescription(
   'math/create/quat',

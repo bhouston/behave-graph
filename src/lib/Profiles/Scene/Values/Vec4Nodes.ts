@@ -40,7 +40,7 @@ export const Create = new NodeDescription(
       description,
       graph,
       ['float', 'float', 'float', 'float'],
-      'vec3',
+      'vec4',
       (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w),
       ['x', 'y', 'z', 'w']
     )

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NodeDescription } from '../../Nodes/NodeDescription.js';
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
 import { Registry } from '../../Registry.js';
@@ -17,7 +18,7 @@ export function registerSerializersForValueType(
         new In1Out1FuncNode<string, any>(
           graph,
           nodeType,
-          'string',
+          ['string'],
           valueTypeName,
           (a: string) => registry.values.get(valueTypeName).deserialize(a)
         )
@@ -30,7 +31,7 @@ export function registerSerializersForValueType(
         new In1Out1FuncNode<any, string>(
           graph,
           nodeType,
-          valueTypeName,
+          [valueTypeName],
           'string',
           (a: any) => registry.values.get(valueTypeName).serialize(a)
         )

@@ -7,7 +7,7 @@
   ],
   "nodes": [
     {
-      "type": "lifecycle/tick",
+      "type": "lifecycle/onTick",
       "id": "0",
       "flows": {
         "flow": {
@@ -17,11 +17,11 @@
       }
     },
     {
-      "type": "action/triggerCustomEvent/0",
+      "type": "customEvent/trigger/0",
       "id": "1"
     },
     {
-      "type": "event/customEvent/0",
+      "type": "customEvent/onTriggered/0",
       "id": "2",
       "flows": {
         "flow": {
@@ -31,7 +31,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "3",
       "parameters": {
         "text": {

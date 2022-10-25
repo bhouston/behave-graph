@@ -1,7 +1,7 @@
 {
   "nodes": [
     {
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "id": "0",
       "flows": {
         "flow": {
@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/create/quat",
+      "type": "math/create/quat",
       "id": "1",
       "parameters": {
         "x": {
@@ -29,7 +29,7 @@
       }
     },
     {
-      "type": "logic/toString/quat",
+      "type": "math/toString/quat",
       "id": "2",
       "parameters": {
         "a": {
@@ -41,7 +41,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "3",
       "parameters": {
         "text": {

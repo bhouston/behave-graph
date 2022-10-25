@@ -15,11 +15,11 @@ describe('readGraphFromJSON', () => {
       customEvents: [],
       nodes: [
         {
-          type: 'lifecycle/start',
+          type: 'lifecycle/onStart',
           id: '0'
         },
         {
-          type: 'action/log',
+          type: 'debug/log',
           id: '0'
         }
       ]
@@ -33,7 +33,7 @@ describe('readGraphFromJSON', () => {
       customEvents: [],
       nodes: [
         {
-          type: 'action/log',
+          type: 'debug/log',
           id: '1',
           parameters: {
             wrong: { value: 'Hello World!' }
@@ -50,11 +50,11 @@ describe('readGraphFromJSON', () => {
       customEvents: [],
       nodes: [
         {
-          type: 'lifecycle/start',
+          type: 'lifecycle/onStart',
           id: '0'
         },
         {
-          type: 'action/log',
+          type: 'debug/log',
           id: '1',
           parameters: {
             text: { value: 'Hello World!' }
@@ -74,11 +74,11 @@ describe('readGraphFromJSON', () => {
       customEvents: [],
       nodes: [
         {
-          type: 'lifecycle/start',
+          type: 'lifecycle/onStart',
           id: '0'
         },
         {
-          type: 'action/log',
+          type: 'debug/log',
           id: '1',
           parameters: {
             text: { value: 'Hello World!' }

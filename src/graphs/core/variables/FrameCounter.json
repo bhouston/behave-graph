@@ -9,7 +9,7 @@
   ],
   "nodes": [
     {
-      "type": "lifecycle/tick",
+      "type": "lifecycle/onTick",
       "id": "1",
       "flows": {
         "flow": {
@@ -19,16 +19,11 @@
       }
     },
     {
-      "type": "variable/get/float",
-      "id": "2",
-      "parameters": {
-        "variable": {
-          "value": "0"
-        }
-      }
+      "type": "variable/get/0",
+      "id": "2"
     },
     {
-      "type": "logic/add/float",
+      "type": "math/add/float",
       "id": "3",
       "parameters": {
         "a": {
@@ -43,12 +38,9 @@
       }
     },
     {
-      "type": "variable/set/float",
+      "type": "variable/set/0",
       "id": "4",
       "parameters": {
-        "variable": {
-          "value": "0"
-        },
         "value": {
           "link": {
             "nodeId": "3",
@@ -64,7 +56,7 @@
       }
     },
     {
-      "type": "logic/toString/float",
+      "type": "math/toString/float",
       "id": "5",
       "parameters": {
         "a": {
@@ -91,7 +83,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "7",
       "parameters": {
         "text": {

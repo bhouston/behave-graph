@@ -1,12 +1,21 @@
+import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
+import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 export class ForLoop extends Node {
-  constructor() {
+  public static Description = new NodeDescription(
+    'flow/forLoop',
+    'Flow',
+    'For Loop',
+    (description, graph) => new ForLoop(description, graph)
+  );
+
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      'Flow',
-      'flow/forLoop',
+      description,
+      graph,
       [
         new Socket('flow', 'flow'),
         new Socket('integer', 'startIndex'),

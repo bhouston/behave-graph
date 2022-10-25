@@ -174,7 +174,7 @@ export class NodeEvalContext {
     );
     if (outputSocket === undefined) {
       throw new Error(
-        `can not find output socket with name ${outputName} on node of type ${this.node.typeName}`
+        `can not find output socket with name ${outputName} on node of type ${this.node.description.typeName}`
       );
     }
     if (outputSocket.valueTypeName === 'flow') {

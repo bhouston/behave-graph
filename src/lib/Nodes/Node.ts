@@ -1,6 +1,7 @@
+import { Graph } from '../Graphs/Graph.js';
 import { Metadata } from '../Metadata.js';
 import { Socket } from '../Sockets/Socket.js';
-import { NodeCategory } from './NodeCategory.js';
+import { NodeDescription } from './NodeDescription.js';
 import { NodeEvalContext } from './NodeEvalContext.js';
 
 function findSocketByName(sockets: Socket[], name: string): Socket | undefined {
@@ -17,8 +18,8 @@ export class Node {
   public interruptibleAsync = false;
 
   constructor(
-    public readonly category: NodeCategory,
-    public readonly typeName: string,
+    public readonly description: NodeDescription,
+    public readonly graph: Graph,
     public readonly inputSockets: Socket[],
     public readonly outputSockets: Socket[],
     public readonly evalFunc: (context: NodeEvalContext) => void
@@ -38,7 +39,7 @@ export class Node {
     const socket = findSocketByName(this.inputSockets, socketName);
     if (socket === undefined) {
       throw new Error(
-        `no input sockets with name: ${socketName} on node ${this.typeName}`
+        `no input sockets with name: ${socketName} on node ${this.description.typeName}`
       );
     }
     return socket;
@@ -48,7 +49,7 @@ export class Node {
     const socket = findSocketByName(this.outputSockets, socketName);
     if (socket === undefined) {
       throw new Error(
-        `no output socket with name: ${socketName} on node ${this.typeName}`
+        `no output socket with name: ${socketName} on node ${this.description.typeName}`
       );
     }
     return socket;

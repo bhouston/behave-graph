@@ -34,20 +34,15 @@ const exampleMap: { [key: string]: any } = {
   hierarchyJson,
   spinningSuzanneJson
 };
-//console.log('exampleMap', exampleMap);
 
 Object.keys(exampleMap).forEach((key) => {
   describe(`${key}`, () => {
-    //console.log('exampleMap[key]', exampleMap[key]);
     const exampleJson = exampleMap[key] as GraphJSON;
-    //console.log('exampleJSON', exampleJSON);
 
     let parsedGraphJson: Graph | undefined;
-    // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {
         parsedGraphJson = readGraphFromJSON(exampleJson, registry);
-        //console.log(parsedGraphJson);
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {

@@ -34,9 +34,8 @@ export function readGraphFromJSON(
   }
 
   // register node based on variables and custom events.
-  graph.registerLocalNodeTypes();
+  graph.updateDynamicNodeDescriptions();
 
-  // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
   const nodesJson = graphJson?.nodes ?? [];
 
   if (nodesJson.length === 0) {
@@ -51,16 +50,13 @@ export function readGraphFromJSON(
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
-    // console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
-      // console.log(inputSocket);
       inputSocket.links.forEach((link) => {
-        // console.log(link);
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
-            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent upstream node id ${link.nodeId}`
+            `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+              `a nonexistent upstream node id: ${link.nodeId}`
           );
         }
         const upstreamNode = graph.nodes[link.nodeId];
@@ -69,8 +65,8 @@ export function readGraphFromJSON(
         );
         if (upstreamOutputSocket === undefined) {
           throw new Error(
-            `node '${node.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
-              `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.typeName}'`
+            `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+              `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.description.typeName}'`
           );
         }
 
@@ -89,13 +85,10 @@ export function readGraphFromJSON(
     });
 
     node.outputSockets.forEach((outputSocket) => {
-      // console.log(inputSocket);
       outputSocket.links.forEach((link) => {
-        // console.log(link);
-
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
-            `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+            `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
               `a nonexistent downstream node id ${link.nodeId}`
           );
         }
@@ -106,8 +99,8 @@ export function readGraphFromJSON(
         );
         if (downstreamInputSocket === undefined) {
           throw new Error(
-            `node '${node.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
-              `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.typeName}'`
+            `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+              `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.description.typeName}'`
           );
         }
 
@@ -126,7 +119,6 @@ export function readGraphFromJSON(
     });
   });
 
-  // console.log('output Graph', JSON.stringify(graph, null, 2));
   return graph;
 }
 
@@ -136,7 +128,6 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   }
   const nodeName = nodeJson.type;
   const node = graph.createNode(nodeName, nodeJson.id);
-  //console.log(node);
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
@@ -147,12 +138,6 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   if (nodeJson.flows !== undefined) {
     readNodeFlowsJSON(graph, node, nodeJson.flows);
   }
-
-  // TODO: apply nodeJson.inputs to node.
-  if (node.id in graph.nodes) {
-    throw new Error(`multiple nodes with the same "unique id": ${node.id}`);
-  }
-  graph.nodes[node.id] = node;
 }
 
 function readNodeParameterJSON(
@@ -186,7 +171,7 @@ function readNodeParameterJSON(
     );
     if (inputSocket === undefined) {
       throw new Error(
-        `node '${node.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
+        `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
       );
     }
   });
@@ -207,7 +192,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
     );
     if (outputSocket === undefined) {
       throw new Error(
-        `node '${node.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`
+        `node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`
       );
     }
   });

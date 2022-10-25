@@ -1,7 +1,7 @@
 {
   "nodes": [
     {
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "id": "0",
       "flows": {
         "flow": {
@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "logic/create/vec3",
+      "type": "math/create/vec3",
       "id": "1",
       "parameters": {
         "x": {
@@ -26,7 +26,7 @@
       }
     },
     {
-      "type": "logic/toString/vec3",
+      "type": "math/toString/vec3",
       "id": "2",
       "parameters": {
         "a": {
@@ -38,7 +38,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "3",
       "parameters": {
         "text": {

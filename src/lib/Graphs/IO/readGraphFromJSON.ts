@@ -36,7 +36,6 @@ export function readGraphFromJSON(
   // register node based on variables and custom events.
   graph.updateDynamicNodeDescriptions();
 
-  // console.log('input JSON', JSON.stringify(nodesJson, null, 2));
   const nodesJson = graphJson?.nodes ?? [];
 
   if (nodesJson.length === 0) {
@@ -51,12 +50,9 @@ export function readGraphFromJSON(
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
-    console.log(node);
     // initialize the inputs by resolving to the reference nodes.
     node.inputSockets.forEach((inputSocket) => {
-      console.log(inputSocket);
       inputSocket.links.forEach((link) => {
-        console.log(link);
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
             `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
@@ -89,10 +85,7 @@ export function readGraphFromJSON(
     });
 
     node.outputSockets.forEach((outputSocket) => {
-      // console.log(inputSocket);
       outputSocket.links.forEach((link) => {
-        // console.log(link);
-
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
             `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
@@ -126,7 +119,6 @@ export function readGraphFromJSON(
     });
   });
 
-  // console.log('output Graph', JSON.stringify(graph, null, 2));
   return graph;
 }
 
@@ -136,7 +128,6 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
   }
   const nodeName = nodeJson.type;
   const node = graph.createNode(nodeName, nodeJson.id);
-  //console.log(node);
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;

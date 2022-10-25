@@ -41,20 +41,14 @@ const exampleMap: { [key: string]: any } = {
   performanceTestJson
 };
 
-//console.log('forLoop',forLoopJson);
-
 Object.keys(exampleMap).forEach((key) => {
   describe(`${key}`, () => {
-    //console.log('exampleMap[key]',mapJson[key]);
     const exampleJson = exampleMap[key] as GraphJSON;
-    //console.log('exampleJSON',jSONJson);
 
     let parsedGraphJson: Graph | undefined;
-    // test('glob json graphs', (done) => {
     test('parse json to graph', () => {
       expect(() => {
         parsedGraphJson = readGraphFromJSON(exampleJson, registry);
-        //console.log(parsedGraphJson);
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {

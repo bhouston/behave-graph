@@ -43,7 +43,7 @@ async function main() {
   const registry = new Registry();
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-  const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
+  const graphJsonPath = `/src/graphs/scene/actions/FlashSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }

@@ -1,18 +1,19 @@
-export class AbstractionsRegistry {
-  private readonly abstractionNameToImplementationMap: { [name: string]: any } =
-    {};
+import { AbstractionImplementationMap } from "./AbstractionImplementationMap.js";
 
-  register(abstractionName: string, implementation: any) {
-    if (abstractionName in this.abstractionNameToImplementationMap) {
+export class AbstractionsRegistry {
+  private readonly abstractionImplementationMap: AbstractionImplementationMap = {};
+
+  register<K extends keyof AbstractionImplementationMap>(abstractionName: K, abstraction: AbstractionImplementationMap[K]) {
+    if (abstractionName in this.abstractionImplementationMap) {
       throw new Error(`already registered abstraction ${abstractionName}`);
     }
-    this.abstractionNameToImplementationMap[abstractionName] = implementation;
+    this.abstractionImplementationMap[abstractionName] = abstraction;
   }
 
-  get<T>(abstractionName: string): T {
-    if (!(abstractionName in this.abstractionNameToImplementationMap)) {
+  get<K extends keyof AbstractionImplementationMap>(abstractionName: K) {
+    if (typeof this.abstractionImplementationMap[abstractionName] === 'undefined') {
       throw new Error(`no registered abstraction with name ${abstractionName}`);
     }
-    return this.abstractionNameToImplementationMap[abstractionName] as T;
+    return this.abstractionImplementationMap[abstractionName]!;
   }
 }

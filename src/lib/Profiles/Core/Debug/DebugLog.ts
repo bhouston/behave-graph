@@ -3,7 +3,6 @@ import { Node } from '../../../Nodes/Node.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
-import { ILogger } from '../Abstractions/ILogger.js';
 
 export class Log extends Node {
   public static Description = new NodeDescription(
@@ -21,7 +20,7 @@ export class Log extends Node {
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         const logger =
-          context.graph.registry.abstractions.get<ILogger>('ILogger');
+          context.graph.registry.abstractions.get('ILogger');
         logger.info(context.readInput('text'));
       }
     );

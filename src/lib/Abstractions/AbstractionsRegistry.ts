@@ -1,4 +1,4 @@
-import { AbstractionImplementationMap } from "./AbstractionImplementationMap";
+import { AbstractionImplementationMap } from "./AbstractionImplementationMap.js";
 
 export class AbstractionsRegistry {
   private readonly abstractionImplementationMap: AbstractionImplementationMap = {};

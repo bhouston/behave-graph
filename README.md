@@ -88,7 +88,6 @@ Console output:
 
 ```zsh
 > npm run exec-graph -- ./src/graphs/core/HelloWorld.json
-```)
 
 Hello World!
 ```

@@ -51,7 +51,7 @@ export function validateGraphAcyclic(graph: Graph): string[] {
   Object.values(graph.nodes).forEach((node) => {
     if (node.metadata['dag.marked'] === 'false') {
       errorList.push(
-        `node ${node.typeName} is part of a cycle, not a directed acyclic graph`
+        `node ${node.description.typeName} is part of a cycle, not a directed acyclic graph`
       );
     }
     // eslint-disable-next-line no-param-reassign

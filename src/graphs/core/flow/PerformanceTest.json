@@ -1,7 +1,7 @@
 {
   "nodes": [
     {
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "id": "0",
       "flows": {
         "flow": {
@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "1",
       "parameters": {
         "text": {
@@ -48,7 +48,7 @@
       }
     },
     {
-      "type": "logic/modulus/integer",
+      "type": "math/modulus/integer",
       "id": "3",
       "parameters": {
         "a": {
@@ -63,7 +63,7 @@
       }
     },
     {
-      "type": "logic/equal/integer",
+      "type": "math/equal/integer",
       "id": "4",
       "parameters": {
         "a": {
@@ -96,7 +96,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "6",
       "parameters": {
         "text": {
@@ -105,7 +105,7 @@
       }
     },
     {
-      "type": "action/log",
+      "type": "debug/log",
       "id": "7",
       "parameters": {
         "text": {

@@ -36,7 +36,7 @@ export class GraphEvaluator {
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
-          `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
+          `${node.description.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
       );
     }
     if (outputSocket.links.length === 1) {

@@ -12,6 +12,6 @@ export class CustomEvent {
   constructor(
     public readonly id: string,
     public readonly name: string,
-    public readonly parameters: Socket[]
+    public readonly parameters: Socket[] = []
   ) {}
 }

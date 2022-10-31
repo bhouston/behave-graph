@@ -1,14 +1,23 @@
+import { Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
+import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
 export class Sequence extends Node {
-  constructor() {
+  public static Description = new NodeDescription(
+    'flow/sequence',
+    'Flow',
+    'Sequence',
+    (description, graph) => new Sequence(description, graph)
+  );
+
+  constructor(description: NodeDescription, graph: Graph) {
     super(
-      'Flow',
-      'flow/sequence',
+      description,
+      graph,
       [new Socket('flow', 'flow')],
       [
         new Socket('flow', '1'),

@@ -51,7 +51,7 @@ export function readGraphFromJSON(
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
     // initialize the inputs by resolving to the reference nodes.
-    node.inputSockets.forEach((inputSocket) => {
+    Object.values(node.inputSockets).forEach((inputSocket) => {
       inputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -60,9 +60,8 @@ export function readGraphFromJSON(
           );
         }
         const upstreamNode = graph.nodes[link.nodeId];
-        const upstreamOutputSocket = upstreamNode.outputSockets.find(
-          (socket) => socket.name === link.socketName
-        );
+        const upstreamOutputSocket =
+          upstreamNode.outputSockets[link.socketName];
         if (upstreamOutputSocket === undefined) {
           throw new Error(
             `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
@@ -84,7 +83,7 @@ export function readGraphFromJSON(
       });
     });
 
-    node.outputSockets.forEach((outputSocket) => {
+    Object.values(node.outputSockets).forEach((outputSocket) => {
       outputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -94,9 +93,8 @@ export function readGraphFromJSON(
         }
 
         const downstreamNode = graph.nodes[link.nodeId];
-        const downstreamInputSocket = downstreamNode.inputSockets.find(
-          (socket) => socket.name === link.socketName
-        );
+        const downstreamInputSocket =
+          downstreamNode.inputSockets[link.socketName];
         if (downstreamInputSocket === undefined) {
           throw new Error(
             `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
@@ -145,7 +143,7 @@ function readNodeParameterJSON(
   node: Node,
   parametersJson: NodeParametersJSON
 ) {
-  node.inputSockets.forEach((socket) => {
+  Object.values(node.inputSockets).forEach((socket) => {
     if (!(socket.name in parametersJson)) {
       return;
     }
@@ -166,9 +164,7 @@ function readNodeParameterJSON(
 
   // validate that there are no additional input sockets specified that were not read.
   Object.keys(parametersJson).forEach((inputName) => {
-    const inputSocket = node.inputSockets.find(
-      (socket) => socket.name === inputName
-    );
+    const inputSocket = node.inputSockets[inputName];
     if (inputSocket === undefined) {
       throw new Error(
         `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
@@ -178,7 +174,7 @@ function readNodeParameterJSON(
 }
 
 function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
-  node.outputSockets.forEach((socket) => {
+  Object.values(node.outputSockets).forEach((socket) => {
     if (socket.name in flowsJson) {
       const outputLinkJson = flowsJson[socket.name];
       socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));
@@ -187,9 +183,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
 
   // validate that there are no additional input sockets specified that were not read.
   Object.keys(flowsJson).forEach((outputName) => {
-    const outputSocket = node.outputSockets.find(
-      (socket) => socket.name === outputName
-    );
+    const outputSocket = node.outputSockets[outputName];
     if (outputSocket === undefined) {
       throw new Error(
         `node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`

@@ -31,7 +31,7 @@ export class GraphEvaluator {
     syncEvaluationCompletedListener: (() => void) | undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
-    const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
+    const outputSocket = node.outputSockets[outputFlowSocket.socketName];
 
     if (outputSocket.links.length > 1) {
       throw new Error(

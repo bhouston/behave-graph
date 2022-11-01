@@ -57,9 +57,8 @@ export class SyncExecutionBlock {
     const upstreamNode = this.graph.nodes[upstreamLink.nodeId];
 
     // what is inputSocket connected to?
-    const upstreamOutputSocket = upstreamNode.getOutputSocket(
-      upstreamLink.socketName
-    );
+    const upstreamOutputSocket =
+      upstreamNode.outputSockets[upstreamLink.socketName];
 
     if (upstreamNode.flow) {
       //Logger.verbose(`upstreamNode is a flow node: ${upstreamNode.typeName}`);
@@ -70,7 +69,7 @@ export class SyncExecutionBlock {
 
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
-    upstreamNode.inputSockets.forEach((upstreamInputSocket) => {
+    upstreamNode.inputSocketList.forEach((upstreamInputSocket) => {
       //Logger.verbose(
       //  `recursively tracing input sockets: ${upstreamInputSocket.name}`
       //);
@@ -96,7 +95,7 @@ export class SyncExecutionBlock {
   ) {
     Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
-    const outputSocket = node.getOutputSocket(outputFlowSocket.socketName);
+    const outputSocket = node.outputSockets[outputFlowSocket.socketName];
 
     if (outputSocket.links.length > 1) {
       throw new Error(
@@ -143,7 +142,7 @@ export class SyncExecutionBlock {
     let triggeringFlowSocket = undefined;
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
-    node.inputSockets.forEach((inputSocket) => {
+    node.inputSocketList.forEach((inputSocket) => {
       //Logger.verbose(`scanning input socket: ${inputSocket.name}`);
       if (inputSocket.valueTypeName !== 'flow') {
         // eslint-disable-next-line no-param-reassign
@@ -170,7 +169,7 @@ export class SyncExecutionBlock {
     if (context.numCommits === 0 && !context.asyncPending) {
       // ensure this is auto-commit compatible.
       let numFlowOutputs = 0;
-      node.outputSockets.forEach((outputSocket) => {
+      node.outputSocketList.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
           numFlowOutputs++;
         }
@@ -182,7 +181,7 @@ export class SyncExecutionBlock {
         );
       }
 
-      node.outputSockets.forEach((outputSocket) => {
+      node.outputSocketList.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
           this.commit(new Link(link.nodeId, outputSocket.name));
         }

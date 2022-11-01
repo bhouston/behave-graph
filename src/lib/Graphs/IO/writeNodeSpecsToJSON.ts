@@ -21,7 +21,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       outputs: []
     };
 
-    node.inputSockets.forEach((inputSocket) => {
+    Object.values(node.inputSockets).forEach((inputSocket) => {
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
@@ -38,7 +38,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 
-    node.outputSockets.forEach((outputSocket) => {
+    Object.values(node.outputSockets).forEach((outputSocket) => {
       const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName

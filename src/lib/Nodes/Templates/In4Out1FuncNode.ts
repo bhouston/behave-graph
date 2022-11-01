@@ -34,13 +34,13 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
       ],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
+        this.writeOutput(
           'result',
           this.binaryEvalFunc(
-            context.readInput(inputNames[0]),
-            context.readInput(inputNames[1]),
-            context.readInput(inputNames[2]),
-            context.readInput(inputNames[3])
+            this.readInput(inputNames[0]),
+            this.readInput(inputNames[1]),
+            this.readInput(inputNames[2]),
+            this.readInput(inputNames[3])
           )
         );
       }

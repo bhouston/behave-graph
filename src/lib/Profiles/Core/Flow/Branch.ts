@@ -20,7 +20,7 @@ export class Branch extends Node {
       [new Socket('flow', 'true'), new Socket('flow', 'false')],
       (context: NodeEvalContext) => {
         context.commit(
-          context.readInput<boolean>('condition') === true ? 'true' : 'false'
+          this.readInput<boolean>('condition') === true ? 'true' : 'false'
         );
       }
     );

@@ -20,7 +20,7 @@ export class OnSceneNodeClick extends Node {
       [],
       [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')],
       (context: NodeEvalContext) => {
-        context.writeOutput('nodeIndex', -1); // TODO: Replace with real value.
+        this.writeOutput('nodeIndex', -1); // TODO: Replace with real value.
       }
     );
   }

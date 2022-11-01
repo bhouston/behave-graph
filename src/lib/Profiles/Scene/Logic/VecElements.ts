@@ -18,11 +18,11 @@ export class VecElements<T> extends Node {
       [new Socket(valueTypeName, 'value')],
       elementNames.map((elementName) => new Socket('float', elementName)),
       (context: NodeEvalContext) => {
-        const value = context.readInput('value') as T;
+        const value = this.readInput('value') as T;
         const elementValues = elementNames.map(() => 0);
         toArray(value, elementValues, 0);
         elementNames.forEach((elementName, index) =>
-          context.writeOutput(elementName, elementValues[index])
+          this.writeOutput(elementName, elementValues[index])
         );
       }
     );

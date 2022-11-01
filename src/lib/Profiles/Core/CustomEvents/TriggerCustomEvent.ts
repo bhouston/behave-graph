@@ -41,7 +41,7 @@ export class TriggerCustomEvent extends Node {
       (context: NodeEvalContext) => {
         const parameters: { [parameterName: string]: any } = {};
         customEvent.parameters.forEach((parameterSocket) => {
-          parameters[parameterSocket.name] = context.readInput(
+          parameters[parameterSocket.name] = this.readInput(
             parameterSocket.name
           );
         });

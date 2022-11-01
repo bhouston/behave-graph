@@ -22,7 +22,7 @@ export class Log extends Node {
       (context: NodeEvalContext) => {
         const logger =
           context.graph.registry.abstractions.get<ILogger>('ILogger');
-        logger.info(context.readInput('text'));
+        logger.info(this.readInput('text'));
       }
     );
   }

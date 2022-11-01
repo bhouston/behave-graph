@@ -140,6 +140,7 @@ export class SyncExecutionBlock {
 
     const node = this.graph.nodes[link.nodeId];
 
+    let triggeringFlowSocket = undefined;
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSockets.forEach((inputSocket) => {
@@ -151,12 +152,18 @@ export class SyncExecutionBlock {
         //);
         this.resolveInputValueFromSocket(inputSocket);
       } else {
-        // eslint-disable-next-line no-param-reassign
-        inputSocket.value = inputSocket.name === link.socketName; // is this required?  if there are multiple input flows, yes it is.
+        if (inputSocket.name === link.socketName) {
+          // eslint-disable-next-line no-param-reassign
+          inputSocket.value = true; // is this required?  if there are multiple input flows, yes it is.
+          triggeringFlowSocket = inputSocket;
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          inputSocket.value = false;
+        }
       }
     });
 
-    const context = new NodeEvalContext(this, node);
+    const context = new NodeEvalContext(this, node, triggeringFlowSocket);
     context.evalFlow();
 
     // Auto-commit if no existing commits and no promises waiting.

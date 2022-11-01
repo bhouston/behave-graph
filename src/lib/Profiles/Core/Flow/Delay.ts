@@ -30,7 +30,7 @@ export class Delay extends Node {
           }
           context.commit('flow');
           context.finish();
-        }, context.readInput<number>('duration') * 1000);
+        }, this.readInput<number>('duration') * 1000);
 
         context.onAsyncCancelled.addListener(() => {
           timeIsCancelled = true;

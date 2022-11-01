@@ -29,9 +29,9 @@ export class In1Out1FuncNode<In1, Out1> extends Node {
       [new Socket(inputValueTypes[0], inputNames[0])],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
+        this.writeOutput(
           'result',
-          this.unaryEvalFunc(context.readInput(inputNames[0]))
+          this.unaryEvalFunc(this.readInput(inputNames[0]))
         );
       }
     );

@@ -32,9 +32,9 @@ export class GetSceneProperty extends Node {
       (context) => {
         const sceneGraph =
           context.graph.registry.abstractions.get<IScene>('IScene');
-        context.writeOutput(
+        this.writeOutput(
           'value',
-          sceneGraph.getProperty(context.readInput('jsonPath'), valueTypeName)
+          sceneGraph.getProperty(this.readInput('jsonPath'), valueTypeName)
         );
       }
     );

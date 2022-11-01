@@ -16,6 +16,9 @@ export class Node {
   public evaluateOnStartup = false;
   public async = false;
   public interruptibleAsync = false;
+  public cachedContext: NodeEvalContext | undefined = undefined;
+  private inputNameToSocket: { [name: string]: Socket } = {};
+  private outputNameToSocket: { [name: string]: Socket } = {};
 
   constructor(
     public readonly description: NodeDescription,
@@ -28,30 +31,59 @@ export class Node {
     let areAnySocketsFlowType = false;
     this.inputSockets.forEach((socket) => {
       areAnySocketsFlowType ||= socket.valueTypeName === 'flow';
+      this.inputNameToSocket[socket.name] = socket;
     });
     this.outputSockets.forEach((socket) => {
       areAnySocketsFlowType ||= socket.valueTypeName === 'flow';
+      this.outputNameToSocket[socket.name] = socket;
     });
     this.flow = areAnySocketsFlowType;
   }
 
-  getInputSocket(socketName: string): Socket {
-    const socket = findSocketByName(this.inputSockets, socketName);
+  getInputSocket(inputName: string): Socket {
+    const socket = this.inputNameToSocket[inputName];
     if (socket === undefined) {
       throw new Error(
-        `no input sockets with name: ${socketName} on node ${this.description.typeName}`
+        `no input sockets with name: ${inputName} on node ${this.description.typeName}`
       );
     }
     return socket;
   }
 
-  getOutputSocket(socketName: string): Socket {
-    const socket = findSocketByName(this.outputSockets, socketName);
+  // TODO: this may want to cache the values on the creation of the NodeEvalContext
+  // for re-entrant async operations, otherwise the inputs may change during operation.
+  readInput<T>(inputName: string): T {
+    const inputSocket = this.inputNameToSocket[inputName];
+    if (inputSocket === undefined) {
+      throw new Error(
+        `can not find input socket with name ${inputName} on node of type ${this.description.typeName}`
+      );
+    }
+    return inputSocket.value as T;
+  }
+
+  getOutputSocket(outputName: string): Socket {
+    const socket = this.outputNameToSocket[outputName];
     if (socket === undefined) {
       throw new Error(
-        `no output socket with name: ${socketName} on node ${this.description.typeName}`
+        `no output socket with name: ${outputName} on node ${this.description.typeName}`
       );
     }
     return socket;
+  }
+
+  writeOutput<T>(outputName: string, value: T) {
+    const outputSocket = this.outputNameToSocket[outputName];
+    if (outputSocket === undefined) {
+      throw new Error(
+        `can not find output socket with name ${outputName} on node of type ${this.description.typeName}`
+      );
+    }
+    if (outputSocket.valueTypeName === 'flow') {
+      throw new Error(
+        `can not set the value of Flow output socket ${outputName}, use commit() instead`
+      );
+    }
+    outputSocket.value = value;
   }
 }

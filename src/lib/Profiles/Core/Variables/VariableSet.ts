@@ -30,7 +30,7 @@ export class VariableSet extends Node {
       ],
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
-        variable.set(context.readInput('value'));
+        variable.set(this.readInput('value'));
       }
     );
   }

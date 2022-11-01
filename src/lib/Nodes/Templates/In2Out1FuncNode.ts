@@ -32,11 +32,11 @@ export class In2Out1FuncNode<In1, In2, Out1> extends Node {
       ],
       [new Socket(outputValueType, 'result')],
       (context: NodeEvalContext) => {
-        context.writeOutput(
+        this.writeOutput(
           'result',
           this.binaryEvalFunc(
-            context.readInput(inputNames[0]),
-            context.readInput(inputNames[1])
+            this.readInput(inputNames[0]),
+            this.readInput(inputNames[1])
           )
         );
       }

@@ -25,7 +25,7 @@ export class FlipFlop extends Node {
         new Socket('boolean', 'isOn')
       ],
       (context: NodeEvalContext) => {
-        context.writeOutput('isOn', this.isOn);
+        this.writeOutput('isOn', this.isOn);
         context.commit(this.isOn ? 'on' : 'off');
         this.isOn = !this.isOn;
       }

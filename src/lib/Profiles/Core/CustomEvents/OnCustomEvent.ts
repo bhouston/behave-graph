@@ -45,7 +45,7 @@ export class OnCustomEvent extends Node {
                 `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
               );
             }
-            context.writeOutput(
+            this.writeOutput(
               parameterSocket.name,
               parameters[parameterSocket.name]
             );

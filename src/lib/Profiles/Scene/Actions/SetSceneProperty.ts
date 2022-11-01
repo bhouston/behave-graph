@@ -35,8 +35,8 @@ export class SetSceneProperty extends Node {
       [new Socket('flow', 'flow')],
       (context) => {
         const scene = context.graph.registry.abstractions.get<IScene>('IScene');
-        const value = context.readInput('value');
-        scene.setProperty(context.readInput('jsonPath'), valueTypeName, value);
+        const value = this.readInput('value');
+        scene.setProperty(this.readInput('jsonPath'), valueTypeName, value);
       }
     );
   }

@@ -25,8 +25,8 @@ export class ExpectTrue extends Node {
       [new Socket('flow', 'flow')],
       (context: NodeEvalContext) => {
         Assert.mustBeTrue(
-          context.readInput('condition'),
-          context.readInput('description')
+          this.readInput('condition'),
+          this.readInput('description')
         );
       }
     );

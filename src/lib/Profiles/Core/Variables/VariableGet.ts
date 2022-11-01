@@ -27,7 +27,7 @@ export class VariableGet extends Node {
       [],
       [new Socket(variable.valueTypeName, 'value', undefined, variable.name)], // output socket label uses variable name like UE4, but name is value to avoid breaking graph when variable is renamed
       (context: NodeEvalContext) => {
-        context.writeOutput('value', variable.get());
+        this.writeOutput('value', variable.get());
       }
     );
   }

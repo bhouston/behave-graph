@@ -30,7 +30,7 @@ export class SyncExecutionBlock {
   // Is is optimal for a tree, but can do a lot of duplicate evaluations in dense graphs.
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
-  resolveInputValueFromSocket(inputSocket: Socket): any {
+  resolveInputValueFromSocket(inputSocket: Socket): number {
     if (inputSocket.valueTypeName === 'flow') {
       throw new Error(
         `can not resolve input values for Eval input sockets: ${inputSocket.name}`
@@ -39,16 +39,7 @@ export class SyncExecutionBlock {
 
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
-      //Logger.verbose(
-      //  `returning value on input socket as it has no links: ${inputSocket.value}`
-      // );
-      // if not set, use the default value for this valueType
-      if (inputSocket.value === undefined) {
-        return this.graph.registry.values
-          .get(inputSocket.valueTypeName)
-          .creator();
-      }
-      return inputSocket.value;
+      return 0;
     }
     if (inputSocket.links.length > 1) {
       throw new Error(
@@ -65,24 +56,20 @@ export class SyncExecutionBlock {
       upstreamNode.outputSockets[upstreamLink.socketName];
 
     if (upstreamNode instanceof FlowNode) {
-      //Logger.verbose(`upstreamNode is a flow node: ${upstreamNode.typeName}`);
-      // eslint-disable-next-line no-param-reassign
       inputSocket.value = upstreamOutputSocket.value;
-      return upstreamOutputSocket.value;
+      return 0;
     }
 
     if (!(upstreamNode instanceof ImmediateNode)) {
       throw new TypeError('node must be an instance of ImmediateNode');
     }
 
+    let executionStepCount = 0;
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     upstreamNode.inputSocketList.forEach((upstreamInputSocket) => {
-      //Logger.verbose(
-      //  `recursively tracing input sockets: ${upstreamInputSocket.name}`
-      //);
-      // eslint-disable-next-line no-param-reassign
-      this.resolveInputValueFromSocket(upstreamInputSocket);
+      executionStepCount +=
+        this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
     this.graphEvaluator.onNodeEvaluation.emit(
@@ -90,21 +77,16 @@ export class SyncExecutionBlock {
     );
 
     upstreamNode.evalFunc();
-
-    // confirm assumptions for immediate evaluation.
-    //Assert.mustBeTrue(
-    //  !this.node.async,
-    //  'evalImmediate can not handle evalPromise nodes, use evalFlow instead'
-    //);
+    executionStepCount++;
 
     this.graphEvaluator.onNodeEvaluation.emit(
       new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.None, false)
     );
+
     // get the output value we wanted.
-    // eslint-disable-next-line no-param-reassign
     inputSocket.value = upstreamOutputSocket.value;
 
-    return inputSocket.value;
+    return executionStepCount;
   }
 
   // this is syncCommit.
@@ -139,7 +121,7 @@ export class SyncExecutionBlock {
   }
 
   // returns the number of new execution steps created as a result of this one step
-  executeStep(): boolean {
+  executeStep(): number {
     // pop the next node off the queue
     const link = this.nextEval;
     this.nextEval = null;
@@ -147,19 +129,22 @@ export class SyncExecutionBlock {
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (link === null) {
       if (this.syncEvaluationCompletedListenerStack.length === 0) {
-        return false;
+        return -1;
       }
       const awaitingCallback = this.syncEvaluationCompletedListenerStack.pop();
       if (awaitingCallback === undefined) {
         throw new Error('awaitingCallback is empty');
       }
       awaitingCallback();
-      return true;
+      return 0;
     }
 
     const node = this.graph.nodes[link.nodeId];
 
     let triggeringFlowSocket = undefined;
+
+    let executionStepCount = 0;
+
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSocketList.forEach((inputSocket) => {
@@ -169,7 +154,7 @@ export class SyncExecutionBlock {
         //Logger.verbose(
         //  `resolving input value for non-flow socket: ${inputSocket.name}`
         //);
-        this.resolveInputValueFromSocket(inputSocket);
+        executionStepCount += this.resolveInputValueFromSocket(inputSocket);
       } else {
         if (inputSocket.name === link.socketName) {
           // eslint-disable-next-line no-param-reassign
@@ -184,6 +169,7 @@ export class SyncExecutionBlock {
 
     const context = new NodeEvalContext(this, node, triggeringFlowSocket);
     context.evalFlow();
+    executionStepCount++;
 
     // Auto-commit if no existing commits and no promises waiting.
     if (context.numCommits === 0 && !context.asyncPending) {
@@ -208,6 +194,6 @@ export class SyncExecutionBlock {
       });
     }
 
-    return true;
+    return executionStepCount;
   }
 }

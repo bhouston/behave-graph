@@ -61,12 +61,15 @@ export class GraphEvaluator {
       this.executionBlockQueue.length > 0
     ) {
       const currentExecutionBlock = this.executionBlockQueue[0];
-      if (!currentExecutionBlock.executeStep()) {
+      const localExecutionSteps = currentExecutionBlock.executeStep();
+      if (localExecutionSteps < 0) {
         // remove first element
         this.executionBlockQueue.shift();
       }
       elapsedSeconds = (Date.now() - startDateTime) * 0.001;
-      elapsedSteps++;
+      if (localExecutionSteps > 0) {
+        elapsedSteps += localExecutionSteps;
+      }
     }
     return elapsedSteps;
   }

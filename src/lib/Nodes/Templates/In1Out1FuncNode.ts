@@ -1,10 +1,9 @@
 import { Graph } from '../../Graphs/Graph.js';
 import { Socket } from '../../Sockets/Socket.js';
-import { Node } from '../Node.js';
+import { ImmediateNode } from '../ImmediateNode.js';
 import { NodeDescription } from '../NodeDescription.js';
-import { NodeEvalContext } from '../NodeEvalContext.js';
 
-export class In1Out1FuncNode<In1, Out1> extends Node {
+export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -28,7 +27,7 @@ export class In1Out1FuncNode<In1, Out1> extends Node {
       graph,
       [new Socket(inputValueTypes[0], inputNames[0])],
       [new Socket(outputValueType, 'result')],
-      (context: NodeEvalContext) => {
+      () => {
         this.writeOutput(
           'result',
           this.unaryEvalFunc(this.readInput(inputNames[0]))

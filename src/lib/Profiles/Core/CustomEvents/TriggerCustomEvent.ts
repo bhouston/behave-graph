@@ -1,11 +1,11 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class TriggerCustomEvent extends Node {
+export class TriggerCustomEvent extends FlowNode {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(

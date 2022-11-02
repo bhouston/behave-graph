@@ -1,11 +1,11 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class OnCustomEvent extends Node {
+export class OnCustomEvent extends AsyncFlowNode {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
@@ -57,7 +57,6 @@ export class OnCustomEvent extends Node {
 
     // TODO replace with analysis of category, if Event, then evaluate on startup, it is async and interruptable.
     this.evaluateOnStartup = true;
-    this.async = true;
     this.interruptibleAsync = true;
   }
 }

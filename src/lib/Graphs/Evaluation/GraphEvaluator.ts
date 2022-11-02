@@ -1,6 +1,7 @@
 /* eslint-disable space-in-parens */
 
 import { EventEmitter } from '../../Events/EventEmitter.js';
+import { AsyncFlowNode } from '../../Nodes/AsyncFlowNode.js';
 import { Link } from '../../Nodes/Link.js';
 import { Node } from '../../Nodes/Node.js';
 import { sleep } from '../../sleep.js';
@@ -17,7 +18,7 @@ export class GraphEvaluator {
 
   constructor(public readonly graph: Graph) {
     Object.values(this.graph.nodes).forEach((node) => {
-      if (node.evaluateOnStartup) {
+      if (node instanceof AsyncFlowNode && node.evaluateOnStartup) {
         this.executionBlockQueue.push(
           new SyncExecutionBlock(this, new Link(node.id, ''))
         );

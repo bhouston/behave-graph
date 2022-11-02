@@ -1,9 +1,13 @@
 import { Assert } from '../../Diagnostics/Assert.js';
+import { FlowNode } from '../../Nodes/FlowNode.js';
+import { ImmediateNode } from '../../Nodes/ImmediateNode.js';
 import { Link } from '../../Nodes/Link.js';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { Graph } from '../Graph.js';
 import { GraphEvaluator } from './GraphEvaluator.js';
+import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
+import { NodeEvaluationType } from './NodeEvaluationType.js';
 
 export class SyncExecutionBlock {
   private readonly syncEvaluationCompletedListenerStack: (() => void)[] = [];
@@ -60,11 +64,15 @@ export class SyncExecutionBlock {
     const upstreamOutputSocket =
       upstreamNode.outputSockets[upstreamLink.socketName];
 
-    if (upstreamNode.flow) {
+    if (upstreamNode instanceof FlowNode) {
       //Logger.verbose(`upstreamNode is a flow node: ${upstreamNode.typeName}`);
       // eslint-disable-next-line no-param-reassign
       inputSocket.value = upstreamOutputSocket.value;
       return upstreamOutputSocket.value;
+    }
+
+    if (!(upstreamNode instanceof ImmediateNode)) {
+      throw new TypeError('node must be an instance of ImmediateNode');
     }
 
     // resolve all inputs for the upstream node (this is where the recursion happens)
@@ -77,9 +85,21 @@ export class SyncExecutionBlock {
       this.resolveInputValueFromSocket(upstreamInputSocket);
     });
 
-    const context = new NodeEvalContext(this, upstreamNode);
-    context.evalImmediate();
+    this.graphEvaluator.onNodeEvaluation.emit(
+      new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.Immediate, false)
+    );
 
+    upstreamNode.evalFunc();
+
+    // confirm assumptions for immediate evaluation.
+    //Assert.mustBeTrue(
+    //  !this.node.async,
+    //  'evalImmediate can not handle evalPromise nodes, use evalFlow instead'
+    //);
+
+    this.graphEvaluator.onNodeEvaluation.emit(
+      new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.None, false)
+    );
     // get the output value we wanted.
     // eslint-disable-next-line no-param-reassign
     inputSocket.value = upstreamOutputSocket.value;

@@ -5,6 +5,8 @@ import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType.js';
 import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
+import { AsyncFlowNode } from './AsyncFlowNode.js';
+import { FlowNode } from './FlowNode.js';
 import { Link } from './Link.js';
 import { Node } from './Node.js';
 
@@ -30,7 +32,7 @@ export class NodeEvalContext {
 
   private begin() {
     //Assert.mustBeTrue(this.node.async === true);
-    if (this.node.interruptibleAsync) {
+    if (this.node instanceof AsyncFlowNode && this.node.interruptibleAsync) {
       this.graphEvaluator.interruptibleAsyncNodes.push(this.node);
     } else {
       this.graphEvaluator.asyncNodes.push(this.node);
@@ -53,7 +55,7 @@ export class NodeEvalContext {
   finish() {
     //Assert.mustBeTrue(this.node.async === true);
     //Assert.mustBeTrue(this.asyncPending === true);
-    if (this.node.interruptibleAsync) {
+    if (this.node instanceof AsyncFlowNode && this.node.interruptibleAsync) {
       const index = this.graphEvaluator.interruptibleAsyncNodes.indexOf(
         this.node
       );
@@ -77,47 +79,28 @@ export class NodeEvalContext {
     //  'can not use evalFlow on non-Flow nodes, use evalImmediate instead'
     //);
 
-    if (this.node.async) {
+    const flowNode = this.node;
+    if (!(flowNode instanceof FlowNode)) {
+      throw new TypeError('node must be instance of FlowNode');
+    }
+
+    const isAsync = flowNode instanceof AsyncFlowNode;
+    if (isAsync) {
       this.begin();
     } else {
       this.graphEvaluator.onNodeEvaluation.emit(
-        new NodeEvaluationEvent(this.node, NodeEvaluationType.Flow, false)
+        new NodeEvaluationEvent(flowNode, NodeEvaluationType.Flow, false)
       );
     }
 
-    this.node.evalFunc(this);
+    flowNode.flowEvalFunc(this);
 
-    if (!this.node.async) {
+    if (!isAsync) {
       //this.writeOutputs(); // TODO: replace this with commit(), no need for this overlapping duplicate codex
       this.graphEvaluator.onNodeEvaluation.emit(
-        new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false)
+        new NodeEvaluationEvent(flowNode, NodeEvaluationType.None, false)
       );
     }
-  }
-
-  evalImmediate() {
-    // confirm assumptions for an immediate evaluation
-    if (this.node.flow) {
-      throw new Error(
-        'can not evalImmediate on Flow nodes, use evalFlow instead'
-      );
-    }
-
-    this.graphEvaluator.onNodeEvaluation.emit(
-      new NodeEvaluationEvent(this.node, NodeEvaluationType.Immediate, false)
-    );
-
-    this.node.evalFunc(this);
-
-    // confirm assumptions for immediate evaluation.
-    //Assert.mustBeTrue(
-    //  !this.node.async,
-    //  'evalImmediate can not handle evalPromise nodes, use evalFlow instead'
-    //);
-
-    this.graphEvaluator.onNodeEvaluation.emit(
-      new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false)
-    );
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
@@ -126,7 +109,7 @@ export class NodeEvalContext {
     syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     this.numCommits++;
-    if (this.node.async) {
+    if (this.node instanceof AsyncFlowNode) {
       this.graphEvaluator.asyncCommit(
         new Link(this.node.id, downstreamFlowSocketName),
         syncEvaluationCompletedListener

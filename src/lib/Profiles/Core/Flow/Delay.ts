@@ -1,5 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
@@ -7,7 +7,7 @@ import { Socket } from '../../../Sockets/Socket.js';
 // ASYNC - asynchronous evaluation
 // also called "delay"
 
-export class Delay extends Node {
+export class Delay extends AsyncFlowNode {
   public static Description = new NodeDescription(
     'flow/delay',
     'Flow',
@@ -37,7 +37,5 @@ export class Delay extends Node {
         });
       }
     );
-
-    this.async = true;
   }
 }

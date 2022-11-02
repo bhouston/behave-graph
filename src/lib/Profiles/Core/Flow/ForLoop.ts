@@ -1,10 +1,10 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class ForLoop extends Node {
+export class ForLoop extends AsyncFlowNode {
   public static Description = new NodeDescription(
     'flow/forLoop',
     'Flow',

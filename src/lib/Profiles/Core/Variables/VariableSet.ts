@@ -1,11 +1,11 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { Variable } from '../../../Variables/Variable.js';
 
-export class VariableSet extends Node {
+export class VariableSet extends FlowNode {
   public static GetDescription(graph: Graph, variableId: string) {
     const variable = graph.variables[variableId];
     return new NodeDescription(

@@ -1,11 +1,11 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class ExpectTrue extends Node {
+export class ExpectTrue extends FlowNode {
   public static Description = new NodeDescription(
     'debug/expectTrue',
     'Action',

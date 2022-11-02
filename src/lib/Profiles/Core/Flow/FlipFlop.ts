@@ -1,10 +1,10 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class FlipFlop extends Node {
+export class FlipFlop extends FlowNode {
   public static Description = new NodeDescription(
     'flow/flipFlop',
     'Flow',

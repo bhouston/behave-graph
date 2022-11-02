@@ -1,10 +1,9 @@
 import { Graph } from '../../Graphs/Graph.js';
 import { Socket } from '../../Sockets/Socket.js';
-import { Node } from '../Node.js';
+import { ImmediateNode } from '../ImmediateNode.js';
 import { NodeDescription } from '../NodeDescription.js';
-import { NodeEvalContext } from '../NodeEvalContext.js';
 
-export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
+export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends ImmediateNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -33,7 +32,7 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends Node {
         new Socket(inputValueTypes[3], inputNames[3])
       ],
       [new Socket(outputValueType, 'result')],
-      (context: NodeEvalContext) => {
+      () => {
         this.writeOutput(
           'result',
           this.binaryEvalFunc(

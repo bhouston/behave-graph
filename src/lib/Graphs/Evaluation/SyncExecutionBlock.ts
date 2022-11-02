@@ -31,20 +31,9 @@ export class SyncExecutionBlock {
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
   resolveInputValueFromSocket(inputSocket: Socket): number {
-    if (inputSocket.valueTypeName === 'flow') {
-      throw new Error(
-        `can not resolve input values for Eval input sockets: ${inputSocket.name}`
-      );
-    }
-
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
       return 0;
-    }
-    if (inputSocket.links.length > 1) {
-      throw new Error(
-        `input socket has too many links: ${inputSocket.name} has ${inputSocket.links.length} links`
-      );
     }
 
     const upstreamLink = inputSocket.links[0];
@@ -67,10 +56,10 @@ export class SyncExecutionBlock {
     let executionStepCount = 0;
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
-    upstreamNode.inputSocketList.forEach((upstreamInputSocket) => {
+    for (const upstreamInputSocket of upstreamNode.inputSocketList) {
       executionStepCount +=
         this.resolveInputValueFromSocket(upstreamInputSocket);
-    });
+    }
 
     this.graphEvaluator.onNodeEvaluation.emit(
       new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.Immediate, false)
@@ -148,12 +137,7 @@ export class SyncExecutionBlock {
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     node.inputSocketList.forEach((inputSocket) => {
-      //Logger.verbose(`scanning input socket: ${inputSocket.name}`);
       if (inputSocket.valueTypeName !== 'flow') {
-        // eslint-disable-next-line no-param-reassign
-        //Logger.verbose(
-        //  `resolving input value for non-flow socket: ${inputSocket.name}`
-        //);
         executionStepCount += this.resolveInputValueFromSocket(inputSocket);
       } else {
         if (inputSocket.name === link.socketName) {

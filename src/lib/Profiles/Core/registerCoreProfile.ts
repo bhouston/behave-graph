@@ -1,6 +1,10 @@
 /* eslint-disable max-len */
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription.js';
 import { Registry } from '../../Registry.js';
+import { DefaultLogger } from './Abstractions/Drivers/DefaultLogger.js';
+import { ManualLifecycleEventEmitter } from './Abstractions/Drivers/ManualLifecycleEventEmitter.js';
+import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter.js';
+import { ILogger } from './Abstractions/ILogger.js';
 import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue.js';
 import { Log as DebugLog } from './Debug/DebugLog.js';
 import { Branch } from './Flow/Branch.js';
@@ -21,7 +25,7 @@ import { IntegerValue } from './Values/IntegerValue.js';
 import * as StringNodes from './Values/StringNodes.js';
 import { StringValue } from './Values/StringValue.js';
 
-export function registerCoreProfile(registry: Registry) {
+export function registerCoreProfile(registry: Registry, ilogger: ILogger = new DefaultLogger(), iLifeCycle: ILifecycleEventEmitter = new ManualLifecycleEventEmitter()) {
   const { nodes, values } = registry;
 
   // pull in value type nodes
@@ -38,14 +42,14 @@ export function registerCoreProfile(registry: Registry) {
 
   // actions
 
-  nodes.register(DebugLog.Description);
+  nodes.register(DebugLog.Description(ilogger));
   nodes.register(AssertExpectTrue.Description);
 
   // events
 
-  nodes.register(LifecycleOnStart.Description);
-  nodes.register(LifecycleOnEnd.Description);
-  nodes.register(LifecycleOnTick.Description);
+  nodes.register(LifecycleOnStart.Description(iLifeCycle));
+  nodes.register(LifecycleOnEnd.Description(iLifeCycle));
+  nodes.register(LifecycleOnTick.Description(iLifeCycle));
 
   // flow control
 

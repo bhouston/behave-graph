@@ -7,7 +7,7 @@ import { toCamelCase } from '../../../toCamelCase.js';
 import { IScene } from '../Abstractions/IScene.js';
 
 export class SetSceneProperty extends FlowNode {
-  public static GetDescriptions(...valueTypeNames: string[]) {
+  public static GetDescriptions(scene: IScene, ...valueTypeNames: string[]) {
     return valueTypeNames.map(
       (valueTypeName) =>
         new NodeDescription(
@@ -15,7 +15,7 @@ export class SetSceneProperty extends FlowNode {
           'Action',
           `Set Scene ${toCamelCase(valueTypeName)}`,
           (description, graph) =>
-            new SetSceneProperty(description, graph, valueTypeName)
+            new SetSceneProperty(description, graph, valueTypeName, scene)
         )
     );
   }
@@ -23,7 +23,8 @@ export class SetSceneProperty extends FlowNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    public readonly valueTypeName: string
+    public readonly valueTypeName: string,
+    private readonly scene: IScene
   ) {
     super(
       description,
@@ -38,8 +39,7 @@ export class SetSceneProperty extends FlowNode {
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
-    const scene =
-      fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
+    const scene = this.scene;
     const value = this.readInput('value');
     scene.setProperty(this.readInput('jsonPath'), this.valueTypeName, value);
     fiber.commit(this, 'flow');

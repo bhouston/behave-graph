@@ -1,13 +1,17 @@
+import { Object3D } from 'three';
+import { DummyScene } from '../../../examples/exec-graph/DummyScene.js';
+import { ThreeScene } from '../../../examples/three/ThreeScene.js';
 import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
 import { Registry } from '../../Registry.js';
 import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
 import { registerCoreProfile } from '../Core/registerCoreProfile.js';
+import { IScene } from './Abstractions/IScene.js';
 import { registerSceneProfile } from './registerSceneProfile.js';
 
 describe('scene profile', () => {
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneProfile(registry);
+  registerSceneProfile(registry, new DummyScene(registry));
 
   test('validate node registry', () => {
     expect(validateNodeRegistry(registry)).toHaveLength(0);

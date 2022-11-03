@@ -7,14 +7,14 @@ import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.j
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class LifecycleOnTick extends Node {
-  public static Description = new NodeDescription(
+  public static Description = (emitter: ILifecycleEventEmitter) => new NodeDescription(
     'lifecycle/onTick',
     'Event',
     'On Tick',
-    (description, graph) => new LifecycleOnTick(description, graph)
+    (description, graph) => new LifecycleOnTick(description, graph, emitter)
   );
 
-  constructor(description: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph, private readonly iLifecycleEmitter: ILifecycleEventEmitter) {
     super(
       description,
       graph,
@@ -35,10 +35,7 @@ export class LifecycleOnTick extends Node {
           lastTickTime = currentTime;
         };
 
-        const lifecycleEvents =
-          context.graph.registry.abstractions.get<ILifecycleEventEmitter>(
-            'ILifecycleEventEmitter'
-          );
+        const lifecycleEvents = this.iLifecycleEmitter;
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
         context.onAsyncCancelled.addListener(() => {

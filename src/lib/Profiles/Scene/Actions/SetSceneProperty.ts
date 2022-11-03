@@ -6,7 +6,7 @@ import { toCamelCase } from '../../../toCamelCase.js';
 import { IScene } from '../Abstractions/IScene.js';
 
 export class SetSceneProperty extends Node {
-  public static GetDescriptions(...valueTypeNames: string[]) {
+  public static GetDescriptions(scene: IScene, ...valueTypeNames: string[]) {
     return valueTypeNames.map(
       (valueTypeName) =>
         new NodeDescription(
@@ -14,7 +14,7 @@ export class SetSceneProperty extends Node {
           'Action',
           `Set Scene ${toCamelCase(valueTypeName)}`,
           (description, graph) =>
-            new SetSceneProperty(description, graph, valueTypeName)
+            new SetSceneProperty(description, graph, valueTypeName, scene)
         )
     );
   }
@@ -22,7 +22,8 @@ export class SetSceneProperty extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    valueTypeName: string
+    valueTypeName: string,
+    private readonly scene: IScene
   ) {
     super(
       description,
@@ -34,7 +35,7 @@ export class SetSceneProperty extends Node {
       ],
       [new Socket('flow', 'flow')],
       (context) => {
-        const scene = context.graph.registry.abstractions.get<IScene>('IScene');
+        const scene = this.scene;
         const value = context.readInput('value');
         scene.setProperty(context.readInput('jsonPath'), valueTypeName, value);
       }

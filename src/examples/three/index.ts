@@ -39,10 +39,33 @@ function onWindowResize() {
 
 //
 
+async function loadThreeScene() {
+  const gltfPromise = new GLTFLoader()
+    .setPath('/src/graphs/scene/actions/')
+    .loadAsync('SpinningSuzanne.gltf');
+
+  const gltf = await gltfPromise;
+
+  const glTFJsonPath = '/src/graphs/scene/actions/SpinningSuzanne.gltf';
+  const glTFFetchResponse = await fetch(glTFJsonPath);
+
+  const glTFJson = await glTFFetchResponse.json();
+
+  const threeScene = new ThreeScene(gltf.scene, glTFJson);
+
+  return {threeScene, gltf};
+}
+
 async function main() {
   const registry = new Registry();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
+  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  const logger = new DefaultLogger();
+
+  const {threeScene, gltf} = await loadThreeScene();
+
+  registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
+  registerSceneProfile(registry, threeScene);
+
   const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
@@ -54,9 +77,7 @@ async function main() {
   const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
 
-  const glTFJsonPath = '/src/graphs/scene/actions/SpinningSuzanne.gltf';
-  const glTFFetchResponse = await fetch(glTFJsonPath);
-  const glTFJson = await glTFFetchResponse.json();
+
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   const errorList: string[] = [];
   errorList.push(...validateRegistry(registry), ...validateGraph(graph));
@@ -86,9 +107,6 @@ async function main() {
   const texturePromise = new RGBELoader()
     .setPath('/assets/envmaps/')
     .loadAsync('pedestrian_overpass_1k.hdr');
-  const gltfPromise = new GLTFLoader()
-    .setPath('/src/graphs/scene/actions/')
-    .loadAsync('SpinningSuzanne.gltf');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);
@@ -101,7 +119,6 @@ async function main() {
   renderer = localRenderer;
 
   const texture = await texturePromise;
-  const gltf = await gltfPromise;
 
   texture.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -109,11 +126,10 @@ async function main() {
   localScene.environment = texture;
 
   localScene.add(gltf.scene);
-  const threeScene = new ThreeScene(gltf.scene, glTFJson);
+  
   threeScene.onSceneChanged.addListener(() => {
     render();
   });
-  registry.abstractions.register('IScene', threeScene);
 
   render();
 
@@ -129,13 +145,6 @@ async function main() {
   Logger.verbose('creating behavior graph');
   const graphEvaluator = new GraphEvaluator(graph);
   //graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
-
-  registry.abstractions.register('ILogger', new DefaultLogger());
-  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.abstractions.register(
-    'ILifecycleEventEmitter',
-    manualLifecycleEventEmitter
-  );
 
   Logger.verbose('initialize graph');
   await graphEvaluator.executeAllSync();

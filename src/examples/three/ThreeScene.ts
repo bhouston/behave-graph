@@ -76,7 +76,7 @@ export class ThreeScene implements IScene {
 
   public onSceneChanged = new EventEmitter<void>();
 
-  constructor(public glTFRoot: Object3D, public glTFJson: GLTFJson) {
+  constructor(public glTFRoot: Object3D, public readonly glTFJson: GLTFJson) {
     this.glTFNodeIndexToThreeNode = mapGlTFNodeIndicesToThreeObject3Ds(
       glTFJson,
       glTFRoot

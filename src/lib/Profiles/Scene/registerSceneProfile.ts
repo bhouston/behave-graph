@@ -2,6 +2,7 @@
 import { getNodeDescriptions } from '../../Nodes/getNodeDescriptions.js';
 import { Registry } from '../../Registry.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
+import { IScene } from './Abstractions/IScene.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
 import { GetSceneProperty } from './Queries/GetSceneProperty.js';
@@ -18,7 +19,7 @@ import { Vec3Value } from './Values/Vec3Value.js';
 import * as Vec4Nodes from './Values/Vec4Nodes.js';
 import { Vec4Value } from './Values/Vec4Value.js';
 
-export function registerSceneProfile(registry: Registry) {
+export function registerSceneProfile(registry: Registry, scene: IScene) {
   const { values, nodes } = registry;
 
   // pull in value type nodes
@@ -43,8 +44,8 @@ export function registerSceneProfile(registry: Registry) {
 
   // actions
   const allValueTypeNames = values.getAllNames();
-  nodes.register(...SetSceneProperty.GetDescriptions(...allValueTypeNames));
-  nodes.register(...GetSceneProperty.GetDescriptions(...allValueTypeNames));
+  nodes.register(...SetSceneProperty.GetDescriptions(scene, ...allValueTypeNames));
+  nodes.register(...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames));
 
   const newValueTypeNames = ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'];
 

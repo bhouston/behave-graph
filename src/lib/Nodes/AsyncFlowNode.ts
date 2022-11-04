@@ -12,10 +12,10 @@ export class AsyncFlowNode extends FlowNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSocketList: Socket[],
-    outputSocketList: Socket[],
+    inputSockets: Socket[],
+    outputSockets: Socket[],
     flowEvalFunc: (context: NodeEvalContext) => void
   ) {
-    super(description, graph, inputSocketList, outputSocketList, flowEvalFunc);
+    super(description, graph, inputSockets, outputSockets, flowEvalFunc);
   }
 }

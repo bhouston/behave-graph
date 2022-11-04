@@ -18,7 +18,9 @@ export function validateGraphLinks(graph: Graph): string[] {
 
         // check if the socketName is correct
         const upstreamNode = graph.nodes[link.nodeId];
-        const outputSocket = upstreamNode.outputSockets[link.socketName];
+        const outputSocket = upstreamNode.outputSockets.find(
+          (socket) => socket.name === link.socketName
+        );
         if (outputSocket === undefined) {
           errorList.push(
             `node ${node.description.typeName}.${inputSocket.name} has link using a non-existent socket name: ` +

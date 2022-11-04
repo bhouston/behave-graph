@@ -32,8 +32,12 @@ export class GraphEvaluator {
     syncEvaluationCompletedListener: (() => void) | undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
-    const outputSocket = node.outputSockets[outputFlowSocket.socketName];
-
+    const outputSocket = node.outputSockets.find(
+      (socket) => socket.name === outputFlowSocket.socketName
+    );
+    if (outputSocket === undefined) {
+      throw new Error(`no socket with the name ${outputFlowSocket.socketName}`);
+    }
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +

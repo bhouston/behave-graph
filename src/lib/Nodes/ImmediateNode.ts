@@ -7,10 +7,10 @@ export class ImmediateNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSocketList: Socket[],
-    outputSocketList: Socket[],
+    inputSockets: Socket[],
+    outputSockets: Socket[],
     public readonly evalFunc: () => void
   ) {
-    super(description, graph, inputSocketList, outputSocketList);
+    super(description, graph, inputSockets, outputSockets);
   }
 }

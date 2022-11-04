@@ -8,11 +8,11 @@ export class FlowNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSocketList: Socket[],
-    outputSocketList: Socket[],
+    inputSockets: Socket[],
+    outputSockets: Socket[],
     public readonly flowEvalFunc: (context: NodeEvalContext) => void
   ) {
     // determine if this is an eval node
-    super(description, graph, inputSocketList, outputSocketList);
+    super(description, graph, inputSockets, outputSockets);
   }
 }

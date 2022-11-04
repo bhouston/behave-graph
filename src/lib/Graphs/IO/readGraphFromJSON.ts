@@ -60,8 +60,9 @@ export function readGraphFromJSON(
           );
         }
         const upstreamNode = graph.nodes[link.nodeId];
-        const upstreamOutputSocket =
-          upstreamNode.outputSockets[link.socketName];
+        const upstreamOutputSocket = upstreamNode.outputSockets.find(
+          (socket) => socket.name === link.socketName
+        );
         if (upstreamOutputSocket === undefined) {
           throw new Error(
             `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
@@ -93,8 +94,9 @@ export function readGraphFromJSON(
         }
 
         const downstreamNode = graph.nodes[link.nodeId];
-        const downstreamInputSocket =
-          downstreamNode.inputSockets[link.socketName];
+        const downstreamInputSocket = downstreamNode.inputSockets.find(
+          (socket) => socket.name === link.socketName
+        );
         if (downstreamInputSocket === undefined) {
           throw new Error(
             `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
@@ -164,7 +166,9 @@ function readNodeParameterJSON(
 
   // validate that there are no additional input sockets specified that were not read.
   Object.keys(parametersJson).forEach((inputName) => {
-    const inputSocket = node.inputSockets[inputName];
+    const inputSocket = node.inputSockets.find(
+      (socket) => socket.name === inputName
+    );
     if (inputSocket === undefined) {
       throw new Error(
         `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
@@ -183,7 +187,9 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
 
   // validate that there are no additional input sockets specified that were not read.
   Object.keys(flowsJson).forEach((outputName) => {
-    const outputSocket = node.outputSockets[outputName];
+    const outputSocket = node.outputSockets.find(
+      (socket) => socket.name === outputName
+    );
     if (outputSocket === undefined) {
       throw new Error(
         `node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`

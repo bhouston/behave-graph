@@ -41,8 +41,14 @@ export class SyncExecutionBlock {
     const upstreamNode = this.graph.nodes[upstreamLink.nodeId];
 
     // what is inputSocket connected to?
-    const upstreamOutputSocket =
-      upstreamNode.outputSockets[upstreamLink.socketName];
+    const upstreamOutputSocket = upstreamNode.outputSockets.find(
+      (socket) => socket.name === upstreamLink.socketName
+    );
+    if (upstreamOutputSocket === undefined) {
+      throw new Error(
+        `can not find socket with the name ${upstreamLink.socketName}`
+      );
+    }
 
     if (upstreamNode instanceof FlowNode) {
       inputSocket.value = upstreamOutputSocket.value;
@@ -56,7 +62,7 @@ export class SyncExecutionBlock {
     let executionStepCount = 0;
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
-    for (const upstreamInputSocket of upstreamNode.inputSocketList) {
+    for (const upstreamInputSocket of upstreamNode.inputSockets) {
       executionStepCount +=
         this.resolveInputValueFromSocket(upstreamInputSocket);
     }
@@ -86,7 +92,14 @@ export class SyncExecutionBlock {
   ) {
     Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
-    const outputSocket = node.outputSockets[outputFlowSocket.socketName];
+    const outputSocket = node.outputSockets.find(
+      (socket) => socket.name === outputFlowSocket.socketName
+    );
+    if (outputSocket === undefined) {
+      throw new Error(
+        `can not find socket with the name ${outputFlowSocket.socketName}`
+      );
+    }
 
     if (outputSocket.links.length > 1) {
       throw new Error(
@@ -136,7 +149,7 @@ export class SyncExecutionBlock {
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
-    node.inputSocketList.forEach((inputSocket) => {
+    node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {
         executionStepCount += this.resolveInputValueFromSocket(inputSocket);
       } else {
@@ -159,7 +172,7 @@ export class SyncExecutionBlock {
     if (context.numCommits === 0 && !context.asyncPending) {
       // ensure this is auto-commit compatible.
       let numFlowOutputs = 0;
-      node.outputSocketList.forEach((outputSocket) => {
+      node.outputSockets.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
           numFlowOutputs++;
         }
@@ -171,7 +184,7 @@ export class SyncExecutionBlock {
         );
       }
 
-      node.outputSocketList.forEach((outputSocket) => {
+      node.outputSockets.forEach((outputSocket) => {
         if (outputSocket.valueTypeName === 'flow') {
           this.commit(new Link(link.nodeId, outputSocket.name));
         }

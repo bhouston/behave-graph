@@ -65,7 +65,7 @@ export class Graph {
     const node = nodeDescription.factory(nodeDescription, this);
     node.id = nodeId;
     this.nodes[nodeId] = node;
-    node.inputSocketList.forEach((socket) => {
+    node.inputSockets.forEach((socket) => {
       if (socket.valueTypeName !== 'flow' && socket.value === undefined) {
         socket.value = this.registry.values.get(socket.valueTypeName).creator();
       }

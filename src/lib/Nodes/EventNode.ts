@@ -1,7 +1,7 @@
+import { Fiber } from '../Graphs/Execution/Fiber.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { AsyncNode } from './AsyncNode.js';
-import { NodeEvalContext } from './NodeEvalContext.js';
 import { NodeDescription } from './Registry/NodeDescription.js';
 
 // no flow inputs, always evaluated on startup
@@ -14,7 +14,7 @@ export class EventNode extends AsyncNode {
     graph: Graph,
     inputSockets: Socket[],
     outputSockets: Socket[],
-    exec: (context: NodeEvalContext) => void
+    exec: (context: Fiber) => void
   ) {
     super(description, graph, inputSockets, outputSockets, exec);
   }

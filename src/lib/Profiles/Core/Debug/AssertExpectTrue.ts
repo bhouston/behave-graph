@@ -1,7 +1,6 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -23,7 +22,7 @@ export class ExpectTrue extends FlowNode {
         new Socket('string', 'description')
       ],
       [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
+      () => {
         Assert.mustBeTrue(
           this.readInput('condition'),
           this.readInput('description')

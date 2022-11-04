@@ -6,7 +6,6 @@ import { Socket } from '../Sockets/Socket.js';
 import { AsyncNode } from './AsyncNode.js';
 import { EventNode } from './EventNode.js';
 import { FlowNode } from './FlowNode.js';
-import { Link } from './Link.js';
 import { Node } from './Node.js';
 
 // Purpose:
@@ -70,7 +69,7 @@ export class NodeEvalContext {
     }
 
     this.engine.onNodeExecution.emit(flowNode);
-    flowNode.exec(this);
+    flowNode.exec(this.fiber);
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.
@@ -81,12 +80,14 @@ export class NodeEvalContext {
     this.numCommits++;
     if (this.node instanceof AsyncNode) {
       this.engine.commitToNewFiber(
-        new Link(this.node.id, downstreamFlowSocketName),
+        this.node,
+        downstreamFlowSocketName,
         syncEvaluationCompletedListener
       );
     } else {
       this.fiber.commit(
-        new Link(this.node.id, downstreamFlowSocketName),
+        this.node,
+        downstreamFlowSocketName,
         syncEvaluationCompletedListener
       );
     }

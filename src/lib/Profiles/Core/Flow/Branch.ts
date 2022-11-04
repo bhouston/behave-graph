@@ -1,6 +1,6 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -18,8 +18,9 @@ export class Branch extends FlowNode {
       graph,
       [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
       [new Socket('flow', 'true'), new Socket('flow', 'false')],
-      (context: NodeEvalContext) => {
-        context.commit(
+      (fiber: Fiber) => {
+        fiber.commit(
+          this,
           this.readInput<boolean>('condition') === true ? 'true' : 'false'
         );
       }

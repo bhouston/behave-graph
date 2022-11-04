@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILogger } from '../Abstractions/ILogger.js';
@@ -19,9 +18,8 @@ export class Log extends FlowNode {
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'text')],
       [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
-        const logger =
-          context.graph.registry.abstractions.get<ILogger>('ILogger');
+      () => {
+        const logger = this.graph.registry.abstractions.get<ILogger>('ILogger');
         logger.info(this.readInput('text'));
       }
     );

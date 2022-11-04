@@ -2,6 +2,7 @@ import { Assert } from '../../Diagnostics/Assert.js';
 import { FlowNode } from '../../Nodes/FlowNode.js';
 import { ImmediateNode } from '../../Nodes/ImmediateNode.js';
 import { Link } from '../../Nodes/Link.js';
+import { Node } from '../../Nodes/Node.js';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { Graph } from '../Graph.js';
@@ -76,18 +77,16 @@ export class Fiber {
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
-    outputFlowSocket: Link,
+    node: Node,
+    outputSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
     Assert.mustBeTrue(this.nextEval === null);
-    const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.outputSockets.find(
-      (socket) => socket.name === outputFlowSocket.socketName
+      (socket) => socket.name === outputSocketName
     );
     if (outputSocket === undefined) {
-      throw new Error(
-        `can not find socket with the name ${outputFlowSocket.socketName}`
-      );
+      throw new Error(`can not find socket with the name ${outputSocketName}`);
     }
 
     if (outputSocket.links.length > 1) {

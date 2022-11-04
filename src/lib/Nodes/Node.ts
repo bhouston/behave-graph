@@ -11,8 +11,8 @@ export class Node {
   constructor(
     public readonly description: NodeDescription,
     public readonly graph: Graph,
-    public readonly inputSockets: Socket[],
-    public readonly outputSockets: Socket[]
+    public readonly inputSockets: Socket[] = [],
+    public readonly outputSockets: Socket[] = []
   ) {}
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext

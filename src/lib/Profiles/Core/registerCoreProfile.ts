@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
-
-import { getNodeDescriptions } from '../../Nodes/getNodeDescriptions.js';
+import { getNodeDescriptions } from '../../Nodes/NodeDescription.js';
 import { Registry } from '../../Registry.js';
 import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue.js';
 import { Log as DebugLog } from './Debug/DebugLog.js';

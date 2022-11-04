@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { getNodeDescriptions } from '../../Nodes/getNodeDescriptions.js';
+import { getNodeDescriptions } from '../../Nodes/NodeDescription.js';
 import { Registry } from '../../Registry.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';

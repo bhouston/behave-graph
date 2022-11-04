@@ -4,33 +4,31 @@ import { EventEmitter } from '../../Events/EventEmitter.js';
 import { AsyncNode } from '../../Nodes/AsyncNode.js';
 import { EventNode } from '../../Nodes/EventNode.js';
 import { Link } from '../../Nodes/Link.js';
+import { Node } from '../../Nodes/Node.js';
 import { sleep } from '../../sleep.js';
 import { Graph } from '../Graph.js';
-import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
-import { SyncExecutionBlock } from './SyncExecutionBlock.js';
+import { Fiber } from './Fiber.js';
 
-export class GraphEvaluator {
+export class Engine {
   // tracking the next node+input socket to execute.
-  private readonly executionBlockQueue: SyncExecutionBlock[] = [];
-  public readonly asyncFlowNodes: AsyncNode[] = [];
-  public readonly eventFlowNodes: EventNode[] = [];
-  public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
+  private readonly fiberQueue: Fiber[] = [];
+  public readonly asyncNodes: AsyncNode[] = [];
+  public readonly eventNodes: EventNode[] = [];
+  public readonly onNodeEvaluation = new EventEmitter<Node>();
 
   constructor(public readonly graph: Graph) {
     // run all event nodes on startup.
     Object.values(this.graph.nodes).forEach((node) => {
       if (node instanceof EventNode) {
-        this.executionBlockQueue.push(
-          new SyncExecutionBlock(this, new Link(node.id, ''))
-        );
+        this.fiberQueue.push(new Fiber(this, new Link(node.id, '')));
       }
     });
   }
 
   // asyncCommit
-  asyncCommit(
+  commitToNewFiber(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: (() => void) | undefined
+    fiberCompletedListener: (() => void) | undefined
   ) {
     const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.outputSockets.find(
@@ -46,12 +44,12 @@ export class GraphEvaluator {
       );
     }
     if (outputSocket.links.length === 1) {
-      const syncExecutionBlock = new SyncExecutionBlock(
+      const fiber = new Fiber(
         this,
         outputSocket.links[0],
-        syncEvaluationCompletedListener
+        fiberCompletedListener
       );
-      this.executionBlockQueue.push(syncExecutionBlock);
+      this.fiberQueue.push(fiber);
     }
   }
 
@@ -63,13 +61,13 @@ export class GraphEvaluator {
     while (
       elapsedSteps < limitInSteps &&
       elapsedSeconds < limitInSeconds &&
-      this.executionBlockQueue.length > 0
+      this.fiberQueue.length > 0
     ) {
-      const currentExecutionBlock = this.executionBlockQueue[0];
+      const currentExecutionBlock = this.fiberQueue[0];
       const localExecutionSteps = currentExecutionBlock.executeStep();
       if (localExecutionSteps < 0) {
         // remove first element
-        this.executionBlockQueue.shift();
+        this.fiberQueue.shift();
       }
       elapsedSeconds = (Date.now() - startDateTime) * 0.001;
       if (localExecutionSteps > 0) {
@@ -99,7 +97,7 @@ export class GraphEvaluator {
       elapsedTime = (Date.now() - startDateTime) * 0.001;
       iterations += 1;
     } while (
-      (this.asyncFlowNodes.length > 0 || this.executionBlockQueue.length > 0) &&
+      (this.asyncNodes.length > 0 || this.fiberQueue.length > 0) &&
       elapsedTime < limitInSeconds &&
       elapsedSteps < limitInSteps
     );

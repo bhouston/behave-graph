@@ -4,8 +4,8 @@ import { program } from 'commander';
 import glob from 'glob';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
-import { traceToLogger } from '../../lib/Graphs/Evaluation/traceToLogger.js';
+import { Engine } from '../../lib/Graphs/Execution/Engine.js';
+import { traceToLogger } from '../../lib/Graphs/Execution/traceToLogger.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { writeGraphToJSON } from '../../lib/Graphs/IO/writeGraphToJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
@@ -81,10 +81,10 @@ async function main() {
       }
 
       Logger.verbose('creating behavior graph');
-      const graphEvaluator = new GraphEvaluator(graph);
+      const engine = new Engine(graph);
 
       if (programOptions.trace) {
-        graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
+        engine.onNodeEvaluation.addListener(traceToLogger);
       }
 
       if (programOptions.dryRun) {
@@ -94,14 +94,14 @@ async function main() {
       const startTime = Date.now();
 
       Logger.verbose('initialize graph');
-      let numSteps = await graphEvaluator.executeAllSync();
+      let numSteps = await engine.executeAllSync();
 
       if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
         Logger.verbose('triggering start event');
         manualLifecycleEventEmitter.startEvent.emit();
 
         Logger.verbose('executing all (async)');
-        numSteps += await graphEvaluator.executeAllAsync(5);
+        numSteps += await engine.executeAllAsync(5);
       }
 
       if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
@@ -112,7 +112,7 @@ async function main() {
 
           Logger.verbose('executing all (async)');
           // eslint-disable-next-line no-await-in-loop
-          numSteps += await graphEvaluator.executeAllAsync(5);
+          numSteps += await engine.executeAllAsync(5);
         }
       }
 
@@ -121,7 +121,7 @@ async function main() {
         manualLifecycleEventEmitter.endEvent.emit();
 
         Logger.verbose('executing all (async)');
-        numSteps += await graphEvaluator.executeAllAsync(5);
+        numSteps += await engine.executeAllAsync(5);
       }
 
       if (programOptions.profile) {

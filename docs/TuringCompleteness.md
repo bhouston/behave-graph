@@ -13,6 +13,6 @@ For example, the included command line tool exec-graph limits runtime to 5 secon
 ```typescript
 const limitInSeconds = 5;
 const limitInSteps = 1000;
-await graphEvaluator.executeAllAsync(limitInSeconds, limitInSteps);
+await engine.executeAllAsync(limitInSeconds, limitInSteps);
 ```
 

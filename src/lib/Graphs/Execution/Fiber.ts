@@ -5,24 +5,20 @@ import { Link } from '../../Nodes/Link.js';
 import { NodeEvalContext } from '../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { Graph } from '../Graph.js';
-import { GraphEvaluator } from './GraphEvaluator.js';
-import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
-import { NodeEvaluationType } from './NodeEvaluationType.js';
+import { Engine } from './Engine.js';
 
-export class SyncExecutionBlock {
-  private readonly syncEvaluationCompletedListenerStack: (() => void)[] = [];
+export class Fiber {
+  private readonly fiberCompletedListenerStack: (() => void)[] = [];
   private readonly graph: Graph;
 
   constructor(
-    public graphEvaluator: GraphEvaluator,
+    public engine: Engine,
     public nextEval: Link | null,
-    syncEvaluationCompletedListener: (() => void) | undefined = undefined
+    fiberCompletedListener: (() => void) | undefined = undefined
   ) {
-    this.graph = graphEvaluator.graph;
-    if (syncEvaluationCompletedListener !== undefined) {
-      this.syncEvaluationCompletedListenerStack.push(
-        syncEvaluationCompletedListener
-      );
+    this.graph = engine.graph;
+    if (fiberCompletedListener !== undefined) {
+      this.fiberCompletedListenerStack.push(fiberCompletedListener);
     }
   }
 
@@ -67,16 +63,9 @@ export class SyncExecutionBlock {
         this.resolveInputValueFromSocket(upstreamInputSocket);
     }
 
-    this.graphEvaluator.onNodeEvaluation.emit(
-      new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.Immediate, false)
-    );
-
+    this.engine.onNodeEvaluation.emit(upstreamNode);
     upstreamNode.evalFunc();
     executionStepCount++;
-
-    this.graphEvaluator.onNodeEvaluation.emit(
-      new NodeEvaluationEvent(upstreamNode, NodeEvaluationType.None, false)
-    );
 
     // get the output value we wanted.
     inputSocket.value = upstreamOutputSocket.value;
@@ -88,7 +77,7 @@ export class SyncExecutionBlock {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
     outputFlowSocket: Link,
-    syncEvaluationCompletedListener: (() => void) | undefined = undefined
+    fiberCompletedListener: (() => void) | undefined = undefined
   ) {
     Assert.mustBeTrue(this.nextEval === null);
     const node = this.graph.nodes[outputFlowSocket.nodeId];
@@ -115,10 +104,8 @@ export class SyncExecutionBlock {
       this.nextEval = link;
     }
 
-    if (syncEvaluationCompletedListener !== undefined) {
-      this.syncEvaluationCompletedListenerStack.push(
-        syncEvaluationCompletedListener
-      );
+    if (fiberCompletedListener !== undefined) {
+      this.fiberCompletedListenerStack.push(fiberCompletedListener);
     }
   }
 
@@ -130,10 +117,10 @@ export class SyncExecutionBlock {
 
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (link === null) {
-      if (this.syncEvaluationCompletedListenerStack.length === 0) {
+      if (this.fiberCompletedListenerStack.length === 0) {
         return -1;
       }
-      const awaitingCallback = this.syncEvaluationCompletedListenerStack.pop();
+      const awaitingCallback = this.fiberCompletedListenerStack.pop();
       if (awaitingCallback === undefined) {
         throw new Error('awaitingCallback is empty');
       }

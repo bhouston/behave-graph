@@ -2,7 +2,7 @@ import { CustomEvent } from '../Events/CustomEvent.js';
 import { generateUuid } from '../generateUuid.js';
 import { Metadata } from '../Metadata.js';
 import { Node } from '../Nodes/Node.js';
-import { NodeTypeRegistry } from '../Nodes/NodeTypeRegistry.js';
+import { NodeTypeRegistry } from '../Nodes/Registry/NodeTypeRegistry.js';
 import { OnCustomEvent } from '../Profiles/Core/CustomEvents/OnCustomEvent.js';
 import { TriggerCustomEvent } from '../Profiles/Core/CustomEvents/TriggerCustomEvent.js';
 import { VariableGet } from '../Profiles/Core/Variables/VariableGet.js';

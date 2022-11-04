@@ -1,6 +1,6 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { ImmediateNode } from '../../../Nodes/ImmediateNode.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { Variable } from '../../../Variables/Variable.js';
 

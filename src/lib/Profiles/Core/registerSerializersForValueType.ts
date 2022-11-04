@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NodeDescription } from '../../Nodes/NodeDescription.js';
+import { NodeDescription } from '../../Nodes/Registry/NodeDescription.js';
 import { In1Out1FuncNode } from '../../Nodes/Templates/In1Out1FuncNode.js';
 import { Registry } from '../../Registry.js';
 import { toCamelCase } from '../../toCamelCase.js';

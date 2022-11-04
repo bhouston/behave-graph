@@ -1,5 +1,5 @@
 import { AbstractionsRegistry } from './Abstractions/AbstractionsRegistry.js';
-import { NodeTypeRegistry } from './Nodes/NodeTypeRegistry.js';
+import { NodeTypeRegistry } from './Nodes/Registry/NodeTypeRegistry.js';
 import { ValueTypeRegistry } from './Values/ValueTypeRegistry.js';
 
 export class Registry {

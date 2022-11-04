@@ -5,7 +5,8 @@ import { NodeEvaluationType } from '../Graphs/Evaluation/NodeEvaluationType.js';
 import { SyncExecutionBlock } from '../Graphs/Evaluation/SyncExecutionBlock.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
-import { AsyncFlowNode } from './AsyncFlowNode.js';
+import { AsyncNode } from './AsyncNode.js';
+import { EventNode } from './EventNode.js';
 import { FlowNode } from './FlowNode.js';
 import { Link } from './Link.js';
 import { Node } from './Node.js';
@@ -32,10 +33,10 @@ export class NodeEvalContext {
 
   private begin() {
     //Assert.mustBeTrue(this.node.async === true);
-    if (this.node instanceof AsyncFlowNode && this.node.interruptibleAsync) {
-      this.graphEvaluator.interruptibleAsyncNodes.push(this.node);
-    } else {
-      this.graphEvaluator.asyncNodes.push(this.node);
+    if (this.node instanceof EventNode) {
+      this.graphEvaluator.eventFlowNodes.push(this.node);
+    } else if (this.node instanceof AsyncNode) {
+      this.graphEvaluator.asyncFlowNodes.push(this.node);
     }
     this.asyncPending = true;
     this.graphEvaluator.onNodeEvaluation.emit(
@@ -55,14 +56,12 @@ export class NodeEvalContext {
   finish() {
     //Assert.mustBeTrue(this.node.async === true);
     //Assert.mustBeTrue(this.asyncPending === true);
-    if (this.node instanceof AsyncFlowNode && this.node.interruptibleAsync) {
-      const index = this.graphEvaluator.interruptibleAsyncNodes.indexOf(
-        this.node
-      );
-      this.graphEvaluator.interruptibleAsyncNodes.splice(index, 1);
-    } else {
-      const index = this.graphEvaluator.asyncNodes.indexOf(this.node);
-      this.graphEvaluator.asyncNodes.splice(index, 1);
+    if (this.node instanceof EventNode) {
+      const index = this.graphEvaluator.eventFlowNodes.indexOf(this.node);
+      this.graphEvaluator.eventFlowNodes.splice(index, 1);
+    } else if (this.node instanceof AsyncNode) {
+      const index = this.graphEvaluator.asyncFlowNodes.indexOf(this.node);
+      this.graphEvaluator.asyncFlowNodes.splice(index, 1);
     }
     this.graphEvaluator.onNodeEvaluation.emit(
       new NodeEvaluationEvent(this.node, NodeEvaluationType.None, false)
@@ -84,7 +83,7 @@ export class NodeEvalContext {
       throw new TypeError('node must be instance of FlowNode');
     }
 
-    const isAsync = flowNode instanceof AsyncFlowNode;
+    const isAsync = flowNode instanceof AsyncNode;
     if (isAsync) {
       this.begin();
     } else {
@@ -109,7 +108,7 @@ export class NodeEvalContext {
     syncEvaluationCompletedListener: (() => void) | undefined = undefined
   ) {
     this.numCommits++;
-    if (this.node instanceof AsyncFlowNode) {
+    if (this.node instanceof AsyncNode) {
       this.graphEvaluator.asyncCommit(
         new Link(this.node.id, downstreamFlowSocketName),
         syncEvaluationCompletedListener

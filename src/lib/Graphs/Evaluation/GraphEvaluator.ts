@@ -1,9 +1,9 @@
 /* eslint-disable space-in-parens */
 
 import { EventEmitter } from '../../Events/EventEmitter.js';
-import { AsyncFlowNode } from '../../Nodes/AsyncFlowNode.js';
+import { AsyncNode } from '../../Nodes/AsyncNode.js';
+import { EventNode } from '../../Nodes/EventNode.js';
 import { Link } from '../../Nodes/Link.js';
-import { Node } from '../../Nodes/Node.js';
 import { sleep } from '../../sleep.js';
 import { Graph } from '../Graph.js';
 import { NodeEvaluationEvent } from './NodeEvaluationEvent.js';
@@ -12,13 +12,14 @@ import { SyncExecutionBlock } from './SyncExecutionBlock.js';
 export class GraphEvaluator {
   // tracking the next node+input socket to execute.
   private readonly executionBlockQueue: SyncExecutionBlock[] = [];
-  public readonly asyncNodes: Node[] = [];
-  public readonly interruptibleAsyncNodes: Node[] = [];
+  public readonly asyncFlowNodes: AsyncNode[] = [];
+  public readonly eventFlowNodes: EventNode[] = [];
   public readonly onNodeEvaluation = new EventEmitter<NodeEvaluationEvent>();
 
   constructor(public readonly graph: Graph) {
+    // run all event nodes on startup.
     Object.values(this.graph.nodes).forEach((node) => {
-      if (node instanceof AsyncFlowNode && node.evaluateOnStartup) {
+      if (node instanceof EventNode) {
         this.executionBlockQueue.push(
           new SyncExecutionBlock(this, new Link(node.id, ''))
         );
@@ -98,7 +99,7 @@ export class GraphEvaluator {
       elapsedTime = (Date.now() - startDateTime) * 0.001;
       iterations += 1;
     } while (
-      (this.asyncNodes.length > 0 || this.executionBlockQueue.length > 0) &&
+      (this.asyncFlowNodes.length > 0 || this.executionBlockQueue.length > 0) &&
       elapsedTime < limitInSeconds &&
       elapsedSteps < limitInSteps
     );

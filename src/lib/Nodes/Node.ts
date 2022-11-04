@@ -1,7 +1,7 @@
 import { Graph } from '../Graphs/Graph.js';
 import { Metadata } from '../Metadata.js';
 import { Socket } from '../Sockets/Socket.js';
-import { NodeDescription } from './NodeDescription.js';
+import { NodeDescription } from './Registry/NodeDescription.js';
 
 export class Node {
   public id = '';

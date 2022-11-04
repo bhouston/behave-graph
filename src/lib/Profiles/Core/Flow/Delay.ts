@@ -1,13 +1,13 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
 
-export class Delay extends AsyncFlowNode {
+export class Delay extends AsyncNode {
   public static Description = new NodeDescription(
     'flow/delay',
     'Flow',

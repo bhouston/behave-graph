@@ -1,12 +1,11 @@
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
-import { FlowNode } from './FlowNode.js';
-import { NodeDescription } from './NodeDescription.js';
+import { AsyncNode } from './AsyncNode.js';
 import { NodeEvalContext } from './NodeEvalContext.js';
+import { NodeDescription } from './Registry/NodeDescription.js';
 
-export class AsyncFlowNode extends FlowNode {
-  public evaluateOnStartup = false;
-  public interruptibleAsync = false;
+// async flow node with more than one flow input
+export class RentrantNode extends AsyncNode {
   public cachedContext: NodeEvalContext | undefined = undefined;
 
   constructor(

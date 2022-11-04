@@ -1,12 +1,12 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
-export class Sequence extends AsyncFlowNode {
+export class Sequence extends AsyncNode {
   public static Description = new NodeDescription(
     'flow/sequence',
     'Flow',

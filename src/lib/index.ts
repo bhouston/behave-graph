@@ -25,7 +25,7 @@ export * from './Graphs/IO/writeGraphToJSON.js';
 export * from './Graphs/IO/writeNodeSpecsToJSON.js';
 
 // node registry
-export * from './Nodes/NodeTypeRegistry.js';
+export * from './Nodes/Registry/NodeTypeRegistry.js';
 export * from './Values/ValueTypeRegistry.js';
 export * from './Registry.js';
 

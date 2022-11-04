@@ -1,12 +1,12 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { AsyncFlowNode } from '../../../Nodes/AsyncFlowNode.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export class LifecycleOnEnd extends AsyncFlowNode {
+export class LifecycleOnEnd extends EventNode {
   public static Description = new NodeDescription(
     'lifecycle/onEnd',
     'Event',
@@ -36,8 +36,5 @@ export class LifecycleOnEnd extends AsyncFlowNode {
         });
       }
     );
-
-    this.evaluateOnStartup = true;
-    this.interruptibleAsync = true;
   }
 }

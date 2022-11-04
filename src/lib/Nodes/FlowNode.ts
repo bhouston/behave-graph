@@ -10,7 +10,7 @@ export class FlowNode extends Node {
     graph: Graph,
     inputSockets: Socket[],
     outputSockets: Socket[],
-    public readonly flowEvalFunc: (context: NodeEvalContext) => void
+    public readonly exec: (context: NodeEvalContext) => void
   ) {
     // determine if this is an eval node
     super(description, graph, inputSockets, outputSockets);

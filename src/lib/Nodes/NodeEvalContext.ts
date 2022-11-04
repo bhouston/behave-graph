@@ -69,8 +69,8 @@ export class NodeEvalContext {
       this.begin();
     }
 
-    this.engine.onNodeEvaluation.emit(flowNode);
-    flowNode.flowEvalFunc(this);
+    this.engine.onNodeExecution.emit(flowNode);
+    flowNode.exec(this);
   }
 
   // TODO: convert this to return a promise always.  It is up to the user to wait on it.

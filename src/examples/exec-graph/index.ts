@@ -84,7 +84,7 @@ async function main() {
       const engine = new Engine(graph);
 
       if (programOptions.trace) {
-        engine.onNodeEvaluation.addListener(traceToLogger);
+        engine.onNodeExecution.addListener(traceToLogger);
       }
 
       if (programOptions.dryRun) {

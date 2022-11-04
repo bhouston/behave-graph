@@ -14,8 +14,8 @@ export class EventNode extends AsyncNode {
     graph: Graph,
     inputSockets: Socket[],
     outputSockets: Socket[],
-    flowEvalFunc: (context: NodeEvalContext) => void
+    exec: (context: NodeEvalContext) => void
   ) {
-    super(description, graph, inputSockets, outputSockets, flowEvalFunc);
+    super(description, graph, inputSockets, outputSockets, exec);
   }
 }

@@ -9,7 +9,7 @@ export class ImmediateNode extends Node {
     graph: Graph,
     inputSockets: Socket[],
     outputSockets: Socket[],
-    public readonly evalFunc: () => void
+    public readonly exec: () => void
   ) {
     super(description, graph, inputSockets, outputSockets);
   }

@@ -14,7 +14,7 @@ export class Engine {
   private readonly fiberQueue: Fiber[] = [];
   public readonly asyncNodes: AsyncNode[] = [];
   public readonly eventNodes: EventNode[] = [];
-  public readonly onNodeEvaluation = new EventEmitter<Node>();
+  public readonly onNodeExecution = new EventEmitter<Node>();
 
   constructor(public readonly graph: Graph) {
     // run all event nodes on startup.

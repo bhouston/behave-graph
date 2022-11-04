@@ -63,8 +63,8 @@ export class Fiber {
         this.resolveInputValueFromSocket(upstreamInputSocket);
     }
 
-    this.engine.onNodeEvaluation.emit(upstreamNode);
-    upstreamNode.evalFunc();
+    this.engine.onNodeExecution.emit(upstreamNode);
+    upstreamNode.exec();
     executionStepCount++;
 
     // get the output value we wanted.

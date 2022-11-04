@@ -33,8 +33,9 @@ export class SetSceneProperty extends FlowNode {
         new Socket(valueTypeName, 'value')
       ],
       [new Socket('flow', 'flow')],
-      (context) => {
-        const scene = context.graph.registry.abstractions.get<IScene>('IScene');
+      (fiber) => {
+        const scene =
+          fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
         const value = this.readInput('value');
         scene.setProperty(this.readInput('jsonPath'), valueTypeName, value);
       }

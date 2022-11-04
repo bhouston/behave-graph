@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
@@ -24,26 +23,26 @@ export class LifecycleOnTick extends EventNode {
         new Socket('float', 'deltaSeconds'),
         new Socket('float', 'time')
       ],
-      (context: NodeEvalContext) => {
+      (fiber) => {
         let lastTickTime = Date.now();
         const onTickEvent = () => {
           const currentTime = Date.now();
           const deltaSeconds = (currentTime - lastTickTime) * 0.001;
           this.writeOutput('deltaSeconds', deltaSeconds);
           this.writeOutput('time', Date.now());
-          context.commit('flow');
+          fiber.commit(this, 'flow');
           lastTickTime = currentTime;
         };
 
         const lifecycleEvents =
-          context.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+          fiber.engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
             'ILifecycleEventEmitter'
           );
         lifecycleEvents.tickEvent.addListener(onTickEvent);
 
-        context.onAsyncCancelled.addListener(() => {
+        return () => {
           lifecycleEvents.tickEvent.removeListener(onTickEvent);
-        });
+        };
       }
     );
   }

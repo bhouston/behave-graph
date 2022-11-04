@@ -29,9 +29,9 @@ export class GetSceneProperty extends FlowNode {
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'jsonPath')],
       [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
-      (context) => {
+      (fiber) => {
         const sceneGraph =
-          context.graph.registry.abstractions.get<IScene>('IScene');
+          fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
         this.writeOutput(
           'value',
           sceneGraph.getProperty(this.readInput('jsonPath'), valueTypeName)

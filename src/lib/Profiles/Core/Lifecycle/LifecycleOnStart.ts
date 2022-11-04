@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
@@ -15,26 +14,20 @@ export class LifecycleOnStart extends EventNode {
   );
 
   constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [],
-      [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
-        const onStartEvent = () => {
-          context.commit('flow');
-        };
+    super(description, graph, [], [new Socket('flow', 'flow')], (fiber) => {
+      const onStartEvent = () => {
+        fiber.commit(this, 'flow');
+      };
 
-        const lifecycleEvents =
-          context.graph.registry.abstractions.get<ILifecycleEventEmitter>(
-            'ILifecycleEventEmitter'
-          );
-        lifecycleEvents.startEvent.addListener(onStartEvent);
+      const lifecycleEvents =
+        fiber.engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+          'ILifecycleEventEmitter'
+        );
+      lifecycleEvents.startEvent.addListener(onStartEvent);
 
-        context.onAsyncCancelled.addListener(() => {
-          lifecycleEvents.startEvent.removeListener(onStartEvent);
-        });
-      }
-    );
+      return () => {
+        lifecycleEvents.startEvent.removeListener(onStartEvent);
+      };
+    });
   }
 }

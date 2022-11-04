@@ -30,3 +30,7 @@ if( flow ) {
 else {
     immediate
 }
+
+After further research it appears that a Delay node in Unreal Engine Blueprints can only handle a single execution at a time.  Thus it is sort of reentrant in that the second time it fires, if it is already running, it will ignore that trigger.
+
+https://forums.unrealengine.com/t/delay-cant-execute-many-delay-at-same-time/51058

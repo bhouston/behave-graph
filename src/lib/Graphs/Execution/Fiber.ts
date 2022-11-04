@@ -1,9 +1,10 @@
 import { Assert } from '../../Diagnostics/Assert.js';
+import { AsyncNode } from '../../Nodes/AsyncNode.js';
+import { EventNode } from '../../Nodes/EventNode.js';
 import { FlowNode } from '../../Nodes/FlowNode.js';
 import { ImmediateNode } from '../../Nodes/ImmediateNode.js';
 import { Link } from '../../Nodes/Link.js';
 import { Node } from '../../Nodes/Node.js';
-import { NodeEvalContext } from '../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { Graph } from '../Graph.js';
 import { Engine } from './Engine.js';
@@ -150,31 +151,23 @@ export class Fiber {
       }
     });
 
-    const context = new NodeEvalContext(this, node, triggeringFlowSocket);
-    context.evalFlow();
-    executionStepCount++;
-
-    // Auto-commit if no existing commits and no promises waiting.
-    if (context.numCommits === 0 && !context.asyncPending) {
-      // ensure this is auto-commit compatible.
-      let numFlowOutputs = 0;
-      node.outputSockets.forEach((outputSocket) => {
-        if (outputSocket.valueTypeName === 'flow') {
-          numFlowOutputs++;
-        }
+    this.engine.onNodeExecution.emit(node);
+    if (node instanceof EventNode) {
+      this.engine.eventNodes.push(node);
+      node.exec(this, () => {
+        const index = this.engine.asyncNodes.indexOf(node);
+        this.engine.asyncNodes.splice(index, 1);
       });
-
-      if (numFlowOutputs !== 1) {
-        throw new Error(
-          `can not use auto-commit if there are multiple flow outputs, number of outputs is ${numFlowOutputs} on ${node.description.typeName}`
-        );
-      }
-
-      node.outputSockets.forEach((outputSocket) => {
-        if (outputSocket.valueTypeName === 'flow') {
-          this.commit(new Link(link.nodeId, outputSocket.name));
-        }
+    } else if (node instanceof AsyncNode) {
+      this.engine.asyncNodes.push(node);
+      node.exec(this, () => {
+        const index = this.engine.asyncNodes.indexOf(node);
+        this.engine.asyncNodes.splice(index, 1);
       });
+    } else if (node instanceof FlowNode) {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      node.exec(this);
+      executionStepCount++;
     }
 
     return executionStepCount;

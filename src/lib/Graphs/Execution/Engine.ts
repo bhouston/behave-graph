@@ -27,15 +27,15 @@ export class Engine {
 
   // asyncCommit
   commitToNewFiber(
-    outputFlowSocket: Link,
+    node: Node,
+    outputFlowSocketName: string,
     fiberCompletedListener: (() => void) | undefined
   ) {
-    const node = this.graph.nodes[outputFlowSocket.nodeId];
     const outputSocket = node.outputSockets.find(
-      (socket) => socket.name === outputFlowSocket.socketName
+      (socket) => socket.name === outputFlowSocketName
     );
     if (outputSocket === undefined) {
-      throw new Error(`no socket with the name ${outputFlowSocket.socketName}`);
+      throw new Error(`no socket with the name ${outputFlowSocketName}`);
     }
     if (outputSocket.links.length > 1) {
       throw new Error(

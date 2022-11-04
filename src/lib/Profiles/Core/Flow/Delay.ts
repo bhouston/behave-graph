@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -21,20 +20,20 @@ export class Delay extends AsyncNode {
       graph,
       [new Socket('flow', 'flow'), new Socket('float', 'duration')],
       [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
+      (fiber, finished) => {
         let timeIsCancelled = false; // work around clearTimeout is not available on node.
 
         setTimeout(() => {
           if (timeIsCancelled) {
             return;
           }
-          context.commit('flow');
-          context.finish();
+          fiber.commit(this, 'flow');
+          finished();
         }, this.readInput<number>('duration') * 1000);
 
-        context.onAsyncCancelled.addListener(() => {
+        return () => {
           timeIsCancelled = true;
-        });
+        };
       }
     );
   }

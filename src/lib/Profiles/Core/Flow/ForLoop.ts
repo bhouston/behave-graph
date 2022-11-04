@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -26,7 +25,7 @@ export class ForLoop extends AsyncNode {
         new Socket('integer', 'index'),
         new Socket('flow', 'completed')
       ],
-      (context: NodeEvalContext) => {
+      (fiber) => {
         // these outputs are fired sequentially in an async fashion but without delays.
         // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
         const startIndex = this.readInput<bigint>('startIndex');
@@ -34,14 +33,17 @@ export class ForLoop extends AsyncNode {
         const loopBodyIteration = (i: bigint) => {
           if (i < endIndex) {
             this.writeOutput('index', i);
-            context.commit('loopBody', () => {
+            fiber.commit(this, 'loopBody', () => {
               loopBodyIteration(i + 1n);
             });
           } else {
-            context.commit('completed');
+            fiber.commit(this, 'completed');
           }
         };
         loopBodyIteration(startIndex);
+
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return () => {};
       }
     );
   }

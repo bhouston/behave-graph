@@ -18,7 +18,6 @@ export * from './Nodes/Templates/In0Out1FuncNode.js';
 // loading & execution
 export * from './Graphs/Execution/Engine.js';
 export * from './Graphs/Execution/traceToLogger.js';
-export * from './Nodes/NodeEvalContext.js';
 export * from './Graphs/IO/readGraphFromJSON.js';
 export * from './Graphs/IO/writeGraphToJSON.js';
 export * from './Graphs/IO/writeNodeSpecsToJSON.js';

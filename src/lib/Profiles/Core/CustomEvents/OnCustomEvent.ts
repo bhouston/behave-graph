@@ -1,7 +1,6 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -37,7 +36,7 @@ export class OnCustomEvent extends EventNode {
             )
         )
       ],
-      (context: NodeEvalContext) => {
+      (fiber) => {
         customEvent.eventEmitter.addListener((parameters) => {
           customEvent.parameters.forEach((parameterSocket) => {
             if (!(parameterSocket.name in parameters)) {
@@ -50,8 +49,10 @@ export class OnCustomEvent extends EventNode {
               parameters[parameterSocket.name]
             );
           });
-          context.commit('flow');
+          fiber.commit(this, 'flow');
         });
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return () => {};
       }
     );
   }

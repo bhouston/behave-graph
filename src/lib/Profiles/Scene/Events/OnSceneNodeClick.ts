@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -19,8 +18,10 @@ export class OnSceneNodeClick extends EventNode {
       graph,
       [],
       [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')],
-      (context: NodeEvalContext) => {
+      () => {
         this.writeOutput('nodeIndex', -1); // TODO: Replace with real value.
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return () => {};
       }
     );
   }

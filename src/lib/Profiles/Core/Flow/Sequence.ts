@@ -1,6 +1,5 @@
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
@@ -24,18 +23,21 @@ export class Sequence extends AsyncNode {
         new Socket('flow', '2'),
         new Socket('flow', '3')
       ],
-      (context: NodeEvalContext) => {
+      (fiber) => {
         // these outputs are fired sequentially in an async fashion but without delays.
         // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-        const sequenceIteration = function sequenceIteration(i: number) {
-          if (i < context.node.outputSockets.length) {
-            const outputSocket = context.node.outputSockets[i];
-            context.commit(outputSocket.name, () => {
+        const sequenceIteration = (i: number) => {
+          if (i < this.outputSockets.length) {
+            const outputSocket = this.outputSockets[i];
+            fiber.commit(this, outputSocket.name, () => {
               sequenceIteration(i + 1);
             });
           }
         };
         sequenceIteration(0);
+
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return () => {};
       }
     );
   }

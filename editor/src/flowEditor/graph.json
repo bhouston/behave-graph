@@ -2,7 +2,7 @@
   "nodes": [
     {
       "id": "0",
-      "type": "lifecycle/start",
+      "type": "lifecycle/onStart",
       "metadata": {
         "positionX": "-579",
         "positionY": "-67"
@@ -16,7 +16,7 @@
     },
     {
       "id": "1",
-      "type": "action/log",
+      "type": "debug/log",
       "metadata": {
         "positionX": "-422",
         "positionY": "-67"
@@ -57,7 +57,7 @@
     },
     {
       "id": "3",
-      "type": "action/log",
+      "type": "debug/log",
       "metadata": {
         "positionX": "32",
         "positionY": "-99"
@@ -76,7 +76,7 @@
     },
     {
       "id": "4",
-      "type": "action/log",
+      "type": "debug/log",
       "metadata": {
         "positionX": "26",
         "positionY": "40"
@@ -89,7 +89,7 @@
     },
     {
       "id": "5",
-      "type": "action/log",
+      "type": "debug/log",
       "metadata": {
         "positionX": "21",
         "positionY": "179"
@@ -102,7 +102,7 @@
     },
     {
       "id": "6",
-      "type": "action/log",
+      "type": "debug/log",
       "metadata": {
         "positionX": "321",
         "positionY": "-98"

@@ -8,7 +8,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js"
+    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
+    "prepare": "npm run build && npm run export-node-spec dist/node-spec.json",
+    "export-node-spec": "npm run build && node --enable-source-maps ./dist/examples/export-node-spec/index.js"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

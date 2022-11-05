@@ -16,7 +16,9 @@ import rawGraphJSON from './graph.json';
 import NodePicker from './components/NodePicker';
 import { getNodePickerFilters } from './util/getPickerFilters';
 import { calculateNewEdge } from './util/calculateNewEdge';
-import { GraphJSON } from '../../../framework';
+import { GraphJSON } from '@behavior-graph/framework';
+import 'reactflow/dist/style.css';
+import './flowEditor.css';
 
 const graphJSON = rawGraphJSON as GraphJSON;
 

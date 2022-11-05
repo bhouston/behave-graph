@@ -1,8 +1,8 @@
-import FlowEditor from './flowEditor/App';
+import FlowEditor from './flowEditor/FlowEditorApp';
 
 function App() {
   return (
-    <div className="container columns-2 h-full w-full gap-0">
+    <div className="h-full grid grid-cols-2 gap-0">
       <div className="bg-lime-500 h-full">
         <FlowEditor />
       </div>

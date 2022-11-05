@@ -17,7 +17,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "rootDir": "src",
-    "composite": true,
     "paths": {
       "behave-graph": ["../framework/src"]
     }

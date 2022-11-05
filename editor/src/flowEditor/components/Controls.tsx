@@ -28,10 +28,7 @@ const CustomControls = () => {
   const handleRun = async () => {
     const registry = new Registry();
     registerCoreProfile(registry);
-    registerSceneProfile(registry);
-    registry.implementations.register('ILogger', new DefaultLogger());
     const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-    registry.implementations.register('ILifecycleEventEmitter', manualLifecycleEventEmitter);
 
     const nodes = instance.getNodes();
     const edges = instance.getEdges();
@@ -40,7 +37,7 @@ const CustomControls = () => {
 
     const graphEvaluator = new GraphEvaluator(graph);
 
-    await graphEvaluator.executeAll();
+    await graphEvaluator.executeAllAsync();
 
     if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
       manualLifecycleEventEmitter.startEvent.emit();

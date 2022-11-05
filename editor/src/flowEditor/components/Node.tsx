@@ -8,6 +8,7 @@ import { isHandleConnected } from '../util/isHandleConnected';
 
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;
+  allSpecs: NodeSpecJSON[];
 };
 
 const getTitle = (type: string) => {
@@ -27,7 +28,7 @@ const getPairs = <T, U>(arr1: T[], arr2: U[]) => {
   return pairs;
 };
 
-export const Node = ({ id, data, spec, selected }: NodeProps) => {
+export const Node = ({ id, data, spec, selected, allSpecs }: NodeProps) => {
   const edges = useEdges();
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);
@@ -38,12 +39,19 @@ export const Node = ({ id, data, spec, selected }: NodeProps) => {
           {input && (
             <InputSocket
               {...input}
+              allSpecs={allSpecs}
               value={data[input.name] ?? input.defaultValue}
               onChange={handleChange}
               connected={isHandleConnected(edges, id, input.name, 'target')}
             />
           )}
-          {output && <OutputSocket {...output} connected={isHandleConnected(edges, id, output.name, 'source')} />}
+          {output && (
+            <OutputSocket
+              {...output}
+              specJSON={allSpecs}
+              connected={isHandleConnected(edges, id, output.name, 'source')}
+            />
+          )}
         </div>
       ))}
     </NodeContainer>

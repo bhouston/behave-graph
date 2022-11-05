@@ -10,25 +10,34 @@ import ReactFlow, {
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 import { behaveToFlow } from './transformers/behaveToFlow';
-import { customNodeTypes } from './util/customNodeTypes';
 import Controls from './components/Controls';
 import rawGraphJSON from './graph.json';
 import NodePicker from './components/NodePicker';
-import { getNodePickerFilters } from './util/getPickerFilters';
 import { calculateNewEdge } from './util/calculateNewEdge';
-import { GraphJSON, IScene } from '@behavior-graph/framework';
+import { GraphJSON, IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
 import 'reactflow/dist/style.css';
 import './flowEditor.css';
+import useFlowConfigFromRegistry from './hooks/useFlowConfigFromRegistry';
 
 const graphJSON = rawGraphJSON as GraphJSON;
 
 const [initialNodes, initialEdges] = behaveToFlow(graphJSON);
 
-function Flow({ scene }: { scene: IScene }) {
+function Flow({
+  scene,
+  handleRun,
+  registry,
+}: {
+  scene: IScene;
+  handleRun: () => void;
+  registry: Registry | undefined;
+}) {
   const [nodePickerVisibility, setNodePickerVisibility] = useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] = useState<OnConnectStartParams>();
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+
+  const { filters, customNodeTypes, specJson } = useFlowConfigFromRegistry({ registry, nodes, lastConnectStart });
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -54,6 +63,7 @@ function Flow({ scene }: { scene: IScene }) {
 
   const handleAddNode = useCallback(
     (nodeType: string, position: XYPosition) => {
+      if (!specJson) return;
       closeNodePicker();
       const newNode = {
         id: uuidv4(),
@@ -76,11 +86,11 @@ function Flow({ scene }: { scene: IScene }) {
       onEdgesChange([
         {
           type: 'add',
-          item: calculateNewEdge(originNode, nodeType, newNode.id, lastConnectStart),
+          item: calculateNewEdge(originNode, nodeType, newNode.id, lastConnectStart, specJson),
         },
       ]);
     },
-    [lastConnectStart, nodes, onEdgesChange, onNodesChange],
+    [lastConnectStart, nodes, onEdgesChange, onNodesChange, specJson],
   );
 
   const handleStartConnect = (e: ReactMouseEvent, params: OnConnectStartParams) => {
@@ -108,6 +118,8 @@ function Flow({ scene }: { scene: IScene }) {
     setNodePickerVisibility({ x: e.clientX, y: e.clientY });
   };
 
+  if (!customNodeTypes || !specJson) return null;
+
   return (
     <ReactFlow
       nodeTypes={customNodeTypes}
@@ -123,12 +135,12 @@ function Flow({ scene }: { scene: IScene }) {
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <Controls />
+      <Controls handleRun={handleRun} specJson={specJson} />
       <Background variant={BackgroundVariant.Lines} color="#2a2b2d" style={{ backgroundColor: '#1E1F22' }} />
       {nodePickerVisibility && (
         <NodePicker
           position={nodePickerVisibility}
-          filters={getNodePickerFilters(nodes, lastConnectStart)}
+          filters={filters}
           onPickNode={handleAddNode}
           onClose={closeNodePicker}
         />

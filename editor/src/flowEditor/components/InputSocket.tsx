@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 import cx from 'classnames';
 import { colors, valueTypeColorMap } from '../util/colors';
-import { InputSocketSpecJSON } from '@behavior-graph/framework';
+import { InputSocketSpecJSON, NodeSpecJSON } from '@behavior-graph/framework';
 import { isValidConnection } from '../util/isValidConnection';
 import { AutoSizeInput } from './AutoSizeInput';
 
@@ -11,9 +11,18 @@ export type InputSocketProps = {
   connected: boolean;
   value: any | undefined;
   onChange: (key: string, value: any) => void;
+  allSpecs: NodeSpecJSON[];
 } & InputSocketSpecJSON;
 
-export default function InputSocket({ connected, value, onChange, name, valueType, defaultValue }: InputSocketProps) {
+export default function InputSocket({
+  connected,
+  value,
+  onChange,
+  name,
+  valueType,
+  defaultValue,
+  allSpecs,
+}: InputSocketProps) {
   const instance = useReactFlow();
   const isFlowSocket = valueType === 'flow';
 
@@ -78,7 +87,7 @@ export default function InputSocket({ connected, value, onChange, name, valueTyp
         type="target"
         position={Position.Left}
         className={cx(borderColor, connected ? backgroundColor : 'bg-gray-800')}
-        isValidConnection={(connection: Connection) => isValidConnection(connection, instance)}
+        isValidConnection={(connection: Connection) => isValidConnection(connection, instance, allSpecs)}
       />
     </div>
   );

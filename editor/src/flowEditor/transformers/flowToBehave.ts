@@ -1,12 +1,9 @@
-import { GraphJSON, NodeJSON } from '@behavior-graph/framework';
+import { GraphJSON, NodeJSON, NodeSpecJSON } from '@behavior-graph/framework';
 import { Edge, Node } from 'reactflow';
-import { getNodeSpecJSON } from '../util/getNodeSpecJSON';
-
-const nodeSpecJSON = getNodeSpecJSON();
 
 const isNullish = (value: any): value is null | undefined => value === undefined || value === null;
 
-export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
+export const flowToBehave = (nodes: Node[], edges: Edge[], nodeSpecJSON: NodeSpecJSON[]): GraphJSON => {
   const graph: GraphJSON = { nodes: [], variables: [], customEvents: [] };
 
   nodes.forEach((node) => {

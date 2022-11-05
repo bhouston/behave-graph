@@ -105,6 +105,7 @@ function getPropertyValue(property: string, objectRef: Object3D) {
 }
 
 const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const addOnClickedListener = (jsonPath: string, callback: (jsonPath: string) => void) => {};
   const getProperty = (jsonPath: string, valueTypeName: string) => {
     const path = parseJsonPath(jsonPath);
@@ -132,7 +133,7 @@ const useSceneModifier = (gltf: GLTF & ObjectMap) => {
 
   useEffect(() => {
     setScene(buildSceneModifier(gltf));
-  }, []);
+  }, [gltf]);
 
   return scene;
 };

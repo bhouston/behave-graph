@@ -1,14 +1,9 @@
-import { Connection, ReactFlowInstance } from "reactflow";
-import { getSocketsByNodeTypeAndHandleType } from "./getSocketsByNodeTypeAndHandleType";
-import { isHandleConnected } from "./isHandleConnected";
-import { getNodeSpecJSON } from "./getNodeSpecJSON";
+import { NodeSpecJSON } from '@behavior-graph/framework';
+import { Connection, ReactFlowInstance } from 'reactflow';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
+import { isHandleConnected } from './isHandleConnected';
 
-const specJSON = getNodeSpecJSON();
-
-export const isValidConnection = (
-  connection: Connection,
-  instance: ReactFlowInstance
-) => {
+export const isValidConnection = (connection: Connection, instance: ReactFlowInstance, specJSON: NodeSpecJSON[]) => {
   if (connection.source === null || connection.target === null) return false;
 
   const sourceNode = instance.getNode(connection.source);
@@ -17,33 +12,18 @@ export const isValidConnection = (
 
   if (sourceNode === undefined || targetNode === undefined) return false;
 
-  const sourceSockets = getSocketsByNodeTypeAndHandleType(
-    specJSON,
-    sourceNode.type,
-    "source"
-  );
+  const sourceSockets = getSocketsByNodeTypeAndHandleType(specJSON, sourceNode.type, 'source');
 
-  const sourceSocket = sourceSockets?.find(
-    (socket) => socket.name === connection.sourceHandle
-  );
+  const sourceSocket = sourceSockets?.find((socket) => socket.name === connection.sourceHandle);
 
-  const targetSockets = getSocketsByNodeTypeAndHandleType(
-    specJSON,
-    targetNode.type,
-    "target"
-  );
+  const targetSockets = getSocketsByNodeTypeAndHandleType(specJSON, targetNode.type, 'target');
 
-  const targetSocket = targetSockets?.find(
-    (socket) => socket.name === connection.targetHandle
-  );
+  const targetSocket = targetSockets?.find((socket) => socket.name === connection.targetHandle);
 
   if (sourceSocket === undefined || targetSocket === undefined) return false;
 
   // only flow sockets can have two inputs
-  if (
-    targetSocket.valueType !== "flow" &&
-    isHandleConnected(edges, targetNode.id, targetSocket.name, "target")
-  ) {
+  if (targetSocket.valueType !== 'flow' && isHandleConnected(edges, targetNode.id, targetSocket.name, 'target')) {
     return false;
   }
 

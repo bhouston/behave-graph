@@ -17,7 +17,7 @@ const CustomControls = ({ handleRun, specJson }: { handleRun: () => void; specJs
 
   return (
     <>
-      <Controls>
+      <Controls className="bg-white">
         <ControlButton title="Help" onClick={() => setHelpModalOpen(true)}>
           <FontAwesomeIcon icon={faQuestion} />
         </ControlButton>

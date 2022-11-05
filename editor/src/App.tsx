@@ -39,14 +39,6 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
     setRun(true);
   }, []);
 
-  useWhyDidYouUpdate('app', {
-    modelUrl,
-    rawGraphJSON,
-    scene,
-    sceneJson,
-    graphEvaluator,
-  });
-
   return (
     <div className="h-full grid grid-cols-2 gap-0">
       <div className="bg-lime-500 h-full">

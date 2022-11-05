@@ -97,7 +97,7 @@ const RunGraphModificationsOnScene = ({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, []);
+  }, [graphEvaluator, lifecycleEmitter]);
 
   return null;
   // if (!started) return null;

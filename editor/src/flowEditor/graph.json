@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "lifecycle/start",
+      "metadata": {
+        "positionX": "-579",
+        "positionY": "-67"
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "1",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "1",
+      "type": "action/log",
+      "metadata": {
+        "positionX": "-422",
+        "positionY": "-67"
+      },
+      "parameters": {
+        "text": {
+          "value": "Starting Sequence..."
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "2",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "2",
+      "type": "flow/sequence",
+      "metadata": {
+        "positionX": "-164",
+        "positionY": "-67"
+      },
+      "flows": {
+        "1": {
+          "nodeId": "3",
+          "socket": "flow"
+        },
+        "2": {
+          "nodeId": "4",
+          "socket": "flow"
+        },
+        "3": {
+          "nodeId": "5",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "3",
+      "type": "action/log",
+      "metadata": {
+        "positionX": "32",
+        "positionY": "-99"
+      },
+      "parameters": {
+        "text": {
+          "value": "First Sequence Output!"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "6",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "4",
+      "type": "action/log",
+      "metadata": {
+        "positionX": "26",
+        "positionY": "40"
+      },
+      "parameters": {
+        "text": {
+          "value": "Second Sequence Output!"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "type": "action/log",
+      "metadata": {
+        "positionX": "21",
+        "positionY": "179"
+      },
+      "parameters": {
+        "text": {
+          "value": "Third Sequence Output!"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "type": "action/log",
+      "metadata": {
+        "positionX": "321",
+        "positionY": "-98"
+      },
+      "parameters": {
+        "text": {
+          "value": "Downstream of First Sequence!"
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": []
+}

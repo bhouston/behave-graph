@@ -9,15 +9,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-three/drei": "^9.40.0",
     "@react-three/fiber": "^8.9.1",
+    "classnames": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.146.0"
+    "reactflow": "^11.2.0",
+    "three": "^0.146.0",
+    "uuid": "^9.0.0",
+    "behavior-graph": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.18",

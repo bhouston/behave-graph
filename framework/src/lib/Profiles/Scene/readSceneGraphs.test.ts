@@ -33,7 +33,7 @@ const exampleMap: { [key: string]: any } = {
   eulerJson,
   flashSuzanneJson,
   hierarchyJson,
-  spinningSuzanneJson
+  spinningSuzanneJson,
 };
 
 Object.keys(exampleMap).forEach((key) => {

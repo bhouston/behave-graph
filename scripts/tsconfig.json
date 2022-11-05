@@ -15,14 +15,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "rootDir": "src",
-    "composite": true,
-    "paths": {
-      "behave-graph": ["../framework/src"]
-    }
+    "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "exclude": ["node_modules"],
-  "references": [{ "path": "../framework" }]
+  "include": ["deploy"],
+  "exclude": ["node_modules"]
 }

@@ -42,7 +42,7 @@ const NodePicker = ({ position, onPickNode, onClose, filters }: NodePickerProps)
   return (
     <div
       className="node-picker absolute z-10 text-sm text-white bg-gray-800 border rounded border-gray-500"
-      style={{ top: position.y, left: position.x }}
+      style={{ top: position.y, left: 0 }}
     >
       <div className="bg-gray-500 p-2">Add Node</div>
       <div className="p-2">

@@ -54,7 +54,7 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
           />
         )}
       </div>
-      <div className="bg-red-400 h-full">
+      <div className="h-full">
         <Scene scene={sceneJson} graphEvaluator={graphEvaluator} lifecycleEmitter={lifecyleEmitter} run={run} />
       </div>
     </div>

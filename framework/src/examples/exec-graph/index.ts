@@ -26,10 +26,7 @@ async function main() {
     .option('-t, --trace', `trace node execution`)
     .option('-p, --profile', `profile execution time`)
     .option('-d, --dryRun', `do not run graph`)
-    .option(
-      '-u, --upgrade',
-      `write json graph back to read location, upgrading format`
-    )
+    .option('-u, --upgrade', `write json graph back to read location, upgrading format`)
     .option('-i, --iterations <iterations>', 'number of tick iterations', '5');
 
   program.parse(process.argv);
@@ -48,10 +45,7 @@ async function main() {
       const graphJsonPath = matches[i];
       Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
       const textFile = await fs.readFile(graphJsonPath);
-      const graph = readGraphFromJSON(
-        JSON.parse(textFile.toString('utf8')),
-        registry
-      );
+      const graph = readGraphFromJSON(JSON.parse(textFile.toString('utf8')), registry);
       graph.name = graphJsonPath;
 
       const errorList: string[] = [];
@@ -67,10 +61,7 @@ async function main() {
 
       if (programOptions.upgrade) {
         const newGraphJson = writeGraphToJSON(graph);
-        await fs.writeFile(
-          graphJsonPath,
-          JSON.stringify(newGraphJson, null, 2)
-        );
+        await fs.writeFile(graphJsonPath, JSON.stringify(newGraphJson, null, 2));
       }
 
       Logger.verbose('creating behavior graph');
@@ -120,11 +111,9 @@ async function main() {
       if (programOptions.profile) {
         const deltaTime = Date.now() - startTime;
         Logger.info(
-          `Profile Results: ${numSteps} nodes executed in ${
-            deltaTime / 1000
-          } seconds, at a rate of ${Math.round(
-            (numSteps * 1000) / deltaTime
-          )} steps/second`
+          `Profile Results: ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round(
+            (numSteps * 1000) / deltaTime,
+          )} steps/second`,
         );
       }
     }

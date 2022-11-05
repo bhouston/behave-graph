@@ -1,17 +1,21 @@
-import { MouseEvent as ReactMouseEvent, useCallback, useState } from 'react';
+import { MouseEvent as ReactMouseEvent, useCallback, useMemo, useState } from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
   Connection,
   OnConnectStartParams,
+  OnNodesChange,
+  OnEdgesChange,
   useEdgesState,
   useNodesState,
   XYPosition,
+  Node,
+  Edge,
+  NodeChange,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 import { behaveToFlow } from './transformers/behaveToFlow';
 import Controls from './components/Controls';
-import rawGraphJSON from './graph.json';
 import NodePicker from './components/NodePicker';
 import { calculateNewEdge } from './util/calculateNewEdge';
 import { GraphJSON, IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
@@ -19,25 +23,37 @@ import 'reactflow/dist/style.css';
 import './flowEditor.css';
 import useFlowConfigFromRegistry from './hooks/useFlowConfigFromRegistry';
 
-const graphJSON = rawGraphJSON as GraphJSON;
-
-const [initialNodes, initialEdges] = behaveToFlow(graphJSON);
-
 function Flow({
-  scene,
-  handleRun,
+  toggleRun,
+  running,
   registry,
+  nodes,
+  onNodesChange,
+  edges,
+  onEdgesChange,
+  specJson,
+  scene,
 }: {
-  scene: IScene;
-  handleRun: () => void;
+  toggleRun: () => void;
+  running: boolean;
   registry: Registry | undefined;
+  nodes: Node<any>[];
+  onNodesChange: OnNodesChange;
+  edges: Edge<any>[];
+  onEdgesChange: OnEdgesChange;
+  specJson: NodeSpecJSON[];
+  scene: IScene;
 }) {
   const [nodePickerVisibility, setNodePickerVisibility] = useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] = useState<OnConnectStartParams>();
-  const [nodes, , onNodesChange] = useNodesState(initialNodes);
-  const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
-  const { filters, customNodeTypes, specJson } = useFlowConfigFromRegistry({ registry, nodes, lastConnectStart });
+  const { filters, customNodeTypes } = useFlowConfigFromRegistry({
+    registry,
+    nodes,
+    lastConnectStart,
+    specJson,
+    scene,
+  });
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -58,7 +74,7 @@ function Flow({
         },
       ]);
     },
-    [onEdgesChange],
+    [onEdgesChange]
   );
 
   const handleAddNode = useCallback(
@@ -90,7 +106,7 @@ function Flow({
         },
       ]);
     },
-    [lastConnectStart, nodes, onEdgesChange, onNodesChange, specJson],
+    [lastConnectStart, nodes, onEdgesChange, onNodesChange, specJson]
   );
 
   const handleStartConnect = (e: ReactMouseEvent, params: OnConnectStartParams) => {
@@ -135,7 +151,7 @@ function Flow({
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <Controls handleRun={handleRun} specJson={specJson} />
+      <Controls toggleRun={toggleRun} specJson={specJson} running={running} />
       <Background variant={BackgroundVariant.Lines} color="#2a2b2d" style={{ backgroundColor: '#1E1F22' }} />
       {nodePickerVisibility && (
         <NodePicker

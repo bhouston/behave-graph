@@ -1,24 +1,14 @@
-import {
-  Material,
-  Object3D,
-  Quaternion,
-  Vector2,
-  Vector3,
-  Vector4
-} from 'three';
+import { Material, Object3D, Quaternion, Vector2, Vector3, Vector4 } from 'three';
 
 import { Assert } from '../../lib/Diagnostics/Assert.js';
 import { EventEmitter } from '../../lib/Events/EventEmitter.js';
-import { IScene } from '../../lib/Profiles/Scene/Abstractions/IScene.js';
+import { IScene, Properties, ResourceProperties } from '../../lib/Profiles/Scene/Abstractions/IScene.js';
 import { Vec2 } from '../../lib/Profiles/Scene/Values/Internal/Vec2.js';
 import { Vec3 } from '../../lib/Profiles/Scene/Values/Internal/Vec3.js';
 import { Vec4 } from '../../lib/Profiles/Scene/Values/Internal/Vec4.js';
 import { GLTFJson } from './GLTFJson.js';
 
-function mapGlTFNodeIndicesToThreeObject3Ds(
-  glTFJson: GLTFJson,
-  glTFRoot: Object3D
-): { [index: number]: Object3D } {
+function mapGlTFNodeIndicesToThreeObject3Ds(glTFJson: GLTFJson, glTFRoot: Object3D): { [index: number]: Object3D } {
   const glTFNodeIndexToThreeNode: { [index: number]: Object3D } = {};
 
   const traverseChildren = (threeNode: Object3D, glTFNodeIndex: number) => {
@@ -30,9 +20,7 @@ function mapGlTFNodeIndicesToThreeObject3Ds(
       glTFNodeIndexToThreeNode[childGLTFNodeIndex] = childThreeNode;
       traverseChildren(childThreeNode, childGLTFNodeIndex);
 
-      Assert.mustBeTrue(
-        glTFJson.nodes[childGLTFNodeIndex].name === childThreeNode.name
-      );
+      Assert.mustBeTrue(glTFJson.nodes[childGLTFNodeIndex].name === childThreeNode.name);
     }
   };
   for (let i = 0; i < glTFJson.scenes[0].nodes.length; i++) {
@@ -44,17 +32,15 @@ function mapGlTFNodeIndicesToThreeObject3Ds(
   return glTFNodeIndexToThreeNode;
 }
 
-const jsonPathRegEx =
-  /^\/?(?<resource>[^/]+)\/(?<index>\d+)\/(?<property>[^/]+)$/;
+const jsonPathRegEx = /^\/?(?<resource>[^/]+)\/(?<index>\d+)\/(?<property>[^/]+)$/;
 function parseJsonPath(jsonPath: string) {
   const matches = jsonPathRegEx.exec(jsonPath);
   if (matches === null) throw new Error(`can not parse jsonPath: ${jsonPath}`);
-  if (matches.groups === undefined)
-    throw new Error(`can not parse jsonPath (no groups): ${jsonPath}`);
+  if (matches.groups === undefined) throw new Error(`can not parse jsonPath (no groups): ${jsonPath}`);
   return {
     resource: matches.groups.resource,
     index: Number.parseInt(matches.groups.index),
-    property: matches.groups.property
+    property: matches.groups.property,
   };
 }
 
@@ -77,10 +63,7 @@ export class ThreeScene implements IScene {
   public onSceneChanged = new EventEmitter<void>();
 
   constructor(public glTFRoot: Object3D, public readonly glTFJson: GLTFJson) {
-    this.glTFNodeIndexToThreeNode = mapGlTFNodeIndicesToThreeObject3Ds(
-      glTFJson,
-      glTFRoot
-    );
+    this.glTFNodeIndexToThreeNode = mapGlTFNodeIndicesToThreeObject3Ds(glTFJson, glTFRoot);
   }
 
   getProperty(jsonPath: string, valueTypeName: string): any {
@@ -145,10 +128,22 @@ export class ThreeScene implements IScene {
     }
     this.onSceneChanged.emit();
   }
-  addOnClickedListener(
-    jsonPath: string,
-    callback: (jsonPath: string) => void
-  ): void {
+  addOnClickedListener(jsonPath: string, callback: (jsonPath: string) => void): void {
     throw new Error('Method not implemented.');
+  }
+
+  getProperties(): Properties {
+    const nodeProperties = ['visible', 'translation', 'scale', 'rotation'];
+
+    const names = this.glTFJson.nodes.map(({ name }) => name) as string[];
+
+    const properties: Properties = {
+      nodes: {
+        names,
+        properties: nodeProperties,
+      },
+    };
+
+    return properties;
   }
 }

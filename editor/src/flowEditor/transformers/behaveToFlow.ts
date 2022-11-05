@@ -7,6 +7,7 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
   const edges: Edge[] = [];
 
   graph.nodes?.forEach((nodeJSON) => {
+    // eslint-disable-next-line no-debugger
     const node: Node = {
       id: nodeJSON.id,
       type: nodeJSON.type,
@@ -48,6 +49,8 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
       }
     }
   });
+
+  console.log({ nodes, edges });
 
   return [nodes, edges];
 };

@@ -40,9 +40,7 @@ function onWindowResize() {
 //
 
 async function loadThreeScene() {
-  const gltfPromise = new GLTFLoader()
-    .setPath('/src/graphs/scene/actions/')
-    .loadAsync('SpinningSuzanne.gltf');
+  const gltfPromise = new GLTFLoader().setPath('/src/graphs/scene/actions/').loadAsync('SpinningSuzanne.gltf');
 
   const gltf = await gltfPromise;
 
@@ -53,7 +51,7 @@ async function loadThreeScene() {
 
   const threeScene = new ThreeScene(gltf.scene, glTFJson);
 
-  return {threeScene, gltf};
+  return { threeScene, gltf };
 }
 
 async function main() {
@@ -61,7 +59,7 @@ async function main() {
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const {threeScene, gltf} = await loadThreeScene();
+  const { threeScene, gltf } = await loadThreeScene();
 
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry, threeScene);
@@ -76,7 +74,6 @@ async function main() {
   const graphJson = await graphFetchResponse.json();
   const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
-
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   const errorList: string[] = [];
@@ -93,20 +90,13 @@ async function main() {
   const container = document.createElement('div');
   document.body.appendChild(container);
 
-  camera = new THREE.PerspectiveCamera(
-    45,
-    window.innerWidth / window.innerHeight,
-    0.25,
-    20
-  );
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 20);
   camera.position.set(-1.8, 0.6, 2.7);
 
   const localScene = new THREE.Scene();
   scene = localScene;
 
-  const texturePromise = new RGBELoader()
-    .setPath('/assets/envmaps/')
-    .loadAsync('pedestrian_overpass_1k.hdr');
+  const texturePromise = new RGBELoader().setPath('/assets/envmaps/').loadAsync('pedestrian_overpass_1k.hdr');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });
   localRenderer.setPixelRatio(window.devicePixelRatio);
@@ -126,7 +116,7 @@ async function main() {
   localScene.environment = texture;
 
   localScene.add(gltf.scene);
-  
+
   threeScene.onSceneChanged.addListener(() => {
     render();
   });

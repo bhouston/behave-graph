@@ -54,7 +54,7 @@ async function main() {
           csvRow.push(
             nodeSpec.inputs[i].name,
             nodeSpec.inputs[i].valueType,
-            nodeSpec.inputs[i].defaultValue?.toString() || ''
+            nodeSpec.inputs[i].defaultValue?.toString() || '',
           );
         } else {
           csvRow.push('', '', '');
@@ -71,12 +71,12 @@ async function main() {
     });
     stringify(csvRows, async (err, csvOutput) => {
       await fs.writeFile(outputPath, csvOutput, {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       });
     });
   } else {
     await fs.writeFile(outputPath, jsonOutput, {
-      encoding: 'utf-8'
+      encoding: 'utf-8',
     });
   }
 }

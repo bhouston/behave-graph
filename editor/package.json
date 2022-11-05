@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "reactflow": "^11.2.0",
     "three": "^0.146.0",
+    "use-why-did-you-update": "^0.1.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

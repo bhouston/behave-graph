@@ -1,5 +1,5 @@
 import { ObjectMap } from '@react-three/fiber';
-import { IScene, Vec3, Vec4 } from '@behavior-graph/framework';
+import { IScene, Vec3, Vec4, Properties, ResourceProperties } from '@behavior-graph/framework';
 import { useCallback, useEffect, useState } from 'react';
 import { Object3D, Quaternion, Vector3, Vector4 } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -18,7 +18,7 @@ export type Path = {
   property: string;
 };
 
-function parseJsonPath(jsonPath: string) {
+export function parseJsonPath(jsonPath: string): Path {
   const matches = jsonPathRegEx.exec(jsonPath);
   if (matches === null) throw new Error(`can not parse jsonPath: ${jsonPath}`);
   if (matches.groups === undefined) throw new Error(`can not parse jsonPath (no groups): ${jsonPath}`);
@@ -119,9 +119,22 @@ const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
     applyPropertyToModel(path, gltf, value);
   };
 
+  const getProperties = (): Properties => {
+    const nodeProperties = ['visible', 'translation', 'scale', 'rotation'];
+
+    const nodeNames = Object.entries(gltf.nodes).map(([name, element]) => name);
+
+    const properties: Properties = {
+      nodes: { names: nodeNames, properties: nodeProperties },
+    };
+
+    return properties;
+  };
+
   const scene: IScene = {
     getProperty,
     setProperty,
+    getProperties,
     addOnClickedListener,
   };
 
@@ -129,7 +142,7 @@ const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
 };
 
 const useSceneModifier = (gltf: GLTF & ObjectMap) => {
-  const [scene, setScene] = useState<IScene>(() => buildSceneModifier(gltf));
+  const [scene, setScene] = useState<IScene>();
 
   useEffect(() => {
     setScene(buildSceneModifier(gltf));

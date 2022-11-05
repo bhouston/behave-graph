@@ -3,16 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 import cx from 'classnames';
 import { colors, valueTypeColorMap } from '../util/colors';
-import { InputSocketSpecJSON, NodeSpecJSON } from '@behavior-graph/framework';
+import { InputSocketSpecJSON, IScene, NodeSpecJSON } from '@behavior-graph/framework';
 import { isValidConnection } from '../util/isValidConnection';
 import { AutoSizeInput } from './AutoSizeInput';
+import PathSelect from './PathSelect';
+import { useCallback } from 'react';
 
 export type InputSocketProps = {
   connected: boolean;
   value: any | undefined;
   onChange: (key: string, value: any) => void;
   allSpecs: NodeSpecJSON[];
-} & InputSocketSpecJSON;
+} & InputSocketSpecJSON &
+  Pick<IScene, 'getProperties'>;
 
 export default function InputSocket({
   connected,
@@ -22,6 +25,7 @@ export default function InputSocket({
   valueType,
   defaultValue,
   allSpecs,
+  getProperties,
 }: InputSocketProps) {
   const instance = useReactFlow();
   const isFlowSocket = valueType === 'flow';
@@ -32,7 +36,15 @@ export default function InputSocket({
   }
 
   const [backgroundColor, borderColor] = colors[colorName];
+
   const showName = isFlowSocket === false || name !== 'flow';
+
+  const handleChange = useCallback(
+    (value: any) => {
+      onChange(name, value);
+    },
+    [name, onChange]
+  );
 
   return (
     <div className="flex grow items-center justify-start h-7">
@@ -40,20 +52,23 @@ export default function InputSocket({
       {showName && <div className="capitalize mr-2">{name}</div>}
       {isFlowSocket === false && connected === false && (
         <>
-          {valueType === 'string' && (
-            <AutoSizeInput
-              type="text"
-              className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
-              value={String(value) ?? defaultValue ?? ''}
-              onChange={(e) => onChange(name, e.currentTarget.value)}
-            />
-          )}
+          {valueType === 'string' &&
+            (name === 'jsonPath' ? (
+              <PathSelect value={String(value)} onChange={handleChange} getProperties={getProperties} />
+            ) : (
+              <AutoSizeInput
+                type="text"
+                className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
+                value={String(value) ?? defaultValue ?? ''}
+                onChange={handleChange}
+              />
+            ))}
           {valueType === 'number' && (
             <AutoSizeInput
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={(e) => onChange(name, e.currentTarget.value)}
+              onChange={handleChange}
             />
           )}
           {valueType === 'float' && (
@@ -61,7 +76,7 @@ export default function InputSocket({
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={(e) => onChange(name, e.currentTarget.value)}
+              onChange={handleChange}
             />
           )}
           {valueType === 'integer' && (
@@ -69,7 +84,7 @@ export default function InputSocket({
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={(e) => onChange(name, e.currentTarget.value)}
+              onChange={handleChange}
             />
           )}
           {valueType === 'boolean' && (
@@ -77,7 +92,7 @@ export default function InputSocket({
               type="checkbox"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={(e) => onChange(name, e.currentTarget.checked)}
+              onChange={handleChange}
             />
           )}
         </>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ClearModal } from './ClearModal';
 import { HelpModal } from './HelpModal';
-import { faDownload, faPlay, faQuestion, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPlay, faPause, faQuestion, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { LoadModal } from './LoadModal';
@@ -9,7 +9,15 @@ import { SaveModal } from './SaveModal';
 import { Controls, ControlButton } from 'reactflow';
 import { NodeSpecJSON } from '@behavior-graph/framework';
 
-const CustomControls = ({ handleRun, specJson }: { handleRun: () => void; specJson: NodeSpecJSON[] }) => {
+const CustomControls = ({
+  toggleRun,
+  specJson,
+  running,
+}: {
+  toggleRun: () => void;
+  specJson: NodeSpecJSON[];
+  running: boolean;
+}) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -17,7 +25,7 @@ const CustomControls = ({ handleRun, specJson }: { handleRun: () => void; specJs
 
   return (
     <>
-      <Controls>
+      <Controls className="bg-white">
         <ControlButton title="Help" onClick={() => setHelpModalOpen(true)}>
           <FontAwesomeIcon icon={faQuestion} />
         </ControlButton>
@@ -30,8 +38,8 @@ const CustomControls = ({ handleRun, specJson }: { handleRun: () => void; specJs
         <ControlButton title="Clear" onClick={() => setClearModalOpen(true)}>
           <FontAwesomeIcon icon={faTrash} />
         </ControlButton>
-        <ControlButton title="Run" onClick={() => handleRun()}>
-          <FontAwesomeIcon icon={faPlay} />
+        <ControlButton title="Run" onClick={() => toggleRun()}>
+          <FontAwesomeIcon icon={running ? faPause : faPlay} />
         </ControlButton>
       </Controls>
       <LoadModal open={loadModalOpen} onClose={() => setLoadModalOpen(false)} />

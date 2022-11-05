@@ -1,5 +1,5 @@
 import { NodeProps as FlowNodeProps, useEdges } from 'reactflow';
-import { NodeSpecJSON } from '@behavior-graph/framework';
+import { IScene, NodeSpecJSON } from '@behavior-graph/framework';
 import InputSocket from './InputSocket';
 import NodeContainer from './NodeContainer';
 import OutputSocket from './OutputSocket';
@@ -9,7 +9,7 @@ import { isHandleConnected } from '../util/isHandleConnected';
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;
   allSpecs: NodeSpecJSON[];
-};
+} & Pick<IScene, 'getProperties'>;
 
 const getTitle = (type: string) => {
   const tokens = type.split('/');
@@ -28,7 +28,7 @@ const getPairs = <T, U>(arr1: T[], arr2: U[]) => {
   return pairs;
 };
 
-export const Node = ({ id, data, spec, selected, allSpecs }: NodeProps) => {
+export const Node = ({ id, data, spec, selected, allSpecs, getProperties }: NodeProps) => {
   const edges = useEdges();
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);
@@ -43,6 +43,7 @@ export const Node = ({ id, data, spec, selected, allSpecs }: NodeProps) => {
               value={data[input.name] ?? input.defaultValue}
               onChange={handleChange}
               connected={isHandleConnected(edges, id, input.name, 'target')}
+              getProperties={getProperties}
             />
           )}
           {output && (

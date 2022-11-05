@@ -16,7 +16,7 @@ import rawGraphJSON from './graph.json';
 import NodePicker from './components/NodePicker';
 import { getNodePickerFilters } from './util/getPickerFilters';
 import { calculateNewEdge } from './util/calculateNewEdge';
-import { GraphJSON } from '@behavior-graph/framework';
+import { GraphJSON, IScene } from '@behavior-graph/framework';
 import 'reactflow/dist/style.css';
 import './flowEditor.css';
 
@@ -24,7 +24,7 @@ const graphJSON = rawGraphJSON as GraphJSON;
 
 const [initialNodes, initialEdges] = behaveToFlow(graphJSON);
 
-function Flow() {
+function Flow({ scene }: { scene: IScene }) {
   const [nodePickerVisibility, setNodePickerVisibility] = useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] = useState<OnConnectStartParams>();
   const [nodes, , onNodesChange] = useNodesState(initialNodes);

@@ -26,7 +26,7 @@ const Scene = ({
       </Stage>
 
       {graphEvaluator && lifecycleEmitter && (
-        <RunGraphModificationsOnScene graphEvaluator={graphEvaluator} lifecycleEmitter={lifecycleEmitter} />
+        <RunGraphModificationsOnScene graphEvaluator={graphEvaluator} lifecycleEmitter={lifecycleEmitter} run={run} />
       )}
     </Canvas>
   );

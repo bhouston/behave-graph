@@ -35,8 +35,8 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
     setGraphEvaluator(graphEvaluator);
   }, [nodes, edges, run, registry, specJson]);
 
-  const handleRun = useCallback(() => {
-    setRun(true);
+  const toggleRun = useCallback(() => {
+    setRun((existing) => !existing);
   }, []);
 
   return (
@@ -44,13 +44,14 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
       <div className="bg-lime-500 h-full">
         {specJson && (
           <FlowEditor
-            handleRun={handleRun}
+            toggleRun={toggleRun}
             registry={registry}
             nodes={nodes}
             onNodesChange={onNodesChange}
             edges={edges}
             onEdgesChange={onEdgesChange}
             specJson={specJson}
+            running={run}
           />
         )}
       </div>

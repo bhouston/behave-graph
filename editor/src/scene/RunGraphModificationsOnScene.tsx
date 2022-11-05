@@ -65,12 +65,15 @@ const ContinuouslyModifyScene = ({
 const RunGraphModificationsOnScene = ({
   graphEvaluator,
   lifecycleEmitter,
+  run,
 }: {
   graphEvaluator: GraphEvaluator;
   lifecycleEmitter: ILifecycleEventEmitter;
+  run: boolean;
 }) => {
   useEffect(() => {
     let timeout: number;
+    if (!run) return;
     (async () => {
       await graphEvaluator.executeAllSync();
 
@@ -97,12 +100,9 @@ const RunGraphModificationsOnScene = ({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [graphEvaluator, lifecycleEmitter]);
+  }, [graphEvaluator, lifecycleEmitter, run]);
 
   return null;
-  // if (!started) return null;
-
-  // return <ContinuouslyModifyScene lifecycleEmitter={lifecycleEmitter} graphEvaluator={graphEvaluator} />;
 };
 
 export default RunGraphModificationsOnScene;

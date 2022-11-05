@@ -24,7 +24,8 @@ import './flowEditor.css';
 import useFlowConfigFromRegistry from './hooks/useFlowConfigFromRegistry';
 
 function Flow({
-  handleRun,
+  toggleRun,
+  running,
   registry,
   nodes,
   onNodesChange,
@@ -32,7 +33,8 @@ function Flow({
   onEdgesChange,
   specJson,
 }: {
-  handleRun: () => void;
+  toggleRun: () => void;
+  running: boolean;
   registry: Registry | undefined;
   nodes: Node<any>[];
   onNodesChange: OnNodesChange;
@@ -64,7 +66,7 @@ function Flow({
         },
       ]);
     },
-    [onEdgesChange],
+    [onEdgesChange]
   );
 
   const handleAddNode = useCallback(
@@ -96,7 +98,7 @@ function Flow({
         },
       ]);
     },
-    [lastConnectStart, nodes, onEdgesChange, onNodesChange, specJson],
+    [lastConnectStart, nodes, onEdgesChange, onNodesChange, specJson]
   );
 
   const handleStartConnect = (e: ReactMouseEvent, params: OnConnectStartParams) => {
@@ -141,7 +143,7 @@ function Flow({
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <Controls handleRun={handleRun} specJson={specJson} />
+      <Controls toggleRun={toggleRun} specJson={specJson} running={running} />
       <Background variant={BackgroundVariant.Lines} color="#2a2b2d" style={{ backgroundColor: '#1E1F22' }} />
       {nodePickerVisibility && (
         <NodePicker

@@ -1,4 +1,4 @@
-import { NodeSpecJSON, Registry } from '@behavior-graph/framework';
+import { IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
 import { useEffect, useState } from 'react';
 import { NodeTypes, Node, OnConnectStartParams } from 'reactflow';
 import { NodePickerFilters } from '../components/NodePicker';
@@ -10,11 +10,13 @@ const useFlowConfigFromRegistry = ({
   nodes,
   lastConnectStart,
   specJson,
+  scene,
 }: {
   registry: Registry | undefined;
   nodes: Node<any>[];
   lastConnectStart: OnConnectStartParams | undefined;
   specJson: NodeSpecJSON[];
+  scene: IScene;
 }) => {
   const [filters, setFilters] = useState<NodePickerFilters | undefined>();
 
@@ -33,7 +35,7 @@ const useFlowConfigFromRegistry = ({
 
   useEffect(() => {
     if (!specJson) return;
-    const customNodeTypes = getCustomNodeTypes(specJson);
+    const customNodeTypes = getCustomNodeTypes(specJson, scene);
 
     setCustomNodeTypes(customNodeTypes);
   }, [specJson]);

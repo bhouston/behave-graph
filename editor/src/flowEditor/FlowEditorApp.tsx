@@ -18,7 +18,7 @@ import { behaveToFlow } from './transformers/behaveToFlow';
 import Controls from './components/Controls';
 import NodePicker from './components/NodePicker';
 import { calculateNewEdge } from './util/calculateNewEdge';
-import { GraphJSON, NodeSpecJSON, Registry } from '@behavior-graph/framework';
+import { GraphJSON, IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
 import 'reactflow/dist/style.css';
 import './flowEditor.css';
 import useFlowConfigFromRegistry from './hooks/useFlowConfigFromRegistry';
@@ -32,6 +32,7 @@ function Flow({
   edges,
   onEdgesChange,
   specJson,
+  scene,
 }: {
   toggleRun: () => void;
   running: boolean;
@@ -41,11 +42,18 @@ function Flow({
   edges: Edge<any>[];
   onEdgesChange: OnEdgesChange;
   specJson: NodeSpecJSON[];
+  scene: IScene;
 }) {
   const [nodePickerVisibility, setNodePickerVisibility] = useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] = useState<OnConnectStartParams>();
 
-  const { filters, customNodeTypes } = useFlowConfigFromRegistry({ registry, nodes, lastConnectStart, specJson });
+  const { filters, customNodeTypes } = useFlowConfigFromRegistry({
+    registry,
+    nodes,
+    lastConnectStart,
+    specJson,
+    scene,
+  });
 
   const onConnect = useCallback(
     (connection: Connection) => {

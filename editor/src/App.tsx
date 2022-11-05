@@ -42,7 +42,7 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
   return (
     <div className="h-full grid grid-cols-2 gap-0">
       <div className="bg-lime-500 h-full">
-        {specJson && (
+        {specJson && scene && (
           <FlowEditor
             toggleRun={toggleRun}
             registry={registry}
@@ -52,6 +52,7 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
             onEdgesChange={onEdgesChange}
             specJson={specJson}
             running={run}
+            scene={scene}
           />
         )}
       </div>

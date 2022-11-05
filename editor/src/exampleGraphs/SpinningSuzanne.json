@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "type": "lifecycle/onTick",
+      "id": "0",
+      "flows": {
+        "flow": {
+          "nodeId": "3",
+          "socket": "flow"
+        }
+      },
+      "metadata": {
+        "positionX": "-579",
+        "positionY": "0"
+      }
+    },
+    {
+      "type": "math/create/euler",
+      "id": "1",
+      "parameters": {
+        "x": {
+          "link": {
+            "nodeId": "0",
+            "socket": "time"
+          }
+        },
+        "y": {
+          "value": 0
+        },
+        "z": {
+          "value": 0
+        }
+      },
+      "metadata": {
+        "positionX": "-400",
+        "positionY": "100"
+      }
+    },
+    {
+      "type": "math/toQuat/euler",
+      "id": "2",
+      "parameters": {
+        "a": {
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
+        }
+      },
+      "metadata": {
+        "positionX": "-200",
+        "positionY": "100"
+      }
+    },
+    {
+      "type": "scene/set/quat",
+      "id": "3",
+      "parameters": {
+        "jsonPath": {
+          "value": "/nodes/Suzanne/rotation"
+        },
+        "value": {
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
+        }
+      }
+    }
+  ]
+}

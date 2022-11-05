@@ -19,10 +19,11 @@
     "url": "https://github.com/bhouston/behave-graph"
   },
   "devDependencies": {
-    "ts-node": ">=8.0.0",
-    "typescript": ">=4.5.0",
     "dotenv": "^16.0.3",
-    "prettier": "^2.7.1"
+    "eslint": "^8.26.0",
+    "prettier": "^2.7.1",
+    "ts-node": ">=8.0.0",
+    "typescript": ">=4.5.0"
   },
   "resolutions": {
     "undici": "5.5.1"
@@ -33,7 +34,7 @@
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "watch": "tsc --watch --preserveWatchOutput & tgt --watch",
-    "start": "npm run watch & web-dev-server --watch --open --app-index ./src/examples/three/index.html",
+    "start": "yarn workspace @behavior-graph/editor dev",
     "lint": "npx eslint \"src/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "exec-graph": "cd framework && yarn exec-graph"

@@ -16,7 +16,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "outDir": "./dist"
+    "rootDir": "src",
+    "paths": {
+      "behave-graph": ["../framework/src"]
+    }
   },
   "include": ["src"],
+  "exclude": ["node_modules"],
+  "references": [{ "path": "../framework" }]
 }

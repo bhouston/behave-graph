@@ -26,7 +26,11 @@ import { IntegerValue } from './Values/IntegerValue.js';
 import * as StringNodes from './Values/StringNodes.js';
 import { StringValue } from './Values/StringValue.js';
 
-export function registerCoreProfile(registry: Registry, ilogger: ILogger = new DefaultLogger(), iLifeCycle: ILifecycleEventEmitter = new ManualLifecycleEventEmitter()) {
+export function registerCoreProfile(
+  registry: Registry,
+  ilogger = new DefaultLogger(),
+  iLifeCycle = new ManualLifecycleEventEmitter(),
+) {
   const { nodes, values } = registry;
 
   // pull in value type nodes

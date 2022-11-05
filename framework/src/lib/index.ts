@@ -61,3 +61,5 @@ export * from './Profiles/Scene/Values/Internal/Vec2.js';
 export * from './Profiles/Scene/Values/Internal/Vec3.js';
 export * from './Profiles/Scene/Values/Internal/Vec4.js';
 export * from './Profiles/Scene/registerSceneProfile.js';
+
+export * from '../examples/three/ThreeScene';

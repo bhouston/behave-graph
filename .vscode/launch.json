@@ -1,38 +1,16 @@
 {
-  "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js: debug server-side",
-      "type": "node-terminal",
+      "type": "chrome",
+      "name": "https://localhost:5173",
       "request": "launch",
-      "command": "yarn start:next",
-      "sourceMapPathOverrides": {
-        "webpack:///./*": "${workspaceRoot}/packages/nextjs-app-ts/*"
-      }
+      "url": "https://localhost:5173"
     },
     {
-      "name": "Next.js: debug client-side",
-      "type": "pwa-chrome",
+      "type": "chrome",
+      "name": "http://localhost:5173",
       "request": "launch",
-      "url": "http://localhost:3000",
-      "sourceMapPathOverrides": {
-        "webpack:///./*": "${workspaceRoot}/packages/nextjs-app-ts/*"
-      }
-    },
-    {
-      "name": "Next.js: debug full stack",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "yarn start:next",
-      "console": "integratedTerminal",
-      "serverReadyAction": {
-        "pattern": "started server on .+, url: (https?://.+)",
-        "uriFormat": "%s",
-        "action": "debugWithChrome"
-      },
-      "sourceMapPathOverrides": {
-        "webpack:///./*": "${workspaceRoot}/packages/nextjs-app-ts/*"
-      }
+      "url": "http://localhost:5173"
     }
   ]
 }

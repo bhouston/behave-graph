@@ -1,0 +1,10 @@
+{
+  "extends": ["prettier"],
+  "rules": {
+    "prettier/prettier": 0,
+    "simple-import-sort/imports": 0,
+    "import/extensions": 0,
+    "unused-imports/no-unused-imports": 1,
+    "@typescript-eslint/no-empty-function": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@behavior-graph/scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.12.2"
+  }
+}

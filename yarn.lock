@@ -1299,12 +1299,12 @@
     "@nomicfoundation/solidity-analyzer-win32-ia32-msvc" "0.1.0"
     "@nomicfoundation/solidity-analyzer-win32-x64-msvc" "0.1.0"
 
-"@nomiclabs/hardhat-ethers@^2.2.0":
+"@nomiclabs/hardhat-ethers@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-ethers/-/hardhat-ethers-2.2.1.tgz#8057b43566a0e41abeb8142064a3c0d3f23dca86"
   integrity sha512-RHWYwnxryWR8hzRmU4Jm/q4gzvXpetUOJ4OPlwH2YARcDB+j79+yAYCwO0lN1SUOb4++oOTJEe6AWLEc42LIvg==
 
-"@nomiclabs/hardhat-etherscan@^3.0.0":
+"@nomiclabs/hardhat-etherscan@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-etherscan/-/hardhat-etherscan-3.1.2.tgz#1f9af26ce7db437eb705d46a99996811b43d0e4a"
   integrity sha512-IEikeOVq0C/7CY6aD74d8L4BpGoc/FNiN6ldiPVg0QIFIUSu4FSGA1dmtJZJKk1tjpwgrfTLQNWnigtEaN9REg==
@@ -1326,11 +1326,6 @@
   integrity sha512-zt4xN+D+fKl3wW2YlTX3k9APR3XZgPkxJYf36AcliJn3oujnKEVRZaHu0PhgLjO+gR+F/kiYayo9fgd2L8970Q==
   dependencies:
     "@types/bignumber.js" "^5.0.0"
-
-"@openzeppelin/contracts-upgradeable@^4.8.0-rc.1":
-  version "4.8.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.8.0-rc.2.tgz#27f04f0148bef5314fad7cd41d12775e7ea37c1b"
-  integrity sha512-RWiJX2VZtM6pxTcW/bzYbgGutjQPsp0d7BFOAAmRGtHaDTPqrPEefNNYANmpyUBmXKdpYoM8lP46V+QX1AfAAQ==
 
 "@openzeppelin/contracts@^4.7.3":
   version "4.7.3"
@@ -1674,7 +1669,7 @@
   dependencies:
     "@types/chai" "*"
 
-"@types/chai@*", "@types/chai@^4.2.0":
+"@types/chai@*":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.3.tgz#3c90752792660c4b562ad73b3fbd68bf3bc7ae07"
   integrity sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==
@@ -1855,12 +1850,7 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-5.1.2.tgz#07508b45797cb81ec3f273011b054cd0755eddca"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
 
-"@types/mocha@^9.1.0":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.1.tgz#e7c4f1001eefa4b8afbd1eee27a237fee3bf29c4"
-  integrity sha512-Z61JK7DKDtdKTWwLeElSEBcWGRLY8g95ic5FoQqI9CMx0ns/Ghep3B4DfcEimiKMvtamNVULVNKEsiwV3aQmXw==
-
-"@types/node@*", "@types/node@>=12.0.0", "@types/node@^18.0.6":
+"@types/node@*", "@types/node@^18.0.6":
   version "18.11.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.9.tgz#02d013de7058cea16d36168ef2fc653464cfbad4"
   integrity sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==
@@ -2870,7 +2860,7 @@ chai-as-promised@^7.1.1:
   dependencies:
     check-error "^1.0.2"
 
-chai@^4.2.0:
+chai@^4.3.6:
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.3.6.tgz#ffe4ba2d9fa9d6680cc0b370adae709ec9011e9c"
   integrity sha512-bbcp3YfHCUzMOvKqsztczerVgBKSsEijCySNlHHbX3VG1nskvqjz5Rfso1gGwD6w6oOV3eI60pKuMOV5MV7p3Q==
@@ -4103,7 +4093,7 @@ ethers@^4.0.40:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^5.4.7:
+ethers@^5.7.2:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
@@ -4687,11 +4677,6 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-graphql@^16.6.0:
-  version "16.6.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
-  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
-
 growl@1.10.5:
   version "1.10.5"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
@@ -4731,7 +4716,7 @@ hardhat-gas-reporter@^1.0.8:
     eth-gas-reporter "^0.2.25"
     sha1 "^1.1.1"
 
-hardhat@^2.11.2:
+hardhat@^2.11.2, hardhat@^2.12.2:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/hardhat/-/hardhat-2.12.2.tgz#6ae985007b20c1f381c6573799d66c1438c4c802"
   integrity sha512-f3ZhzXy1uyQv0UXnAQ8GCBOWjzv++WJNb7bnm10SsyC3dB7vlPpsMWBNhq7aoRxKrNhX9tCev81KFV3i5BTeMQ==
@@ -8464,7 +8449,7 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
-undici@^5.4.0:
+undici@5.5.1, undici@^5.4.0:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/undici/-/undici-5.5.1.tgz#baaf25844a99eaa0b22e1ef8d205bffe587c8f43"
   integrity sha512-MEvryPLf18HvlCbLSzCW0U00IMftKGI5udnjrQbC5D4P0Hodwffhv+iGfWuJwg16Y/TK11ZFK8i+BPVW2z/eAw==

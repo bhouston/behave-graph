@@ -1,4 +1,5 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -35,25 +36,26 @@ export class OnCustomEvent extends EventNode {
               parameter.label
             )
         )
-      ],
-      (fiber) => {
-        customEvent.eventEmitter.addListener((parameters) => {
-          customEvent.parameters.forEach((parameterSocket) => {
-            if (!(parameterSocket.name in parameters)) {
-              throw new Error(
-                `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
-              );
-            }
-            this.writeOutput(
-              parameterSocket.name,
-              parameters[parameterSocket.name]
-            );
-          });
-          fiber.commit(this, 'flow');
-        });
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        return () => {};
-      }
+      ]
     );
+  }
+
+  init(engine: Engine) {
+    this.customEvent.eventEmitter.addListener((parameters) => {
+      this.customEvent.parameters.forEach((parameterSocket) => {
+        if (!(parameterSocket.name in parameters)) {
+          throw new Error(
+            `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
+          );
+        }
+        this.writeOutput(
+          parameterSocket.name,
+          parameters[parameterSocket.name]
+        );
+      });
+      engine.commitToNewFiber(this, 'flow');
+    });
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    return () => {};
   }
 }

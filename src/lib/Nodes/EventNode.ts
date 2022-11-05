@@ -1,7 +1,6 @@
-import { Fiber } from '../Graphs/Execution/Fiber.js';
+import { Engine } from '../Graphs/Execution/Engine.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
-import { CancelCallback, FinishedCallback } from './AsyncNode.js';
 import { Node } from './Node.js';
 import { NodeDescription } from './Registry/NodeDescription.js';
 
@@ -14,12 +13,15 @@ export class EventNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputSockets: Socket[],
-    outputSockets: Socket[],
-    public readonly exec: (
-      context: Fiber,
-      finished: FinishedCallback
-    ) => CancelCallback
+    outputSockets: Socket[]
   ) {
     super(description, graph, inputSockets, outputSockets);
   }
+
+  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
+  init(engine: Engine): DisposeCallback {
+    throw new Error('not implemented');
+  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispose() {}
 }

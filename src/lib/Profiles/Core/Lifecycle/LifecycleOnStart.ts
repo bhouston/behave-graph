@@ -1,3 +1,4 @@
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -14,13 +15,16 @@ export class LifecycleOnStart extends EventNode {
   );
 
   constructor(description: NodeDescription, graph: Graph) {
-    super(description, graph, [], [new Socket('flow', 'flow')], (fiber) => {
+    super(description, graph, [], [new Socket('flow', 'flow')])
+   }
+   
+   init(engine: Engine) {
       const onStartEvent = () => {
-        fiber.commit(this, 'flow');
+        engine.commitToNewFiber(this, 'flow');
       };
 
       const lifecycleEvents =
-        fiber.engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+        engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
           'ILifecycleEventEmitter'
         );
       lifecycleEvents.startEvent.addListener(onStartEvent);
@@ -28,6 +32,6 @@ export class LifecycleOnStart extends EventNode {
       return () => {
         lifecycleEvents.startEvent.removeListener(onStartEvent);
       };
-    });
+    };
   }
 }

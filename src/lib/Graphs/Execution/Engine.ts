@@ -29,7 +29,7 @@ export class Engine {
   commitToNewFiber(
     node: Node,
     outputFlowSocketName: string,
-    fiberCompletedListener: (() => void) | undefined
+    fiberCompletedListener: (() => void) | undefined = undefined
   ) {
     const outputSocket = node.outputSockets.find(
       (socket) => socket.name === outputFlowSocketName

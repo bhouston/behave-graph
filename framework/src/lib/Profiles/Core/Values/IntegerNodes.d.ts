@@ -1,0 +1,20 @@
+import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+export declare const Constant: NodeDescription;
+export declare const Add: NodeDescription;
+export declare const Subtract: NodeDescription;
+export declare const Negate: NodeDescription;
+export declare const Multiply: NodeDescription;
+export declare const Divide: NodeDescription;
+export declare const Modulus: NodeDescription;
+export declare const ToFloat: NodeDescription;
+export declare const Min: NodeDescription;
+export declare const Max: NodeDescription;
+export declare const Clamp: NodeDescription;
+export declare const Abs: NodeDescription;
+export declare const Sign: NodeDescription;
+export declare const Equal: NodeDescription;
+export declare const GreaterThan: NodeDescription;
+export declare const GreaterThanOrEqual: NodeDescription;
+export declare const LessThan: NodeDescription;
+export declare const LessThanOrEqual: NodeDescription;
+//# sourceMappingURL=IntegerNodes.d.ts.map

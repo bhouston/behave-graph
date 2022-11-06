@@ -18,6 +18,7 @@ struct TokenGateRule {
 
 
 struct Node {
+    string id;
     NodeType nodeType;
     TokenGateRule tokenGateRule;
 }
@@ -25,7 +26,8 @@ struct Node {
 contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
-    mapping(uint256 => Node[]) private _tokenNodes;
+    mapping(uint256 => mapping(string => Node)) private _tokenNodes;
+    mapping(uint256 => mapping(string => uint256)) private _tokenNodeEmitCount;
 
     Counters.Counter private _nodeCounter;
 
@@ -33,10 +35,10 @@ contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
 
     event SafeMint(uint256 tokenId, address to, string uri, Node[] nodes);
 
-    error InvalidActionId(uint256 actionId);
-    error MissingTokens(uint256 actionId, address tokenAddress);
+    error InvalidActionId(string nodeId);
+    error MissingTokens(string nodeId, address tokenAddress);
 
-    event ActionExecuted(address executor, uint256 tokenId, uint256 actionId);
+    event ActionExecuted(address executor, uint256 tokenId, string actionId, uint256 count);
 
     constructor() ERC721("MyToken", "MTK") {}
 
@@ -51,7 +53,7 @@ contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, sceneUri);
         _createNodes(tokenId, _nodes);
-        emit SafeMint(tokenId, to, sceneUri, _tokenNodes[tokenId]);
+        emit SafeMint(tokenId, to, sceneUri, _nodes);
     
         return tokenId;
     }
@@ -72,31 +74,26 @@ contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
 
      function _createNodes(uint256 tokenId, Node[] calldata _nodes) private onlyOwner {
         for(uint256 i = 0; i < _nodes.length; i++) {
-          _tokenNodes[tokenId].push(_nodes[i]);
+          Node calldata node = _nodes[i];
+          _tokenNodes[tokenId][node.id] = node;
         }
     }
 
-    function getNodes(uint256 tokenId) public view returns(Node[] memory) {
-        return _tokenNodes[tokenId];
+    function getNode(uint256 tokenId, string memory _nodeId) public view returns(Node memory) {
+        return _tokenNodes[tokenId][_nodeId];
     }
 
-    function getNode(uint256 tokenId, uint256 actionId) public view returns(Node memory) {
-        return getNodes(tokenId)[actionId];
-    }
+    function executeAction(uint256 tokenId, string calldata _nodeId) public {
+       Node memory node = getNode(tokenId, _nodeId);
 
-    function executeAction(uint256 tokenId, uint256 actionId) public {
-       if (actionId >= _tokenNodes[tokenId].length) {
-          revert InvalidActionId(actionId);
-       }
-
-       _assertCanExecuteAction(tokenId, actionId);
+       _assertCanExecuteAction(node);
     
-        emit ActionExecuted(msg.sender, tokenId, actionId);
+        uint256 actionCount = ++_tokenNodeEmitCount[tokenId][_nodeId];
+    
+        emit ActionExecuted(msg.sender, tokenId, _nodeId, actionCount);
     }
 
-    function _assertCanExecuteAction(uint256 tokenId, uint256 actionId) private view {
-        Node memory node = getNode(tokenId, actionId);
-
+    function _assertCanExecuteAction(Node memory node) private view {
         if (!node.tokenGateRule.active) {
             return;
         }
@@ -106,7 +103,7 @@ contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
         uint256 balance = erc721Contract.balanceOf(msg.sender);
 
         if (balance <= 0) {
-            revert MissingTokens(actionId, msg.sender);
+            revert MissingTokens(node.id, msg.sender);
         }
     }
 }

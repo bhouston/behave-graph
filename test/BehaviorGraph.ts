@@ -42,6 +42,7 @@ describe('BehaviorGraph', function () {
       const nodesToCreate: NodeStruct[] = [
         {
           nodeType: 0,
+          id: '0',
           tokenGateRule: {
             active: false,
             tokenContract: otherAccount.address,
@@ -49,6 +50,7 @@ describe('BehaviorGraph', function () {
         },
         {
           nodeType: 1,
+          id: '5',
           tokenGateRule: {
             active: true,
             tokenContract: behaviorGraph.address,
@@ -62,11 +64,9 @@ describe('BehaviorGraph', function () {
 
       const tokenId = 0;
 
-      const nodes = await behaviorGraph.getNodes(tokenId);
+      const node = await behaviorGraph.getNode(tokenId, '5');
 
-      expect(nodes).to.have.length(nodesToCreate.length);
-      expect(nodes[0].nodeType).to.eql(nodesToCreate[0].nodeType);
-      expect(nodes[1].tokenGateRule.active).to.eql(true);
+      expect(node.nodeType).to.eql(nodesToCreate[1].nodeType);
     });
   });
 
@@ -89,10 +89,12 @@ describe('BehaviorGraph', function () {
     });
 
     describe('when the action is not token gated', () => {
-      it('can successfully execute that action and emits an event', async () => {
+      it('can successfully execute that action and emits an event with the count', async () => {
+        const actionId = '5';
         const nodesToCreate = [
           {
             nodeType: 0,
+            id: actionId,
             tokenGateRule: {
               active: false,
               tokenContract: contract.address,
@@ -106,21 +108,26 @@ describe('BehaviorGraph', function () {
 
         const tokenId = 0;
 
-        const actionId = 0;
-
         const executerAddress = otherAccount;
+
+        const actionCount = 1;
 
         await expect(contract.connect(executerAddress).executeAction(tokenId, actionId))
           .to.emit(contract, 'ActionExecuted')
-          .withArgs(await executerAddress.getAddress(), actionId); // We accept any value as `when` arg
+          .withArgs(await executerAddress.getAddress(), tokenId, actionId, actionCount);
+
+        await expect(contract.connect(executerAddress).executeAction(tokenId, actionId))
+          .to.emit(contract, 'ActionExecuted')
+          .withArgs(await executerAddress.getAddress(), tokenId, actionId, actionCount + 1);
       });
     });
 
-    describe.only('when the action is token gated', () => {
+    describe('when the action is token gated', () => {
       beforeEach(async () => {
         const nodesToCreate = [
           {
             nodeType: 0,
+            id: '10',
             tokenGateRule: {
               active: false,
               tokenContract: contract.address,
@@ -128,6 +135,7 @@ describe('BehaviorGraph', function () {
           },
           {
             nodeType: 0,
+            id: '1',
             // this rule requires you to have a token from another contract
             tokenGateRule: {
               active: true,
@@ -146,18 +154,19 @@ describe('BehaviorGraph', function () {
         it('cannot successfully execute that action', async () => {
           // user does not have a token of that other account, so this fails.
           const tokenId = 1;
-          const actionId = 1;
+          const actionId = '1';
           await expect(contract.connect(otherAccount).executeAction(tokenId, actionId)).to.be.reverted;
         });
       });
 
       describe('when the user has a token of that collection', () => {
-        it('can successfully execute that action', async () => {
+        it('can successfully execute that action and emits the result', async () => {
           const executerAccount = otherAccount;
           const executerAccountAddress = await executerAccount.getAddress();
 
           const tokenId = 1;
-          const actionId = 1;
+          const actionId = '1';
+          const actionCount = 1;
 
           // mint a token on the other contract the balance should be good now
           const tx = await otherTokenContract.connect(executerAccount).safeMint('asdfasdfafs');
@@ -170,7 +179,7 @@ describe('BehaviorGraph', function () {
           // successfully call eecute the other action
           await expect(contract.connect(otherAccount).executeAction(tokenId, actionId))
             .to.emit(contract, 'ActionExecuted')
-            .withArgs(await executerAccountAddress, tokenId, actionId); // We accept any value as `when` arg
+            .withArgs(await executerAccountAddress, tokenId, actionId, actionCount); // We accept any value as `when` arg
         });
       });
     });

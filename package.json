@@ -33,6 +33,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build-editor": "yarn workspace @behavior-graph/editor build",
     "chain": "npx hardhat node",
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",

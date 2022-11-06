@@ -1,25 +1,11 @@
 {
   "nodes": [
     {
-      "id": "609be7a7-dc20-4c30-a51f-6f6244630fc5",
-      "type": "lifecycle/onStart",
-      "metadata": {
-        "positionX": "-213.76309621839198",
-        "positionY": "-32.51860254083476"
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "6effc2ef-5228-415f-9614-60eeb5100216",
-          "socket": "flow"
-        }
-      }
-    },
-    {
       "id": "6effc2ef-5228-415f-9614-60eeb5100216",
       "type": "scene/set/boolean",
       "metadata": {
-        "positionX": "104.60847181004016",
-        "positionY": "-240.277285944381"
+        "positionX": "278.6686844450226",
+        "positionY": "-314.1135611767546"
       },
       "parameters": {
         "jsonPath": {
@@ -37,23 +23,33 @@
       "id": "d54414df-4da7-48e1-ba91-2a04b9584c71",
       "type": "flow/flipFlop",
       "metadata": {
-        "positionX": "-189.53248638838477",
-        "positionY": "-426.0372050816697"
+        "positionX": "48.7843418772044",
+        "positionY": "-526.1039396020275"
       }
     },
     {
       "id": "c5ca3660-a2d7-401b-8739-e8bdd7329148",
       "type": "scene/nodeClick",
       "metadata": {
-        "positionX": "-611.1346642468241",
-        "positionY": "-201.59872958257716"
+        "positionX": "-612.4513318063024",
+        "positionY": "-270.0654426754536"
       },
       "parameters": {
         "jsonPath": {
           "value": "nodes/Torus"
+        },
+        "tokenGated": {
+          "value": true
+        },
+        "tokenGatedAddress": {
+          "value": "0xd1e614205d96b5FdBC57C10a149FBd9cDf15CED3"
         }
       },
       "flows": {
+        "secondFlow": {
+          "nodeId": "6effc2ef-5228-415f-9614-60eeb5100216",
+          "socket": "flow"
+        },
         "flow": {
           "nodeId": "d54414df-4da7-48e1-ba91-2a04b9584c71",
           "socket": "flow"

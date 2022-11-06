@@ -61,6 +61,7 @@ const getProviders = () => {
 const { chains, provider, webSocketProvider } = configureChains(getAllowedChains(), getProviders());
 
 const { connectors } = getDefaultWallets({
+  // @ts-ignore
   appName: import.meta.env.VITE_APP_APP_NAME,
   chains,
 });

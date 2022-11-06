@@ -32,6 +32,9 @@ export const Node = ({ id, data, spec, selected, allSpecs, getProperties }: Node
   const edges = useEdges();
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);
+
+  const shortJsonPath = spec.type.includes('scene/nodeClick');
+
   return (
     <NodeContainer title={getTitle(spec.type)} category={spec.category} selected={selected}>
       {pairs.map(([input, output], ix) => (
@@ -44,6 +47,7 @@ export const Node = ({ id, data, spec, selected, allSpecs, getProperties }: Node
               onChange={handleChange}
               connected={isHandleConnected(edges, id, input.name, 'target')}
               getProperties={getProperties}
+              shortJsonPath={shortJsonPath}
             />
           )}
           {output && (

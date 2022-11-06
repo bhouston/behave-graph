@@ -3,7 +3,15 @@ import { Edge, Node } from 'reactflow';
 
 const isNullish = (value: any): value is null | undefined => value === undefined || value === null;
 
-export const flowToBehave = (nodes: Node[], edges: Edge[], nodeSpecJSON: NodeSpecJSON[]): GraphJSON => {
+export const flowToBehave = ({
+  nodes,
+  edges,
+  nodeSpecJSON,
+}: {
+  nodes: Node[];
+  edges: Edge[];
+  nodeSpecJSON: NodeSpecJSON[];
+}): GraphJSON => {
   const graph: GraphJSON = { nodes: [], variables: [], customEvents: [] };
 
   nodes.forEach((node) => {

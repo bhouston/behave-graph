@@ -13,18 +13,12 @@ export class GetSceneProperty extends Node {
           `scene/get/${valueTypeName}`,
           'Query',
           `Get Scene ${toCamelCase(valueTypeName)}`,
-          (description, graph) =>
-            new GetSceneProperty(description, graph, valueTypeName, scene)
+          (description, graph) => new GetSceneProperty(description, graph, valueTypeName, scene)
         )
     );
   }
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    valueTypeName: string,
-    private readonly scene: IScene
-  ) {
+  constructor(description: NodeDescription, graph: Graph, valueTypeName: string, private readonly scene: IScene) {
     super(
       description,
       graph,
@@ -32,10 +26,7 @@ export class GetSceneProperty extends Node {
       [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
       (context) => {
         const sceneGraph = this.scene;
-        context.writeOutput(
-          'value',
-          sceneGraph.getProperty(context.readInput('jsonPath'), valueTypeName)
-        );
+        context.writeOutput('value', sceneGraph.getProperty(context.readInput('jsonPath'), valueTypeName));
       }
     );
   }

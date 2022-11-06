@@ -6,20 +6,20 @@ import { autoLayout } from '../util/autoLayout';
 import { hasPositionMetaData } from '../util/hasPositionMetaData';
 import { Modal } from './Modal';
 
-import Branch from '@behavior-graph/framework/dist/graphs/core/flow/Branch.json';
-import Delay from '@behavior-graph/framework/dist/graphs/core/async/Delay.json';
-import HelloWorld from '@behavior-graph/framework/dist/graphs/core//HelloWorld.json';
-import Polynomial from '@behavior-graph/framework/dist/graphs/core/logic/Polynomial.json';
-import SetGet from '@behavior-graph/framework/dist/graphs/core/variables/SetGet.json';
+// import Branch from '@behavior-graph/framework/dist/graphs/core/flow/Branch.json';
+// import Delay from '@behavior-graph/framework/dist/graphs/core/async/Delay.json';
+// import HelloWorld from '@behavior-graph/framework/dist/graphs/core//HelloWorld.json';
+// import Polynomial from '@behavior-graph/framework/dist/graphs/core/logic/Polynomial.json';
+// import SetGet from '@behavior-graph/framework/dist/graphs/core/variables/SetGet.json';
 
 // TODO remove when json types fixed in @behavior-graph/framework
-const examples = {
-  branch: Branch as unknown as GraphJSON,
-  delay: Delay as unknown as GraphJSON,
-  helloWorld: HelloWorld as unknown as GraphJSON,
-  polynomial: Polynomial as unknown as GraphJSON,
-  setGet: SetGet as unknown as GraphJSON,
-} as Record<string, GraphJSON>;
+// const examples = {
+//   branch: Branch as unknown as GraphJSON,
+//   delay: Delay as unknown as GraphJSON,
+//   helloWorld: HelloWorld as unknown as GraphJSON,
+//   polynomial: Polynomial as unknown as GraphJSON,
+//   setGet: SetGet as unknown as GraphJSON,
+// } as Record<string, GraphJSON>;
 
 export type LoadModalProps = {
   open?: boolean;
@@ -37,7 +37,7 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
     if (value !== undefined) {
       graph = JSON.parse(value) as GraphJSON;
     } else if (selected !== '') {
-      graph = examples[selected];
+      // graph = examples[selected];
     }
 
     if (graph === undefined) return;

@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Equal = exports.ToFloat = exports.Not = exports.Or = exports.And = exports.Constant = void 0;
+const NodeDescription_js_1 = require("../../../Nodes/NodeDescription.js");
+const In1Out1FuncNode_js_1 = require("../../../Nodes/Templates/In1Out1FuncNode.js");
+const In2Out1FuncNode_js_1 = require("../../../Nodes/Templates/In2Out1FuncNode.js");
+exports.Constant = new NodeDescription_js_1.NodeDescription('math/boolean', 'Logic', 'Constant', (description, graph) => new In1Out1FuncNode_js_1.In1Out1FuncNode(description, graph, ['boolean'], 'boolean', (a) => a));
+exports.And = new NodeDescription_js_1.NodeDescription('math/and/boolean', 'Logic', 'AND', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['boolean', 'boolean'], 'boolean', (a, b) => a && b));
+exports.Or = new NodeDescription_js_1.NodeDescription('math/or/boolean', 'Logic', 'OR', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['boolean', 'boolean'], 'boolean', (a, b) => a || b));
+exports.Not = new NodeDescription_js_1.NodeDescription('math/negate/boolean', 'Logic', 'NOT', (description, graph) => new In1Out1FuncNode_js_1.In1Out1FuncNode(description, graph, ['boolean'], 'boolean', (a) => !a));
+exports.ToFloat = new NodeDescription_js_1.NodeDescription('math/toFloat/boolean', 'Logic', 'To Float', (description, graph) => new In1Out1FuncNode_js_1.In1Out1FuncNode(description, graph, ['boolean'], 'float', (a) => (a ? 1 : 0)));
+exports.Equal = new NodeDescription_js_1.NodeDescription('math/equal/boolean', 'Logic', '=', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['boolean', 'boolean'], 'boolean', (a, b) => a === b));

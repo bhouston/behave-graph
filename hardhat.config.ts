@@ -1,12 +1,22 @@
+import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
-import { config} from 'dotenv';
+import { config } from 'dotenv';
 
 config({ path: __dirname + '/.env' });
 
-const { ALCHEMY_API_KEY, GOERLI_PRIVATE_KEY, MUMBAI_PRIVATE_KEY } = process.env;
+const { ALCHEMY_API_KEY, GOERLI_PRIVATE_KEY, MUMBAI_PRIVATE_KEY, SKALE_PRIVATE_KEY } = process.env;
 
 let networks = {};
 
+if (SKALE_PRIVATE_KEY) {
+  networks = {
+    ...networks,
+    skale: {
+      url: 'https://eth-sf.skalenodes.com/v1/hackathon-complex-easy-naos',
+      accounts: [SKALE_PRIVATE_KEY],
+    },
+  };
+}
 if (ALCHEMY_API_KEY) {
   if (GOERLI_PRIVATE_KEY) {
     networks = {
@@ -29,7 +39,9 @@ if (ALCHEMY_API_KEY) {
   }
 }
 
-module.exports = {
+const result: HardhatUserConfig = {
   solidity: '0.8.9',
   networks,
 };
+
+module.exports = result;

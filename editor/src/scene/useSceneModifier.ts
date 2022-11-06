@@ -1,6 +1,6 @@
 import { ObjectMap } from '@react-three/fiber';
 import { IScene, Vec3, Vec4, Properties, ResourceProperties } from '@behavior-graph/framework';
-import { useCallback, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Object3D, Quaternion, Vector3, Vector4 } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -11,19 +11,24 @@ function toVec4(value: Vector4 | Quaternion): Vec4 {
   return new Vec4(value.x, value.y, value.z, value.w);
 }
 
+const shortPathRegEx = /^\/?(?<resource>[^/]+)\/(?<name>[^/]+)$/;
 const jsonPathRegEx = /^\/?(?<resource>[^/]+)\/(?<name>[^/]+)\/(?<property>[^/]+)$/;
+export type ResourceTypes = 'nodes';
 export type Path = {
-  resource: string;
+  resource: ResourceTypes;
   name: string;
   property: string;
 };
 
-export function parseJsonPath(jsonPath: string): Path {
-  const matches = jsonPathRegEx.exec(jsonPath);
+export function parseJsonPath(jsonPath: string, short = false): Path {
+  // hack = for now we see if there are 2 segments to know if its short
+  const isShort = jsonPath.split('/').length === 2;
+  const regex = isShort ? shortPathRegEx : jsonPathRegEx;
+  const matches = regex.exec(jsonPath);
   if (matches === null) throw new Error(`can not parse jsonPath: ${jsonPath}`);
   if (matches.groups === undefined) throw new Error(`can not parse jsonPath (no groups): ${jsonPath}`);
   return {
-    resource: matches.groups.resource,
+    resource: matches.groups.resource as ResourceTypes,
     name: matches.groups.name,
     property: matches.groups.property,
   };
@@ -104,9 +109,32 @@ function getPropertyValue(property: string, objectRef: Object3D) {
   }
 }
 
-const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
+export type OnClickListener = {
+  path: Path;
+  jsonPath: string;
+  callback: (jsonPath: string) => void;
+};
+
+const buildSceneModifier = (
+  gltf: GLTF & ObjectMap,
+  setOnClickListeners: Dispatch<SetStateAction<OnClickListener[]>>
+) => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const addOnClickedListener = (jsonPath: string, callback: (jsonPath: string) => void) => {};
+
+  // clear listenerrs at first
+  setOnClickListeners([]);
+
+  const addOnClickedListener = (jsonPath: string, callback: (jsonPath: string) => void) => {
+    const path = parseJsonPath(jsonPath);
+
+    const newListner: OnClickListener = {
+      path,
+      jsonPath,
+      callback,
+    };
+
+    setOnClickListeners((existing) => [...existing, newListner]);
+  };
   const getProperty = (jsonPath: string, valueTypeName: string) => {
     const path = parseJsonPath(jsonPath);
 
@@ -115,6 +143,8 @@ const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
 
   const setProperty = (jsonPath: string, valueTypeName: string, value: any) => {
     const path = parseJsonPath(jsonPath);
+
+    console.log('set', { jsonPath, value });
 
     applyPropertyToModel(path, gltf, value);
   };
@@ -141,12 +171,12 @@ const buildSceneModifier = (gltf: GLTF & ObjectMap) => {
   return scene;
 };
 
-const useSceneModifier = (gltf: GLTF & ObjectMap) => {
+const useSceneModifier = (gltf: GLTF & ObjectMap, setOnClickListeners: Dispatch<SetStateAction<OnClickListener[]>>) => {
   const [scene, setScene] = useState<IScene>();
 
   useEffect(() => {
-    setScene(buildSceneModifier(gltf));
-  }, [gltf]);
+    setScene(buildSceneModifier(gltf, setOnClickListeners));
+  }, [gltf, setOnClickListeners]);
 
   return scene;
 };

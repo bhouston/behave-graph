@@ -19,12 +19,9 @@ export class FlipFlop extends Node {
       description,
       graph,
       [new Socket('flow', 'flow')],
-      [
-        new Socket('flow', 'on'),
-        new Socket('flow', 'off'),
-        new Socket('boolean', 'isOn')
-      ],
+      [new Socket('flow', 'on'), new Socket('flow', 'off'), new Socket('boolean', 'isOn')],
       (context: NodeEvalContext) => {
+        console.log('got flip flop in');
         context.writeOutput('isOn', this.isOn);
         context.commit(this.isOn ? 'on' : 'off');
         this.isOn = !this.isOn;

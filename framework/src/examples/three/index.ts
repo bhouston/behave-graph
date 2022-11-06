@@ -62,7 +62,7 @@ async function main() {
   const { threeScene, gltf } = await loadThreeScene();
 
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
-  registerSceneProfile(registry, threeScene);
+  registerSceneProfile(registry, manualLifecycleEventEmitter, threeScene);
 
   const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
   if (graphJsonPath === undefined) {

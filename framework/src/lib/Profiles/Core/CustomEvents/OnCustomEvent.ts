@@ -1,13 +1,13 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
-import { Graph } from '../../../Graphs/Graph.js';
+import { CustomEvents, Graph } from '../../../Graphs/Graph.js';
 import { Node } from '../../../Nodes/Node.js';
 import { NodeDescription } from '../../../Nodes/NodeDescription.js';
 import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 export class OnCustomEvent extends Node {
-  public static GetDescription(graph: Graph, customEventId: string) {
-    const customEvent = graph.customEvents[customEventId];
+  public static GetDescription(customEvents: CustomEvents, customEventId: string) {
+    const customEvent = customEvents[customEventId];
     return new NodeDescription(
       `customEvent/onTriggered/${customEvent.id}`,
       'Event',
@@ -16,11 +16,7 @@ export class OnCustomEvent extends Node {
     );
   }
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    public readonly customEvent: CustomEvent
-  ) {
+  constructor(description: NodeDescription, graph: Graph, public readonly customEvent: CustomEvent) {
     super(
       description,
       graph,
@@ -28,14 +24,8 @@ export class OnCustomEvent extends Node {
       [
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
-          (parameter) =>
-            new Socket(
-              parameter.valueTypeName,
-              parameter.name,
-              parameter.value,
-              parameter.label
-            )
-        )
+          (parameter) => new Socket(parameter.valueTypeName, parameter.name, parameter.value, parameter.label)
+        ),
       ],
       (context: NodeEvalContext) => {
         customEvent.eventEmitter.addListener((parameters) => {
@@ -45,10 +35,7 @@ export class OnCustomEvent extends Node {
                 `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
               );
             }
-            context.writeOutput(
-              parameterSocket.name,
-              parameters[parameterSocket.name]
-            );
+            context.writeOutput(parameterSocket.name, parameters[parameterSocket.name]);
           });
           context.commit('flow');
         });

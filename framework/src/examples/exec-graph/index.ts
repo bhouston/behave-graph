@@ -36,7 +36,7 @@ async function main() {
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
-  registerSceneProfile(registry, new DummyScene(registry));
+  registerSceneProfile(registry, manualLifecycleEventEmitter, new DummyScene(registry));
 
   const jsonPattern = program.args[0];
 
@@ -112,8 +112,8 @@ async function main() {
         const deltaTime = Date.now() - startTime;
         Logger.info(
           `Profile Results: ${numSteps} nodes executed in ${deltaTime / 1000} seconds, at a rate of ${Math.round(
-            (numSteps * 1000) / deltaTime,
-          )} steps/second`,
+            (numSteps * 1000) / deltaTime
+          )} steps/second`
         );
       }
     }

@@ -29,7 +29,7 @@ import { StringValue } from './Values/StringValue.js';
 export function registerCoreProfile(
   registry: Registry,
   ilogger = new DefaultLogger(),
-  iLifeCycle = new ManualLifecycleEventEmitter(),
+  iLifeCycle = new ManualLifecycleEventEmitter()
 ) {
   const { nodes, values } = registry;
 

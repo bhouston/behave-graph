@@ -6,19 +6,15 @@ import ReactFlow, {
   OnConnectStartParams,
   OnNodesChange,
   OnEdgesChange,
-  useEdgesState,
-  useNodesState,
   XYPosition,
   Node,
   Edge,
-  NodeChange,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
-import { behaveToFlow } from './transformers/behaveToFlow';
 import Controls from './components/Controls';
 import NodePicker from './components/NodePicker';
 import { calculateNewEdge } from './util/calculateNewEdge';
-import { GraphJSON, IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
+import { IScene, NodeSpecJSON, Registry } from '@behavior-graph/framework';
 import 'reactflow/dist/style.css';
 import './flowEditor.css';
 import useFlowConfigFromRegistry from './hooks/useFlowConfigFromRegistry';

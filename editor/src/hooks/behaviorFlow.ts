@@ -2,6 +2,7 @@ import {
   DefaultLogger,
   Graph,
   GraphEvaluator,
+  GraphJSON,
   ILifecycleEventEmitter,
   ILogger,
   IScene,
@@ -30,8 +31,10 @@ export const useRegistry = ({ scene }: { scene: IScene | undefined }) => {
     if (!scene) return;
     const registry = new Registry();
     registerCoreProfile(registry, logger, lifecyleEmitter);
-    registerSceneProfile(registry, scene);
+    registerSceneProfile(registry, lifecyleEmitter, scene);
     const specJson = getNodeSpecJSON(registry);
+
+    console.log({ specJson });
 
     setRegistry(registry);
     setSpecJson(specJson);
@@ -40,18 +43,7 @@ export const useRegistry = ({ scene }: { scene: IScene | undefined }) => {
   return { registry, specJson, lifecyleEmitter, logger };
 };
 
-export function buildGraphEvaluator({
-  nodes,
-  edges,
-  nodeSpecJSON,
-  registry,
-}: {
-  nodes: Node<any>[];
-  edges: Edge<any>[];
-  nodeSpecJSON: NodeSpecJSON[];
-  registry: Registry;
-}) {
-  const graphJson = flowToBehave(nodes, edges, nodeSpecJSON);
+export function buildGraphEvaluator({ graphJson, registry }: { graphJson: GraphJSON; registry: Registry }) {
   const graph = readGraphFromJSON(graphJson, registry);
 
   const graphEvaluator = new GraphEvaluator(graph);

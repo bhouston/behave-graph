@@ -1,0 +1,137 @@
+{
+  "nodes": [
+    {
+      "id": "609be7a7-dc20-4c30-a51f-6f6244630fc5",
+      "type": "lifecycle/onStart",
+      "metadata": {
+        "positionX": "-213.76309621839198",
+        "positionY": "-32.51860254083476"
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "6effc2ef-5228-415f-9614-60eeb5100216",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "6effc2ef-5228-415f-9614-60eeb5100216",
+      "type": "scene/set/boolean",
+      "metadata": {
+        "positionX": "104.60847181004016",
+        "positionY": "-240.277285944381"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/Cube/visible"
+        },
+        "value": {
+          "link": {
+            "nodeId": "d54414df-4da7-48e1-ba91-2a04b9584c71",
+            "socket": "isOn"
+          }
+        }
+      }
+    },
+    {
+      "id": "d54414df-4da7-48e1-ba91-2a04b9584c71",
+      "type": "flow/flipFlop",
+      "metadata": {
+        "positionX": "-189.53248638838477",
+        "positionY": "-426.0372050816697"
+      }
+    },
+    {
+      "id": "c5ca3660-a2d7-401b-8739-e8bdd7329148",
+      "type": "scene/nodeClick",
+      "metadata": {
+        "positionX": "-611.1346642468241",
+        "positionY": "-201.59872958257716"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/Torus"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "d54414df-4da7-48e1-ba91-2a04b9584c71",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "0",
+      "type": "lifecycle/onTick",
+      "metadata": {
+        "positionX": "-579",
+        "positionY": "0"
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "3",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "1",
+      "type": "math/create/euler",
+      "metadata": {
+        "positionX": "-400",
+        "positionY": "100"
+      },
+      "parameters": {
+        "y": {
+          "value": 0
+        },
+        "z": {
+          "value": 0
+        },
+        "x": {
+          "link": {
+            "nodeId": "0",
+            "socket": "time"
+          }
+        }
+      }
+    },
+    {
+      "id": "2",
+      "type": "math/toQuat/euler",
+      "metadata": {
+        "positionX": "-200",
+        "positionY": "100"
+      },
+      "parameters": {
+        "a": {
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
+        }
+      }
+    },
+    {
+      "id": "3",
+      "type": "scene/set/quat",
+      "metadata": {
+        "positionX": "0",
+        "positionY": "0"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/Suzanne/rotation"
+        },
+        "value": {
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": []
+}

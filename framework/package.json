@@ -8,8 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
     "prepare": "npm run build && npm run export-node-spec dist/node-spec.json",
+    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
     "export-node-spec": "npm run build && node --enable-source-maps ./dist/examples/export-node-spec/index.js"
   },
   "devDependencies": {

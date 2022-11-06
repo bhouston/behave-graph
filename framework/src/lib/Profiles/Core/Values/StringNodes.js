@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Equal = exports.Length = exports.Includes = exports.Concat = exports.Constant = void 0;
+const NodeDescription_js_1 = require("../../../Nodes/NodeDescription.js");
+const In1Out1FuncNode_js_1 = require("../../../Nodes/Templates/In1Out1FuncNode.js");
+const In2Out1FuncNode_js_1 = require("../../../Nodes/Templates/In2Out1FuncNode.js");
+exports.Constant = new NodeDescription_js_1.NodeDescription('logic/string', 'Logic', 'Constant', (description, graph) => new In1Out1FuncNode_js_1.In1Out1FuncNode(description, graph, ['string'], 'string', (a) => a));
+exports.Concat = new NodeDescription_js_1.NodeDescription('logic/concat/string', 'Logic', 'CONCAT', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['string', 'string'], 'string', (a, b) => a.concat(b)));
+exports.Includes = new NodeDescription_js_1.NodeDescription('logic/includes/string', 'Logic', 'INCLUDES', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['string', 'string'], 'boolean', (a, b) => a.includes(b)));
+exports.Length = new NodeDescription_js_1.NodeDescription('logic/length/string', 'Logic', 'LENGTH', (description, graph) => new In1Out1FuncNode_js_1.In1Out1FuncNode(description, graph, ['string'], 'integer', (a) => BigInt(a.length)));
+exports.Equal = new NodeDescription_js_1.NodeDescription('math/equal/string', 'Logic', '=', (description, graph) => new In2Out1FuncNode_js_1.In2Out1FuncNode(description, graph, ['string', 'string'], 'boolean', (a, b) => a === b));

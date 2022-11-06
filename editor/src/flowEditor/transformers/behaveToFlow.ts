@@ -6,6 +6,22 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
+  graph.customEvents?.forEach((nodeJSON) => {
+    const node: Node = {
+      id: nodeJSON.id,
+      type: 'event',
+      position: {
+        x: nodeJSON.metadata?.positionX ? Number(nodeJSON.metadata?.positionX) : 0,
+        y: nodeJSON.metadata?.positionY ? Number(nodeJSON.metadata?.positionY) : 0,
+      },
+      data: {},
+    };
+
+    console.log('event:', node);
+
+    nodes.push(node);
+  });
+
   graph.nodes?.forEach((nodeJSON) => {
     // eslint-disable-next-line no-debugger
     const node: Node = {

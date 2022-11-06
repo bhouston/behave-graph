@@ -1,0 +1,166 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.readGraphFromJSON = void 0;
+const Logger_js_1 = require("../../Diagnostics/Logger.js");
+const CustomEvent_js_1 = require("../../Events/CustomEvent.js");
+const Link_js_1 = require("../../Nodes/Link.js");
+const Socket_js_1 = require("../../Sockets/Socket.js");
+const Variable_js_1 = require("../../Variables/Variable.js");
+const Graph_js_1 = require("../Graph.js");
+// Purpose:
+//  - loads a node graph
+function readGraphFromJSON(graphJson, registry) {
+    const graph = new Graph_js_1.Graph(registry);
+    graph.name = graphJson?.name ?? graph.name;
+    graph.metadata = graphJson?.metadata ?? graph.metadata;
+    if ('variables' in graphJson) {
+        readVariablesJSON(graph, graphJson.variables ?? []);
+    }
+    if ('customEvents' in graphJson) {
+        readCustomEventsJSON(graph, graphJson.customEvents ?? []);
+    }
+    // register node based on variables and custom events.
+    graph.updateDynamicNodeDescriptions();
+    const nodesJson = graphJson?.nodes ?? [];
+    if (nodesJson.length === 0) {
+        Logger_js_1.Logger.warn('readGraphFromJSON: no nodes specified');
+    }
+    // create new BehaviorNode instances for each node in the json.
+    for (let i = 0; i < nodesJson.length; i += 1) {
+        const nodeJson = nodesJson[i];
+        readNodeJSON(graph, nodeJson);
+    }
+    // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
+    Object.values(graph.nodes).forEach((node) => {
+        // initialize the inputs by resolving to the reference nodes.
+        node.inputSockets.forEach((inputSocket) => {
+            inputSocket.links.forEach((link) => {
+                if (!(link.nodeId in graph.nodes)) {
+                    throw new Error(`node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+                        `a nonexistent upstream node id: ${link.nodeId}`);
+                }
+                const upstreamNode = graph.nodes[link.nodeId];
+                const upstreamOutputSocket = upstreamNode.outputSockets.find((socket) => socket.name === link.socketName);
+                if (upstreamOutputSocket === undefined) {
+                    throw new Error(`node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
+                        `a nonexistent output '${link.socketName}' on upstream node '${upstreamNode.description.typeName}'`);
+                }
+                // add, only if unique
+                const upstreamLink = new Link_js_1.Link(node.id, inputSocket.name);
+                if (upstreamOutputSocket.links.findIndex((value) => value.nodeId == upstreamLink.nodeId &&
+                    value.socketName == upstreamLink.socketName) < 0) {
+                    upstreamOutputSocket.links.push(upstreamLink);
+                }
+            });
+        });
+        node.outputSockets.forEach((outputSocket) => {
+            outputSocket.links.forEach((link) => {
+                if (!(link.nodeId in graph.nodes)) {
+                    throw new Error(`node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+                        `a nonexistent downstream node id ${link.nodeId}`);
+                }
+                const downstreamNode = graph.nodes[link.nodeId];
+                const downstreamInputSocket = downstreamNode.inputSockets.find((socket) => socket.name === link.socketName);
+                if (downstreamInputSocket === undefined) {
+                    throw new Error(`node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
+                        `a nonexistent input '${link.socketName}' on downstream node '${downstreamNode.description.typeName}'`);
+                }
+                // add, only if unique
+                const downstreamLink = new Link_js_1.Link(node.id, outputSocket.name);
+                if (downstreamInputSocket.links.findIndex((value) => value.nodeId == downstreamLink.nodeId &&
+                    value.socketName == downstreamLink.socketName) < 0) {
+                    downstreamInputSocket.links.push(downstreamLink);
+                }
+            });
+        });
+    });
+    return graph;
+}
+exports.readGraphFromJSON = readGraphFromJSON;
+function readNodeJSON(graph, nodeJson) {
+    if (nodeJson.type === undefined) {
+        throw new Error('readGraphFromJSON: no type for node');
+    }
+    const nodeName = nodeJson.type;
+    const node = graph.createNode(nodeName, nodeJson.id);
+    node.label = nodeJson?.label ?? node.label;
+    node.metadata = nodeJson?.metadata ?? node.metadata;
+    if (nodeJson.parameters !== undefined) {
+        readNodeParameterJSON(graph, node, nodeJson.parameters);
+    }
+    if (nodeJson.flows !== undefined) {
+        readNodeFlowsJSON(graph, node, nodeJson.flows);
+    }
+}
+function readNodeParameterJSON(graph, node, parametersJson) {
+    node.inputSockets.forEach((socket) => {
+        if (!(socket.name in parametersJson)) {
+            return;
+        }
+        const inputJson = parametersJson[socket.name];
+        if ('value' in inputJson) {
+            // eslint-disable-next-line no-param-reassign
+            socket.value = graph.registry.values
+                .get(socket.valueTypeName)
+                .deserialize(inputJson.value);
+        }
+        if ('link' in inputJson) {
+            const linkJson = inputJson.link;
+            socket.links.push(new Link_js_1.Link(linkJson.nodeId, linkJson.socket));
+        }
+    });
+    // validate that there are no additional input sockets specified that were not read.
+    Object.keys(parametersJson).forEach((inputName) => {
+        const inputSocket = node.inputSockets.find((socket) => socket.name === inputName);
+        if (inputSocket === undefined) {
+            throw new Error(`node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`);
+        }
+    });
+}
+function readNodeFlowsJSON(graph, node, flowsJson) {
+    node.outputSockets.forEach((socket) => {
+        if (socket.name in flowsJson) {
+            const outputLinkJson = flowsJson[socket.name];
+            socket.links.push(new Link_js_1.Link(outputLinkJson.nodeId, outputLinkJson.socket));
+        }
+    });
+    // validate that there are no additional input sockets specified that were not read.
+    Object.keys(flowsJson).forEach((outputName) => {
+        const outputSocket = node.outputSockets.find((socket) => socket.name === outputName);
+        if (outputSocket === undefined) {
+            throw new Error(`node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`);
+        }
+    });
+}
+function readVariablesJSON(graph, variablesJson) {
+    for (let i = 0; i < variablesJson.length; i += 1) {
+        const variableJson = variablesJson[i];
+        const variable = new Variable_js_1.Variable(variableJson.id, variableJson.name, variableJson.valueTypeName, graph.registry.values
+            .get(variableJson.valueTypeName)
+            .deserialize(variableJson.initialValue));
+        variable.label = variableJson?.label ?? variable.label;
+        variable.metadata = variableJson?.metadata ?? variable.metadata;
+        if (variableJson.id in graph.variables) {
+            throw new Error(`duplicate variable id ${variable.id}`);
+        }
+        graph.variables[variableJson.id] = variable;
+    }
+}
+function readCustomEventsJSON(graph, customEventsJson) {
+    for (let i = 0; i < customEventsJson.length; i += 1) {
+        const customEventJson = customEventsJson[i];
+        const parameters = [];
+        (customEventJson.parameters ?? []).forEach((parameterJson) => {
+            parameters.push(new Socket_js_1.Socket(parameterJson.valueTypeName, parameterJson.name, graph.registry.values
+                .get(parameterJson.valueTypeName)
+                .deserialize(parameterJson.defaultValue)));
+        });
+        const customEvent = new CustomEvent_js_1.CustomEvent(customEventJson.id, customEventJson.name, parameters);
+        customEvent.label = customEventJson?.label ?? customEvent.label;
+        customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;
+        if (customEvent.id in graph.customEvents) {
+            throw new Error(`duplicate variable id ${customEvent.id}`);
+        }
+        graph.customEvents[customEvent.id] = customEvent;
+    }
+}

@@ -14,6 +14,7 @@ export type InputSocketProps = {
   value: any | undefined;
   onChange: (key: string, value: any) => void;
   allSpecs: NodeSpecJSON[];
+  shortJsonPath: boolean;
 } & InputSocketSpecJSON &
   Pick<IScene, 'getProperties'>;
 
@@ -26,6 +27,7 @@ export default function InputSocket({
   defaultValue,
   allSpecs,
   getProperties,
+  shortJsonPath,
 }: InputSocketProps) {
   const instance = useReactFlow();
   const isFlowSocket = valueType === 'flow';
@@ -39,8 +41,16 @@ export default function InputSocket({
 
   const showName = isFlowSocket === false || name !== 'flow';
 
-  const handleChange = useCallback(
+  const handleSelectChange = useCallback(
     (value: any) => {
+      onChange(name, value);
+    },
+    [name, onChange]
+  );
+
+  const handleTextChange = useCallback(
+    (e: any) => {
+      const value = e.target.value;
       onChange(name, value);
     },
     [name, onChange]
@@ -54,13 +64,18 @@ export default function InputSocket({
         <>
           {valueType === 'string' &&
             (name === 'jsonPath' ? (
-              <PathSelect value={String(value)} onChange={handleChange} getProperties={getProperties} />
+              <PathSelect
+                value={String(value)}
+                onChange={handleSelectChange}
+                getProperties={getProperties}
+                short={shortJsonPath}
+              />
             ) : (
               <AutoSizeInput
                 type="text"
                 className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
                 value={String(value) ?? defaultValue ?? ''}
-                onChange={handleChange}
+                onChange={handleTextChange}
               />
             ))}
           {valueType === 'number' && (
@@ -68,7 +83,7 @@ export default function InputSocket({
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
           )}
           {valueType === 'float' && (
@@ -76,7 +91,7 @@ export default function InputSocket({
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
           )}
           {valueType === 'integer' && (
@@ -84,7 +99,7 @@ export default function InputSocket({
               type="number"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
           )}
           {valueType === 'boolean' && (
@@ -92,7 +107,7 @@ export default function InputSocket({
               type="checkbox"
               className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
               value={String(value) ?? defaultValue ?? ''}
-              onChange={handleChange}
+              onChange={handleTextChange}
             />
           )}
         </>

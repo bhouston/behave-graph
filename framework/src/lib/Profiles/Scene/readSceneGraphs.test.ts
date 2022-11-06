@@ -15,12 +15,16 @@ import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON.js';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic.js';
 import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks.js';
 import { Registry } from '../../Registry.js';
+import { DefaultLogger } from '../Core/Abstractions/Drivers/DefaultLogger';
+import { ManualLifecycleEventEmitter } from '../Core/Abstractions/Drivers/ManualLifecycleEventEmitter';
 import { registerCoreProfile } from '../Core/registerCoreProfile.js';
 import { registerSceneProfile } from './registerSceneProfile.js';
 
 const registry = new Registry();
-registerCoreProfile(registry);
-registerSceneProfile(registry, new DummyScene(registry));
+const emitter = new ManualLifecycleEventEmitter();
+const logger = new DefaultLogger();
+registerCoreProfile(registry, logger, emitter);
+registerSceneProfile(registry, emitter, new DummyScene(registry));
 
 Logger.onWarn.clear();
 

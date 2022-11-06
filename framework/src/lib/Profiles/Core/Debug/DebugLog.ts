@@ -6,12 +6,13 @@ import { Socket } from '../../../Sockets/Socket.js';
 import { ILogger } from '../Abstractions/ILogger.js';
 
 export class Log extends Node {
-  public static Description = (logger: ILogger) => new NodeDescription(
-    'debug/log',
-    'Action',
-    'Debug Log',
-    (description, graph) => new Log(description, graph, logger)
-  );
+  public static Description = (logger: ILogger) =>
+    new NodeDescription(
+      'debug/log',
+      'Action',
+      'Debug Log',
+      (description, graph) => new Log(description, graph, logger)
+    );
 
   constructor(description: NodeDescription, graph: Graph, private readonly logger: ILogger) {
     super(

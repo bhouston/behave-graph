@@ -13,26 +13,16 @@ export class SetSceneProperty extends Node {
           `scene/set/${valueTypeName}`,
           'Action',
           `Set Scene ${toCamelCase(valueTypeName)}`,
-          (description, graph) =>
-            new SetSceneProperty(description, graph, valueTypeName, scene)
+          (description, graph) => new SetSceneProperty(description, graph, valueTypeName, scene)
         )
     );
   }
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    valueTypeName: string,
-    private readonly scene: IScene
-  ) {
+  constructor(description: NodeDescription, graph: Graph, valueTypeName: string, private readonly scene: IScene) {
     super(
       description,
       graph,
-      [
-        new Socket('flow', 'flow'),
-        new Socket('string', 'jsonPath'),
-        new Socket(valueTypeName, 'value')
-      ],
+      [new Socket('flow', 'flow'), new Socket('string', 'jsonPath'), new Socket(valueTypeName, 'value')],
       [new Socket('flow', 'flow')],
       (context) => {
         const scene = this.scene;

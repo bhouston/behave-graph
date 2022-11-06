@@ -2,7 +2,11 @@
   "customEvents": [
     {
       "name": "hideSuzanne",
-      "id": "0"
+      "id": "0",
+      "metadata": {
+        "positionX": "-579",
+        "positionY": "100"
+      }
     },
     {
       "name": "showSuzanne",

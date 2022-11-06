@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { getNodeDescriptions } from '../../Nodes/getNodeDescriptions.js';
 import { Registry } from '../../Registry.js';
+import { ILifecycleEventEmitter } from '../Core/Abstractions/ILifecycleEventEmitter.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
 import { IScene } from './Abstractions/IScene.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';
@@ -19,7 +20,7 @@ import { Vec3Value } from './Values/Vec3Value.js';
 import * as Vec4Nodes from './Values/Vec4Nodes.js';
 import { Vec4Value } from './Values/Vec4Value.js';
 
-export function registerSceneProfile(registry: Registry, scene: IScene) {
+export function registerSceneProfile(registry: Registry, emitter: ILifecycleEventEmitter, scene: IScene) {
   const { values, nodes } = registry;
 
   // pull in value type nodes
@@ -40,7 +41,7 @@ export function registerSceneProfile(registry: Registry, scene: IScene) {
 
   // events
 
-  nodes.register(OnSceneNodeClick.Description);
+  nodes.register(OnSceneNodeClick.GetDescriptions(scene));
 
   // actions
   const allValueTypeNames = values.getAllNames();

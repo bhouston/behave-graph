@@ -7,10 +7,11 @@ const PathSelect = ({
   value,
   onChange,
   getProperties,
-}: { value: string; onChange: (path: string) => void } & Pick<IScene, 'getProperties'>) => {
+  short,
+}: { value: string; onChange: (path: string) => void; short: boolean } & Pick<IScene, 'getProperties'>) => {
   const [initialValue] = useState<Path | undefined>(() => {
     if (value) {
-      return parseJsonPath(value);
+      return parseJsonPath(value, short);
     } else return;
   });
 
@@ -23,17 +24,12 @@ const PathSelect = ({
   useEffect(() => {
     if (!resourceType || !elementName || !property) return;
 
-    const path = `${resourceType}/${elementName}/${property}`;
+    let path: string;
+    if (short) path = `${resourceType}/${elementName}`;
+    else path = `${resourceType}/${elementName}/${property}`;
 
     onChange(path);
-  }, [resourceType, elementName, property, onChange]);
-
-  useWhyDidYouUpdate('alt', {
-    resourceType,
-    elementName,
-    property,
-    onChange,
-  });
+  }, [resourceType, elementName, property, onChange, short]);
 
   return (
     <>
@@ -55,7 +51,7 @@ const PathSelect = ({
           onChange={(e) => setElementName(e.target.value)}
           className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
         >
-          <option>--type--</option>
+          <option>--element--</option>
           {properties[resourceType].names.map((name) => (
             <option value={name} key={name}>
               {name}
@@ -63,13 +59,13 @@ const PathSelect = ({
           ))}
         </select>
       )}
-      {resourceType && (
+      {resourceType && !short && (
         <select
           value={property}
           onChange={(e) => setProperty(e.target.value)}
           className=" bg-gray-600 disabled:bg-gray-700 py-1 px-2 nodrag"
         >
-          <option>--type--</option>
+          <option>-property-</option>
           {properties[resourceType].properties.map((property) => (
             <option value={property} key={property}>
               {property}

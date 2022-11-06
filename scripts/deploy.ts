@@ -18,7 +18,7 @@ async function main() {
     console.warn(
       'You are trying to deploy a contract to the Hardhat Network, which' +
         'gets automatically created and destroyed every time. Use the Hardhat' +
-        " option '--network localhost'",
+        " option '--network localhost'"
     );
   }
 
@@ -39,7 +39,7 @@ async function main() {
   await saveFrontendFiles(deployedContract);
 }
 
-const contractsDir = path.join(__dirname, '..', 'frontend', 'src', 'contracts');
+const contractsDir = path.join(__dirname, '..', 'editor', 'src', 'contracts');
 
 async function writeAbi() {
   const ContractArtifact = await artifacts.readArtifact('BehaviorGraph');
@@ -64,7 +64,7 @@ async function writeContractAddress(contract: BaseContract) {
     currentAddresses = JSON.parse(
       await readFileAsync(contractAddressesFile, {
         encoding: 'utf-8',
-      }),
+      })
     ) as Addresses;
   }
 

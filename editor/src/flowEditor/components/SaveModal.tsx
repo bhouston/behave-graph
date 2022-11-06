@@ -13,7 +13,7 @@ export const SaveModal: FC<SaveModalProps> = ({ open = false, onClose, specJson 
   const edges = useEdges();
   const nodes = useNodes();
 
-  const flow = useMemo(() => flowToBehave(nodes, edges, specJson), [nodes, edges]);
+  const flow = useMemo(() => flowToBehave({ nodes, edges, nodeSpecJSON: specJson }), [nodes, edges]);
 
   const jsonString = JSON.stringify(flow, null, 2);
 

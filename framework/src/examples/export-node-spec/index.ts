@@ -10,6 +10,7 @@ import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
 import { Registry } from '../../lib/Registry.js';
 import { DummyScene } from '../exec-graph/DummyScene.js';
+import { DefaultLogger, ManualLifecycleEventEmitter } from '../../lib/index.js';
 
 async function main() {
   // Logger.onVerbose.clear();
@@ -28,8 +29,9 @@ async function main() {
   }
 
   const registry = new Registry();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry, new DummyScene(registry));
+  const eventemitter = new ManualLifecycleEventEmitter();
+  registerCoreProfile(registry, new DefaultLogger(), eventemitter);
+  registerSceneProfile(registry, eventemitter, new DummyScene(registry));
 
   const errorList: string[] = [];
   errorList.push(...validateNodeRegistry(registry));
@@ -54,7 +56,7 @@ async function main() {
           csvRow.push(
             nodeSpec.inputs[i].name,
             nodeSpec.inputs[i].valueType,
-            nodeSpec.inputs[i].defaultValue?.toString() || '',
+            nodeSpec.inputs[i].defaultValue?.toString() || ''
           );
         } else {
           csvRow.push('', '', '');

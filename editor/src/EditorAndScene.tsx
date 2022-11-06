@@ -9,11 +9,12 @@ import { GraphEvaluator, GraphJSON } from '@behavior-graph/framework';
 import { behaveToFlow } from './flowEditor/transformers/behaveToFlow';
 import { useEdgesState, useNodesState } from 'reactflow';
 import '@rainbow-me/rainbowkit/styles.css';
-import Web3Login from './web3/Web3Login';
-import MintButton from './nav/MintButton';
+import Web3Login from './nav/Web3Login';
+import MintButton from './nav/SaveToIpfsAndMintButton';
 import { flowToBehave } from './flowEditor/transformers/flowToBehave';
 import useTokenContractAddress from './web3/useTokenContractAddressAndAbi';
 import useLoadSceneAndRegistry from './hooks/useLoadSceneAndRegistry';
+import Nav from './nav/Nav';
 
 function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraphJSON: GraphJSON }) {
   const { sceneJson, scene, sceneOnClickListeners, registry, specJson, lifecyleEmitter } = useLoadSceneAndRegistry({
@@ -68,10 +69,7 @@ function EditorAndScene({ modelUrl, rawGraphJSON }: { modelUrl: string; rawGraph
       </div>
       <div className="h-full grid">
         <div className="row-span-1">
-          <Web3Login />
-          {graphJson && contractAddress && (
-            <MintButton behaviorGraph={graphJson} contractAddress={contractAddress} modelUrl={modelUrl} />
-          )}
+          <Nav contractAddress={contractAddress} graphJson={graphJson} modelUrl={modelUrl} />
         </div>
         <div className="row-span-6">
           <Scene

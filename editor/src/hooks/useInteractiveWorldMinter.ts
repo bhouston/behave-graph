@@ -47,13 +47,20 @@ const toMintArgs = (cid: string, behaviorGraph: GraphJSON, contractAddress: stri
 
 export const useSaveSceneToIpfs = ({ modelUrl, behaviorGraph }: { modelUrl: string; behaviorGraph: GraphJSON }) => {
   const [cid, setCid] = useState<string>();
+  const [saving, setSaving] = useState(false);
   const saveSceneToIpfs = useCallback(async () => {
-    const { cid } = await saveInteractiveWorldToIpfs({ modelUrl, behaviorGraph });
+    setSaving(true);
 
-    setCid(cid);
+    try {
+      const { cid } = await saveInteractiveWorldToIpfs({ modelUrl, behaviorGraph });
+
+      setCid(cid);
+    } finally {
+      setSaving(false);
+    }
   }, [modelUrl, behaviorGraph]);
 
-  return { cid, saveSceneToIpfs };
+  return { cid, saveSceneToIpfs, saving };
 };
 
 const useInteractiveWorldMinter = ({

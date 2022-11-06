@@ -1,4 +1,4 @@
-import { GraphEvaluator, GraphJSON } from '@behavior-graph/framework';
+import { GraphEvaluator, GraphJSON, ISmartContractActions } from '@behavior-graph/framework';
 import { useGLTF } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -7,10 +7,20 @@ import useLoadOnChainWorld from '../hooks/useLoadOnChainWorld';
 import useLoadSceneAndRegistry from '../hooks/useLoadSceneAndRegistry';
 import Scene from '../scene/Scene';
 import useTokenContractAddress from '../web3/useTokenContractAddressAndAbi';
+import useSmartContractActions from './useSmartContractActions';
 
-const OnChainWorld = ({ graphJson, sceneFileUrl }: { graphJson: GraphJSON; sceneFileUrl: string }) => {
+const OnChainWorld = ({
+  graphJson,
+  sceneFileUrl,
+  smartContractActions,
+}: {
+  graphJson: GraphJSON;
+  sceneFileUrl: string;
+  smartContractActions: ISmartContractActions;
+}) => {
   const { sceneJson, scene, sceneOnClickListeners, registry, specJson, lifecyleEmitter } = useLoadSceneAndRegistry({
     modelUrl: sceneFileUrl,
+    smartContractActions,
   });
 
   const [graphEvaluator, setGraphEvaluator] = useState<GraphEvaluator>();
@@ -39,11 +49,13 @@ const OnChainWorld = ({ graphJson, sceneFileUrl }: { graphJson: GraphJSON; scene
 };
 
 const OnChainWorldLoader = ({ tokenId, contractAddress }: { tokenId: number; contractAddress: string }) => {
-  const { graphJson, nodes, sceneFileUrl } = useLoadOnChainWorld(tokenId, contractAddress);
+  const { graphJson, sceneFileUrl } = useLoadOnChainWorld(tokenId, contractAddress);
 
-  if (!sceneFileUrl || !graphJson) return null;
+  const smartContractActions = useSmartContractActions(contractAddress, tokenId);
 
-  return <OnChainWorld graphJson={graphJson} sceneFileUrl={sceneFileUrl} />;
+  if (!sceneFileUrl || !graphJson || !smartContractActions) return null;
+
+  return <OnChainWorld graphJson={graphJson} sceneFileUrl={sceneFileUrl} smartContractActions={smartContractActions} />;
 };
 const OnChainWorldWrapper = () => {
   const { tokenId } = useParams<{ tokenId: string }>();

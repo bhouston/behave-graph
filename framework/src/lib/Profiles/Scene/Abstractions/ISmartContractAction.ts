@@ -1,4 +1,5 @@
-export interface ISmartContractAction {
-  invoke: () => void;
-  onTrigger: (cb: (count: number) => void) => void;
+export interface ISmartContractActions {
+  invoke: (id: string) => void;
+  registerTriggerHandler: (id: string, cb: (count: number) => void) => void;
+  // getInitialInvokeCount: (id: string) => void;
 }

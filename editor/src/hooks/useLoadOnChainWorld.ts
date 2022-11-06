@@ -5,7 +5,6 @@ import { BigNumber } from 'ethers';
 import { loadStoredSceneAndBehaviorGraphFromIpfs } from './ipfs/ipfsSceneLoader';
 import { ipfsUrlToCid } from './ipfs/ipfsUrlUtils';
 import { GraphJSON } from '@behavior-graph/framework';
-import { useGLTF } from '@react-three/drei';
 
 const useLoadOnChainWorld = (tokenId: number, contractAddress: string) => {
   const tokenIdArgs = useMemo((): [BigNumber] => [BigNumber.from(tokenId)], [tokenId]);
@@ -14,13 +13,6 @@ const useLoadOnChainWorld = (tokenId: number, contractAddress: string) => {
     abi,
     address: contractAddress,
     functionName: 'tokenURI',
-    args: tokenIdArgs,
-  });
-
-  const { data: nodes } = useContractRead({
-    abi,
-    address: contractAddress,
-    functionName: 'getNodes',
     args: tokenIdArgs,
   });
 
@@ -43,7 +35,6 @@ const useLoadOnChainWorld = (tokenId: number, contractAddress: string) => {
   }, [tokenURI]);
 
   return {
-    nodes,
     sceneFileUrl,
     graphJson,
   };

@@ -57,6 +57,7 @@ export * from './Profiles/Core/registerCoreProfile.js';
 // scene profile
 
 export * from './Profiles/Scene/Abstractions/IScene.js';
+export * from './Profiles/Scene/Abstractions/ISmartContractAction.js';
 export * from './Profiles/Scene/Values/Internal/Vec2.js';
 export * from './Profiles/Scene/Values/Internal/Vec3.js';
 export * from './Profiles/Scene/Values/Internal/Vec4.js';

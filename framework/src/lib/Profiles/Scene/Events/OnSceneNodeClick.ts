@@ -5,16 +5,16 @@ import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILifecycleEventEmitter } from '../../Core/Abstractions/ILifecycleEventEmitter.js';
 import { IScene } from '../Abstractions/IScene.js';
-import { ISmartContractAction } from '../Abstractions/ISmartContractAction.js';
+import { ISmartContractActions } from '../Abstractions/ISmartContractAction.js';
 
 // very 3D specific.
 export class OnSceneNodeClick extends Node {
-  public static GetDescriptions(scene: IScene, smartContractAction?: ISmartContractAction) {
+  public static GetDescriptions(scene: IScene, smartContractAction?: ISmartContractActions) {
     return new NodeDescription(
       'scene/nodeClick',
       'Event',
       'On Node Click',
-      (description, graph) => new OnSceneNodeClick(description, graph, scene, smartContractAction)
+      (description, graph, nodeId) => new OnSceneNodeClick(description, graph, scene, smartContractAction, nodeId)
     );
   }
 
@@ -22,7 +22,8 @@ export class OnSceneNodeClick extends Node {
     description: NodeDescription,
     graph: Graph,
     scene: IScene,
-    smartContractAction: ISmartContractAction | undefined
+    smartContractAction: ISmartContractActions | undefined,
+    nodeId: string
   ) {
     super(
       description,
@@ -48,11 +49,13 @@ export class OnSceneNodeClick extends Node {
           if (!smartContractAction) {
             manualCount++;
             forwardFlow(manualCount);
+          } else {
+            smartContractAction.invoke(nodeId);
           }
         });
 
         if (smartContractAction) {
-          smartContractAction.onTrigger((count) => {
+          smartContractAction.registerTriggerHandler(nodeId, (count) => {
             forwardFlow(count);
           });
         }

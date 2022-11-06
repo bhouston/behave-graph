@@ -89,7 +89,7 @@ export class Graph {
     if (nodeDescription === undefined) {
       throw new Error(`no registered node descriptions with the typeName ${nodeTypeName}`);
     }
-    const node = nodeDescription.factory(nodeDescription, this);
+    const node = nodeDescription.factory(nodeDescription, this, nodeId);
     node.id = nodeId;
     this.nodes[nodeId] = node;
     return node;

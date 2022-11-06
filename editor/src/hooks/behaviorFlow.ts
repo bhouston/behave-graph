@@ -6,6 +6,7 @@ import {
   ILifecycleEventEmitter,
   ILogger,
   IScene,
+  ISmartContractActions,
   ManualLifecycleEventEmitter,
   NodeSpecJSON,
   readGraphFromJSON,
@@ -19,7 +20,13 @@ import { Node, Edge } from 'reactflow';
 import { flowToBehave } from '../flowEditor/transformers/flowToBehave';
 import { getNodeSpecJSON } from '../flowEditor/util/getNodeSpecJSON';
 
-export const useRegistry = ({ scene }: { scene: IScene | undefined }) => {
+export const useRegistry = ({
+  scene,
+  smartContractActions,
+}: {
+  scene: IScene | undefined;
+  smartContractActions?: ISmartContractActions;
+}) => {
   const [registry, setRegistry] = useState<Registry>();
 
   const [lifecyleEmitter] = useState<ILifecycleEventEmitter>(new ManualLifecycleEventEmitter());
@@ -31,7 +38,7 @@ export const useRegistry = ({ scene }: { scene: IScene | undefined }) => {
     if (!scene) return;
     const registry = new Registry();
     registerCoreProfile(registry, logger, lifecyleEmitter);
-    registerSceneProfile(registry, lifecyleEmitter, scene);
+    registerSceneProfile(registry, lifecyleEmitter, scene, smartContractActions);
     const specJson = getNodeSpecJSON(registry);
 
     console.log({ specJson });

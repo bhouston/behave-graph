@@ -93,6 +93,18 @@ contract BehaviorGraph is ERC721, ERC721URIStorage, Ownable {
         emit ActionExecuted(msg.sender, tokenId, _nodeId, actionCount);
     }
 
+    function getActionCounts(uint256 tokenId, string[] calldata _nodeIds) public view returns(uint256[] memory) {
+        // uint256 numberElems = _nodeIds.length;
+        uint256[] memory result = new uint256[](_nodeIds.length);
+        
+        for(uint256 i = 0; i < _nodeIds.length; i++) {
+            string memory _nodeId = _nodeIds[i];
+            uint256 count = _tokenNodeEmitCount[tokenId][_nodeId];
+            result[i] = count;
+        }
+        return result;
+    }
+
     function _assertCanExecuteAction(Node memory node) private view {
         if (!node.tokenGateRule.active) {
             return;

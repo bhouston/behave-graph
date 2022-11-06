@@ -4,6 +4,7 @@ import { Registry } from '../../Registry.js';
 import { ILifecycleEventEmitter } from '../Core/Abstractions/ILifecycleEventEmitter.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
 import { IScene } from './Abstractions/IScene.js';
+import { ISmartContractActions } from './Abstractions/ISmartContractAction.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
 import { GetSceneProperty } from './Queries/GetSceneProperty.js';
@@ -20,7 +21,12 @@ import { Vec3Value } from './Values/Vec3Value.js';
 import * as Vec4Nodes from './Values/Vec4Nodes.js';
 import { Vec4Value } from './Values/Vec4Value.js';
 
-export function registerSceneProfile(registry: Registry, emitter: ILifecycleEventEmitter, scene: IScene) {
+export function registerSceneProfile(
+  registry: Registry,
+  emitter: ILifecycleEventEmitter,
+  scene: IScene,
+  smartContractActions?: ISmartContractActions
+) {
   const { values, nodes } = registry;
 
   // pull in value type nodes
@@ -41,7 +47,7 @@ export function registerSceneProfile(registry: Registry, emitter: ILifecycleEven
 
   // events
 
-  nodes.register(OnSceneNodeClick.GetDescriptions(scene));
+  nodes.register(OnSceneNodeClick.GetDescriptions(scene, smartContractActions));
 
   // actions
   const allValueTypeNames = values.getAllNames();

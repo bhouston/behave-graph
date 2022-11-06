@@ -7,9 +7,9 @@ export const abi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "actionId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "nodeId",
+        "type": "string"
       }
     ],
     "name": "InvalidActionId",
@@ -18,9 +18,9 @@ export const abi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "actionId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "nodeId",
+        "type": "string"
       },
       {
         "internalType": "address",
@@ -48,8 +48,14 @@ export const abi = [
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "string",
         "name": "actionId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "count",
         "type": "uint256"
       }
     ],
@@ -148,6 +154,11 @@ export const abi = [
       },
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          },
           {
             "internalType": "enum NodeType",
             "name": "nodeType",
@@ -250,14 +261,38 @@ export const abi = [
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "actionId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "_nodeId",
+        "type": "string"
       }
     ],
     "name": "executeAction",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string[]",
+        "name": "_nodeIds",
+        "type": "string[]"
+      }
+    ],
+    "name": "getActionCounts",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -287,15 +322,20 @@ export const abi = [
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "actionId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "_nodeId",
+        "type": "string"
       }
     ],
     "name": "getNode",
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          },
           {
             "internalType": "enum NodeType",
             "name": "nodeType",
@@ -322,49 +362,6 @@ export const abi = [
         "internalType": "struct Node",
         "name": "",
         "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getNodes",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "enum NodeType",
-            "name": "nodeType",
-            "type": "uint8"
-          },
-          {
-            "components": [
-              {
-                "internalType": "bool",
-                "name": "active",
-                "type": "bool"
-              },
-              {
-                "internalType": "address",
-                "name": "tokenContract",
-                "type": "address"
-              }
-            ],
-            "internalType": "struct TokenGateRule",
-            "name": "tokenGateRule",
-            "type": "tuple"
-          }
-        ],
-        "internalType": "struct Node[]",
-        "name": "",
-        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -455,6 +452,11 @@ export const abi = [
       },
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          },
           {
             "internalType": "enum NodeType",
             "name": "nodeType",

@@ -14,7 +14,7 @@ type TokenizedAction = {
   };
 };
 
-const tokenizableActionTypes: string[] = ['scene/nodeClick'];
+export const tokenizableActionTypes: string[] = ['scene/nodeClick'];
 
 const actionsToSmartContractActions = (behaviorGraph: GraphJSON, contractAddress: string): TokenizedAction[] => {
   const validNodes = behaviorGraph.nodes?.filter((x) => tokenizableActionTypes.includes(x.type));

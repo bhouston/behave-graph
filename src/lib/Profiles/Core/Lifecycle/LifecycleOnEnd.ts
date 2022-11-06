@@ -1,3 +1,4 @@
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -12,20 +13,26 @@ export class LifecycleOnEnd extends EventNode {
     'On End',
     (description, graph) => new LifecycleOnEnd(description, graph)
   );
+  private readonly onEvent: () => void;
 
   constructor(description: NodeDescription, graph: Graph) {
-    super(description, graph, [], [new Socket('flow', 'flow')], (fiber) => {
-      const onEndEvent = () => {
-        fiber.commit(this, 'flow');
+    super(description, graph, [], [new Socket('flow', 'flow')]);
+         this.onEvent = () => {
+        engine.commitToNewFiber(this, 'flow');
       };
+   }
+   
+   init(engine: Engine): void {
+ 
 
       const lifecycleEvents =
-        fiber.engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+        engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
           'ILifecycleEventEmitter'
         );
       lifecycleEvents.endEvent.addListener(onEndEvent);
-
-      return () => {
+        }
+      dispose(): void {
+      
         lifecycleEvents.endEvent.removeListener(onEndEvent);
       };
     });

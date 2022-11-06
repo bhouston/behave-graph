@@ -19,7 +19,7 @@ export class EventNode extends Node {
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  init(engine: Engine): DisposeCallback {
+  init(engine: Engine) {
     throw new Error('not implemented');
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function

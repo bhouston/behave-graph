@@ -130,8 +130,6 @@ export class Fiber {
 
     const node = this.graph.nodes[link.nodeId];
 
-    let triggeringFlowSocket = undefined;
-
     let executionStepCount = 0;
 
     // first resolve all input values
@@ -140,14 +138,7 @@ export class Fiber {
       if (inputSocket.valueTypeName !== 'flow') {
         executionStepCount += this.resolveInputValueFromSocket(inputSocket);
       } else {
-        if (inputSocket.name === link.socketName) {
-          // eslint-disable-next-line no-param-reassign
-          inputSocket.value = true; // is this required?  if there are multiple input flows, yes it is.
-          triggeringFlowSocket = inputSocket;
-        } else {
-          // eslint-disable-next-line no-param-reassign
-          inputSocket.value = false;
-        }
+        inputSocket.value = inputSocket.name === link.socketName;
       }
     });
 

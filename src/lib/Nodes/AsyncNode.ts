@@ -1,4 +1,3 @@
-import { Engine } from '../Graphs/Execution/Engine.js';
 import { Fiber } from '../Graphs/Execution/Fiber.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
@@ -14,17 +13,13 @@ export class AsyncNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputSockets: Socket[],
-    outputSockets: Socket[],
-    public readonly exec: (
-      context: Fiber,
-      finished: FinishedCallback
-    ) => CancelCallback
+    outputSockets: Socket[]
   ) {
     super(description, graph, inputSockets, outputSockets);
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  trigger(engine: Engine) {
+  trigger(fiber: Fiber, triggeringFlowSocket: string) {
     throw new Error('not implemented');
   }
 

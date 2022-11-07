@@ -7,3 +7,4 @@ Given that I am currently using sockets to store values, there is a one-to-one m
 
 Thus having state in the node is fine.  Because it is everywhere else already anyhow.
 
+And 

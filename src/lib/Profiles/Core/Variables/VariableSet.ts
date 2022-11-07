@@ -1,3 +1,4 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -27,10 +28,12 @@ export class VariableSet extends FlowNode {
         new Socket('flow', 'flow'),
         new Socket(variable.valueTypeName, 'value', undefined, variable.name) // variable name is a label so variable can be renamed without breaking graph.
       ],
-      [new Socket('flow', 'flow')],
-      () => {
-        variable.set(this.readInput('value'));
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeredSocketName: string) {
+    this.variable.set(this.readInput('value'));
+    fiber.commit(this, 'flow');
   }
 }

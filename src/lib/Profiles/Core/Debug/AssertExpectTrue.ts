@@ -1,4 +1,5 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -21,13 +22,15 @@ export class ExpectTrue extends FlowNode {
         new Socket('boolean', 'condition'),
         new Socket('string', 'description')
       ],
-      [new Socket('flow', 'flow')],
-      () => {
-        Assert.mustBeTrue(
-          this.readInput('condition'),
-          this.readInput('description')
-        );
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeredSocketName: string) {
+    Assert.mustBeTrue(
+      this.readInput('condition'),
+      this.readInput('description')
+    );
+    fiber.commit(this, 'flow');
   }
 }

@@ -9,10 +9,14 @@ export class FlowNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputSockets: Socket[],
-    outputSockets: Socket[],
-    public readonly exec: (fiber: Fiber) => void
+    outputSockets: Socket[]
   ) {
     // determine if this is an eval node
     super(description, graph, inputSockets, outputSockets);
+  }
+
+  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    throw new Error('not implemented');
   }
 }

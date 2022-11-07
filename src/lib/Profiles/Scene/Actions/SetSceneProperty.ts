@@ -1,3 +1,4 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -22,7 +23,7 @@ export class SetSceneProperty extends FlowNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    valueTypeName: string
+    public readonly valueTypeName: string
   ) {
     super(
       description,
@@ -32,13 +33,15 @@ export class SetSceneProperty extends FlowNode {
         new Socket('string', 'jsonPath'),
         new Socket(valueTypeName, 'value')
       ],
-      [new Socket('flow', 'flow')],
-      (fiber) => {
-        const scene =
-          fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
-        const value = this.readInput('value');
-        scene.setProperty(this.readInput('jsonPath'), valueTypeName, value);
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    const scene =
+      fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
+    const value = this.readInput('value');
+    scene.setProperty(this.readInput('jsonPath'), this.valueTypeName, value);
+    fiber.commit(this, 'flow');
   }
 }

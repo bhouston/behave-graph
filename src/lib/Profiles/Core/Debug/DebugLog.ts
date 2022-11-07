@@ -1,3 +1,4 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -17,11 +18,13 @@ export class Log extends FlowNode {
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'text')],
-      [new Socket('flow', 'flow')],
-      () => {
-        const logger = this.graph.registry.abstractions.get<ILogger>('ILogger');
-        logger.info(this.readInput('text'));
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeredSocketName: string) {
+    const logger = this.graph.registry.abstractions.get<ILogger>('ILogger');
+    logger.info(this.readInput('text'));
+    fiber.commit(this, 'flow');
   }
 }

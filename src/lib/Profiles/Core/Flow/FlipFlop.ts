@@ -23,12 +23,13 @@ export class FlipFlop extends FlowNode {
         new Socket('flow', 'on'),
         new Socket('flow', 'off'),
         new Socket('boolean', 'isOn')
-      ],
-      (fiber: Fiber) => {
-        this.writeOutput('isOn', this.isOn);
-        fiber.commit(this, this.isOn ? 'on' : 'off');
-        this.isOn = !this.isOn;
-      }
+      ]
     );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    this.writeOutput('isOn', this.isOn);
+    fiber.commit(this, this.isOn ? 'on' : 'off');
+    this.isOn = !this.isOn;
   }
 }

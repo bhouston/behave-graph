@@ -1,11 +1,11 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { FlowNode } from '../../../Nodes/FlowNode.js';
+import { ImmediateNode } from '../../../Nodes/ImmediateNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { toCamelCase } from '../../../toCamelCase.js';
 import { IScene } from '../Abstractions/IScene.js';
 
-export class GetSceneProperty extends FlowNode {
+export class GetSceneProperty extends ImmediateNode {
   public static GetDescriptions(...valueTypeNames: string[]) {
     return valueTypeNames.map(
       (valueTypeName) =>
@@ -22,16 +22,16 @@ export class GetSceneProperty extends FlowNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    valueTypeName: string
+    public readonly valueTypeName: string
   ) {
     super(
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'jsonPath')],
       [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
-      (fiber) => {
+      () => {
         const sceneGraph =
-          fiber.engine.graph.registry.abstractions.get<IScene>('IScene');
+          this.graph.registry.abstractions.get<IScene>('IScene');
         this.writeOutput(
           'value',
           sceneGraph.getProperty(this.readInput('jsonPath'), valueTypeName)

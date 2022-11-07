@@ -3,7 +3,6 @@
 import { EventEmitter } from '../../Events/EventEmitter.js';
 import { AsyncNode } from '../../Nodes/AsyncNode.js';
 import { EventNode } from '../../Nodes/EventNode.js';
-import { Link } from '../../Nodes/Link.js';
 import { Node } from '../../Nodes/Node.js';
 import { sleep } from '../../sleep.js';
 import { Graph } from '../Graph.js';
@@ -17,10 +16,26 @@ export class Engine {
   public readonly onNodeExecution = new EventEmitter<Node>();
 
   constructor(public readonly graph: Graph) {
-    // run all event nodes on startup.
+    // collect all event nodes
+    Object.values(graph.nodes).forEach((node) => {
+      if (node instanceof EventNode) {
+        this.eventNodes.push(node);
+      }
+    });
+    // init all event nodes at startup
+    this.eventNodes.forEach((eventNode) => eventNode.init(this));
+  }
+
+  dispose() {
+    // cancel all in progress async nodes
+    this.asyncNodes.forEach((asyncNode) => {
+      asyncNode.cancelled();
+    });
+
+    // dispose all event nodes
     Object.values(this.graph.nodes).forEach((node) => {
       if (node instanceof EventNode) {
-        this.fiberQueue.push(new Fiber(this, new Link(node.id, '')));
+        node.dispose(this);
       }
     });
   }

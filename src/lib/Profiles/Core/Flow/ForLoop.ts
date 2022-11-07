@@ -1,9 +1,10 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { AsyncNode } from '../../../Nodes/AsyncNode.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class ForLoop extends AsyncNode {
+export class ForLoop extends FlowNode {
   public static Description = new NodeDescription(
     'flow/forLoop',
     'Flow',
@@ -24,27 +25,25 @@ export class ForLoop extends AsyncNode {
         new Socket('flow', 'loopBody'),
         new Socket('integer', 'index'),
         new Socket('flow', 'completed')
-      ],
-      (fiber) => {
-        // these outputs are fired sequentially in an async fashion but without delays.
-        // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-        const startIndex = this.readInput<bigint>('startIndex');
-        const endIndex = this.readInput<bigint>('endIndex');
-        const loopBodyIteration = (i: bigint) => {
-          if (i < endIndex) {
-            this.writeOutput('index', i);
-            fiber.commit(this, 'loopBody', () => {
-              loopBodyIteration(i + 1n);
-            });
-          } else {
-            fiber.commit(this, 'completed');
-          }
-        };
-        loopBodyIteration(startIndex);
-
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        return () => {};
-      }
+      ]
     );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    // these outputs are fired sequentially in an async fashion but without delays.
+    // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
+    const startIndex = this.readInput<bigint>('startIndex');
+    const endIndex = this.readInput<bigint>('endIndex');
+    const loopBodyIteration = (i: bigint) => {
+      if (i < endIndex) {
+        this.writeOutput('index', i);
+        fiber.commit(this, 'loopBody', () => {
+          loopBodyIteration(i + 1n);
+        });
+      } else {
+        fiber.commit(this, 'completed');
+      }
+    };
+    loopBodyIteration(startIndex);
   }
 }

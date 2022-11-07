@@ -6,9 +6,9 @@ Immediate Nodes
 
 They are executed in a synchronous fashion and must return a result immediately to their outputs.
 
-Sync Flow Nodes
+Flow Nodes
 
-Sync flow nodes are synchronous as well and thus must return their results immediate.  The main difference with immediate nodes is that flow nodes have a trigger flow input and they may have internal state.
+Flow nodes are synchronous as well and thus must return their results immediately via a commit.  The main difference with immediate nodes is that flow nodes have a trigger flow input and they may have internal state.  A flow node may wait for downstream nodes to complete execution and then fire a new flow output, such as a For-Loop node.
 
 Async Flow Nodes
 
@@ -18,4 +18,4 @@ An example of an async flow node is the delay node.  The delay node, once trigge
 
 Event Flow Nodes
 
-Event flow nodes do not have a trigger input, but they do have flow outputs.  Event nodes are all initialized upon the start of the graph execution.  They are asynchrous so that they continue to operate while the graph is executing, periodically triggering flow output sockets when their respective events occur.  Like Async Nodes, they can be canncelled when the graph execution is completed.
+Event flow nodes do not have a trigger input, but they do have flow outputs.  Event nodes are all initialized upon the start of the graph execution and are disposed upon the end of the graph's lifecycle.  Event nodes will fire events periodically creating new fibers for the graph execution engine to execute.

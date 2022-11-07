@@ -17,13 +17,14 @@ export class Branch extends FlowNode {
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
-      [new Socket('flow', 'true'), new Socket('flow', 'false')],
-      (fiber: Fiber) => {
-        fiber.commit(
-          this,
-          this.readInput<boolean>('condition') === true ? 'true' : 'false'
-        );
-      }
+      [new Socket('flow', 'true'), new Socket('flow', 'false')]
+    );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    fiber.commit(
+      this,
+      this.readInput<boolean>('condition') === true ? 'true' : 'false'
     );
   }
 }

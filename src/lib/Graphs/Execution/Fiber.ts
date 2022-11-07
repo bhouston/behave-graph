@@ -1,6 +1,5 @@
 import { Assert } from '../../Diagnostics/Assert.js';
 import { AsyncNode } from '../../Nodes/AsyncNode.js';
-import { EventNode } from '../../Nodes/EventNode.js';
 import { FlowNode } from '../../Nodes/FlowNode.js';
 import { ImmediateNode } from '../../Nodes/ImmediateNode.js';
 import { Link } from '../../Nodes/Link.js';
@@ -152,13 +151,7 @@ export class Fiber {
     });
 
     this.engine.onNodeExecution.emit(node);
-    if (node instanceof EventNode) {
-      this.engine.eventNodes.push(node);
-      node.exec(this, () => {
-        const index = this.engine.asyncNodes.indexOf(node);
-        this.engine.asyncNodes.splice(index, 1);
-      });
-    } else if (node instanceof AsyncNode) {
+    if (node instanceof AsyncNode) {
       this.engine.asyncNodes.push(node);
       node.exec(this, () => {
         const index = this.engine.asyncNodes.indexOf(node);

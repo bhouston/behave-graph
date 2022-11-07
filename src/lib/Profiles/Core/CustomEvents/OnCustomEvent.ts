@@ -1,3 +1,4 @@
+import { Assert } from '../../../Diagnostics/Assert.js';
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
@@ -39,9 +40,14 @@ export class OnCustomEvent extends EventNode {
       ]
     );
   }
+  private onCustomEvent:
+    | ((parameters: { [parameter: string]: any }) => void)
+    | undefined = undefined;
 
   init(engine: Engine) {
-    this.customEvent.eventEmitter.addListener((parameters) => {
+    Assert.mustBeTrue(this.onCustomEvent === undefined);
+
+    this.onCustomEvent = (parameters) => {
       this.customEvent.parameters.forEach((parameterSocket) => {
         if (!(parameterSocket.name in parameters)) {
           throw new Error(
@@ -54,8 +60,14 @@ export class OnCustomEvent extends EventNode {
         );
       });
       engine.commitToNewFiber(this, 'flow');
-    });
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return () => {};
+    };
+    this.customEvent.eventEmitter.addListener(this.onCustomEvent);
+  }
+
+  dispose(engine: Engine) {
+    Assert.mustBeTrue(this.onCustomEvent !== undefined);
+    if (this.onCustomEvent !== undefined) {
+      this.customEvent.eventEmitter.removeListener(this.onCustomEvent);
+    }
   }
 }

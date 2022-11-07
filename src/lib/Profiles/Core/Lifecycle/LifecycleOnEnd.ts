@@ -1,3 +1,4 @@
+import { Assert } from '../../../Diagnostics/Assert.js';
 import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
@@ -13,28 +14,34 @@ export class LifecycleOnEnd extends EventNode {
     'On End',
     (description, graph) => new LifecycleOnEnd(description, graph)
   );
-  private readonly onEvent: () => void;
 
   constructor(description: NodeDescription, graph: Graph) {
     super(description, graph, [], [new Socket('flow', 'flow')]);
-         this.onEvent = () => {
-        engine.commitToNewFiber(this, 'flow');
-      };
-   }
-   
-   init(engine: Engine): void {
- 
+  }
 
+  private onEndEvent: (() => void) | undefined = undefined;
+
+  init(engine: Engine) {
+    Assert.mustBeTrue(this.onEndEvent === undefined);
+    this.onEndEvent = () => {
+      engine.commitToNewFiber(this, 'flow');
+    };
+
+    const lifecycleEvents =
+      engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+        'ILifecycleEventEmitter'
+      );
+    lifecycleEvents.endEvent.removeListener(this.onEndEvent);
+  }
+
+  dispose(engine: Engine) {
+    Assert.mustBeTrue(this.onEndEvent !== undefined);
+    if (this.onEndEvent !== undefined) {
       const lifecycleEvents =
         engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
           'ILifecycleEventEmitter'
         );
-      lifecycleEvents.endEvent.addListener(onEndEvent);
-        }
-      dispose(): void {
-      
-        lifecycleEvents.endEvent.removeListener(onEndEvent);
-      };
-    });
+      lifecycleEvents.endEvent.removeListener(this.onEndEvent);
+    }
   }
 }

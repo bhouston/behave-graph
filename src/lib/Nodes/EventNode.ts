@@ -22,6 +22,9 @@ export class EventNode extends Node {
   init(engine: Engine) {
     throw new Error('not implemented');
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispose() {}
+
+  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
+  dispose(engine: Engine) {
+    throw new Error('not implemented');
+  }
 }

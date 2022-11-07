@@ -1,3 +1,5 @@
+import { Assert } from '../../../Diagnostics/Assert.js';
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -22,28 +24,39 @@ export class LifecycleOnTick extends EventNode {
         new Socket('flow', 'flow'),
         new Socket('float', 'deltaSeconds'),
         new Socket('float', 'time')
-      ],
-      (fiber) => {
-        let lastTickTime = Date.now();
-        const onTickEvent = () => {
-          const currentTime = Date.now();
-          const deltaSeconds = (currentTime - lastTickTime) * 0.001;
-          this.writeOutput('deltaSeconds', deltaSeconds);
-          this.writeOutput('time', Date.now());
-          fiber.commit(this, 'flow');
-          lastTickTime = currentTime;
-        };
-
-        const lifecycleEvents =
-          fiber.engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
-            'ILifecycleEventEmitter'
-          );
-        lifecycleEvents.tickEvent.addListener(onTickEvent);
-
-        return () => {
-          lifecycleEvents.tickEvent.removeListener(onTickEvent);
-        };
-      }
+      ]
     );
+  }
+
+  private onTickEvent: (() => void) | undefined = undefined;
+
+  init(engine: Engine) {
+    Assert.mustBeTrue(this.onTickEvent === undefined);
+    let lastTickTime = Date.now();
+    this.onTickEvent = () => {
+      const currentTime = Date.now();
+      const deltaSeconds = (currentTime - lastTickTime) * 0.001;
+      this.writeOutput('deltaSeconds', deltaSeconds);
+      this.writeOutput('time', Date.now());
+      engine.commitToNewFiber(this, 'flow');
+      lastTickTime = currentTime;
+    };
+
+    const lifecycleEvents =
+      engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+        'ILifecycleEventEmitter'
+      );
+    lifecycleEvents.tickEvent.addListener(this.onTickEvent);
+  }
+
+  dispose(engine: Engine) {
+    Assert.mustBeTrue(this.onTickEvent !== undefined);
+    if (this.onTickEvent !== undefined) {
+      const lifecycleEvents =
+        engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+          'ILifecycleEventEmitter'
+        );
+      lifecycleEvents.tickEvent.removeListener(this.onTickEvent);
+    }
   }
 }

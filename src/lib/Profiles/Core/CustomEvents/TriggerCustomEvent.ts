@@ -1,4 +1,5 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -36,16 +37,15 @@ export class TriggerCustomEvent extends FlowNode {
             )
         )
       ],
-      [new Socket('flow', 'flow')],
-      () => {
-        const parameters: { [parameterName: string]: any } = {};
-        customEvent.parameters.forEach((parameterSocket) => {
-          parameters[parameterSocket.name] = this.readInput(
-            parameterSocket.name
-          );
-        });
-        customEvent.eventEmitter.emit(parameters);
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    const parameters: { [parameterName: string]: any } = {};
+    this.customEvent.parameters.forEach((parameterSocket) => {
+      parameters[parameterSocket.name] = this.readInput(parameterSocket.name);
+    });
+    this.customEvent.eventEmitter.emit(parameters);
   }
 }

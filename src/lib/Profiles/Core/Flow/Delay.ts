@@ -1,3 +1,5 @@
+import { Assert } from '../../../Diagnostics/Assert.js';
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -19,22 +21,36 @@ export class Delay extends AsyncNode {
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('float', 'duration')],
-      [new Socket('flow', 'flow')],
-      (fiber, finished) => {
-        let timeIsCancelled = false; // work around clearTimeout is not available on node.
-
-        setTimeout(() => {
-          if (timeIsCancelled) {
-            return;
-          }
-          fiber.commit(this, 'flow');
-          finished();
-        }, this.readInput<number>('duration') * 1000);
-
-        return () => {
-          timeIsCancelled = true;
-        };
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  private isDisposed = false;
+  private timeoutPending = false;
+
+  triggered(
+    engine: Engine,
+    triggeringSocketName: string,
+    finished: () => void
+  ) {
+    if (this.timeoutPending) {
+      // enforce that only a single delay can be active at a time, intra-delay triggers are ignored
+      return;
+    }
+    this.timeoutPending = true;
+    setTimeout(() => {
+      Assert.mustBeTrue(this.timeoutPending);
+      if (this.isDisposed) {
+        return;
+      }
+      this.timeoutPending = false;
+      engine.commitToNewFiber(this, 'flow');
+      finished();
+    }, this.readInput<number>('duration') * 1000);
+  }
+
+  dispose() {
+    Assert.mustBeTrue(!this.isDisposed);
+    this.isDisposed = true;
   }
 }

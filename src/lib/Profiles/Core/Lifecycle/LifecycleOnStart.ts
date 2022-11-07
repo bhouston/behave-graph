@@ -1,3 +1,4 @@
+import { Assert } from '../../../Diagnostics/Assert.js';
 import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
@@ -15,23 +16,32 @@ export class LifecycleOnStart extends EventNode {
   );
 
   constructor(description: NodeDescription, graph: Graph) {
-    super(description, graph, [], [new Socket('flow', 'flow')])
-   }
-   
-   init(engine: Engine) {
-      const onStartEvent = () => {
-        engine.commitToNewFiber(this, 'flow');
-      };
+    super(description, graph, [], [new Socket('flow', 'flow')]);
+  }
 
+  private onStartEvent: (() => void) | undefined = undefined;
+
+  init(engine: Engine) {
+    Assert.mustBeTrue(this.onStartEvent === undefined);
+    this.onStartEvent = () => {
+      engine.commitToNewFiber(this, 'flow');
+    };
+
+    const lifecycleEvents =
+      engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
+        'ILifecycleEventEmitter'
+      );
+    lifecycleEvents.startEvent.addListener(this.onStartEvent);
+  }
+
+  dispose(engine: Engine) {
+    Assert.mustBeTrue(this.onStartEvent !== undefined);
+    if (this.onStartEvent !== undefined) {
       const lifecycleEvents =
         engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
           'ILifecycleEventEmitter'
         );
-      lifecycleEvents.startEvent.addListener(onStartEvent);
-
-      return () => {
-        lifecycleEvents.startEvent.removeListener(onStartEvent);
-      };
-    };
+      lifecycleEvents.startEvent.removeListener(this.onStartEvent);
+    }
   }
 }

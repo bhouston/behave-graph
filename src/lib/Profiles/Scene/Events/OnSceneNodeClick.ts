@@ -17,12 +17,7 @@ export class OnSceneNodeClick extends EventNode {
       description,
       graph,
       [],
-      [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')],
-      () => {
-        this.writeOutput('nodeIndex', -1); // TODO: Replace with real value.
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        return () => {};
-      }
+      [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')]
     );
   }
 }

@@ -1,5 +1,5 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
-import { Fiber } from '../../../Graphs/Execution/Fiber.js';
+import { Fiber } from '../../../Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';

@@ -1,11 +1,11 @@
-import { Assert } from '../../Diagnostics/Assert.js';
-import { AsyncNode } from '../../Nodes/AsyncNode.js';
-import { FlowNode } from '../../Nodes/FlowNode.js';
-import { ImmediateNode } from '../../Nodes/ImmediateNode.js';
-import { Link } from '../../Nodes/Link.js';
-import { Node } from '../../Nodes/Node.js';
-import { Socket } from '../../Sockets/Socket.js';
-import { Graph } from '../Graph.js';
+import { Assert } from '../Diagnostics/Assert.js';
+import { Graph } from '../Graphs/Graph.js';
+import { AsyncNode } from '../Nodes/AsyncNode.js';
+import { FlowNode } from '../Nodes/FlowNode.js';
+import { ImmediateNode } from '../Nodes/ImmediateNode.js';
+import { Link } from '../Nodes/Link.js';
+import { Node } from '../Nodes/Node.js';
+import { Socket } from '../Sockets/Socket.js';
 import { Engine } from './Engine.js';
 
 export class Fiber {

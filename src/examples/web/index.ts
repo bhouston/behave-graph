@@ -1,7 +1,7 @@
 import * as THREEIFY from 'threeify';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { Engine } from '../../lib/Graphs/Execution/Engine.js';
+import { Engine } from '../../lib/Execution/Engine.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
 import { ManualLifecycleEventEmitter } from '../../lib/Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';

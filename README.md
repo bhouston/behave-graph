@@ -219,5 +219,5 @@ Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
 Completed all iterations!
 
-    20000016 nodes executed in 9.092 seconds, at a rate of 2199738 steps/second
+    30000013 nodes executed in 2.98 seconds, at a rate of 10067118 steps/second
 ```

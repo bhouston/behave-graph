@@ -21,12 +21,16 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       outputs: []
     };
 
-    Object.values(node.inputSockets).forEach((inputSocket) => {
+    node.inputSockets.forEach((inputSocket) => {
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
           : registry.values.get(inputSocket.valueTypeName);
+
       let defaultValue = inputSocket.value;
+      if (valueType !== undefined) {
+        defaultValue = valueType.serialize(defaultValue);
+      }
       if (defaultValue === undefined && valueType !== undefined) {
         defaultValue = valueType.serialize(valueType.creator());
       }
@@ -38,7 +42,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 
-    Object.values(node.outputSockets).forEach((outputSocket) => {
+    node.outputSockets.forEach((outputSocket) => {
       const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName

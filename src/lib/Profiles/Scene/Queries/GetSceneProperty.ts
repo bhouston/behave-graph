@@ -27,8 +27,8 @@ export class GetSceneProperty extends ImmediateNode {
     super(
       description,
       graph,
-      [new Socket('flow', 'flow'), new Socket('string', 'jsonPath')],
-      [new Socket('flow', 'flow'), new Socket(valueTypeName, 'value')],
+      [new Socket('string', 'jsonPath')],
+      [new Socket(valueTypeName, 'value')],
       () => {
         const sceneGraph =
           this.graph.registry.abstractions.get<IScene>('IScene');

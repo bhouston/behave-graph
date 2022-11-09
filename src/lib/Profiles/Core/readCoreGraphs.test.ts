@@ -41,7 +41,7 @@ const exampleMap: { [key: string]: any } = {
   performanceTestJson
 };
 
-Object.keys(exampleMap).forEach((key) => {
+for (const key in exampleMap) {
   describe(`${key}`, () => {
     const exampleJson = exampleMap[key] as GraphJSON;
 
@@ -59,4 +59,4 @@ Object.keys(exampleMap).forEach((key) => {
       }
     });
   });
-});
+}

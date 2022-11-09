@@ -30,19 +30,19 @@ export class Graph {
     // delete existing nodes
     this.dynamicNodeRegistry.clear();
     // re-add variable nodes
-    Object.keys(this.variables).forEach((variableId) => {
+    for (const variableId in this.variables) {
       this.dynamicNodeRegistry.register(
         VariableGet.GetDescription(this, variableId),
         VariableSet.GetDescription(this, variableId)
       );
-    });
+    }
     // re-add custom event nodes
-    Object.keys(this.customEvents).forEach((customEventId) => {
+    for (const customEventId in this.customEvents) {
       this.dynamicNodeRegistry.register(
         OnCustomEvent.GetDescription(this, customEventId),
         TriggerCustomEvent.GetDescription(this, customEventId)
       );
-    });
+    }
   }
   createNode(nodeTypeName: string, nodeId: string = generateUuid()): Node {
     if (nodeId in this.nodes) {

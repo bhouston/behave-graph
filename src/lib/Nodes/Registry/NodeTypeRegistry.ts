@@ -6,9 +6,9 @@ export class NodeTypeRegistry {
   } = {};
 
   clear() {
-    Object.keys(this.typeNameToNodeDescriptions).forEach((nodeTypeName) => {
+    for (const nodeTypeName in this.typeNameToNodeDescriptions) {
       delete this.typeNameToNodeDescriptions[nodeTypeName];
-    });
+    }
   }
   register(...descriptions: Array<NodeDescription>) {
     descriptions.forEach((description) => {

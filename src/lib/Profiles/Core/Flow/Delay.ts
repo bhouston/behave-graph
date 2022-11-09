@@ -20,12 +20,16 @@ export class Delay extends AsyncNode {
     super(
       description,
       graph,
-      [new Socket('flow', 'flow'), new Socket('float', 'duration')],
+      [
+        new Socket('flow', 'flow'),
+        new Socket('float', 'duration'),
+        new Socket('flow', 'cancel')
+      ],
       [new Socket('flow', 'flow')]
     );
   }
 
-  private isDisposed = false;
+  private triggerVersion = 0;
   private timeoutPending = false;
 
   triggered(
@@ -33,16 +37,29 @@ export class Delay extends AsyncNode {
     triggeringSocketName: string,
     finished: () => void
   ) {
-    if (this.timeoutPending) {
-      // enforce that only a single delay can be active at a time, intra-delay triggers are ignored
+    // if cancelling, just increment triggerVersion and do not set a timer. :)
+    if (triggeringSocketName === 'cancel') {
+      if (this.timeoutPending) {
+        this.triggerVersion++;
+        this.timeoutPending = false;
+      }
       return;
     }
+
+    // if there is a valid timeout running, leave it.
+    if (this.timeoutPending) {
+      return;
+    }
+
+    // otherwise start it.
+    this.triggerVersion++;
+    const localTriggerCount = this.triggerVersion;
     this.timeoutPending = true;
     setTimeout(() => {
-      Assert.mustBeTrue(this.timeoutPending);
-      if (this.isDisposed) {
+      if (this.triggerVersion !== localTriggerCount) {
         return;
       }
+      Assert.mustBeTrue(this.timeoutPending);
       this.timeoutPending = false;
       engine.commitToNewFiber(this, 'flow');
       finished();
@@ -50,7 +67,7 @@ export class Delay extends AsyncNode {
   }
 
   dispose() {
-    Assert.mustBeTrue(!this.isDisposed);
-    this.isDisposed = true;
+    this.triggerVersion++; // equivalent to 'cancel' trigger behavior.
+    this.timeoutPending = false;
   }
 }

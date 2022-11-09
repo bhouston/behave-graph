@@ -1,3 +1,4 @@
+import { Assert } from '../Diagnostics/Assert.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { Node } from './Node.js';
@@ -12,5 +13,15 @@ export class ImmediateNode extends Node {
     public readonly exec: () => void
   ) {
     super(description, graph, inputSockets, outputSockets);
+
+    // must have no input flow sockets
+    Assert.mustBeTrue(
+      !this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+    );
+
+    // must have no output flow sockets
+    Assert.mustBeTrue(
+      !this.outputSockets.some((socket) => socket.valueTypeName === 'flow')
+    );
   }
 }

@@ -1,3 +1,4 @@
+import { Assert } from '../Diagnostics/Assert.js';
 import { Fiber } from '../Graphs/Execution/Fiber.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
@@ -13,6 +14,11 @@ export class FlowNode extends Node {
   ) {
     // determine if this is an eval node
     super(description, graph, inputSockets, outputSockets);
+
+    // must have at least one input flow socket
+    Assert.mustBeTrue(
+      this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+    );
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars

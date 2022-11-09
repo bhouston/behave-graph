@@ -1,11 +1,9 @@
+import { Assert } from '../Diagnostics/Assert.js';
 import { Engine } from '../Graphs/Execution/Engine.js';
 import { Graph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { Node } from './Node.js';
 import { NodeDescription } from './Registry/NodeDescription.js';
-
-export type FinishedCallback = () => void;
-export type CancelCallback = () => void;
 
 // async flow node with only a single flow input
 export class AsyncNode extends Node {
@@ -16,6 +14,15 @@ export class AsyncNode extends Node {
     outputSockets: Socket[]
   ) {
     super(description, graph, inputSockets, outputSockets);
+    // must have at least one input flow socket
+    Assert.mustBeTrue(
+      this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+    );
+
+    // must have at least one output flow socket
+    Assert.mustBeTrue(
+      this.outputSockets.some((socket) => socket.valueTypeName === 'flow')
+    );
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars

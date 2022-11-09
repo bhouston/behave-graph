@@ -60,7 +60,7 @@ describe('readGraphFromJSON', () => {
             text: { value: 'Hello World!' }
           },
           flows: {
-            flow: { nodeId: '2', socket: 'flow'}
+            flow: { nodeId: '2', socket: 'flow' }
           }
         }
       ]

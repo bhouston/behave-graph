@@ -1,57 +1,60 @@
-/*
-import { Fiber } from '../../../Graphs/Execution/Fiber.js';
+import { Engine } from '../../../Graphs/Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-// ASYNC - asynchronous evaluation
-// also called "delay"
+// as long as this continues to be triggered within the duration period, it will not fire.
+// based lousy on https://www.npmjs.com/package/debounce
 
-export class Delay extends AsyncNode {
+export class Debounce extends AsyncNode {
   public static Description = new NodeDescription(
-    'flow/delay',
+    'flow/debounce',
     'Flow',
-    'Delay',
-    (description, graph) => new Delay(description, graph)
+    'Debounce',
+    (description, graph) => new Debounce(description, graph)
   );
 
   constructor(description: NodeDescription, graph: Graph) {
     super(
       description,
       graph,
-      [new Socket('flow', 'flow'), new Socket('float', 'duration')],
+      [
+        new Socket('flow', 'flow'),
+        new Socket('float', 'waitDuration'),
+        new Socket('flow', 'cancel')
+      ],
       [new Socket('flow', 'flow')]
     );
   }
 
-  private triggerCount = 0;
-  private isCancelled = -1;
-  private timeoutPending = false;
+  private triggerVersion = 0;
 
-  triggered(engine: Engine, triggeringSocketName: string, finished: () => void) {
-    if (this.timeoutPending) {
-      // enforce that only a single delay can be active at a time, intra-delay triggers are ignored
+  triggered(
+    engine: Engine,
+    triggeringSocketName: string,
+    finished: () => void
+  ) {
+    this.triggerVersion++;
+
+    // if cancelling, just increment triggerVersion and do not set a timer. :)
+    if (triggeringSocketName === 'cancel') {
       return;
     }
-    this.triggerCount++;
 
-    const localTriggerCount = this.triggerCount;
-    this.timeoutPending = true;
+    const localTriggerCount = this.triggerVersion;
     setTimeout(() => {
-      this.timeoutPending = false;
-      if (this.isCancelled >= localTriggerCount) {
-        // cancel only the delay that was running prior to the cancel trigger, not subsequent ones
+      if (this.triggerVersion >= localTriggerCount) {
+        // ignore this timer, as it isn't for the most recent trigger
         return;
       }
 
-      fiber.commit(this, 'flow');
+      engine.commitToNewFiber(this, 'flow');
       finished();
-    }, this.readInput<number>('duration') * 1000);
+    }, this.readInput<number>('waitDuration') * 1000);
   }
 
   dispose() {
-    this.isCancelled = this.triggerCount; // using this version based method of cancelling as "clearTimeout" is not available everywhere.
+    this.triggerVersion++; // equivalent to 'cancel' trigger behavior.
   }
 }
-*/

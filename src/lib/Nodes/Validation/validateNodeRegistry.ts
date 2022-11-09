@@ -23,7 +23,7 @@ export function validateNodeRegistry(registry: Registry): string[] {
       );
     }
 
-    Object.values(node.inputSockets).forEach((socket) => {
+    node.inputSockets.forEach((socket) => {
       if (!socketNameRegex.test(socket.name)) {
         errorList.push(
           `invalid socket name for input socket ${socket.name} on node ${node.description.typeName}`
@@ -42,7 +42,7 @@ export function validateNodeRegistry(registry: Registry): string[] {
       }
     });
 
-    Object.values(node.outputSockets).forEach((socket) => {
+    node.outputSockets.forEach((socket) => {
       if (!socketNameRegex.test(socket.name)) {
         errorList.push(
           `invalid socket name for output socket ${socket.name} on node ${node.description.typeName}`

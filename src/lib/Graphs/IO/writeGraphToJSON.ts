@@ -81,7 +81,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     }
 
     const parametersJson: NodeJSON['parameters'] = {};
-    Object.values(node.inputSockets).forEach((inputSocket) => {
+    node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName === 'flow') return;
 
       let parameterJson: NodeParameterJSON | undefined = undefined;
@@ -113,7 +113,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     }
 
     const flowsJson: { [output: string]: LinkJSON } = {};
-    Object.values(node.outputSockets).forEach((outputSocket) => {
+    node.outputSockets.forEach((outputSocket) => {
       if (outputSocket.valueTypeName !== 'flow') return;
 
       if (outputSocket.links.length === 0) return;

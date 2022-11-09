@@ -26,7 +26,7 @@ export function validateGraphAcyclic(graph: Graph): string[] {
       }
 
       let inputSocketsConnected = false;
-      Object.values(node.inputSockets).forEach((inputSocket) => {
+      node.inputSockets.forEach((inputSocket) => {
         inputSocket.links.forEach((link) => {
           // is the other end marked?  If not, then it is still connected.
           if (graph.nodes[link.nodeId].metadata['dag.marked'] === 'false') {

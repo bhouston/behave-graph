@@ -5,7 +5,7 @@ export function validateGraphLinks(graph: Graph): string[] {
   // for each node
   Object.values(graph.nodes).forEach((node) => {
     // for each input socket
-    Object.values(node.inputSockets).forEach((inputSocket) => {
+    node.inputSockets.forEach((inputSocket) => {
       // ensure that connected output sockets are the same type
       inputSocket.links.forEach((link) => {
         // check if the node id is correct

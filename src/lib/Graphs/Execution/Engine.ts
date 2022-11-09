@@ -1,5 +1,6 @@
 /* eslint-disable space-in-parens */
 
+import { Assert } from '../../Diagnostics/Assert.js';
 import { EventEmitter } from '../../Events/EventEmitter.js';
 import { AsyncNode } from '../../Nodes/AsyncNode.js';
 import { EventNode } from '../../Nodes/EventNode.js';
@@ -14,6 +15,7 @@ export class Engine {
   public readonly asyncNodes: AsyncNode[] = [];
   public readonly eventNodes: EventNode[] = [];
   public readonly onNodeExecution = new EventEmitter<Node>();
+  public executionSteps = 0;
 
   constructor(public readonly graph: Graph) {
     // collect all event nodes
@@ -27,17 +29,11 @@ export class Engine {
   }
 
   dispose() {
-    // cancel all in progress async nodes
-    this.asyncNodes.forEach((asyncNode) => {
-      asyncNode.cancelled();
-    });
+    // dispose all, possibly in-progress, async nodes
+    this.asyncNodes.forEach((asyncNode) => asyncNode.dispose());
 
     // dispose all event nodes
-    Object.values(this.graph.nodes).forEach((node) => {
-      if (node instanceof EventNode) {
-        node.dispose(this);
-      }
-    });
+    this.eventNodes.forEach((eventNode) => eventNode.dispose(this));
   }
 
   // asyncCommit
@@ -46,6 +42,7 @@ export class Engine {
     outputFlowSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
+    Assert.mustBeTrue(node instanceof EventNode || node instanceof AsyncNode);
     const outputSocket = node.outputSockets.find(
       (socket) => socket.name === outputFlowSocketName
     );
@@ -78,8 +75,9 @@ export class Engine {
       elapsedSeconds < limitInSeconds &&
       this.fiberQueue.length > 0
     ) {
-      const currentExecutionBlock = this.fiberQueue[0];
-      const localExecutionSteps = currentExecutionBlock.executeStep();
+      const currentFiber = this.fiberQueue[0];
+      currentFiber.executeStep();
+      if (currentFiber.isCompleted() )
       if (localExecutionSteps < 0) {
         // remove first element
         this.fiberQueue.shift();

@@ -11,6 +11,7 @@ import { Engine } from './Engine.js';
 export class Fiber {
   private readonly fiberCompletedListenerStack: (() => void)[] = [];
   private readonly graph: Graph;
+  public executionSteps = 0;
 
   constructor(
     public engine: Engine,
@@ -27,7 +28,7 @@ export class Fiber {
   // Is is optimal for a tree, but can do a lot of duplicate evaluations in dense graphs.
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
-  resolveInputValueFromSocket(inputSocket: Socket): number {
+  resolveInputValueFromSocket(inputSocket: Socket) {
     // if it has no links, return the immediate value
     if (inputSocket.links.length === 0) {
       return 0;
@@ -56,22 +57,18 @@ export class Fiber {
       throw new TypeError('node must be an instance of ImmediateNode');
     }
 
-    let executionStepCount = 0;
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     for (const upstreamInputSocket of upstreamNode.inputSockets) {
-      executionStepCount +=
-        this.resolveInputValueFromSocket(upstreamInputSocket);
+      this.resolveInputValueFromSocket(upstreamInputSocket);
     }
 
     this.engine.onNodeExecution.emit(upstreamNode);
     upstreamNode.exec();
-    executionStepCount++;
+    this.executionSteps++;
 
     // get the output value we wanted.
     inputSocket.value = upstreamOutputSocket.value;
-
-    return executionStepCount;
   }
 
   // this is syncCommit.
@@ -81,7 +78,9 @@ export class Fiber {
     outputSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
+    Assert.mustBeTrue(node instanceof FlowNode);
     Assert.mustBeTrue(this.nextEval === null);
+
     const outputSocket = node.outputSockets.find(
       (socket) => socket.name === outputSocketName
     );
@@ -109,7 +108,7 @@ export class Fiber {
   }
 
   // returns the number of new execution steps created as a result of this one step
-  executeStep(): number {
+  executeStep() {
     // pop the next node off the queue
     const link = this.nextEval;
     this.nextEval = null;
@@ -129,31 +128,38 @@ export class Fiber {
 
     const node = this.graph.nodes[link.nodeId];
 
-    let executionStepCount = 0;
-
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
+    let triggeredSocketName = '';
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {
-        executionStepCount += this.resolveInputValueFromSocket(inputSocket);
+        this.resolveInputValueFromSocket(inputSocket);
       } else {
         inputSocket.value = inputSocket.name === link.socketName;
+        if (inputSocket.value) {
+          triggeredSocketName = inputSocket.name;
+        }
       }
     });
 
     this.engine.onNodeExecution.emit(node);
     if (node instanceof AsyncNode) {
       this.engine.asyncNodes.push(node);
-      node.exec(this, () => {
+      node.triggered(this.engine, triggeredSocketName, () => {
+        // remove from the list of pending async nodes
         const index = this.engine.asyncNodes.indexOf(node);
         this.engine.asyncNodes.splice(index, 1);
+        this.executionSteps++;
       });
     } else if (node instanceof FlowNode) {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      node.exec(this);
-      executionStepCount++;
+      node.triggered(this, triggeredSocketName);
+      this.executionSteps++;
     }
+  }
 
-    return executionStepCount;
+  isCompleted() {
+    return (
+      this.fiberCompletedListenerStack.length === 0 && this.nextEval === null
+    );
   }
 }

@@ -1,16 +1,8 @@
-import {
-  Material,
-  Object3D,
-  Quaternion,
-  Vector2,
-  Vector3,
-  Vector4
-} from 'three';
+import { Material, Object3D, Quaternion, Vector3, Vector4 } from 'three';
 
 import { Assert } from '../../lib/Diagnostics/Assert.js';
 import { EventEmitter } from '../../lib/Events/EventEmitter.js';
 import { IScene } from '../../lib/Profiles/Scene/Abstractions/IScene.js';
-import { Vec2 } from '../../lib/Profiles/Scene/Values/Internal/Vec2.js';
 import { Vec3 } from '../../lib/Profiles/Scene/Values/Internal/Vec3.js';
 import { Vec4 } from '../../lib/Profiles/Scene/Values/Internal/Vec4.js';
 import { GLTFJson } from './GLTFJson.js';
@@ -58,9 +50,9 @@ function parseJsonPath(jsonPath: string) {
   };
 }
 
-function toVec2(value: Vector2): Vec2 {
+/*function toVec2(value: Vector2): Vec2 {
   return new Vec2(value.x, value.y);
-}
+}*/
 function toVec3(value: Vector3): Vec3 {
   return new Vec3(value.x, value.y, value.z);
 }

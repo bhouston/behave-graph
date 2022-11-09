@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { Engine } from '../../lib/Graphs/Execution/Engine.js';
+import { Engine } from '../../lib/Execution/Engine.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
 import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';

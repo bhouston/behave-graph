@@ -3,8 +3,6 @@ import { ValueType } from './ValueType.js';
 export class ValueTypeRegistry {
   private readonly valueTypeNameToValueType: { [key: string]: ValueType } = {};
 
-  constructor() {}
-
   register(...valueTypes: Array<ValueType>) {
     valueTypes.forEach((valueType) => {
       if (valueType.name in this.valueTypeNameToValueType) {

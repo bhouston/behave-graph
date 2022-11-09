@@ -1,5 +1,5 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
-import { Engine } from '../../../Graphs/Execution/Engine.js';
+import { Engine } from '../../../Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';

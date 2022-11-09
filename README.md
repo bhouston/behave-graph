@@ -13,8 +13,7 @@ Another neat fact about behavior graphs is that they offer a sand boxed executio
 ## Documentation
 
 * [Extending the Value System](/docs/Values.md)
-* [Declaring Nodes](/docs/DeclaringNodes.md)
-* [Execution Model](/docs/GraphExecution.md)
+* [Types Of Nodes](/docs/TypesOfNodes.md)
 * [Abstractions and Drivers](/docs/Abstractions.md)
 
 ## Community Resources

@@ -1,6 +1,6 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
 import { CustomEvent } from '../../../Events/CustomEvent.js';
-import { Engine } from '../../../Graphs/Execution/Engine.js';
+import { Engine } from '../../../Execution/Engine.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { EventNode } from '../../../Nodes/EventNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';

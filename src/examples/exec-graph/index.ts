@@ -4,8 +4,8 @@ import { program } from 'commander';
 import glob from 'glob';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { Engine } from '../../lib/Graphs/Execution/Engine.js';
-import { traceToLogger } from '../../lib/Graphs/Execution/traceToLogger.js';
+import { Engine } from '../../lib/Execution/Engine.js';
+import { traceToLogger } from '../../lib/Execution/traceToLogger.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { writeGraphToJSON } from '../../lib/Graphs/IO/writeGraphToJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';

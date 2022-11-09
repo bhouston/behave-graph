@@ -85,6 +85,8 @@ export class Engine {
       }
       elapsedSeconds = (Date.now() - startDateTime) * 0.001;
     }
+    this.executionSteps += elapsedSteps;
+
     return elapsedSteps;
   }
 

@@ -134,6 +134,8 @@ async function main() {
           )} steps/second`
         );
       }
+
+      engine.dispose();
     }
   });
 }

@@ -26,7 +26,11 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
         inputSocket.valueTypeName === 'flow'
           ? undefined
           : registry.values.get(inputSocket.valueTypeName);
+
       let defaultValue = inputSocket.value;
+      if (valueType !== undefined) {
+        defaultValue = valueType.serialize(defaultValue);
+      }
       if (defaultValue === undefined && valueType !== undefined) {
         defaultValue = valueType.serialize(valueType.creator());
       }

@@ -1,5 +1,5 @@
-import { Assert } from '../../../Diagnostics/Assert.js';
-import { Engine } from '../../../Graphs/Execution/Engine.js';
+/*
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
@@ -25,32 +25,33 @@ export class Delay extends AsyncNode {
     );
   }
 
-  private isDisposed = false;
+  private triggerCount = 0;
+  private isCancelled = -1;
   private timeoutPending = false;
 
-  triggered(
-    engine: Engine,
-    triggeringSocketName: string,
-    finished: () => void
-  ) {
+  triggered(engine: Engine, triggeringSocketName: string, finished: () => void) {
     if (this.timeoutPending) {
       // enforce that only a single delay can be active at a time, intra-delay triggers are ignored
       return;
     }
+    this.triggerCount++;
+
+    const localTriggerCount = this.triggerCount;
     this.timeoutPending = true;
     setTimeout(() => {
-      Assert.mustBeTrue(this.timeoutPending);
-      if (this.isDisposed) {
+      this.timeoutPending = false;
+      if (this.isCancelled >= localTriggerCount) {
+        // cancel only the delay that was running prior to the cancel trigger, not subsequent ones
         return;
       }
-      this.timeoutPending = false;
-      engine.commitToNewFiber(this, 'flow');
+
+      fiber.commit(this, 'flow');
       finished();
     }, this.readInput<number>('duration') * 1000);
   }
 
   dispose() {
-    Assert.mustBeTrue(!this.isDisposed);
-    this.isDisposed = true;
+    this.isCancelled = this.triggerCount; // using this version based method of cancelling as "clearTimeout" is not available everywhere.
   }
 }
+*/

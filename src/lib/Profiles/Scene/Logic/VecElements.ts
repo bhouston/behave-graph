@@ -1,10 +1,9 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { ImmediateNode } from '../../../Nodes/ImmediateNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class VecElements<T> extends Node {
+export class VecElements<T> extends ImmediateNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -17,12 +16,12 @@ export class VecElements<T> extends Node {
       graph,
       [new Socket(valueTypeName, 'value')],
       elementNames.map((elementName) => new Socket('float', elementName)),
-      (context: NodeEvalContext) => {
-        const value = context.readInput('value') as T;
+      () => {
+        const value = this.readInput('value') as T;
         const elementValues = elementNames.map(() => 0);
         toArray(value, elementValues, 0);
         elementNames.forEach((elementName, index) =>
-          context.writeOutput(elementName, elementValues[index])
+          this.writeOutput(elementName, elementValues[index])
         );
       }
     );

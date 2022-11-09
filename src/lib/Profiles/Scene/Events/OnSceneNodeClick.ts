@@ -1,11 +1,10 @@
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { EventNode } from '../../../Nodes/EventNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 // very 3D specific.
-export class OnSceneNodeClick extends Node {
+export class OnSceneNodeClick extends EventNode {
   public static Description = new NodeDescription(
     'scene/nodeClick',
     'Event',
@@ -18,10 +17,7 @@ export class OnSceneNodeClick extends Node {
       description,
       graph,
       [],
-      [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')],
-      (context: NodeEvalContext) => {
-        context.writeOutput('nodeIndex', -1); // TODO: Replace with real value.
-      }
+      [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')]
     );
   }
 }

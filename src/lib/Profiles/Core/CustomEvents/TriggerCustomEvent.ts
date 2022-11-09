@@ -1,11 +1,11 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class TriggerCustomEvent extends Node {
+export class TriggerCustomEvent extends FlowNode {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
@@ -37,16 +37,15 @@ export class TriggerCustomEvent extends Node {
             )
         )
       ],
-      [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
-        const parameters: { [parameterName: string]: any } = {};
-        customEvent.parameters.forEach((parameterSocket) => {
-          parameters[parameterSocket.name] = context.readInput(
-            parameterSocket.name
-          );
-        });
-        customEvent.eventEmitter.emit(parameters);
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    const parameters: { [parameterName: string]: any } = {};
+    this.customEvent.parameters.forEach((parameterSocket) => {
+      parameters[parameterSocket.name] = this.readInput(parameterSocket.name);
+    });
+    this.customEvent.eventEmitter.emit(parameters);
   }
 }

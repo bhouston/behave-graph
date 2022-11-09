@@ -1,4 +1,4 @@
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { In0Out1FuncNode } from '../../../Nodes/Templates/In0Out1FuncNode.js';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';

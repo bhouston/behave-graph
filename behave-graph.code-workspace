@@ -11,6 +11,9 @@
     },
     {
       "path": "../threeify-glsl-transpiler"
+    },
+    {
+      "path": "../glTF"
     }
   ],
   "settings": {},

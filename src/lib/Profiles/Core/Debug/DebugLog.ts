@@ -1,11 +1,11 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 import { ILogger } from '../Abstractions/ILogger.js';
 
-export class Log extends Node {
+export class Log extends FlowNode {
   public static Description = new NodeDescription(
     'debug/log',
     'Action',
@@ -18,12 +18,13 @@ export class Log extends Node {
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('string', 'text')],
-      [new Socket('flow', 'flow')],
-      (context: NodeEvalContext) => {
-        const logger =
-          context.graph.registry.abstractions.get<ILogger>('ILogger');
-        logger.info(context.readInput('text'));
-      }
+      [new Socket('flow', 'flow')]
     );
+  }
+
+  triggered(fiber: Fiber, triggeredSocketName: string) {
+    const logger = this.graph.registry.abstractions.get<ILogger>('ILogger');
+    logger.info(this.readInput('text'));
+    fiber.commit(this, 'flow');
   }
 }

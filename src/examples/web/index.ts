@@ -1,7 +1,7 @@
 import * as THREEIFY from 'threeify';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
+import { Engine } from '../../lib/Graphs/Execution/Engine.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
 import { ManualLifecycleEventEmitter } from '../../lib/Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
@@ -40,10 +40,10 @@ async function main() {
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
 
   Logger.info('creating behavior graph');
-  const graphEvaluator = new GraphEvaluator(graph);
+  const engine = new Engine(graph);
 
   Logger.info('executing all (async)');
-  await graphEvaluator.executeAllAsync();
+  await engine.executeAllAsync();
 }
 
 main();

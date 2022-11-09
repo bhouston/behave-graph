@@ -1,10 +1,10 @@
+import { Fiber } from '../../../Graphs/Execution/Fiber.js';
 import { Graph } from '../../../Graphs/Graph.js';
-import { Node } from '../../../Nodes/Node.js';
-import { NodeDescription } from '../../../Nodes/NodeDescription.js';
-import { NodeEvalContext } from '../../../Nodes/NodeEvalContext.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
-export class Branch extends Node {
+export class Branch extends FlowNode {
   public static Description = new NodeDescription(
     'flow/branch',
     'Flow',
@@ -17,12 +17,14 @@ export class Branch extends Node {
       description,
       graph,
       [new Socket('flow', 'flow'), new Socket('boolean', 'condition')],
-      [new Socket('flow', 'true'), new Socket('flow', 'false')],
-      (context: NodeEvalContext) => {
-        context.commit(
-          context.readInput<boolean>('condition') === true ? 'true' : 'false'
-        );
-      }
+      [new Socket('flow', 'true'), new Socket('flow', 'false')]
+    );
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string) {
+    fiber.commit(
+      this,
+      this.readInput<boolean>('condition') === true ? 'true' : 'false'
     );
   }
 }

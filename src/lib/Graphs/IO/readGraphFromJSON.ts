@@ -51,7 +51,7 @@ export function readGraphFromJSON(
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
     // initialize the inputs by resolving to the reference nodes.
-    node.inputSockets.forEach((inputSocket) => {
+    Object.values(node.inputSockets).forEach((inputSocket) => {
       inputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -84,7 +84,7 @@ export function readGraphFromJSON(
       });
     });
 
-    node.outputSockets.forEach((outputSocket) => {
+    Object.values(node.outputSockets).forEach((outputSocket) => {
       outputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -145,7 +145,7 @@ function readNodeParameterJSON(
   node: Node,
   parametersJson: NodeParametersJSON
 ) {
-  node.inputSockets.forEach((socket) => {
+  Object.values(node.inputSockets).forEach((socket) => {
     if (!(socket.name in parametersJson)) {
       return;
     }
@@ -178,7 +178,7 @@ function readNodeParameterJSON(
 }
 
 function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
-  node.outputSockets.forEach((socket) => {
+  Object.values(node.outputSockets).forEach((socket) => {
     if (socket.name in flowsJson) {
       const outputLinkJson = flowsJson[socket.name];
       socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));

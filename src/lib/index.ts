@@ -16,16 +16,14 @@ export * from './Nodes/Templates/In1Out1FuncNode.js';
 export * from './Nodes/Templates/In0Out1FuncNode.js';
 
 // loading & execution
-export * from './Graphs/Evaluation/GraphEvaluator.js';
-export * from './Graphs/Evaluation/traceToLogger.js';
-export * from './Graphs/Evaluation/NodeEvaluationType.js';
-export * from './Nodes/NodeEvalContext.js';
+export * from './Graphs/Execution/Engine.js';
+export * from './Graphs/Execution/traceToLogger.js';
 export * from './Graphs/IO/readGraphFromJSON.js';
 export * from './Graphs/IO/writeGraphToJSON.js';
 export * from './Graphs/IO/writeNodeSpecsToJSON.js';
 
 // node registry
-export * from './Nodes/NodeTypeRegistry.js';
+export * from './Nodes/Registry/NodeTypeRegistry.js';
 export * from './Values/ValueTypeRegistry.js';
 export * from './Registry.js';
 

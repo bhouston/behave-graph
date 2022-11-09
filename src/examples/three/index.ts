@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { GraphEvaluator } from '../../lib/Graphs/Evaluation/GraphEvaluator.js';
+import { Engine } from '../../lib/Graphs/Execution/Engine.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
 import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
@@ -127,8 +127,8 @@ async function main() {
   window.addEventListener('resize', onWindowResize);
 
   Logger.verbose('creating behavior graph');
-  const graphEvaluator = new GraphEvaluator(graph);
-  //graphEvaluator.onNodeEvaluation.addListener(traceToLogger);
+  const engine = new Engine(graph);
+  //engine.onNodeEvaluation.addListener(traceToLogger);
 
   registry.abstractions.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
@@ -138,14 +138,14 @@ async function main() {
   );
 
   Logger.verbose('initialize graph');
-  await graphEvaluator.executeAllSync();
+  await engine.executeAllSync();
 
   if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');
     manualLifecycleEventEmitter.startEvent.emit();
 
     Logger.verbose('executing all (async)');
-    await graphEvaluator.executeAllAsync(5);
+    await engine.executeAllAsync(5);
   }
 
   const onTick = async () => {
@@ -154,7 +154,7 @@ async function main() {
 
     Logger.verbose('executing all (async)');
     // eslint-disable-next-line no-await-in-loop
-    await graphEvaluator.executeAllAsync(500);
+    await engine.executeAllAsync(500);
 
     setTimeout(onTick, 50);
   };
@@ -166,7 +166,7 @@ async function main() {
     manualLifecycleEventEmitter.endEvent.emit();
 
     Logger.verbose('executing all (async)');
-    await graphEvaluator.executeAllAsync(5);
+    await engine.executeAllAsync(5);
   }*/
 }
 

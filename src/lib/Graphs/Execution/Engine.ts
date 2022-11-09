@@ -76,16 +76,14 @@ export class Engine {
       this.fiberQueue.length > 0
     ) {
       const currentFiber = this.fiberQueue[0];
+      const startingFiberExecutionSteps = currentFiber.executionSteps;
       currentFiber.executeStep();
-      if (currentFiber.isCompleted() )
-      if (localExecutionSteps < 0) {
+      elapsedSteps += currentFiber.executionSteps - startingFiberExecutionSteps;
+      if (currentFiber.isCompleted()) {
         // remove first element
         this.fiberQueue.shift();
       }
       elapsedSeconds = (Date.now() - startDateTime) * 0.001;
-      if (localExecutionSteps > 0) {
-        elapsedSteps += localExecutionSteps;
-      }
     }
     return elapsedSteps;
   }

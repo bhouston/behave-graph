@@ -29,10 +29,12 @@ export class Fiber {
   // It will also get stuck in a recursive loop when there are loops in the graph.
   // TODO: Replace with initial traversal to extract sub DAG, order it, and evaluate each node once.
   resolveInputValueFromSocket(inputSocket: Socket) {
-    // if it has no links, return the immediate value
+    // if it has no links, leave value on input socket alone.
     if (inputSocket.links.length === 0) {
-      return 0;
+      return;
     }
+
+    Assert.mustBeTrue(inputSocket.links.length === 1);
 
     const upstreamLink = inputSocket.links[0];
     // if upstream node is an eval, we just return its last value.
@@ -48,9 +50,10 @@ export class Fiber {
       );
     }
 
+    // if upstream is a flownode, do not evaluate it rather just use its existing output socket values
     if (upstreamNode instanceof FlowNode) {
       inputSocket.value = upstreamOutputSocket.value;
-      return 0;
+      return;
     }
 
     if (!(upstreamNode instanceof ImmediateNode)) {
@@ -116,14 +119,14 @@ export class Fiber {
     // nothing waiting, thus go back and start to evaluate any callbacks, in stack order.
     if (link === null) {
       if (this.fiberCompletedListenerStack.length === 0) {
-        return -1;
+        return;
       }
       const awaitingCallback = this.fiberCompletedListenerStack.pop();
       if (awaitingCallback === undefined) {
         throw new Error('awaitingCallback is empty');
       }
       awaitingCallback();
-      return 0;
+      return;
     }
 
     const node = this.graph.nodes[link.nodeId];
@@ -132,14 +135,14 @@ export class Fiber {
     // flow socket is set to true for the one flowing in, while all others are set to false.
     let triggeredSocketName = '';
     node.inputSockets.forEach((inputSocket) => {
-      if (inputSocket.valueTypeName !== 'flow') {
-        this.resolveInputValueFromSocket(inputSocket);
-      } else {
-        inputSocket.value = inputSocket.name === link.socketName;
-        if (inputSocket.value) {
+      if (inputSocket.valueTypeName === 'flow') {
+        if (inputSocket.name === link.socketName) {
+          inputSocket.value = true;
           triggeredSocketName = inputSocket.name;
         }
+        return;
       }
+      this.resolveInputValueFromSocket(inputSocket);
     });
 
     this.engine.onNodeExecution.emit(node);
@@ -151,10 +154,15 @@ export class Fiber {
         this.engine.asyncNodes.splice(index, 1);
         this.executionSteps++;
       });
-    } else if (node instanceof FlowNode) {
+      return;
+    }
+    if (node instanceof FlowNode) {
       node.triggered(this, triggeredSocketName);
       this.executionSteps++;
+      return;
     }
+
+    throw new TypeError('should not get here');
   }
 
   isCompleted() {

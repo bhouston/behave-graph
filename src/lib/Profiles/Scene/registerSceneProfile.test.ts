@@ -34,7 +34,7 @@ describe('scene profile', () => {
     ]
   };
 
-  Object.keys(valueTypeNameToExampleValues).forEach((valueTypeName) => {
+  for (const valueTypeName in valueTypeNameToExampleValues) {
     test(`${valueTypeName} serialization/deserialization`, () => {
       const valueType = registry.values.get(valueTypeName);
       const exampleValues: any[] = valueTypeNameToExampleValues[valueTypeName];
@@ -47,5 +47,5 @@ describe('scene profile', () => {
         expect(serializedValue).toStrictEqual(reserializedValue);
       });
     });
-  });
+  }
 });

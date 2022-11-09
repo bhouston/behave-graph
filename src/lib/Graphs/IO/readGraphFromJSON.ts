@@ -165,7 +165,7 @@ function readNodeParameterJSON(
   });
 
   // validate that there are no additional input sockets specified that were not read.
-  Object.keys(parametersJson).forEach((inputName) => {
+  for (const inputName in parametersJson) {
     const inputSocket = node.inputSockets.find(
       (socket) => socket.name === inputName
     );
@@ -174,7 +174,7 @@ function readNodeParameterJSON(
         `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`
       );
     }
-  });
+  }
 }
 
 function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
@@ -186,7 +186,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
   });
 
   // validate that there are no additional input sockets specified that were not read.
-  Object.keys(flowsJson).forEach((outputName) => {
+  for (const outputName in flowsJson) {
     const outputSocket = node.outputSockets.find(
       (socket) => socket.name === outputName
     );
@@ -195,7 +195,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
         `node '${node.description.typeName}' specifies an output '${outputName}' that doesn't exist on its node type`
       );
     }
-  });
+  }
 }
 
 function readVariablesJSON(graph: Graph, variablesJson: VariableJSON[]) {

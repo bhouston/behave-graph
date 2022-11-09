@@ -21,7 +21,7 @@ describe('core profile', () => {
     integer: [5, -5, '-999', '9223372036854775807'] // mac int64 value
   };
 
-  Object.keys(valueTypeNameToExampleValues).forEach((valueTypeName) => {
+  for (const valueTypeName in valueTypeNameToExampleValues) {
     test(`${valueTypeName} serialization/deserialization`, () => {
       const valueType = registry.values.get(valueTypeName);
       const exampleValues: any[] = valueTypeNameToExampleValues[valueTypeName];
@@ -34,5 +34,5 @@ describe('core profile', () => {
         expect(serializedValue).toBe(reserializedValue);
       });
     });
-  });
+  }
 });

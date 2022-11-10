@@ -32,9 +32,9 @@ export const Constant = new NodeDescription(
     )
 );
 export const Create = new NodeDescription(
-  'math/create/vec4',
+  'math/toVec4/float',
   'Logic',
-  'CREATE',
+  'Float to Vec4',
   (description, graph) =>
     new In4Out1FuncNode(
       description,
@@ -46,9 +46,9 @@ export const Create = new NodeDescription(
     )
 );
 export const Elements = new NodeDescription(
-  'math/elements/vec4',
+  'math/toFloat/vec4',
   'Logic',
-  'CREATE',
+  'Vec4 to Float',
   (description, graph) =>
     new VecElements(
       description,
@@ -101,21 +101,21 @@ export const Scale = new NodeDescription(
 export const Length = new NodeDescription(
   'math/length/vec4',
   'Logic',
-  'LENGTH',
+  'Length',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec4'], 'float', vec4Length)
 );
 export const Normalize = new NodeDescription(
   'math/normalize/vec4',
   'Logic',
-  'NORMALIZE',
+  'Normalize',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec4'], 'vec4', vec4Normalize)
 );
 export const Dot = new NodeDescription(
   'math/dot/vec4',
   'Logic',
-  '⋅',
+  'Dot Product',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['vec4', 'vec4'], 'float', vec4Dot)
 );

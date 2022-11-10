@@ -19,7 +19,7 @@ export const Constant = new NodeDescription(
 export const Concat = new NodeDescription(
   'logic/concat/string',
   'Logic',
-  'CONCAT',
+  'Concat',
   (description, graph) =>
     new In2Out1FuncNode(
       description,
@@ -32,7 +32,7 @@ export const Concat = new NodeDescription(
 export const Includes = new NodeDescription(
   'logic/includes/string',
   'Logic',
-  'INCLUDES',
+  'Includes',
   (description, graph) =>
     new In2Out1FuncNode(
       description,
@@ -45,7 +45,7 @@ export const Includes = new NodeDescription(
 export const Length = new NodeDescription(
   'logic/length/string',
   'Logic',
-  'LENGTH',
+  'Length',
   (description, graph) =>
     new In1Out1FuncNode(
       description,

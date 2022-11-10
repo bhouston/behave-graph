@@ -39,9 +39,9 @@ export const Constant = new NodeDescription(
     new In1Out1FuncNode(description, graph, ['quat'], 'quat', (a: Vec4) => a)
 );
 export const Create = new NodeDescription(
-  'math/create/quat',
+  'math/toQuat/float',
   'Logic',
-  'CREATE',
+  'Float to Quat',
   (description, graph) =>
     new In4Out1FuncNode(
       description,
@@ -53,9 +53,9 @@ export const Create = new NodeDescription(
     )
 );
 export const Elements = new NodeDescription(
-  'math/elements/quat',
+  'math/toFloat/quat',
   'Logic',
-  'CREATE',
+  'Quat to Float',
   (description, graph) =>
     new VecElements(
       description,
@@ -69,7 +69,7 @@ export const Elements = new NodeDescription(
 export const Negate = new NodeDescription(
   'math/conjugate/quat',
   'Logic',
-  '-',
+  'Conjugate',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatConjugate)
 );
@@ -103,21 +103,21 @@ export const Scale = new NodeDescription(
 export const Length = new NodeDescription(
   'math/length/quat',
   'Logic',
-  'LENGTH',
+  'Length',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['quat'], 'float', vec4Length)
 );
 export const Normalize = new NodeDescription(
   'math/normalize/quat',
   'Logic',
-  'NORMALIZE',
+  'Normalize',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['quat'], 'quat', vec4Normalize)
 );
 export const Dot = new NodeDescription(
   'math/dot/quat',
   'Logic',
-  '⋅',
+  'Dot Product',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['quat', 'quat'], 'float', vec4Dot)
 );
@@ -125,7 +125,7 @@ export const Dot = new NodeDescription(
 export const FromAngleAxis = new NodeDescription(
   'math/toQuat/angleAxis',
   'Logic',
-  '×',
+  'Angle Axis to Quat',
   (description, graph) =>
     new In2Out1FuncNode(
       description,
@@ -135,10 +135,10 @@ export const FromAngleAxis = new NodeDescription(
       angleAxisToQuat
     )
 );
-export const Mix = new NodeDescription(
+export const Slerp = new NodeDescription(
   'math/slerp/quat',
   'Logic',
-  'SLERP',
+  'Slerp',
   (description, graph) =>
     new In3Out1FuncNode(
       description,

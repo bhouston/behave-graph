@@ -1,6 +1,7 @@
 import { Assert } from '../Diagnostics/Assert.js';
 import { Graph } from '../Graphs/Graph.js';
 import { AsyncNode } from '../Nodes/AsyncNode.js';
+import { EventNode } from '../Nodes/EventNode.js';
 import { FlowNode } from '../Nodes/FlowNode.js';
 import { ImmediateNode } from '../Nodes/ImmediateNode.js';
 import { Link } from '../Nodes/Link.js';
@@ -74,13 +75,19 @@ export class Fiber {
       return;
     }
 
-    // if upstream is a flow node, do not evaluate it rather just use its existing output socket values
-    if (upstreamNode instanceof FlowNode) {
+    // if upstream is a flow/event/async node, do not evaluate it rather just use its existing output socket values
+    if (
+      upstreamNode instanceof FlowNode ||
+      upstreamNode instanceof EventNode ||
+      upstreamNode instanceof AsyncNode
+    ) {
       inputSocket.value = upstreamOutputSocket.value;
       return;
     }
 
-    throw new TypeError('node must be an instance of ImmediateNode');
+    throw new TypeError(
+      `node, ${upstreamNode.description.typeName}, must be an instance of ImmediateNode`
+    );
   }
 
   // this is syncCommit.
@@ -171,7 +178,9 @@ export class Fiber {
       return;
     }
 
-    throw new TypeError('should not get here');
+    throw new TypeError(
+      `should not get here, unhandled node ${node.description.typeName}`
+    );
   }
 
   isCompleted() {

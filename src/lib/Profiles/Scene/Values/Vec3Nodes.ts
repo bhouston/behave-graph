@@ -21,15 +21,15 @@ import {
 export const Constant = new NodeDescription(
   'math/vec3',
   'Logic',
-  'Constant',
+  'Vec3',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', (a: Vec3) => a)
 );
 
 export const Create = new NodeDescription(
-  'math/create/vec3',
+  'math/toVec3/float',
   'Logic',
-  'CREATE',
+  'Float to Vec3',
   (description, graph) =>
     new In3Out1FuncNode(
       description,
@@ -42,9 +42,9 @@ export const Create = new NodeDescription(
 );
 
 export const Elements = new NodeDescription(
-  'math/elements/vec3',
+  'math/toFloat/vec3',
   'Logic',
-  'CREATE',
+  'Vec3 To Float',
   (description, graph) =>
     new VecElements(description, graph, 'vec3', ['x', 'y', 'z'], vec3ToArray)
 );
@@ -92,28 +92,28 @@ export const Scale = new NodeDescription(
 export const Length = new NodeDescription(
   'math/length/vec3',
   'Logic',
-  'LENGTH',
+  'Length',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec3'], 'float', vec3Length)
 );
 export const Normalize = new NodeDescription(
   'math/normalize/vec3',
   'Logic',
-  'NORMALIZE',
+  'Normalize',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', vec3Normalize)
 );
 export const Cross = new NodeDescription(
   'math/cross/vec3',
   'Logic',
-  'CROSS',
+  'Cross',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'vec3', vec3Cross)
 );
 export const Dot = new NodeDescription(
   'math/dot/vec3',
   'Logic',
-  'DOT',
+  'Dot',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'float', vec3Dot)
 );

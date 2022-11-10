@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "math/create/euler",
+      "type": "math/toEuler/float",
       "id": "1",
       "parameters": {
         "x": {

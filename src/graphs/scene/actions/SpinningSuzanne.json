@@ -10,41 +10,41 @@
         }
       }
     },
-  {
-    "type": "math/multiply/float",
-    "id": "1",
-    "parameters": {
-      "a": {
-        "link": {
-          "nodeId": 0,
-          "socket": "time"
+    {
+      "type": "math/multiply/float",
+      "id": "1",
+      "parameters": {
+        "a": {
+          "link": {
+            "nodeId": 0,
+            "socket": "time"
+          }
+        },
+        "b": {
+          "value": 0.001
         }
-      },
-      "b": {
-        "value": 0.001
       }
-    }
-  },
-      {
-      "type": "math/create/euler",
+    },
+    {
+      "type": "math/toEuler/float",
       "id": "2",
       "parameters": {
+        "x": {
+          "value": 0
+        },
         "y": {
           "link": {
             "nodeId": 1,
             "socket": "result"
           }
         },
-        "x": {
-          "value": 0
-        },
         "z": {
           "value": 0
         }
       }
     },
- 
-   {
+
+    {
       "type": "math/toQuat/euler",
       "id": "3",
       "parameters": {

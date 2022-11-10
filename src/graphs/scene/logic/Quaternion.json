@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "math/create/quat",
+      "type": "math/toQuat/float",
       "id": "1",
       "parameters": {
         "x": {

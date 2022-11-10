@@ -18,14 +18,14 @@ import { eulerToQuat } from './Internal/Vec4.js';
 export const Constant = new NodeDescription(
   'math/euler',
   'Logic',
-  'Constant',
+  'Euler',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['euler'], 'euler', (a: Vec3) => a)
 );
 export const Create = new NodeDescription(
-  'math/create/euler',
+  'math/toEuler/float',
   'Logic',
-  'CREATE',
+  'Float to Euler',
   (description, graph) =>
     new In3Out1FuncNode(
       description,
@@ -38,9 +38,9 @@ export const Create = new NodeDescription(
 );
 
 export const Elements = new NodeDescription(
-  'math/elements/euler',
+  'math/toFloat/euler',
   'Logic',
-  'CREATE',
+  'Euler to Float',
   (description, graph) =>
     new VecElements(description, graph, 'euler', ['x', 'y', 'z'], vec3ToArray)
 );

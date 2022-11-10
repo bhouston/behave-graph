@@ -8,7 +8,7 @@ import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
 export const Constant = new NodeDescription(
   'math/integer',
   'Logic',
-  'Constant',
+  'Integer',
   (description, graph) =>
     new In1Out1FuncNode(
       description,

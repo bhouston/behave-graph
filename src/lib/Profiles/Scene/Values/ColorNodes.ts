@@ -21,14 +21,14 @@ import {
 export const Constant = new NodeDescription(
   'math/color',
   'Logic',
-  'Constant',
+  'Color',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['color'], 'color', (a: Vec3) => a)
 );
 export const Create = new NodeDescription(
-  'math/create/color',
+  'math/toColor/rgb',
   'Logic',
-  'CREATE',
+  'RGB To Color',
   (description, graph) =>
     new In3Out1FuncNode(
       description,
@@ -41,9 +41,9 @@ export const Create = new NodeDescription(
 );
 
 export const Elements = new NodeDescription(
-  'math/elements/color',
+  'math/toRgb/color',
   'Logic',
-  'CREATE',
+  'Color to RGB',
   (description, graph) =>
     new VecElements(description, graph, 'color', ['r', 'g', 'b'], vec3ToArray)
 );
@@ -114,14 +114,14 @@ export const Mix = new NodeDescription(
 export const HslToColor = new NodeDescription(
   'math/ToColor/hsl',
   'Logic',
-  'HSL to COLOR',
+  'HSL to Color',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec3'], 'color', hslToRGB)
 );
 export const ColorToHsl = new NodeDescription(
   'math/toHsl/color',
   'Logic',
-  'COLOR to HSL',
+  'Color to HSL',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['color'], 'vec3', rgbToHSL)
 );
@@ -129,14 +129,14 @@ export const ColorToHsl = new NodeDescription(
 export const HexToColor = new NodeDescription(
   'math/toColor/hex',
   'Logic',
-  'HEX to COLOR',
+  'HEX to Color',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['float'], 'color', hexToRGB)
 );
 export const ColorToHex = new NodeDescription(
   'math/toHex/color',
   'Logic',
-  'COLOR to HEX',
+  'Color to HEX',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['color'], 'float', rgbToHex)
 );

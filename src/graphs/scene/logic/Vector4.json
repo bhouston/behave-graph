@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "math/create/vec4",
+      "type": "math/toVec4/float",
       "id": "1",
       "parameters": {
         "x": {

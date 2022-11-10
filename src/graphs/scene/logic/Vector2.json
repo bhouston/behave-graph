@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "math/create/vec2",
+      "type": "math/toVec2/float",
       "id": "1",
       "parameters": {
         "x": {

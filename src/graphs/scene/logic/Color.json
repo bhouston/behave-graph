@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "math/create/color",
+      "type": "math/toColor/rgb",
       "id": "1",
       "parameters": {
         "r": {

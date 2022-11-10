@@ -9,13 +9,13 @@ import { traceToLogger } from '../../lib/Execution/traceToLogger.js';
 import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
 import { writeGraphToJSON } from '../../lib/Graphs/IO/writeGraphToJSON.js';
 import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
+import { DefaultLogger, ManualLifecycleEventEmitter } from '../../lib/index.js';
 import { parseSafeFloat } from '../../lib/parseFloats.js';
 import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
 import { Registry } from '../../lib/Registry.js';
 import { validateRegistry } from '../../lib/validateRegistry.js';
 import { DummyScene } from './DummyScene.js';
-import { DefaultLogger, ManualLifecycleEventEmitter } from '../../lib/index.js';
 
 async function main() {
   //Logger.onVerbose.clear();
@@ -98,9 +98,9 @@ async function main() {
       }
 
       if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-        const iteations = parseSafeFloat(programOptions.iterations, 5);
-        for (let tick = 0; tick < iteations; tick++) {
-          Logger.verbose(`triggering tick (${tick} of ${iteations})`);
+        const iterations = parseSafeFloat(programOptions.iterations, 5);
+        for (let tick = 0; tick < iterations; tick++) {
+          Logger.verbose(`triggering tick (${tick} of ${iterations})`);
           manualLifecycleEventEmitter.tickEvent.emit();
 
           Logger.verbose('executing all (async)');

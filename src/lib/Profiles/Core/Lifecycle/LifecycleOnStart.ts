@@ -8,14 +8,14 @@ import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.j
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class LifecycleOnStart extends EventNode {
-  public static Description = new NodeDescription(
+  public static Description = (emitter: ILifecycleEventEmitter) => new NodeDescription(
     'lifecycle/onStart',
     'Event',
     'On Start',
-    (description, graph) => new LifecycleOnStart(description, graph)
+    (description, graph) => new LifecycleOnStart(description, graph, emitter)
   );
 
-  constructor(description: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: Graph, private readonly lifecycleEvents: ILifecycleEventEmitter) {
     super(description, graph, [], [new Socket('flow', 'flow')]);
   }
 
@@ -27,20 +27,14 @@ export class LifecycleOnStart extends EventNode {
       engine.commitToNewFiber(this, 'flow');
     };
 
-    const lifecycleEvents =
-      engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
-        'ILifecycleEventEmitter'
-      );
+    const lifecycleEvents = this.lifecycleEvents;
     lifecycleEvents.startEvent.addListener(this.onStartEvent);
   }
 
   dispose(engine: Engine) {
     Assert.mustBeTrue(this.onStartEvent !== undefined);
     if (this.onStartEvent !== undefined) {
-      const lifecycleEvents =
-        engine.graph.registry.abstractions.get<ILifecycleEventEmitter>(
-          'ILifecycleEventEmitter'
-        );
+      const lifecycleEvents = this.lifecycleEvents;
       lifecycleEvents.startEvent.removeListener(this.onStartEvent);
     }
   }

@@ -41,8 +41,6 @@ export * from './Graphs/Validation/validateGraph.js';
 export * from './Graphs/IO/GraphJSON.js';
 export * from './Graphs/IO/NodeSpecJSON.js';
 
-export * from './Abstractions/AbstractionsRegistry.js';
-
 export * from './Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
 export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
 

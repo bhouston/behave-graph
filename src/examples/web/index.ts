@@ -14,15 +14,9 @@ async function main() {
   //const geometry = icosahedronGeometry(0.75, 5);
   console.log(THREEIFY);
   const registry = new Registry();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
-
-  registry.abstractions.register('ILogger', new DefaultLogger());
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registry.abstractions.register(
-    'ILifecycleEventEmitter',
-    manualLifecycleEventEmitter
-  );
+  const logger = new DefaultLogger();
+  registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
 
   const graphJsonPath = '/dist/graphs/core/HelloWorld.json';
   if (graphJsonPath === undefined) {

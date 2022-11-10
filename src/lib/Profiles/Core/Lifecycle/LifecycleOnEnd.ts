@@ -33,7 +33,7 @@ export class LifecycleOnEnd extends EventNode {
       engine.commitToNewFiber(this, 'flow');
     };
 
-    this.lifecycleEventEmitter.endEvent.removeListener(this.onEndEvent);
+    this.lifecycleEventEmitter.endEvent.addListener(this.onEndEvent);
   }
 
   dispose(engine: Engine) {

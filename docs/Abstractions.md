@@ -46,11 +46,3 @@ export class DefaultLogger implements ILogger {
   }
 }
 ```
-
-How to register drivers for specific abstractions?  You use the main registry and you register your driver along with specifying the abstraction it supports.  Only a single driver per abstraction interface is supported.
-
-Here is the registration of the DefaultLogger implementation:
-
-```typescript
-registry.abstractions.register('ILogger', new DefaultLogger());
-```

@@ -44,8 +44,12 @@ export function registerSceneProfile(registry: Registry, scene: IScene) {
 
   // actions
   const allValueTypeNames = values.getAllNames();
-  nodes.register(...SetSceneProperty.GetDescriptions(scene, ...allValueTypeNames));
-  nodes.register(...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames));
+  nodes.register(
+    ...SetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
+  );
+  nodes.register(
+    ...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
+  );
 
   const newValueTypeNames = ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'];
 

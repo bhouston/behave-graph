@@ -25,7 +25,11 @@ import { IntegerValue } from './Values/IntegerValue.js';
 import * as StringNodes from './Values/StringNodes.js';
 import { StringValue } from './Values/StringValue.js';
 
-export function registerCoreProfile(registry: Registry, ilogger: ILogger = new DefaultLogger(), iLifeCycle: ILifecycleEventEmitter = new ManualLifecycleEventEmitter()) {
+export function registerCoreProfile(
+  registry: Registry,
+  logger: ILogger = new DefaultLogger(),
+  lifecycleEventEmitter: ILifecycleEventEmitter = new ManualLifecycleEventEmitter()
+) {
   const { nodes, values } = registry;
 
   // pull in value type nodes
@@ -42,14 +46,14 @@ export function registerCoreProfile(registry: Registry, ilogger: ILogger = new D
 
   // actions
 
-  nodes.register(DebugLog.Description(ilogger));
+  nodes.register(DebugLog.Description(logger));
   nodes.register(AssertExpectTrue.Description);
 
   // events
 
-  nodes.register(LifecycleOnStart.Description(iLifeCycle));
-  nodes.register(LifecycleOnEnd.Description(iLifeCycle));
-  nodes.register(LifecycleOnTick.Description(iLifeCycle));
+  nodes.register(LifecycleOnStart.Description(lifecycleEventEmitter));
+  nodes.register(LifecycleOnEnd.Description(lifecycleEventEmitter));
+  nodes.register(LifecycleOnTick.Description(lifecycleEventEmitter));
 
   // flow control
 

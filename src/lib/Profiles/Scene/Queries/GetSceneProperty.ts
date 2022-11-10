@@ -31,10 +31,9 @@ export class GetSceneProperty extends ImmediateNode {
       [new Socket('string', 'jsonPath')],
       [new Socket(valueTypeName, 'value')],
       () => {
-        const sceneGraph = this.scene;
         this.writeOutput(
           'value',
-          sceneGraph.getProperty(this.readInput('jsonPath'), valueTypeName)
+          this.scene.getProperty(this.readInput('jsonPath'), valueTypeName)
         );
       }
     );

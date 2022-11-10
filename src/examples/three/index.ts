@@ -53,7 +53,7 @@ async function loadThreeScene() {
 
   const threeScene = new ThreeScene(gltf.scene, glTFJson);
 
-  return {threeScene, gltf};
+  return { threeScene, gltf };
 }
 
 async function main() {
@@ -61,7 +61,7 @@ async function main() {
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const {threeScene, gltf} = await loadThreeScene();
+  const { threeScene, gltf } = await loadThreeScene();
 
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry, threeScene);
@@ -76,7 +76,6 @@ async function main() {
   const graphJson = await graphFetchResponse.json();
   const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
-
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
   const errorList: string[] = [];
@@ -126,7 +125,7 @@ async function main() {
   localScene.environment = texture;
 
   localScene.add(gltf.scene);
-  
+
   threeScene.onSceneChanged.addListener(() => {
     render();
   });

@@ -116,7 +116,7 @@ export const Power = new NodeDescription(
 export const SquareRoot = new NodeDescription(
   'math/sqrt/float',
   'Logic',
-  'SQRT',
+  '√',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sqrt)
 );
@@ -124,7 +124,7 @@ export const SquareRoot = new NodeDescription(
 export const E = new NodeDescription(
   'math/e/float',
   'Logic',
-  'e',
+  '𝑒',
   (description, graph) =>
     new In0Out1FuncNode(description, graph, 'float', () => Math.E)
 );

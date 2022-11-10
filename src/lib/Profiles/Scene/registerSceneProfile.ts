@@ -2,6 +2,7 @@
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription.js';
 import { Registry } from '../../Registry.js';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
+import { DummyScene } from './Abstractions/Drivers/DummyScene.js';
 import { IScene } from './Abstractions/IScene.js';
 import { SetSceneProperty } from './Actions/SetSceneProperty.js';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
@@ -19,7 +20,10 @@ import { Vec3Value } from './Values/Vec3Value.js';
 import * as Vec4Nodes from './Values/Vec4Nodes.js';
 import { Vec4Value } from './Values/Vec4Value.js';
 
-export function registerSceneProfile(registry: Registry, scene: IScene) {
+export function registerSceneProfile(
+  registry: Registry,
+  scene: IScene = new DummyScene()
+) {
   const { values, nodes } = registry;
 
   // pull in value type nodes

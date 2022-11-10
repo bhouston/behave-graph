@@ -15,7 +15,6 @@ import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
 import { Registry } from '../../lib/Registry.js';
 import { validateRegistry } from '../../lib/validateRegistry.js';
-import { DummyScene } from './DummyScene.js';
 
 async function main() {
   //Logger.onVerbose.clear();
@@ -39,7 +38,7 @@ async function main() {
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
-  registerSceneProfile(registry, new DummyScene(registry));
+  registerSceneProfile(registry);
 
   const jsonPattern = program.args[0];
 

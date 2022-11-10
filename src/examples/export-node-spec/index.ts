@@ -9,7 +9,6 @@ import { validateNodeRegistry } from '../../lib/Nodes/Validation/validateNodeReg
 import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
 import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
 import { Registry } from '../../lib/Registry.js';
-import { DummyScene } from '../exec-graph/DummyScene.js';
 
 async function main() {
   // Logger.onVerbose.clear();
@@ -29,7 +28,7 @@ async function main() {
 
   const registry = new Registry();
   registerCoreProfile(registry);
-  registerSceneProfile(registry, new DummyScene(registry));
+  registerSceneProfile(registry);
 
   const errorList: string[] = [];
   errorList.push(...validateNodeRegistry(registry));

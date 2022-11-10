@@ -1,6 +1,6 @@
 {
   "name": "behave-graph",
-  "version": "0.9.5",
+  "version": "0.9.7",
   "description": "Simple, extensible behavior graph engine",
   "type": "module",
   "main": "dist/lib",

@@ -9,7 +9,7 @@ import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
 export const Constant = new NodeDescription(
   'math/float',
   'Logic',
-  'Constant',
+  'Float',
   (description, graph) =>
     new In1Out1FuncNode(
       description,

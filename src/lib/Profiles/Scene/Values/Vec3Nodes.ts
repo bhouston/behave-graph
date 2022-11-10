@@ -21,7 +21,7 @@ import {
 export const Constant = new NodeDescription(
   'math/vec3',
   'Logic',
-  'Constant',
+  'Vec3',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', (a: Vec3) => a)
 );
@@ -106,14 +106,14 @@ export const Normalize = new NodeDescription(
 export const Cross = new NodeDescription(
   'math/cross/vec3',
   'Logic',
-  'CROSS',
+  '⨯',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'vec3', vec3Cross)
 );
 export const Dot = new NodeDescription(
   'math/dot/vec3',
   'Logic',
-  'DOT',
+  '⋅',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'float', vec3Dot)
 );

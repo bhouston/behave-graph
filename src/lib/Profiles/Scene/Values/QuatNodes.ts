@@ -34,7 +34,7 @@ import {
 export const Constant = new NodeDescription(
   'math/quat',
   'Logic',
-  'Constant',
+  'Quaternion',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['quat'], 'quat', (a: Vec4) => a)
 );
@@ -117,7 +117,7 @@ export const Normalize = new NodeDescription(
 export const Dot = new NodeDescription(
   'math/dot/quat',
   'Logic',
-  'DOT',
+  '⋅',
   (description, graph) =>
     new In2Out1FuncNode(description, graph, ['quat', 'quat'], 'float', vec4Dot)
 );

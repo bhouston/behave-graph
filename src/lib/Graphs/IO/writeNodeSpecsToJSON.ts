@@ -17,6 +17,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
     const nodeSpecJSON: NodeSpecJSON = {
       type: nodeTypeName,
       category: node.description.category,
+      label: node.description.label,
       inputs: [],
       outputs: []
     };

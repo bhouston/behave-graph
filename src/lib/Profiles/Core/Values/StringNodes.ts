@@ -5,7 +5,7 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
 export const Constant = new NodeDescription(
   'logic/string',
   'Logic',
-  'Constant',
+  'String',
   (description, graph) =>
     new In1Out1FuncNode(
       description,

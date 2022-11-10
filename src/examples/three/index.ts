@@ -156,18 +156,19 @@ async function main() {
     await engine.executeAllAsync(5);
   }
 
+  const tickFPS = 100;
+  const tickDuration = Math.round(1000 / tickFPS);
+
   const onTick = async () => {
-    Logger.verbose('triggering tick');
     manualLifecycleEventEmitter.tickEvent.emit();
-
-    Logger.verbose('executing all (async)');
-    // eslint-disable-next-line no-await-in-loop
-    await engine.executeAllAsync(500);
-
-    setTimeout(onTick, 50);
+    engine.executeAllSync(0.1, 100);
+    setTimeout(onTick, tickDuration);
   };
 
-  setTimeout(onTick, 50);
+  Logger.verbose(
+    `starting tick event loop at ${tickFPS} fps / ${tickDuration} ms`
+  );
+  setTimeout(onTick, tickDuration);
 
   /*if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
     Logger.verbose('triggering end event');

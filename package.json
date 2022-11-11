@@ -22,7 +22,6 @@
     "@preconstruct/cli": "^2.2.2",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
-    "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",

@@ -75,11 +75,9 @@ export function registerCoreProfile(
   nodes.register(Gate.Description);
   nodes.register(MultiGate.Description);
 
-  [
-    // string converters
+  // string converters
 
-    ('boolean', 'float', 'integer')
-  ].forEach((valueTypeName) => {
+  ['boolean', 'float', 'integer'].forEach((valueTypeName) => {
     registerSerializersForValueType(registry, valueTypeName);
   });
 

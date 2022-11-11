@@ -8,10 +8,16 @@ import { ILogger } from './Abstractions/ILogger.js';
 import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue.js';
 import { Log as DebugLog } from './Debug/DebugLog.js';
 import { Branch } from './Flow/Branch.js';
+import { Debounce } from './Flow/Debounce.js';
 import { Delay } from './Flow/Delay.js';
+import { DoN } from './Flow/DoN.js';
+import { DoOnce } from './Flow/DoOnce.js';
 import { FlipFlop } from './Flow/FlipFlop.js';
 import { ForLoop } from './Flow/ForLoop.js';
+import { Gate } from './Flow/Gate.js';
+import { MultiGate } from './Flow/MultieGate.js';
 import { Sequence } from './Flow/Sequence.js';
+import { Throttle } from './Flow/Throttle.js';
 import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd.js';
 import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart.js';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
@@ -62,6 +68,12 @@ export function registerCoreProfile(
   nodes.register(ForLoop.Description);
   nodes.register(Sequence.Description);
   nodes.register(Delay.Description);
+  nodes.register(Debounce.Description);
+  nodes.register(Throttle.Description);
+  nodes.register(DoN.Description);
+  nodes.register(DoOnce.Description);
+  nodes.register(Gate.Description);
+  nodes.register(MultiGate.Description);
 
   // string converters
 

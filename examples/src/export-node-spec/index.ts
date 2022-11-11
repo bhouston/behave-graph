@@ -3,12 +3,14 @@ import { promises as fs } from 'node:fs';
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 
-import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { writeNodeSpecsToJSON } from '../../lib/Graphs/IO/writeNodeSpecsToJSON.js';
-import { validateNodeRegistry } from '../../lib/Nodes/Validation/validateNodeRegistry.js';
-import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
-import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
-import { Registry } from '../../lib/Registry.js';
+import {
+  Logger,
+  writeNodeSpecsToJSON,
+  validateNodeRegistry,
+  registerCoreProfile,
+  registerSceneProfile,
+  Registry
+} from 'behave-graph';
 
 async function main() {
   // Logger.onVerbose.clear();

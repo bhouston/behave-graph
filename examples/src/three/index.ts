@@ -4,16 +4,18 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import { Logger } from '../../lib/Diagnostics/Logger.js';
-import { Engine } from '../../lib/Execution/Engine.js';
-import { readGraphFromJSON } from '../../lib/Graphs/IO/readGraphFromJSON.js';
-import { validateGraph } from '../../lib/Graphs/Validation/validateGraph.js';
-import { DefaultLogger } from '../../lib/Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
-import { ManualLifecycleEventEmitter } from '../../lib/Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
-import { registerCoreProfile } from '../../lib/Profiles/Core/registerCoreProfile.js';
-import { registerSceneProfile } from '../../lib/Profiles/Scene/registerSceneProfile.js';
-import { Registry } from '../../lib/Registry.js';
-import { validateRegistry } from '../../lib/validateRegistry.js';
+import {
+  Logger,
+  Engine,
+  readGraphFromJSON,
+  validateGraph,
+  DefaultLogger,
+  ManualLifecycleEventEmitter,
+  registerCoreProfile,
+  registerSceneProfile,
+  Registry,
+  validateRegistry
+} from 'behave-graph';
 import { ThreeScene } from './ThreeScene.js';
 
 let camera: THREE.PerspectiveCamera | null = null;
@@ -37,16 +39,17 @@ function onWindowResize() {
   }
 }
 
+const publicImageUrl = (path: string) => new URL(path, import.meta.url).href;
 //
 
 async function loadThreeScene() {
   const gltfPromise = new GLTFLoader()
-    .setPath('/src/graphs/scene/actions/')
+    .setPath(publicImageUrl('/graphs/scene/actions/'))
     .loadAsync('SpinningSuzanne.gltf');
 
   const gltf = await gltfPromise;
 
-  const glTFJsonPath = '/src/graphs/scene/actions/SpinningSuzanne.gltf';
+  const glTFJsonPath = publicImageUrl('/graphs/scene/actions/SpinningSuzanne.gltf');
   const glTFFetchResponse = await fetch(glTFJsonPath);
 
   const glTFJson = await glTFFetchResponse.json();
@@ -66,7 +69,9 @@ async function main() {
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry, threeScene);
 
-  const graphJsonPath = `/src/graphs/scene/actions/SpinningSuzanne.json`;
+  const graphJsonPath = publicImageUrl(
+    `/graphs/scene/actions/SpinningSuzanne.json`
+  );
   if (graphJsonPath === undefined) {
     throw new Error('no path specified');
   }
@@ -104,7 +109,7 @@ async function main() {
   scene = localScene;
 
   const texturePromise = new RGBELoader()
-    .setPath('/assets/envmaps/')
+    .setPath(publicImageUrl('/assets/envmaps/'))
     .loadAsync('pedestrian_overpass_1k.hdr');
 
   const localRenderer = new THREE.WebGLRenderer({ antialias: true });

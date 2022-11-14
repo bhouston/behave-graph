@@ -1,4 +1,3 @@
-import { DummyScene } from '../../../examples/exec-graph/DummyScene';
 import * as flashSuzanneJson from '../../../graphs/scene/actions/FlashSuzanne.json';
 import * as hierarchyJson from '../../../graphs/scene/actions/Hierarchy.json';
 import * as spinningSuzanneJson from '../../../graphs/scene/actions/SpinningSuzanne.json';
@@ -20,7 +19,7 @@ import { registerSceneProfile } from './registerSceneProfile.js';
 
 const registry = new Registry();
 registerCoreProfile(registry);
-registerSceneProfile(registry, new DummyScene(registry));
+registerSceneProfile(registry);
 
 Logger.onWarn.clear();
 

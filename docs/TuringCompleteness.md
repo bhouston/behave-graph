@@ -1,6 +1,6 @@
 **Turing Completeness**
 
-The execution model and node choices based for the Core profile mean that behave-graph is turing complete.  This means that this enging can execute any computation and it is also hard to predict if it will run forevery (e.g. halt or not.)
+The execution model and node choices based for the Core profile mean that behave-graph is turing complete.  This means that this enging can execute any computation and it is also hard to predict if it will run forever (e.g. halt or not.)
 
 While this may sound scary, it is not a major hindrance and can be safely mitigated so that any tool using behave-graph does not become succeptible to denial of services by badly behaving behave-graphs, whether intention or not.
 

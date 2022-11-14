@@ -5,7 +5,7 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
 export const Constant = new NodeDescription(
   'math/boolean',
   'Logic',
-  'Constant',
+  'Boolean',
   (description, graph) =>
     new In1Out1FuncNode(
       description,
@@ -18,7 +18,7 @@ export const Constant = new NodeDescription(
 export const And = new NodeDescription(
   'math/and/boolean',
   'Logic',
-  'AND',
+  '∧',
   (description, graph) =>
     new In2Out1FuncNode(
       description,
@@ -31,7 +31,7 @@ export const And = new NodeDescription(
 export const Or = new NodeDescription(
   'math/or/boolean',
   'Logic',
-  'OR',
+  '∨',
   (description, graph) =>
     new In2Out1FuncNode(
       description,
@@ -44,7 +44,7 @@ export const Or = new NodeDescription(
 export const Not = new NodeDescription(
   'math/negate/boolean',
   'Logic',
-  'NOT',
+  '¬',
   (description, graph) =>
     new In1Out1FuncNode(
       description,

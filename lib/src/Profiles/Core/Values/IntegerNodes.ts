@@ -161,7 +161,7 @@ export const Abs = new NodeDescription(
       graph,
       ['integer'],
       'integer',
-      (a: bigint) => (a < 0n ? -a : a)
+      (a: bigint) => (a < BigInt(0) ? -a : a)
     )
 );
 export const Sign = new NodeDescription(
@@ -174,7 +174,7 @@ export const Sign = new NodeDescription(
       graph,
       ['integer'],
       'integer',
-      (a: bigint) => (a < 0n ? -1n : a > 0n ? 1n : 0n)
+      (a: bigint) => BigInt(a < 0 ? -1 : a > 0 ? 1 : 0)
     )
 );
 

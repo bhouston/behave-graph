@@ -38,7 +38,7 @@ export class ForLoop extends FlowNode {
       if (i < endIndex) {
         this.writeOutput('index', i);
         fiber.commit(this, 'loopBody', () => {
-          loopBodyIteration(i + 1n);
+          loopBodyIteration(i + BigInt(1));
         });
       } else {
         fiber.commit(this, 'completed');

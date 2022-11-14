@@ -1,14 +1,13 @@
-import * as THREEIFY from 'threeify';
-
 import {
-  Logger,
-  Engine,
-  readGraphFromJSON,
   DefaultLogger,
+  Engine,
+  Logger,
   ManualLifecycleEventEmitter,
+  readGraphFromJSON,
   registerCoreProfile,
   Registry
 } from 'behave-graph';
+import * as THREEIFY from 'threeify';
 
 async function main() {
   Logger.onVerbose.clear();

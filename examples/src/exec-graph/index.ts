@@ -1,23 +1,22 @@
 import { promises as fs } from 'node:fs';
 
-import { program } from 'commander';
-import glob from 'glob';
-
 import {
-  Logger,
-  Engine,
-  traceToLogger,
-  readGraphFromJSON,
-  writeGraphToJSON,
-  validateGraph,
   DefaultLogger,
+  Engine,
+  Logger,
   ManualLifecycleEventEmitter,
+  readGraphFromJSON,
   registerCoreProfile,
   registerSceneProfile,
   Registry,
-  validateRegistry
+  traceToLogger,
+  validateGraph,
+  validateRegistry,
+  writeGraphToJSON
 } from 'behave-graph';
 import { parseSafeFloat } from 'behave-graph/src/parseFloats';
+import { program } from 'commander';
+import glob from 'glob';
 
 async function main() {
   //Logger.onVerbose.clear();

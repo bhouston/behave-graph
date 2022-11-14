@@ -1,21 +1,21 @@
 /* eslint-disable no-param-reassign */
+import {
+  DefaultLogger,
+  Engine,
+  Logger,
+  ManualLifecycleEventEmitter,
+  readGraphFromJSON,
+  registerCoreProfile,
+  registerSceneProfile,
+  Registry,
+  validateGraph,
+  validateRegistry
+} from 'behave-graph';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import {
-  Logger,
-  Engine,
-  readGraphFromJSON,
-  validateGraph,
-  DefaultLogger,
-  ManualLifecycleEventEmitter,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
-  validateRegistry
-} from 'behave-graph';
 import { ThreeScene } from './ThreeScene.js';
 
 let camera: THREE.PerspectiveCamera | null = null;
@@ -49,7 +49,9 @@ async function loadThreeScene() {
 
   const gltf = await gltfPromise;
 
-  const glTFJsonPath = publicImageUrl('/graphs/scene/actions/SpinningSuzanne.gltf');
+  const glTFJsonPath = publicImageUrl(
+    '/graphs/scene/actions/SpinningSuzanne.gltf'
+  );
   const glTFFetchResponse = await fetch(glTFJsonPath);
 
   const glTFJson = await glTFFetchResponse.json();

@@ -85,10 +85,6 @@ async function main() {
       }
 
       const startTime = Date.now();
-
-      Logger.verbose('initialize graph');
-      let numSteps = await engine.executeAllSync();
-
       if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
         Logger.verbose('triggering start event');
         manualLifecycleEventEmitter.startEvent.emit();

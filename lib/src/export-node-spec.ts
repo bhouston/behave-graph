@@ -7,7 +7,7 @@ import {
   Registry,
   validateNodeRegistry,
   writeNodeSpecsToJSON
-} from 'behave-graph';
+} from './';
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 

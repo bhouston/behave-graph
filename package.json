@@ -41,8 +41,9 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "docs": "typedoc",
     "test": "jest ./src",
-    "exec-graph": "npm run build && node --enable-source-maps ./dist/examples/exec-graph/index.js",
-    "export-node-spec": "npm run build && node --enable-source-maps ./dist/examples/export-node-spec/index.js"
+    "prepare": "yarn export-node-spec",
+    "exec-graph": "yarn workspace behave-graph exec-graph",
+    "export-node-spec": "yarn build && yarn workspace behave-graph export-node-spec"
   },
   "workspaces": [
     "lib",

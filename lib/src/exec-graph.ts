@@ -1,5 +1,4 @@
 import { promises as fs } from 'node:fs';
-
 import {
   DefaultLogger,
   Engine,
@@ -13,36 +12,31 @@ import {
   validateGraph,
   validateRegistry,
   writeGraphToJSON
-} from 'behave-graph';
-import { parseSafeFloat } from 'behave-graph/src/parseFloats';
+} from './';
 import { program } from 'commander';
 import glob from 'glob';
+import { parseSafeFloat } from './parseFloats';
 
-async function main() {
-  //Logger.onVerbose.clear();
+type ProgramOptions = {
+  upgrade?: boolean,
+  trace?: boolean,
+  dryRun?: boolean,
+  profile?: boolean,
+  iterations: string 
+};
 
-  program
-    .name('exec-graph')
-    .argument('<filename>', 'path to the behavior-graph json to execute')
-    .option('-t, --trace', `trace node execution`)
-    .option('-p, --profile', `profile execution time`)
-    .option('-d, --dryRun', `do not run graph`)
-    .option(
-      '-u, --upgrade',
-      `write json graph back to read location, upgrading format`
-    )
-    .option('-i, --iterations <iterations>', 'number of tick iterations', '5');
-
-  program.parse(process.argv);
-  const programOptions = program.opts();
-
+function execGraph({
+  jsonPattern,
+  programOptions
+}: {
+  jsonPattern: string
+  programOptions: ProgramOptions
+}) {
   const registry = new Registry();
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry);
-
-  const jsonPattern = program.args[0];
 
   glob(jsonPattern, {}, async (err, matches) => {
     for (let i = 0; i < matches.length; i++) {
@@ -132,6 +126,28 @@ async function main() {
       engine.dispose();
     }
   });
+}
+
+async function main() {
+  program
+    .name('exec-graph')
+    .argument('<filename>', 'path to the behavior-graph json to execute')
+    .option('-t, --trace', `trace node execution`)
+    .option('-p, --profile', `profile execution time`)
+    .option('-d, --dryRun', `do not run graph`)
+    .option(
+      '-u, --upgrade',
+      `write json graph back to read location, upgrading format`
+    )
+    .option('-i, --iterations <iterations>', 'number of tick iterations', '5');
+
+  program.parse(process.argv);
+  const programOptions = program.opts() as ProgramOptions;
+
+
+  const jsonPattern = program.args[0];
+
+  execGraph({programOptions, jsonPattern});
 }
 
 main();

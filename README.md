@@ -220,3 +220,13 @@ Completed all iterations!
 
     30000013 nodes executed in 2.98 seconds, at a rate of 10067118 steps/second
 ```
+
+## Developer Setup
+
+Install all dependencies:
+
+    yarn install
+
+To start the examples:
+
+    yarn dev

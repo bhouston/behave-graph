@@ -1,6 +1,6 @@
-import * as flashSuzanneJson from '../../../graphs/scene/actions/FlashSuzanne.json';
-import * as hierarchyJson from '../../../graphs/scene/actions/Hierarchy.json';
-import * as spinningSuzanneJson from '../../../graphs/scene/actions/SpinningSuzanne.json';
+import * as flashSuzanneJson from '../../../../examples/three/public/graphs/scene/actions/FlashSuzanne.json';
+import * as hierarchyJson from '../../../../examples/three/public/graphs/scene/actions/Hierarchy.json';
+import * as spinningSuzanneJson from '../../../../examples/three/public/graphs/scene/actions/SpinningSuzanne.json';
 import * as colorJson from '../../../graphs/scene/logic/Color.json';
 import * as eulerJson from '../../../graphs/scene/logic/Euler.json';
 import * as quaternionJson from '../../../graphs/scene/logic/Quaternion.json';

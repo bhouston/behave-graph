@@ -1,0 +1,61 @@
+Arguments: 
+  /Users/bhouston/.nvm/versions/node/v18.10.0/bin/node /Users/bhouston/.yarn/bin/yarn.js start
+
+PATH: 
+  /Users/bhouston/.yarn/bin:/Users/bhouston/.config/yarn/global/node_modules/.bin:/Users/bhouston/.nvm/versions/node/v18.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/bhouston/.yarn/bin:/Users/bhouston/.config/yarn/global/node_modules/.bin:/Users/bhouston/.nvm/versions/node/v18.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.10.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/bhouston/Work/behave-graph/examples/exec-graph/package.json: Unexpected token } in JSON at position 420
+      at JSON.parse (<anonymous>)
+      at /Users/bhouston/.yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/Users/bhouston/.yarn/lib/cli.js:310:30)
+      at /Users/bhouston/.yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@behave-graph/examples-exec-graph",
+    "version": "0.9.9",
+    "source": "src/index.ts",
+    "main": "dist/exec-graph.cjs.js",
+    "module": "dist/exec-graph.esm.js",
+    "types": "dist/exec-graph.cjs.d.ts",
+    "sideEffects": false,
+    "preconstruct": {
+      "entrypoints": [
+        "index.ts"
+      ]
+    },
+    "scripts": {
+      "ts": "tsc -w",
+      "start": "node --enable-source-maps --loader ts-node/esm ./src/index.ts",
+    },
+    "devDependencies": {
+      "@types/glob": "^8.0.0",
+      "@types/node": "^18.0.6"
+    },
+    "description": "Simple, extensible behavior graph engine",
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "commander": "^9.4.1",
+      "glob": "^8.0.3",
+      "ts-node": "^10.9.1",
+      "typescript": "^4.8.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

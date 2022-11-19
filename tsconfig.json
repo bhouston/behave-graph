@@ -15,7 +15,7 @@
     "noImplicitThis": false,
     "baseUrl": "./"
   },
-  "include": ["lib/src"],
+  "include": ["lib/src", "lib/exec-graph/exec-graph.ts"],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],
   "typedocOptions": {
     "mode": "modules",

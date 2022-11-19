@@ -51,13 +51,14 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "docs": "typedoc",
     "test": "jest ./src",
-    "prepare": "yarn export-node-spec",
-    "exec-graph": "yarn workspace behave-graph exec-graph",
-    "export-node-spec": "yarn build && yarn workspace behave-graph export-node-spec"
+    "exec-graph": "yarn workspace @behave-graph/examples-exec-graph start",
+    "export-node-spec": "yarn workspace @behave-graph/export-node-spec start"
   },
   "workspaces": [
     "lib",
-    "examples/three"
+    "examples/three",
+    "examples/exec-graph",
+    "examples/export-node-spec"
   ],
   "preconstruct": {
     "packages": [

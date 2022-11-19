@@ -17,7 +17,7 @@ import {
   validateGraph,
   validateRegistry,
   writeGraphToJSON
-} from './';
+} from 'behave-graph';
 
 type ProgramOptions = {
   upgrade?: boolean;
@@ -41,7 +41,7 @@ async function execGraph({
   registerSceneProfile(registry);
 
   let numSteps = 0;
-  const graphJsonPath = '../' + jsonPattern;
+  const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
   const graph = readGraphFromJSON(

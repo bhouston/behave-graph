@@ -1,4 +1,0 @@
-{
-  "main": "dist/behave-graph-exec-graph.cjs.js",
-  "module": "dist/behave-graph-exec-graph.esm.js"
-}

@@ -21,6 +21,7 @@
   "dependencies": {
     "behave-graph": "*",
     "commander": "^9.4.1",
+    "csv-stringify": "^6.2.1",
     "glob": "^8.0.3"
   }
 }

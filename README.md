@@ -59,23 +59,23 @@ This library is designed to be extended with context dependent nodes, specifical
 Install all dependencies:
 
 ```zsh
-yarn install
+npm install
 ```
 
-To start the web examples:
+To start the web example:
 
 ```zsh
-yarn dev
+npm start-three-viewer
 ```
 
-## Examples
+## Command Line Examples
 
 The example behavior graphs are in the `/examples` folder. You can execute these from the command line to test out how this library works.
 
 The main syntax is this one:
 
 ```zsh
-yarn exec-graph ./lib/graphs/[examplename].json
+npm run exec-graph ./lib/graphs/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -89,7 +89,7 @@ Print out the text "Hello World!" as soon as the graph starts up!
 Console output:
 
 ```zsh
-yarn exec-graph ./lib/graphs/core/HelloWorld.json
+npm run exec-graph ./lib/graphs/core/HelloWorld.json
 
 Hello World!
 ```
@@ -103,7 +103,7 @@ In this example, we use set a variable and also listen to when it changes.
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/variables/Changed.json
+> npm run exec-graph ./lib/graphs/core/variables/Changed.json
 
 391
 ```
@@ -117,7 +117,7 @@ This example shows how to branching execution works. The "flow/branch" node has 
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/flow/Branch.json
+> npm run exec-graph ./lib/graphs/core/flow/Branch.json
 
 Condition is false!
 ```
@@ -131,7 +131,7 @@ This shows how to create math formulas in logic nodes. In this case the equation
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/logic/Polynomial.json
+> npm run exec-graph ./lib/graphs/core/logic/Polynomial.json
 
 -9
 ```
@@ -145,7 +145,7 @@ Behave-Graph support asynchronous nodes. These are nodes which will continue exe
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/async/Delay.json
+> npm run exec-graph ./lib/graphs/core/async/Delay.json
 
 Waiting...
 One Second Later!
@@ -160,7 +160,7 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/flow/ForLoop.json
+> npm run exec-graph ./lib/graphs/core/flow/ForLoop.json
 
 Starting For Loop...
 Loop Body!
@@ -185,7 +185,7 @@ You can register custom events, trigger then and listen on them.
 Console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/events/CustomEvents.json
+> npm run exec-graph ./lib/graphs/core/events/CustomEvents.json
 
 myCustomEvent Fired!
 myCustomEvent Fired!
@@ -203,7 +203,7 @@ Here is a test of 10,000,000 iteration for loop:
 Here is the console output:
 
 ```zsh
-> yarn exec-graph ./lib/graphs/core/flow/PerformanceTest.json
+> npm run exec-graph ./lib/graphs/core/flow/PerformanceTest.json
 
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...

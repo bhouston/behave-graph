@@ -42,92 +42,90 @@ async function execGraph({
   const logger = new DefaultLogger();
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry);
-  
-  glob(jsonPattern, {}, async (err, matches) => {
-    for (let i = 0; i < matches.length; i++) {
-      const graphJsonPath = '../' + matches[i];
-      Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
-      const textFile = await fs.readFile(graphJsonPath);
-      const graph = readGraphFromJSON(
-        JSON.parse(textFile.toString('utf8')),
-        registry
-      );
-      graph.name = graphJsonPath;
 
-      const errorList: string[] = [];
-      errorList.push(...validateRegistry(registry), ...validateGraph(graph));
+  let numSteps = 0;
+  const graphJsonPath = '../' + jsonPattern;
+  Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
+  const textFile = await fs.readFile(graphJsonPath);
+  const graph = readGraphFromJSON(
+    JSON.parse(textFile.toString('utf8')),
+    registry
+  );
+  graph.name = graphJsonPath;
 
-      if (errorList.length > 0) {
-        Logger.error(`${errorList.length} errors found:`);
-        errorList.forEach((errorText, errorIndex) => {
-          Logger.error(`${errorIndex}: ${errorText}`);
-        });
-        return;
-      }
+  const errorList: string[] = [];
+  errorList.push(...validateRegistry(registry), ...validateGraph(graph));
 
-      if (programOptions.upgrade) {
-        const newGraphJson = writeGraphToJSON(graph);
-        await fs.writeFile(
-          graphJsonPath,
-          JSON.stringify(newGraphJson, null, 2)
-        );
-      }
+  if (errorList.length > 0) {
+    Logger.error(`${errorList.length} errors found:`);
+    errorList.forEach((errorText, errorIndex) => {
+      Logger.error(`${errorIndex}: ${errorText}`);
+    });
+    return;
+  }
 
-      Logger.verbose('creating behavior graph');
-      const engine = new Engine(graph);
+  if (programOptions.upgrade) {
+    const newGraphJson = writeGraphToJSON(graph);
+    await fs.writeFile(
+      graphJsonPath,
+      JSON.stringify(newGraphJson, null, 2)
+    );
+  }
 
-      if (programOptions.trace) {
-        engine.onNodeExecution.addListener(traceToLogger);
-      }
+  Logger.verbose('creating behavior graph');
+  const engine = new Engine(graph);
 
-      if (programOptions.dryRun) {
-        return;
-      }
+  if (programOptions.trace) {
+    engine.onNodeExecution.addListener(traceToLogger);
+  }
 
-      const startTime = Date.now();
-      if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
-        Logger.verbose('triggering start event');
-        manualLifecycleEventEmitter.startEvent.emit();
+  if (programOptions.dryRun) {
+    return;
+  }
 
-        Logger.verbose('executing all (async)');
-        numSteps += await engine.executeAllAsync(5);
-      }
+  const startTime = Date.now();
+  if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
+    Logger.verbose('triggering start event');
+    manualLifecycleEventEmitter.startEvent.emit();
 
-      if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-        const iterations = parseSafeFloat(programOptions.iterations, 5);
-        for (let tick = 0; tick < iterations; tick++) {
-          Logger.verbose(`triggering tick (${tick} of ${iterations})`);
-          manualLifecycleEventEmitter.tickEvent.emit();
+    Logger.verbose('executing all (async)');
+    numSteps += await engine.executeAllAsync(5);
+  }
 
-          Logger.verbose('executing all (async)');
-          // eslint-disable-next-line no-await-in-loop
-          numSteps += await engine.executeAllAsync(5);
-        }
-      }
+  if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
+    const iterations = parseSafeFloat(programOptions.iterations, 5);
+    for (let tick = 0; tick < iterations; tick++) {
+      Logger.verbose(`triggering tick (${tick} of ${iterations})`);
+      manualLifecycleEventEmitter.tickEvent.emit();
 
-      if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
-        Logger.verbose('triggering end event');
-        manualLifecycleEventEmitter.endEvent.emit();
-
-        Logger.verbose('executing all (async)');
-        numSteps += await engine.executeAllAsync(5);
-      }
-
-      if (programOptions.profile) {
-        const deltaTime = Date.now() - startTime;
-        Logger.info(
-          `Profile Results: ${numSteps} nodes executed in ${
-            deltaTime / 1000
-          } seconds, at a rate of ${Math.round(
-            (numSteps * 1000) / deltaTime
-          )} steps/second`
-        );
-      }
-
-      engine.dispose();
+      Logger.verbose('executing all (async)');
+      // eslint-disable-next-line no-await-in-loop
+      numSteps += await engine.executeAllAsync(5);
     }
-  });
+  }
+
+  if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+    Logger.verbose('triggering end event');
+    manualLifecycleEventEmitter.endEvent.emit();
+
+    Logger.verbose('executing all (async)');
+    numSteps += await engine.executeAllAsync(5);
+  }
+
+  if (programOptions.profile) {
+    const deltaTime = Date.now() - startTime;
+    Logger.info(
+      `Profile Results: ${numSteps} nodes executed in ${
+        deltaTime / 1000
+      } seconds, at a rate of ${Math.round(
+        (numSteps * 1000) / deltaTime
+      )} steps/second`
+    );
+  }
+
+  engine.dispose();
 }
+
 
 async function main() {
   program
@@ -145,8 +143,8 @@ async function main() {
   program.parse(process.argv);
   const programOptions = program.opts() as ProgramOptions;
 
-  const jsonPattern = program.args[0];
-
+    const jsonPattern = program.args[0];
+   
   await execGraph({programOptions, jsonPattern});
 }
 

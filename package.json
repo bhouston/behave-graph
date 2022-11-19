@@ -19,10 +19,19 @@
     "url": "https://github.com/bhouston/behave-graph"
   },
   "devDependencies": {
-    "@preconstruct/cli": "^2.2.2",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
+    "@preconstruct/cli": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "eslint-plugin-unicorn": "^44.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
     "typescript": "^4.7.3"
@@ -34,9 +43,9 @@
     "watch": "preconstruct watch",
     "start": "yarn workspace @behave-graph/examples start",
     "build-examples": "yarn workspace @behave-graph/examples build",
-    "lint": "npx eslint \"examples/src/**/*.{ts,json}\" \"lib/src/**/*.{ts,json}\"",
+    "lint": "npx eslint \"examples/**/*.{ts,json}\" \"lib/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier \"examples/src/**/*.{ts,json}\" \"lib/src/**/*.{ts,json}\" --check",
+    "prettier": "npx prettier \"examples/**/*.{ts,json}\" \"lib/**/*.{ts,json}\" --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "docs": "typedoc",
@@ -47,11 +56,14 @@
   },
   "workspaces": [
     "lib",
-    "examples"
+    "examples/three"
   ],
   "preconstruct": {
     "packages": [
       "lib"
     ]
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^5.43.0"
   }
 }

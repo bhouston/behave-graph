@@ -102,3 +102,5 @@ export * from './Profiles/Scene/Values/Vec4Value.js';
 export * as QuatNodes from './Profiles/Scene/Values/QuatNodes.js';
 export * from './Profiles/Scene/Values/QuatValue.js';
 export * from './Profiles/Scene/registerSceneProfile.js';
+
+export * from './parseFloats.js';

@@ -1,11 +1,11 @@
 {
-  "name": "@behave-graph/examples",
+  "name": "@behave-graph/examples-three",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "directories": {
-    "lib": "lib"
+    "lib": "src"
   },
   "dependencies": {
     "behave-graph": "*",

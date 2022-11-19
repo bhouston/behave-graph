@@ -20,11 +20,11 @@ Another neat fact about behavior graphs is that they offer a sand boxed executio
 
 You can join our Discord here:
 
-https://discord.gg/mrags8WyuH
+<https://discord.gg/mrags8WyuH>
 
 @beeglebug has started an amazing interactive React node graph editor for behave-graph here:
 
-https://github.com/beeglebug/behave-flow
+<https://github.com/beeglebug/behave-flow>
 
 ![image](https://user-images.githubusercontent.com/954416/184598477-74997727-0d0d-48e5-9f29-1210812bd66c.png)
 
@@ -32,23 +32,23 @@ https://github.com/beeglebug/behave-flow
 
 This library, while small, contains a nearly complete implementation of behavior graphs.
 
-### Features:
+### Features
 
-- **Customizable** While this library contains a lot of nodes, you do not have to expose all of them. For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
-- **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
-- **Small** This is a very small library with no external dependencies.
-- **Simple** This library is implemented in a forward fashion without unnecessary complexity.
-- **High Performance** Currently in performance testing, the library achieves over 2M node executions per second.
+* **Customizable** While this library contains a lot of nodes, you do not have to expose all of them. For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
+* **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
+* **Small** This is a very small library with no external dependencies.
+* **Simple** This library is implemented in a forward fashion without unnecessary complexity.
+* **High Performance** Currently in performance testing, the library achieves over 2M node executions per second.
 
-### Node Types:
+### Node Types
 
-- **Events** You can implement arbitrary events that start execution: Start, Tick
-- **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
-- **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
-- **Queries** You can query the state from the system.
-- **Flow Control** Control execution flow using familiar structures: Branch, Delay, Debounce, Throttle, FlipFlop, Sequence, Gate, MultiGate, DoOnce, DoN, ForLoop
-- **Variables** You can create, set and get variable values.
-- **Custom Events** You can create, listen to and trigger custom events.
+* **Events** You can implement arbitrary events that start execution: Start, Tick
+* **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
+* **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
+* **Queries** You can query the state from the system.
+* **Flow Control** Control execution flow using familiar structures: Branch, Delay, Debounce, Throttle, FlipFlop, Sequence, Gate, MultiGate, DoOnce, DoN, ForLoop
+* **Variables** You can create, set and get variable values.
+* **Custom Events** You can create, listen to and trigger custom events.
 
 ### Designed for Integration into Other Systems
 
@@ -58,11 +58,15 @@ This library is designed to be extended with context dependent nodes, specifical
 
 Install all dependencies:
 
-    yarn install
+```zsh
+yarn install
+```
 
 To start the web examples:
 
-    yarn dev
+```zsh
+yarn dev
+```
 
 ## Examples
 
@@ -95,7 +99,6 @@ Hello World!
 In this example, we use set a variable and also listen to when it changes.
 
 [/lib/graphs/variables/Changed.json](/lib/graphs/variables/Changed.json)
-
 
 Console output:
 
@@ -152,7 +155,6 @@ One Second Later!
 
 Building upon waiting for downstream nodes to execute, you can also execute For Loops within Behave-Graph.
 
-
 [/lib/graphs/core/flow/ForLoop.json](/lib/graphs/core/flow/ForLoop.json)
 
 Console output:
@@ -197,7 +199,6 @@ myCustomEvent Fired!
 Here is a test of 10,000,000 iteration for loop:
 
 [/lib/graphs/core/flow/PerformanceTest.json](/lib/graphs/core/flow/PerformanceTest.json)
-
 
 Here is the console output:
 

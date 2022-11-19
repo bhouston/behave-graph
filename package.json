@@ -42,8 +42,6 @@
     "build": "preconstruct build",
     "dev": "preconstruct dev",
     "watch": "preconstruct watch",
-    "start": "yarn workspace @behave-graph/examples-three start",
-    "build-examples": "yarn workspace @behave-graph/examples-three build",
     "lint": "npx eslint \"examples/**/*.{ts,json}\" \"lib/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier \"examples/**/*.{ts,json}\" \"lib/**/*.{ts,json}\" --check",
@@ -51,12 +49,16 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "docs": "typedoc",
     "test": "jest ./src",
-    "exec-graph": "yarn workspace @behave-graph/examples-exec-graph start",
-    "export-node-spec": "yarn workspace @behave-graph/export-node-spec start"
+    "exec-graph": "npm run build && npm run start --workspace=@behave-graph/examples-exec-graph",
+    "build-exec-graph": "npm run build && npm run build --workspace=@behave-graph/examples-exec-graph",
+    "export-node-spec": "npm run build && npm run start --workspace=@behave-graph/examples-export-node-spec",
+    "build-export-node-spec": "npm run build && npm run build --workspace=@behave-graph/examples-export-node-spec",
+    "three-viewer": "npm run build && npm run start --workspace=@behave-graph/examples-three-viewer",
+    "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer"
   },
   "workspaces": [
     "lib",
-    "examples/three",
+    "examples/three-viewer",
     "examples/exec-graph",
     "examples/export-node-spec"
   ],

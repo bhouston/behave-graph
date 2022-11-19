@@ -54,16 +54,15 @@ This library, while small, contains a nearly complete implementation of behavior
 
 This library is designed to be extended with context dependent nodes, specifically Actions, Events and Queries that match the capabilities and requirements of your system. For example, if you integrate into a 3D engine, you can query for player state or 3D positions of your scene graph, set scene graph properties and also react to overlaps, and player movements. Or if you want to integrate into an AR system, you can react to face-detected, tracking-loss.
 
-## Command Line Usage
+## Developer Setup
 
-### Building
+Install all dependencies:
 
-After cloning out this git project locally, run the following:
+    yarn install
 
-```zsh
-npm install
-npm run build
-```
+To start the web examples:
+
+    yarn dev
 
 ## Examples
 
@@ -72,7 +71,7 @@ The example behavior graphs are in the `/examples` folder. You can execute these
 The main syntax is this one:
 
 ```zsh
-npm run exec-graph -- ./src/graphs/[examplename].json
+yarn exec-graph ./lib/graphs/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -81,12 +80,12 @@ Here are some example graphs in their native JSON form:
 
 Print out the text "Hello World!" as soon as the graph starts up!
 
-[/src/graphs/core/HelloWorld.json](/src/graphs/core/HelloWorld.json)
+[/lib/graphs/core/HelloWorld.json](/lib/graphs/core/HelloWorld.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/HelloWorld.json
+yarn exec-graph ./lib/graphs/core/HelloWorld.json
 
 Hello World!
 ```
@@ -95,13 +94,13 @@ Hello World!
 
 In this example, we use set a variable and also listen to when it changes.
 
-[/src/graphs/variables/Changed.json](/src/graphs/variables/Changed.json)
+[/lib/graphs/variables/Changed.json](/lib/graphs/variables/Changed.json)
 
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/variables/Changed.json
+> yarn exec-graph ./lib/graphs/core/variables/Changed.json
 
 391
 ```
@@ -110,12 +109,12 @@ Console output:
 
 This example shows how to branching execution works. The "flow/branch" node has two flow outputs, "true" and "false". The value of it's "condition" input determines the path of execution.
 
-[/src/graphs/core/flow/Branch.json](/src/graphs/core/flow/Branch.json)
+[/lib/graphs/core/flow/Branch.json](/lib/graphs/core/flow/Branch.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/flow/Branch.json
+> yarn exec-graph ./lib/graphs/core/flow/Branch.json
 
 Condition is false!
 ```
@@ -124,12 +123,12 @@ Condition is false!
 
 This shows how to create math formulas in logic nodes. In this case the equation is: ( a^1 \* 3 + a^2 + (-a^3) ), where a = 3. The answer is -9.
 
-[/src/graphs/core/logic/Polynomial.json](/src/graphs/core/logic/Polynomial.json)
+[/lib/graphs/core/logic/Polynomial.json](/lib/graphs/core/logic/Polynomial.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/logic/Polynomial.json
+> yarn exec-graph ./lib/graphs/core/logic/Polynomial.json
 
 -9
 ```
@@ -138,12 +137,12 @@ Console output:
 
 Behave-Graph support asynchronous nodes. These are nodes which will continue execution non-immediately but on their own self-determined schedule. This allows for things such as "Delay" nodes that can sleep for a period of time.
 
-[/src/graphs/core/async/Delay.json](/src/graphs/core/async/Delay.json)
+[/lib/graphs/core/async/Delay.json](/lib/graphs/core/async/Delay.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/async/Delay.json
+> yarn exec-graph ./lib/graphs/core/async/Delay.json
 
 Waiting...
 One Second Later!
@@ -154,12 +153,12 @@ One Second Later!
 Building upon waiting for downstream nodes to execute, you can also execute For Loops within Behave-Graph.
 
 
-[/src/graphs/core/flow/ForLoop.json](/src/graphs/core/flow/ForLoop.json)
+[/lib/graphs/core/flow/ForLoop.json](/lib/graphs/core/flow/ForLoop.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/flow/ForLoop.json
+> yarn exec-graph ./lib/graphs/core/flow/ForLoop.json
 
 Starting For Loop...
 Loop Body!
@@ -179,12 +178,12 @@ Completed For Loop!
 
 You can register custom events, trigger then and listen on them.
 
-[/src/graphs/core/events/CustomEvents.json](/src/graphs/core/events/CustomEvents.json)
+[/lib/graphs/core/events/CustomEvents.json](/lib/graphs/core/events/CustomEvents.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/events/CustomEvents.json
+> yarn exec-graph ./lib/graphs/core/events/CustomEvents.json
 
 myCustomEvent Fired!
 myCustomEvent Fired!
@@ -197,13 +196,13 @@ myCustomEvent Fired!
 
 Here is a test of 10,000,000 iteration for loop:
 
-[/src/graphs/core/flow/PerformanceTest.json](/src/graphs/core/flow/PerformanceTest.json)
+[/lib/graphs/core/flow/PerformanceTest.json](/lib/graphs/core/flow/PerformanceTest.json)
 
 
 Here is the console output:
 
 ```zsh
-> npm run exec-graph -- ./src/graphs/core/flow/PerformanceTest.json
+> yarn exec-graph ./lib/graphs/core/flow/PerformanceTest.json
 
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
@@ -220,13 +219,3 @@ Completed all iterations!
 
     30000013 nodes executed in 2.98 seconds, at a rate of 10067118 steps/second
 ```
-
-## Developer Setup
-
-Install all dependencies:
-
-    yarn install
-
-To start the examples:
-
-    yarn dev

@@ -1,4 +1,0 @@
-{
-  "main": "dist/behave-graph-export-node-spec.cjs.js",
-  "module": "dist/behave-graph-export-node-spec.esm.js"
-}

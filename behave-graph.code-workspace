@@ -5,15 +5,6 @@
     },
     {
       "path": "../behave-flow"
-    },
-    {
-      "path": "../threeify"
-    },
-    {
-      "path": "../threeify-glsl-transpiler"
-    },
-    {
-      "path": "../glTF"
     }
   ],
   "settings": {},

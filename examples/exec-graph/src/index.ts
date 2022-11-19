@@ -1,5 +1,8 @@
 import { promises as fs } from 'node:fs';
-import os from 'node:os';
+import process from 'node:process';
+
+import { program } from 'commander';
+
 import {
   DefaultLogger,
   Engine,
@@ -10,32 +13,26 @@ import {
   registerSceneProfile,
   Registry,
   traceToLogger,
+  parseSafeFloat,
   validateGraph,
   validateRegistry,
   writeGraphToJSON
-} from './';
-import { program } from 'commander';
-import glob from 'glob';
-import { parseSafeFloat } from './parseFloats';
-import path from 'node:path';
-import process from 'node:process';
-
-import { getSystemErrorMap } from 'node:util';
+} from 'behave-graph';
 
 type ProgramOptions = {
-  upgrade?: boolean,
-  trace?: boolean,
-  dryRun?: boolean,
-  profile?: boolean,
-  iterations: string 
+  upgrade?: boolean;
+  trace?: boolean;
+  dryRun?: boolean;
+  profile?: boolean;
+  iterations: string;
 };
 
 async function execGraph({
   jsonPattern,
   programOptions
 }: {
-  jsonPattern: string
-  programOptions: ProgramOptions
+  jsonPattern: string;
+  programOptions: ProgramOptions;
 }) {
   const registry = new Registry();
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
@@ -44,7 +41,7 @@ async function execGraph({
   registerSceneProfile(registry);
 
   let numSteps = 0;
-  const graphJsonPath = '../' + jsonPattern;
+  const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
   const graph = readGraphFromJSON(
@@ -66,10 +63,7 @@ async function execGraph({
 
   if (programOptions.upgrade) {
     const newGraphJson = writeGraphToJSON(graph);
-    await fs.writeFile(
-      graphJsonPath,
-      JSON.stringify(newGraphJson, null, 2)
-    );
+    await fs.writeFile(graphJsonPath, JSON.stringify(newGraphJson, null, 2));
   }
 
   Logger.verbose('creating behavior graph');
@@ -126,7 +120,6 @@ async function execGraph({
   engine.dispose();
 }
 
-
 async function main() {
   program
     .name('exec-graph')
@@ -143,10 +136,9 @@ async function main() {
   program.parse(process.argv);
   const programOptions = program.opts() as ProgramOptions;
 
-    const jsonPattern = program.args[0];
-   
-  await execGraph({programOptions, jsonPattern});
+  const jsonPattern = program.args[0];
+
+  await execGraph({ programOptions, jsonPattern });
 }
 
 main();
-

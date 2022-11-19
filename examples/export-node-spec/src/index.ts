@@ -1,5 +1,8 @@
 import { promises as fs } from 'node:fs';
 
+import { program } from 'commander';
+import { stringify } from 'csv-stringify';
+
 import {
   Logger,
   registerCoreProfile,
@@ -7,9 +10,7 @@ import {
   Registry,
   validateNodeRegistry,
   writeNodeSpecsToJSON
-} from './';
-import { program } from 'commander';
-import { stringify } from 'csv-stringify';
+} from 'behave-graph';
 
 async function main() {
   // Logger.onVerbose.clear();

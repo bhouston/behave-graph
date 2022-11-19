@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import os from 'node:os';
 import {
   DefaultLogger,
   Engine,
@@ -16,6 +17,10 @@ import {
 import { program } from 'commander';
 import glob from 'glob';
 import { parseSafeFloat } from './parseFloats';
+import path from 'node:path';
+import process from 'node:process';
+
+import { getSystemErrorMap } from 'node:util';
 
 type ProgramOptions = {
   upgrade?: boolean,
@@ -25,7 +30,7 @@ type ProgramOptions = {
   iterations: string 
 };
 
-function execGraph({
+async function execGraph({
   jsonPattern,
   programOptions
 }: {
@@ -37,10 +42,10 @@ function execGraph({
   const logger = new DefaultLogger();
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry);
-
+  
   glob(jsonPattern, {}, async (err, matches) => {
     for (let i = 0; i < matches.length; i++) {
-      const graphJsonPath = matches[i];
+      const graphJsonPath = '../' + matches[i];
       Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
       const textFile = await fs.readFile(graphJsonPath);
       const graph = readGraphFromJSON(
@@ -76,7 +81,7 @@ function execGraph({
       }
 
       if (programOptions.dryRun) {
-        continue;
+        return;
       }
 
       const startTime = Date.now();
@@ -144,10 +149,10 @@ async function main() {
   program.parse(process.argv);
   const programOptions = program.opts() as ProgramOptions;
 
-
   const jsonPattern = program.args[0];
 
-  execGraph({programOptions, jsonPattern});
+  await execGraph({programOptions, jsonPattern});
 }
 
 main();
+

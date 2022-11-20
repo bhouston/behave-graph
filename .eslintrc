@@ -30,7 +30,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "import/extensions": ["error", "always", {"ignorePackages": true} ],
     "simple-import-sort/imports": "error",
     "promise/always-return": "error",
     "promise/no-return-wrap": "error",

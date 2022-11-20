@@ -55,13 +55,15 @@
     "export-node-spec": "npm run build && npm run start --workspace=@behave-graph/examples-export-node-spec",
     "build-export-node-spec": "npm run build && npm run build --workspace=@behave-graph/examples-export-node-spec",
     "three-viewer": "npm run build && npm run start --workspace=@behave-graph/examples-three-viewer",
+    "flow-editor": "npm run build && npm run start --workspace=@behave-graph/examples-flow",
     "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer"
   },
   "workspaces": [
     "packages/core",
     "examples/three-viewer",
     "examples/exec-graph",
-    "examples/export-node-spec"
+    "examples/export-node-spec",
+    "examples/flow"
   ],
   "preconstruct": {
     "packages": [

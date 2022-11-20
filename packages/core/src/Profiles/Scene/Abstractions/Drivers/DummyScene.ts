@@ -43,4 +43,11 @@ export class DummyScene implements IScene {
   ): void {
     throw new Error('Method not implemented.');
   }
+
+  removeOnClickedListener(
+    jsonPath: string,
+    callback: (jsonPath: string) => void
+  ): void {
+    throw new Error('Method not implemented.');
+  }
 }

@@ -1,0 +1,161 @@
+{
+  "nodes": [
+    {
+      "id": "2330db08-a922-42f1-9baa-3ddf38bdca55",
+      "type": "math/multiply/float",
+      "metadata": {
+        "positionX": "-36.065423480605936",
+        "positionY": "-354.6990195987005"
+      },
+      "parameters": {
+        "b": {
+          "link": {
+            "nodeId": "0",
+            "socket": "time"
+          }
+        },
+        "a": {
+          "link": {
+            "nodeId": "7a028a53-5c15-4cf7-9d9d-75f19f08f202",
+            "socket": "result"
+          }
+        }
+      }
+    },
+    {
+      "id": "d349d0b4-3853-49b4-bf74-5edfba7cc6d1",
+      "type": "flow/flipFlop",
+      "metadata": {
+        "positionX": "-389.72422824919556",
+        "positionY": "-435.368506902373"
+      }
+    },
+    {
+      "id": "7a028a53-5c15-4cf7-9d9d-75f19f08f202",
+      "type": "math/toFloat/boolean",
+      "metadata": {
+        "positionX": "-223.69031360750262",
+        "positionY": "-359.83827013089973"
+      },
+      "parameters": {
+        "a": {
+          "link": {
+            "nodeId": "d349d0b4-3853-49b4-bf74-5edfba7cc6d1",
+            "socket": "isOn"
+          }
+        }
+      }
+    },
+    {
+      "id": "2c26a8fc-6559-41ab-97b2-9b38a2589498",
+      "type": "scene/nodeClick",
+      "metadata": {
+        "positionX": "-725.9446546123424",
+        "positionY": "-440.6662343069766"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/Cube"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "d349d0b4-3853-49b4-bf74-5edfba7cc6d1",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "0",
+      "type": "lifecycle/onTick",
+      "metadata": {
+        "positionX": "-416.9233515932794",
+        "positionY": "-218.4686464000493"
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "4",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "1",
+      "type": "math/multiply/float",
+      "metadata": {
+        "positionX": "121.24074658278633",
+        "positionY": "-347.7720188803507"
+      },
+      "parameters": {
+        "b": {
+          "value": 0.001
+        },
+        "a": {
+          "link": {
+            "nodeId": "2330db08-a922-42f1-9baa-3ddf38bdca55",
+            "socket": "result"
+          }
+        }
+      }
+    },
+    {
+      "id": "2",
+      "type": "math/toEuler/float",
+      "metadata": {
+        "positionX": "307.8153855124417",
+        "positionY": "-365.4309832136541"
+      },
+      "parameters": {
+        "x": {
+          "value": 0
+        },
+        "z": {
+          "value": 0
+        },
+        "y": {
+          "link": {
+            "nodeId": "1",
+            "socket": "result"
+          }
+        }
+      }
+    },
+    {
+      "id": "3",
+      "type": "math/toQuat/euler",
+      "metadata": {
+        "positionX": "501.7558210030621",
+        "positionY": "-308.12717932377245"
+      },
+      "parameters": {
+        "a": {
+          "link": {
+            "nodeId": "2",
+            "socket": "result"
+          }
+        }
+      }
+    },
+    {
+      "id": "4",
+      "type": "scene/set/quat",
+      "metadata": {
+        "positionX": "720.4152964457542",
+        "positionY": "-207.25923839921975"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/Suzanne/rotation"
+        },
+        "value": {
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": []
+}

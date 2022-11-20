@@ -44,7 +44,7 @@ export function registerSceneProfile(
 
   // events
 
-  nodes.register(OnSceneNodeClick.Description);
+  nodes.register(OnSceneNodeClick.Description(scene));
 
   // actions
   const allValueTypeNames = values.getAllNames();

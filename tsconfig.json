@@ -15,11 +15,6 @@
     "noImplicitThis": false,
     "baseUrl": "./"
   },
-  "include": ["lib/src", "lib/exec-graph/exec-graph.ts"],
+  "include": ["packages/core/src",],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],
-  "typedocOptions": {
-    "mode": "modules",
-    "out": "./docs",
-    "gaID": "threeify.org"
-  }
 }

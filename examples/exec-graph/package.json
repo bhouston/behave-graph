@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "behave-graph": "*",
+    "@behave-graph/core": "*",
     "commander": "^9.4.1",
     "glob": "^8.0.3"
   }

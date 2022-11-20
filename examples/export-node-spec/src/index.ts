@@ -10,7 +10,7 @@ import {
   Registry,
   validateNodeRegistry,
   writeNodeSpecsToJSON
-} from 'behave-graph';
+} from '@behave-graph/core';
 
 async function main() {
   // Logger.onVerbose.clear();

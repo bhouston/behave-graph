@@ -1,10 +1,10 @@
 {
-  "name": "behave-graph",
-  "version": "0.9.9",
+  "name": "@behave-graph/core",
+  "version": "0.9.11",
   "source": "src/index.ts",
-  "main": "dist/behave-graph.cjs.js",
-  "module": "dist/behave-graph.esm.js",
-  "types": "dist/behave-graph.cjs.d.ts",
+  "main": "dist/behave-graph-core.cjs.js",
+  "module": "dist/behave-graph-core.esm.js",
+  "types": "dist/behave-graph-core.cjs.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [
@@ -40,4 +40,3 @@
   "author": "",
   "license": "ISC"
 }
- 

@@ -17,7 +17,7 @@ import {
   validateGraph,
   validateRegistry,
   writeGraphToJSON
-} from 'behave-graph';
+} from '@behave-graph/core';
 
 type ProgramOptions = {
   upgrade?: boolean;

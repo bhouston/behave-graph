@@ -19,11 +19,7 @@ export class Sequence extends FlowNode {
       description,
       graph,
       [new Socket('flow', 'flow')],
-      [
-        new Socket('flow', '1'),
-        new Socket('flow', '2'),
-        new Socket('flow', '3')
-      ]
+      [new Socket('flow', '1'), new Socket('flow', '2')]
     );
   }
 

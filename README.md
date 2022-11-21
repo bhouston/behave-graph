@@ -75,7 +75,7 @@ The example behavior graphs are in the `/examples` folder. You can execute these
 The main syntax is this one:
 
 ```zsh
-npm run exec-graph ./lib/graphs/[examplename].json
+npm run exec-graph ../../graphs/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -84,12 +84,12 @@ Here are some example graphs in their native JSON form:
 
 Print out the text "Hello World!" as soon as the graph starts up!
 
-[/lib/graphs/core/HelloWorld.json](/lib/graphs/core/HelloWorld.json)
+[/graphs/core/HelloWorld.json](/graphs/core/HelloWorld.json)
 
 Console output:
 
 ```zsh
-npm run exec-graph ./lib/graphs/core/HelloWorld.json
+npm run exec-graph ../../graphs/core/HelloWorld.json
 
 Hello World!
 ```
@@ -98,12 +98,12 @@ Hello World!
 
 In this example, we use set a variable and also listen to when it changes.
 
-[/lib/graphs/variables/Changed.json](/lib/graphs/variables/Changed.json)
+[/graphs/variables/Changed.json](/graphs/variables/Changed.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/variables/Changed.json
+> npm run exec-graph ../../graphs/core/variables/Changed.json
 
 391
 ```
@@ -112,12 +112,12 @@ Console output:
 
 This example shows how to branching execution works. The "flow/branch" node has two flow outputs, "true" and "false". The value of it's "condition" input determines the path of execution.
 
-[/lib/graphs/core/flow/Branch.json](/lib/graphs/core/flow/Branch.json)
+[/graphs/core/flow/Branch.json](/graphs/core/flow/Branch.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/flow/Branch.json
+> npm run exec-graph ../../graphs/core/flow/Branch.json
 
 Condition is false!
 ```
@@ -126,12 +126,12 @@ Condition is false!
 
 This shows how to create math formulas in logic nodes. In this case the equation is: ( a^1 \* 3 + a^2 + (-a^3) ), where a = 3. The answer is -9.
 
-[/lib/graphs/core/logic/Polynomial.json](/lib/graphs/core/logic/Polynomial.json)
+[/graphs/core/logic/Polynomial.json](/graphs/core/logic/Polynomial.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/logic/Polynomial.json
+> npm run exec-graph ../../graphs/core/logic/Polynomial.json
 
 -9
 ```
@@ -140,12 +140,12 @@ Console output:
 
 Behave-Graph support asynchronous nodes. These are nodes which will continue execution non-immediately but on their own self-determined schedule. This allows for things such as "Delay" nodes that can sleep for a period of time.
 
-[/lib/graphs/core/async/Delay.json](/lib/graphs/core/async/Delay.json)
+[/graphs/core/async/Delay.json](/graphs/core/async/Delay.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/async/Delay.json
+> npm run exec-graph ../../graphs/core/async/Delay.json
 
 Waiting...
 One Second Later!
@@ -155,12 +155,12 @@ One Second Later!
 
 Building upon waiting for downstream nodes to execute, you can also execute For Loops within Behave-Graph.
 
-[/lib/graphs/core/flow/ForLoop.json](/lib/graphs/core/flow/ForLoop.json)
+[/graphs/core/flow/ForLoop.json](/graphs/core/flow/ForLoop.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/flow/ForLoop.json
+> npm run exec-graph ../../graphs/core/flow/ForLoop.json
 
 Starting For Loop...
 Loop Body!
@@ -180,12 +180,12 @@ Completed For Loop!
 
 You can register custom events, trigger then and listen on them.
 
-[/lib/graphs/core/events/CustomEvents.json](/lib/graphs/core/events/CustomEvents.json)
+[/graphs/core/events/CustomEvents.json](/graphs/core/events/CustomEvents.json)
 
 Console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/events/CustomEvents.json
+> npm run exec-graph ../../graphs/core/events/CustomEvents.json
 
 myCustomEvent Fired!
 myCustomEvent Fired!
@@ -198,12 +198,12 @@ myCustomEvent Fired!
 
 Here is a test of 10,000,000 iteration for loop:
 
-[/lib/graphs/core/flow/PerformanceTest.json](/lib/graphs/core/flow/PerformanceTest.json)
+[/graphs/core/flow/PerformanceTest.json](/graphs/core/flow/PerformanceTest.json)
 
 Here is the console output:
 
 ```zsh
-> npm run exec-graph ./lib/graphs/core/flow/PerformanceTest.json
+> npm run exec-graph ../../graphs/core/flow/PerformanceTest.json
 
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...

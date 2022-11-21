@@ -6,7 +6,7 @@ import { Socket } from '../../../Sockets/Socket.js';
 
 export class Counter extends FlowNode {
   public static Description = new NodeDescription(
-    'flow/branch',
+    'flow/counter',
     'Flow',
     'Counter',
     (description, graph) => new Counter(description, graph)

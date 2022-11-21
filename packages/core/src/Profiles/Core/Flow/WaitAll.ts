@@ -29,24 +29,24 @@ export class WaitAll extends FlowNode {
     );
   }
 
-  private _aTriggered = false;
-  private _bTriggered = false;
-  private _outputTriggered = false;
+  private aTriggered = false;
+  private bTriggered = false;
+  private outputTriggered = false;
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
     switch (triggeringSocketName) {
       case '1': {
-        this._aTriggered = true;
+        this.aTriggered = true;
         break;
       }
       case '2': {
-        this._bTriggered = true;
+        this.bTriggered = true;
         break;
       }
       case 'reset': {
-        this._aTriggered = false;
-        this._bTriggered = false;
-        this._outputTriggered = false;
+        this.aTriggered = false;
+        this.bTriggered = false;
+        this.outputTriggered = false;
         break;
       }
       default:
@@ -54,15 +54,15 @@ export class WaitAll extends FlowNode {
     }
 
     // if a & b are triggered, first output!
-    if (this._aTriggered && this._bTriggered && !this._outputTriggered) {
+    if (this.aTriggered && this.bTriggered && !this.outputTriggered) {
       fiber.commit(this, 'flow');
-      this._outputTriggered = true;
+      this.outputTriggered = true;
 
       // auto-reset if required.
       if (this.readInput('autoReset') === true) {
-        this._outputTriggered = false;
-        this._aTriggered = false;
-        this._bTriggered = false;
+        this.outputTriggered = false;
+        this.aTriggered = false;
+        this.bTriggered = false;
       }
     }
   }

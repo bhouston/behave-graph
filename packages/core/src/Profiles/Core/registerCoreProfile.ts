@@ -24,6 +24,7 @@ import { WaitAny } from './Flow/WaitAny.js';
 import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd.js';
 import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart.js';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
+import { Easing } from './Logic/Easing.js';
 import { registerSerializersForValueType } from './registerSerializersForValueType.js';
 import * as BooleanNodes from './Values/BooleanNodes.js';
 import { BooleanValue } from './Values/BooleanValue.js';
@@ -52,6 +53,10 @@ export function registerCoreProfile(
   nodes.register(...getNodeDescriptions(BooleanNodes));
   nodes.register(...getNodeDescriptions(IntegerNodes));
   nodes.register(...getNodeDescriptions(FloatNodes));
+
+  // complex logic
+
+  nodes.register(Easing.Description);
 
   // actions
 

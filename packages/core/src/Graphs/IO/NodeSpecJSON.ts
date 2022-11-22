@@ -1,5 +1,5 @@
-import { NodeCategory } from '../../Nodes/Registry/NodeCategory.js';
-import { ValueJSON } from './GraphJSON.js';
+import { NodeCategory } from '../../Nodes/Registry/NodeCategory';
+import { ValueJSON } from './GraphJSON';
 
 export type InputSocketSpecJSON = {
   name: string;

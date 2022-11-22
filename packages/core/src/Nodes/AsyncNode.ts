@@ -1,9 +1,9 @@
-import { Assert } from '../Diagnostics/Assert.js';
-import { Engine } from '../Execution/Engine.js';
-import { Graph } from '../Graphs/Graph.js';
-import { Socket } from '../Sockets/Socket.js';
-import { Node } from './Node.js';
-import { NodeDescription } from './Registry/NodeDescription.js';
+import { Assert } from '../Diagnostics/Assert';
+import { Engine } from '../Execution/Engine';
+import { Graph } from '../Graphs/Graph';
+import { Socket } from '../Sockets/Socket';
+import { Node } from './Node';
+import { NodeDescription } from './Registry/NodeDescription';
 
 // async flow node with only a single flow input
 export class AsyncNode extends Node {

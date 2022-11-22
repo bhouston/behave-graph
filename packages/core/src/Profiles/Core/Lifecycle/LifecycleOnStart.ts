@@ -1,10 +1,10 @@
-import { Assert } from '../../../Diagnostics/Assert.js';
-import { Engine } from '../../../Execution/Engine.js';
-import { Graph } from '../../../Graphs/Graph.js';
-import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
-import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
+import { Assert } from '../../../Diagnostics/Assert';
+import { Engine } from '../../../Execution/Engine';
+import { Graph } from '../../../Graphs/Graph';
+import { EventNode } from '../../../Nodes/EventNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
+import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 export class LifecycleOnStart extends EventNode {

@@ -1,11 +1,11 @@
-import { Assert } from '../Diagnostics/Assert.js';
-import { Graph } from '../Graphs/Graph.js';
-import { AsyncNode } from '../Nodes/AsyncNode.js';
-import { FlowNode } from '../Nodes/FlowNode.js';
-import { Link } from '../Nodes/Link.js';
-import { Node } from '../Nodes/Node.js';
-import { Engine } from './Engine.js';
-import { resolveSocketValue } from './resolveSocketValue.js';
+import { Assert } from '../Diagnostics/Assert';
+import { Graph } from '../Graphs/Graph';
+import { AsyncNode } from '../Nodes/AsyncNode';
+import { FlowNode } from '../Nodes/FlowNode';
+import { Link } from '../Nodes/Link';
+import { Node } from '../Nodes/Node';
+import { Engine } from './Engine';
+import { resolveSocketValue } from './resolveSocketValue';
 
 export class Fiber {
   private readonly fiberCompletedListenerStack: (() => void)[] = [];

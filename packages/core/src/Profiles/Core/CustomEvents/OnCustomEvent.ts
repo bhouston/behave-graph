@@ -1,10 +1,10 @@
-import { Assert } from '../../../Diagnostics/Assert.js';
-import { CustomEvent } from '../../../Events/CustomEvent.js';
-import { Engine } from '../../../Execution/Engine.js';
-import { Graph } from '../../../Graphs/Graph.js';
-import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
+import { Assert } from '../../../Diagnostics/Assert';
+import { CustomEvent } from '../../../Events/CustomEvent';
+import { Engine } from '../../../Execution/Engine';
+import { Graph } from '../../../Graphs/Graph';
+import { EventNode } from '../../../Nodes/EventNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
 
 export class OnCustomEvent extends EventNode {
   public static GetDescription(graph: Graph, customEventId: string) {

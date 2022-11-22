@@ -1,8 +1,8 @@
-import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
-import { Registry } from '../../Registry.js';
-import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
-import { registerCoreProfile } from '../Core/registerCoreProfile.js';
-import { registerSceneProfile } from './registerSceneProfile.js';
+import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry';
+import { Registry } from '../../Registry';
+import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry';
+import { registerCoreProfile } from '../Core/registerCoreProfile';
+import { registerSceneProfile } from './registerSceneProfile';
 
 describe('scene profile', () => {
   const registry = new Registry();

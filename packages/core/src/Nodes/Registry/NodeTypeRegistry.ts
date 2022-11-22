@@ -1,4 +1,4 @@
-import { NodeDescription } from './NodeDescription.js';
+import { NodeDescription } from './NodeDescription';
 
 export class NodeTypeRegistry {
   private readonly typeNameToNodeDescriptions: {

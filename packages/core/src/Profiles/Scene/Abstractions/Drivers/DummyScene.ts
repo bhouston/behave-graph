@@ -1,16 +1,16 @@
-import { EventEmitter } from '../../../../Events/EventEmitter.js';
-import { ValueTypeRegistry } from '../../../../Values/ValueTypeRegistry.js';
-import { BooleanValue } from '../../../Core/Values/BooleanValue.js';
-import { FloatValue } from '../../../Core/Values/FloatValue.js';
-import { IntegerValue } from '../../../Core/Values/IntegerValue.js';
-import { StringValue } from '../../../Core/Values/StringValue.js';
-import { ColorValue } from '../../Values/ColorValue.js';
-import { EulerValue } from '../../Values/EulerValue.js';
-import { QuatValue } from '../../Values/QuatValue.js';
-import { Vec2Value } from '../../Values/Vec2Value.js';
-import { Vec3Value } from '../../Values/Vec3Value.js';
-import { Vec4Value } from '../../Values/Vec4Value.js';
-import { IScene } from '../IScene.js';
+import { EventEmitter } from '../../../../Events/EventEmitter';
+import { ValueTypeRegistry } from '../../../../Values/ValueTypeRegistry';
+import { BooleanValue } from '../../../Core/Values/BooleanValue';
+import { FloatValue } from '../../../Core/Values/FloatValue';
+import { IntegerValue } from '../../../Core/Values/IntegerValue';
+import { StringValue } from '../../../Core/Values/StringValue';
+import { ColorValue } from '../../Values/ColorValue';
+import { EulerValue } from '../../Values/EulerValue';
+import { QuatValue } from '../../Values/QuatValue';
+import { Vec2Value } from '../../Values/Vec2Value';
+import { Vec3Value } from '../../Values/Vec3Value';
+import { Vec4Value } from '../../Values/Vec4Value';
+import { IScene } from '../IScene';
 
 export class DummyScene implements IScene {
   public onSceneChanged = new EventEmitter<void>();

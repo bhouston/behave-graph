@@ -1,6 +1,6 @@
-import { Metadata } from '../Metadata.js';
-import { Socket } from '../Sockets/Socket.js';
-import { EventEmitter } from './EventEmitter.js';
+import { Metadata } from '../Metadata';
+import { Socket } from '../Sockets/Socket';
+import { EventEmitter } from './EventEmitter';
 
 export class CustomEvent {
   public label = '';

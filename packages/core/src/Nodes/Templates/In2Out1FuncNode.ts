@@ -1,7 +1,7 @@
-import { Graph } from '../../Graphs/Graph.js';
-import { Socket } from '../../Sockets/Socket.js';
-import { ImmediateNode } from '../ImmediateNode.js';
-import { NodeDescription } from '../Registry/NodeDescription.js';
+import { Graph } from '../../Graphs/Graph';
+import { Socket } from '../../Sockets/Socket';
+import { ImmediateNode } from '../ImmediateNode';
+import { NodeDescription } from '../Registry/NodeDescription';
 
 export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
   constructor(

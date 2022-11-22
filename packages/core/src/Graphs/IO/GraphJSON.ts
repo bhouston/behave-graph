@@ -1,4 +1,4 @@
-import { Metadata } from '../../Metadata.js';
+import { Metadata } from '../../Metadata';
 
 export type ValueJSON = string | boolean | number;
 

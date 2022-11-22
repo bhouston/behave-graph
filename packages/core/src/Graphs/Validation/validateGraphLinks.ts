@@ -1,4 +1,4 @@
-import { Graph } from '../Graph.js';
+import { Graph } from '../Graph';
 
 export function validateGraphLinks(graph: Graph): string[] {
   const errorList: string[] = [];

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@behave-graph/core": "*",
+    "@behave-graph/three": "*",
     "three": "^0.145.0"
   },
   "devDependencies": {

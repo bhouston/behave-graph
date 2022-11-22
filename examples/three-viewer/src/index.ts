@@ -11,12 +11,11 @@ import {
   validateGraph,
   validateRegistry
 } from '@behave-graph/core';
+import { ThreeScene } from '@behave-graph/three';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-
-import { ThreeScene } from './ThreeScene.js';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;

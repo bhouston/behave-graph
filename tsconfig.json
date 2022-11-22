@@ -16,6 +16,6 @@
     "noImplicitThis": false,
     "baseUrl": "./"
   },
-  "include": ["packages/core/src",],
+  "include": ["packages/core/src","packages/three/src"],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],
 }

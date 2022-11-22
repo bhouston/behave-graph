@@ -60,6 +60,7 @@
   },
   "workspaces": [
     "packages/core",
+    "packages/three",
     "examples/three-viewer",
     "examples/exec-graph",
     "examples/export-node-spec",
@@ -67,7 +68,8 @@
   ],
   "preconstruct": {
     "packages": [
-      "packages/core"
+      "packages/core",
+      "packages/three"
     ]
   }
 }

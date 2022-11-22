@@ -1,7 +1,8 @@
 import { Assert, EventEmitter, IScene, Vec3, Vec4 } from '@behave-graph/core';
-import { Material, Object3D, Quaternion, Vector3, Vector4 } from 'three';
+import { Material, Object3D } from 'three';
 
 import { GLTFJson } from './GLTFJson.js';
+import { toVec3, toVec4 } from './ThreeTypeConversion.js';
 
 function mapGlTFNodeIndicesToThreeObject3Ds(
   glTFJson: GLTFJson,
@@ -34,6 +35,7 @@ function mapGlTFNodeIndicesToThreeObject3Ds(
 
 const jsonPathRegEx =
   /^\/?(?<resource>[^/]+)\/(?<index>\d+)\/(?<property>[^/]+)$/;
+
 function parseJsonPath(jsonPath: string) {
   const matches = jsonPathRegEx.exec(jsonPath);
   if (matches === null) throw new Error(`can not parse jsonPath: ${jsonPath}`);
@@ -44,16 +46,6 @@ function parseJsonPath(jsonPath: string) {
     index: Number.parseInt(matches.groups.index),
     property: matches.groups.property
   };
-}
-
-/*function toVec2(value: Vector2): Vec2 {
-  return new Vec2(value.x, value.y);
-}*/
-function toVec3(value: Vector3): Vec3 {
-  return new Vec3(value.x, value.y, value.z);
-}
-function toVec4(value: Vector4 | Quaternion): Vec4 {
-  return new Vec4(value.x, value.y, value.z, value.w);
 }
 
 export class ThreeScene implements IScene {
@@ -133,7 +125,14 @@ export class ThreeScene implements IScene {
     }
     this.onSceneChanged.emit();
   }
+
   addOnClickedListener(
+    jsonPath: string,
+    callback: (jsonPath: string) => void
+  ): void {
+    throw new Error('Method not implemented.');
+  }
+  removeOnClickedListener(
     jsonPath: string,
     callback: (jsonPath: string) => void
   ): void {

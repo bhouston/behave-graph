@@ -1,5 +1,5 @@
 import { ValueType } from '../../../Values/ValueType';
-import { Vec4, Vec4JSON, vec4Parse } from './Internal/Vec4';
+import { Vec4, Vec4JSON, vec4Mix, vec4Parse } from './Internal/Vec4';
 
 export const Vec4Value = new ValueType(
   'vec4',
@@ -8,5 +8,6 @@ export const Vec4Value = new ValueType(
     typeof value === 'string'
       ? vec4Parse(value)
       : new Vec4(value.x, value.y, value.z, value.w),
-  (value) => ({ x: value.x, y: value.y, z: value.z, w: value.w } as Vec4JSON)
+  (value) => ({ x: value.x, y: value.y, z: value.z, w: value.w } as Vec4JSON),
+  (start: Vec4, end: Vec4, t: number) => vec4Mix(start, end, t)
 );

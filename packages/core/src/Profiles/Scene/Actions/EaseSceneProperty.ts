@@ -67,9 +67,12 @@ export class EaseSceneProperty extends AsyncNode {
     );
   }
 
+  private initialValue: any = undefined;
   private targetValue: any = undefined;
-  private remainingDuration = 0;
+  private duration = 0;
+  private elapsedDuration = 0;
   private easing: Easing = EasingFunctions['linear'];
+  private startTime = 0;
   private onTick: (() => void) | undefined = undefined;
 
   triggered(
@@ -84,20 +87,34 @@ export class EaseSceneProperty extends AsyncNode {
     }
 
     // if existing ease in progress, do nothing
-    if (this.remainingDuration > 0) {
+    if (this.elapsedDuration >= this.duration) {
       return;
     }
 
+    this.initialValue = this.scene.getProperty(
+      this.readInput('jsonPath'),
+      this.valueTypeName
+    );
     this.targetValue = this.readInput('value');
-    this.remainingDuration = this.readInput<number>('duration');
+    this.duration = this.readInput<number>('duration');
+    this.elapsedDuration = 0;
+    this.startTime = Date.now();
+
     const easingFunction =
       EasingFunctions[this.readInput('easingFunction') as string];
     const easingMode = EasingModes[this.readInput('easingMode') as string];
     this.easing = easingMode(easingFunction);
 
     const updateOnTick = () => {
-      const easedValue = this.targetValue;
-      // TODO: figure out how to interpolate this value in a type safe way.
+      const valueType = this.graph.registry.values.get(this.valueTypeName);
+      this.elapsedDuration = (Date.now() - this.startTime) / 1000;
+
+      const t = Math.min(this.elapsedDuration / this.duration, 1);
+      const easedValue = valueType.lerp(
+        this.initialValue,
+        this.targetValue,
+        this.easing(t)
+      );
 
       this.scene.setProperty(
         this.readInput('jsonPath'),
@@ -105,7 +122,7 @@ export class EaseSceneProperty extends AsyncNode {
         easedValue
       );
 
-      if (this.remainingDuration <= 0) {
+      if (this.elapsedDuration >= this.duration) {
         this.dispose();
         engine.commitToNewFiber(this, 'flow');
         finished();
@@ -117,7 +134,7 @@ export class EaseSceneProperty extends AsyncNode {
   }
 
   dispose() {
-    this.remainingDuration = 0;
+    this.elapsedDuration = this.duration = 0;
     if (this.onTick !== undefined) {
       this.lifecycleEventEmitter.tickEvent.removeListener(this.onTick);
       this.onTick = undefined;

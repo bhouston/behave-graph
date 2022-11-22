@@ -1,13 +1,13 @@
 /* eslint-disable space-in-parens */
 
-import { Assert } from '../Diagnostics/Assert.js';
-import { EventEmitter } from '../Events/EventEmitter.js';
-import { Graph } from '../Graphs/Graph.js';
-import { AsyncNode } from '../Nodes/AsyncNode.js';
-import { EventNode } from '../Nodes/EventNode.js';
-import { Node } from '../Nodes/Node.js';
-import { sleep } from '../sleep.js';
-import { Fiber } from './Fiber.js';
+import { Assert } from '../Diagnostics/Assert';
+import { EventEmitter } from '../Events/EventEmitter';
+import { Graph } from '../Graphs/Graph';
+import { AsyncNode } from '../Nodes/AsyncNode';
+import { EventNode } from '../Nodes/EventNode';
+import { Node } from '../Nodes/Node';
+import { sleep } from '../sleep';
+import { Fiber } from './Fiber';
 
 export class Engine {
   // tracking the next node+input socket to execute.

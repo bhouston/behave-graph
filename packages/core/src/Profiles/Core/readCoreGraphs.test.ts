@@ -11,14 +11,14 @@ import * as polynomialJson from '../../../../../graphs/core/logic/Polynomial.jso
 import * as frameCounterJson from '../../../../../graphs/core/variables/FrameCounter.json';
 import * as initialValueJson from '../../../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../../../graphs/core/variables/SetGet.json';
-import { Logger } from '../../Diagnostics/Logger.js';
-import { Graph } from '../../Graphs/Graph.js';
-import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
-import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON.js';
-import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic.js';
-import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks.js';
-import { Registry } from '../../Registry.js';
-import { registerCoreProfile } from './registerCoreProfile.js';
+import { Logger } from '../../Diagnostics/Logger';
+import { Graph } from '../../Graphs/Graph';
+import { GraphJSON } from '../../Graphs/IO/GraphJSON';
+import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
+import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';
+import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks';
+import { Registry } from '../../Registry';
+import { registerCoreProfile } from './registerCoreProfile';
 
 const registry = new Registry();
 registerCoreProfile(registry);

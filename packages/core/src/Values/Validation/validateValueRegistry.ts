@@ -1,4 +1,4 @@
-import { Registry } from '../../Registry.js';
+import { Registry } from '../../Registry';
 
 const valueTypeNameRegex = /^\w+$/;
 

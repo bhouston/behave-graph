@@ -1,6 +1,6 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
+import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 
 export const Constant = new NodeDescription(
   'logic/string',

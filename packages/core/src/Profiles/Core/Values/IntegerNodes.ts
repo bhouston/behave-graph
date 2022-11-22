@@ -1,7 +1,7 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
+import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
+import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 

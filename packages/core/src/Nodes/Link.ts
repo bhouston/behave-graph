@@ -1,5 +1,5 @@
-import { Socket } from '../Sockets/Socket.js';
-import { Node } from './Node.js';
+import { Socket } from '../Sockets/Socket';
+import { Node } from './Node';
 
 export class Link {
   public _targetNode: Node | undefined = undefined;

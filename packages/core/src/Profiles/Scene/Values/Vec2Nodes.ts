@@ -1,8 +1,8 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode.js';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode.js';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode.js';
-import { VecElements } from '../Logic/VecElements.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
+import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
+import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
+import { VecElements } from '../Logic/VecElements';
 import {
   Vec2,
   vec2Add,
@@ -15,7 +15,7 @@ import {
   vec2Scale,
   vec2Subtract,
   vec2ToArray
-} from './Internal/Vec2.js';
+} from './Internal/Vec2';
 
 export const Constant = new NodeDescription(
   'math/vec2',

@@ -1,7 +1,7 @@
-import { Graph } from '../../../Graphs/Graph.js';
-import { EventNode } from '../../../Nodes/EventNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
+import { Graph } from '../../../Graphs/Graph';
+import { EventNode } from '../../../Nodes/EventNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
 
 // very 3D specific.
 export class OnSceneNodeClick extends EventNode {

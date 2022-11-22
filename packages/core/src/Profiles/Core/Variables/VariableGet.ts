@@ -1,8 +1,8 @@
-import { Graph } from '../../../Graphs/Graph.js';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
-import { Variable } from '../../../Variables/Variable.js';
+import { Graph } from '../../../Graphs/Graph';
+import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
+import { Variable } from '../../../Variables/Variable';
 
 export class VariableGet extends ImmediateNode {
   public static GetDescription(graph: Graph, variableId: string) {

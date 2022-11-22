@@ -1,106 +1,106 @@
-export * from './Diagnostics/Logger.js';
-export * from './Diagnostics/Assert.js';
+export * from './Diagnostics/Logger';
+export * from './Diagnostics/Assert';
 
 // main data model
-export * from './Graphs/Graph.js';
-export * from './Nodes/Node.js';
-export * from './Nodes/AsyncNode.js';
-export * from './Nodes/EventNode.js';
-export * from './Nodes/FlowNode.js';
-export * from './Nodes/ImmediateNode.js';
-export * from './Nodes/Link.js';
-export * from './Values/ValueType.js';
-export * from './Sockets/Socket.js';
-export * from './Events/CustomEvent.js';
-export * from './Events/EventEmitter.js';
-export * from './Variables/Variable.js';
+export * from './Graphs/Graph';
+export * from './Nodes/Node';
+export * from './Nodes/AsyncNode';
+export * from './Nodes/EventNode';
+export * from './Nodes/FlowNode';
+export * from './Nodes/ImmediateNode';
+export * from './Nodes/Link';
+export * from './Values/ValueType';
+export * from './Sockets/Socket';
+export * from './Events/CustomEvent';
+export * from './Events/EventEmitter';
+export * from './Variables/Variable';
 
-export * from './Nodes/Templates/In4Out1FuncNode.js';
-export * from './Nodes/Templates/In3Out1FuncNode.js';
-export * from './Nodes/Templates/In2Out1FuncNode.js';
-export * from './Nodes/Templates/In1Out1FuncNode.js';
-export * from './Nodes/Templates/In0Out1FuncNode.js';
+export * from './Nodes/Templates/In4Out1FuncNode';
+export * from './Nodes/Templates/In3Out1FuncNode';
+export * from './Nodes/Templates/In2Out1FuncNode';
+export * from './Nodes/Templates/In1Out1FuncNode';
+export * from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
-export * from './Execution/Engine.js';
-export * from './Execution/traceToLogger.js';
-export * from './Graphs/IO/readGraphFromJSON.js';
-export * from './Graphs/IO/writeGraphToJSON.js';
-export * from './Graphs/IO/writeNodeSpecsToJSON.js';
+export * from './Execution/Engine';
+export * from './Execution/traceToLogger';
+export * from './Graphs/IO/readGraphFromJSON';
+export * from './Graphs/IO/writeGraphToJSON';
+export * from './Graphs/IO/writeNodeSpecsToJSON';
 
 // registry
-export * from './Nodes/Registry/NodeCategory.js';
-export * from './Nodes/Registry/NodeDescription.js';
-export * from './Nodes/Registry/NodeTypeRegistry.js';
-export * from './Values/ValueTypeRegistry.js';
-export * from './Registry.js';
+export * from './Nodes/Registry/NodeCategory';
+export * from './Nodes/Registry/NodeDescription';
+export * from './Nodes/Registry/NodeTypeRegistry';
+export * from './Values/ValueTypeRegistry';
+export * from './Registry';
 
 // registry validation
-export * from './Nodes/Validation/validateNodeRegistry.js';
-export * from './Values/Validation/validateValueRegistry.js';
-export * from './validateRegistry.js';
+export * from './Nodes/Validation/validateNodeRegistry';
+export * from './Values/Validation/validateValueRegistry';
+export * from './validateRegistry';
 
 // graph validation
-export * from './Graphs/Validation/validateGraphAcyclic.js';
-export * from './Graphs/Validation/validateGraphLinks.js';
-export * from './Graphs/Validation/validateGraph.js';
+export * from './Graphs/Validation/validateGraphAcyclic';
+export * from './Graphs/Validation/validateGraphLinks';
+export * from './Graphs/Validation/validateGraph';
 
 // json types
-export * from './Graphs/IO/GraphJSON.js';
-export * from './Graphs/IO/NodeSpecJSON.js';
+export * from './Graphs/IO/GraphJSON';
+export * from './Graphs/IO/NodeSpecJSON';
 
 // core profile
-export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter.js';
-export * from './Profiles/Core/Abstractions/ILogger.js';
-export * from './Profiles/Core/Abstractions/Drivers/DefaultLogger.js';
-export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
-export * from './Profiles/Core/CustomEvents/OnCustomEvent.js';
-export * from './Profiles/Core/CustomEvents/TriggerCustomEvent.js';
-export * from './Profiles/Core/Debug/AssertExpectTrue.js';
-export * from './Profiles/Core/Debug/DebugLog.js';
-export * from './Profiles/Core/Flow/Branch.js';
-export * from './Profiles/Core/Flow/Debounce.js';
-export * from './Profiles/Core/Flow/Delay.js';
-export * from './Profiles/Core/Flow/FlipFlop.js';
-export * from './Profiles/Core/Flow/ForLoop.js';
-export * from './Profiles/Core/Flow/Sequence.js';
-export * from './Profiles/Core/Lifecycle/LifecycleOnEnd.js';
-export * from './Profiles/Core/Lifecycle/LifecycleOnStart.js';
-export * from './Profiles/Core/Lifecycle/LifecycleOnTick.js';
-export * as BooleanNodes from './Profiles/Core/Values/BooleanNodes.js';
-export * from './Profiles/Core/Values/BooleanValue.js';
-export * as FloatNodes from './Profiles/Core/Values/FloatNodes.js';
-export * from './Profiles/Core/Values/FloatValue.js';
-export * as IntegerNodes from './Profiles/Core/Values/IntegerNodes.js';
-export * from './Profiles/Core/Values/IntegerValue.js';
-export * as StringNodes from './Profiles/Core/Values/StringNodes.js';
-export * from './Profiles/Core/Values/StringValue.js';
-export * from './Profiles/Core/Variables/VariableSet.js';
-export * from './Profiles/Core/Variables/VariableGet.js';
-export * from './Profiles/Core/registerCoreProfile.js';
+export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter';
+export * from './Profiles/Core/Abstractions/ILogger';
+export * from './Profiles/Core/Abstractions/Drivers/DefaultLogger';
+export * from './Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter';
+export * from './Profiles/Core/CustomEvents/OnCustomEvent';
+export * from './Profiles/Core/CustomEvents/TriggerCustomEvent';
+export * from './Profiles/Core/Debug/AssertExpectTrue';
+export * from './Profiles/Core/Debug/DebugLog';
+export * from './Profiles/Core/Flow/Branch';
+export * from './Profiles/Core/Flow/Debounce';
+export * from './Profiles/Core/Flow/Delay';
+export * from './Profiles/Core/Flow/FlipFlop';
+export * from './Profiles/Core/Flow/ForLoop';
+export * from './Profiles/Core/Flow/Sequence';
+export * from './Profiles/Core/Lifecycle/LifecycleOnEnd';
+export * from './Profiles/Core/Lifecycle/LifecycleOnStart';
+export * from './Profiles/Core/Lifecycle/LifecycleOnTick';
+export * as BooleanNodes from './Profiles/Core/Values/BooleanNodes';
+export * from './Profiles/Core/Values/BooleanValue';
+export * as FloatNodes from './Profiles/Core/Values/FloatNodes';
+export * from './Profiles/Core/Values/FloatValue';
+export * as IntegerNodes from './Profiles/Core/Values/IntegerNodes';
+export * from './Profiles/Core/Values/IntegerValue';
+export * as StringNodes from './Profiles/Core/Values/StringNodes';
+export * from './Profiles/Core/Values/StringValue';
+export * from './Profiles/Core/Variables/VariableSet';
+export * from './Profiles/Core/Variables/VariableGet';
+export * from './Profiles/Core/registerCoreProfile';
 
 // scene profile
-export * from './Profiles/Scene/Abstractions/IScene.js';
-export * from './Profiles/Scene/Abstractions/Drivers/DummyScene.js';
-export * from './Profiles/Scene/Actions/SetSceneProperty.js';
-export * from './Profiles/Scene/Events/OnSceneNodeClick.js';
-export * from './Profiles/Scene/Logic/VecElements.js';
-export * from './Profiles/Scene/Queries/GetSceneProperty.js';
-export * from './Profiles/Scene/Values/Internal/Vec2.js';
-export * from './Profiles/Scene/Values/Internal/Vec3.js';
-export * from './Profiles/Scene/Values/Internal/Vec4.js';
-export * as ColorNodes from './Profiles/Scene/Values/ColorNodes.js';
-export * from './Profiles/Scene/Values/ColorValue.js';
-export * as EulerNodes from './Profiles/Scene/Values/EulerNodes.js';
-export * from './Profiles/Scene/Values/EulerValue.js';
-export * as Vec2Nodes from './Profiles/Scene/Values/Vec2Nodes.js';
-export * from './Profiles/Scene/Values/Vec2Value.js';
-export * as Vec3Nodes from './Profiles/Scene/Values/Vec3Nodes.js';
-export * from './Profiles/Scene/Values/Vec3Value.js';
-export * as Vec4Nodes from './Profiles/Scene/Values/Vec4Nodes.js';
-export * from './Profiles/Scene/Values/Vec4Value.js';
-export * as QuatNodes from './Profiles/Scene/Values/QuatNodes.js';
-export * from './Profiles/Scene/Values/QuatValue.js';
-export * from './Profiles/Scene/registerSceneProfile.js';
+export * from './Profiles/Scene/Abstractions/IScene';
+export * from './Profiles/Scene/Abstractions/Drivers/DummyScene';
+export * from './Profiles/Scene/Actions/SetSceneProperty';
+export * from './Profiles/Scene/Events/OnSceneNodeClick';
+export * from './Profiles/Scene/Logic/VecElements';
+export * from './Profiles/Scene/Queries/GetSceneProperty';
+export * from './Profiles/Scene/Values/Internal/Vec2';
+export * from './Profiles/Scene/Values/Internal/Vec3';
+export * from './Profiles/Scene/Values/Internal/Vec4';
+export * as ColorNodes from './Profiles/Scene/Values/ColorNodes';
+export * from './Profiles/Scene/Values/ColorValue';
+export * as EulerNodes from './Profiles/Scene/Values/EulerNodes';
+export * from './Profiles/Scene/Values/EulerValue';
+export * as Vec2Nodes from './Profiles/Scene/Values/Vec2Nodes';
+export * from './Profiles/Scene/Values/Vec2Value';
+export * as Vec3Nodes from './Profiles/Scene/Values/Vec3Nodes';
+export * from './Profiles/Scene/Values/Vec3Value';
+export * as Vec4Nodes from './Profiles/Scene/Values/Vec4Nodes';
+export * from './Profiles/Scene/Values/Vec4Value';
+export * as QuatNodes from './Profiles/Scene/Values/QuatNodes';
+export * from './Profiles/Scene/Values/QuatValue';
+export * from './Profiles/Scene/registerSceneProfile';
 
-export * from './parseFloats.js';
+export * from './parseFloats';

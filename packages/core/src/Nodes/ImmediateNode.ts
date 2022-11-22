@@ -1,8 +1,8 @@
-import { Assert } from '../Diagnostics/Assert.js';
-import { Graph } from '../Graphs/Graph.js';
-import { Socket } from '../Sockets/Socket.js';
-import { Node } from './Node.js';
-import { NodeDescription } from './Registry/NodeDescription.js';
+import { Assert } from '../Diagnostics/Assert';
+import { Graph } from '../Graphs/Graph';
+import { Socket } from '../Sockets/Socket';
+import { Node } from './Node';
+import { NodeDescription } from './Registry/NodeDescription';
 
 export class ImmediateNode extends Node {
   constructor(

@@ -11,7 +11,7 @@ import {
   vec2Subtract,
   vec2ToArray,
   vec2ToString
-} from './Vec2.js';
+} from './Vec2';
 
 describe('vec2 value type', () => {
   test('constructor', () => {

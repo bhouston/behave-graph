@@ -1,14 +1,14 @@
-import { CustomEvent } from '../Events/CustomEvent.js';
-import { generateUuid } from '../generateUuid.js';
-import { Metadata } from '../Metadata.js';
-import { Node } from '../Nodes/Node.js';
-import { NodeTypeRegistry } from '../Nodes/Registry/NodeTypeRegistry.js';
-import { OnCustomEvent } from '../Profiles/Core/CustomEvents/OnCustomEvent.js';
-import { TriggerCustomEvent } from '../Profiles/Core/CustomEvents/TriggerCustomEvent.js';
-import { VariableGet } from '../Profiles/Core/Variables/VariableGet.js';
-import { VariableSet } from '../Profiles/Core/Variables/VariableSet.js';
-import { Registry } from '../Registry.js';
-import { Variable } from '../Variables/Variable.js';
+import { CustomEvent } from '../Events/CustomEvent';
+import { generateUuid } from '../generateUuid';
+import { Metadata } from '../Metadata';
+import { Node } from '../Nodes/Node';
+import { NodeTypeRegistry } from '../Nodes/Registry/NodeTypeRegistry';
+import { OnCustomEvent } from '../Profiles/Core/CustomEvents/OnCustomEvent';
+import { TriggerCustomEvent } from '../Profiles/Core/CustomEvents/TriggerCustomEvent';
+import { VariableGet } from '../Profiles/Core/Variables/VariableGet';
+import { VariableSet } from '../Profiles/Core/Variables/VariableSet';
+import { Registry } from '../Registry';
+import { Variable } from '../Variables/Variable';
 // Purpose:
 //  - stores the node graph
 

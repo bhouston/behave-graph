@@ -11,7 +11,7 @@ import {
   vec4Subtract,
   vec4ToArray,
   vec4ToString
-} from './Vec4.js';
+} from './Vec4';
 
 describe('vec4 value type', () => {
   test('constructor', () => {

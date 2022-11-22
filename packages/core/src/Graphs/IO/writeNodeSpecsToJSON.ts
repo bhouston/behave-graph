@@ -1,10 +1,10 @@
-import { Registry } from '../../Registry.js';
-import { Graph } from '../Graph.js';
+import { Registry } from '../../Registry';
+import { Graph } from '../Graph';
 import {
   InputSocketSpecJSON,
   NodeSpecJSON,
   OutputSocketSpecJSON
-} from './NodeSpecJSON.js';
+} from './NodeSpecJSON';
 
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];

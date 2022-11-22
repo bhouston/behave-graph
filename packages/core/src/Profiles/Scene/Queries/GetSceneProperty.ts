@@ -1,9 +1,9 @@
-import { Graph } from '../../../Graphs/Graph.js';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
-import { toCamelCase } from '../../../toCamelCase.js';
-import { IScene } from '../Abstractions/IScene.js';
+import { Graph } from '../../../Graphs/Graph';
+import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
+import { toCamelCase } from '../../../toCamelCase';
+import { IScene } from '../Abstractions/IScene';
 
 export class GetSceneProperty extends ImmediateNode {
   public static GetDescriptions(scene: IScene, ...valueTypeNames: string[]) {

@@ -1,9 +1,9 @@
-import { Fiber } from '../../../Execution/Fiber.js';
-import { Graph } from '../../../Graphs/Graph.js';
-import { FlowNode } from '../../../Nodes/FlowNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
-import { Variable } from '../../../Variables/Variable.js';
+import { Fiber } from '../../../Execution/Fiber';
+import { Graph } from '../../../Graphs/Graph';
+import { FlowNode } from '../../../Nodes/FlowNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
+import { Variable } from '../../../Variables/Variable';
 
 export class VariableSet extends FlowNode {
   public static GetDescription(graph: Graph, variableId: string) {

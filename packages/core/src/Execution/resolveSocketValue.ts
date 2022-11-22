@@ -1,8 +1,8 @@
-import { Assert } from '../Diagnostics/Assert.js';
-import { Graph } from '../Graphs/Graph.js';
-import { ImmediateNode } from '../Nodes/ImmediateNode.js';
-//import { ImmediateNode } from '../Nodes/ImmediateNode.js';
-import { Socket } from '../Sockets/Socket.js';
+import { Assert } from '../Diagnostics/Assert';
+import { Graph } from '../Graphs/Graph';
+import { ImmediateNode } from '../Nodes/ImmediateNode';
+//import { ImmediateNode } from '../Nodes/ImmediateNode';
+import { Socket } from '../Sockets/Socket';
 
 export function resolveSocketValue(graph: Graph, inputSocket: Socket) {
   // if it has no links, leave value on input socket alone.

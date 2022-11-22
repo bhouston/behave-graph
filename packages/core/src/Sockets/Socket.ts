@@ -1,4 +1,4 @@
-import { Link } from '../Nodes/Link.js';
+import { Link } from '../Nodes/Link';
 
 export class Socket {
   public readonly links: Link[] = [];

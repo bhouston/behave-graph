@@ -1,9 +1,9 @@
-import { Assert } from '../../../Diagnostics/Assert.js';
-import { Engine } from '../../../Execution/Engine.js';
-import { Graph } from '../../../Graphs/Graph.js';
-import { AsyncNode } from '../../../Nodes/AsyncNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
+import { Assert } from '../../../Diagnostics/Assert';
+import { Engine } from '../../../Execution/Engine';
+import { Graph } from '../../../Graphs/Graph';
+import { AsyncNode } from '../../../Nodes/AsyncNode';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
 
 // based on the description here: https://blog.webdevsimplified.com/2022-03/debounce-vs-throttle/
 

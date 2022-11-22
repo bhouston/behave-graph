@@ -1,6 +1,6 @@
-import { Graph } from '../../Graphs/Graph.js';
-import { Node } from './../Node.js';
-import { NodeCategory } from './NodeCategory.js';
+import { Graph } from '../../Graphs/Graph';
+import { Node } from './../Node';
+import { NodeCategory } from './NodeCategory';
 
 export type NodeFactory = (entry: NodeDescription, graph: Graph) => Node;
 

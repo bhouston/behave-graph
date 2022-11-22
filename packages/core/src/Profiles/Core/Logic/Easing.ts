@@ -1,8 +1,8 @@
-import { Graph } from '../../..//Graphs/Graph.js';
-import { ImmediateNode } from '../../..//Nodes/ImmediateNode.js';
-import { Socket } from '../../..//Sockets/Socket.js';
-import { EasingFunctions, EasingModes } from '../../../Easing.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
+import { Graph } from '../../..//Graphs/Graph';
+import { ImmediateNode } from '../../..//Nodes/ImmediateNode';
+import { Socket } from '../../..//Sockets/Socket';
+import { EasingFunctions, EasingModes } from '../../../Easing';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 
 export class Easing extends ImmediateNode {
   public static Description = new NodeDescription(

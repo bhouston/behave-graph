@@ -1,12 +1,13 @@
 import { GraphJSON, NodeJSON, NodeSpecJSON } from '@behave-graph/core';
 import { Edge, Node } from 'reactflow';
 
-const isNullish = (value: any): value is null | undefined => value === undefined || value === null;
+const isNullish = (value: any): value is null | undefined =>
+  value === undefined || value === null;
 
 export const flowToBehave = ({
   nodes,
   edges,
-  nodeSpecJSON,
+  nodeSpecJSON
 }: {
   nodes: Node[];
   edges: Edge[];
@@ -17,7 +18,9 @@ export const flowToBehave = ({
   nodes.forEach((node) => {
     if (node.type === undefined) return;
 
-    const nodeSpec = nodeSpecJSON.find((nodeSpec) => nodeSpec.type === node.type);
+    const nodeSpec = nodeSpecJSON.find(
+      (nodeSpec) => nodeSpec.type === node.type
+    );
 
     if (nodeSpec === undefined) return;
 
@@ -26,8 +29,8 @@ export const flowToBehave = ({
       type: node.type,
       metadata: {
         positionX: String(node.position.x),
-        positionY: String(node.position.y),
-      },
+        positionY: String(node.position.y)
+      }
     };
 
     Object.entries(node.data).forEach(([key, value]) => {
@@ -40,7 +43,9 @@ export const flowToBehave = ({
     edges
       .filter((edge) => edge.target === node.id)
       .forEach((edge) => {
-        const inputSpec = nodeSpec.inputs.find((input) => input.name === edge.targetHandle);
+        const inputSpec = nodeSpec.inputs.find(
+          (input) => input.name === edge.targetHandle
+        );
         if (inputSpec && inputSpec.valueType === 'flow') {
           // skip flows
           return;
@@ -53,14 +58,16 @@ export const flowToBehave = ({
 
         // TODO: some of these are flow outputs, and should be saved differently.  -Ben, Oct 11, 2022
         behaveNode.parameters[edge.targetHandle] = {
-          link: { nodeId: edge.source, socket: edge.sourceHandle },
+          link: { nodeId: edge.source, socket: edge.sourceHandle }
         };
       });
 
     edges
       .filter((edge) => edge.source === node.id)
       .forEach((edge) => {
-        const outputSpec = nodeSpec.outputs.find((output) => output.name === edge.sourceHandle);
+        const outputSpec = nodeSpec.outputs.find(
+          (output) => output.name === edge.sourceHandle
+        );
         if (outputSpec && outputSpec.valueType !== 'flow') {
           return;
         }
@@ -73,7 +80,7 @@ export const flowToBehave = ({
         // TODO: some of these are flow outputs, and should be saved differently.  -Ben, Oct 11, 2022
         behaveNode.flows[edge.sourceHandle] = {
           nodeId: edge.target,
-          socket: edge.targetHandle,
+          socket: edge.targetHandle
         };
       });
 

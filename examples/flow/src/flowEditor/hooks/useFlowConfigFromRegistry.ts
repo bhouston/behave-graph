@@ -1,6 +1,7 @@
-import { NodeSpecJSON, Registry } from '@behave-graph/core';
+import { NodeSpecJSON } from '@behave-graph/core';
 import { useEffect, useState } from 'react';
-import { NodeTypes, Node, OnConnectStartParams } from 'reactflow';
+import { Node, NodeTypes, OnConnectStartParams } from 'reactflow';
+
 import { ISceneWithQueries } from '../../abstractions';
 import { NodePickerFilters } from '../components/NodePicker';
 import getCustomNodeTypes from '../util/getCustomNodeTypes';
@@ -10,7 +11,7 @@ const useFlowConfigFromRegistry = ({
   nodes,
   lastConnectStart,
   specJson,
-  scene,
+  scene
 }: {
   nodes: Node<any>[];
   lastConnectStart: OnConnectStartParams | undefined;

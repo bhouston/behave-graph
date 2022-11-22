@@ -1,8 +1,8 @@
 import { Assert, EventEmitter, IScene, Vec3, Vec4 } from '@behave-graph/core';
 import { Material, Object3D } from 'three';
 
-import { GLTFJson } from './GLTFJson.js';
-import { toVec3, toVec4 } from './ThreeTypeConversion.js';
+import { GLTFJson } from './GLTFJson';
+import { toVec3, toVec4 } from './ThreeTypeConversion';
 
 function mapGlTFNodeIndicesToThreeObject3Ds(
   glTFJson: GLTFJson,

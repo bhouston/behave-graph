@@ -12,6 +12,7 @@
     "Nullary",
     "reserialization",
     "reserialized",
+    "RGBE",
     "Slerp",
     "threeify"
   ],

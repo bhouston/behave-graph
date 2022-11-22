@@ -7,7 +7,7 @@ export const colors: Record<string, [string, string, string]> = {
   purple: ['bg-purple-500', 'border-purple-500', 'text-white'],
   blue: ['bg-cyan-600', 'border-cyan-600', 'text-white'],
   gray: ['bg-gray-500', 'border-gray-500', 'text-white'],
-  white: ['bg-white', 'border-white', 'text-gray-700'],
+  white: ['bg-white', 'border-white', 'text-gray-700']
 };
 
 export const valueTypeColorMap: Record<string, string> = {
@@ -16,7 +16,7 @@ export const valueTypeColorMap: Record<string, string> = {
   float: 'green',
   integer: 'lime',
   boolean: 'red',
-  string: 'purple',
+  string: 'purple'
 };
 
 export const categoryColorMap: Record<NodeSpecJSON['category'], string> = {
@@ -27,5 +27,5 @@ export const categoryColorMap: Record<NodeSpecJSON['category'], string> = {
   Action: 'blue',
   Flow: 'gray',
   Time: 'gray',
-  None: 'gray',
+  None: 'gray'
 };

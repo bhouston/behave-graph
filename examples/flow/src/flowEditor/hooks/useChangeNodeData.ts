@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { useReactFlow } from "reactflow";
+import { useCallback } from 'react';
+import { useReactFlow } from 'reactflow';
 
 export const useChangeNodeData = (id: string) => {
   const instance = useReactFlow();
@@ -13,8 +13,8 @@ export const useChangeNodeData = (id: string) => {
             ...n,
             data: {
               ...n.data,
-              [key]: value,
-            },
+              [key]: value
+            }
           };
         })
       );

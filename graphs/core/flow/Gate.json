@@ -26,7 +26,7 @@
       }
     },
     {
-      "type": "flow/sequence/3",
+      "type": "flow/sequence/5",
       "id": "2",
       "flows": {
         "1": {
@@ -40,6 +40,14 @@
         "3": {
           "nodeId": "5",
           "socket": "flow"
+        },
+        "4": {
+          "nodeId": "6",
+          "socket": "flow"
+        },
+        "5": {
+          "nodeId": "7",
+          "socket": "flow"
         }
       }
     },
@@ -48,12 +56,12 @@
       "id": "3",
       "parameters": {
         "text": {
-          "value": "First Sequence Output!"
+          "value": "Trigging Gate"
         }
       },
       "flows": {
         "flow": {
-          "nodeId": "6",
+          "nodeId": "8",
           "socket": "flow"
         }
       }
@@ -63,7 +71,13 @@
       "id": "4",
       "parameters": {
         "text": {
-          "value": "Second Sequence Output!"
+          "value": "Opening Gate"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "8",
+          "socket": "open"
         }
       }
     },
@@ -72,7 +86,13 @@
       "id": "5",
       "parameters": {
         "text": {
-          "value": "Third Sequence Output!"
+          "value": "Triggering Gate"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "8",
+          "socket": "flow"
         }
       }
     },
@@ -81,7 +101,47 @@
       "id": "6",
       "parameters": {
         "text": {
-          "value": "Downstream of First Sequence!"
+          "value": "Closing Gate"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "8",
+          "socket": "close"
+        }
+      }
+    },
+    {
+      "type": "debug/log",
+      "id": "7",
+      "parameters": {
+        "text": {
+          "value": "Triggering Gate"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "8",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "flow/gate",
+      "id": "8",
+      "flows": {
+        "flow": {
+          "nodeId": "9",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "type": "debug/log",
+      "id": "9",
+      "parameters": {
+        "text": {
+          "value": "Gate Output Triggered"
         }
       }
     }

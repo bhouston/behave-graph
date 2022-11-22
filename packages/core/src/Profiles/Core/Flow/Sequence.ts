@@ -7,20 +7,31 @@ import { Socket } from '../../../Sockets/Socket';
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
 export class Sequence extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/sequence',
-    'Flow',
-    'Sequence',
-    (description, graph) => new Sequence(description, graph)
-  );
+  public static GetDescriptions(): NodeDescription[] {
+    const descriptions: NodeDescription[] = [];
+    for (let numOutputs = 1; numOutputs < 10; numOutputs++) {
+      descriptions.push(
+        new NodeDescription(
+          `flow/sequence/${numOutputs}`,
+          'Flow',
+          `Sequence ${numOutputs}`,
+          (description, graph) => new Sequence(description, graph, numOutputs)
+        )
+      );
+    }
+    return descriptions;
+  }
 
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [new Socket('flow', 'flow')],
-      [new Socket('flow', '1'), new Socket('flow', '2')]
-    );
+  constructor(
+    description: NodeDescription,
+    graph: Graph,
+    private numOutputs: number
+  ) {
+    const outputSockets: Socket[] = [];
+    for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
+      outputSockets.push(new Socket('flow', `${outputIndex}`));
+    }
+    super(description, graph, [new Socket('flow', 'flow')], outputSockets);
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {

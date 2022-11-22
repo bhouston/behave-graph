@@ -20,7 +20,6 @@ import { MultiGate } from './Flow/MultieGate';
 import { Sequence } from './Flow/Sequence';
 import { Throttle } from './Flow/Throttle';
 import { WaitAll } from './Flow/WaitAll';
-import { WaitAny } from './Flow/WaitAny';
 import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd';
 import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
@@ -74,7 +73,7 @@ export function registerCoreProfile(
   nodes.register(Branch.Description);
   nodes.register(FlipFlop.Description);
   nodes.register(ForLoop.Description);
-  nodes.register(Sequence.Description);
+  nodes.register(...Sequence.GetDescriptions());
   nodes.register(Delay.Description);
   nodes.register(Debounce.Description);
   nodes.register(Throttle.Description);
@@ -82,8 +81,7 @@ export function registerCoreProfile(
   nodes.register(DoOnce.Description);
   nodes.register(Gate.Description);
   nodes.register(MultiGate.Description);
-  nodes.register(WaitAll.Description);
-  nodes.register(WaitAny.Description);
+  nodes.register(...WaitAll.GetDescriptions());
   nodes.register(Counter.Description);
 
   // string converters

@@ -39,8 +39,9 @@ export class Easing extends ImmediateNode {
         const easingFunction =
           EasingFunctions[this.readInput('easingFunction') as string];
         const easingMode = EasingModes[this.readInput('easingMode') as string];
-        const inputT = this.readInput('t') as number;
         const easing = easingMode(easingFunction);
+        const inputT = this.readInput('t') as number;
+
         this.writeOutput('t', easing(inputT));
       }
     );

@@ -7,5 +7,8 @@ export const IntegerValue = new ValueType(
   (value: bigint) =>
     Number.MIN_SAFE_INTEGER <= value && value <= Number.MAX_SAFE_INTEGER
       ? Number(value)
-      : value.toString() // prefer string to ensure full range is covered
+      : value.toString(), // prefer string to ensure full range is covered
+
+  (start: bigint, end: bigint, t: number) =>
+    BigInt(Number(start) * (1 - t) + Number(end) * t)
 );

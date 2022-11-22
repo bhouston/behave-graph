@@ -1,2 +1,2 @@
-export * from './GLTFJson.js';
-export * from './ThreeScene.js';
+export * from './GLTFJson';
+export * from './ThreeScene';

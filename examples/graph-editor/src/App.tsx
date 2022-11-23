@@ -9,14 +9,16 @@ import ReactFlow, {
   XYPosition,
 } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
-import { behaveToFlow } from "../../../packages/react-flow/src/transformers/behaveToFlow";
-import { customNodeTypes } from "../../../packages/react-flow/src/util/customNodeTypes";
-import Controls from "../../../packages/react-flow/src/components/Controls";
+import {
+  behaveToFlow,
+  customNodeTypes,
+  Controls,
+  NodePicker,
+  getNodePickerFilters,
+  calculateNewEdge
+} from '@behave-graph/react-flow';
 import rawGraphJSON from "./graph.json";
-import { GraphJSON } from "behave-graph";
-import NodePicker from "../../../packages/react-flow/src/components/NodePicker";
-import { getNodePickerFilters } from "../../../packages/react-flow/src/util/getPickerFilters";
-import { calculateNewEdge } from "../../../packages/react-flow/src/util/calculateNewEdge";
+import { GraphJSON } from "@behave-graph/core";
 
 const graphJSON = rawGraphJSON as GraphJSON;
 

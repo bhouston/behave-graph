@@ -10,7 +10,6 @@ import { Log as DebugLog } from './Debug/DebugLog';
 import { Branch } from './Flow/Branch';
 import { Counter } from './Flow/Counter';
 import { Debounce } from './Flow/Debounce';
-import { Delay } from './Flow/Delay';
 import { DoN } from './Flow/DoN';
 import { DoOnce } from './Flow/DoOnce';
 import { FlipFlop } from './Flow/FlipFlop';
@@ -25,6 +24,8 @@ import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
 import { Easing } from './Logic/Easing';
 import { registerSerializersForValueType } from './registerSerializersForValueType';
+import { Delay } from './Time/Delay';
+import * as TimeNodes from './Time/TimeNodes';
 import * as BooleanNodes from './Values/BooleanNodes';
 import { BooleanValue } from './Values/BooleanValue';
 import * as FloatNodes from './Values/FloatNodes';
@@ -68,13 +69,17 @@ export function registerCoreProfile(
   nodes.register(LifecycleOnEnd.Description(lifecycleEventEmitter));
   nodes.register(LifecycleOnTick.Description(lifecycleEventEmitter));
 
+  // time
+
+  nodes.register(Delay.Description);
+  nodes.register(...getNodeDescriptions(TimeNodes));
+
   // flow control
 
   nodes.register(Branch.Description);
   nodes.register(FlipFlop.Description);
   nodes.register(ForLoop.Description);
   nodes.register(...Sequence.GetDescriptions());
-  nodes.register(Delay.Description);
   nodes.register(Debounce.Description);
   nodes.register(Throttle.Description);
   nodes.register(DoN.Description);

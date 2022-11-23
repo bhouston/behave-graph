@@ -1,23 +1,22 @@
 import { promises as fs } from 'node:fs';
 import process from 'node:process';
 
-import { program } from 'commander';
-
 import {
   DefaultLogger,
   Engine,
   Logger,
   ManualLifecycleEventEmitter,
+  parseSafeFloat,
   readGraphFromJSON,
   registerCoreProfile,
   registerSceneProfile,
   Registry,
   traceToLogger,
-  parseSafeFloat,
   validateGraph,
   validateRegistry,
   writeGraphToJSON
 } from '@behave-graph/core';
+import { program } from 'commander';
 
 type ProgramOptions = {
   upgrade?: boolean;

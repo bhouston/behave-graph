@@ -9,8 +9,8 @@ import { Socket } from '../../../Sockets/Socket';
 
 export class Delay extends AsyncNode {
   public static Description = new NodeDescription(
-    'flow/delay',
-    'Flow',
+    'time/delay',
+    'Time',
     'Delay',
     (description, graph) => new Delay(description, graph)
   );

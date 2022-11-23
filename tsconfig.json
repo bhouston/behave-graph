@@ -13,7 +13,8 @@
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "noImplicitThis": false,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "jsx": "react"
   },
   "include": ["packages/core/src","packages/react-flow/src"],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],

@@ -6,6 +6,7 @@ import { colors, valueTypeColorMap } from "../util/colors";
 import { InputSocketSpecJSON } from "@behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
 import { AutoSizeInput } from "./AutoSizeInput";
+import React from "react";
 
 export type InputSocketProps = {
   connected: boolean;

@@ -11,6 +11,7 @@ import Delay from "behave-graph/dist/graphs/core/async/Delay.json";
 import HelloWorld from "behave-graph/dist/graphs/core//HelloWorld.json";
 import Polynomial from "behave-graph/dist/graphs/core/logic/Polynomial.json";
 import SetGet from "behave-graph/dist/graphs/core/variables/SetGet.json";
+import React from "react";
 
 // TODO remove when json types fixed in behave-graph
 const examples = {

@@ -1,4 +1,3 @@
-import * as delayJson from '../../../../../graphs/core/async/Delay.json';
 import * as customEventJson from '../../../../../graphs/core/events/CustomEvents.json';
 import * as lifecycleJson from '../../../../../graphs/core/events/Lifecycle.json';
 import * as branchJson from '../../../../../graphs/core/flow/Branch.json';
@@ -8,6 +7,7 @@ import * as performanceTestJson from '../../../../../graphs/core/flow/Performanc
 import * as sequenceJson from '../../../../../graphs/core/flow/Sequence.json';
 import * as helloWorldJson from '../../../../../graphs/core/HelloWorld.json';
 import * as polynomialJson from '../../../../../graphs/core/logic/Polynomial.json';
+import * as delayJson from '../../../../../graphs/core/time/Delay.json';
 import * as frameCounterJson from '../../../../../graphs/core/variables/FrameCounter.json';
 import * as initialValueJson from '../../../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../../../graphs/core/variables/SetGet.json';

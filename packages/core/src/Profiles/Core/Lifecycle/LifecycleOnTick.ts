@@ -26,11 +26,7 @@ export class LifecycleOnTick extends EventNode {
       description,
       graph,
       [],
-      [
-        new Socket('flow', 'flow'),
-        new Socket('float', 'deltaSeconds'),
-        new Socket('float', 'time')
-      ]
+      [new Socket('flow', 'flow'), new Socket('float', 'deltaSeconds')]
     );
   }
 
@@ -43,7 +39,6 @@ export class LifecycleOnTick extends EventNode {
       const currentTime = Date.now();
       const deltaSeconds = (currentTime - lastTickTime) * 0.001;
       this.writeOutput('deltaSeconds', deltaSeconds);
-      this.writeOutput('time', Date.now());
       engine.commitToNewFiber(this, 'flow');
       lastTickTime = currentTime;
     };

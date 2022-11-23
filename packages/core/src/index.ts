@@ -60,7 +60,7 @@ export * from './Profiles/Core/Debug/AssertExpectTrue';
 export * from './Profiles/Core/Debug/DebugLog';
 export * from './Profiles/Core/Flow/Branch';
 export * from './Profiles/Core/Flow/Debounce';
-export * from './Profiles/Core/Flow/Delay';
+export * from './Profiles/Core/Time/Delay';
 export * from './Profiles/Core/Flow/FlipFlop';
 export * from './Profiles/Core/Flow/ForLoop';
 export * from './Profiles/Core/Flow/Sequence';

@@ -2,11 +2,12 @@
   "folders": [
     {
       "path": "."
-    },
-    {
-      "path": "../behave-flow"
     }
   ],
-  "settings": {},
+  "settings": {
+    "cSpell.words": [
+      "reactflow"
+    ]
+  },
   "extensions": {}
 }

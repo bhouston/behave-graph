@@ -15,6 +15,6 @@
     "noImplicitThis": false,
     "baseUrl": "./"
   },
-  "include": ["packages/core/src",],
+  "include": ["packages/core/src","packages/react-flow/src"],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],
 }

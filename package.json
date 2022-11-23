@@ -59,13 +59,16 @@
   },
   "workspaces": [
     "packages/core",
+    "packages/react-flow",
+    "examples/graph-editor",
     "examples/three-viewer",
     "examples/exec-graph",
     "examples/export-node-spec"
   ],
   "preconstruct": {
     "packages": [
-      "packages/core"
+      "packages/core",
+      "packages/react-flow"
     ]
   }
 }

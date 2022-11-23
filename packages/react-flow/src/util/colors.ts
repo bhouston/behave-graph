@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from "behave-graph";
+import { NodeSpecJSON } from "@behave-graph/core";
 
 export const colors: Record<string, [string, string, string]> = {
   red: ["bg-orange-700", "border-orange-700", "text-white"],

@@ -6,7 +6,7 @@ import {
   registerCoreProfile,
   registerSceneProfile,
   Registry,
-} from "behave-graph";
+} from "@behave-graph/core";
 import { useState } from "react";
 import { ClearModal } from "./modals/ClearModal";
 import { HelpModal } from "./modals/HelpModal";

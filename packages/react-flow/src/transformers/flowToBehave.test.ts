@@ -1,6 +1,6 @@
 import { flowToBehave } from "./flowToBehave";
 import rawFlowGraph from "../graph.json";
-import { GraphJSON } from "behave-graph";
+import { GraphJSON } from "@behave-graph/core";
 import { behaveToFlow } from "./behaveToFlow";
 
 const flowGraph = rawFlowGraph as GraphJSON;

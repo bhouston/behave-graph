@@ -1,4 +1,4 @@
-import { GraphJSON, NodeJSON } from "behave-graph";
+import { GraphJSON, NodeJSON } from "@behave-graph/core";
 import { Edge, Node } from "reactflow";
 import { getNodeSpecJSON } from "../util/getNodeSpecJSON";
 

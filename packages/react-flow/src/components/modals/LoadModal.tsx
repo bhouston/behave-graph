@@ -1,4 +1,4 @@
-import { GraphJSON } from "behave-graph";
+import { GraphJSON } from "@behave-graph/core";
 import { FC, useState } from "react";
 import { useReactFlow } from "reactflow";
 import { behaveToFlow } from "../transformers/behaveToFlow";

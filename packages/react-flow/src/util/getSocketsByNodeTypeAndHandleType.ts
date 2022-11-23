@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from "behave-graph";
+import { NodeSpecJSON } from "@behave-graph/core";
 
 export const getSocketsByNodeTypeAndHandleType = (
   nodes: NodeSpecJSON[],

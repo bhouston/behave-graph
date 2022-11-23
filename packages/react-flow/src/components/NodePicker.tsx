@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useReactFlow, XYPosition } from "reactflow";
 import { useOnPressKey } from "../hooks/useOnPressKey";
 import rawSpecJson from "behave-graph/dist/node-spec.json";
-import { NodeSpecJSON } from "behave-graph";
+import { NodeSpecJSON } from "@behave-graph/core";
 
 const specJSON = rawSpecJson as NodeSpecJSON[];
 

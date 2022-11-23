@@ -5,6 +5,7 @@ import NodeContainer from "./NodeContainer";
 import OutputSocket from "./OutputSocket";
 import { useChangeNodeData } from "../hooks/useChangeNodeData";
 import { isHandleConnected } from "../util/isHandleConnected";
+import React from "react";
 
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;

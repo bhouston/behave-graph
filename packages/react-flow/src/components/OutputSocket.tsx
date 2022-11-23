@@ -5,6 +5,7 @@ import cx from "classnames";
 import { colors, valueTypeColorMap } from "../util/colors";
 import { OutputSocketSpecJSON } from "@behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
+import React from "react";
 
 export type OutputSocketProps = {
   connected: boolean;

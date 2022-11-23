@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import cx from "classnames";
 
 import { categoryColorMap, colors } from "../util/colors";
+import React from "react";
 
 type NodeProps = {
   title: string;
@@ -14,7 +15,7 @@ export default function NodeContainer({
   title,
   category = "None",
   selected,
-  children,
+  children
 }: PropsWithChildren<NodeProps>) {
   let colorName = categoryColorMap[category];
   if (colorName === undefined) {

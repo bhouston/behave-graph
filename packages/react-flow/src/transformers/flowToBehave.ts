@@ -1,6 +1,7 @@
-import { GraphJSON, NodeJSON } from "@behave-graph/core";
-import { Edge, Node } from "reactflow";
-import { getNodeSpecJSON } from "../util/getNodeSpecJSON";
+import { GraphJSON, NodeJSON } from '@behave-graph/core';
+import { Edge, Node } from 'reactflow';
+
+import { getNodeSpecJSON } from '../util/getNodeSpecJSON';
 
 const nodeSpecJSON = getNodeSpecJSON();
 
@@ -24,8 +25,8 @@ export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
       type: node.type,
       metadata: {
         positionX: String(node.position.x),
-        positionY: String(node.position.y),
-      },
+        positionY: String(node.position.y)
+      }
     };
 
     Object.entries(node.data).forEach(([key, value]) => {
@@ -41,7 +42,7 @@ export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
         const inputSpec = nodeSpec.inputs.find(
           (input) => input.name === edge.targetHandle
         );
-        if (inputSpec && inputSpec.valueType === "flow") {
+        if (inputSpec && inputSpec.valueType === 'flow') {
           // skip flows
           return;
         }
@@ -53,7 +54,7 @@ export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
 
         // TODO: some of these are flow outputs, and should be saved differently.  -Ben, Oct 11, 2022
         behaveNode.parameters[edge.targetHandle] = {
-          link: { nodeId: edge.source, socket: edge.sourceHandle },
+          link: { nodeId: edge.source, socket: edge.sourceHandle }
         };
       });
 
@@ -63,7 +64,7 @@ export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
         const outputSpec = nodeSpec.outputs.find(
           (output) => output.name === edge.sourceHandle
         );
-        if (outputSpec && outputSpec.valueType !== "flow") {
+        if (outputSpec && outputSpec.valueType !== 'flow') {
           return;
         }
         if (behaveNode.flows === undefined) {
@@ -75,7 +76,7 @@ export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
         // TODO: some of these are flow outputs, and should be saved differently.  -Ben, Oct 11, 2022
         behaveNode.flows[edge.sourceHandle] = {
           nodeId: edge.target,
-          socket: edge.targetHandle,
+          socket: edge.targetHandle
         };
       });
 

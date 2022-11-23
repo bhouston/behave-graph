@@ -1,7 +1,8 @@
-import { Connection, ReactFlowInstance } from "reactflow";
-import { getSocketsByNodeTypeAndHandleType } from "./getSocketsByNodeTypeAndHandleType";
-import { isHandleConnected } from "./isHandleConnected";
-import { getNodeSpecJSON } from "./getNodeSpecJSON";
+import { Connection, ReactFlowInstance } from 'reactflow';
+
+import { getNodeSpecJSON } from './getNodeSpecJSON';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
+import { isHandleConnected } from './isHandleConnected';
 
 const specJSON = getNodeSpecJSON();
 
@@ -20,7 +21,7 @@ export const isValidConnection = (
   const sourceSockets = getSocketsByNodeTypeAndHandleType(
     specJSON,
     sourceNode.type,
-    "source"
+    'source'
   );
 
   const sourceSocket = sourceSockets?.find(
@@ -30,7 +31,7 @@ export const isValidConnection = (
   const targetSockets = getSocketsByNodeTypeAndHandleType(
     specJSON,
     targetNode.type,
-    "target"
+    'target'
   );
 
   const targetSocket = targetSockets?.find(
@@ -41,8 +42,8 @@ export const isValidConnection = (
 
   // only flow sockets can have two inputs
   if (
-    targetSocket.valueType !== "flow" &&
-    isHandleConnected(edges, targetNode.id, targetSocket.name, "target")
+    targetSocket.valueType !== 'flow' &&
+    isHandleConnected(edges, targetNode.id, targetSocket.name, 'target')
   ) {
     return false;
   }

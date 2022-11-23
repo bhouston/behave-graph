@@ -1,7 +1,8 @@
-import { Node, OnConnectStartParams } from "reactflow";
-import { NodePickerFilters } from "../components/NodePicker";
-import { getSocketsByNodeTypeAndHandleType } from "./getSocketsByNodeTypeAndHandleType";
-import { getNodeSpecJSON } from "./getNodeSpecJSON";
+import { Node, OnConnectStartParams } from 'reactflow';
+
+import { NodePickerFilters } from '../components/NodePicker';
+import { getNodeSpecJSON } from './getNodeSpecJSON';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
 
 const specJSON = getNodeSpecJSON();
 
@@ -25,7 +26,7 @@ export const getNodePickerFilters = (
   if (socket === undefined) return;
 
   return {
-    handleType: params.handleType === "source" ? "target" : "source",
-    valueType: socket.valueType,
+    handleType: params.handleType === 'source' ? 'target' : 'source',
+    valueType: socket.valueType
   };
 };

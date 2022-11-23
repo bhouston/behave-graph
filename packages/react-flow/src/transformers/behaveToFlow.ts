@@ -1,6 +1,6 @@
-import { GraphJSON } from "@behave-graph/core";
-import { Edge, Node } from "reactflow";
-import { v4 as uuidv4 } from "uuid";
+import { GraphJSON } from '@behave-graph/core';
+import { Edge, Node } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
 
 export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
   const nodes: Node[] = [];
@@ -16,25 +16,25 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
           : 0,
         y: nodeJSON.metadata?.positionY
           ? Number(nodeJSON.metadata?.positionY)
-          : 0,
+          : 0
       },
-      data: {} as { [key: string]: any },
+      data: {} as { [key: string]: any }
     };
 
     nodes.push(node);
 
     if (nodeJSON.parameters) {
       for (const [inputKey, input] of Object.entries(nodeJSON.parameters)) {
-        if ("link" in input && input.link !== undefined) {
+        if ('link' in input && input.link !== undefined) {
           edges.push({
             id: uuidv4(),
             source: input.link.nodeId,
             sourceHandle: input.link.socket,
             target: nodeJSON.id,
-            targetHandle: inputKey,
+            targetHandle: inputKey
           });
         }
-        if ("value" in input) {
+        if ('value' in input) {
           node.data[inputKey] = input.value;
         }
       }
@@ -47,7 +47,7 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
           source: nodeJSON.id,
           sourceHandle: inputKey,
           target: link.nodeId,
-          targetHandle: link.socket,
+          targetHandle: link.socket
         });
       }
     }

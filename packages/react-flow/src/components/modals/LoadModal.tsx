@@ -1,9 +1,9 @@
 import { GraphJSON } from "@behave-graph/core";
 import { FC, useState } from "react";
 import { useReactFlow } from "reactflow";
-import { behaveToFlow } from "../transformers/behaveToFlow";
-import { autoLayout } from "../util/autoLayout";
-import { hasPositionMetaData } from "../util/hasPositionMetaData";
+import { behaveToFlow } from "../../transformers/behaveToFlow";
+import { autoLayout } from "../../util/autoLayout";
+import { hasPositionMetaData } from "../../util/hasPositionMetaData";
 import { Modal } from "./Modal";
 
 import Branch from "behave-graph/dist/graphs/core/flow/Branch.json";

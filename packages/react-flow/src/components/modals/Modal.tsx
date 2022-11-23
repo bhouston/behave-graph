@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { useOnPressKey } from "../hooks/useOnPressKey";
+import { useOnPressKey } from "../../hooks/useOnPressKey";
 
 export type ModalAction = {
   label: string;

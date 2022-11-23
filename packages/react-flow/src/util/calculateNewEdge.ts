@@ -1,7 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
-import { Node, OnConnectStartParams } from "reactflow";
-import { getSocketsByNodeTypeAndHandleType } from "./getSocketsByNodeTypeAndHandleType";
-import { getNodeSpecJSON } from "./getNodeSpecJSON";
+import { Node, OnConnectStartParams } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
+
+import { getNodeSpecJSON } from './getNodeSpecJSON';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
 
 const specJSON = getNodeSpecJSON();
 
@@ -23,27 +24,27 @@ export const calculateNewEdge = (
   const newSockets = getSocketsByNodeTypeAndHandleType(
     specJSON,
     destinationNodeType,
-    connection.handleType === "source" ? "target" : "source"
+    connection.handleType === 'source' ? 'target' : 'source'
   );
   const newSocket = newSockets?.find(
     (socket) => socket.valueType === originSocket?.valueType
   );
 
-  if (connection.handleType === "source") {
+  if (connection.handleType === 'source') {
     return {
       id: uuidv4(),
-      source: connection.nodeId ?? "",
+      source: connection.nodeId ?? '',
       sourceHandle: connection.handleId,
       target: destinationNodeId,
-      targetHandle: newSocket?.name,
+      targetHandle: newSocket?.name
     };
   }
 
   return {
     id: uuidv4(),
-    target: connection.nodeId ?? "",
+    target: connection.nodeId ?? '',
     targetHandle: connection.handleId,
     source: destinationNodeId,
-    sourceHandle: newSocket?.name,
+    sourceHandle: newSocket?.name
   };
 };

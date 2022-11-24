@@ -10,18 +10,18 @@ import ReactFlow, {
 } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 import { GraphJSON } from "@behave-graph/core";
-import { behaveToFlow } from "./transformers/behaveToFlow";
-import { calculateNewEdge } from "./util/calculateNewEdge";
-import { customNodeTypes } from "./util/customNodeTypes";
-import CustomControls from "./components/Controls";
-import NodePicker from "./components/NodePicker";
-import { getNodePickerFilters } from "./util/getPickerFilters";
+import { behaveToFlow } from "../transformers/behaveToFlow";
+import { calculateNewEdge } from "../util/calculateNewEdge";
+import { customNodeTypes } from "../util/customNodeTypes";
+import CustomControls from "./Controls";
+import NodePicker from "./NodePicker";
+import { getNodePickerFilters } from "../util/getPickerFilters";
 
 type FlowProps = {
   graph: GraphJSON
 }
 
-const Flow: FC<FlowProps> = ({ graph }) => {
+export const Flow: FC<FlowProps> = ({ graph }) => {
   const [nodePickerVisibility, setNodePickerVisibility] =
     useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] =
@@ -152,5 +152,3 @@ const Flow: FC<FlowProps> = ({ graph }) => {
     </ReactFlow>
   );
 }
-
-export default Flow;

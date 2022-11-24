@@ -5,6 +5,7 @@ import NodeContainer from "./NodeContainer";
 import OutputSocket from "./OutputSocket";
 import { useChangeNodeData } from "../hooks/useChangeNodeData";
 import { isHandleConnected } from "../util/isHandleConnected";
+// import styles from "./Node.module.css"
 
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;
@@ -34,19 +35,20 @@ export const Node = ({ id, data, spec, selected }: NodeProps) => {
         <div
           key={ix}
           className="flex flex-row justify-between gap-8 relative px-2"
+          // className={styles.container}
         >
           {input && (
             <InputSocket
               {...input}
               value={data[input.name] ?? input.defaultValue}
               onChange={handleChange}
-              connected={isHandleConnected(edges, id, input.name, "target")}
+              connected={isHandleConnected(edges, id, input.name, 'target')}
             />
           )}
           {output && (
             <OutputSocket
               {...output}
-              connected={isHandleConnected(edges, id, output.name, "source")}
+              connected={isHandleConnected(edges, id, output.name, 'source')}
             />
           )}
         </div>

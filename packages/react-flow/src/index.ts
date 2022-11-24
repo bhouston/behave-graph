@@ -30,4 +30,4 @@ export * from './util/isHandleConnected';
 export * from './util/isValidConnection';
 export * from './util/sleep';
 
-export * from './Flow';
+export * from './components/Flow';

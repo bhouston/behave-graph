@@ -1,4 +1,3 @@
-import React from "react";
 import { NodeTypes } from "reactflow";
 import { Node } from "../components/Node";
 import { getNodeSpecJSON } from "./getNodeSpecJSON";

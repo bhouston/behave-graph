@@ -1,4 +1,3 @@
-import React from "react";
 import { FC } from "react";
 import { useReactFlow } from "reactflow";
 import { Modal } from "./Modal";

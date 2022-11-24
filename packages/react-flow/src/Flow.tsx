@@ -1,4 +1,4 @@
-import { MouseEvent as ReactMouseEvent, useCallback, useState } from "react";
+import { FC, MouseEvent as ReactMouseEvent, useCallback, useMemo, useState } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -9,26 +9,26 @@ import ReactFlow, {
   XYPosition,
 } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
-import {
-  behaveToFlow,
-  customNodeTypes,
-  Controls,
-  NodePicker,
-  getNodePickerFilters,
-  calculateNewEdge
-} from '@behave-graph/react-flow';
-import rawGraphJSON from "./graph.json";
 import { GraphJSON } from "@behave-graph/core";
+import { behaveToFlow } from "./transformers/behaveToFlow";
+import { calculateNewEdge } from "./util/calculateNewEdge";
+import { customNodeTypes } from "./util/customNodeTypes";
+import CustomControls from "./components/Controls";
+import NodePicker from "./components/NodePicker";
+import { getNodePickerFilters } from "./util/getPickerFilters";
 
-const graphJSON = rawGraphJSON as GraphJSON;
+type FlowProps = {
+  graph: GraphJSON
+}
 
-const [initialNodes, initialEdges] = behaveToFlow(graphJSON);
-
-function Flow() {
+const Flow: FC<FlowProps> = ({ graph }) => {
   const [nodePickerVisibility, setNodePickerVisibility] =
     useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] =
     useState<OnConnectStartParams>();
+
+  const [initialNodes, initialEdges] = useMemo(() => behaveToFlow(graph), [graph]);
+
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
@@ -135,7 +135,7 @@ function Flow() {
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <Controls />
+      <CustomControls />
       <Background
         variant={BackgroundVariant.Lines}
         color="#2a2b2d"

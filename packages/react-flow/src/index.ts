@@ -29,3 +29,5 @@ export * from './util/hasPositionMetaData';
 export * from './util/isHandleConnected';
 export * from './util/isValidConnection';
 export * from './util/sleep';
+
+export * from './Flow';

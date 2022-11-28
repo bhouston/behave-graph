@@ -6,9 +6,9 @@ The different node types have different execution models and are also declared d
 
 Immediate Nodes
 
-Immediate nodes are the simplest type of node.  They do not support "flow" input or output sockets, rather they only have non-flow sockets.  These nodes are evaluated on demand an output of theirs are required.  Thes are most often used for mathematical operators, or for queries of context or state.
+Immediate nodes are the simplest type of node.  They do not support "flow" input or output sockets, rather they only have non-flow sockets.  These nodes are evaluated on demand when an output of theirs are required.  Thes are most often used for mathematical operators, or for queries of context or state.
 
-If there is a network of immediate nodes, execution proceed by first evaluating the most leaf nodes and then proceeding downwards through the graph until you have evaluated the output sockets of the immediate nodes you require.
+If there is a network of immediate nodes, execution proceeds by first evaluating the outer most leaf nodes and then proceeding downwards through the graph until you have evaluated the output sockets of the immediate nodes you require.
 
 Basic Flow Nodes
 

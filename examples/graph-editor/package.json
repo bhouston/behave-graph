@@ -1,19 +1,24 @@
 {
-  "name": "@behave-graph/examples-three-viewer",
+  "name": "@behave-graph/examples-graph-editor",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "directories": {
     "lib": "src"
   },
   "dependencies": {
     "@behave-graph/core": "*",
+    "@behave-graph/react-flow": "*",
+    "react": "^18.2.0",
+    "reactflow": "^11.3.2",
     "three": "^0.145.0"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
     "typescript": "^4.7.3",
-    "vite": "^3.2.3"
+    "vite": "^3.2.3",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-tsconfig-paths": "^3.6.0",
+    "@vitejs/plugin-react": "^2.2.0"
   },
   "scripts": {
     "start": "vite",

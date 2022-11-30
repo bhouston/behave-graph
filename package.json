@@ -24,6 +24,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@preconstruct/cli": "^2.2.2",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.43.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -34,8 +35,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
-    "typescript": "^4.7.3",
-    "@typescript-eslint/parser": "^5.43.0"
+    "typescript": "^4.7.3"
   },
   "scripts": {
     "postinstall": "preconstruct dev",
@@ -55,17 +55,26 @@
     "export-node-spec": "npm run build && npm run start --workspace=@behave-graph/examples-export-node-spec",
     "build-export-node-spec": "npm run build && npm run build --workspace=@behave-graph/examples-export-node-spec",
     "three-viewer": "npm run build && npm run start --workspace=@behave-graph/examples-three-viewer",
-    "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer"
+    "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer",
+    "graph-editor": "npm run build && npm run start --workspace=examples/graph-editor"
   },
   "workspaces": [
     "packages/core",
-    "examples/three-viewer",
+    "packages/react-flow",
     "examples/exec-graph",
-    "examples/export-node-spec"
+    "examples/export-node-spec",
+    "examples/graph-editor",
+    "examples/three-viewer"
   ],
   "preconstruct": {
     "packages": [
-      "packages/core"
+      "packages/core",
+      "packages/react-flow"
     ]
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^3.2.4"
   }
 }

@@ -1,5 +1,6 @@
-import { FC, PropsWithChildren } from "react";
-import { useOnPressKey } from "../../hooks/useOnPressKey";
+import React from 'react';
+import { FC, PropsWithChildren } from 'react';
+import { useOnPressKey } from '../../hooks/useOnPressKey';
 
 export type ModalAction = {
   label: string;
@@ -18,15 +19,15 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   onClose,
   title,
   children,
-  actions,
+  actions
 }) => {
-  useOnPressKey("Escape", onClose);
+  useOnPressKey('Escape', onClose);
 
   if (open === false) return null;
 
   const actionColors = {
-    primary: "bg-teal-400 hover:bg-teal-500",
-    secondary: "bg-gray-400 hover:bg-gray-500",
+    primary: 'bg-teal-400 hover:bg-teal-500',
+    secondary: 'bg-gray-400 hover:bg-gray-500'
   };
 
   return (
@@ -45,7 +46,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
             <button
               key={ix}
               className={
-                "text-white p-2 w-full cursor-pointer " +
+                'text-white p-2 w-full cursor-pointer ' +
                 (ix === actions.length - 1
                   ? actionColors.primary
                   : actionColors.secondary)

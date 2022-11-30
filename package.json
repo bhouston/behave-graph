@@ -60,7 +60,7 @@
   },
   "workspaces": [
     "packages/core",
-    "packages/react-flow",
+    "packages/flow",
     "examples/exec-graph",
     "examples/export-node-spec",
     "examples/graph-editor",
@@ -69,7 +69,7 @@
   "preconstruct": {
     "packages": [
       "packages/core",
-      "packages/react-flow"
+      "packages/flow"
     ]
   },
   "dependencies": {

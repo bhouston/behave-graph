@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Flow } from "@behave-graph/react-flow";
+import { Flow } from "@behave-graph/flow";
 import { GraphJSON } from "@behave-graph/core";
 import rawGraph from "./graph.json"
 

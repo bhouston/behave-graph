@@ -5,5 +5,5 @@
     "declaration": false,
     "emitDeclarationOnly": false
   },
-  "include": ["./src", "tailwind.config.js"]
+  "include": ["./src"]
 }

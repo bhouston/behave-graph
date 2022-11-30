@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "declaration": false,
     "emitDeclarationOnly": false
   },
-  "include": ["./src"]
+  "include": ["./src", "tailwind.config.js"]
 }

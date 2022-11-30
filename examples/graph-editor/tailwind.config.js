@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx,css}',
+    '../../packages/react-flow/dist/**/*.{js,ts,jsx,tsx,css}'
+  ],
   theme: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 };

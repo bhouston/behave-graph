@@ -1,10 +1,10 @@
 {
-  "name": "@behave-graph/react-flow",
+  "name": "@behave-graph/flow",
   "version": "0.1.0",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-react-flow.cjs.js",
-  "module": "dist/behave-graph-react-flow.esm.js",
-  "types": "dist/behave-graph-react-flow.cjs.d.ts",
+  "main": "dist/behave-graph-flow.cjs.js",
+  "module": "dist/behave-graph-flow.esm.js",
+  "types": "dist/behave-graph-flow.cjs.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [

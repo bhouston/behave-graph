@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@behave-graph/core": "*",
-    "@behave-graph/react-flow": "*",
+    "@behave-graph/flow": "*",
     "react": "^18.2.0",
     "reactflow": "^11.3.2",
     "three": "^0.145.0"

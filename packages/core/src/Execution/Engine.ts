@@ -31,11 +31,12 @@ export class Engine {
       // evaluate input parameters
       eventNode.inputSockets.forEach((inputSocket) => {
         Assert.mustBeTrue(inputSocket.valueTypeName !== 'flow');
-        resolveSocketValue(this, inputSocket);
+        this.executionSteps += resolveSocketValue(this, inputSocket);
       });
 
       this.onNodeExecutionStart.emit(eventNode);
       eventNode.init(this);
+      this.executionSteps++;
       this.onNodeExecutionEnd.emit(eventNode);
     });
   }

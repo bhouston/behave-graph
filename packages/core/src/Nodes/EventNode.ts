@@ -10,8 +10,8 @@ export class EventNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSockets: Socket[],
-    outputSockets: Socket[]
+    inputSockets: Socket[] = [],
+    outputSockets: Socket[] = []
   ) {
     super(description, graph, inputSockets, outputSockets);
     // no input flow sockets allowed.
@@ -33,5 +33,21 @@ export class EventNode extends Node {
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
   dispose(engine: Engine) {
     throw new Error('not implemented');
+  }
+}
+
+export class EventNode2 extends EventNode {
+  constructor(properties: {
+    description: NodeDescription;
+    graph: Graph;
+    inputSockets?: Socket[];
+    outputSockets?: Socket[];
+  }) {
+    super(
+      properties.description,
+      properties.graph,
+      properties.inputSockets,
+      properties.outputSockets
+    );
   }
 }

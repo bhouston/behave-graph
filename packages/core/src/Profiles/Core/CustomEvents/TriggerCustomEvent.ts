@@ -1,11 +1,11 @@
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
+import { FlowNode2 } from '../../../Nodes/FlowNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
-export class TriggerCustomEvent extends FlowNode {
+export class TriggerCustomEvent extends FlowNode2 {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
@@ -22,10 +22,10 @@ export class TriggerCustomEvent extends FlowNode {
     graph: Graph,
     public readonly customEvent: CustomEvent
   ) {
-    super(
+    super({
       description,
       graph,
-      [
+      inputSockets: [
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>
@@ -37,8 +37,8 @@ export class TriggerCustomEvent extends FlowNode {
             )
         )
       ],
-      [new Socket('flow', 'flow')]
-    );
+      outputSockets: [new Socket('flow', 'flow')]
+    });
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {

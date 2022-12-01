@@ -2,11 +2,11 @@ import { Assert } from '../../../Diagnostics/Assert';
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Engine } from '../../../Execution/Engine';
 import { Graph } from '../../../Graphs/Graph';
-import { EventNode } from '../../../Nodes/EventNode';
+import { EventNode2 } from '../../../Nodes/EventNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
-export class OnCustomEvent extends EventNode {
+export class OnCustomEvent extends EventNode2 {
   public static GetDescription(graph: Graph, customEventId: string) {
     const customEvent = graph.customEvents[customEventId];
     return new NodeDescription(
@@ -22,11 +22,10 @@ export class OnCustomEvent extends EventNode {
     graph: Graph,
     public readonly customEvent: CustomEvent
   ) {
-    super(
+    super({
       description,
       graph,
-      [],
-      [
+      outputSockets: [
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>
@@ -38,7 +37,7 @@ export class OnCustomEvent extends EventNode {
             )
         )
       ]
-    );
+    });
   }
   private onCustomEvent:
     | ((parameters: { [parameter: string]: any }) => void)

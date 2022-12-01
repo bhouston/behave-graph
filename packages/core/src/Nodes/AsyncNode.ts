@@ -10,8 +10,8 @@ export class AsyncNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSockets: Socket[],
-    outputSockets: Socket[]
+    inputSockets: Socket[] = [],
+    outputSockets: Socket[] = []
   ) {
     super(description, graph, inputSockets, outputSockets);
     // must have at least one input flow socket
@@ -36,5 +36,21 @@ export class AsyncNode extends Node {
 
   dispose() {
     throw new Error('not implemented');
+  }
+}
+
+export class AsyncNode2 extends AsyncNode {
+  constructor(properties: {
+    description: NodeDescription;
+    graph: Graph;
+    inputSockets?: Socket[];
+    outputSockets?: Socket[];
+  }) {
+    super(
+      properties.description,
+      properties.graph,
+      properties.inputSockets,
+      properties.outputSockets
+    );
   }
 }

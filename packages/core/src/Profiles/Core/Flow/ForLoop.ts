@@ -1,16 +1,19 @@
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 export class ForLoop extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/forLoop',
-    'Flow',
-    'For Loop',
-    (description, graph) => new ForLoop(description, graph)
-  );
+  public static Description = new NodeDescription2({
+    typeName: 'flow/forLoop',
+    category: 'Flow',
+    label: 'For Loop',
+    factory: (description, graph) => new ForLoop(description, graph)
+  });
 
   constructor(description: NodeDescription, graph: Graph) {
     super(

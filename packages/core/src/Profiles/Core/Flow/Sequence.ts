@@ -1,7 +1,10 @@
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
@@ -11,12 +14,14 @@ export class Sequence extends FlowNode {
     const descriptions: NodeDescription[] = [];
     for (let numOutputs = 1; numOutputs < 10; numOutputs++) {
       descriptions.push(
-        new NodeDescription(
-          `flow/sequence/${numOutputs}`,
-          'Flow',
-          `Sequence ${numOutputs}`,
-          (description, graph) => new Sequence(description, graph, numOutputs)
-        )
+        new NodeDescription2({
+          typeName: `flow/sequence/${numOutputs}`,
+          category: 'Flow',
+          label: `Sequence ${numOutputs}`,
+          factory: (description, graph) =>
+            new Sequence(description, graph, numOutputs),
+          otherTypeNames: numOutputs === 3 ? ['flow/sequence'] : [] // old sequence node has 3 outputs
+        })
       );
     }
     return descriptions;

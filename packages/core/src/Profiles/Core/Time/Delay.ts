@@ -1,19 +1,23 @@
 import { Engine } from '../../../Execution/Engine';
 import { Graph } from '../../../Graphs/Graph';
 import { AsyncNode } from '../../../Nodes/AsyncNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"
 
 export class Delay extends AsyncNode {
-  public static Description = new NodeDescription(
-    'time/delay',
-    'Time',
-    'Delay',
-    (description, graph) => new Delay(description, graph)
-  );
+  public static Description = new NodeDescription2({
+    typeName: 'time/delay',
+    otherTypeNames: ['flow/delay'],
+    category: 'Time',
+    label: 'Delay',
+    factory: (description, graph) => new Delay(description, graph)
+  });
 
   constructor(description: NodeDescription, graph: Graph) {
     super(

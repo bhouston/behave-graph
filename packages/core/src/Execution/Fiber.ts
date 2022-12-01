@@ -82,25 +82,27 @@ export class Fiber {
 
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {
-        resolveSocketValue(this.graph, inputSocket);
+        resolveSocketValue(this.engine, inputSocket);
       }
     });
 
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
-    this.engine.onNodeExecution.emit(node);
+    this.engine.onNodeExecutionStart.emit(node);
     if (node instanceof AsyncNode) {
       this.engine.asyncNodes.push(node);
       node.triggered(this.engine, link.socketName, () => {
         // remove from the list of pending async nodes
         const index = this.engine.asyncNodes.indexOf(node);
         this.engine.asyncNodes.splice(index, 1);
+        this.engine.onNodeExecutionEnd.emit(node);
         this.executionSteps++;
       });
       return;
     }
     if (node instanceof FlowNode) {
       node.triggered(this, link.socketName);
+      this.engine.onNodeExecutionEnd.emit(node);
       this.executionSteps++;
       return;
     }

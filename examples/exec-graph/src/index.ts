@@ -11,7 +11,6 @@ import {
   registerCoreProfile,
   registerSceneProfile,
   Registry,
-  traceToLogger,
   validateGraph,
   validateRegistry,
   writeGraphToJSON
@@ -69,7 +68,12 @@ async function execGraph({
   const engine = new Engine(graph);
 
   if (programOptions.trace) {
-    engine.onNodeExecution.addListener(traceToLogger);
+    engine.onNodeExecutionStart.addListener((node) =>
+      Logger.verbose(`<< ${node.description.typeName}:${node.id} >> START`)
+    );
+    engine.onNodeExecutionEnd.addListener((node) =>
+      Logger.verbose(`<< ${node.description.typeName}:${node.id} >> END`)
+    );
   }
 
   if (programOptions.dryRun) {

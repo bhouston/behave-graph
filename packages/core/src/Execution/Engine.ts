@@ -8,6 +8,7 @@ import { EventNode } from '../Nodes/EventNode';
 import { Node } from '../Nodes/Node';
 import { sleep } from '../sleep';
 import { Fiber } from './Fiber';
+import { resolveSocketValue } from './resolveSocketValue';
 
 export class Engine {
   // tracking the next node+input socket to execute.
@@ -25,7 +26,12 @@ export class Engine {
       }
     });
     // init all event nodes at startup
-    this.eventNodes.forEach((eventNode) => eventNode.init(this));
+    this.eventNodes.forEach((eventNode) => {
+      eventNode.inputSockets.forEach((inputSocket) => {
+        resolveSocketValue(this.graph, inputSocket);
+      });
+      eventNode.init(this);
+    });
   }
 
   dispose() {

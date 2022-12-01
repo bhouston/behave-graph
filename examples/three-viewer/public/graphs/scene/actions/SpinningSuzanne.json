@@ -5,19 +5,23 @@
       "id": "0",
       "flows": {
         "flow": {
-          "nodeId": "4",
+          "nodeId": "5",
           "socket": "flow"
         }
       }
     },
     {
+      "type": "time/now",
+      "id": "1"
+    },
+    {
       "type": "math/multiply/float",
-      "id": "1",
+      "id": "2",
       "parameters": {
         "a": {
           "link": {
-            "nodeId": 0,
-            "socket": "time"
+            "nodeId": 1,
+            "socket": "result"
           }
         },
         "b": {
@@ -27,14 +31,14 @@
     },
     {
       "type": "math/toEuler/float",
-      "id": "2",
+      "id": "3",
       "parameters": {
         "x": {
           "value": 0
         },
         "y": {
           "link": {
-            "nodeId": 1,
+            "nodeId": 2,
             "socket": "result"
           }
         },
@@ -43,14 +47,13 @@
         }
       }
     },
-
     {
       "type": "math/toQuat/euler",
-      "id": "3",
+      "id": "4",
       "parameters": {
         "a": {
           "link": {
-            "nodeId": 2,
+            "nodeId": 3,
             "socket": "result"
           }
         }
@@ -58,14 +61,14 @@
     },
     {
       "type": "scene/set/quat",
-      "id": "4",
+      "id": "5",
       "parameters": {
         "jsonPath": {
           "value": "/nodes/0/rotation"
         },
         "value": {
           "link": {
-            "nodeId": 3,
+            "nodeId": 4,
             "socket": "result"
           }
         }

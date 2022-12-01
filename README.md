@@ -200,10 +200,10 @@ Here is a test of 10,000,000 iteration for loop:
 
 [/graphs/core/flow/PerformanceTest.json](/graphs/core/flow/PerformanceTest.json)
 
-Here is the console output:
+Here is the console output, when running with profiling (-p):
 
 ```zsh
-> npm run exec-graph ../../graphs/core/flow/PerformanceTest.json
+> npm run exec-graph ../../graphs/core/flow/PerformanceTest.json -- -- -p
 
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...

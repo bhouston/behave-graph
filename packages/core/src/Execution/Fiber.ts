@@ -82,7 +82,7 @@ export class Fiber {
 
     node.inputSockets.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {
-        resolveSocketValue(this.engine, inputSocket);
+        this.executionSteps += resolveSocketValue(this.engine, inputSocket);
       }
     });
 

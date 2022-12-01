@@ -4,10 +4,13 @@ import { ImmediateNode } from '../Nodes/ImmediateNode';
 import { Socket } from '../Sockets/Socket';
 import { Engine } from './Engine';
 
-export function resolveSocketValue(engine: Engine, inputSocket: Socket) {
+export function resolveSocketValue(
+  engine: Engine,
+  inputSocket: Socket
+): number {
   // if it has no links, leave value on input socket alone.
   if (inputSocket.links.length === 0) {
-    return;
+    return 0;
   }
 
   const graph = engine.graph;
@@ -39,22 +42,27 @@ export function resolveSocketValue(engine: Engine, inputSocket: Socket) {
   // if upstream is a flow/event/async node, do not evaluate it rather just use its existing output socket values
   if (!(upstreamNode instanceof ImmediateNode)) {
     inputSocket.value = upstreamOutputSocket.value;
-    return;
+    return 0;
   }
+
+  let executionSteps = 0;
 
   if (upstreamNode instanceof ImmediateNode) {
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     for (const upstreamInputSocket of upstreamNode.inputSockets) {
-      resolveSocketValue(engine, upstreamInputSocket);
+      executionSteps += resolveSocketValue(engine, upstreamInputSocket);
     }
 
     engine.onNodeExecutionStart.emit(upstreamNode);
     upstreamNode.exec();
+    executionSteps++;
     engine.onNodeExecutionEnd.emit(upstreamNode);
 
     // get the output value we wanted.
     inputSocket.value = upstreamOutputSocket.value;
-    return;
+    return executionSteps;
   }
+
+  return 0;
 }

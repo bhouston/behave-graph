@@ -38,7 +38,6 @@ async function execGraph({
   registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
   registerSceneProfile(registry);
 
-  let numSteps = 0;
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
@@ -86,7 +85,7 @@ async function execGraph({
     manualLifecycleEventEmitter.startEvent.emit();
 
     Logger.verbose('executing all (async)');
-    numSteps += await engine.executeAllAsync(5);
+    await engine.executeAllAsync(5);
   }
 
   if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
@@ -97,7 +96,7 @@ async function execGraph({
 
       Logger.verbose('executing all (async)');
       // eslint-disable-next-line no-await-in-loop
-      numSteps += await engine.executeAllAsync(5);
+      await engine.executeAllAsync(5);
     }
   }
 
@@ -106,16 +105,16 @@ async function execGraph({
     manualLifecycleEventEmitter.endEvent.emit();
 
     Logger.verbose('executing all (async)');
-    numSteps += await engine.executeAllAsync(5);
+    await engine.executeAllAsync(5);
   }
 
   if (programOptions.profile) {
     const deltaTime = Date.now() - startTime;
     Logger.info(
-      `Profile Results: ${numSteps} nodes executed in ${
+      `\n  Profile Results: ${engine.executionSteps} nodes executed in ${
         deltaTime / 1000
       } seconds, at a rate of ${Math.round(
-        (numSteps * 1000) / deltaTime
+        (engine.executionSteps * 1000) / deltaTime
       )} steps/second`
     );
   }

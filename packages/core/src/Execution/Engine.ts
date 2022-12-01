@@ -15,7 +15,8 @@ export class Engine {
   private readonly fiberQueue: Fiber[] = [];
   public readonly asyncNodes: AsyncNode[] = [];
   public readonly eventNodes: EventNode[] = [];
-  public readonly onNodeExecution = new EventEmitter<Node>();
+  public readonly onNodeExecutionStart = new EventEmitter<Node>();
+  public readonly onNodeExecutionEnd = new EventEmitter<Node>();
   public executionSteps = 0;
 
   constructor(public readonly graph: Graph) {
@@ -27,10 +28,15 @@ export class Engine {
     });
     // init all event nodes at startup
     this.eventNodes.forEach((eventNode) => {
+      // evaluate input parameters
       eventNode.inputSockets.forEach((inputSocket) => {
-        resolveSocketValue(this.graph, inputSocket);
+        Assert.mustBeTrue(inputSocket.valueTypeName !== 'flow');
+        resolveSocketValue(this, inputSocket);
       });
+
+      this.onNodeExecutionStart.emit(eventNode);
       eventNode.init(this);
+      this.onNodeExecutionEnd.emit(eventNode);
     });
   }
 

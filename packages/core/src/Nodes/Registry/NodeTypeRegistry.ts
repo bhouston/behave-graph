@@ -15,7 +15,6 @@ export class NodeTypeRegistry {
       description.otherTypeNames
         .concat([description.typeName])
         .forEach((typeName) => {
-          console.log('typeName', typeName);
           if (typeName in this.typeNameToNodeDescriptions) {
             throw new Error(
               `already registered node type ${typeName} (string)`

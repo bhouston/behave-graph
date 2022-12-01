@@ -23,7 +23,6 @@ export * from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
 export * from './Execution/Engine';
-export * from './Execution/traceToLogger';
 export * from './Graphs/IO/readGraphFromJSON';
 export * from './Graphs/IO/writeGraphToJSON';
 export * from './Graphs/IO/writeNodeSpecsToJSON';

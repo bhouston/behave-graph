@@ -12,9 +12,11 @@ export function validateNodeRegistry(registry: Registry): string[] {
 
     // ensure node is registered correctly.
     if (node.description.typeName !== nodeTypeName) {
-      errorList.push(
-        `node with typeName '${node.description.typeName}' is registered under a different name '${nodeTypeName}'`
-      );
+      if (!node.description.otherTypeNames.includes(nodeTypeName)) {
+        errorList.push(
+          `node with typeName '${node.description.typeName}' is registered under a different name '${nodeTypeName}'`
+        );
+      }
     }
 
     if (!nodeTypeNameRegex.test(node.description.typeName)) {

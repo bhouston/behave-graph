@@ -12,12 +12,17 @@ export class NodeTypeRegistry {
   }
   register(...descriptions: Array<NodeDescription>) {
     descriptions.forEach((description) => {
-      if (description.typeName in this.typeNameToNodeDescriptions) {
-        throw new Error(
-          `already registered node type ${description.typeName} (string)`
-        );
-      }
-      this.typeNameToNodeDescriptions[description.typeName] = description;
+      description.otherTypeNames
+        .concat([description.typeName])
+        .forEach((typeName) => {
+          console.log('typeName', typeName);
+          if (typeName in this.typeNameToNodeDescriptions) {
+            throw new Error(
+              `already registered node type ${typeName} (string)`
+            );
+          }
+          this.typeNameToNodeDescriptions[typeName] = description;
+        });
     });
   }
 

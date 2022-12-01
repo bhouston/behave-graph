@@ -51,7 +51,7 @@ export function resolveSocketValue(engine: Engine, inputSocket: Socket) {
 
     engine.onNodeExecutionStart.emit(upstreamNode);
     upstreamNode.exec();
-    this.engine.onNodeExecutionEnd.emit(upstreamNode);
+    engine.onNodeExecutionEnd.emit(upstreamNode);
 
     // get the output value we wanted.
     inputSocket.value = upstreamOutputSocket.value;

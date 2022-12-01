@@ -62,10 +62,10 @@ Install all dependencies:
 npm install
 ```
 
-To start the web example:
+To start the graph editor:
 
 ```zsh
-npm start-three-viewer
+npm start graph-editor
 ```
 
 ## Command Line Examples

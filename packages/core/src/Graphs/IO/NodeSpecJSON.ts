@@ -1,13 +1,13 @@
 import { NodeCategory } from '../../Nodes/Registry/NodeCategory';
 import { ValueJSON } from './GraphJSON';
 
-export type inputspecJSON = {
+export type InputSocketSpecJSON = {
   name: string;
   valueType: string;
   defaultValue?: ValueJSON;
 };
 
-export type outputspecJSON = {
+export type OutputSocketSpecJSON = {
   name: string;
   valueType: string;
 };
@@ -16,6 +16,6 @@ export type NodeSpecJSON = {
   type: string;
   category: NodeCategory;
   label: string;
-  inputs: inputspecJSON[];
-  outputs: outputspecJSON[];
+  inputs: InputSocketSpecJSON[];
+  outputs: OutputSocketSpecJSON[];
 };

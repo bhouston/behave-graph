@@ -1,9 +1,9 @@
 import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import {
-  inputspecJSON,
+  InputSocketSpecJSON,
   NodeSpecJSON,
-  outputspecJSON
+  OutputSocketSpecJSON
 } from './NodeSpecJSON';
 
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
@@ -35,7 +35,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       if (defaultValue === undefined && valueType !== undefined) {
         defaultValue = valueType.serialize(valueType.creator());
       }
-      const socketSpecJSON: inputspecJSON = {
+      const socketSpecJSON: InputSocketSpecJSON = {
         name: inputSocket.name,
         valueType: inputSocket.valueTypeName,
         defaultValue
@@ -44,7 +44,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
     });
 
     node.outputs.forEach((outputSocket) => {
-      const socketSpecJSON: outputspecJSON = {
+      const socketSpecJSON: OutputSocketSpecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName
       };

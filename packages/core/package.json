@@ -1,6 +1,6 @@
 {
   "name": "@behave-graph/core",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "source": "src/index.ts",
   "main": "dist/behave-graph-core.cjs.js",
   "module": "dist/behave-graph-core.esm.js",

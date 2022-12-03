@@ -25,7 +25,7 @@ export class OnCustomEvent extends EventNode2 {
     super({
       description,
       graph,
-      outputSockets: [
+      outputs: [
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>

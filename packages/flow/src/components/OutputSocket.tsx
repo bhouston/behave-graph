@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Connection, Handle, Position, useReactFlow } from "reactflow";
 import cx from "classnames";
 import { colors, valueTypeColorMap } from "../util/colors";
-import { OutputSocketSpecJSON } from "@behave-graph/core";
+import { outputspecJSON } from "@behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
 
 export type OutputSocketProps = {
   connected: boolean;
-} & OutputSocketSpecJSON;
+} & outputspecJSON;
 
 export default function OutputSocket({
   connected,

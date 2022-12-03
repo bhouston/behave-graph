@@ -33,7 +33,7 @@ export class Fiber {
     Assert.mustBeTrue(node instanceof FlowNode);
     Assert.mustBeTrue(this.nextEval === null);
 
-    const outputSocket = node.outputSockets.find(
+    const outputSocket = node.outputs.find(
       (socket) => socket.name === outputSocketName
     );
     if (outputSocket === undefined) {
@@ -80,7 +80,7 @@ export class Fiber {
 
     const node = this.graph.nodes[link.nodeId];
 
-    node.inputSockets.forEach((inputSocket) => {
+    node.inputs.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {
         this.executionSteps += resolveSocketValue(this.engine, inputSocket);
       }

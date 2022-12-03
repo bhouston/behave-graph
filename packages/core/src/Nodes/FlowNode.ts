@@ -9,15 +9,15 @@ export class FlowNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSockets: Socket[] = [],
-    outputSockets: Socket[] = []
+    inputs: Socket[] = [],
+    outputs: Socket[] = []
   ) {
     // determine if this is an eval node
-    super(description, graph, inputSockets, outputSockets);
+    super(description, graph, inputs, outputs);
 
     // must have at least one input flow socket
     Assert.mustBeTrue(
-      this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+      this.inputs.some((socket) => socket.valueTypeName === 'flow')
     );
   }
 
@@ -31,14 +31,14 @@ export class FlowNode2 extends FlowNode {
   constructor(properties: {
     description: NodeDescription;
     graph: Graph;
-    inputSockets?: Socket[];
-    outputSockets?: Socket[];
+    inputs?: Socket[];
+    outputs?: Socket[];
   }) {
     super(
       properties.description,
       properties.graph,
-      properties.inputSockets,
-      properties.outputSockets
+      properties.inputs,
+      properties.outputs
     );
   }
 }

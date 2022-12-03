@@ -1,9 +1,9 @@
 import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import {
-  InputSocketSpecJSON,
+  inputspecJSON,
   NodeSpecJSON,
-  OutputSocketSpecJSON
+  outputspecJSON
 } from './NodeSpecJSON';
 
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
@@ -22,7 +22,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       outputs: []
     };
 
-    node.inputSockets.forEach((inputSocket) => {
+    node.inputs.forEach((inputSocket) => {
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
@@ -35,7 +35,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       if (defaultValue === undefined && valueType !== undefined) {
         defaultValue = valueType.serialize(valueType.creator());
       }
-      const socketSpecJSON: InputSocketSpecJSON = {
+      const socketSpecJSON: inputspecJSON = {
         name: inputSocket.name,
         valueType: inputSocket.valueTypeName,
         defaultValue
@@ -43,8 +43,8 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });
 
-    node.outputSockets.forEach((outputSocket) => {
-      const socketSpecJSON: OutputSocketSpecJSON = {
+    node.outputs.forEach((outputSocket) => {
+      const socketSpecJSON: outputspecJSON = {
         name: outputSocket.name,
         valueType: outputSocket.valueTypeName
       };

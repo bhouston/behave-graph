@@ -51,7 +51,7 @@ export function readGraphFromJSON(
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
   Object.values(graph.nodes).forEach((node) => {
     // initialize the inputs by resolving to the reference nodes.
-    node.inputSockets.forEach((inputSocket) => {
+    node.inputs.forEach((inputSocket) => {
       inputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -60,7 +60,7 @@ export function readGraphFromJSON(
           );
         }
         const upstreamNode = graph.nodes[link.nodeId];
-        const upstreamOutputSocket = upstreamNode.outputSockets.find(
+        const upstreamOutputSocket = upstreamNode.outputs.find(
           (socket) => socket.name === link.socketName
         );
         if (upstreamOutputSocket === undefined) {
@@ -84,7 +84,7 @@ export function readGraphFromJSON(
       });
     });
 
-    node.outputSockets.forEach((outputSocket) => {
+    node.outputs.forEach((outputSocket) => {
       outputSocket.links.forEach((link) => {
         if (!(link.nodeId in graph.nodes)) {
           throw new Error(
@@ -94,7 +94,7 @@ export function readGraphFromJSON(
         }
 
         const downstreamNode = graph.nodes[link.nodeId];
-        const downstreamInputSocket = downstreamNode.inputSockets.find(
+        const downstreamInputSocket = downstreamNode.inputs.find(
           (socket) => socket.name === link.socketName
         );
         if (downstreamInputSocket === undefined) {
@@ -145,7 +145,7 @@ function readNodeParameterJSON(
   node: Node,
   parametersJson: NodeParametersJSON
 ) {
-  node.inputSockets.forEach((socket) => {
+  node.inputs.forEach((socket) => {
     if (!(socket.name in parametersJson)) {
       return;
     }
@@ -166,7 +166,7 @@ function readNodeParameterJSON(
 
   // validate that there are no additional input sockets specified that were not read.
   for (const inputName in parametersJson) {
-    const inputSocket = node.inputSockets.find(
+    const inputSocket = node.inputs.find(
       (socket) => socket.name === inputName
     );
     if (inputSocket === undefined) {
@@ -178,7 +178,7 @@ function readNodeParameterJSON(
 }
 
 function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
-  node.outputSockets.forEach((socket) => {
+  node.outputs.forEach((socket) => {
     if (socket.name in flowsJson) {
       const outputLinkJson = flowsJson[socket.name];
       socket.links.push(new Link(outputLinkJson.nodeId, outputLinkJson.socket));
@@ -187,7 +187,7 @@ function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
 
   // validate that there are no additional input sockets specified that were not read.
   for (const outputName in flowsJson) {
-    const outputSocket = node.outputSockets.find(
+    const outputSocket = node.outputs.find(
       (socket) => socket.name === outputName
     );
     if (outputSocket === undefined) {

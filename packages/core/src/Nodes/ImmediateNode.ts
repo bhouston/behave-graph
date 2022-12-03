@@ -8,20 +8,20 @@ export class ImmediateNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSockets: Socket[] = [],
-    outputSockets: Socket[] = [],
+    inputs: Socket[] = [],
+    outputs: Socket[] = [],
     public readonly exec: () => void
   ) {
-    super(description, graph, inputSockets, outputSockets);
+    super(description, graph, inputs, outputs);
 
     // must have no input flow sockets
     Assert.mustBeTrue(
-      !this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+      !this.inputs.some((socket) => socket.valueTypeName === 'flow')
     );
 
     // must have no output flow sockets
     Assert.mustBeTrue(
-      !this.outputSockets.some((socket) => socket.valueTypeName === 'flow')
+      !this.outputs.some((socket) => socket.valueTypeName === 'flow')
     );
   }
 }
@@ -30,15 +30,15 @@ export class ImmediateNode2 extends ImmediateNode {
   constructor(properties: {
     description: NodeDescription;
     graph: Graph;
-    inputSockets?: Socket[];
-    outputSockets?: Socket[];
+    inputs?: Socket[];
+    outputs?: Socket[];
     exec: () => void;
   }) {
     super(
       properties.description,
       properties.graph,
-      properties.inputSockets,
-      properties.outputSockets,
+      properties.inputs,
+      properties.outputs,
       properties.exec
     );
   }

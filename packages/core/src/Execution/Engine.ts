@@ -29,7 +29,7 @@ export class Engine {
     // init all event nodes at startup
     this.eventNodes.forEach((eventNode) => {
       // evaluate input parameters
-      eventNode.inputSockets.forEach((inputSocket) => {
+      eventNode.inputs.forEach((inputSocket) => {
         Assert.mustBeTrue(inputSocket.valueTypeName !== 'flow');
         this.executionSteps += resolveSocketValue(this, inputSocket);
       });
@@ -56,7 +56,7 @@ export class Engine {
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
     Assert.mustBeTrue(node instanceof EventNode || node instanceof AsyncNode);
-    const outputSocket = node.outputSockets.find(
+    const outputSocket = node.outputs.find(
       (socket) => socket.name === outputFlowSocketName
     );
     if (outputSocket === undefined) {

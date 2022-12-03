@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Connection, Handle, Position, useReactFlow } from "reactflow";
 import cx from "classnames";
 import { colors, valueTypeColorMap } from "../util/colors";
-import { InputSocketSpecJSON } from "@behave-graph/core";
+import { inputspecJSON } from "@behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
 import { AutoSizeInput } from "./AutoSizeInput";
 
@@ -11,7 +11,7 @@ export type InputSocketProps = {
   connected: boolean;
   value: any | undefined;
   onChange: (key: string, value: any) => void;
-} & InputSocketSpecJSON;
+} & inputspecJSON;
 
 export default function InputSocket({
   connected,

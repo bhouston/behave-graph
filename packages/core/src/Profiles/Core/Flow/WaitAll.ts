@@ -28,16 +28,16 @@ export class WaitAll extends FlowNode {
     graph: Graph,
     private numOutputs: number
   ) {
-    const inputSockets: Socket[] = [];
+    const inputs: Socket[] = [];
     for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
-      inputSockets.push(new Socket('flow', `${outputIndex}`));
+      inputs.push(new Socket('flow', `${outputIndex}`));
     }
 
     super(
       description,
       graph,
       [
-        ...inputSockets,
+        ...inputs,
         new Socket('flow', 'reset'),
         new Socket('boolean', 'autoReset')
       ],

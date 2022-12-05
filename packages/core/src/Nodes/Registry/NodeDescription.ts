@@ -14,9 +14,10 @@ export class NodeDescription {
   constructor(
     public readonly typeName: string,
     public readonly category: NodeCategory,
-    public readonly label: string,
+    public readonly label: string = '',
     public readonly factory: NodeFactory,
-    public readonly otherTypeNames: string[] = []
+    public readonly otherTypeNames: string[] = [],
+    public readonly helpDescription: string = ''
   ) {}
 }
 
@@ -25,9 +26,10 @@ export class NodeDescription2 extends NodeDescription {
     public properties: {
       typeName: string;
       category: NodeCategory;
-      label: string;
+      label?: string;
       factory: NodeFactory;
       otherTypeNames?: string[];
+      helpDescription?: string;
     }
   ) {
     super(
@@ -35,7 +37,8 @@ export class NodeDescription2 extends NodeDescription {
       properties.category,
       properties.label,
       properties.factory,
-      properties.otherTypeNames
+      properties.otherTypeNames,
+      properties.helpDescription
     );
   }
 }

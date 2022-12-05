@@ -41,7 +41,7 @@ export class MultiGate extends FlowNode {
     }
 
     if (this.readInput<boolean>('loop')) {
-      this.nextIndex = this.nextIndex % this.outputSockets.length;
+      this.nextIndex = this.nextIndex % this.outputs.length;
     }
 
     switch (triggeringSocketName) {
@@ -50,8 +50,8 @@ export class MultiGate extends FlowNode {
         return;
       }
       case 'flow': {
-        if (0 <= this.nextIndex && this.nextIndex < this.outputSockets.length) {
-          fiber.commit(this, this.outputSockets[this.nextIndex].name);
+        if (0 <= this.nextIndex && this.nextIndex < this.outputs.length) {
+          fiber.commit(this, this.outputs[this.nextIndex].name);
         }
         this.nextIndex++;
         return;
@@ -60,8 +60,8 @@ export class MultiGate extends FlowNode {
     // these outputs are fired sequentially in an sync fashion but without delays.
     // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
     const sequenceIteration = (i: number) => {
-      if (i < this.outputSockets.length) {
-        const outputSocket = this.outputSockets[i];
+      if (i < this.outputs.length) {
+        const outputSocket = this.outputs[i];
         fiber.commit(this, outputSocket.name, () => {
           sequenceIteration(i + 1);
         });

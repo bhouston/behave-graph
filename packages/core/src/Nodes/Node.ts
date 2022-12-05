@@ -11,14 +11,14 @@ export class Node {
   constructor(
     public readonly description: NodeDescription,
     public readonly graph: Graph,
-    public readonly inputSockets: Socket[] = [],
-    public readonly outputSockets: Socket[] = []
+    public readonly inputs: Socket[] = [],
+    public readonly outputs: Socket[] = []
   ) {}
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext
   // for re-entrant async operations, otherwise the inputs may change during operation.
   readInput<T>(inputName: string): T {
-    const inputSocket = this.inputSockets.find(
+    const inputSocket = this.inputs.find(
       (socket) => socket.name === inputName
     );
     if (inputSocket === undefined) {
@@ -30,7 +30,7 @@ export class Node {
   }
 
   writeOutput<T>(outputName: string, value: T) {
-    const outputSocket = this.outputSockets.find(
+    const outputSocket = this.outputs.find(
       (socket) => socket.name === outputName
     );
     if (outputSocket === undefined) {

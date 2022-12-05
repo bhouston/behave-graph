@@ -32,19 +32,19 @@ export class Sequence extends FlowNode {
     graph: Graph,
     private numOutputs: number
   ) {
-    const outputSockets: Socket[] = [];
+    const outputs: Socket[] = [];
     for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
-      outputSockets.push(new Socket('flow', `${outputIndex}`));
+      outputs.push(new Socket('flow', `${outputIndex}`));
     }
-    super(description, graph, [new Socket('flow', 'flow')], outputSockets);
+    super(description, graph, [new Socket('flow', 'flow')], outputs);
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
     // these outputs are fired sequentially in an sync fashion but without delays.
     // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
     const sequenceIteration = (i: number) => {
-      if (i < this.outputSockets.length) {
-        const outputSocket = this.outputSockets[i];
+      if (i < this.outputs.length) {
+        const outputSocket = this.outputs[i];
         fiber.commit(this, outputSocket.name, () => {
           sequenceIteration(i + 1);
         });

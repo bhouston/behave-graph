@@ -1,6 +1,6 @@
 {
   "name": "@behave-graph/flow",
-  "version": "0.1.0",
+  "version": "0.9.12",
   "source": "src/index.ts",
   "main": "dist/behave-graph-flow.cjs.js",
   "module": "dist/behave-graph-flow.esm.js",

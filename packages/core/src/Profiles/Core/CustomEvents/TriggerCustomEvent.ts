@@ -25,7 +25,7 @@ export class TriggerCustomEvent extends FlowNode2 {
     super({
       description,
       graph,
-      inputSockets: [
+      inputs: [
         new Socket('flow', 'flow'),
         ...customEvent.parameters.map(
           (parameter) =>
@@ -37,7 +37,7 @@ export class TriggerCustomEvent extends FlowNode2 {
             )
         )
       ],
-      outputSockets: [new Socket('flow', 'flow')]
+      outputs: [new Socket('flow', 'flow')]
     });
   }
 

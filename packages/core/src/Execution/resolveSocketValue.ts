@@ -1,6 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
 import { ImmediateNode } from '../Nodes/ImmediateNode';
-//import { ImmediateNode } from '../Nodes/ImmediateNode';
 import { Socket } from '../Sockets/Socket';
 import { Engine } from './Engine';
 
@@ -26,7 +25,7 @@ export function resolveSocketValue(
     // if upstream node is an eval, we just return its last value.
     upstreamLink._targetNode = graph.nodes[upstreamLink.nodeId];
     // what is inputSocket connected to?
-    upstreamLink._targetSocket = upstreamLink._targetNode.outputSockets.find(
+    upstreamLink._targetSocket = upstreamLink._targetNode.outputs.find(
       (socket) => socket.name === upstreamLink.socketName
     );
     if (upstreamLink._targetSocket === undefined) {
@@ -50,7 +49,7 @@ export function resolveSocketValue(
   if (upstreamNode instanceof ImmediateNode) {
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
-    for (const upstreamInputSocket of upstreamNode.inputSockets) {
+    for (const upstreamInputSocket of upstreamNode.inputs) {
       executionSteps += resolveSocketValue(engine, upstreamInputSocket);
     }
 

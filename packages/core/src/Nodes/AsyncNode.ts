@@ -10,18 +10,18 @@ export class AsyncNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
-    inputSockets: Socket[] = [],
-    outputSockets: Socket[] = []
+    inputs: Socket[] = [],
+    outputs: Socket[] = []
   ) {
-    super(description, graph, inputSockets, outputSockets);
+    super(description, graph, inputs, outputs);
     // must have at least one input flow socket
     Assert.mustBeTrue(
-      this.inputSockets.some((socket) => socket.valueTypeName === 'flow')
+      this.inputs.some((socket) => socket.valueTypeName === 'flow')
     );
 
     // must have at least one output flow socket
     Assert.mustBeTrue(
-      this.outputSockets.some((socket) => socket.valueTypeName === 'flow')
+      this.outputs.some((socket) => socket.valueTypeName === 'flow')
     );
   }
 
@@ -43,14 +43,14 @@ export class AsyncNode2 extends AsyncNode {
   constructor(properties: {
     description: NodeDescription;
     graph: Graph;
-    inputSockets?: Socket[];
-    outputSockets?: Socket[];
+    inputs?: Socket[];
+    outputs?: Socket[];
   }) {
     super(
       properties.description,
       properties.graph,
-      properties.inputSockets,
-      properties.outputSockets
+      properties.inputs,
+      properties.outputs
     );
   }
 }

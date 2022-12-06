@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
 import { Vec3 } from './Vec3';
 import { Vec4 } from './Vec4';
@@ -33,11 +34,13 @@ export class Mat4 {
   }
 }
 
-export function mat4Equals(a: Mat4, b: Mat4): boolean {
+export function mat4Equals(
+  a: Mat4,
+  b: Mat4,
+  tolerance: number = EPSILON
+): boolean {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    if (a.elements[i] !== b.elements[i]) {
-      return false;
-    }
+    if (!equalsTolerance(a.elements[i], b.elements[i], tolerance)) return false;
   }
   return true;
 }
@@ -59,7 +62,11 @@ export function mat4Subtract(
   return result;
 }
 
-export function mat4Scale(a: Mat4, b: number, result: Mat4 = new Mat4()): Mat4 {
+export function mat4MulitplyByScalar(
+  a: Mat4,
+  b: number,
+  result: Mat4 = new Mat4()
+): Mat4 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
     result.elements[i] = a.elements[i] * b;
   }
@@ -185,6 +192,58 @@ export function mat4Determinant(m: Mat4): number {
       n12 * n23 * n34;
 
   return n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14;
+}
+export function mat4Adjoint(m: Mat4, result = new Mat4()): Mat4 {
+  // from gl-matrix
+  const a = m.elements;
+  const out = result.elements;
+  const a00 = a[0],
+    a01 = a[1],
+    a02 = a[2],
+    a03 = a[3];
+  const a10 = a[4],
+    a11 = a[5],
+    a12 = a[6],
+    a13 = a[7];
+  const a20 = a[8],
+    a21 = a[9],
+    a22 = a[10],
+    a23 = a[11];
+  const a30 = a[12],
+    a31 = a[13],
+    a32 = a[14],
+    a33 = a[15];
+
+  const b00 = a00 * a11 - a01 * a10;
+  const b01 = a00 * a12 - a02 * a10;
+  const b02 = a00 * a13 - a03 * a10;
+  const b03 = a01 * a12 - a02 * a11;
+  const b04 = a01 * a13 - a03 * a11;
+  const b05 = a02 * a13 - a03 * a12;
+  const b06 = a20 * a31 - a21 * a30;
+  const b07 = a20 * a32 - a22 * a30;
+  const b08 = a20 * a33 - a23 * a30;
+  const b09 = a21 * a32 - a22 * a31;
+  const b10 = a21 * a33 - a23 * a31;
+  const b11 = a22 * a33 - a23 * a32;
+
+  out[0] = a11 * b11 - a12 * b10 + a13 * b09;
+  out[1] = a02 * b10 - a01 * b11 - a03 * b09;
+  out[2] = a31 * b05 - a32 * b04 + a33 * b03;
+  out[3] = a22 * b04 - a21 * b05 - a23 * b03;
+  out[4] = a12 * b08 - a10 * b11 - a13 * b07;
+  out[5] = a00 * b11 - a02 * b08 + a03 * b07;
+  out[6] = a32 * b02 - a30 * b05 - a33 * b01;
+  out[7] = a20 * b05 - a22 * b02 + a23 * b01;
+  out[8] = a10 * b10 - a11 * b08 + a13 * b06;
+  out[9] = a01 * b08 - a00 * b10 - a03 * b06;
+  out[10] = a30 * b04 - a31 * b02 + a33 * b00;
+  out[11] = a21 * b02 - a20 * b04 - a23 * b00;
+  out[12] = a11 * b07 - a10 * b09 - a12 * b06;
+  out[13] = a00 * b09 - a01 * b07 + a02 * b06;
+  out[14] = a31 * b01 - a30 * b03 - a32 * b00;
+  out[15] = a20 * b03 - a21 * b01 + a22 * b00;
+  return result;
 }
 
 export function mat4Transpose(m: Mat4, result = new Mat4()): Mat4 {
@@ -455,17 +514,42 @@ export function quatToMat4(q: Vec4, result = new Mat4()): Mat4 {
 export function scale3ToMat4(s: Vec3, result = new Mat4()): Mat4 {
   return result.set([s.x, 0, 0, 0, 0, s.y, 0, 0, 0, 0, s.z, 0, 0, 0, 0, 1]);
 }
+// from gl-matrix
+export function mat4ToScale3(m: Mat4, result = new Vec3()): Vec3 {
+  const mat = m.elements;
+  const m11 = mat[0];
+  const m12 = mat[1];
+  const m13 = mat[2];
+  const m21 = mat[4];
+  const m22 = mat[5];
+  const m23 = mat[6];
+  const m31 = mat[8];
+  const m32 = mat[9];
+  const m33 = mat[10];
+
+  return result.set(
+    Math.sqrt(m11 * m11 + m12 * m12 + m13 * m13),
+    Math.sqrt(m21 * m21 + m22 * m22 + m23 * m23),
+    Math.sqrt(m31 * m31 + m32 * m32 + m33 * m33)
+  );
+}
 
 export function translation3ToMat4(t: Vec3, result = new Mat4()): Mat4 {
   return result.set([1, 0, 0, t.x, 0, 1, 0, t.y, 0, 0, 1, t.z, 0, 0, 0, 1]);
 }
-
-export function mat4ToScale(m: Mat4, result = new Vec3()): Vec3 {
+export function mat4ToTranslation3(m: Mat4, result = new Vec3()): Vec3 {
   const me = m.elements;
   return result.set(me[3], me[7], me[11]);
 }
-
-export function mat4ToTranslation(m: Mat4, result = new Vec3()): Vec3 {
-  const me = m.elements;
-  return result.set(me[3], me[7], me[11]);
+export function mat4Translate(m: Mat4, t: Vec3, result = new Mat4()): Mat4 {
+  return mat4Multiply(m, translation3ToMat4(t), result);
+}
+export function mat4Scale(m: Mat4, s: Vec3, result = new Mat4()): Mat4 {
+  return mat4Multiply(m, scale3ToMat4(s), result);
+}
+export function mat4RotateByQuat(m: Mat4, q: Vec4, result = new Mat4()): Mat4 {
+  return mat4Multiply(m, quatToMat4(q), result);
+}
+export function mat4RotateByEuler(m: Mat4, e: Vec3, result = new Mat4()): Mat4 {
+  return mat4Multiply(m, eulerToMat4(e), result);
 }

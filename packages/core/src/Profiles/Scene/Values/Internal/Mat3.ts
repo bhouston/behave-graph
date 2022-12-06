@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { Mat4 } from './Mat4';
 import { Vec2 } from './Vec2';
 import { Vec3 } from './Vec3';
@@ -32,11 +33,9 @@ export class Mat3 {
   }
 }
 
-export function mat3Equals(a: Mat3, b: Mat3): boolean {
+export function mat3Equals(a: Mat3, b: Mat3, tolerance = EPSILON): boolean {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    if (a.elements[i] !== b.elements[i]) {
-      return false;
-    }
+    if (!equalsTolerance(a.elements[i], b.elements[i], tolerance)) return false;
   }
   return true;
 }
@@ -56,7 +55,11 @@ export function mat3Subtract(
   }
   return result;
 }
-export function mat3Scale(a: Mat3, b: number, result: Mat3 = new Mat3()): Mat3 {
+export function mat3MultiplyByScalar(
+  a: Mat3,
+  b: number,
+  result: Mat3 = new Mat3()
+): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
     result.elements[i] = a.elements[i] * b;
   }
@@ -292,11 +295,48 @@ export function quatToMat3(q: Vec4, result = new Mat3()): Mat3 {
 export function scale2ToMat3(s: Vec2, result = new Mat3()): Mat3 {
   return result.set([s.x, 0, 0, 0, s.y, 0, 0, 0, 1]);
 }
+// from gl-matrix
+export function mat3ToScale2(m: Mat4, result = new Vec2()): Vec2 {
+  const mat = m.elements;
+  const m11 = mat[0];
+  const m12 = mat[1];
+  const m21 = mat[3];
+  const m22 = mat[4];
+
+  return result.set(
+    Math.sqrt(m11 * m11 + m12 * m12),
+    Math.sqrt(m21 * m21 + m22 * m22)
+  );
+}
+
 export function translate2ToMat3(t: Vec2, result = new Mat3()): Mat3 {
   return result.set([1, 0, t.x, 0, 1, t.y, 0, 0, 1]);
 }
+export function mat3ToTranslate2(m: Mat3, result = new Vec2()): Vec2 {
+  return result.set(m.elements[2], m.elements[5]);
+}
+
 export function scale3ToMat3(s: Vec3, result = new Mat3()): Mat3 {
   return result.set([s.x, 0, 0, 0, s.y, 0, 0, 0, s.z]);
+}
+// from gl-matrix
+export function mat3ToScale3(m: Mat4, result = new Vec3()): Vec3 {
+  const me = m.elements;
+  const m11 = me[0];
+  const m12 = me[1];
+  const m13 = me[2];
+  const m21 = me[3];
+  const m22 = me[4];
+  const m23 = me[5];
+  const m31 = me[6];
+  const m32 = me[7];
+  const m33 = me[8];
+
+  return result.set(
+    Math.sqrt(m11 * m11 + m12 * m12 + m13 * m13),
+    Math.sqrt(m21 * m21 + m22 * m22 + m23 * m23),
+    Math.sqrt(m31 * m31 + m32 * m32 + m33 * m33)
+  );
 }
 export function mat4ToMat3(a: Mat4, result = new Mat3()): Mat3 {
   const ae = a.elements;

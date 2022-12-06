@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { Mat3 } from './Mat3';
 import { Vec3 } from './Vec3';
 
@@ -22,8 +23,17 @@ export class Vec4 {
     return this;
   }
 }
-export function vec4Equals(a: Vec4, b: Vec4): boolean {
-  return a.x === b.x && a.y === b.y && a.z === b.z && a.w == b.w;
+export function vec4Equals(
+  a: Vec4,
+  b: Vec4,
+  tolerance: number = EPSILON
+): boolean {
+  return (
+    equalsTolerance(a.x, b.x, tolerance) &&
+    equalsTolerance(a.y, b.y, tolerance) &&
+    equalsTolerance(a.z, b.z, tolerance) &&
+    equalsTolerance(a.w, b.w, tolerance)
+  );
 }
 export function vec4Add(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
   return result.set(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
@@ -159,6 +169,52 @@ export function quatSlerp(
   return result;
 }
 
+/**
+ * Calculate the exponential of a unit quaternion.
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {ReadonlyQuat} a quat to calculate the exponential of
+ * @returns {quat} out
+ */
+export function quatExp(a: Vec4, result = new Vec4()): Vec4 {
+  const x = a.x,
+    y = a.y,
+    z = a.z,
+    w = a.w;
+
+  const r = Math.sqrt(x * x + y * y + z * z);
+  const et = Math.exp(w);
+  const s = r > 0 ? (et * Math.sin(r)) / r : 0;
+
+  return result.set(x * s, y * s, z * s, et * Math.cos(r));
+}
+
+// from gl-matrix
+export function quatLn(a: Vec4, result = new Vec4()): Vec4 {
+  const x = a.x,
+    y = a.y,
+    z = a.z,
+    w = a.w;
+
+  const r = Math.sqrt(x * x + y * y + z * z);
+  const t = r > 0 ? Math.atan2(r, w) / r : 0;
+
+  return result.set(
+    x * t,
+    y * t,
+    z * t,
+    0.5 * Math.log(x * x + y * y + z * z + w * w)
+  );
+}
+
+// from gl-matrix
+export function quatPow(a: Vec4, b: number, result = new Vec4()): Vec4 {
+  const ln = quatLn(a);
+  const lnScaled = vec4Scale(ln, b);
+  quatExp(lnScaled, result);
+  return result;
+}
+
 export function eulerToQuat(euler: Vec3, result: Vec4 = new Vec4()): Vec4 {
   // eslint-disable-next-line max-len
   // http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
@@ -193,6 +249,26 @@ export function angleAxisToQuat(
   const s = Math.sin(halfAngle);
 
   return result.set(axis.x * s, axis.y * s, axis.z * s, Math.cos(halfAngle));
+}
+
+// from gl-matrix
+export function quatToAngleAxis(
+  q: Vec4,
+  result = new Vec3()
+): [angle: number, axis: Vec3] {
+  const rad = Math.acos(q.w) * 2;
+  const s = Math.sin(rad / 2);
+  if (s > EPSILON) {
+    result.x = q.x / s;
+    result.y = q.y / s;
+    result.z = q.z / s;
+  } else {
+    // If s is zero, return any axis (no rotation - axis does not matter)
+    result.x = 1;
+    result.y = 0;
+    result.z = 0;
+  }
+  return [rad, result];
 }
 
 export function mat3ToQuat(m: Mat3, result = new Vec4()): Vec4 {

@@ -11,10 +11,12 @@ import {
   mat3Inverse,
   mat3Mix,
   mat3Multiply,
+  mat3MultiplyByScalar,
   mat3Negate,
-  mat3Scale,
   mat3Subtract,
-  mat4ToMat3
+  mat3Transpose,
+  mat4ToMat3,
+  quatToMat3
 } from './Internal/Mat3';
 import { Vec3 } from './Internal/Vec3';
 
@@ -89,7 +91,7 @@ export const Scale = new NodeDescription(
       graph,
       ['mat3', 'float'],
       'mat3',
-      mat3Scale
+      mat3MultiplyByScalar
     )
 );
 export const Determinant = new NodeDescription(
@@ -153,11 +155,20 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['mat3', 'mat3'],
+      ['mat3', 'mat3', 'float'],
       'boolean',
-      mat3Equals
+      mat3Equals,
+      ['a', 'b', 'tolerance']
     )
+);
+
+export const QuatToMat3 = new NodeDescription(
+  'math/toMat3/quat',
+  'Logic',
+  'To Mat3',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat3'], 'quat', quatToMat3)
 );

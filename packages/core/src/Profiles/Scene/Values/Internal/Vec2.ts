@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 
 export type Vec2JSON = { x: number; y: number };
 
@@ -15,8 +16,14 @@ export class Vec2 {
   }
 }
 
-export function vec2Equals(a: Vec2, b: Vec2): boolean {
-  return a.x === b.x && a.y === b.y;
+export function vec2Equals(
+  a: Vec2,
+  b: Vec2,
+  tolerance: number = EPSILON
+): boolean {
+  return (
+    equalsTolerance(a.x, b.x, tolerance) && equalsTolerance(a.y, b.y, tolerance)
+  );
 }
 export function vec2Add(a: Vec2, b: Vec2, result: Vec2 = new Vec2()): Vec2 {
   return result.set(a.x + b.x, a.y + b.y);

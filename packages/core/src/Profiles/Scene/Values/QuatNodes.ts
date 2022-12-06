@@ -6,8 +6,12 @@ import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
   angleAxisToQuat,
+  mat3ToQuat,
   quatConjugate,
+  quatExp,
+  quatLn,
   quatMultiply,
+  quatPow,
   quatSlerp,
   Vec4,
   vec4Dot,
@@ -122,6 +126,38 @@ export const Dot = new NodeDescription(
     new In2Out1FuncNode(description, graph, ['quat', 'quat'], 'float', vec4Dot)
 );
 
+export const Ln = new NodeDescription(
+  'math/ln/quat',
+  'Logic',
+  'Ln',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatLn)
+);
+
+export const Exp = new NodeDescription(
+  'math/exp/quat',
+  'Logic',
+  'Exp',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatExp)
+);
+
+export const Pow = new NodeDescription(
+  'math/pow/quat',
+  'Logic',
+  'Pow',
+  (description, graph) =>
+    new In2Out1FuncNode(description, graph, ['quat', 'float'], 'quat', quatPow)
+);
+
+export const Mat3ToQuat = new NodeDescription(
+  'math/toQuat/mat3',
+  'Logic',
+  'To Quat',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat3'], 'quat', mat3ToQuat)
+);
+
 export const FromAngleAxis = new NodeDescription(
   'math/toQuat/angleAxis',
   'Logic',
@@ -154,11 +190,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['quat', 'quat'],
+      ['quat', 'quat', 'float'],
       'boolean',
-      vec4Equals
+      vec4Equals,
+      ['a', 'b', 'tolerance']
     )
 );

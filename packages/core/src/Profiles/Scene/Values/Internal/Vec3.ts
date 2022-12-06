@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 
 export type Vec3JSON = { x: number; y: number; z: number };
 export type ColorJSON = { r: number; g: number; b: number };
@@ -22,8 +23,16 @@ export class Vec3 {
   }
 }
 
-export function vec3Equals(a: Vec3, b: Vec3): boolean {
-  return a.x === b.x && a.y === b.y && a.z === b.z;
+export function vec3Equals(
+  a: Vec3,
+  b: Vec3,
+  tolerance: number = EPSILON
+): boolean {
+  return (
+    equalsTolerance(a.x, b.x, tolerance) &&
+    equalsTolerance(a.y, b.y, tolerance) &&
+    equalsTolerance(a.z, b.z, tolerance)
+  );
 }
 export function vec3Add(a: Vec3, b: Vec3, result = new Vec3()): Vec3 {
   return result.set(a.x + b.x, a.y + b.y, a.z + b.z);

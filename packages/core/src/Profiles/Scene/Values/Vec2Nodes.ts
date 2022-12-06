@@ -130,11 +130,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['vec2', 'vec2'],
+      ['vec2', 'vec2', 'float'],
       'boolean',
-      vec2Equals
+      vec2Equals,
+      ['a', 'b', 'tolerance']
     )
 );

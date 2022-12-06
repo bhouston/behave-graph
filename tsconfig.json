@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "noImplicitThis": false,
     "baseUrl": "./",
-    "jsx": "react"
+    "jsx": "react",
+    "outDir": "./dist"
   },
   "include": ["packages/core/src", "packages/flow/src"],
   "exclude": ["**/*node_modules", "dist", "*.test.ts"],

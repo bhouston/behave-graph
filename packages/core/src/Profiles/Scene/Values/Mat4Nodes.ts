@@ -173,11 +173,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['mat4', 'mat4'],
+      ['mat4', 'mat4', 'float'],
       'boolean',
-      mat4Equals
+      mat4Equals,
+      ['a', 'b', 'tolerance']
     )
 );

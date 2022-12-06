@@ -61,7 +61,7 @@ export function mat4Subtract(
   }
   return optionalResult;
 }
-export function mat4ScaleElements(
+export function mat4Scale(
   a: Mat4,
   b: number,
   optionalResult: Mat4 = new Mat4()
@@ -78,7 +78,7 @@ export function mat4Negate(a: Mat4, optionalResult: Mat4 = new Mat4()): Mat4 {
   return optionalResult;
 }
 
-export function mat4Multiplgy(
+export function mat4Multiply(
   a: Mat4,
   b: Mat4,
   optionalResult = new Mat4()

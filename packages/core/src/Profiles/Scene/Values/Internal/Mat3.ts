@@ -60,7 +60,7 @@ export function mat3Subtract(
   }
   return optionalResult;
 }
-export function mat3ScaleElements(
+export function mat3Scale(
   a: Mat3,
   b: number,
   optionalResult: Mat3 = new Mat3()

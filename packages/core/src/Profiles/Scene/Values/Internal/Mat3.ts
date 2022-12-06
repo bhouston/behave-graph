@@ -16,8 +16,8 @@ export class Mat3 {
     }
   }
 
-  clone(optionalResult = new Mat3()): Mat3 {
-    return optionalResult.set(this.elements);
+  clone(result = new Mat3()): Mat3 {
+    return result.set(this.elements);
   }
   set(elements: number[]): this {
     if (elements.length !== NUM_ELEMENTS) {
@@ -40,51 +40,39 @@ export function mat3Equals(a: Mat3, b: Mat3): boolean {
   }
   return true;
 }
-export function mat3Add(
-  a: Mat3,
-  b: Mat3,
-  optionalResult: Mat3 = new Mat3()
-): Mat3 {
+export function mat3Add(a: Mat3, b: Mat3, result: Mat3 = new Mat3()): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] + b.elements[i];
+    result.elements[i] = a.elements[i] + b.elements[i];
   }
-  return optionalResult;
+  return result;
 }
 export function mat3Subtract(
   a: Mat3,
   b: Mat3,
-  optionalResult: Mat3 = new Mat3()
+  result: Mat3 = new Mat3()
 ): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] - b.elements[i];
+    result.elements[i] = a.elements[i] - b.elements[i];
   }
-  return optionalResult;
+  return result;
 }
-export function mat3Scale(
-  a: Mat3,
-  b: number,
-  optionalResult: Mat3 = new Mat3()
-): Mat3 {
+export function mat3Scale(a: Mat3, b: number, result: Mat3 = new Mat3()): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] * b;
+    result.elements[i] = a.elements[i] * b;
   }
-  return optionalResult;
+  return result;
 }
-export function mat3Negate(a: Mat3, optionalResult: Mat3 = new Mat3()): Mat3 {
+export function mat3Negate(a: Mat3, result: Mat3 = new Mat3()): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = -a.elements[i];
+    result.elements[i] = -a.elements[i];
   }
-  return optionalResult;
+  return result;
 }
 
-export function mat3Multiply(
-  a: Mat3,
-  b: Mat3,
-  optionalResult = new Mat3()
-): Mat3 {
+export function mat3Multiply(a: Mat3, b: Mat3, result = new Mat3()): Mat3 {
   const ae = a.elements;
   const be = b.elements;
-  const te = optionalResult.elements;
+  const te = result.elements;
 
   const a11 = ae[0],
     a12 = ae[3],
@@ -118,7 +106,7 @@ export function mat3Multiply(
   te[5] = a31 * b12 + a32 * b22 + a33 * b32;
   te[8] = a31 * b13 + a32 * b23 + a33 * b33;
 
-  return optionalResult;
+  return result;
 }
 
 export function mat3Determinant(m: Mat3): number {
@@ -137,9 +125,9 @@ export function mat3Determinant(m: Mat3): number {
   return a * e * i - a * f * h - b * d * i + b * f * g + c * d * h - c * e * g;
 }
 
-export function mat3Transpose(m: Mat3, optionalResult = new Mat3()): Mat3 {
+export function mat3Transpose(m: Mat3, result = new Mat3()): Mat3 {
   const me = m.elements;
-  const te = optionalResult.elements;
+  const te = result.elements;
 
   te[0] = me[0];
   te[4] = me[4];
@@ -154,10 +142,10 @@ export function mat3Transpose(m: Mat3, optionalResult = new Mat3()): Mat3 {
   te[5] = me[7];
   te[7] = me[5];
 
-  return optionalResult;
+  return result;
 }
 
-export function mat3Inverse(m: Mat3, optionalResult = new Mat3()): Mat3 {
+export function mat3Inverse(m: Mat3, result = new Mat3()): Mat3 {
   const e = m.elements;
 
   const n11 = e[0],
@@ -180,7 +168,7 @@ export function mat3Inverse(m: Mat3, optionalResult = new Mat3()): Mat3 {
 
   const detInv = 1 / det;
 
-  const re = optionalResult.elements;
+  const re = result.elements;
 
   // TODO: replace with a set
   re[0] = t11 * detInv;
@@ -195,30 +183,30 @@ export function mat3Inverse(m: Mat3, optionalResult = new Mat3()): Mat3 {
   re[7] = (n21 * n13 - n23 * n11) * detInv;
   re[8] = (n22 * n11 - n21 * n12) * detInv;
 
-  return optionalResult;
+  return result;
 }
 
 export function mat3Mix(
   a: Mat3,
   b: Mat3,
   t: number,
-  optionalResult = new Mat3()
+  result = new Mat3()
 ): Mat3 {
   const s = 1 - t;
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] * s + b.elements[i] * t;
+    result.elements[i] = a.elements[i] * s + b.elements[i] * t;
   }
-  return optionalResult;
+  return result;
 }
 export function mat3FromArray(
   array: Float32Array | number[],
   offset = 0,
-  optionalResult: Mat3 = new Mat3()
+  result: Mat3 = new Mat3()
 ): Mat3 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = array[offset + i];
+    result.elements[i] = array[offset + i];
   }
-  return optionalResult;
+  return result;
 }
 export function mat3ToArray(
   a: Mat3,
@@ -233,12 +221,12 @@ export function mat3ToArray(
 export function mat3ToString(a: Mat3): string {
   return `(${a.elements.join(', ')})`;
 }
-export function mat3Parse(text: string, optionalResult = new Mat3()): Mat3 {
-  return mat3FromArray(parseSafeFloats(text), 0, optionalResult);
+export function mat3Parse(text: string, result = new Mat3()): Mat3 {
+  return mat3FromArray(parseSafeFloats(text), 0, result);
 }
 
-export function eulerToMat3(euler: Vec3, optionalResult = new Mat3()): Mat3 {
-  const te = optionalResult.elements;
+export function eulerToMat3(euler: Vec3, result = new Mat3()): Mat3 {
+  const te = result.elements;
 
   const x = euler.x,
     y = euler.y,
@@ -267,10 +255,10 @@ export function eulerToMat3(euler: Vec3, optionalResult = new Mat3()): Mat3 {
   te[5] = be + af * d;
   te[8] = a * c;
 
-  return optionalResult;
+  return result;
 }
 
-export function quatToMat3(q: Vec4, optionalResult = new Mat3()): Mat3 {
+export function quatToMat3(q: Vec4, result = new Mat3()): Mat3 {
   const x = q.x,
     y = q.y,
     z = q.z,
@@ -288,7 +276,7 @@ export function quatToMat3(q: Vec4, optionalResult = new Mat3()): Mat3 {
     wy = w * y2,
     wz = w * z2;
 
-  return optionalResult.set([
+  return result.set([
     1 - (yy + zz),
     xy - wz,
     xz + wy,
@@ -301,18 +289,18 @@ export function quatToMat3(q: Vec4, optionalResult = new Mat3()): Mat3 {
   ]);
 }
 
-export function scale2ToMat3(s: Vec2, optionalResult = new Mat3()): Mat3 {
-  return optionalResult.set([s.x, 0, 0, 0, s.y, 0, 0, 0, 1]);
+export function scale2ToMat3(s: Vec2, result = new Mat3()): Mat3 {
+  return result.set([s.x, 0, 0, 0, s.y, 0, 0, 0, 1]);
 }
-export function translate2ToMat3(t: Vec2, optionalResult = new Mat3()): Mat3 {
-  return optionalResult.set([1, 0, t.x, 0, 1, t.y, 0, 0, 1]);
+export function translate2ToMat3(t: Vec2, result = new Mat3()): Mat3 {
+  return result.set([1, 0, t.x, 0, 1, t.y, 0, 0, 1]);
 }
-export function scale3ToMat3(s: Vec3, optionalResult = new Mat3()): Mat3 {
-  return optionalResult.set([s.x, 0, 0, 0, s.y, 0, 0, 0, s.z]);
+export function scale3ToMat3(s: Vec3, result = new Mat3()): Mat3 {
+  return result.set([s.x, 0, 0, 0, s.y, 0, 0, 0, s.z]);
 }
-export function mat4ToMat3(a: Mat4, optionalResult = new Mat3()): Mat3 {
+export function mat4ToMat3(a: Mat4, result = new Mat3()): Mat3 {
   const ae = a.elements;
-  return optionalResult.set([
+  return result.set([
     ae[0],
     ae[1],
     ae[2],

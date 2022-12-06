@@ -11,8 +11,8 @@ export class Vec4 {
     public z: number = 0,
     public w: number = 0
   ) {}
-  clone(optionalResult = new Vec4()): Vec4 {
-    return optionalResult.set(this.x, this.y, this.z, this.w);
+  clone(result = new Vec4()): Vec4 {
+    return result.set(this.x, this.y, this.z, this.w);
   }
   set(x: number, y: number, z: number, w: number): this {
     this.x = x;
@@ -25,32 +25,24 @@ export class Vec4 {
 export function vec4Equals(a: Vec4, b: Vec4): boolean {
   return a.x === b.x && a.y === b.y && a.z === b.z && a.w == b.w;
 }
-export function vec4Add(a: Vec4, b: Vec4, optionalResult = new Vec4()): Vec4 {
-  return optionalResult.set(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+export function vec4Add(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
+  return result.set(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
-export function vec4Subtract(
-  a: Vec4,
-  b: Vec4,
-  optionalResult = new Vec4()
-): Vec4 {
-  return optionalResult.set(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+export function vec4Subtract(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
+  return result.set(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
-export function vec4Scale(
-  a: Vec4,
-  b: number,
-  optionalResult = new Vec4()
-): Vec4 {
-  return optionalResult.set(a.x * b, a.y * b, a.z * b, a.w * b);
+export function vec4Scale(a: Vec4, b: number, result = new Vec4()): Vec4 {
+  return result.set(a.x * b, a.y * b, a.z * b, a.w * b);
 }
-export function vec4Negate(a: Vec4, optionalResult = new Vec4()): Vec4 {
-  return optionalResult.set(-a.x, -a.y, -a.z, -a.w);
+export function vec4Negate(a: Vec4, result = new Vec4()): Vec4 {
+  return result.set(-a.x, -a.y, -a.z, -a.w);
 }
 export function vec4Length(a: Vec4): number {
   return Math.sqrt(vec4Dot(a, a));
 }
-export function vec4Normalize(a: Vec4, optionalResult = new Vec4()): Vec4 {
+export function vec4Normalize(a: Vec4, result = new Vec4()): Vec4 {
   const invLength = 1 / vec4Length(a);
-  return vec4Scale(a, invLength, optionalResult);
+  return vec4Scale(a, invLength, result);
 }
 export function vec4Dot(a: Vec4, b: Vec4): number {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -59,10 +51,10 @@ export function vec4Mix(
   a: Vec4,
   b: Vec4,
   t: number,
-  optionalResult = new Vec4()
+  result = new Vec4()
 ): Vec4 {
   const s = 1 - t;
-  return optionalResult.set(
+  return result.set(
     a.x * s + b.x * t,
     a.y * s + b.y * t,
     a.z * s + b.z * t,
@@ -72,9 +64,9 @@ export function vec4Mix(
 export function vec4FromArray(
   array: Float32Array | number[],
   offset = 0,
-  optionalResult = new Vec4()
+  result = new Vec4()
 ): Vec4 {
-  return optionalResult.set(
+  return result.set(
     array[offset + 0],
     array[offset + 1],
     array[offset + 2],
@@ -94,17 +86,13 @@ export function vec4ToArray(
 export function vec4ToString(a: Vec4): string {
   return `(${a.x}, ${a.y}, ${a.z}, ${a.w})`;
 }
-export function vec4Parse(text: string, optionalResult = new Vec4()): Vec4 {
-  return vec4FromArray(parseSafeFloats(text), 0, optionalResult);
+export function vec4Parse(text: string, result = new Vec4()): Vec4 {
+  return vec4FromArray(parseSafeFloats(text), 0, result);
 }
-export function quatConjugate(a: Vec4, optionalResult = new Vec4()): Vec4 {
-  return optionalResult.set(-a.x, -a.y, -a.z, a.w);
+export function quatConjugate(a: Vec4, result = new Vec4()): Vec4 {
+  return result.set(-a.x, -a.y, -a.z, a.w);
 }
-export function quatMultiply(
-  a: Vec4,
-  b: Vec4,
-  optionalResult = new Vec4()
-): Vec4 {
+export function quatMultiply(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
   // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
 
   const qax = a.x;
@@ -116,7 +104,7 @@ export function quatMultiply(
   const qbz = b.z;
   const qbw = b.w;
 
-  return optionalResult.set(
+  return result.set(
     qax * qbw + qaw * qbx + qay * qbz - qaz * qby,
     qay * qbw + qaw * qby + qaz * qbx - qax * qbz,
     qaz * qbw + qaw * qbz + qax * qby - qay * qbx,
@@ -128,34 +116,34 @@ export function quatSlerp(
   a: Vec4,
   b: Vec4,
   t: number,
-  optionalResult = new Vec4()
+  result = new Vec4()
 ): Vec4 {
-  if (t <= 0) return a.clone(optionalResult);
-  if (t >= 1) return b.clone(optionalResult);
+  if (t <= 0) return a.clone(result);
+  if (t >= 1) return b.clone(result);
 
   // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
 
   let cosHalfTheta = vec4Dot(a, b);
 
   if (cosHalfTheta < 0) {
-    vec4Negate(b, optionalResult);
+    vec4Negate(b, result);
 
     cosHalfTheta = -cosHalfTheta;
   } else {
-    b.clone(optionalResult);
+    b.clone(result);
   }
 
   if (cosHalfTheta >= 1) {
-    return optionalResult;
+    return result;
   }
 
   const sqrSinHalfTheta = 1 - cosHalfTheta * cosHalfTheta;
 
   if (sqrSinHalfTheta <= Number.EPSILON) {
-    vec4Mix(a, optionalResult, t);
-    vec4Normalize(optionalResult, optionalResult);
+    vec4Mix(a, result, t);
+    vec4Normalize(result, result);
 
-    return optionalResult;
+    return result;
   }
 
   const sinHalfTheta = Math.sqrt(sqrSinHalfTheta);
@@ -163,17 +151,15 @@ export function quatSlerp(
   const ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
   const ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
 
-  optionalResult.w = a.w * ratioA + optionalResult.w * ratioB;
-  optionalResult.x = a.x * ratioA + optionalResult.x * ratioB;
-  optionalResult.y = a.y * ratioA + optionalResult.y * ratioB;
-  optionalResult.z = a.z * ratioA + optionalResult.z * ratioB;
+  result.w = a.w * ratioA + result.w * ratioB;
+  result.x = a.x * ratioA + result.x * ratioB;
+  result.y = a.y * ratioA + result.y * ratioB;
+  result.z = a.z * ratioA + result.z * ratioB;
 
-  return optionalResult;
+  return result;
 }
-export function eulerToQuat(
-  euler: Vec3,
-  optionalResult: Vec4 = new Vec4()
-): Vec4 {
+
+export function eulerToQuat(euler: Vec3, result: Vec4 = new Vec4()): Vec4 {
   // eslint-disable-next-line max-len
   // http://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors/content/SpinCalc.m
 
@@ -186,7 +172,7 @@ export function eulerToQuat(
   const s3 = Math.sin(euler.z / 2);
 
   // XYZ order only
-  return optionalResult.set(
+  return result.set(
     s1 * c2 * c3 + c1 * s2 * s3,
     c1 * s2 * c3 - s1 * c2 * s3,
     c1 * c2 * s3 + s1 * s2 * c3,
@@ -197,7 +183,7 @@ export function eulerToQuat(
 export function angleAxisToQuat(
   angle: number,
   axis: Vec3,
-  optionalResult = new Vec4()
+  result = new Vec4()
 ): Vec4 {
   // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
 
@@ -206,15 +192,10 @@ export function angleAxisToQuat(
   const halfAngle = angle / 2;
   const s = Math.sin(halfAngle);
 
-  return optionalResult.set(
-    axis.x * s,
-    axis.y * s,
-    axis.z * s,
-    Math.cos(halfAngle)
-  );
+  return result.set(axis.x * s, axis.y * s, axis.z * s, Math.cos(halfAngle));
 }
 
-export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
+export function mat3ToQuat(m: Mat3, result = new Vec4()): Vec4 {
   // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
 
   // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
@@ -236,7 +217,7 @@ export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
   if (trace > 0) {
     const s = 0.5 / Math.sqrt(trace + 1);
 
-    return optionalResult.set(
+    return result.set(
       (m32 - m23) * s,
       (m13 - m31) * s,
       (m21 - m12) * s,
@@ -246,7 +227,7 @@ export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
   if (m11 > m22 && m11 > m33) {
     const s = 2 * Math.sqrt(1 + m11 - m22 - m33);
 
-    return optionalResult.set(
+    return result.set(
       0.25 * s,
       (m12 + m21) / s,
       (m13 + m31) / s,
@@ -256,7 +237,7 @@ export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
   if (m22 > m33) {
     const s = 2 * Math.sqrt(1 + m22 - m11 - m33);
 
-    return optionalResult.set(
+    return result.set(
       (m12 + m21) / s,
       0.25 * s,
       (m23 + m32) / s,
@@ -266,7 +247,7 @@ export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
 
   const s = 2 * Math.sqrt(1 + m33 - m11 - m22);
 
-  return optionalResult.set(
+  return result.set(
     (m13 + m31) / s,
     (m23 + m32) / s,
     0.25 * s,

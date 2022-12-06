@@ -17,8 +17,8 @@ export class Mat4 {
     }
   }
 
-  clone(optionalResult = new Mat4()): Mat4 {
-    return optionalResult.set(this.elements);
+  clone(result = new Mat4()): Mat4 {
+    return result.set(this.elements);
   }
   set(elements: number[]): this {
     if (elements.length !== NUM_ELEMENTS) {
@@ -41,51 +41,42 @@ export function mat4Equals(a: Mat4, b: Mat4): boolean {
   }
   return true;
 }
-export function mat4Add(
-  a: Mat4,
-  b: Mat4,
-  optionalResult: Mat4 = new Mat4()
-): Mat4 {
+
+export function mat4Add(a: Mat4, b: Mat4, result: Mat4 = new Mat4()): Mat4 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] + b.elements[i];
+    result.elements[i] = a.elements[i] + b.elements[i];
   }
-  return optionalResult;
+  return result;
 }
 export function mat4Subtract(
   a: Mat4,
   b: Mat4,
-  optionalResult: Mat4 = new Mat4()
+  result: Mat4 = new Mat4()
 ): Mat4 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] - b.elements[i];
+    result.elements[i] = a.elements[i] - b.elements[i];
   }
-  return optionalResult;
-}
-export function mat4Scale(
-  a: Mat4,
-  b: number,
-  optionalResult: Mat4 = new Mat4()
-): Mat4 {
-  for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] * b;
-  }
-  return optionalResult;
-}
-export function mat4Negate(a: Mat4, optionalResult: Mat4 = new Mat4()): Mat4 {
-  for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = -a.elements[i];
-  }
-  return optionalResult;
+  return result;
 }
 
-export function mat4Multiply(
-  a: Mat4,
-  b: Mat4,
-  optionalResult = new Mat4()
-): Mat4 {
+export function mat4Scale(a: Mat4, b: number, result: Mat4 = new Mat4()): Mat4 {
+  for (let i = 0; i < NUM_ELEMENTS; i++) {
+    result.elements[i] = a.elements[i] * b;
+  }
+  return result;
+}
+
+export function mat4Negate(a: Mat4, result: Mat4 = new Mat4()): Mat4 {
+  for (let i = 0; i < NUM_ELEMENTS; i++) {
+    result.elements[i] = -a.elements[i];
+  }
+  return result;
+}
+
+export function mat4Multiply(a: Mat4, b: Mat4, result = new Mat4()): Mat4 {
   const ae = a.elements;
   const be = b.elements;
-  const te = optionalResult.elements;
+  const te = result.elements;
 
   const a11 = ae[0],
     a12 = ae[4],
@@ -142,7 +133,7 @@ export function mat4Multiply(
   te[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
   te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 
-  return optionalResult;
+  return result;
 }
 
 export function mat4Determinant(m: Mat4): number {
@@ -196,8 +187,8 @@ export function mat4Determinant(m: Mat4): number {
   return n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14;
 }
 
-export function mat4Transpose(m: Mat4, optionalResult = new Mat4()): Mat4 {
-  const re = m.clone(optionalResult).elements;
+export function mat4Transpose(m: Mat4, result = new Mat4()): Mat4 {
+  const re = m.clone(result).elements;
   let tmp;
 
   // TODO: replace this with just reading from me and setting re, no need for a temporary
@@ -221,10 +212,10 @@ export function mat4Transpose(m: Mat4, optionalResult = new Mat4()): Mat4 {
   re[11] = re[14];
   re[14] = tmp;
 
-  return optionalResult;
+  return result;
 }
 
-export function mat4Inverse(m: Mat4, optionalResult = new Mat4()): Mat4 {
+export function mat4Inverse(m: Mat4, result = new Mat4()): Mat4 {
   // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
   const me = m.elements,
     n11 = me[0],
@@ -281,7 +272,7 @@ export function mat4Inverse(m: Mat4, optionalResult = new Mat4()): Mat4 {
   const detInv = 1 / det;
 
   // TODO: replace with a set
-  const re = optionalResult.elements;
+  const re = result.elements;
   re[0] = t11 * detInv;
   re[1] =
     (n24 * n33 * n41 -
@@ -386,31 +377,33 @@ export function mat4Inverse(m: Mat4, optionalResult = new Mat4()): Mat4 {
       n11 * n22 * n33) *
     detInv;
 
-  return optionalResult;
+  return result;
 }
 
 export function mat4Mix(
   a: Mat4,
   b: Mat4,
   t: number,
-  optionalResult = new Mat4()
+  result = new Mat4()
 ): Mat4 {
   const s = 1 - t;
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = a.elements[i] * s + b.elements[i] * t;
+    result.elements[i] = a.elements[i] * s + b.elements[i] * t;
   }
-  return optionalResult;
+  return result;
 }
+
 export function mat4FromArray(
   array: Float32Array | number[],
   offset = 0,
-  optionalResult: Mat4 = new Mat4()
+  result: Mat4 = new Mat4()
 ): Mat4 {
   for (let i = 0; i < NUM_ELEMENTS; i++) {
-    optionalResult.elements[i] = array[offset + i];
+    result.elements[i] = array[offset + i];
   }
-  return optionalResult;
+  return result;
 }
+
 export function mat4ToArray(
   a: Mat4,
   array: Float32Array | number[],
@@ -424,13 +417,14 @@ export function mat4ToArray(
 export function mat4ToString(a: Mat4): string {
   return `(${a.elements.join(', ')})`;
 }
-export function mat4Parse(text: string, optionalResult = new Mat4()): Mat4 {
-  return mat4FromArray(parseSafeFloats(text), 0, optionalResult);
+
+export function mat4Parse(text: string, result = new Mat4()): Mat4 {
+  return mat4FromArray(parseSafeFloats(text), 0, result);
 }
 
-export function mat3ToMat4(a: Mat3, optionalResult = new Mat4()): Mat4 {
+export function mat3ToMat4(a: Mat3, result = new Mat4()): Mat4 {
   const ae = a.elements;
-  return optionalResult.set([
+  return result.set([
     ae[0],
     ae[1],
     ae[2],
@@ -450,52 +444,18 @@ export function mat3ToMat4(a: Mat3, optionalResult = new Mat4()): Mat4 {
   ]);
 }
 
-export function eulerToMat4(e: Vec3, optionalResult = new Mat4()): Mat4 {
-  return mat3ToMat4(eulerToMat3(e), optionalResult);
+export function eulerToMat4(e: Vec3, result = new Mat4()): Mat4 {
+  return mat3ToMat4(eulerToMat3(e), result);
 }
 
-export function quatToMat4(q: Vec4, optionalResult = new Mat4()): Mat4 {
-  return mat3ToMat4(quatToMat3(q), optionalResult);
+export function quatToMat4(q: Vec4, result = new Mat4()): Mat4 {
+  return mat3ToMat4(quatToMat3(q), result);
 }
 
-export function scale3ToMat4(s: Vec3, optionalResult = new Mat4()): Mat4 {
-  return optionalResult.set([
-    s.x,
-    0,
-    0,
-    0,
-    0,
-    s.y,
-    0,
-    0,
-    0,
-    0,
-    s.z,
-    0,
-    0,
-    0,
-    0,
-    1
-  ]);
+export function scale3ToMat4(s: Vec3, result = new Mat4()): Mat4 {
+  return result.set([s.x, 0, 0, 0, 0, s.y, 0, 0, 0, 0, s.z, 0, 0, 0, 0, 1]);
 }
 
-export function translation3ToMat4(t: Vec3, optionalResult = new Mat4()): Mat4 {
-  return optionalResult.set([
-    1,
-    0,
-    0,
-    t.x,
-    0,
-    1,
-    0,
-    t.y,
-    0,
-    0,
-    1,
-    t.z,
-    0,
-    0,
-    0,
-    1
-  ]);
+export function translation3ToMat4(t: Vec3, result = new Mat4()): Mat4 {
+  return result.set([1, 0, 0, t.x, 0, 1, 0, t.y, 0, 0, 1, t.z, 0, 0, 0, 1]);
 }

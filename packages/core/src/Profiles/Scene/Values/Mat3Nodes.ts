@@ -4,6 +4,7 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  eulerToMat3,
   Mat3,
   mat3Add,
   mat3Determinant,
@@ -14,9 +15,12 @@ import {
   mat3MultiplyByScalar,
   mat3Negate,
   mat3Subtract,
+  mat3ToScale2,
+  mat3ToTranslation2,
   mat3Transpose,
   mat4ToMat3,
-  quatToMat3
+  scale2ToMat3,
+  translation2ToMat3
 } from './Internal/Mat3';
 import { Vec3 } from './Internal/Vec3';
 
@@ -165,10 +169,60 @@ export const Equal = new NodeDescription(
     )
 );
 
+export const EulerToMat3 = new NodeDescription(
+  'math/toMat3/euler',
+  'Logic',
+  'To Mat3',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['euler'], 'mat3', eulerToMat3)
+);
+
 export const QuatToMat3 = new NodeDescription(
   'math/toMat3/quat',
   'Logic',
   'To Mat3',
   (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'quat', quatToMat3)
+    new In1Out1FuncNode(description, graph, ['quat'], 'mat3', eulerToMat3)
+);
+
+export const Scale2ToMat3 = new NodeDescription(
+  'math/toMat3/scale2',
+  'Logic',
+  'Scale2 To Mat3',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['vec2'], 'mat3', scale2ToMat3)
+);
+export const Mat3ToScale2 = new NodeDescription(
+  'math/toScale2/mat3',
+  'Logic',
+  'Mat3 to Scale2',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat3'], 'vec2', mat3ToScale2)
+);
+
+export const Translation2ToMat3 = new NodeDescription(
+  'math/toMat3/translation2',
+  'Logic',
+  'Translation2 To Mat3',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['vec2'],
+      'mat3',
+      translation2ToMat3
+    )
+);
+export const Mat3ToTranslation3 = new NodeDescription(
+  'math/toTranslation2/mat3',
+  'Logic',
+  'Mat3 to Translation2',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['mat3'],
+      'vec2',
+      mat3ToTranslation2
+    )
 );

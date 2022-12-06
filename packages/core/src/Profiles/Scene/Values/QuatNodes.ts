@@ -6,7 +6,9 @@ import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
   angleAxisToQuat,
+  eulerToQuat,
   mat3ToQuat,
+  mat4ToQuat,
   quatConjugate,
   quatExp,
   quatLn,
@@ -157,8 +159,22 @@ export const Mat3ToQuat = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat3'], 'quat', mat3ToQuat)
 );
+export const Mat4ToQuat = new NodeDescription(
+  'math/toQuat/mat4',
+  'Logic',
+  'To Quat',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat4'], 'quat', mat4ToQuat)
+);
+export const EulerToQuat = new NodeDescription(
+  'math/toQuat/euler',
+  'Logic',
+  '÷',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['euler'], 'quat', eulerToQuat)
+);
 
-export const FromAngleAxis = new NodeDescription(
+export const AngleAxisToQuat = new NodeDescription(
   'math/toQuat/angleAxis',
   'Logic',
   'Angle Axis to Quat',

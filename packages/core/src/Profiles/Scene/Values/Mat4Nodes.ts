@@ -5,18 +5,27 @@ import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  eulerToMat4,
   mat3ToMat4,
   Mat4,
   mat4Add,
+  mat4Adjoint,
   mat4Determinant,
   mat4Equals,
   mat4Inverse,
   mat4Mix,
+  mat4MulitplyByScalar,
   mat4Multiply,
   mat4Negate,
+  mat4RotateByEuler,
+  mat4RotateByQuat,
   mat4Scale,
   mat4Subtract,
-  mat4Transpose
+  mat4Translate,
+  mat4Transpose,
+  quatToMat4,
+  scale3ToMat4,
+  translation3ToMat4
 } from './Internal/Mat4';
 import { Vec4 } from './Internal/Vec4';
 
@@ -98,8 +107,8 @@ export const Negate = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Negate)
 );
-export const Scale = new NodeDescription(
-  'math/scale/mat4',
+export const MultiplyByScalar = new NodeDescription(
+  'math/multiplyByScalar/mat4',
   'Logic',
   '×',
   (description, graph) =>
@@ -108,7 +117,7 @@ export const Scale = new NodeDescription(
       graph,
       ['mat4', 'float'],
       'mat4',
-      mat4Scale
+      mat4MulitplyByScalar
     )
 );
 export const Determinant = new NodeDescription(
@@ -118,6 +127,15 @@ export const Determinant = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat4'], 'float', mat4Determinant)
 );
+
+export const Adjoint = new NodeDescription(
+  'math/adjoint/mat4',
+  'Logic',
+  'Adjoint',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Adjoint)
+);
+
 export const Inverse = new NodeDescription(
   'math/inverse/mat4',
   'Logic',
@@ -125,6 +143,7 @@ export const Inverse = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Inverse)
 );
+
 export const Transpose = new NodeDescription(
   'math/transpose/mat4',
   'Logic',
@@ -140,6 +159,89 @@ export const Mat3ToMat4 = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat3'], 'mat4', mat3ToMat4)
 );
+
+export const Scale3ToMat4 = new NodeDescription(
+  'math/toMat4/scale3',
+  'Logic',
+  'Scale3 To Mat4',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['vec3'], 'mat4', scale3ToMat4)
+);
+export const Translate3ToMat4 = new NodeDescription(
+  'math/toMat4/translate3',
+  'Logic',
+  'Translate3 To Mat4',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['vec3'],
+      'mat4',
+      translation3ToMat4
+    )
+);
+export const QuatToMat4 = new NodeDescription(
+  'math/toMat4/quat',
+  'Logic',
+  'Quat To Mat4',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['quat'], 'mat4', quatToMat4)
+);
+export const EulerToMat4 = new NodeDescription(
+  'math/toMat4/euler',
+  'Logic',
+  'Euler To Mat4',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['euler'], 'mat4', eulerToMat4)
+);
+
+export const Translate = new NodeDescription(
+  'math/translate/mat4',
+  'Logic',
+  'Translate',
+  (description, graph) =>
+    new In2Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'vec3'],
+      'mat4',
+      mat4Translate
+    )
+);
+export const Scale = new NodeDescription(
+  'math/scale/mat4',
+  'Logic',
+  'Scale',
+  (description, graph) =>
+    new In2Out1FuncNode(description, graph, ['mat4', 'vec3'], 'mat4', mat4Scale)
+);
+export const RotateByQuat = new NodeDescription(
+  'math/rotateByQuat/mat4',
+  'Logic',
+  'Rotate',
+  (description, graph) =>
+    new In2Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'quat'],
+      'mat4',
+      mat4RotateByQuat
+    )
+);
+export const RotateByEuler = new NodeDescription(
+  'math/rotateByEuler/mat4',
+  'Logic',
+  'Rotate',
+  (description, graph) =>
+    new In2Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'euler'],
+      'mat4',
+      mat4RotateByEuler
+    )
+);
+
 export const Multiply = new NodeDescription(
   'math/multiply/mat4',
   'Logic',

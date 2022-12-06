@@ -309,10 +309,10 @@ export function mat3ToScale2(m: Mat4, result = new Vec2()): Vec2 {
   );
 }
 
-export function translate2ToMat3(t: Vec2, result = new Mat3()): Mat3 {
+export function translation2ToMat3(t: Vec2, result = new Mat3()): Mat3 {
   return result.set([1, 0, t.x, 0, 1, t.y, 0, 0, 1]);
 }
-export function mat3ToTranslate2(m: Mat3, result = new Vec2()): Vec2 {
+export function mat3ToTranslation2(m: Mat3, result = new Vec2()): Vec2 {
   return result.set(m.elements[2], m.elements[5]);
 }
 

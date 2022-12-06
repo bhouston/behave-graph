@@ -1,6 +1,7 @@
 import { parseSafeFloats } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
-import { Mat3 } from './Mat3';
+import { Mat3, mat4ToMat3 } from './Mat3';
+import { Mat4 } from './Mat4';
 import { Vec3 } from './Vec3';
 
 export type Vec4JSON = { x: number; y: number; z: number; w: number };
@@ -269,6 +270,10 @@ export function quatToAngleAxis(
     result.z = 0;
   }
   return [rad, result];
+}
+
+export function mat4ToQuat(m: Mat4, result = new Vec4()): Vec4 {
+  return mat3ToQuat(mat4ToMat3(m), result);
 }
 
 export function mat3ToQuat(m: Mat3, result = new Vec4()): Vec4 {

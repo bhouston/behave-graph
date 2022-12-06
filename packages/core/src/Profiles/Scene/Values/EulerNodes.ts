@@ -4,6 +4,9 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  mat3ToEuler,
+  mat4ToEuler,
+  quatToEuler,
   Vec3,
   vec3Add,
   vec3Equals,
@@ -13,7 +16,6 @@ import {
   vec3Subtract,
   vec3ToArray
 } from './Internal/Vec3';
-import { eulerToQuat } from './Internal/Vec4';
 
 export const Constant = new NodeDescription(
   'math/euler',
@@ -108,14 +110,27 @@ export const Mix = new NodeDescription(
     )
 );
 
-export const toQuat = new NodeDescription(
-  'math/toQuat/euler',
+export const Mat3ToEuler = new NodeDescription(
+  'math/toEuler/mat3',
   'Logic',
-  '÷',
+  'To Euler',
   (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['euler'], 'quat', eulerToQuat)
+    new In1Out1FuncNode(description, graph, ['mat3'], 'euler', mat3ToEuler)
 );
-
+export const Mat4ToEuler = new NodeDescription(
+  'math/toEuler/mat4',
+  'Logic',
+  'To Euler',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat4'], 'euler', mat4ToEuler)
+);
+export const QuatToEuler = new NodeDescription(
+  'math/toEuler/quat',
+  'Logic',
+  'To Euler',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['quat'], 'euler', quatToEuler)
+);
 export const Equal = new NodeDescription(
   'math/equal/euler',
   'Logic',

@@ -20,3 +20,7 @@ export function degreesToRadians(a: number) {
 export function radiansToDegrees(a: number) {
   return a * (180 / Math.PI);
 }
+
+export function clamp(a: number, min: number, max: number): number {
+  return a < min ? min : a > max ? max : a;
+}

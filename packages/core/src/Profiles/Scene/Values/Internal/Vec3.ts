@@ -1,5 +1,12 @@
 import { parseSafeFloats } from '../../../../parseFloats';
-import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
+import {
+  clamp,
+  EPSILON,
+  equalsTolerance
+} from '../../../Core/Values/Internal/Common';
+import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3';
+import { Mat4 } from './Mat4';
+import { Vec4 } from './Vec4';
 
 export type Vec3JSON = { x: number; y: number; z: number };
 export type ColorJSON = { r: number; g: number; b: number };
@@ -189,4 +196,41 @@ export function hexToRGB(hex: number, result = new Vec3()): Vec3 {
 
 export function rgbToHex(rgb: Vec3): number {
   return ((rgb.x * 255) << 16) ^ ((rgb.y * 255) << 8) ^ ((rgb.z * 255) << 0);
+}
+
+// from three.js
+export function mat3ToEuler(m: Mat3, result = new Vec3()): Vec3 {
+  // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+
+  const te = m.elements;
+  const m11 = te[0],
+    m12 = te[3],
+    m13 = te[6];
+  const m21 = te[1],
+    m22 = te[4],
+    m23 = te[7];
+  const m31 = te[2],
+    m32 = te[5],
+    m33 = te[8];
+
+  result.y = Math.asin(clamp(m13, -1, 1));
+
+  if (Math.abs(m13) < 0.9999999) {
+    result.x = Math.atan2(-m23, m33);
+    result.z = Math.atan2(-m12, m11);
+  } else {
+    result.x = Math.atan2(m32, m22);
+    result.z = 0;
+  }
+
+  return result;
+}
+
+// from three.js
+export function mat4ToEuler(m: Mat4, result = new Vec3()): Vec3 {
+  return mat3ToEuler(mat4ToMat3(m), result);
+}
+
+export function quatToEuler(q: Vec4, result = new Vec3()): Vec3 {
+  return mat3ToEuler(quatToMat3(q), result);
 }

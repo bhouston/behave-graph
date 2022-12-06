@@ -1,4 +1,5 @@
 import { parseSafeFloats } from '../../../../parseFloats';
+import { Mat3 } from './Mat3';
 import { Vec3 } from './Vec3';
 
 export type Vec4JSON = { x: number; y: number; z: number; w: number };
@@ -210,5 +211,65 @@ export function angleAxisToQuat(
     axis.y * s,
     axis.z * s,
     Math.cos(halfAngle)
+  );
+}
+
+export function mat3ToQuat(m: Mat3, optionalResult = new Vec4()): Vec4 {
+  // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+
+  // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+
+  // TODO, allocate x, y, z, w and only set q.* at the end.
+
+  const te = m.elements,
+    m11 = te[0],
+    m12 = te[3],
+    m13 = te[6],
+    m21 = te[1],
+    m22 = te[4],
+    m23 = te[7],
+    m31 = te[2],
+    m32 = te[5],
+    m33 = te[8],
+    trace = m11 + m22 + m33;
+
+  if (trace > 0) {
+    const s = 0.5 / Math.sqrt(trace + 1);
+
+    return optionalResult.set(
+      (m32 - m23) * s,
+      (m13 - m31) * s,
+      (m21 - m12) * s,
+      0.25 / s
+    );
+  }
+  if (m11 > m22 && m11 > m33) {
+    const s = 2 * Math.sqrt(1 + m11 - m22 - m33);
+
+    return optionalResult.set(
+      0.25 * s,
+      (m12 + m21) / s,
+      (m13 + m31) / s,
+      (m32 - m23) / s
+    );
+  }
+  if (m22 > m33) {
+    const s = 2 * Math.sqrt(1 + m22 - m11 - m33);
+
+    return optionalResult.set(
+      (m12 + m21) / s,
+      0.25 * s,
+      (m23 + m32) / s,
+      (m13 - m31) / s
+    );
+  }
+
+  const s = 2 * Math.sqrt(1 + m33 - m11 - m22);
+
+  return optionalResult.set(
+    (m13 + m31) / s,
+    (m23 + m32) / s,
+    0.25 * s,
+    (m21 - m12) / s
   );
 }

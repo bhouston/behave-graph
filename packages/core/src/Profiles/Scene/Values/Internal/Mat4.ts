@@ -459,3 +459,13 @@ export function scale3ToMat4(s: Vec3, result = new Mat4()): Mat4 {
 export function translation3ToMat4(t: Vec3, result = new Mat4()): Mat4 {
   return result.set([1, 0, 0, t.x, 0, 1, 0, t.y, 0, 0, 1, t.z, 0, 0, 0, 1]);
 }
+
+export function mat4ToScale(m: Mat4, result = new Vec3()): Vec3 {
+  const me = m.elements;
+  return result.set(me[3], me[7], me[11]);
+}
+
+export function mat4ToTranslation(m: Mat4, result = new Vec3()): Vec3 {
+  const me = m.elements;
+  return result.set(me[3], me[7], me[11]);
+}

@@ -14,7 +14,7 @@ import {
   mat3Negate,
   mat3Scale,
   mat3Subtract,
-  mat3ToArray
+  mat4ToMat3
 } from './Internal/Mat3';
 import { Vec3 } from './Internal/Vec3';
 
@@ -29,7 +29,7 @@ export const Constant = new NodeDescription(
 export const Create = new NodeDescription(
   'math/toMat3/vec3',
   'Logic',
-  'Float to Mat3',
+  'Vec3 to Mat3',
   (description, graph) =>
     new In3Out1FuncNode(
       description,
@@ -47,7 +47,9 @@ export const Elements = new NodeDescription(
   'Logic',
   'Mat3 To Vec3',
   (description, graph) =>
-    new VecElements(description, graph, 'mat3', ['x', 'y', 'z'], mat3ToArray)
+    new VecElements(description, graph, 'mat3', ['x', 'y', 'z'], () => {
+      throw new Error('not implemented');
+    })
 );
 
 export const Add = new NodeDescription(
@@ -90,19 +92,33 @@ export const Scale = new NodeDescription(
       mat3Scale
     )
 );
-export const Length = new NodeDescription(
+export const Determinant = new NodeDescription(
   'math/determinant/mat3',
   'Logic',
-  'Length',
+  'Determinant',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat3'], 'float', mat3Determinant)
 );
-export const Normalize = new NodeDescription(
+export const Inverse = new NodeDescription(
   'math/inverse/mat3',
   'Logic',
-  'Normalize',
+  'Inverse',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', mat3Inverse)
+);
+export const Mat4ToMat3 = new NodeDescription(
+  'math/toMat3/mat4',
+  'Logic',
+  'Mat4 To Mat3',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat4'], 'mat3', mat4ToMat3)
+);
+export const Transpose = new NodeDescription(
+  'math/transpose/mat3',
+  'Logic',
+  'Transpose',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', mat3Transpose)
 );
 export const Multiply = new NodeDescription(
   'math/multiply/mat3',

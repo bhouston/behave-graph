@@ -2,8 +2,10 @@ import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
+import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  mat3ToMat4,
   Mat4,
   mat4Add,
   mat4Determinant,
@@ -14,9 +16,9 @@ import {
   mat4Negate,
   mat4Scale,
   mat4Subtract,
-  mat4ToArray
+  mat4Transpose
 } from './Internal/Mat4';
-import { Vec3 } from './Internal/Vec3';
+import { Vec4 } from './Internal/Vec4';
 
 export const Constant = new NodeDescription(
   'math/mat4',
@@ -27,27 +29,46 @@ export const Constant = new NodeDescription(
 );
 
 export const Create = new NodeDescription(
-  'math/toMat4/vec3',
+  'math/toMat4/vec4',
   'Logic',
-  'Float to Mat4',
+  'Vec4 to Mat4',
   (description, graph) =>
-    new In3Out1FuncNode(
+    new In4Out1FuncNode(
       description,
       graph,
-      ['vec3', 'vec3', 'vec3'],
+      ['vec4', 'vec4', 'vec4', 'vec4'],
       'mat4',
-      (v1: Vec3, v2: Vec3, v3: Vec3) =>
-        new Mat4([v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z]),
-      ['x', 'y', 'z']
+      (v1: Vec4, v2: Vec4, v3: Vec4, v4: Vec4) =>
+        new Mat4([
+          v1.x,
+          v1.y,
+          v1.z,
+          v1.w,
+          v2.x,
+          v2.y,
+          v2.z,
+          v2.w,
+          v3.x,
+          v3.y,
+          v3.z,
+          v3.w,
+          v4.x,
+          v4.y,
+          v4.z,
+          v4.w
+        ]),
+      ['x', 'y', 'z', 'w']
     )
 );
 
 export const Elements = new NodeDescription(
-  'math/toVec3/mat4',
+  'math/toVec4/mat4',
   'Logic',
-  'Mat4 To Vec3',
+  'Mat4 To Vec4',
   (description, graph) =>
-    new VecElements(description, graph, 'mat4', ['x', 'y', 'z'], mat4ToArray)
+    new VecElements(description, graph, 'mat4', ['x', 'y', 'z', 'w'], () => {
+      throw new Error('not implemented');
+    })
 );
 
 export const Add = new NodeDescription(
@@ -90,19 +111,34 @@ export const Scale = new NodeDescription(
       mat4Scale
     )
 );
-export const Length = new NodeDescription(
+export const Determinant = new NodeDescription(
   'math/determinant/mat4',
   'Logic',
-  'Length',
+  'Determinant',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat4'], 'float', mat4Determinant)
 );
-export const Normalize = new NodeDescription(
+export const Inverse = new NodeDescription(
   'math/inverse/mat4',
   'Logic',
-  'Normalize',
+  'Inverse',
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Inverse)
+);
+export const Transpose = new NodeDescription(
+  'math/transpose/mat4',
+  'Logic',
+  'Transpose',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Transpose)
+);
+
+export const Mat3ToMat4 = new NodeDescription(
+  'math/toMat4/mat3',
+  'Logic',
+  'Mat3 To Mat4',
+  (description, graph) =>
+    new In1Out1FuncNode(description, graph, ['mat3'], 'mat4', mat3ToMat4)
 );
 export const Multiply = new NodeDescription(
   'math/multiply/mat4',

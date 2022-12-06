@@ -11,6 +11,10 @@ import * as ColorNodes from './Values/ColorNodes';
 import { ColorValue } from './Values/ColorValue';
 import * as EulerNodes from './Values/EulerNodes';
 import { EulerValue } from './Values/EulerValue';
+import * as Mat3Nodes from './Values/Mat3Nodes';
+import { Mat3Value } from './Values/Mat3Value';
+import * as Mat4Nodes from './Values/Mat4Nodes';
+import { Mat4Value } from './Values/Mat4Value';
 import * as QuatNodes from './Values/QuatNodes';
 import { QuatValue } from './Values/QuatValue';
 import * as Vec2Nodes from './Values/Vec2Nodes';
@@ -33,6 +37,8 @@ export function registerSceneProfile(
   values.register(ColorValue);
   values.register(EulerValue);
   values.register(QuatValue);
+  values.register(Mat3Value);
+  values.register(Mat4Value);
 
   // pull in value type nodes
   nodes.register(...getNodeDescriptions(Vec2Nodes));
@@ -41,6 +47,8 @@ export function registerSceneProfile(
   nodes.register(...getNodeDescriptions(ColorNodes));
   nodes.register(...getNodeDescriptions(EulerNodes));
   nodes.register(...getNodeDescriptions(QuatNodes));
+  nodes.register(...getNodeDescriptions(Mat3Nodes));
+  nodes.register(...getNodeDescriptions(Mat4Nodes));
 
   // events
 
@@ -55,7 +63,16 @@ export function registerSceneProfile(
     ...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
   );
 
-  const newValueTypeNames = ['vec2', 'vec3', 'vec4', 'quat', 'euler', 'color'];
+  const newValueTypeNames = [
+    'vec2',
+    'vec3',
+    'vec4',
+    'quat',
+    'euler',
+    'color',
+    'mat3',
+    'mat4'
+  ];
 
   // variables
 

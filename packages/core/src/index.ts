@@ -23,6 +23,7 @@ export * from './Nodes/Templates/In0Out1FuncNode';
 
 // loading & execution
 export * from './Execution/Engine';
+export * from './Execution/Fiber';
 export * from './Graphs/IO/readGraphFromJSON';
 export * from './Graphs/IO/writeGraphToJSON';
 export * from './Graphs/IO/writeNodeSpecsToJSON';
@@ -58,11 +59,18 @@ export * from './Profiles/Core/CustomEvents/TriggerCustomEvent';
 export * from './Profiles/Core/Debug/AssertExpectTrue';
 export * from './Profiles/Core/Debug/DebugLog';
 export * from './Profiles/Core/Flow/Branch';
-export * from './Profiles/Core/Flow/Debounce';
+export * from './Profiles/Core/Flow/Counter';
 export * from './Profiles/Core/Time/Delay';
+export * from './Profiles/Core/Flow/DoN';
+export * from './Profiles/Core/Flow/DoOnce';
+export * from './Profiles/Core/Flow/Debounce';
 export * from './Profiles/Core/Flow/FlipFlop';
 export * from './Profiles/Core/Flow/ForLoop';
+export * from './Profiles/Core/Flow/Gate';
+export * from './Profiles/Core/Flow/MultieGate';
 export * from './Profiles/Core/Flow/Sequence';
+export * from './Profiles/Core/Flow/Throttle';
+export * from './Profiles/Core/Flow/WaitAll';
 export * from './Profiles/Core/Lifecycle/LifecycleOnEnd';
 export * from './Profiles/Core/Lifecycle/LifecycleOnStart';
 export * from './Profiles/Core/Lifecycle/LifecycleOnTick';

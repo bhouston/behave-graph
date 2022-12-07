@@ -391,3 +391,18 @@ export const OrthographicSimple = new NodeDescription(
       ['height', 'center', 'near', 'far', 'zoom', 'aspectRatio']
     )
 );
+
+export const LookAt = new NodeDescription(
+  'math/lookAt/mat4',
+  'Logic',
+  'Look At',
+  (description, graph) =>
+    new In6Out1FuncNode(
+      description,
+      graph,
+      ['vec3', 'vec3', 'vec3'],
+      'mat4',
+      mat3LookAt,
+      ['eye', 'target', 'up']
+    )
+);

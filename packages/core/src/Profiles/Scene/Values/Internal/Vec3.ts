@@ -46,7 +46,11 @@ export function vec3Add(a: Vec3, b: Vec3, result = new Vec3()): Vec3 {
 export function vec3Subtract(a: Vec3, b: Vec3, result = new Vec3()): Vec3 {
   return result.set(a.x - b.x, a.y - b.y, a.z - b.z);
 }
-export function vec3Scale(a: Vec3, b: number, result = new Vec3()): Vec3 {
+export function vec3MultiplyByScalar(
+  a: Vec3,
+  b: number,
+  result = new Vec3()
+): Vec3 {
   return result.set(a.x * b, a.y * b, a.z * b);
 }
 export function vec3Negate(a: Vec3, result = new Vec3()): Vec3 {
@@ -57,7 +61,7 @@ export function vec3Length(a: Vec3): number {
 }
 export function vec3Normalize(a: Vec3, result = new Vec3()): Vec3 {
   const invLength = 1 / vec3Length(a);
-  return vec3Scale(a, invLength, result);
+  return vec3MultiplyByScalar(a, invLength, result);
 }
 export function vec3Dot(a: Vec3, b: Vec3): number {
   return a.x * b.x + a.y * b.y + a.z * b.z;

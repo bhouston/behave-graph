@@ -42,7 +42,11 @@ export function vec4Add(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
 export function vec4Subtract(a: Vec4, b: Vec4, result = new Vec4()): Vec4 {
   return result.set(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
-export function vec4Scale(a: Vec4, b: number, result = new Vec4()): Vec4 {
+export function vec4MultiplyByScalar(
+  a: Vec4,
+  b: number,
+  result = new Vec4()
+): Vec4 {
   return result.set(a.x * b, a.y * b, a.z * b, a.w * b);
 }
 export function vec4Negate(a: Vec4, result = new Vec4()): Vec4 {
@@ -53,7 +57,7 @@ export function vec4Length(a: Vec4): number {
 }
 export function vec4Normalize(a: Vec4, result = new Vec4()): Vec4 {
   const invLength = 1 / vec4Length(a);
-  return vec4Scale(a, invLength, result);
+  return vec4MultiplyByScalar(a, invLength, result);
 }
 export function vec4Dot(a: Vec4, b: Vec4): number {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -211,7 +215,7 @@ export function quatLn(a: Vec4, result = new Vec4()): Vec4 {
 // from gl-matrix
 export function quatPow(a: Vec4, b: number, result = new Vec4()): Vec4 {
   const ln = quatLn(a);
-  const lnScaled = vec4Scale(ln, b);
+  const lnScaled = vec4MultiplyByScalar(ln, b);
   quatExp(lnScaled, result);
   return result;
 }

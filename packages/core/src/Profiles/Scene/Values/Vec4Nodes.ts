@@ -11,9 +11,9 @@ import {
   vec4Equals,
   vec4Length,
   vec4Mix,
+  vec4MultiplyByScalar,
   vec4Negate,
   vec4Normalize,
-  vec4Scale,
   vec4Subtract,
   vec4ToArray
 } from './Internal/Vec4';
@@ -95,7 +95,7 @@ export const Scale = new NodeDescription(
       graph,
       ['vec4', 'float'],
       'vec4',
-      vec4Scale
+      vec4MultiplyByScalar
     )
 );
 export const Length = new NodeDescription(

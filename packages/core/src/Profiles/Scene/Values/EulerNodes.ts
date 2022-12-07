@@ -11,8 +11,8 @@ import {
   vec3Add,
   vec3Equals,
   vec3Mix,
+  vec3MultiplyByScalar,
   vec3Negate,
-  vec3Scale,
   vec3Subtract,
   vec3ToArray
 } from './Internal/Vec3';
@@ -91,7 +91,7 @@ export const Scale = new NodeDescription(
       graph,
       ['euler', 'float'],
       'euler',
-      vec3Scale
+      vec3MultiplyByScalar
     )
 );
 

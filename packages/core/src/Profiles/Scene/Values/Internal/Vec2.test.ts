@@ -7,7 +7,7 @@ import {
   vec2Negate,
   vec2Normalize,
   vec2Parse,
-  vec2Scale,
+  vec2MultiplyByScalar,
   vec2Subtract,
   vec2ToArray,
   vec2ToString
@@ -30,7 +30,7 @@ describe('vec2 value type', () => {
     expect(value.y).toEqual(-6);
   });
   test('scale', () => {
-    const value = vec2Scale(new Vec2(1, 2), 2);
+    const value = vec2MultiplyByScalar(new Vec2(1, 2), 2);
     expect(value.x).toEqual(2);
     expect(value.y).toEqual(4);
   });

@@ -2,7 +2,14 @@ import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
 import { Vec2 } from './Vec2';
-import { Vec3, vec3Normalize } from './Vec3';
+import {
+  Vec3,
+  vec3Cross,
+  vec3Length,
+  vec3MultiplyByScalar,
+  vec3Normalize,
+  vec3Subtract
+} from './Vec3';
 import { Vec4 } from './Vec4';
 
 // uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
@@ -750,4 +757,54 @@ export function mat4OrthogonalSimple(
   const bottom = top + height;
 
   return mat4Orthogonal(left, right, top, bottom, near, far, result);
+}
+
+export function mat3LookAt(
+  eye: Vec3,
+  target: Vec3,
+  up: Vec3,
+  result = new Mat4()
+): Mat4 {
+  const te = result.elements;
+
+  const look = vec3Subtract(eye, target);
+
+  const lookLength = vec3Length(look);
+  if (lookLength === 0) {
+    look.z = 1;
+  } else {
+    vec3MultiplyByScalar(look, 1 / lookLength, look);
+  }
+
+  const right = vec3Cross(up, look);
+
+  const rightLength = vec3Length(right);
+  if (rightLength === 0) {
+    // up and z are parallel
+
+    if (Math.abs(up.z) === 1) {
+      up.x += 0.0001;
+    } else {
+      up.z += 0.0001;
+    }
+
+    vec3Normalize(up, up);
+    vec3Cross(right, up, right);
+  } else {
+    vec3MultiplyByScalar(right, 1 / rightLength, right);
+  }
+
+  const up2 = vec3Cross(look, right);
+
+  te[0] = right.x;
+  te[4] = up2.x;
+  te[8] = look.x;
+  te[1] = right.y;
+  te[5] = up2.y;
+  te[9] = look.y;
+  te[2] = right.z;
+  te[6] = up2.z;
+  te[10] = look.z;
+
+  return result;
 }

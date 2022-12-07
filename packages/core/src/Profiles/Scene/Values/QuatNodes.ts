@@ -20,7 +20,7 @@ import {
   vec4Equals,
   vec4Length,
   vec4Normalize,
-  vec4Scale,
+  vec4MultiplyByScalar,
   vec4ToArray
 } from './Internal/Vec4';
 
@@ -103,7 +103,7 @@ export const Scale = new NodeDescription(
       graph,
       ['quat', 'float'],
       'quat',
-      vec4Scale
+      vec4MultiplyByScalar
     )
 );
 export const Length = new NodeDescription(

@@ -44,7 +44,7 @@ export class TriggerCustomEvent extends FlowNode2 {
   triggered(fiber: Fiber, triggeringSocketName: string) {
     const parameters: { [parameterName: string]: any } = {};
     this.customEvent.parameters.forEach((parameterSocket) => {
-      parameters[parameterSocket.name] = this.read(parameterSocket.name);
+      parameters[parameterSocket.name] = this.readInput(parameterSocket.name);
     });
     this.customEvent.eventEmitter.emit(parameters);
   }

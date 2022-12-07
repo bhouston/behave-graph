@@ -32,12 +32,12 @@ export class In3Out1FuncNode<In1, In2, In3, Out1> extends ImmediateNode {
       ],
       [new Socket(outputValueType, 'result')],
       () => {
-        this.write(
+        this.writeOutput(
           'result',
           this.evalFunc(
-            this.read(inputNames[0]),
-            this.read(inputNames[1]),
-            this.read(inputNames[2])
+            this.readInput(inputNames[0]),
+            this.readInput(inputNames[1]),
+            this.readInput(inputNames[2])
           )
         );
       }

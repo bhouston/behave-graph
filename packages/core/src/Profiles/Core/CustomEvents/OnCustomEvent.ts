@@ -53,7 +53,7 @@ export class OnCustomEvent extends EventNode2 {
             `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
           );
         }
-        this.write(
+        this.writeOutput(
           parameterSocket.name,
           parameters[parameterSocket.name]
         );

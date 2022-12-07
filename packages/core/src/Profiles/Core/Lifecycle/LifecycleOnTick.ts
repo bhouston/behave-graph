@@ -38,7 +38,7 @@ export class LifecycleOnTick extends EventNode {
     this.onTickEvent = () => {
       const currentTime = Date.now();
       const deltaSeconds = (currentTime - lastTickTime) * 0.001;
-      this.write('deltaSeconds', deltaSeconds);
+      this.writeOutput('deltaSeconds', deltaSeconds);
       engine.commitToNewFiber(this, 'flow');
       lastTickTime = currentTime;
     };

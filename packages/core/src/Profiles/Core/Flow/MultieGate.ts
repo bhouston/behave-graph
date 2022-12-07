@@ -37,10 +37,10 @@ export class MultiGate extends FlowNode {
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
     if (!this.isInitialized) {
-      this.nextIndex = Number(this.read('startIndex'));
+      this.nextIndex = Number(this.readInput('startIndex'));
     }
 
-    if (this.read<boolean>('loop')) {
+    if (this.readInput<boolean>('loop')) {
       this.nextIndex = this.nextIndex % this.outputs.length;
     }
 

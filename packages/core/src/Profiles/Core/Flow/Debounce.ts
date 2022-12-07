@@ -51,7 +51,7 @@ export class Debounce extends AsyncNode {
 
       engine.commitToNewFiber(this, 'flow');
       finished();
-    }, this.read<number>('waitDuration') * 1000);
+    }, this.readInput<number>('waitDuration') * 1000);
   }
 
   dispose() {

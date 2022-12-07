@@ -92,17 +92,17 @@ export class EaseSceneProperty extends AsyncNode {
     }
 
     this.initialValue = this.scene.getProperty(
-      this.read('jsonPath'),
+      this.readInput('jsonPath'),
       this.valueTypeName
     );
-    this.targetValue = this.read('value');
-    this.duration = this.read<number>('duration');
+    this.targetValue = this.readInput('value');
+    this.duration = this.readInput<number>('duration');
     this.elapsedDuration = 0;
     this.startTime = Date.now();
 
     const easingFunction =
-      EasingFunctions[this.read('easingFunction') as string];
-    const easingMode = EasingModes[this.read('easingMode') as string];
+      EasingFunctions[this.readInput('easingFunction') as string];
+    const easingMode = EasingModes[this.readInput('easingMode') as string];
     this.easing = easingMode(easingFunction);
 
     const updateOnTick = () => {
@@ -117,7 +117,7 @@ export class EaseSceneProperty extends AsyncNode {
       );
 
       this.scene.setProperty(
-        this.read('jsonPath'),
+        this.readInput('jsonPath'),
         this.valueTypeName,
         easedValue
       );

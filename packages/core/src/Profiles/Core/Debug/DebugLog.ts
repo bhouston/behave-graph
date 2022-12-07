@@ -37,8 +37,8 @@ export class Log extends FlowNode {
   }
 
   triggered(fiber: Fiber, triggeredSocketName: string) {
-    const text = this.read<string>('text');
-    switch (this.read<string>('severity')) {
+    const text = this.readInput<string>('text');
+    switch (this.readInput<string>('severity')) {
       case 'verbose':
         this.logger.verbose(text);
         break;

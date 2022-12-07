@@ -33,7 +33,7 @@ export class VariableSet extends FlowNode {
   }
 
   triggered(fiber: Fiber, triggeredSocketName: string) {
-    this.variable.set(this.read('value'));
+    this.variable.set(this.readInput('value'));
     fiber.commit(this, 'flow');
   }
 }

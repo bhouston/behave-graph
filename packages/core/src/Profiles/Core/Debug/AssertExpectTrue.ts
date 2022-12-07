@@ -27,7 +27,10 @@ export class ExpectTrue extends FlowNode {
   }
 
   triggered(fiber: Fiber, triggeredSocketName: string) {
-    Assert.mustBeTrue(this.read('condition'), this.read('description'));
+    Assert.mustBeTrue(
+      this.readInput('condition'),
+      this.readInput('description')
+    );
     fiber.commit(this, 'flow');
   }
 }

@@ -17,7 +17,7 @@ export class Node {
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext
   // for re-entrant async operations, otherwise the inputs may change during operation.
-  read<T>(inputName: string): T {
+  readInput<T>(inputName: string): T {
     const inputSocket = this.inputs.find((socket) => socket.name === inputName);
     if (inputSocket === undefined) {
       throw new Error(
@@ -27,7 +27,7 @@ export class Node {
     return inputSocket.value as T;
   }
 
-  write<T>(outputName: string, value: T) {
+  writeOutput<T>(outputName: string, value: T) {
     const outputSocket = this.outputs.find(
       (socket) => socket.name === outputName
     );

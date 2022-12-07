@@ -41,14 +41,14 @@ export class In5Out1FuncNode<
       ],
       [new Socket(outputValueType, 'result')],
       () => {
-        this.write(
+        this.writeOutput(
           'result',
           this.evalFunc(
-            this.read(inputNames[0]),
-            this.read(inputNames[1]),
-            this.read(inputNames[2]),
-            this.read(inputNames[3]),
-            this.read(inputNames[4])
+            this.readInput(inputNames[0]),
+            this.readInput(inputNames[1]),
+            this.readInput(inputNames[2]),
+            this.readInput(inputNames[3]),
+            this.readInput(inputNames[4])
           )
         );
       }

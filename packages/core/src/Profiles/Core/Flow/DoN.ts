@@ -35,8 +35,8 @@ export class DoN extends FlowNode {
       return;
     }
     if (triggeringSocketName === 'flow') {
-      if (this.count < Number(this.read<bigint>('n'))) {
-        this.write('count', this.count);
+      if (this.count < Number(this.readInput<bigint>('n'))) {
+        this.writeOutput('count', this.count);
         this.count++;
         fiber.commit(this, 'flow');
       }

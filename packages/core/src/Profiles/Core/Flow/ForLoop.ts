@@ -35,11 +35,11 @@ export class ForLoop extends FlowNode {
   triggered(fiber: Fiber, triggeringSocketName: string) {
     // these outputs are fired sequentially in an async fashion but without delays.
     // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
-    const startIndex = this.read<bigint>('startIndex');
-    const endIndex = this.read<bigint>('endIndex');
+    const startIndex = this.readInput<bigint>('startIndex');
+    const endIndex = this.readInput<bigint>('endIndex');
     const loopBodyIteration = (i: bigint) => {
       if (i < endIndex) {
-        this.write('index', i);
+        this.writeOutput('index', i);
         fiber.commit(this, 'loopBody', () => {
           loopBodyIteration(i + BigInt(1));
         });

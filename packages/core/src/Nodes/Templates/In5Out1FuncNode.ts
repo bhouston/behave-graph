@@ -24,7 +24,7 @@ export class In5Out1FuncNode<
         `inputValueTypes must have a length of 5, it is instead ${inputValueTypes.length}`
       );
     }
-    if (inputNames.length !== 4) {
+    if (inputNames.length !== 5) {
       throw new Error(
         `inputNames must have a length of 5, it is instead ${inputNames.length}`
       );

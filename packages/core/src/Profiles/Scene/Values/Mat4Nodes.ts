@@ -1,3 +1,5 @@
+import { Vec2 } from 'three';
+
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
@@ -5,6 +7,7 @@ import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  column4ToMat4,
   eulerToMat4,
   mat3ToMat4,
   Mat4,
@@ -20,14 +23,17 @@ import {
   mat4RotateByEuler,
   mat4RotateByQuat,
   mat4Scale,
+  mat4SetColumn4,
+  mat4SetRow4,
   mat4Subtract,
+  mat4TransformNormal3,
+  mat4TransformPoint3,
   mat4Translate,
   mat4Transpose,
   quatToMat4,
   scale3ToMat4,
   translation3ToMat4
 } from './Internal/Mat4';
-import { Vec4 } from './Internal/Vec4';
 
 export const Constant = new NodeDescription(
   'math/mat4',
@@ -37,36 +43,45 @@ export const Constant = new NodeDescription(
     new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', (a: Mat4) => a)
 );
 
-export const Create = new NodeDescription(
-  'math/toMat4/vec4',
+export const Column4ToMat4 = new NodeDescription(
+  'math/toMat4/column4',
   'Logic',
-  'Vec4 to Mat4',
+  'Columns to Mat4',
   (description, graph) =>
     new In4Out1FuncNode(
       description,
       graph,
       ['vec4', 'vec4', 'vec4', 'vec4'],
       'mat4',
-      (v1: Vec4, v2: Vec4, v3: Vec4, v4: Vec4) =>
-        new Mat4([
-          v1.x,
-          v1.y,
-          v1.z,
-          v1.w,
-          v2.x,
-          v2.y,
-          v2.z,
-          v2.w,
-          v3.x,
-          v3.y,
-          v3.z,
-          v3.w,
-          v4.x,
-          v4.y,
-          v4.z,
-          v4.w
-        ]),
-      ['x', 'y', 'z', 'w']
+      column4ToMat4
+    )
+);
+
+export const SetColumn = new NodeDescription(
+  'math/setColumn/mat4',
+  'Logic',
+  'Set Column',
+  (description, graph) =>
+    new In3Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'integer', 'vec4'],
+      'mat4',
+      mat4SetColumn4
+    )
+);
+
+export const SetRow = new NodeDescription(
+  'math/setRow/mat4',
+  'Logic',
+  'Set Row',
+  (description, graph) =>
+    new In3Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'integer', 'vec4'],
+      'mat4',
+      mat4SetRow4
     )
 );
 
@@ -284,3 +299,147 @@ export const Equal = new NodeDescription(
       ['a', 'b', 'tolerance']
     )
 );
+
+export const TransformPoint3 = new NodeDescription(
+  'math/transformPoint3/mat4',
+  'Logic',
+  'Transform Point3',
+  (description, graph) =>
+    new In2Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'vec3'],
+      'vec3',
+      mat4TransformPoint3
+    )
+);
+
+export const TransformNormal3 = new NodeDescription(
+  'math/transformNormal3/mat4',
+  'Logic',
+  'Transform Normal',
+  (description, graph) =>
+    new In2Out1FuncNode(
+      description,
+      graph,
+      ['mat4', 'vec3'],
+      'vec3',
+      mat4TransformNormal3
+    )
+);
+
+export const Perspective = new NodeDescription(
+  'math/perspective/mat4',
+  'Logic',
+  'Perspective',
+  (description, graph) =>
+    new In6Out1FuncNode(
+      description,
+      graph,
+      ['float', 'float', 'float', 'float', 'float', 'float'],
+      'mat4',
+      mat4Perspective,
+      ['left', 'right', 'top', 'bottom', 'near', 'far']
+    )
+);
+
+export function mat4Perspective(
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  near: number,
+  far: number,
+  result = new Mat4()
+): Mat4 {
+  const x = (2 * near) / (right - left);
+  const y = (2 * near) / (top - bottom);
+
+  const a = (right + left) / (right - left);
+  const b = (top + bottom) / (top - bottom);
+  const c = -(far + near) / (far - near);
+  const d = (-2 * far * near) / (far - near);
+
+  return result.set([x, 0, a, 0, 0, y, b, 0, 0, 0, c, d, 0, 0, -1, 0]);
+}
+
+export function mat4PerspectiveFov(
+  verticalFov: number,
+  near: number,
+  far: number,
+  zoom: number,
+  aspectRatio: number,
+  result = new Mat4()
+): Mat4 {
+  const height = (2 * near * Math.tan((verticalFov * Math.PI) / 180)) / zoom;
+  const width = height * aspectRatio;
+
+  // NOTE: OpenGL screen coordinates are -bottomt to +top, -left to +right.
+
+  const right = width * 0.5;
+  const left = right - width;
+
+  const top = height * 0.5;
+  const bottom = top - height;
+
+  return mat4Perspective(left, right, top, bottom, near, far, result);
+}
+
+// TODO: Replace with a Box3?
+export function mat4Orthogonal(
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  near: number,
+  far: number,
+  result = new Mat4()
+): Mat4 {
+  const w = 1 / (right - left);
+  const h = 1 / (top - bottom);
+  const p = 1 / (far - near);
+
+  const x = (right + left) * w;
+  const y = (top + bottom) * h;
+  const z = (far + near) * p;
+
+  return result.set([
+    2 * w,
+    0,
+    0,
+    -x,
+    0,
+    2 * h,
+    0,
+    -y,
+    0,
+    0,
+    -2 * p,
+    -z,
+    0,
+    0,
+    0,
+    1
+  ]);
+}
+
+export function mat4OrthogonalSimple(
+  height: number,
+  center: Vec2,
+  near: number,
+  far: number,
+  zoom: number,
+  aspectRatio = 1,
+  result = new Mat4()
+): Mat4 {
+  height /= zoom;
+  const width = height * aspectRatio;
+
+  const left = -width * 0.5 + center.x;
+  const right = left + width;
+
+  const top = -height * 0.5 + center.y;
+  const bottom = top + height;
+
+  return mat4Orthogonal(left, right, top, bottom, near, far, result);
+}

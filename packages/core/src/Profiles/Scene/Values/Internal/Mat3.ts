@@ -1,4 +1,4 @@
-import { parseSafeFloats } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { Mat4 } from './Mat4';
 import { Vec2 } from './Vec2';
@@ -16,7 +16,7 @@ const NUM_ROWS = 3;
 const NUM_COLUMNS = 3;
 const NUM_ELEMENTS = NUM_ROWS * NUM_COLUMNS;
 
-export type Mat3JSON = { elements: number[] };
+export type Mat3JSON = number[];
 
 export class Mat3 {
   constructor(public elements: number[] = [1, 0, 0, 0, 1, 0, 0, 0, 1]) {
@@ -43,7 +43,7 @@ export class Mat3 {
   }
 }
 
-export function mat3SetColumn4(
+export function mat3SetColumn3(
   m: Mat3,
   columnIndex: number,
   column: Vec3,
@@ -57,7 +57,7 @@ export function mat3SetColumn4(
   return result;
 }
 
-export function mat3SetRow4(
+export function mat3SetRow3(
   m: Mat3,
   rowIndex: number,
   row: Vec3,
@@ -277,7 +277,7 @@ export function mat3ToArray(
 }
 
 export function mat3ToString(a: Mat3): string {
-  return `(${a.elements.join(', ')})`;
+  return toSafeString(a.elements);
 }
 export function mat3Parse(text: string, result = new Mat3()): Mat3 {
   return mat3FromArray(parseSafeFloats(text), 0, result);

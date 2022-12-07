@@ -34,7 +34,7 @@ export class Gate extends FlowNode {
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
     if (!this.isInitialized) {
-      this.isClosed = this.readInput<boolean>('startClosed');
+      this.isClosed = this.read<boolean>('startClosed');
       this.isInitialized = true;
     }
 

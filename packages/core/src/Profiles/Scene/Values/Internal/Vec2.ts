@@ -1,7 +1,7 @@
-import { parseSafeFloats } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 
-export type Vec2JSON = { x: number; y: number };
+export type Vec2JSON = number[];
 
 export class Vec2 {
   constructor(public x: number = 0, public y: number = 0) {}
@@ -77,7 +77,7 @@ export function vec2ToArray(
 }
 
 export function vec2ToString(a: Vec2): string {
-  return `(${a.x}, ${a.y})`;
+  return toSafeString([a.x, a.y]);
 }
 export function vec2Parse(text: string, result = new Vec2()): Vec2 {
   return vec2FromArray(parseSafeFloats(text), 0, result);

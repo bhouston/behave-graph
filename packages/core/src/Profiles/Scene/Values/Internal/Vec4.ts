@@ -1,10 +1,10 @@
-import { parseSafeFloats } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { Mat3, mat4ToMat3 } from './Mat3';
 import { Mat4 } from './Mat4';
 import { Vec3 } from './Vec3';
 
-export type Vec4JSON = { x: number; y: number; z: number; w: number };
+export type Vec4JSON = number[];
 
 export class Vec4 {
   constructor(
@@ -95,7 +95,7 @@ export function vec4ToArray(
   array[offset + 3] = a.w;
 }
 export function vec4ToString(a: Vec4): string {
-  return `(${a.x}, ${a.y}, ${a.z}, ${a.w})`;
+  return toSafeString([a.x, a.y, a.z, a.w]);
 }
 export function vec4Parse(text: string, result = new Vec4()): Vec4 {
   return vec4FromArray(parseSafeFloats(text), 0, result);

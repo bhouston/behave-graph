@@ -40,8 +40,8 @@ export class SetSceneProperty extends FlowNode {
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
     const scene = this.scene;
-    const value = this.readInput('value');
-    scene.setProperty(this.readInput('jsonPath'), this.valueTypeName, value);
+    const value = this.read('value');
+    scene.setProperty(this.read('jsonPath'), this.valueTypeName, value);
     fiber.commit(this, 'flow');
   }
 }

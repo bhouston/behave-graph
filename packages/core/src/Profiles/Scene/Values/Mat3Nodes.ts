@@ -4,6 +4,7 @@ import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
+  column3ToMat3,
   eulerToMat3,
   Mat3,
   mat3Add,
@@ -14,6 +15,8 @@ import {
   mat3Multiply,
   mat3MultiplyByScalar,
   mat3Negate,
+  mat3SetColumn3,
+  mat3SetRow3,
   mat3Subtract,
   mat3ToScale2,
   mat3ToTranslation2,
@@ -22,7 +25,6 @@ import {
   scale2ToMat3,
   translation2ToMat3
 } from './Internal/Mat3';
-import { Vec3 } from './Internal/Vec3';
 
 export const Constant = new NodeDescription(
   'math/mat3',
@@ -32,19 +34,45 @@ export const Constant = new NodeDescription(
     new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', (a: Mat3) => a)
 );
 
-export const Create = new NodeDescription(
-  'math/toMat3/vec3',
+export const Column3ToMat3 = new NodeDescription(
+  'math/toMat3/column3',
   'Logic',
-  'Vec3 to Mat3',
+  'Columns to Mat3',
   (description, graph) =>
     new In3Out1FuncNode(
       description,
       graph,
       ['vec3', 'vec3', 'vec3'],
       'mat3',
-      (v1: Vec3, v2: Vec3, v3: Vec3) =>
-        new Mat3([v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z]),
-      ['x', 'y', 'z']
+      column3ToMat3
+    )
+);
+
+export const SetColumn = new NodeDescription(
+  'math/setColumn/mat3',
+  'Logic',
+  'Set Column',
+  (description, graph) =>
+    new In3Out1FuncNode(
+      description,
+      graph,
+      ['mat3', 'integer', 'vec3'],
+      'mat3',
+      mat3SetColumn3
+    )
+);
+
+export const SetRow = new NodeDescription(
+  'math/setRow/mat3',
+  'Logic',
+  'Set Row',
+  (description, graph) =>
+    new In3Out1FuncNode(
+      description,
+      graph,
+      ['mat3', 'integer', 'vec3'],
+      'mat3',
+      mat3SetRow3
     )
 );
 

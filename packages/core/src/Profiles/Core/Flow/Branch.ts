@@ -29,7 +29,7 @@ export class Branch extends FlowNode {
   triggered(fiber: Fiber, triggeringSocketName: string) {
     fiber.commit(
       this,
-      this.readInput<boolean>('condition') === true ? 'true' : 'false'
+      this.read<boolean>('condition') === true ? 'true' : 'false'
     );
   }
 }

@@ -48,7 +48,7 @@ export class Delay extends AsyncNode {
       this.timeoutPending = false;
       engine.commitToNewFiber(this, 'flow');
       finished();
-    }, this.readInput<number>('duration') * 1000);
+    }, this.read<number>('duration') * 1000);
   }
 
   dispose() {

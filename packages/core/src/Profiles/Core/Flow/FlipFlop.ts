@@ -28,7 +28,7 @@ export class FlipFlop extends FlowNode {
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
-    this.writeOutput('isOn', this.isOn);
+    this.write('isOn', this.isOn);
     fiber.commit(this, this.isOn ? 'on' : 'off');
     this.isOn = !this.isOn;
   }

@@ -26,7 +26,7 @@ export class VariableGet extends ImmediateNode {
       [],
       [new Socket(variable.valueTypeName, 'value', undefined, variable.name)], // output socket label uses variable name like UE4, but name is value to avoid breaking graph when variable is renamed
       () => {
-        this.writeOutput('value', variable.get());
+        this.write('value', variable.get());
       }
     );
   }

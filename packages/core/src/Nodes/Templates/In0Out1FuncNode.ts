@@ -8,7 +8,7 @@ export class In0Out1FuncNode<Out1> extends ImmediateNode {
     description: NodeDescription,
     graph: Graph,
     outputValueType: string,
-    public readonly nullaryEvalFunc: () => Out1
+    public readonly evalFunc: () => Out1
   ) {
     super(
       description,
@@ -16,7 +16,7 @@ export class In0Out1FuncNode<Out1> extends ImmediateNode {
       [],
       [new Socket(outputValueType, 'result')],
       () => {
-        this.writeOutput('result', this.nullaryEvalFunc());
+        this.write('result', this.evalFunc());
       }
     );
   }

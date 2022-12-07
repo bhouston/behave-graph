@@ -9,7 +9,7 @@ export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
     graph: Graph,
     inputValueTypes: string[],
     outputValueType: string,
-    public readonly binaryEvalFunc: (a: In1, b: In2) => Out1,
+    public readonly evalFunc: (a: In1, b: In2) => Out1,
     public readonly inputNames: string[] = ['a', 'b']
   ) {
     if (inputValueTypes.length !== 2) {
@@ -31,12 +31,9 @@ export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
       ],
       [new Socket(outputValueType, 'result')],
       () => {
-        this.writeOutput(
+        this.write(
           'result',
-          this.binaryEvalFunc(
-            this.readInput(inputNames[0]),
-            this.readInput(inputNames[1])
-          )
+          this.evalFunc(this.read(inputNames[0]), this.read(inputNames[1]))
         );
       }
     );

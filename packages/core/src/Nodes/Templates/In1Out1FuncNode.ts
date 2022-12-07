@@ -9,7 +9,7 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
     graph: Graph,
     inputValueTypes: string[],
     outputValueType: string,
-    public readonly unaryEvalFunc: (a: In1) => Out1,
+    public readonly evalFunc: (a: In1) => Out1,
     public readonly inputNames: string[] = ['a']
   ) {
     if (inputValueTypes.length !== 1) {
@@ -28,10 +28,7 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
       [new Socket(inputValueTypes[0], inputNames[0])],
       [new Socket(outputValueType, 'result')],
       () => {
-        this.writeOutput(
-          'result',
-          this.unaryEvalFunc(this.readInput(inputNames[0]))
-        );
+        this.write('result', this.evalFunc(this.read(inputNames[0])));
       }
     );
   }

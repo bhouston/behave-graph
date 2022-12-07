@@ -5,7 +5,7 @@ export const Mat3Value = new ValueType(
   'mat3',
   () => new Mat3(),
   (value: string | Mat3JSON) =>
-    typeof value === 'string' ? mat3Parse(value) : new Mat3(value.elements),
-  (value) => ({ elements: value.elements } as Mat3JSON),
+    typeof value === 'string' ? mat3Parse(value) : new Mat3(value),
+  (value) => value.elements as Mat3JSON,
   (start: Mat3, end: Mat3, t: number) => mat3Mix(start, end, t)
 );

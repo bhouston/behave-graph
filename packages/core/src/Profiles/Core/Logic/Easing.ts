@@ -37,12 +37,12 @@ export class Easing extends ImmediateNode {
       [new Socket('float', 't')],
       () => {
         const easingFunction =
-          EasingFunctions[this.readInput('easingFunction') as string];
-        const easingMode = EasingModes[this.readInput('easingMode') as string];
+          EasingFunctions[this.read('easingFunction') as string];
+        const easingMode = EasingModes[this.read('easingMode') as string];
         const easing = easingMode(easingFunction);
-        const inputT = this.readInput('t') as number;
+        const inputT = this.read('t') as number;
 
-        this.writeOutput('t', easing(inputT));
+        this.write('t', easing(inputT));
       }
     );
   }

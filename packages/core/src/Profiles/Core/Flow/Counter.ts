@@ -27,7 +27,7 @@ export class Counter extends FlowNode {
     switch (triggeringSocketName) {
       case 'flow': {
         this.count++;
-        this.writeOutput('count', this.count);
+        this.write('count', this.count);
         fiber.commit(this, 'flow');
         break;
       }

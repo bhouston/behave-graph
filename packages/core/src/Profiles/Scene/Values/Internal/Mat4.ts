@@ -1,7 +1,8 @@
-import { parseSafeFloats } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
 import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
-import { Vec3 } from './Vec3';
+import { Vec2 } from './Vec2';
+import { Vec3, vec3Normalize } from './Vec3';
 import { Vec4 } from './Vec4';
 
 // uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
@@ -15,7 +16,7 @@ import { Vec4 } from './Vec4';
 const NUM_ROWS = 4;
 const NUM_COLUMNS = 4;
 const NUM_ELEMENTS = NUM_ROWS * NUM_COLUMNS;
-export type Mat4JSON = { elements: number[] };
+export type Mat4JSON = number[];
 
 export class Mat4 {
   constructor(
@@ -46,12 +47,12 @@ export class Mat4 {
 
 export function mat4SetColumn4(
   m: Mat4,
-  columnIndex: number,
+  columnIndex: bigint,
   column: Vec4,
   result = new Mat4()
 ): Mat4 {
   const re = result.set(m.elements).elements;
-  const base = columnIndex * NUM_ROWS;
+  const base = Number(columnIndex) * NUM_ROWS;
   re[base + 0] = column.x;
   re[base + 1] = column.y;
   re[base + 2] = column.z;
@@ -61,15 +62,16 @@ export function mat4SetColumn4(
 
 export function mat4SetRow4(
   m: Mat4,
-  rowIndex: number,
+  rowIndex: bigint,
   row: Vec4,
   result = new Mat4()
 ): Mat4 {
   const re = result.set(m.elements).elements;
-  re[rowIndex + NUM_COLUMNS * 0] = row.x;
-  re[rowIndex + NUM_COLUMNS * 1] = row.y;
-  re[rowIndex + NUM_COLUMNS * 2] = row.z;
-  re[rowIndex + NUM_COLUMNS * 3] = row.w;
+  const base = Number(rowIndex);
+  re[base + NUM_COLUMNS * 0] = row.x;
+  re[base + NUM_COLUMNS * 1] = row.y;
+  re[base + NUM_COLUMNS * 2] = row.z;
+  re[base + NUM_COLUMNS * 3] = row.w;
   return result;
 }
 
@@ -533,7 +535,7 @@ export function mat4ToArray(
 }
 
 export function mat4ToString(a: Mat4): string {
-  return `(${a.elements.join(', ')})`;
+  return toSafeString(a.elements);
 }
 
 export function mat4Parse(text: string, result = new Mat4()): Mat4 {
@@ -611,4 +613,141 @@ export function mat4RotateByQuat(m: Mat4, q: Vec4, result = new Mat4()): Mat4 {
 }
 export function mat4RotateByEuler(m: Mat4, e: Vec3, result = new Mat4()): Mat4 {
   return mat4Multiply(m, eulerToMat4(e), result);
+}
+
+export function mat4TransformPoint3(
+  m: Mat4,
+  v: Vec4,
+  result = new Vec3()
+): Vec3 {
+  const x = v.x,
+    y = v.y,
+    z = v.z;
+  const e = m.elements;
+
+  const w = 1 / (e[3] * x + e[7] * y + e[11] * z + e[15]);
+
+  result.x = (e[0] * x + e[4] * y + e[8] * z + e[12]) * w;
+  result.y = (e[1] * x + e[5] * y + e[9] * z + e[13]) * w;
+  result.z = (e[2] * x + e[6] * y + e[10] * z + e[14]) * w;
+
+  return result;
+}
+
+export function mat4TransformNormal3(
+  v: Vec3,
+  m: Mat4,
+  result = new Vec3()
+): Vec3 {
+  const x = v.x,
+    y = v.y,
+    z = v.z;
+  const e = m.elements;
+
+  result.x = e[0] * x + e[4] * y + e[8] * z;
+  result.y = e[1] * x + e[5] * y + e[9] * z;
+  result.z = e[2] * x + e[6] * y + e[10] * z;
+
+  return vec3Normalize(result, result);
+}
+
+export function mat4Perspective(
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  near: number,
+  far: number,
+  result = new Mat4()
+): Mat4 {
+  const x = (2 * near) / (right - left);
+  const y = (2 * near) / (top - bottom);
+
+  const a = (right + left) / (right - left);
+  const b = (top + bottom) / (top - bottom);
+  const c = -(far + near) / (far - near);
+  const d = (-2 * far * near) / (far - near);
+
+  return result.set([x, 0, a, 0, 0, y, b, 0, 0, 0, c, d, 0, 0, -1, 0]);
+}
+
+export function mat4PerspectiveFov(
+  verticalFov: number,
+  near: number,
+  far: number,
+  zoom: number,
+  aspectRatio: number,
+  result = new Mat4()
+): Mat4 {
+  const height = (2 * near * Math.tan((verticalFov * Math.PI) / 180)) / zoom;
+  const width = height * aspectRatio;
+
+  // NOTE: OpenGL screen coordinates are -bottomt to +top, -left to +right.
+
+  const right = width * 0.5;
+  const left = right - width;
+
+  const top = height * 0.5;
+  const bottom = top - height;
+
+  return mat4Perspective(left, right, top, bottom, near, far, result);
+}
+
+// TODO: Replace with a Box3?
+export function mat4Orthogonal(
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  near: number,
+  far: number,
+  result = new Mat4()
+): Mat4 {
+  const w = 1 / (right - left);
+  const h = 1 / (top - bottom);
+  const p = 1 / (far - near);
+
+  const x = (right + left) * w;
+  const y = (top + bottom) * h;
+  const z = (far + near) * p;
+
+  return result.set([
+    2 * w,
+    0,
+    0,
+    -x,
+    0,
+    2 * h,
+    0,
+    -y,
+    0,
+    0,
+    -2 * p,
+    -z,
+    0,
+    0,
+    0,
+    1
+  ]);
+}
+
+export function mat4OrthogonalSimple(
+  height: number,
+  center: Vec2,
+  near: number,
+  far: number,
+  zoom: number,
+  aspectRatio = 1,
+  result = new Mat4()
+): Mat4 {
+  height /= zoom;
+  const width = height * aspectRatio;
+
+  const left = -width * 0.5 + center.x;
+  const right = left + width;
+
+  const top = -height * 0.5 + center.y;
+  const bottom = top + height;
+
+  return mat4Orthogonal(left, right, top, bottom, near, far, result);
 }

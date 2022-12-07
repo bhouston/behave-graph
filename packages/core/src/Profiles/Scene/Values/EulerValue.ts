@@ -7,7 +7,7 @@ export const EulerValue = new ValueType(
   (value: string | Vec3JSON) =>
     typeof value === 'string'
       ? vec3Parse(value)
-      : new Vec3(value.x, value.y, value.z),
-  (value) => ({ x: value.x, y: value.y, z: value.z } as Vec3JSON),
+      : new Vec3(value[0], value[1], value[2]),
+  (value) => [value.x, value.y, value.z] as Vec3JSON,
   (start: Vec3, end: Vec3, t: number) => vec3Mix(start, end, t)
 );

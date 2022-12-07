@@ -78,7 +78,7 @@ export class WaitAll extends FlowNode {
       this.outputTriggered = true;
 
       // auto-reset if required.
-      if (this.readInput('autoReset') === true) {
+      if (this.read('autoReset') === true) {
         this.reset();
       }
     }

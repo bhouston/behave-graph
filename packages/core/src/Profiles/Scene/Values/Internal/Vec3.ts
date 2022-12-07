@@ -1,4 +1,4 @@
-import { parseSafeFloats } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
 import {
   clamp,
   EPSILON,
@@ -8,8 +8,7 @@ import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3';
 import { Mat4 } from './Mat4';
 import { Vec4 } from './Vec4';
 
-export type Vec3JSON = { x: number; y: number; z: number };
-export type ColorJSON = { r: number; g: number; b: number };
+export type Vec3JSON = number[];
 
 export class Vec3 {
   constructor(
@@ -99,7 +98,7 @@ export function vec3ToArray(
   array[offset + 2] = a.z;
 }
 export function vec3ToString(a: Vec3): string {
-  return `(${a.x}, ${a.y}, ${a.z})`;
+  return toSafeString([a.x, a.y, a.z]);
 }
 export function vec3Parse(text: string, result = new Vec3()): Vec3 {
   return vec3FromArray(parseSafeFloats(text), 0, result);

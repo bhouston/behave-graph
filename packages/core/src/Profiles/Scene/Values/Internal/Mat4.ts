@@ -759,7 +759,7 @@ export function mat4OrthogonalSimple(
   return mat4Orthogonal(left, right, top, bottom, near, far, result);
 }
 
-export function mat3LookAt(
+export function mat4LookAt(
   eye: Vec3,
   target: Vec3,
   up: Vec3,

@@ -16,6 +16,7 @@ import {
   mat4Determinant,
   mat4Equals,
   mat4Inverse,
+  mat4LookAt,
   mat4Mix,
   mat4Multiply,
   mat4MultiplyByScalar,
@@ -402,7 +403,7 @@ export const LookAt = new NodeDescription(
       graph,
       ['vec3', 'vec3', 'vec3'],
       'mat4',
-      mat3LookAt,
+      mat4LookAt,
       ['eye', 'target', 'up']
     )
 );

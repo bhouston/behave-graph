@@ -5,7 +5,17 @@ import { Vec2 } from './Vec2';
 import { Vec3 } from './Vec3';
 import { Vec4 } from './Vec4';
 
-const NUM_ELEMENTS = 9;
+// uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
+// ( x, y, 1 ) x [ 0  3  6 ] = ( x', y', 1 )
+//               [ 1  4  7 ]
+//               [ 2  5  8 ]
+// where elements 2 and 5 would be translation in 2D, as they would multiplied
+// by the last virtual element of the 2D vector.
+
+const NUM_ROWS = 3;
+const NUM_COLUMNS = 3;
+const NUM_ELEMENTS = NUM_ROWS * NUM_COLUMNS;
+
 export type Mat3JSON = { elements: number[] };
 
 export class Mat3 {
@@ -31,6 +41,51 @@ export class Mat3 {
     }
     return this;
   }
+}
+
+export function mat3SetColumn4(
+  m: Mat3,
+  columnIndex: number,
+  column: Vec3,
+  result = new Mat3()
+): Mat3 {
+  const re = result.set(m.elements).elements;
+  const base = columnIndex * NUM_ROWS;
+  re[base + 0] = column.x;
+  re[base + 1] = column.y;
+  re[base + 2] = column.z;
+  return result;
+}
+
+export function mat3SetRow4(
+  m: Mat3,
+  rowIndex: number,
+  row: Vec3,
+  result = new Mat3()
+): Mat3 {
+  const re = result.set(m.elements).elements;
+  re[rowIndex + NUM_COLUMNS * 0] = row.x;
+  re[rowIndex + NUM_COLUMNS * 1] = row.y;
+  re[rowIndex + NUM_COLUMNS * 2] = row.z;
+  return result;
+}
+
+export function column3ToMat3(
+  a: Vec3,
+  b: Vec3,
+  c: Vec3,
+  result = new Mat3()
+): Mat3 {
+  const re = result.elements;
+  const columns = [a, b, c];
+  for (let c = 0; c < columns.length; c++) {
+    const base = c * NUM_ROWS;
+    const column = columns[c];
+    re[base + 0] = column.x;
+    re[base + 1] = column.y;
+    re[base + 2] = column.z;
+  }
+  return result;
 }
 
 export function mat3Equals(a: Mat3, b: Mat3, tolerance = EPSILON): boolean {

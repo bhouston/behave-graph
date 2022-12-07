@@ -4,7 +4,17 @@ import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
 import { Vec3 } from './Vec3';
 import { Vec4 } from './Vec4';
 
-const NUM_ELEMENTS = 16;
+// uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
+// ( x, y, z, 1 ) x [ 0  4   8  12] = ( x', y', z', 1 )
+//                  [ 1  5   9  13]
+//                  [ 2  6  10  14]
+//                  [ 3  7  11  15]
+// where elements 3, 7, 11 would be translation in 3D, as they would multiplied
+// by the last virtual element of the 3D vector.
+
+const NUM_ROWS = 4;
+const NUM_COLUMNS = 4;
+const NUM_ELEMENTS = NUM_ROWS * NUM_COLUMNS;
 export type Mat4JSON = { elements: number[] };
 
 export class Mat4 {
@@ -32,6 +42,55 @@ export class Mat4 {
     }
     return this;
   }
+}
+
+export function mat4SetColumn4(
+  m: Mat4,
+  columnIndex: number,
+  column: Vec4,
+  result = new Mat4()
+): Mat4 {
+  const re = result.set(m.elements).elements;
+  const base = columnIndex * NUM_ROWS;
+  re[base + 0] = column.x;
+  re[base + 1] = column.y;
+  re[base + 2] = column.z;
+  re[base + 3] = column.w;
+  return result;
+}
+
+export function mat4SetRow4(
+  m: Mat4,
+  rowIndex: number,
+  row: Vec4,
+  result = new Mat4()
+): Mat4 {
+  const re = result.set(m.elements).elements;
+  re[rowIndex + NUM_COLUMNS * 0] = row.x;
+  re[rowIndex + NUM_COLUMNS * 1] = row.y;
+  re[rowIndex + NUM_COLUMNS * 2] = row.z;
+  re[rowIndex + NUM_COLUMNS * 3] = row.w;
+  return result;
+}
+
+export function column4ToMat4(
+  a: Vec4,
+  b: Vec4,
+  c: Vec4,
+  d: Vec4,
+  result = new Mat4()
+): Mat4 {
+  const re = result.elements;
+  const columns = [a, b, c, d];
+  for (let c = 0; c < columns.length; c++) {
+    const base = c * NUM_ROWS;
+    const column = columns[c];
+    re[base + 0] = column.x;
+    re[base + 1] = column.y;
+    re[base + 2] = column.z;
+    re[base + 3] = column.w;
+  }
+  return result;
 }
 
 export function mat4Equals(

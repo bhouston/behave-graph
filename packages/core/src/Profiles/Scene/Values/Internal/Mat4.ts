@@ -123,7 +123,7 @@ export function mat4Subtract(
   return result;
 }
 
-export function mat4MulitplyByScalar(
+export function mat4MultiplyByScalar(
   a: Mat4,
   b: number,
   result: Mat4 = new Mat4()

@@ -1,10 +1,10 @@
-import { Vec2 } from 'three';
-
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
 import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
+import { In5Out1FuncNode } from '../../../Nodes/Templates/In5Out1FuncNode';
+import { In6Out1FuncNode } from '../../../Nodes/Templates/In6Out1FuncNode';
 import { VecElements } from '../Logic/VecElements';
 import {
   column4ToMat4,
@@ -17,9 +17,13 @@ import {
   mat4Equals,
   mat4Inverse,
   mat4Mix,
-  mat4MulitplyByScalar,
   mat4Multiply,
+  mat4MultiplyByScalar,
   mat4Negate,
+  mat4Orthogonal,
+  mat4OrthogonalSimple,
+  mat4Perspective,
+  mat4PerspectiveFov,
   mat4RotateByEuler,
   mat4RotateByQuat,
   mat4Scale,
@@ -132,7 +136,7 @@ export const MultiplyByScalar = new NodeDescription(
       graph,
       ['mat4', 'float'],
       'mat4',
-      mat4MulitplyByScalar
+      mat4MultiplyByScalar
     )
 );
 export const Determinant = new NodeDescription(
@@ -343,103 +347,47 @@ export const Perspective = new NodeDescription(
     )
 );
 
-export function mat4Perspective(
-  left: number,
-  right: number,
-  top: number,
-  bottom: number,
-  near: number,
-  far: number,
-  result = new Mat4()
-): Mat4 {
-  const x = (2 * near) / (right - left);
-  const y = (2 * near) / (top - bottom);
+export const PerspectiveFov = new NodeDescription(
+  'math/perspectiveFov/mat4',
+  'Logic',
+  'Perspective FOV',
+  (description, graph) =>
+    new In5Out1FuncNode(
+      description,
+      graph,
+      ['float', 'float', 'float', 'float', 'float'],
+      'mat4',
+      mat4PerspectiveFov,
+      ['verticalFov', 'near', 'far', 'zoom', 'aspectRatio']
+    )
+);
 
-  const a = (right + left) / (right - left);
-  const b = (top + bottom) / (top - bottom);
-  const c = -(far + near) / (far - near);
-  const d = (-2 * far * near) / (far - near);
+export const Orthographic = new NodeDescription(
+  'math/orthographic/mat4',
+  'Logic',
+  'Orthographic',
+  (description, graph) =>
+    new In6Out1FuncNode(
+      description,
+      graph,
+      ['float', 'float', 'float', 'float', 'float', 'float'],
+      'mat4',
+      mat4Orthogonal,
+      ['left', 'right', 'top', 'bottom', 'near', 'far']
+    )
+);
 
-  return result.set([x, 0, a, 0, 0, y, b, 0, 0, 0, c, d, 0, 0, -1, 0]);
-}
-
-export function mat4PerspectiveFov(
-  verticalFov: number,
-  near: number,
-  far: number,
-  zoom: number,
-  aspectRatio: number,
-  result = new Mat4()
-): Mat4 {
-  const height = (2 * near * Math.tan((verticalFov * Math.PI) / 180)) / zoom;
-  const width = height * aspectRatio;
-
-  // NOTE: OpenGL screen coordinates are -bottomt to +top, -left to +right.
-
-  const right = width * 0.5;
-  const left = right - width;
-
-  const top = height * 0.5;
-  const bottom = top - height;
-
-  return mat4Perspective(left, right, top, bottom, near, far, result);
-}
-
-// TODO: Replace with a Box3?
-export function mat4Orthogonal(
-  left: number,
-  right: number,
-  top: number,
-  bottom: number,
-  near: number,
-  far: number,
-  result = new Mat4()
-): Mat4 {
-  const w = 1 / (right - left);
-  const h = 1 / (top - bottom);
-  const p = 1 / (far - near);
-
-  const x = (right + left) * w;
-  const y = (top + bottom) * h;
-  const z = (far + near) * p;
-
-  return result.set([
-    2 * w,
-    0,
-    0,
-    -x,
-    0,
-    2 * h,
-    0,
-    -y,
-    0,
-    0,
-    -2 * p,
-    -z,
-    0,
-    0,
-    0,
-    1
-  ]);
-}
-
-export function mat4OrthogonalSimple(
-  height: number,
-  center: Vec2,
-  near: number,
-  far: number,
-  zoom: number,
-  aspectRatio = 1,
-  result = new Mat4()
-): Mat4 {
-  height /= zoom;
-  const width = height * aspectRatio;
-
-  const left = -width * 0.5 + center.x;
-  const right = left + width;
-
-  const top = -height * 0.5 + center.y;
-  const bottom = top + height;
-
-  return mat4Orthogonal(left, right, top, bottom, near, far, result);
-}
+export const OrthographicSimple = new NodeDescription(
+  'math/orthographicSimple/mat4',
+  'Logic',
+  'Orthographic Simple',
+  (description, graph) =>
+    new In6Out1FuncNode(
+      description,
+      graph,
+      ['float', 'vec2', 'float', 'float', 'float', 'float'],
+      'mat4',
+      mat4OrthogonalSimple,
+      ['height', 'center', 'near', 'far', 'zoom', 'aspectRatio']
+    )
+);

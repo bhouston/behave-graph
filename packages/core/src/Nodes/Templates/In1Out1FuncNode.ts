@@ -2,6 +2,7 @@ import { Graph } from '../../Graphs/Graph';
 import { Socket } from '../../Sockets/Socket';
 import { ImmediateNode } from '../ImmediateNode';
 import { NodeDescription } from '../Registry/NodeDescription';
+import { inputSocketName, resultNodeName } from './keys';
 
 export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
   constructor(
@@ -10,7 +11,7 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
     inputValueTypes: string[],
     outputValueType: string,
     public readonly unaryEvalFunc: (a: In1) => Out1,
-    public readonly inputNames: string[] = ['a']
+    public readonly inputNames: string[] = [inputSocketName.a]
   ) {
     if (inputValueTypes.length !== 1) {
       throw new Error(
@@ -26,10 +27,10 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
       description,
       graph,
       [new Socket(inputValueTypes[0], inputNames[0])],
-      [new Socket(outputValueType, 'result')],
+      [new Socket(outputValueType, resultNodeName)],
       () => {
         this.writeOutput(
-          'result',
+          resultNodeName,
           this.unaryEvalFunc(this.readInput(inputNames[0]))
         );
       }

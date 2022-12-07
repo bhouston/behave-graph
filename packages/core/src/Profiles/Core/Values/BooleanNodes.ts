@@ -80,3 +80,17 @@ export const Equal = new NodeDescription(
       (a: boolean, b: boolean) => a === b
     )
 );
+
+export const toInteger = new NodeDescription(
+  'math/toInteger/boolean',
+  'Logic',
+  'To Integer',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['boolean'],
+      'integer',
+      (a: boolean) => (a ? 1n : 0n)
+    )
+);

@@ -2,6 +2,7 @@ import { Graph } from '../../Graphs/Graph';
 import { Socket } from '../../Sockets/Socket';
 import { ImmediateNode } from '../ImmediateNode';
 import { NodeDescription } from '../Registry/NodeDescription';
+import { inputSocketName, resultNodeName } from './keys';
 
 export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends ImmediateNode {
   constructor(
@@ -10,7 +11,12 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends ImmediateNode {
     inputValueTypes: string[],
     outputValueType: string,
     public readonly binaryEvalFunc: (a: In1, b: In2, c: In3, d: In4) => Out1,
-    public readonly inputNames: string[] = ['a', 'b', 'c', 'd']
+    public readonly inputNames: string[] = [
+      inputSocketName.a,
+      inputSocketName.b,
+      inputSocketName.c,
+      inputSocketName.d
+    ]
   ) {
     if (inputValueTypes.length !== 4) {
       throw new Error(
@@ -31,10 +37,10 @@ export class In4Out1FuncNode<In1, In2, In3, In4, Out1> extends ImmediateNode {
         new Socket(inputValueTypes[2], inputNames[2]),
         new Socket(inputValueTypes[3], inputNames[3])
       ],
-      [new Socket(outputValueType, 'result')],
+      [new Socket(outputValueType, resultNodeName)],
       () => {
         this.writeOutput(
-          'result',
+          resultNodeName,
           this.binaryEvalFunc(
             this.readInput(inputNames[0]),
             this.readInput(inputNames[1]),

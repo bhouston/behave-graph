@@ -3,6 +3,11 @@ import { In0Out1FuncNode } from '../../../Nodes/Templates/In0Out1FuncNode';
 import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
 import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
 import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
+import {
+  degreesToRadians,
+  equalsTolerance,
+  radiansToDegrees
+} from './Internal/Common';
 
 // Unreal Engine Blueprint Float nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Float/
 
@@ -199,6 +204,36 @@ export const Tan = new NodeDescription(
   (description, graph) =>
     new In1Out1FuncNode(description, graph, ['float'], 'float', Math.tan)
 );
+
+export const RadiansToDegrees = new NodeDescription(
+  'math/radiansToDegrees/float',
+  'Logic',
+  'To Degrees',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['float'],
+      'float',
+      (a: number) => radiansToDegrees(a),
+      ['radian']
+    )
+);
+export const DegreesToRadians = new NodeDescription(
+  'math/degreesToRadians/float',
+  'Logic',
+  'To Radians',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['float'],
+      'float',
+      (a: number) => degreesToRadians(a),
+      ['degrees']
+    )
+);
+
 export const Atan = new NodeDescription(
   'math/atan/float',
   'Logic',
@@ -339,7 +374,24 @@ export const Equal = new NodeDescription(
       graph,
       ['float', 'float'],
       'boolean',
-      (a: number, b: number) => a === b
+      (a: number, b: number) => a === b,
+      ['a', 'b']
+    )
+);
+
+export const EqualTolerance = new NodeDescription(
+  'math/equalTolerance/float',
+  'Logic',
+  '=',
+  (description, graph) =>
+    new In3Out1FuncNode(
+      description,
+      graph,
+      ['float', 'float', 'float'],
+      'boolean',
+      (a: number, b: number, tolerance: number) =>
+        equalsTolerance(a, b, tolerance),
+      ['a', 'b', 'tolerance']
     )
 );
 export const GreaterThan = new NodeDescription(

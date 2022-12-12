@@ -13,3 +13,7 @@ export function parseSafeFloats(text: string, fallback = 0): number[] {
     .filter(Boolean)
     .map((value) => parseSafeFloat(value, fallback));
 }
+
+export function toSafeString(elements: number[]): string {
+  return `[${elements.join(',')}]`;
+}

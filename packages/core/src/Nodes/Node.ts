@@ -18,9 +18,7 @@ export class Node {
   // TODO: this may want to cache the values on the creation of the NodeEvalContext
   // for re-entrant async operations, otherwise the inputs may change during operation.
   readInput<T>(inputName: string): T {
-    const inputSocket = this.inputs.find(
-      (socket) => socket.name === inputName
-    );
+    const inputSocket = this.inputs.find((socket) => socket.name === inputName);
     if (inputSocket === undefined) {
       throw new Error(
         `can not find input socket with name ${inputName} on node of type ${this.description.typeName}`

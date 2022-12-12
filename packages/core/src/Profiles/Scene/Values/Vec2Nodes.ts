@@ -12,7 +12,7 @@ import {
   vec2Mix,
   vec2Negate,
   vec2Normalize,
-  vec2Scale,
+  vec2MultiplyByScalar,
   vec2Subtract,
   vec2ToArray
 } from './Internal/Vec2';
@@ -85,7 +85,7 @@ export const Scale = new NodeDescription(
       graph,
       ['vec2', 'float'],
       'vec2',
-      vec2Scale
+      vec2MultiplyByScalar
     )
 );
 export const Length = new NodeDescription(
@@ -130,11 +130,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['vec2', 'vec2'],
+      ['vec2', 'vec2', 'float'],
       'boolean',
-      vec2Equals
+      vec2Equals,
+      ['a', 'b', 'tolerance']
     )
 );

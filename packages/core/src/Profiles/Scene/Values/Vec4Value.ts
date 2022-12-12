@@ -7,7 +7,7 @@ export const Vec4Value = new ValueType(
   (value: string | Vec4JSON) =>
     typeof value === 'string'
       ? vec4Parse(value)
-      : new Vec4(value.x, value.y, value.z, value.w),
-  (value) => ({ x: value.x, y: value.y, z: value.z, w: value.w } as Vec4JSON),
+      : new Vec4(value[0], value[1], value[2], value[3]),
+  (value) => [value.x, value.y, value.z, value.w] as Vec4JSON,
   (start: Vec4, end: Vec4, t: number) => vec4Mix(start, end, t)
 );

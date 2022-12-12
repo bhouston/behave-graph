@@ -10,17 +10,17 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
     graph: Graph,
     inputValueTypes: string[],
     outputValueType: string,
-    public readonly unaryEvalFunc: (a: In1) => Out1,
+    public readonly evalFunc: (a: In1) => Out1,
     public readonly inputNames: string[] = [inputSocketName.a]
   ) {
     if (inputValueTypes.length !== 1) {
       throw new Error(
-        `inputValueTypes must have a length of 1, it is instead ${inputValueTypes.length}`
+        `inputValueTypes of ${description.typeName}  must have a length of 1, it is instead ${inputValueTypes.length}`
       );
     }
     if (inputNames.length !== 1) {
       throw new Error(
-        `inputNames must have a length of 1, it is instead ${inputNames.length}`
+        `inputNames of ${description.typeName}  must have a length of 1, it is instead ${inputNames.length}`
       );
     }
     super(
@@ -31,7 +31,7 @@ export class In1Out1FuncNode<In1, Out1> extends ImmediateNode {
       () => {
         this.writeOutput(
           resultNodeName,
-          this.unaryEvalFunc(this.readInput(inputNames[0]))
+          this.evalFunc(this.readInput(inputNames[0]))
         );
       }
     );

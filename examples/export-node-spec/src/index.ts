@@ -51,13 +51,21 @@ async function main() {
       csvRow.push(nodeSpec.type, nodeSpec.category);
       for (let i = 0; i < 5; i++) {
         if (i < nodeSpec.inputs.length) {
-          csvRow.push(
-            nodeSpec.inputs[i].name,
-            nodeSpec.inputs[i].valueType,
-            nodeSpec.inputs[i].defaultValue?.toString() || ''
-          );
+          const input = nodeSpec.inputs[i];
+
+          csvRow.push(input.name, input.valueType);
+          if (input.valueType === 'flow') {
+            csvRow.push('', '');
+          } else if (input.defaultValue !== undefined) {
+            csvRow.push(
+              typeof input.defaultValue,
+              input.defaultValue.toString()
+            );
+          } else {
+            csvRow.push('', '(undefined)');
+          }
         } else {
-          csvRow.push('', '', '');
+          csvRow.push('', '', '', '');
         }
       }
       for (let i = 0; i < 5; i++) {

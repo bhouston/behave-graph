@@ -10,7 +10,7 @@ export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
     graph: Graph,
     inputValueTypes: string[],
     outputValueType: string,
-    public readonly binaryEvalFunc: (a: In1, b: In2) => Out1,
+    public readonly evalFunc: (a: In1, b: In2) => Out1,
     public readonly inputNames: string[] = [
       inputSocketName.a,
       inputSocketName.b
@@ -18,12 +18,12 @@ export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
   ) {
     if (inputValueTypes.length !== 2) {
       throw new Error(
-        `inputValueTypes must have a length of 2, it is instead ${inputValueTypes.length}`
+        `inputValueTypes of ${description.typeName}  must have a length of 2, it is instead ${inputValueTypes.length}`
       );
     }
     if (inputNames.length !== 2) {
       throw new Error(
-        `inputNames must have a length of 2, it is instead ${inputNames.length}`
+        `inputNames of ${description.typeName}  must have a length of 2, it is instead ${inputNames.length}`
       );
     }
     super(
@@ -37,7 +37,7 @@ export class In2Out1FuncNode<In1, In2, Out1> extends ImmediateNode {
       () => {
         this.writeOutput(
           resultNodeName,
-          this.binaryEvalFunc(
+          this.evalFunc(
             this.readInput(inputNames[0]),
             this.readInput(inputNames[1])
           )

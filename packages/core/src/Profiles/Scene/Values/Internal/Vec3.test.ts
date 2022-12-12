@@ -4,10 +4,10 @@ import {
   vec3Dot,
   vec3FromArray,
   vec3Length,
+  vec3MultiplyByScalar,
   vec3Negate,
   vec3Normalize,
   vec3Parse,
-  vec3Scale,
   vec3Subtract,
   vec3ToArray,
   vec3ToString
@@ -33,7 +33,7 @@ describe('vec3 value type', () => {
     expect(value.z).toEqual(-10);
   });
   test('scale', () => {
-    const value = vec3Scale(new Vec3(1, 2, 3), 2);
+    const value = vec3MultiplyByScalar(new Vec3(1, 2, 3), 2);
     expect(value.x).toEqual(2);
     expect(value.y).toEqual(4);
     expect(value.z).toEqual(6);

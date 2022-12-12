@@ -7,7 +7,7 @@ import {
   vec4Negate,
   vec4Normalize,
   vec4Parse,
-  vec4Scale,
+  vec4MultiplyByScalar,
   vec4Subtract,
   vec4ToArray,
   vec4ToString
@@ -36,7 +36,7 @@ describe('vec4 value type', () => {
     expect(value.w).toEqual(-14);
   });
   test('scale', () => {
-    const value = vec4Scale(new Vec4(1, 2, 3, 4), 2);
+    const value = vec4MultiplyByScalar(new Vec4(1, 2, 3, 4), 2);
     expect(value.x).toEqual(2);
     expect(value.y).toEqual(4);
     expect(value.z).toEqual(6);

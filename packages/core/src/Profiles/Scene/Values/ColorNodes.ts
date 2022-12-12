@@ -12,8 +12,8 @@ import {
   vec3Add,
   vec3Equals,
   vec3Mix,
+  vec3MultiplyByScalar,
   vec3Negate,
-  vec3Scale,
   vec3Subtract,
   vec3ToArray
 } from './Internal/Vec3';
@@ -92,7 +92,7 @@ export const Scale = new NodeDescription(
       graph,
       ['color', 'float'],
       'color',
-      vec3Scale
+      vec3MultiplyByScalar
     )
 );
 
@@ -146,11 +146,12 @@ export const Equal = new NodeDescription(
   'Logic',
   '=',
   (description, graph) =>
-    new In2Out1FuncNode(
+    new In3Out1FuncNode(
       description,
       graph,
-      ['color', 'color'],
+      ['color', 'color', 'float'],
       'boolean',
-      vec3Equals
+      vec3Equals,
+      ['a', 'b', 'tolerance']
     )
 );

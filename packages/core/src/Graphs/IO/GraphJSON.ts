@@ -1,6 +1,6 @@
 import { Metadata } from '../../Metadata';
 
-export type ValueJSON = string | boolean | number;
+export type ValueJSON = string | boolean | number | number[];
 
 export type LinkJSON = { nodeId: string; socket: string };
 

@@ -13,7 +13,8 @@
   },
   "scripts": {
     "watch": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",

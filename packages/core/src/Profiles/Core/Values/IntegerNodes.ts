@@ -243,3 +243,17 @@ export const LessThanOrEqual = new NodeDescription(
       (a: bigint, b: bigint) => a <= b
     )
 );
+
+export const toBoolean = new NodeDescription(
+  'math/toBoolean/integer',
+  'Logic',
+  'To Boolean',
+  (description, graph) =>
+    new In1Out1FuncNode(
+      description,
+      graph,
+      ['integer'],
+      'boolean',
+      (a: bigint) => a !== 0n
+    )
+);

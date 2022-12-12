@@ -2,6 +2,7 @@ import { Graph } from '../../Graphs/Graph';
 import { Socket } from '../../Sockets/Socket';
 import { ImmediateNode } from '../ImmediateNode';
 import { NodeDescription } from '../Registry/NodeDescription';
+import { resultNodeName } from './keys';
 
 export class In0Out1FuncNode<Out1> extends ImmediateNode {
   constructor(
@@ -14,9 +15,9 @@ export class In0Out1FuncNode<Out1> extends ImmediateNode {
       description,
       graph,
       [],
-      [new Socket(outputValueType, 'result')],
+      [new Socket(outputValueType, resultNodeName)],
       () => {
-        this.writeOutput('result', this.nullaryEvalFunc());
+        this.writeOutput(resultNodeName, this.nullaryEvalFunc());
       }
     );
   }

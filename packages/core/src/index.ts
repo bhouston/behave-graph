@@ -7,7 +7,7 @@ export * from './Nodes/Node';
 export * from './Nodes/AsyncNode';
 export * from './Nodes/EventNode';
 export * from './Nodes/FlowNode';
-export * from './Nodes/ImmediateNode';
+export * from './Nodes/FunctionNode';
 export * from './Nodes/Link';
 export * from './Values/ValueType';
 export * from './Sockets/Socket';

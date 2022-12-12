@@ -1,10 +1,10 @@
 import { Graph } from '../../../Graphs/Graph';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 import { Variable } from '../../../Variables/Variable';
 
-export class VariableGet extends ImmediateNode {
+export class VariableGet extends FunctionNode {
   public static GetDescription(graph: Graph, variableId: string) {
     const variable = graph.variables[variableId];
     return new NodeDescription(

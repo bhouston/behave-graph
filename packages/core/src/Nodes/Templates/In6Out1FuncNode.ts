@@ -29,12 +29,12 @@ export class In6Out1FuncNode<
   ) {
     if (inputValueTypes.length !== 6) {
       throw new Error(
-        `inputValueTypes must have a length of 6, it is instead ${inputValueTypes.length}`
+        `inputValueTypes of ${description.typeName} must have a length of 6, it is instead ${inputValueTypes.length}`
       );
     }
     if (inputNames.length !== 6) {
       throw new Error(
-        `inputNames must have a length of 6, it is instead ${inputNames.length}`
+        `inputNames of ${description.typeName}  must have a length of 6, it is instead ${inputNames.length}`
       );
     }
     super(

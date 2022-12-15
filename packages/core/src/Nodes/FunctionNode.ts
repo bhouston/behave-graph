@@ -26,7 +26,7 @@ export class FunctionNode extends Node {
   }
 }
 
-export class ImmediateNode2 extends FunctionNode {
+export class FunctionNode2 extends FunctionNode {
   constructor(properties: {
     description: NodeDescription;
     graph: Graph;

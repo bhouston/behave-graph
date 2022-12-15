@@ -1,5 +1,5 @@
 import { Graph } from '../../../Graphs/Graph';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { Node } from '../../../Nodes/Node';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { inputSocketName, resultNodeName } from '../../../Nodes/Templates/keys';
@@ -11,8 +11,8 @@ const makeEmptyGraph = () => {
   return new Graph(new Registry());
 };
 
-const makeImmediateNodeWithEmptyGraph = (nodeDescription: NodeDescription) =>
-  nodeDescription.factory(intToBoolean, makeEmptyGraph()) as ImmediateNode;
+const makeFunctionNodeWithEmptyGraph = (nodeDescription: NodeDescription) =>
+  nodeDescription.factory(intToBoolean, makeEmptyGraph()) as FunctionNode;
 
 const setInputSocketValue = (node: Node, socketName: string, value: any) => {
   const inputSocket = node.inputs.find((socket) => socket.name === socketName);
@@ -35,10 +35,10 @@ const getOutputSocketValue = (node: Node, socketName: string) => {
 
 describe('Boolean Conversions', () => {
   describe('math/toBoolean/integer', () => {
-    let node: ImmediateNode;
+    let node: FunctionNode;
 
     beforeEach(() => {
-      node = makeImmediateNodeWithEmptyGraph(intToBoolean);
+      node = makeFunctionNodeWithEmptyGraph(intToBoolean);
     });
     it.only('writes to the output false when the input value is 0', () => {
       setInputSocketValue(node, inputSocketName.a, 0n);
@@ -62,10 +62,10 @@ describe('Boolean Conversions', () => {
   });
 
   describe('math/toInteger/boolean', () => {
-    let node: ImmediateNode;
+    let node: FunctionNode;
 
     beforeEach(() => {
-      node = makeImmediateNodeWithEmptyGraph(toInteger);
+      node = makeFunctionNodeWithEmptyGraph(toInteger);
     });
     it.only('writes to the output 1 when the input value is true', () => {
       setInputSocketValue(node, inputSocketName.a, true);

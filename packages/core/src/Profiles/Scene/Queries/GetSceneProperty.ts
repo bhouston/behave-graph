@@ -1,11 +1,11 @@
 import { Graph } from '../../../Graphs/Graph';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 import { toCamelCase } from '../../../toCamelCase';
 import { IScene } from '../Abstractions/IScene';
 
-export class GetSceneProperty extends ImmediateNode {
+export class GetSceneProperty extends FunctionNode {
   public static GetDescriptions(scene: IScene, ...valueTypeNames: string[]) {
     return valueTypeNames.map(
       (valueTypeName) =>

@@ -1,9 +1,9 @@
 import { Graph } from '../../../Graphs/Graph';
-import { ImmediateNode } from '../../../Nodes/ImmediateNode';
+import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
-export class VecElements<T> extends ImmediateNode {
+export class VecElements<T> extends FunctionNode {
   constructor(
     description: NodeDescription,
     graph: Graph,

@@ -1,10 +1,10 @@
 import { Graph } from '../../..//Graphs/Graph';
-import { ImmediateNode } from '../../..//Nodes/ImmediateNode';
+import { FunctionNode } from '../../..//Nodes/FunctionNode';
 import { Socket } from '../../..//Sockets/Socket';
 import { EasingFunctions, EasingModes } from '../../../Easing';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 
-export class Easing extends ImmediateNode {
+export class Easing extends FunctionNode {
   public static Description = new NodeDescription(
     'math/easing',
     'Logic',

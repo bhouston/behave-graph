@@ -37,17 +37,12 @@ export class EventNode extends Node {
 }
 
 export class EventNode2 extends EventNode {
-  constructor(properties: {
+  constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
   }) {
-    super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs
-    );
+    super(props.description, props.graph, props.inputs, props.outputs);
   }
 }

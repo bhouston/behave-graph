@@ -3,8 +3,8 @@ import { FunctionNodeDesc } from 'packages/core/src/Nodes/FunctionNode';
 export const Constant = new FunctionNodeDesc({
   name: 'math/boolean',
   label: 'Boolean',
-  in: { a: 'boolean' },
-  out: { result: 'boolean' },
+  in: ['boolean'],
+  out: 'boolean',
   exec: (a: boolean) => a
 });
 

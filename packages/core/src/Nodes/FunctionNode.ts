@@ -26,20 +26,42 @@ export class FunctionNode extends Node {
   }
 }
 
-export class FunctionNode2 extends FunctionNode {
-  constructor(properties: {
-    description: NodeDescription;
-    graph: Graph;
-    inputs?: Socket[];
-    outputs?: Socket[];
-    exec: () => void;
+export class FunctionNodeDesc extends NodeDescription {
+  constructor(props: {
+    name: string;
+    label?: string;
+    aliases?: string[];
+    in?: { [name: string]: string } | string[];
+    out: { [name: string]: string } | string;
+    exec: (...args: any[]) => any;
   }) {
+    const inMap = props.in ?? {};
+    const outMap = props.out;
     super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs,
-      properties.exec
+      props.name,
+      label:    props.label ?? props.name,
+      (description, graph) => {
+        return new FunctionNode(
+          description,
+          graph,
+          Object.keys(inMap).map((inKey) => new Socket(inMap[inKey], inKey)),
+          Object.keys(outMap).map(
+            (outKey) => new Socket(outMap[outKey], outKey)
+          ),
+          props.exec
+        );
+      },
+      props.aliases
     );
   }
 }
+// only single return value/
+export type SimpleFuncSpec = {
+  name: string;
+  aliases?: string[]; // for backwards compatibility
+  keywords?: string[];
+  description?: string;
+  in: { [name: string]: ValueType };
+  out: ValueType; // the value type of the output in this case, not a map.
+  exec: (...args: any[]) => any;
+};

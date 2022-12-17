@@ -1,8 +1,8 @@
-import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 
-export const Constant = new FunctionNodeDesc({
+export const Constant = new FunctionDesc({
   name: 'math/integer',
   label: 'Integer',
   in: ['integer'],
@@ -10,7 +10,7 @@ export const Constant = new FunctionNodeDesc({
   exec: (a: bigint) => a
 });
 
-export const Add = new FunctionNodeDesc({
+export const Add = new FunctionDesc({
   name: 'math/add/integer',
   label: '+',
   in: ['integer', 'integer'],
@@ -18,7 +18,7 @@ export const Add = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a + b
 });
 
-export const Subtract = new FunctionNodeDesc({
+export const Subtract = new FunctionDesc({
   name: 'math/subtract/integer',
   label: '-',
   in: ['integer', 'integer'],
@@ -26,7 +26,7 @@ export const Subtract = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a - b
 });
 
-export const Negate = new FunctionNodeDesc({
+export const Negate = new FunctionDesc({
   name: 'math/negate/integer',
   label: '-',
   in: ['integer'],
@@ -34,7 +34,7 @@ export const Negate = new FunctionNodeDesc({
   exec: (a: bigint) => -a
 });
 
-export const Multiply = new FunctionNodeDesc({
+export const Multiply = new FunctionDesc({
   name: 'math/multiply/integer',
   label: '×',
   in: ['integer', 'integer'],
@@ -42,7 +42,7 @@ export const Multiply = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a * b
 });
 
-export const Divide = new FunctionNodeDesc({
+export const Divide = new FunctionDesc({
   name: 'math/divide/integer',
   label: '÷',
   in: ['integer', 'integer'],
@@ -50,7 +50,7 @@ export const Divide = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a / b
 });
 
-export const Modulus = new FunctionNodeDesc({
+export const Modulus = new FunctionDesc({
   name: 'math/modulus/integer',
   label: 'MOD',
   in: ['integer', 'integer'],
@@ -58,7 +58,7 @@ export const Modulus = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a % b
 });
 
-export const ToFloat = new FunctionNodeDesc({
+export const ToFloat = new FunctionDesc({
   name: 'math/toFloat/integer',
   label: 'To Float',
   in: ['integer'],
@@ -66,7 +66,7 @@ export const ToFloat = new FunctionNodeDesc({
   exec: (a: bigint) => Number(a)
 });
 
-export const Min = new FunctionNodeDesc({
+export const Min = new FunctionDesc({
   name: 'math/min/integer',
   label: 'MIN',
   in: ['integer', 'integer'],
@@ -74,7 +74,7 @@ export const Min = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => (a > b ? b : a)
 });
 
-export const Max = new FunctionNodeDesc({
+export const Max = new FunctionDesc({
   name: 'math/max/integer',
   label: 'MAX',
   in: ['integer', 'integer'],
@@ -82,7 +82,7 @@ export const Max = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => (a > b ? a : b)
 });
 
-export const Clamp = new FunctionNodeDesc({
+export const Clamp = new FunctionDesc({
   name: 'math/clamp/integer',
   label: 'CLAMP',
   in: { value: 'integer', min: 'integer', max: 'integer' },
@@ -91,7 +91,7 @@ export const Clamp = new FunctionNodeDesc({
     value < min ? min : value > max ? max : value
 });
 
-export const Abs = new FunctionNodeDesc({
+export const Abs = new FunctionDesc({
   name: 'math/abs/integer',
   label: 'ABS',
   in: ['integer'],
@@ -99,7 +99,7 @@ export const Abs = new FunctionNodeDesc({
   exec: (a: bigint) => (a < BigInt(0) ? -a : a)
 });
 
-export const Sign = new FunctionNodeDesc({
+export const Sign = new FunctionDesc({
   name: 'math/sign/integer',
   label: 'SIGN',
   in: ['integer'],
@@ -107,7 +107,7 @@ export const Sign = new FunctionNodeDesc({
   exec: (a: bigint) => BigInt(a < 0 ? -1 : a > 0 ? 1 : 0)
 });
 
-export const Equal = new FunctionNodeDesc({
+export const Equal = new FunctionDesc({
   name: 'math/equal/integer',
   label: '=',
   in: ['integer', 'integer'],
@@ -115,7 +115,7 @@ export const Equal = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a === b
 });
 
-export const GreaterThan = new FunctionNodeDesc({
+export const GreaterThan = new FunctionDesc({
   name: 'math/greaterThan/integer',
   label: '>',
   in: ['integer', 'integer'],
@@ -123,7 +123,7 @@ export const GreaterThan = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a > b
 });
 
-export const GreaterThanOrEqual = new FunctionNodeDesc({
+export const GreaterThanOrEqual = new FunctionDesc({
   name: 'math/greaterThanOrEqual/integer',
   label: '≥',
   in: ['integer', 'integer'],
@@ -131,7 +131,7 @@ export const GreaterThanOrEqual = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a >= b
 });
 
-export const LessThan = new FunctionNodeDesc({
+export const LessThan = new FunctionDesc({
   name: 'math/lessThan/integer',
   label: '<',
   in: ['integer', 'integer'],
@@ -139,7 +139,7 @@ export const LessThan = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a < b
 });
 
-export const LessThanOrEqual = new FunctionNodeDesc({
+export const LessThanOrEqual = new FunctionDesc({
   name: 'math/lessThanOrEqual/integer',
   label: '≤',
   in: ['integer', 'integer'],
@@ -147,7 +147,7 @@ export const LessThanOrEqual = new FunctionNodeDesc({
   exec: (a: bigint, b: bigint) => a <= b
 });
 
-export const toBoolean = new FunctionNodeDesc({
+export const toBoolean = new FunctionDesc({
   name: 'math/toBoolean/integer',
   label: 'To Boolean',
   in: ['integer'],

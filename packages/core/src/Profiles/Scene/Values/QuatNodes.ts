@@ -1,9 +1,4 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
-import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
-import { VecElements } from '../Logic/VecElements';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   angleAxisToQuat,
   eulerToQuat,
@@ -19,8 +14,8 @@ import {
   vec4Dot,
   vec4Equals,
   vec4Length,
-  vec4Normalize,
   vec4MultiplyByScalar,
+  vec4Normalize,
   vec4ToArray
 } from './Internal/Vec4';
 
@@ -37,181 +32,146 @@ import {
 - 
 */
 
-export const Constant = new NodeDescription(
-  'math/quat',
-  'Logic',
-  'Quaternion',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'quat', (a: Vec4) => a)
-);
-export const Create = new NodeDescription(
-  'math/toQuat/float',
-  'Logic',
-  'Float to Quat',
-  (description, graph) =>
-    new In4Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float', 'float'],
-      'quat',
-      (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w),
-      ['x', 'y', 'z', 'w']
-    )
-);
-export const Elements = new NodeDescription(
-  'math/toFloat/quat',
-  'Logic',
-  'Quat to Float',
-  (description, graph) =>
-    new VecElements(
-      description,
-      graph,
-      'quat',
-      ['x', 'y', 'z', 'w'],
-      vec4ToArray
-    )
-);
+export const Constant = new FunctionDesc({
+  name: 'math/quat',
+  label: 'Quaternion',
+  in: ['quat'],
+  out: 'quat',
+  exec: (a: Vec4) => a
+});
 
-export const Negate = new NodeDescription(
-  'math/conjugate/quat',
-  'Logic',
-  'Conjugate',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatConjugate)
-);
+export const Create = new FunctionDesc({
+  name: 'math/toQuat/float',
+  label: 'Float to Quat',
+  in: { x: 'float', y: 'float', z: 'float', w: 'float' },
+  out: 'quat',
+  exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
+});
 
-export const Multiply = new NodeDescription(
-  'math/multiply/quat',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['quat', 'quat'],
-      'quat',
-      quatMultiply
-    )
-);
-export const Scale = new NodeDescription(
-  'math/scale/quat',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['quat', 'float'],
-      'quat',
-      vec4MultiplyByScalar
-    )
-);
-export const Length = new NodeDescription(
-  'math/length/quat',
-  'Logic',
-  'Length',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'float', vec4Length)
-);
-export const Normalize = new NodeDescription(
-  'math/normalize/quat',
-  'Logic',
-  'Normalize',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'quat', vec4Normalize)
-);
-export const Dot = new NodeDescription(
-  'math/dot/quat',
-  'Logic',
-  'Dot Product',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['quat', 'quat'], 'float', vec4Dot)
-);
+export const Elements = new FunctionDesc({
+  name: 'math/toFloat/quat',
+  label: 'Quat to Float',
+  in: ['quat'],
+  out: { x: 'float', y: 'float', z: 'float', w: 'float' },
+  exec: vec4ToArray
+});
 
-export const Ln = new NodeDescription(
-  'math/ln/quat',
-  'Logic',
-  'Ln',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatLn)
-);
+export const Negate = new FunctionDesc({
+  name: 'math/conjugate/quat',
+  label: 'Conjugate',
+  in: ['quat'],
+  out: 'quat',
+  exec: quatConjugate
+});
 
-export const Exp = new NodeDescription(
-  'math/exp/quat',
-  'Logic',
-  'Exp',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'quat', quatExp)
-);
+export const Multiply = new FunctionDesc({
+  name: 'math/multiply/quat',
+  label: '×',
+  in: ['quat', 'quat'],
+  out: 'quat',
+  exec: quatMultiply
+});
 
-export const Pow = new NodeDescription(
-  'math/pow/quat',
-  'Logic',
-  'Pow',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['quat', 'float'], 'quat', quatPow)
-);
+export const Scale = new FunctionDesc({
+  name: 'math/scale/quat',
+  label: '×',
+  in: ['quat', 'float'],
+  out: 'quat',
+  exec: vec4MultiplyByScalar
+});
 
-export const Mat3ToQuat = new NodeDescription(
-  'math/toQuat/mat3',
-  'Logic',
-  'To Quat',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'quat', mat3ToQuat)
-);
-export const Mat4ToQuat = new NodeDescription(
-  'math/toQuat/mat4',
-  'Logic',
-  'To Quat',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'quat', mat4ToQuat)
-);
-export const EulerToQuat = new NodeDescription(
-  'math/toQuat/euler',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['euler'], 'quat', eulerToQuat)
-);
+export const Length = new FunctionDesc({
+  name: 'math/length/quat',
+  label: 'Length',
+  in: ['quat'],
+  out: 'float',
+  exec: vec4Length
+});
 
-export const AngleAxisToQuat = new NodeDescription(
-  'math/toQuat/angleAxis',
-  'Logic',
-  'Angle Axis to Quat',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'vec3'],
-      'quat',
-      angleAxisToQuat
-    )
-);
-export const Slerp = new NodeDescription(
-  'math/slerp/quat',
-  'Logic',
-  'Slerp',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['quat', 'quat', 'float'],
-      'quat',
-      quatSlerp,
-      ['a', 'b', 't']
-    )
-);
-export const Equal = new NodeDescription(
-  'math/equal/quat',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['quat', 'quat', 'float'],
-      'boolean',
-      vec4Equals,
-      ['a', 'b', 'tolerance']
-    )
-);
+export const Normalize = new FunctionDesc({
+  name: 'math/normalize/quat',
+  label: 'Normalize',
+  in: ['quat'],
+  out: 'quat',
+  exec: vec4Normalize
+});
+
+export const Dot = new FunctionDesc({
+  name: 'math/dot/quat',
+  label: 'Dot Product',
+  in: ['quat', 'quat'],
+  out: 'float',
+  exec: vec4Dot
+});
+
+export const Ln = new FunctionDesc({
+  name: 'math/ln/quat',
+  label: 'Ln',
+  in: ['quat'],
+  out: 'quat',
+  exec: quatLn
+});
+
+export const Exp = new FunctionDesc({
+  name: 'math/exp/quat',
+  label: 'Exp',
+  in: ['quat'],
+  out: 'quat',
+  exec: quatExp
+});
+
+export const Pow = new FunctionDesc({
+  name: 'math/pow/quat',
+  label: 'Pow',
+  in: ['quat', 'float'],
+  out: 'quat',
+  exec: quatPow
+});
+
+export const Mat3ToQuat = new FunctionDesc({
+  name: 'math/toQuat/mat3',
+  label: 'To Quat',
+  in: ['mat3'],
+  out: 'quat',
+  exec: mat3ToQuat
+});
+
+export const Mat4ToQuat = new FunctionDesc({
+  name: 'math/toQuat/mat4',
+  label: 'To Quat',
+  in: ['mat4'],
+  out: 'quat',
+  exec: mat4ToQuat
+});
+
+export const EulerToQuat = new FunctionDesc({
+  name: 'math/toQuat/euler',
+  label: '÷',
+  in: ['euler'],
+  out: 'quat',
+  exec: eulerToQuat
+});
+
+export const AngleAxisToQuat = new FunctionDesc({
+  name: 'math/toQuat/angleAxis',
+  label: 'Angle Axis to Quat',
+  in: ['float', 'vec3'],
+  out: 'quat',
+  exec: angleAxisToQuat
+});
+
+export const Slerp = new FunctionDesc({
+  name: 'math/slerp/quat',
+  label: 'Slerp',
+  in: { a: 'quat', b: 'quat', t: 'float' },
+  out: 'quat',
+  exec: quatSlerp
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/quat',
+  label: '=',
+  in: { a: 'quat', b: 'quat', tolerance: 'float' },
+  out: 'boolean',
+  exec: vec4Equals
+});

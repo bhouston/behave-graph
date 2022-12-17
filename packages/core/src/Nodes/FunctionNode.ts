@@ -26,7 +26,7 @@ export class FunctionNode extends Node {
   }
 }
 
-export class FunctionNodeDesc extends NodeDescription {
+export class FunctionDesc extends NodeDescription {
   constructor(props: {
     name: string;
     label?: string;

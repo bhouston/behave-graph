@@ -12,8 +12,7 @@ export function registerSerializersForValueType(
   registry.nodes.register(
     new NodeDescription(
       `math/to${camelCaseValueTypeName}/string`,
-      'Logic',
-      `To ${camelCaseValueTypeName}`,
+      label:    `To ${camelCaseValueTypeName}`,
       (graph, nodeType) =>
         new In1Out1FuncNode<string, any>(
           graph,
@@ -25,8 +24,7 @@ export function registerSerializersForValueType(
     ),
     new NodeDescription(
       `math/toString/${valueTypeName}`,
-      'Logic',
-      'To String',
+      label:    'To String',
       (graph, nodeType) =>
         new In1Out1FuncNode<any, string>(
           graph,

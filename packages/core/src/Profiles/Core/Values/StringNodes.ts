@@ -1,6 +1,6 @@
-import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 
-export const Constant = new FunctionNodeDesc({
+export const Constant = new FunctionDesc({
   name: 'logic/string',
   label: 'String',
   in: ['string'],
@@ -8,7 +8,7 @@ export const Constant = new FunctionNodeDesc({
   exec: (a: string) => a
 });
 
-export const Concat = new FunctionNodeDesc({
+export const Concat = new FunctionDesc({
   name: 'logic/concat/string',
   label: 'Concat',
   in: ['string', 'string'],
@@ -16,7 +16,7 @@ export const Concat = new FunctionNodeDesc({
   exec: (a: string, b: string) => a.concat(b)
 });
 
-export const Includes = new FunctionNodeDesc({
+export const Includes = new FunctionDesc({
   name: 'logic/includes/string',
   label: 'Includes',
   in: ['string', 'string'],
@@ -24,7 +24,7 @@ export const Includes = new FunctionNodeDesc({
   exec: (a: string, b: string) => a.includes(b)
 });
 
-export const Length = new FunctionNodeDesc({
+export const Length = new FunctionDesc({
   name: 'logic/length/string',
   label: 'Length',
   in: ['string'],
@@ -32,7 +32,7 @@ export const Length = new FunctionNodeDesc({
   exec: (a: string) => BigInt(a.length)
 });
 
-export const Equal = new FunctionNodeDesc({
+export const Equal = new FunctionDesc({
   name: 'math/equal/string',
   label: '=',
   in: ['string', 'string'],

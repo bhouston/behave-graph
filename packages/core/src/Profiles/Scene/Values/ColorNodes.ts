@@ -1,4 +1,4 @@
-import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   hexToRGB,
   hslToRGB,
@@ -13,7 +13,7 @@ import {
   vec3Subtract
 } from './Internal/Vec3';
 
-export const Constant = new FunctionNodeDesc({
+export const Constant = new FunctionDesc({
   name: 'math/color',
   label: 'Color',
   in: ['color'],
@@ -21,7 +21,7 @@ export const Constant = new FunctionNodeDesc({
   exec: (a: Vec3) => a
 });
 
-export const Create = new FunctionNodeDesc({
+export const Create = new FunctionDesc({
   name: 'math/toColor/rgb',
   label: 'RGB To Color',
   in: { r: 'float', g: 'float', b: 'float' },
@@ -29,7 +29,7 @@ export const Create = new FunctionNodeDesc({
   exec: (r: number, g: number, b: number) => new Vec3(r, g, b)
 });
 
-export const Elements = new FunctionNodeDesc({
+export const Elements = new FunctionDesc({
   name: 'math/toRgb/color',
   label: 'Color to RGB',
   in: ['color'],
@@ -39,7 +39,7 @@ export const Elements = new FunctionNodeDesc({
   }
 });
 
-export const Add = new FunctionNodeDesc({
+export const Add = new FunctionDesc({
   name: 'math/add/color',
   label: '+',
   in: ['color', 'color'],
@@ -47,7 +47,7 @@ export const Add = new FunctionNodeDesc({
   exec: vec3Add
 });
 
-export const Subtract = new FunctionNodeDesc({
+export const Subtract = new FunctionDesc({
   name: 'math/subtract/color',
   label: '-',
   in: ['color', 'color'],
@@ -55,7 +55,7 @@ export const Subtract = new FunctionNodeDesc({
   exec: vec3Subtract
 });
 
-export const Negate = new FunctionNodeDesc({
+export const Negate = new FunctionDesc({
   name: 'math/negate/color',
   label: '-',
   in: ['color'],
@@ -63,7 +63,7 @@ export const Negate = new FunctionNodeDesc({
   exec: vec3Negate
 });
 
-export const Scale = new FunctionNodeDesc({
+export const Scale = new FunctionDesc({
   name: 'math/scale/color',
   label: '×',
   in: ['color', 'float'],
@@ -71,7 +71,7 @@ export const Scale = new FunctionNodeDesc({
   exec: vec3MultiplyByScalar
 });
 
-export const Mix = new FunctionNodeDesc({
+export const Mix = new FunctionDesc({
   name: 'math/mix/color',
   label: '÷',
   in: { a: 'color', b: 'color', t: 'float' },
@@ -79,7 +79,7 @@ export const Mix = new FunctionNodeDesc({
   exec: vec3Mix
 });
 
-export const HslToColor = new FunctionNodeDesc({
+export const HslToColor = new FunctionDesc({
   name: 'math/ToColor/hsl',
   label: 'HSL to Color',
   in: ['vec3'],
@@ -87,7 +87,7 @@ export const HslToColor = new FunctionNodeDesc({
   exec: hslToRGB
 });
 
-export const ColorToHsl = new FunctionNodeDesc({
+export const ColorToHsl = new FunctionDesc({
   name: 'math/toHsl/color',
   label: 'Color to HSL',
   in: ['color'],
@@ -95,7 +95,7 @@ export const ColorToHsl = new FunctionNodeDesc({
   exec: rgbToHSL
 });
 
-export const HexToColor = new FunctionNodeDesc({
+export const HexToColor = new FunctionDesc({
   name: 'math/toColor/hex',
   label: 'HEX to Color',
   in: ['float'],
@@ -103,7 +103,7 @@ export const HexToColor = new FunctionNodeDesc({
   exec: hexToRGB
 });
 
-export const ColorToHex = new FunctionNodeDesc({
+export const ColorToHex = new FunctionDesc({
   name: 'math/toHex/color',
   label: 'Color to HEX',
   in: ['color'],
@@ -111,7 +111,7 @@ export const ColorToHex = new FunctionNodeDesc({
   exec: rgbToHex
 });
 
-export const Equal = new FunctionNodeDesc({
+export const Equal = new FunctionDesc({
   name: 'math/equal/color',
   label: '=',
   in: { a: 'color', b: 'color', tolerance: 'float' },

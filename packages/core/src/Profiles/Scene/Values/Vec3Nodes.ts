@@ -1,8 +1,4 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
-import { VecElements } from '../Logic/VecElements';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   Vec3,
   vec3Add,
@@ -14,135 +10,111 @@ import {
   vec3MultiplyByScalar,
   vec3Negate,
   vec3Normalize,
-  vec3Subtract,
-  vec3ToArray
+  vec3Subtract
 } from './Internal/Vec3';
 
-export const Constant = new NodeDescription(
-  'math/vec3',
-  'Logic',
-  'Vec3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', (a: Vec3) => a)
-);
+export const Constant = new FunctionDesc({
+  name: 'math/vec3',
+  label: 'Vec3',
+  in: ['vec3'],
+  out: 'vec3',
+  exec: (a: Vec3) => a
+});
 
-export const Create = new NodeDescription(
-  'math/toVec3/float',
-  'Logic',
-  'Float to Vec3',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float'],
-      'vec3',
-      (x: number, y: number, z: number) => new Vec3(x, y, z),
-      ['x', 'y', 'z']
-    )
-);
+export const Create = new FunctionDesc({
+  name: 'math/toVec3/float',
+  label: 'Float to Vec3',
+  in: { x: 'float', y: 'float', z: 'float' },
+  out: 'vec3',
+  exec: (x: number, y: number, z: number) => new Vec3(x, y, z)
+});
 
-export const Elements = new NodeDescription(
-  'math/toFloat/vec3',
-  'Logic',
-  'Vec3 To Float',
-  (description, graph) =>
-    new VecElements(description, graph, 'vec3', ['x', 'y', 'z'], vec3ToArray)
-);
+export const Elements = new FunctionDesc({
+  name: 'math/toFloat/vec3',
+  label: 'Vec3 To Float',
+  in: ['vec3'],
+  out: { x: 'float', y: 'float', z: 'float' },
+  exec: () => {
+    throw new Error('not implemented');
+  }
+});
 
-export const Add = new NodeDescription(
-  'math/add/vec3',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'vec3', vec3Add)
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/vec3',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'vec3'],
-      'vec3',
-      vec3Subtract
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/vec3',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', vec3Negate)
-);
-export const Scale = new NodeDescription(
-  'math/scale/vec3',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'float'],
-      'vec3',
-      vec3MultiplyByScalar
-    )
-);
-export const Length = new NodeDescription(
-  'math/length/vec3',
-  'Logic',
-  'Length',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec3'], 'float', vec3Length)
-);
-export const Normalize = new NodeDescription(
-  'math/normalize/vec3',
-  'Logic',
-  'Normalize',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec3'], 'vec3', vec3Normalize)
-);
-export const Cross = new NodeDescription(
-  'math/cross/vec3',
-  'Logic',
-  'Cross',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'vec3', vec3Cross)
-);
-export const Dot = new NodeDescription(
-  'math/dot/vec3',
-  'Logic',
-  'Dot',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['vec3', 'vec3'], 'float', vec3Dot)
-);
-export const Mix = new NodeDescription(
-  'math/mix/vec3',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'vec3', 'float'],
-      'vec3',
-      vec3Mix,
-      ['a', 'b', 't']
-    )
-);
+export const Add = new FunctionDesc({
+  name: 'math/add/vec3',
+  label: '+',
+  in: ['vec3', 'vec3'],
+  out: 'vec3',
+  exec: vec3Add
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/vec3',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'vec3', 'float'],
-      'boolean',
-      vec3Equals,
-      ['a', 'b', 'tolerance']
-    )
-);
+export const Subtract = new FunctionDesc({
+  name: 'math/subtract/vec3',
+  label: '-',
+  in: ['vec3', 'vec3'],
+  out: 'vec3',
+  exec: vec3Subtract
+});
+
+export const Negate = new FunctionDesc({
+  name: 'math/negate/vec3',
+  label: '-',
+  in: ['vec3'],
+  out: 'vec3',
+  exec: vec3Negate
+});
+
+export const Scale = new FunctionDesc({
+  name: 'math/scale/vec3',
+  label: '×',
+  in: ['vec3', 'float'],
+  out: 'vec3',
+  exec: vec3MultiplyByScalar
+});
+
+export const Length = new FunctionDesc({
+  name: 'math/length/vec3',
+  label: 'Length',
+  in: ['vec3'],
+  out: 'float',
+  exec: vec3Length
+});
+
+export const Normalize = new FunctionDesc({
+  name: 'math/normalize/vec3',
+  label: 'Normalize',
+  in: ['vec3'],
+  out: 'vec3',
+  exec: vec3Normalize
+});
+
+export const Cross = new FunctionDesc({
+  name: 'math/cross/vec3',
+  label: 'Cross',
+  in: ['vec3', 'vec3'],
+  out: 'vec3',
+  exec: vec3Cross
+});
+
+export const Dot = new FunctionDesc({
+  name: 'math/dot/vec3',
+  label: 'Dot',
+  in: ['vec3', 'vec3'],
+  out: 'float',
+  exec: vec3Dot
+});
+
+export const Mix = new FunctionDesc({
+  name: 'math/mix/vec3',
+  label: '÷',
+  in: { a: 'vec3', b: 'vec3', t: 'float' },
+  out: 'vec3',
+  exec: vec3Mix
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/vec3',
+  label: '=',
+  in: { a: 'vec3', b: 'vec3', tolerance: 'float' },
+  out: 'boolean',
+  exec: vec3Equals
+});

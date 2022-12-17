@@ -1,4 +1,4 @@
-import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   mat3ToEuler,
   mat4ToEuler,
@@ -12,7 +12,7 @@ import {
   vec3Subtract
 } from './Internal/Vec3';
 
-export const Constant = new FunctionNodeDesc({
+export const Constant = new FunctionDesc({
   name: 'math/euler',
   label: 'Euler',
   in: ['euler'],
@@ -20,7 +20,7 @@ export const Constant = new FunctionNodeDesc({
   exec: (a: Vec3) => a
 });
 
-export const Create = new FunctionNodeDesc({
+export const Create = new FunctionDesc({
   name: 'math/toEuler/float',
   label: 'Float to Euler',
   in: { x: 'float', y: 'float', z: 'float' },
@@ -28,7 +28,7 @@ export const Create = new FunctionNodeDesc({
   exec: (x: number, y: number, z: number) => new Vec3(x, y, z)
 });
 
-export const Elements = new FunctionNodeDesc({
+export const Elements = new FunctionDesc({
   name: 'math/toFloat/euler',
   label: 'Euler to Float',
   in: ['euler'],
@@ -38,7 +38,7 @@ export const Elements = new FunctionNodeDesc({
   }
 });
 
-export const Add = new FunctionNodeDesc({
+export const Add = new FunctionDesc({
   name: 'math/add/euler',
   label: '+',
   in: ['euler', 'euler'],
@@ -46,7 +46,7 @@ export const Add = new FunctionNodeDesc({
   exec: vec3Add
 });
 
-export const Subtract = new FunctionNodeDesc({
+export const Subtract = new FunctionDesc({
   name: 'math/subtract/euler',
   label: '-',
   in: ['euler', 'euler'],
@@ -54,7 +54,7 @@ export const Subtract = new FunctionNodeDesc({
   exec: vec3Subtract
 });
 
-export const Negate = new FunctionNodeDesc({
+export const Negate = new FunctionDesc({
   name: 'math/negate/euler',
   label: '-',
   in: ['euler'],
@@ -62,7 +62,7 @@ export const Negate = new FunctionNodeDesc({
   exec: vec3Negate
 });
 
-export const Scale = new FunctionNodeDesc({
+export const Scale = new FunctionDesc({
   name: 'math/scale/euler',
   label: '×',
   in: ['euler', 'float'],
@@ -70,7 +70,7 @@ export const Scale = new FunctionNodeDesc({
   exec: vec3MultiplyByScalar
 });
 
-export const Mix = new FunctionNodeDesc({
+export const Mix = new FunctionDesc({
   name: 'math/mix/euler',
   label: '÷',
   in: { a: 'euler', b: 'euler', t: 'float' },
@@ -81,7 +81,7 @@ export const Mix = new FunctionNodeDesc({
   }
 });
 
-export const Mat3ToEuler = new FunctionNodeDesc({
+export const Mat3ToEuler = new FunctionDesc({
   name: 'math/toEuler/mat3',
   label: 'To Euler',
   in: ['mat3'],
@@ -89,7 +89,7 @@ export const Mat3ToEuler = new FunctionNodeDesc({
   exec: mat3ToEuler
 });
 
-export const Mat4ToEuler = new FunctionNodeDesc({
+export const Mat4ToEuler = new FunctionDesc({
   name: 'math/toEuler/mat4',
   label: 'To Euler',
   in: ['mat4'],
@@ -97,7 +97,7 @@ export const Mat4ToEuler = new FunctionNodeDesc({
   exec: mat4ToEuler
 });
 
-export const QuatToEuler = new FunctionNodeDesc({
+export const QuatToEuler = new FunctionDesc({
   name: 'math/toEuler/quat',
   label: 'To Euler',
   in: ['quat'],
@@ -105,7 +105,7 @@ export const QuatToEuler = new FunctionNodeDesc({
   exec: quatToEuler
 });
 
-export const Equal = new FunctionNodeDesc({
+export const Equal = new FunctionDesc({
   name: 'math/equal/euler',
   label: '=',
   in: { a: 'euler', b: 'euler', tolerance: 'float' },

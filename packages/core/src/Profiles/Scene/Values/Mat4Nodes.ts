@@ -1,11 +1,4 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
-import { In4Out1FuncNode } from '../../../Nodes/Templates/In4Out1FuncNode';
-import { In5Out1FuncNode } from '../../../Nodes/Templates/In5Out1FuncNode';
-import { In6Out1FuncNode } from '../../../Nodes/Templates/In6Out1FuncNode';
-import { VecElements } from '../Logic/VecElements';
+import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
 import {
   column4ToMat4,
   eulerToMat4,
@@ -40,370 +33,287 @@ import {
   translation3ToMat4
 } from './Internal/Mat4';
 
-export const Constant = new NodeDescription(
-  'math/mat4',
-  'Logic',
-  'Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', (a: Mat4) => a)
-);
+export const Constant = new FunctionNodeDesc({
+  name: 'math/mat4',
+  label: 'Mat4',
+  in: ['mat4'],
+  out: 'mat4',
+  exec: (a: Mat4) => a
+});
 
-export const Column4ToMat4 = new NodeDescription(
-  'math/toMat4/column4',
-  'Logic',
-  'Columns to Mat4',
-  (description, graph) =>
-    new In4Out1FuncNode(
-      description,
-      graph,
-      ['vec4', 'vec4', 'vec4', 'vec4'],
-      'mat4',
-      column4ToMat4
-    )
-);
+export const Column4ToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/column4',
+  label: 'Columns to Mat4',
+  in: ['vec4', 'vec4', 'vec4', 'vec4'],
+  out: 'mat4',
+  exec: column4ToMat4
+});
 
-export const SetColumn = new NodeDescription(
-  'math/setColumn/mat4',
-  'Logic',
-  'Set Column',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'integer', 'vec4'],
-      'mat4',
-      mat4SetColumn4
-    )
-);
+export const SetColumn = new FunctionNodeDesc({
+  name: 'math/setColumn/mat4',
+  label: 'Set Column',
+  in: ['mat4', 'integer', 'vec4'],
+  out: 'mat4',
+  exec: mat4SetColumn4
+});
 
-export const SetRow = new NodeDescription(
-  'math/setRow/mat4',
-  'Logic',
-  'Set Row',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'integer', 'vec4'],
-      'mat4',
-      mat4SetRow4
-    )
-);
+export const SetRow = new FunctionNodeDesc({
+  name: 'math/setRow/mat4',
+  label: 'Set Row',
+  in: ['mat4', 'integer', 'vec4'],
+  out: 'mat4',
+  exec: mat4SetRow4
+});
 
-export const Elements = new NodeDescription(
-  'math/toVec4/mat4',
-  'Logic',
-  'Mat4 To Vec4',
-  (description, graph) =>
-    new VecElements(description, graph, 'mat4', ['x', 'y', 'z', 'w'], () => {
-      throw new Error('not implemented');
-    })
-);
+export const Elements = new FunctionNodeDesc({
+  name: 'math/toVec4/mat4',
+  label: 'Mat4 To Vec4',
+  in: ['mat4'],
+  out: { x: 'vec4', y: 'vec4', z: 'vec4', w: 'vec4' },
+  exec: () => {
+    throw new Error('not implemented');
+  }
+});
 
-export const Add = new NodeDescription(
-  'math/add/mat4',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['mat4', 'mat4'], 'mat4', mat4Add)
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/mat4',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'mat4'],
-      'mat4',
-      mat4Subtract
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/mat4',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Negate)
-);
-export const MultiplyByScalar = new NodeDescription(
-  'math/multiplyByScalar/mat4',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'float'],
-      'mat4',
-      mat4MultiplyByScalar
-    )
-);
-export const Determinant = new NodeDescription(
-  'math/determinant/mat4',
-  'Logic',
-  'Determinant',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'float', mat4Determinant)
-);
+export const Add = new FunctionNodeDesc({
+  name: 'math/add/mat4',
+  label: '+',
+  in: ['mat4', 'mat4'],
+  out: 'mat4',
+  exec: mat4Add
+});
 
-export const Adjoint = new NodeDescription(
-  'math/adjoint/mat4',
-  'Logic',
-  'Adjoint',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Adjoint)
-);
+export const Subtract = new FunctionNodeDesc({
+  name: 'math/subtract/mat4',
+  label: '-',
+  in: ['mat4', 'mat4'],
+  out: 'mat4',
+  exec: mat4Subtract
+});
 
-export const Inverse = new NodeDescription(
-  'math/inverse/mat4',
-  'Logic',
-  'Inverse',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Inverse)
-);
+export const Negate = new FunctionNodeDesc({
+  name: 'math/negate/mat4',
+  label: '-',
+  in: ['mat4'],
+  out: 'mat4',
+  exec: mat4Negate
+});
 
-export const Transpose = new NodeDescription(
-  'math/transpose/mat4',
-  'Logic',
-  'Transpose',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat4', mat4Transpose)
-);
+export const MultiplyByScalar = new FunctionNodeDesc({
+  name: 'math/multiplyByScalar/mat4',
+  label: '×',
+  in: ['mat4', 'float'],
+  out: 'mat4',
+  exec: mat4MultiplyByScalar
+});
 
-export const Mat3ToMat4 = new NodeDescription(
-  'math/toMat4/mat3',
-  'Logic',
-  'Mat3 To Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'mat4', mat3ToMat4)
-);
+export const Determinant = new FunctionNodeDesc({
+  name: 'math/determinant/mat4',
+  label: 'Determinant',
+  in: ['mat4'],
+  out: 'float',
+  exec: mat4Determinant
+});
 
-export const Scale3ToMat4 = new NodeDescription(
-  'math/toMat4/scale3',
-  'Logic',
-  'Scale3 To Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec3'], 'mat4', scale3ToMat4)
-);
-export const Translate3ToMat4 = new NodeDescription(
-  'math/toMat4/translate3',
-  'Logic',
-  'Translate3 To Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['vec3'],
-      'mat4',
-      translation3ToMat4
-    )
-);
-export const QuatToMat4 = new NodeDescription(
-  'math/toMat4/quat',
-  'Logic',
-  'Quat To Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'mat4', quatToMat4)
-);
-export const EulerToMat4 = new NodeDescription(
-  'math/toMat4/euler',
-  'Logic',
-  'Euler To Mat4',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['euler'], 'mat4', eulerToMat4)
-);
+export const Adjoint = new FunctionNodeDesc({
+  name: 'math/adjoint/mat4',
+  label: 'Adjoint',
+  in: ['mat4'],
+  out: 'mat4',
+  exec: mat4Adjoint
+});
 
-export const Translate = new NodeDescription(
-  'math/translate/mat4',
-  'Logic',
-  'Translate',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'vec3'],
-      'mat4',
-      mat4Translate
-    )
-);
-export const Scale = new NodeDescription(
-  'math/scale/mat4',
-  'Logic',
-  'Scale',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['mat4', 'vec3'], 'mat4', mat4Scale)
-);
-export const RotateByQuat = new NodeDescription(
-  'math/rotateByQuat/mat4',
-  'Logic',
-  'Rotate',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'quat'],
-      'mat4',
-      mat4RotateByQuat
-    )
-);
-export const RotateByEuler = new NodeDescription(
-  'math/rotateByEuler/mat4',
-  'Logic',
-  'Rotate',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'euler'],
-      'mat4',
-      mat4RotateByEuler
-    )
-);
+export const Inverse = new FunctionNodeDesc({
+  name: 'math/inverse/mat4',
+  label: 'Inverse',
+  in: ['mat4'],
+  out: 'mat4',
+  exec: mat4Inverse
+});
 
-export const Multiply = new NodeDescription(
-  'math/multiply/mat4',
-  'Logic',
-  'Cross',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'mat4'],
-      'mat4',
-      mat4Multiply
-    )
-);
-export const Mix = new NodeDescription(
-  'math/mix/mat4',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'mat4', 'float'],
-      'mat4',
-      mat4Mix,
-      ['a', 'b', 't']
-    )
-);
+export const Transpose = new FunctionNodeDesc({
+  name: 'math/transpose/mat4',
+  label: 'Transpose',
+  in: ['mat4'],
+  out: 'mat4',
+  exec: mat4Transpose
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/mat4',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'mat4', 'float'],
-      'boolean',
-      mat4Equals,
-      ['a', 'b', 'tolerance']
-    )
-);
+export const Mat3ToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/mat3',
+  label: 'Mat3 To Mat4',
+  in: ['mat3'],
+  out: 'mat4',
+  exec: mat3ToMat4
+});
 
-export const TransformPoint3 = new NodeDescription(
-  'math/transformPoint3/mat4',
-  'Logic',
-  'Transform Point3',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'vec3'],
-      'vec3',
-      mat4TransformPoint3
-    )
-);
+export const Scale3ToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/scale3',
+  label: 'Scale3 To Mat4',
+  in: ['vec3'],
+  out: 'mat4',
+  exec: scale3ToMat4
+});
 
-export const TransformNormal3 = new NodeDescription(
-  'math/transformNormal3/mat4',
-  'Logic',
-  'Transform Normal',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat4', 'vec3'],
-      'vec3',
-      mat4TransformNormal3
-    )
-);
+export const Translate3ToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/translate3',
+  label: 'Translate3 To Mat4',
+  in: ['vec3'],
+  out: 'mat4',
+  exec: translation3ToMat4
+});
 
-export const Perspective = new NodeDescription(
-  'math/perspective/mat4',
-  'Logic',
-  'Perspective',
-  (description, graph) =>
-    new In6Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float', 'float', 'float', 'float'],
-      'mat4',
-      mat4Perspective,
-      ['left', 'right', 'top', 'bottom', 'near', 'far']
-    )
-);
+export const QuatToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/quat',
+  label: 'Quat To Mat4',
+  in: ['quat'],
+  out: 'mat4',
+  exec: quatToMat4
+});
 
-export const PerspectiveFov = new NodeDescription(
-  'math/perspectiveFov/mat4',
-  'Logic',
-  'Perspective FOV',
-  (description, graph) =>
-    new In5Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float', 'float', 'float'],
-      'mat4',
-      mat4PerspectiveFov,
-      ['verticalFov', 'near', 'far', 'zoom', 'aspectRatio']
-    )
-);
+export const EulerToMat4 = new FunctionNodeDesc({
+  name: 'math/toMat4/euler',
+  label: 'Euler To Mat4',
+  in: ['euler'],
+  out: 'mat4',
+  exec: eulerToMat4
+});
 
-export const Orthographic = new NodeDescription(
-  'math/orthographic/mat4',
-  'Logic',
-  'Orthographic',
-  (description, graph) =>
-    new In6Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float', 'float', 'float', 'float'],
-      'mat4',
-      mat4Orthogonal,
-      ['left', 'right', 'top', 'bottom', 'near', 'far']
-    )
-);
+export const Translate = new FunctionNodeDesc({
+  name: 'math/translate/mat4',
+  label: 'Translate',
+  in: ['mat4', 'vec3'],
+  out: 'mat4',
+  exec: mat4Translate
+});
 
-export const OrthographicSimple = new NodeDescription(
-  'math/orthographicSimple/mat4',
-  'Logic',
-  'Orthographic Simple',
-  (description, graph) =>
-    new In6Out1FuncNode(
-      description,
-      graph,
-      ['float', 'vec2', 'float', 'float', 'float', 'float'],
-      'mat4',
-      mat4OrthogonalSimple,
-      ['height', 'center', 'near', 'far', 'zoom', 'aspectRatio']
-    )
-);
+export const Scale = new FunctionNodeDesc({
+  name: 'math/scale/mat4',
+  label: 'Scale',
+  in: ['mat4', 'vec3'],
+  out: 'mat4',
+  exec: mat4Scale
+});
 
-export const LookAt = new NodeDescription(
-  'math/lookAt/mat4',
-  'Logic',
-  'Look At',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'vec3', 'vec3'],
-      'mat4',
-      mat4LookAt,
-      ['eye', 'target', 'up']
-    )
-);
+export const RotateByQuat = new FunctionNodeDesc({
+  name: 'math/rotateByQuat/mat4',
+  label: 'Rotate',
+  in: ['mat4', 'quat'],
+  out: 'mat4',
+  exec: mat4RotateByQuat
+});
+
+export const RotateByEuler = new FunctionNodeDesc({
+  name: 'math/rotateByEuler/mat4',
+  label: 'Rotate',
+  in: ['mat4', 'euler'],
+  out: 'mat4',
+  exec: mat4RotateByEuler
+});
+
+export const Multiply = new FunctionNodeDesc({
+  name: 'math/multiply/mat4',
+  label: 'Cross',
+  in: ['mat4', 'mat4'],
+  out: 'mat4',
+  exec: mat4Multiply
+});
+
+export const Mix = new FunctionNodeDesc({
+  name: 'math/mix/mat4',
+  label: '÷',
+  in: { a: 'mat4', b: 'mat4', t: 'float' },
+  out: 'mat4',
+  exec: mat4Mix
+});
+
+export const Equal = new FunctionNodeDesc({
+  name: 'math/equal/mat4',
+  label: '=',
+  in: { a: 'mat4', b: 'mat4', tolerance: 'float' },
+  out: 'boolean',
+  exec: mat4Equals
+});
+
+export const TransformPoint3 = new FunctionNodeDesc({
+  name: 'math/transformPoint3/mat4',
+  label: 'Transform Point3',
+  in: ['mat4', 'vec3'],
+  out: 'vec3',
+  exec: mat4TransformPoint3
+});
+
+export const TransformNormal3 = new FunctionNodeDesc({
+  name: 'math/transformNormal3/mat4',
+  label: 'Transform Normal',
+  in: ['mat4', 'vec3'],
+  out: 'vec3',
+  exec: mat4TransformNormal3
+});
+
+export const Perspective = new FunctionNodeDesc({
+  name: 'math/perspective/mat4',
+  label: 'Perspective',
+  in: {
+    left: 'float',
+    right: 'float',
+    top: 'float',
+    bottom: 'float',
+    near: 'float',
+    far: 'float'
+  },
+  out: 'mat4',
+  exec: mat4Perspective
+});
+
+export const PerspectiveFov = new FunctionNodeDesc({
+  name: 'math/perspectiveFov/mat4',
+  label: 'Perspective FOV',
+  in: {
+    verticalFov: 'float',
+    near: 'float',
+    far: 'float',
+    zoom: 'float',
+    aspectRatio: 'float'
+  },
+  out: 'mat4',
+  exec: mat4PerspectiveFov
+});
+
+export const Orthographic = new FunctionNodeDesc({
+  name: 'math/orthographic/mat4',
+  label: 'Orthographic',
+  in: {
+    left: 'float',
+    right: 'float',
+    top: 'float',
+    bottom: 'float',
+    near: 'float',
+    far: 'float'
+  },
+  out: 'mat4',
+  exec: mat4Orthogonal
+});
+
+export const OrthographicSimple = new FunctionNodeDesc({
+  name: 'math/orthographicSimple/mat4',
+  label: 'Orthographic Simple',
+  in: {
+    height: 'float',
+    center: 'vec2',
+    near: 'float',
+    far: 'float',
+    zoom: 'float',
+    aspectRatio: 'float'
+  },
+  out: 'mat4',
+  exec: mat4OrthogonalSimple
+});
+
+export const LookAt = new FunctionNodeDesc({
+  name: 'math/lookAt/mat4',
+  label: 'Look At',
+  in: { eye: 'vec3', target: 'vec3', up: 'vec3' },
+  out: 'mat4',
+  exec: mat4LookAt
+});

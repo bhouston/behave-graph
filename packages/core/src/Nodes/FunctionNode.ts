@@ -35,11 +35,21 @@ export class FunctionNodeDesc extends NodeDescription {
     out: { [name: string]: string } | string;
     exec: (...args: any[]) => any;
   }) {
-    const inMap = props.in ?? {};
-    const outMap = props.out;
+    const alpha = 'abcdefghijklmnop';
+    let inMap: { [name: string]: string } = {};
+    if (Array.isArray(props.in)) {
+      props.in.forEach((value, index) => {
+        inMap[alpha[index]] = value;
+      });
+    } else if (props.in !== undefined) {
+      inMap = props.in;
+    }
+    const outMap =
+      typeof props.out === 'string' ? { result: props.out } : props.out;
     super(
       props.name,
-      label:    props.label ?? props.name,
+      'Logic',
+      props.label ?? props.name,
       (description, graph) => {
         return new FunctionNode(
           description,
@@ -55,13 +65,3 @@ export class FunctionNodeDesc extends NodeDescription {
     );
   }
 }
-// only single return value/
-export type SimpleFuncSpec = {
-  name: string;
-  aliases?: string[]; // for backwards compatibility
-  keywords?: string[];
-  description?: string;
-  in: { [name: string]: ValueType };
-  out: ValueType; // the value type of the output in this case, not a map.
-  exec: (...args: any[]) => any;
-};

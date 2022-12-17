@@ -1,8 +1,5 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In0Out1FuncNode } from '../../../Nodes/Templates/In0Out1FuncNode';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
+import { FunctionNodeDesc } from 'packages/core/src/Nodes/FunctionNode';
+
 import {
   degreesToRadians,
   equalsTolerance,
@@ -11,459 +8,348 @@ import {
 
 // Unreal Engine Blueprint Float nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Float/
 
-export const Constant = new NodeDescription(
-  'math/float',
-  'Logic',
-  'Float',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['float'],
-      'float',
-      (a: number) => a
-    )
-);
+export const Constant = new FunctionNodeDesc({
+  name: 'math/float',
+  label: 'Float',
+  in: ['float'],
+  out: 'float',
+  exec: (a: number) => a
+});
 
-export const Add = new NodeDescription(
-  'math/add/float',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => a + b
-    )
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/float',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => a - b
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/float',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['float'],
-      'float',
-      (a: number) => -a
-    )
-);
+export const Add = new FunctionNodeDesc({
+  name: 'math/add/float',
+  label: '+',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => a + b
+});
 
-export const Multiply = new NodeDescription(
-  'math/multiply/float',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => a * b
-    )
-);
-export const Divide = new NodeDescription(
-  'math/divide/float',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => a / b
-    )
-);
-export const Modulus = new NodeDescription(
-  'math/modulus/float',
-  'Logic',
-  'MOD',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => a % b
-    )
-);
+export const Subtract = new FunctionNodeDesc({
+  name: 'math/subtract/float',
+  label: '-',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => a - b
+});
 
-export const Power = new NodeDescription(
-  'math/pow/float',
-  'Logic',
-  'POW',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      Math.pow
-    )
-);
-export const SquareRoot = new NodeDescription(
-  'math/sqrt/float',
-  'Logic',
-  '√',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sqrt)
-);
+export const Negate = new FunctionNodeDesc({
+  name: 'math/negate/float',
+  label: '-',
+  in: ['float'],
+  out: 'float',
+  exec: (a: number) => -a
+});
 
-export const E = new NodeDescription(
-  'math/e/float',
-  'Logic',
-  '𝑒',
-  (description, graph) =>
-    new In0Out1FuncNode(description, graph, 'float', () => Math.E)
-);
-export const Exp = new NodeDescription(
-  'math/exp/float',
-  'Logic',
-  'EXP',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.exp)
-);
-export const Ln = new NodeDescription(
-  'math/ln/float',
-  'Logic',
-  'LN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log)
-);
-export const Log2 = new NodeDescription(
-  'math/log2/float',
-  'Logic',
-  'LOG2',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log2)
-);
-export const Log10 = new NodeDescription(
-  'math/log10/float',
-  'Logic',
-  'LOG10',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.log10)
-);
+export const Multiply = new FunctionNodeDesc({
+  name: 'math/multiply/float',
+  label: '×',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => a * b
+});
 
-export const PI = new NodeDescription(
-  'math/pi/float',
-  'Logic',
-  'π',
-  (description, graph) =>
-    new In0Out1FuncNode(description, graph, 'float', () => Math.PI)
-);
-export const Sin = new NodeDescription(
-  'math/sin/float',
-  'Logic',
-  'SIN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sin)
-);
-export const Asin = new NodeDescription(
-  'math/asin/float',
-  'Logic',
-  'ASIN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.asin)
-);
-export const Cos = new NodeDescription(
-  'math/cos/float',
-  'Logic',
-  'COS',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.cos)
-);
-export const Acos = new NodeDescription(
-  'math/acos/float',
-  'Logic',
-  'ACOS',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.acos)
-);
-export const Tan = new NodeDescription(
-  'math/tan/float',
-  'Logic',
-  'TAN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.tan)
-);
+export const Divide = new FunctionNodeDesc({
+  name: 'math/divide/float',
+  label: '÷',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => a / b
+});
 
-export const RadiansToDegrees = new NodeDescription(
-  'math/radiansToDegrees/float',
-  'Logic',
-  'To Degrees',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['float'],
-      'float',
-      (a: number) => radiansToDegrees(a),
-      ['radian']
-    )
-);
-export const DegreesToRadians = new NodeDescription(
-  'math/degreesToRadians/float',
-  'Logic',
-  'To Radians',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['float'],
-      'float',
-      (a: number) => degreesToRadians(a),
-      ['degrees']
-    )
-);
+export const Modulus = new FunctionNodeDesc({
+  name: 'math/modulus/float',
+  label: 'MOD',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => a % b
+});
 
-export const Atan = new NodeDescription(
-  'math/atan/float',
-  'Logic',
-  'ATAN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.atan)
-);
+export const Power = new FunctionNodeDesc({
+  name: 'math/pow/float',
+  label: 'POW',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: Math.pow
+});
 
-export const Mix = new NodeDescription(
-  'math/mix/float',
-  'Logic',
-  'MIX',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float'],
-      'float',
-      (a: number, b: number, t: number) => {
-        const s = 1 - t;
-        return a * s + b * t;
-      },
-      ['a', 'b', 't']
-    )
-);
+export const SquareRoot = new FunctionNodeDesc({
+  name: 'math/sqrt/float',
+  label: '√',
+  in: ['float'],
+  out: 'float',
+  exec: Math.sqrt
+});
 
-export const ToFloat = new NodeDescription(
-  'math/toFloat/float',
-  'Logic',
-  'To Float',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', (a: number) =>
-      Number(a)
-    )
-);
+export const E = new FunctionNodeDesc({
+  name: 'math/e/float',
+  label: '𝑒',
+  out: 'float',
+  exec: () => Math.E
+});
 
-export const Min = new NodeDescription(
-  'math/min/float',
-  'Logic',
-  'MIN',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => Math.min(a, b) // TODO: can I jsut pass in Math.min?
-    )
-);
-export const Max = new NodeDescription(
-  'math/max/float',
-  'Logic',
-  'MAX',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'float',
-      (a: number, b: number) => Math.max(a, b) // TODO: can I jsut pass in Math.max?
-    )
-);
-export const Clamp = new NodeDescription(
-  'math/clamp/float',
-  'Logic',
-  'CLAMP',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float'],
-      'float',
-      (value: number, min: number, max: number) =>
-        value < min ? min : value > max ? max : value,
-      ['value', 'min', 'max']
-    )
-);
+export const Exp = new FunctionNodeDesc({
+  name: 'math/exp/float',
+  label: 'EXP',
+  in: ['float'],
+  out: 'float',
+  exec: Math.exp
+});
 
-export const Abs = new NodeDescription(
-  'math/abs/float',
-  'Logic',
-  'ABS',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.abs)
-);
-export const Sign = new NodeDescription(
-  'math/sign/float',
-  'Logic',
-  'SIGN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.sign)
-);
+export const Ln = new FunctionNodeDesc({
+  name: 'math/ln/float',
+  label: 'LN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.log
+});
 
-export const Floor = new NodeDescription(
-  'math/floor/float',
-  'Logic',
-  'FLOOR',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.floor)
-);
-export const Ceil = new NodeDescription(
-  'math/ceil/float',
-  'Logic',
-  'CEIL',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.ceil)
-);
-export const Round = new NodeDescription(
-  'math/round/float',
-  'Logic',
-  'ROUND',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.round)
-);
-export const Trunc = new NodeDescription(
-  'math/trunc/float',
-  'Logic',
-  'TRUNC',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'float', Math.trunc)
-);
+export const Log2 = new FunctionNodeDesc({
+  name: 'math/log2/float',
+  label: 'LOG2',
+  in: ['float'],
+  out: 'float',
+  exec: Math.log2
+});
 
-export const Random = new NodeDescription(
-  'math/random/float',
-  'Logic',
-  'RANDOM',
-  (description, graph) =>
-    new In0Out1FuncNode(description, graph, 'float', Math.random)
-);
+export const Log10 = new FunctionNodeDesc({
+  name: 'math/log10/float',
+  label: 'LOG10',
+  in: ['float'],
+  out: 'float',
+  exec: Math.log10
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/float',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'boolean',
-      (a: number, b: number) => a === b,
-      ['a', 'b']
-    )
-);
+export const PI = new FunctionNodeDesc({
+  name: 'math/pi/float',
+  label: 'π',
+  out: 'float',
+  exec: () => Math.PI
+});
 
-export const EqualTolerance = new NodeDescription(
-  'math/equalTolerance/float',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float', 'float'],
-      'boolean',
-      (a: number, b: number, tolerance: number) =>
-        equalsTolerance(a, b, tolerance),
-      ['a', 'b', 'tolerance']
-    )
-);
-export const GreaterThan = new NodeDescription(
-  'math/greaterThan/float',
-  'Logic',
-  '>',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'boolean',
-      (a: number, b: number) => a > b
-    )
-);
-export const GreaterThanOrEqual = new NodeDescription(
-  'math/greaterThanOrEqual/float',
-  'Logic',
-  '≥',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'boolean',
-      (a: number, b: number) => a >= b
-    )
-);
-export const LessThan = new NodeDescription(
-  'math/lessThan/float',
-  'Logic',
-  '<',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'boolean',
-      (a: number, b: number) => a < b
-    )
-);
-export const LessThanOrEqual = new NodeDescription(
-  'math/lessThanOrEqual/float',
-  'Logic',
-  '≤',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'boolean',
-      (a: number, b: number) => a <= b
-    )
-);
+export const Sin = new FunctionNodeDesc({
+  name: 'math/sin/float',
+  label: 'SIN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.sin
+});
 
-export const IsNaN = new NodeDescription(
-  'math/isNaN/float',
-  'Logic',
-  'isNaN',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['float'], 'boolean', Number.isNaN)
-);
-export const IsInf = new NodeDescription(
-  'math/isInf/float',
-  'Logic',
-  'isInf',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['float'],
-      'boolean',
-      (a: number) => !Number.isFinite(a) && !Number.isNaN(a)
-    )
-);
+export const Asin = new FunctionNodeDesc({
+  name: 'math/asin/float',
+  label: 'ASIN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.asin
+});
+
+export const Cos = new FunctionNodeDesc({
+  name: 'math/cos/float',
+  label: 'COS',
+  in: ['float'],
+  out: 'float',
+  exec: Math.cos
+});
+
+export const Acos = new FunctionNodeDesc({
+  name: 'math/acos/float',
+  label: 'ACOS',
+  in: ['float'],
+  out: 'float',
+  exec: Math.acos
+});
+
+export const Tan = new FunctionNodeDesc({
+  name: 'math/tan/float',
+  label: 'TAN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.tan
+});
+
+export const RadiansToDegrees = new FunctionNodeDesc({
+  name: 'math/radiansToDegrees/float',
+  label: 'To Degrees',
+  in: ['float'],
+  out: 'float',
+  exec: radiansToDegrees
+});
+
+export const DegreesToRadians = new FunctionNodeDesc({
+  name: 'math/degreesToRadians/float',
+  label: 'To Radians',
+  in: ['float'],
+  out: 'float',
+  exec: degreesToRadians
+});
+
+export const Atan = new FunctionNodeDesc({
+  name: 'math/atan/float',
+  label: 'ATAN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.atan
+});
+
+export const Mix = new FunctionNodeDesc({
+  name: 'math/mix/float',
+  label: 'MIX',
+  in: ['float', 'float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number, t: number) => {
+    const s = 1 - t;
+    return a * s + b * t;
+  }
+});
+
+export const ToFloat = new FunctionNodeDesc({
+  name: 'math/toFloat/float',
+  label: 'To Float',
+  in: ['float'],
+  out: 'float',
+  exec: (a: number) => Number(a)
+});
+
+export const Min = new FunctionNodeDesc({
+  name: 'math/min/float',
+  label: 'MIN',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => Math.min(a, b) // TODO: can I jsut pass in Math.min?
+});
+
+export const Max = new FunctionNodeDesc({
+  name: 'math/max/float',
+  label: 'MAX',
+  in: ['float', 'float'],
+  out: 'float',
+  exec: (a: number, b: number) => Math.max(a, b) // TODO: can I jsut pass in Math.max?
+});
+
+export const Clamp = new FunctionNodeDesc({
+  name: 'math/clamp/float',
+  label: 'CLAMP',
+  in: ['float', 'float', 'float'],
+  out: 'float',
+  exec: (value: number, min: number, max: number) =>
+    value < min ? min : value > max ? max : value
+});
+
+export const Abs = new FunctionNodeDesc({
+  name: 'math/abs/float',
+  label: 'ABS',
+  in: ['float'],
+  out: 'float',
+  exec: Math.abs
+});
+
+export const Sign = new FunctionNodeDesc({
+  name: 'math/sign/float',
+  label: 'SIGN',
+  in: ['float'],
+  out: 'float',
+  exec: Math.sign
+});
+
+export const Floor = new FunctionNodeDesc({
+  name: 'math/floor/float',
+  label: 'FLOOR',
+  in: ['float'],
+  out: 'float',
+  exec: Math.floor
+});
+
+export const Ceil = new FunctionNodeDesc({
+  name: 'math/ceil/float',
+  label: 'CEIL',
+  in: ['float'],
+  out: 'float',
+  exec: Math.ceil
+});
+
+export const Round = new FunctionNodeDesc({
+  name: 'math/round/float',
+  label: 'ROUND',
+  in: ['float'],
+  out: 'float',
+  exec: Math.round
+});
+
+export const Trunc = new FunctionNodeDesc({
+  name: 'math/trunc/float',
+  label: 'TRUNC',
+  in: ['float'],
+  out: 'float',
+  exec: Math.trunc
+});
+
+export const Random = new FunctionNodeDesc({
+  name: 'math/random/float',
+  label: 'RANDOM',
+  out: 'float',
+  exec: Math.random
+});
+
+export const Equal = new FunctionNodeDesc({
+  name: 'math/equal/float',
+  label: '=',
+  in: ['float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number) => a === b
+});
+
+export const EqualTolerance = new FunctionNodeDesc({
+  name: 'math/equalTolerance/float',
+  label: '=',
+  in: ['float', 'float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number, tolerance: number) =>
+    equalsTolerance(a, b, tolerance)
+});
+
+export const GreaterThan = new FunctionNodeDesc({
+  name: 'math/greaterThan/float',
+  label: '>',
+  in: ['float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number) => a > b
+});
+
+export const GreaterThanOrEqual = new FunctionNodeDesc({
+  name: 'math/greaterThanOrEqual/float',
+  label: '≥',
+  in: ['float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number) => a >= b
+});
+
+export const LessThan = new FunctionNodeDesc({
+  name: 'math/lessThan/float',
+  label: '<',
+  in: ['float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number) => a < b
+});
+
+export const LessThanOrEqual = new FunctionNodeDesc({
+  name: 'math/lessThanOrEqual/float',
+  label: '≤',
+  in: ['float', 'float'],
+  out: 'boolean',
+  exec: (a: number, b: number) => a <= b
+});
+
+export const IsNaN = new FunctionNodeDesc({
+  name: 'math/isNaN/float',
+  label: 'isNaN',
+  in: ['float'],
+  out: 'boolean',
+  exec: Number.isNaN
+});
+
+export const IsInf = new FunctionNodeDesc({
+  name: 'math/isInf/float',
+  label: 'isInf',
+  in: ['float'],
+  out: 'boolean',
+  exec: (a: number) => !Number.isFinite(a) && !Number.isNaN(a)
+});

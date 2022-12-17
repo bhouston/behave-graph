@@ -1,4 +1,4 @@
-import { FunctionNodeDesc } from 'packages/core/src/Nodes/FunctionNode';
+import { FunctionNodeDesc } from '../../../Nodes/FunctionNode';
 
 export const Constant = new FunctionNodeDesc({
   name: 'math/boolean',

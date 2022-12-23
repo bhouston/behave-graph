@@ -1,8 +1,4 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
-import { VecElements } from '../Logic/VecElements';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   Vec2,
   vec2Add,
@@ -10,132 +6,105 @@ import {
   vec2Equals,
   vec2Length,
   vec2Mix,
+  vec2MultiplyByScalar,
   vec2Negate,
   vec2Normalize,
-  vec2MultiplyByScalar,
   vec2Subtract,
   vec2ToArray
 } from './Internal/Vec2';
 
-export const Constant = new NodeDescription(
-  'math/vec2',
-  'Logic',
-  'Vec2',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec2'], 'vec2', (a: Vec2) => a)
-);
+export const Constant = new FunctionDesc({
+  name: 'math/vec2',
+  label: 'Vec2',
+  in: ['vec2'],
+  out: 'vec2',
+  exec: (a: Vec2) => a
+});
 
-export const Create = new NodeDescription(
-  'math/toVec2/float',
-  'Logic',
-  'Float to Vec2',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['float', 'float'],
-      'vec2',
-      (x: number, y: number) => new Vec2(x, y),
-      ['x', 'y']
-    )
-);
-export const Elements = new NodeDescription(
-  'math/toFloat/vec2',
-  'Logic',
-  'Vec2 To Float',
-  (description, graph) =>
-    new VecElements(description, graph, 'vec2', ['x', 'y', 'z'], vec2ToArray)
-);
+export const Create = new FunctionDesc({
+  name: 'math/toVec2/float',
+  label: 'Float to Vec2',
+  in: [{ x: 'float' }, { y: 'float' }],
+  out: 'vec2',
+  exec: (x: number, y: number) => new Vec2(x, y)
+});
 
-export const Add = new NodeDescription(
-  'math/add/vec2',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['vec2', 'vec2'], 'vec2', vec2Add)
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/vec2',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['vec2', 'vec2'],
-      'vec2',
-      vec2Subtract
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/vec2',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec2'], 'vec2', vec2Negate)
-);
+export const Elements = new FunctionDesc({
+  name: 'math/toFloat/vec2',
+  label: 'Vec2 To Float',
+  in: ['vec2'],
+  out: [{ x: 'float' }, { y: 'float' }],
+  exec: vec2ToArray
+});
 
-export const Scale = new NodeDescription(
-  'math/scale/vec2',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['vec2', 'float'],
-      'vec2',
-      vec2MultiplyByScalar
-    )
-);
-export const Length = new NodeDescription(
-  'math/length/vec2',
-  'Logic',
-  'Length',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec2'], 'float', vec2Length)
-);
-export const Normalize = new NodeDescription(
-  'math/normalize/vec2',
-  'Logic',
-  'Normalize',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec2'], 'vec2', vec2Normalize)
-);
-export const Dot = new NodeDescription(
-  'math/dot/vec2',
-  'Logic',
-  'Dot Product',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['vec2', 'vec2'], 'float', vec2Dot)
-);
+export const Add = new FunctionDesc({
+  name: 'math/add/vec2',
+  label: '+',
+  in: ['vec2', 'vec2'],
+  out: 'vec2',
+  exec: vec2Add
+});
 
-export const Mix = new NodeDescription(
-  'math/mix/vec2',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec2', 'vec2', 'float'],
-      'vec2',
-      vec2Mix,
-      ['a', 'b', 't']
-    )
-);
+export const Subtract = new FunctionDesc({
+  name: 'math/subtract/vec2',
+  label: '-',
+  in: ['vec2', 'vec2'],
+  out: 'vec2',
+  exec: vec2Subtract
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/vec2',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec2', 'vec2', 'float'],
-      'boolean',
-      vec2Equals,
-      ['a', 'b', 'tolerance']
-    )
-);
+export const Negate = new FunctionDesc({
+  name: 'math/negate/vec2',
+  label: '-',
+  in: ['vec2'],
+  out: 'vec2',
+  exec: vec2Negate
+});
+
+export const Scale = new FunctionDesc({
+  name: 'math/scale/vec2',
+  label: '×',
+  in: ['vec2', 'float'],
+  out: 'vec2',
+  exec: vec2MultiplyByScalar
+});
+
+export const Length = new FunctionDesc({
+  name: 'math/length/vec2',
+  label: 'Length',
+  in: ['vec2'],
+  out: 'float',
+  exec: vec2Length
+});
+
+export const Normalize = new FunctionDesc({
+  name: 'math/normalize/vec2',
+  label: 'Normalize',
+  in: ['vec2'],
+  out: 'vec2',
+  exec: vec2Normalize
+});
+
+export const Dot = new FunctionDesc({
+  name: 'math/dot/vec2',
+  label: 'Dot Product',
+  in: ['vec2', 'vec2'],
+  out: 'float',
+  exec: vec2Dot
+});
+
+export const Mix = new FunctionDesc({
+  name: 'math/mix/vec2',
+  label: '÷',
+  in: [{ a: 'vec2' }, { b: 'vec2' }, { t: 'float' }],
+  out: 'vec2',
+  exec: vec2Mix
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/vec2',
+  label: '=',
+  in: [{ a: 'vec2' }, { b: 'vec2' }, { tolerance: 'float' }],
+  out: 'boolean',
+  exec: vec2Equals
+});

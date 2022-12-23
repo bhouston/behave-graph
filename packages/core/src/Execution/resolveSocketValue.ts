@@ -54,7 +54,7 @@ export function resolveSocketValue(
     }
 
     engine.onNodeExecutionStart.emit(upstreamNode);
-    upstreamNode.exec();
+    upstreamNode.exec(upstreamNode);
     executionSteps++;
     engine.onNodeExecutionEnd.emit(upstreamNode);
 

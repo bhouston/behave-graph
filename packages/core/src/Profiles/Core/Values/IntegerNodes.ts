@@ -1,259 +1,156 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 
-export const Constant = new NodeDescription(
-  'math/integer',
-  'Logic',
-  'Integer',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['integer'],
-      'integer',
-      (a: bigint) => a
-    )
-);
+export const Constant = new FunctionDesc({
+  name: 'math/integer',
+  label: 'Integer',
+  in: ['integer'],
+  out: 'integer',
+  exec: (a: bigint) => a
+});
 
-export const Add = new NodeDescription(
-  'math/add/integer',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => a + b
-    )
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/integer',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => a - b
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/integer',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['integer'],
-      'integer',
-      (a: bigint) => -a
-    )
-);
+export const Add = new FunctionDesc({
+  name: 'math/add/integer',
+  label: '+',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => a + b
+});
 
-export const Multiply = new NodeDescription(
-  'math/multiply/integer',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => a * b
-    )
-);
-export const Divide = new NodeDescription(
-  'math/divide/integer',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => a / b
-    )
-);
-export const Modulus = new NodeDescription(
-  'math/modulus/integer',
-  'Logic',
-  'MOD',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => a % b
-    )
-);
+export const Subtract = new FunctionDesc({
+  name: 'math/subtract/integer',
+  label: '-',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => a - b
+});
 
-export const ToFloat = new NodeDescription(
-  'math/toFloat/integer',
-  'Logic',
-  'To Float',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['integer'], 'float', (a: bigint) =>
-      Number(a)
-    )
-);
+export const Negate = new FunctionDesc({
+  name: 'math/negate/integer',
+  label: '-',
+  in: ['integer'],
+  out: 'integer',
+  exec: (a: bigint) => -a
+});
 
-export const Min = new NodeDescription(
-  'math/min/integer',
-  'Logic',
-  'MIN',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => (a > b ? b : a)
-    )
-);
-export const Max = new NodeDescription(
-  'math/max/integer',
-  'Logic',
-  'MAX',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'integer',
-      (a: bigint, b: bigint) => (a > b ? a : b)
-    )
-);
-export const Clamp = new NodeDescription(
-  'math/clamp/integer',
-  'Logic',
-  'CLAMP',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer', 'integer'],
-      'integer',
-      (value: bigint, min: bigint, max: bigint) =>
-        value < min ? min : value > max ? max : value,
-      ['value', 'min', 'max']
-    )
-);
+export const Multiply = new FunctionDesc({
+  name: 'math/multiply/integer',
+  label: '×',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => a * b
+});
 
-export const Abs = new NodeDescription(
-  'math/abs/integer',
-  'Logic',
-  'ABS',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['integer'],
-      'integer',
-      (a: bigint) => (a < BigInt(0) ? -a : a)
-    )
-);
-export const Sign = new NodeDescription(
-  'math/sign/integer',
-  'Logic',
-  'SIGN',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['integer'],
-      'integer',
-      (a: bigint) => BigInt(a < 0 ? -1 : a > 0 ? 1 : 0)
-    )
-);
+export const Divide = new FunctionDesc({
+  name: 'math/divide/integer',
+  label: '÷',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => a / b
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/integer',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'boolean',
-      (a: bigint, b: bigint) => a === b
-    )
-);
-export const GreaterThan = new NodeDescription(
-  'math/greaterThan/integer',
-  'Logic',
-  '>',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'boolean',
-      (a: bigint, b: bigint) => a > b
-    )
-);
-export const GreaterThanOrEqual = new NodeDescription(
-  'math/greaterThanOrEqual/integer',
-  'Logic',
-  '≥',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'boolean',
-      (a: bigint, b: bigint) => a >= b
-    )
-);
-export const LessThan = new NodeDescription(
-  'math/lessThan/integer',
-  'Logic',
-  '<',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'boolean',
-      (a: bigint, b: bigint) => a < b
-    )
-);
-export const LessThanOrEqual = new NodeDescription(
-  'math/lessThanOrEqual/integer',
-  'Logic',
-  '≤',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['integer', 'integer'],
-      'boolean',
-      (a: bigint, b: bigint) => a <= b
-    )
-);
+export const Modulus = new FunctionDesc({
+  name: 'math/modulus/integer',
+  label: 'MOD',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => a % b
+});
 
-export const toBoolean = new NodeDescription(
-  'math/toBoolean/integer',
-  'Logic',
-  'To Boolean',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['integer'],
-      'boolean',
-      (a: bigint) => a !== 0n
-    )
-);
+export const ToFloat = new FunctionDesc({
+  name: 'math/toFloat/integer',
+  label: 'To Float',
+  in: ['integer'],
+  out: 'float',
+  exec: (a: bigint) => Number(a)
+});
+
+export const Min = new FunctionDesc({
+  name: 'math/min/integer',
+  label: 'MIN',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => (a > b ? b : a)
+});
+
+export const Max = new FunctionDesc({
+  name: 'math/max/integer',
+  label: 'MAX',
+  in: ['integer', 'integer'],
+  out: 'integer',
+  exec: (a: bigint, b: bigint) => (a > b ? a : b)
+});
+
+export const Clamp = new FunctionDesc({
+  name: 'math/clamp/integer',
+  label: 'CLAMP',
+  in: [{ value: 'integer' }, { min: 'integer' }, { max: 'integer' }],
+  out: 'integer',
+  exec: (value: bigint, min: bigint, max: bigint) =>
+    value < min ? min : value > max ? max : value
+});
+
+export const Abs = new FunctionDesc({
+  name: 'math/abs/integer',
+  label: 'ABS',
+  in: ['integer'],
+  out: 'integer',
+  exec: (a: bigint) => (a < BigInt(0) ? -a : a)
+});
+
+export const Sign = new FunctionDesc({
+  name: 'math/sign/integer',
+  label: 'SIGN',
+  in: ['integer'],
+  out: 'integer',
+  exec: (a: bigint) => BigInt(a < 0 ? -1 : a > 0 ? 1 : 0)
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/integer',
+  label: '=',
+  in: ['integer', 'integer'],
+  out: 'boolean',
+  exec: (a: bigint, b: bigint) => a === b
+});
+
+export const GreaterThan = new FunctionDesc({
+  name: 'math/greaterThan/integer',
+  label: '>',
+  in: ['integer', 'integer'],
+  out: 'boolean',
+  exec: (a: bigint, b: bigint) => a > b
+});
+
+export const GreaterThanOrEqual = new FunctionDesc({
+  name: 'math/greaterThanOrEqual/integer',
+  label: '≥',
+  in: ['integer', 'integer'],
+  out: 'boolean',
+  exec: (a: bigint, b: bigint) => a >= b
+});
+
+export const LessThan = new FunctionDesc({
+  name: 'math/lessThan/integer',
+  label: '<',
+  in: ['integer', 'integer'],
+  out: 'boolean',
+  exec: (a: bigint, b: bigint) => a < b
+});
+
+export const LessThanOrEqual = new FunctionDesc({
+  name: 'math/lessThanOrEqual/integer',
+  label: '≤',
+  in: ['integer', 'integer'],
+  out: 'boolean',
+  exec: (a: bigint, b: bigint) => a <= b
+});
+
+export const toBoolean = new FunctionDesc({
+  name: 'math/toBoolean/integer',
+  label: 'To Boolean',
+  in: ['integer'],
+  out: 'boolean',
+  exec: (a: bigint) => a !== 0n
+});

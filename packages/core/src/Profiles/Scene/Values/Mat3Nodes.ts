@@ -1,8 +1,4 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
-import { In3Out1FuncNode } from '../../../Nodes/Templates/In3Out1FuncNode';
-import { VecElements } from '../Logic/VecElements';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   column3ToMat3,
   eulerToMat3,
@@ -26,231 +22,180 @@ import {
   translation2ToMat3
 } from './Internal/Mat3';
 
-export const Constant = new NodeDescription(
-  'math/mat3',
-  'Logic',
-  'Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', (a: Mat3) => a)
-);
+export const Constant = new FunctionDesc({
+  name: 'math/mat3',
+  label: 'Mat3',
+  in: ['mat3'],
+  out: 'mat3',
+  exec: (a: Mat3) => a
+});
 
-export const Column3ToMat3 = new NodeDescription(
-  'math/toMat3/column3',
-  'Logic',
-  'Columns to Mat3',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['vec3', 'vec3', 'vec3'],
-      'mat3',
-      column3ToMat3
-    )
-);
+export const Column3ToMat3 = new FunctionDesc({
+  name: 'math/toMat3/column3',
+  label: 'Columns to Mat3',
+  in: ['vec3', 'vec3', 'vec3'],
+  out: 'mat3',
+  exec: column3ToMat3
+});
 
-export const SetColumn = new NodeDescription(
-  'math/setColumn/mat3',
-  'Logic',
-  'Set Column',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'integer', 'vec3'],
-      'mat3',
-      mat3SetColumn3
-    )
-);
+export const SetColumn = new FunctionDesc({
+  name: 'math/setColumn/mat3',
+  label: 'Set Column',
+  in: ['mat3', 'integer', 'vec3'],
+  out: 'mat3',
+  exec: mat3SetColumn3
+});
 
-export const SetRow = new NodeDescription(
-  'math/setRow/mat3',
-  'Logic',
-  'Set Row',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'integer', 'vec3'],
-      'mat3',
-      mat3SetRow3
-    )
-);
+export const SetRow = new FunctionDesc({
+  name: 'math/setRow/mat3',
+  label: 'Set Row',
+  in: ['mat3', 'integer', 'vec3'],
+  out: 'mat3',
+  exec: mat3SetRow3
+});
 
-export const Elements = new NodeDescription(
-  'math/toVec3/mat3',
-  'Logic',
-  'Mat3 To Vec3',
-  (description, graph) =>
-    new VecElements(description, graph, 'mat3', ['x', 'y', 'z'], () => {
-      throw new Error('not implemented');
-    })
-);
+export const Elements = new FunctionDesc({
+  name: 'math/toVec3/mat3',
+  label: 'Mat3 To Vec3',
+  in: ['mat3'],
+  out: [{ x: 'vec3' }, { y: 'vec3' }, { z: 'vec3' }],
+  exec: (a: Mat3) => {
+    throw new Error('not implemented');
+  }
+});
 
-export const Add = new NodeDescription(
-  'math/add/mat3',
-  'Logic',
-  '+',
-  (description, graph) =>
-    new In2Out1FuncNode(description, graph, ['mat3', 'mat3'], 'mat3', mat3Add)
-);
-export const Subtract = new NodeDescription(
-  'math/subtract/mat3',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'mat3'],
-      'mat3',
-      mat3Subtract
-    )
-);
-export const Negate = new NodeDescription(
-  'math/negate/mat3',
-  'Logic',
-  '-',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', mat3Negate)
-);
-export const Scale = new NodeDescription(
-  'math/scale/mat3',
-  'Logic',
-  '×',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'float'],
-      'mat3',
-      mat3MultiplyByScalar
-    )
-);
-export const Determinant = new NodeDescription(
-  'math/determinant/mat3',
-  'Logic',
-  'Determinant',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'float', mat3Determinant)
-);
-export const Inverse = new NodeDescription(
-  'math/inverse/mat3',
-  'Logic',
-  'Inverse',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', mat3Inverse)
-);
-export const Mat4ToMat3 = new NodeDescription(
-  'math/toMat3/mat4',
-  'Logic',
-  'Mat4 To Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat4'], 'mat3', mat4ToMat3)
-);
-export const Transpose = new NodeDescription(
-  'math/transpose/mat3',
-  'Logic',
-  'Transpose',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'mat3', mat3Transpose)
-);
-export const Multiply = new NodeDescription(
-  'math/multiply/mat3',
-  'Logic',
-  'Cross',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'mat3'],
-      'mat3',
-      mat3Multiply
-    )
-);
-export const Mix = new NodeDescription(
-  'math/mix/mat3',
-  'Logic',
-  '÷',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'mat3', 'float'],
-      'mat3',
-      mat3Mix,
-      ['a', 'b', 't']
-    )
-);
+export const Add = new FunctionDesc({
+  name: 'math/add/mat3',
+  label: '+',
+  in: ['mat3', 'mat3'],
+  out: 'mat3',
+  exec: mat3Add
+});
 
-export const Equal = new NodeDescription(
-  'math/equal/mat3',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In3Out1FuncNode(
-      description,
-      graph,
-      ['mat3', 'mat3', 'float'],
-      'boolean',
-      mat3Equals,
-      ['a', 'b', 'tolerance']
-    )
-);
+export const Subtract = new FunctionDesc({
+  name: 'math/subtract/mat3',
+  label: '-',
+  in: ['mat3', 'mat3'],
+  out: 'mat3',
+  exec: mat3Subtract
+});
 
-export const EulerToMat3 = new NodeDescription(
-  'math/toMat3/euler',
-  'Logic',
-  'To Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['euler'], 'mat3', eulerToMat3)
-);
+export const Negate = new FunctionDesc({
+  name: 'math/negate/mat3',
+  label: '-',
+  in: ['mat3'],
+  out: 'mat3',
+  exec: mat3Negate
+});
 
-export const QuatToMat3 = new NodeDescription(
-  'math/toMat3/quat',
-  'Logic',
-  'To Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['quat'], 'mat3', eulerToMat3)
-);
+export const Scale = new FunctionDesc({
+  name: 'math/scale/mat3',
+  label: '×',
+  in: ['mat3', 'float'],
+  out: 'mat3',
+  exec: mat3MultiplyByScalar
+});
 
-export const Scale2ToMat3 = new NodeDescription(
-  'math/toMat3/scale2',
-  'Logic',
-  'Scale2 To Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['vec2'], 'mat3', scale2ToMat3)
-);
-export const Mat3ToScale2 = new NodeDescription(
-  'math/toScale2/mat3',
-  'Logic',
-  'Mat3 to Scale2',
-  (description, graph) =>
-    new In1Out1FuncNode(description, graph, ['mat3'], 'vec2', mat3ToScale2)
-);
+export const Determinant = new FunctionDesc({
+  name: 'math/determinant/mat3',
+  label: 'Determinant',
+  in: ['mat3'],
+  out: 'float',
+  exec: mat3Determinant
+});
 
-export const Translation2ToMat3 = new NodeDescription(
-  'math/toMat3/translation2',
-  'Logic',
-  'Translation2 To Mat3',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['vec2'],
-      'mat3',
-      translation2ToMat3
-    )
-);
-export const Mat3ToTranslation3 = new NodeDescription(
-  'math/toTranslation2/mat3',
-  'Logic',
-  'Mat3 to Translation2',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['mat3'],
-      'vec2',
-      mat3ToTranslation2
-    )
-);
+export const Inverse = new FunctionDesc({
+  name: 'math/inverse/mat3',
+  label: 'Inverse',
+  in: ['mat3'],
+  out: 'mat3',
+  exec: mat3Inverse
+});
+
+export const Mat4ToMat3 = new FunctionDesc({
+  name: 'math/toMat3/mat4',
+  label: 'Mat4 To Mat3',
+  in: ['mat4'],
+  out: 'mat3',
+  exec: mat4ToMat3
+});
+
+export const Transpose = new FunctionDesc({
+  name: 'math/transpose/mat3',
+  label: 'Transpose',
+  in: ['mat3'],
+  out: 'mat3',
+  exec: mat3Transpose
+});
+
+export const Multiply = new FunctionDesc({
+  name: 'math/multiply/mat3',
+  label: 'Cross',
+  in: ['mat3', 'mat3'],
+  out: 'mat3',
+  exec: mat3Multiply
+});
+
+export const Mix = new FunctionDesc({
+  name: 'math/mix/mat3',
+  label: '÷',
+  in: [{ a: 'mat3' }, { b: 'mat3' }, { t: 'float' }],
+  out: 'mat3',
+  exec: mat3Mix
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/mat3',
+  label: '=',
+  in: [{ a: 'mat3' }, { b: 'mat3' }, { tolerance: 'float' }],
+  out: 'boolean',
+  exec: mat3Equals
+});
+
+export const EulerToMat3 = new FunctionDesc({
+  name: 'math/toMat3/euler',
+  label: 'To Mat3',
+  in: ['euler'],
+  out: 'mat3',
+  exec: eulerToMat3
+});
+
+export const QuatToMat3 = new FunctionDesc({
+  name: 'math/toMat3/quat',
+  label: 'To Mat3',
+  in: ['quat'],
+  out: 'mat3',
+  exec: eulerToMat3
+});
+
+export const Scale2ToMat3 = new FunctionDesc({
+  name: 'math/toMat3/scale2',
+  label: 'Scale2 To Mat3',
+  in: ['vec2'],
+  out: 'mat3',
+  exec: scale2ToMat3
+});
+
+export const Mat3ToScale2 = new FunctionDesc({
+  name: 'math/toScale2/mat3',
+  label: 'Mat3 to Scale2',
+  in: ['mat3'],
+  out: 'vec2',
+  exec: mat3ToScale2
+});
+
+export const Translation2ToMat3 = new FunctionDesc({
+  name: 'math/toMat3/translation2',
+  label: 'Translation2 To Mat3',
+  in: ['vec2'],
+  out: 'mat3',
+  exec: translation2ToMat3
+});
+
+export const Mat3ToTranslation3 = new FunctionDesc({
+  name: 'math/toTranslation2/mat3',
+  label: 'Mat3 to Translation2',
+  in: ['mat3'],
+  out: 'vec2',
+  exec: mat3ToTranslation2
+});

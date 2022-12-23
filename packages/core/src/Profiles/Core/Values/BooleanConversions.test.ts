@@ -2,7 +2,6 @@ import { Graph } from '../../../Graphs/Graph';
 import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { Node } from '../../../Nodes/Node';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { inputSocketName, resultNodeName } from '../../../Nodes/Templates/keys';
 import { Registry } from '../../../Registry';
 import { toInteger } from './BooleanNodes';
 import { toBoolean as intToBoolean } from './IntegerNodes';
@@ -41,23 +40,23 @@ describe('Boolean Conversions', () => {
       node = makeFunctionNodeWithEmptyGraph(intToBoolean);
     });
     it.only('writes to the output false when the input value is 0', () => {
-      setInputSocketValue(node, inputSocketName.a, 0n);
-      node.exec();
+      setInputSocketValue(node, 'a', 0n);
+      node.exec(node);
 
-      expect(getOutputSocketValue(node, resultNodeName)).toEqual(false);
+      expect(getOutputSocketValue(node, 'result')).toEqual(false);
     });
     it('writes to the output true when the input value is non-zero', () => {
       // set value to 1
-      setInputSocketValue(node, inputSocketName.a, 1n);
-      node.exec();
+      setInputSocketValue(node, 'a', 1n);
+      node.exec(node);
 
-      expect(getOutputSocketValue(node, resultNodeName)).toEqual(true);
+      expect(getOutputSocketValue(node, 'result')).toEqual(true);
 
       // set value to 5
-      setInputSocketValue(node, inputSocketName.a, 5n);
-      node.exec();
+      setInputSocketValue(node, 'a', 5n);
+      node.exec(node);
 
-      expect(getOutputSocketValue(node, resultNodeName)).toEqual(true);
+      expect(getOutputSocketValue(node, 'result')).toEqual(true);
     });
   });
 
@@ -68,18 +67,18 @@ describe('Boolean Conversions', () => {
       node = makeFunctionNodeWithEmptyGraph(toInteger);
     });
     it.only('writes to the output 1 when the input value is true', () => {
-      setInputSocketValue(node, inputSocketName.a, true);
-      node.exec();
+      setInputSocketValue(node, 'a', true);
+      node.exec(node);
 
-      const outputValue = getOutputSocketValue(node, resultNodeName);
+      const outputValue = getOutputSocketValue(node, 'result');
 
       expect(outputValue).toEqual(1n);
     });
     it('writes to the output 0 when the input value is false', () => {
-      setInputSocketValue(node, inputSocketName.a, false);
-      node.exec();
+      setInputSocketValue(node, 'a', false);
+      node.exec(node);
 
-      const outputValue = getOutputSocketValue(node, resultNodeName);
+      const outputValue = getOutputSocketValue(node, 'result');
 
       expect(outputValue).toEqual(0n);
     });

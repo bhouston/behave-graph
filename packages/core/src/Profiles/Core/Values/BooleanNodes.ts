@@ -1,96 +1,57 @@
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { In1Out1FuncNode } from '../../../Nodes/Templates/In1Out1FuncNode';
-import { In2Out1FuncNode } from '../../../Nodes/Templates/In2Out1FuncNode';
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 
-export const Constant = new NodeDescription(
-  'math/boolean',
-  'Logic',
-  'Boolean',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['boolean'],
-      'boolean',
-      (a: boolean) => a
-    )
-);
-export const And = new NodeDescription(
-  'math/and/boolean',
-  'Logic',
-  '∧',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['boolean', 'boolean'],
-      'boolean',
-      (a: boolean, b: boolean) => a && b
-    )
-);
-export const Or = new NodeDescription(
-  'math/or/boolean',
-  'Logic',
-  '∨',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['boolean', 'boolean'],
-      'boolean',
-      (a: boolean, b: boolean) => a || b
-    )
-);
-export const Not = new NodeDescription(
-  'math/negate/boolean',
-  'Logic',
-  '¬',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['boolean'],
-      'boolean',
-      (a: boolean) => !a
-    )
-);
-export const ToFloat = new NodeDescription(
-  'math/toFloat/boolean',
-  'Logic',
-  'To Float',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['boolean'],
-      'float',
-      (a: boolean) => (a ? 1 : 0)
-    )
-);
-export const Equal = new NodeDescription(
-  'math/equal/boolean',
-  'Logic',
-  '=',
-  (description, graph) =>
-    new In2Out1FuncNode(
-      description,
-      graph,
-      ['boolean', 'boolean'],
-      'boolean',
-      (a: boolean, b: boolean) => a === b
-    )
-);
+export const Constant = new FunctionDesc({
+  name: 'math/boolean',
+  label: 'Boolean',
+  in: ['boolean'],
+  out: 'boolean',
+  exec: (a: boolean) => a
+});
 
-export const toInteger = new NodeDescription(
-  'math/toInteger/boolean',
-  'Logic',
-  'To Integer',
-  (description, graph) =>
-    new In1Out1FuncNode(
-      description,
-      graph,
-      ['boolean'],
-      'integer',
-      (a: boolean) => (a ? 1n : 0n)
-    )
-);
+export const And = new FunctionDesc({
+  name: 'math/and/boolean',
+  label: '∧',
+  in: ['boolean', 'boolean'],
+  out: 'boolean',
+  exec: (a: boolean, b: boolean) => a && b
+});
+
+export const Or = new FunctionDesc({
+  name: 'math/or/boolean',
+  label: '∨',
+  in: ['boolean', 'boolean'],
+  out: 'boolean',
+  exec: (a: boolean, b: boolean) => a || b
+});
+
+export const Not = new FunctionDesc({
+  name: 'math/negate/boolean',
+  label: '¬',
+  in: ['boolean'],
+  out: 'boolean',
+  exec: (a: boolean) => !a
+});
+
+export const ToFloat = new FunctionDesc({
+  name: 'math/toFloat/boolean',
+  label: 'To Float',
+  in: ['boolean'],
+  out: 'float',
+  exec: (a: boolean) => (a ? 1 : 0)
+});
+
+export const Equal = new FunctionDesc({
+  name: 'math/equal/boolean',
+  label: '=',
+  in: ['boolean', 'boolean'],
+  out: 'boolean',
+  exec: (a: boolean, b: boolean) => a === b
+});
+
+export const toInteger = new FunctionDesc({
+  name: 'math/toInteger/boolean',
+  label: 'To Integer',
+  in: ['boolean'],
+  out: 'integer',
+  exec: (a: boolean) => (a ? 1n : 0n)
+});

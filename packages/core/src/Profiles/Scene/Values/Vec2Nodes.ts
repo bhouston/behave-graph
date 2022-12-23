@@ -24,7 +24,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toVec2/float',
   label: 'Float to Vec2',
-  in: { x: 'float', y: 'float' },
+  in: [{ x: 'float' }, { y: 'float' }],
   out: 'vec2',
   exec: (x: number, y: number) => new Vec2(x, y)
 });
@@ -33,7 +33,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toFloat/vec2',
   label: 'Vec2 To Float',
   in: ['vec2'],
-  out: { x: 'float', y: 'float', z: 'float' },
+  out: [{ x: 'float' }, { y: 'float' }],
   exec: vec2ToArray
 });
 
@@ -96,7 +96,7 @@ export const Dot = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/vec2',
   label: '÷',
-  in: { a: 'vec2', b: 'vec2', t: 'float' },
+  in: [{ a: 'vec2' }, { b: 'vec2' }, { t: 'float' }],
   out: 'vec2',
   exec: vec2Mix
 });
@@ -104,7 +104,7 @@ export const Mix = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/vec2',
   label: '=',
-  in: { a: 'vec2', b: 'vec2', tolerance: 'float' },
+  in: [{ a: 'vec2' }, { b: 'vec2' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec2Equals
 });

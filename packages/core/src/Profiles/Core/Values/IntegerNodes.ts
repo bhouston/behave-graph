@@ -85,7 +85,7 @@ export const Max = new FunctionDesc({
 export const Clamp = new FunctionDesc({
   name: 'math/clamp/integer',
   label: 'CLAMP',
-  in: { value: 'integer', min: 'integer', max: 'integer' },
+  in: [{ value: 'integer' }, { min: 'integer' }, { max: 'integer' }],
   out: 'integer',
   exec: (value: bigint, min: bigint, max: bigint) =>
     value < min ? min : value > max ? max : value

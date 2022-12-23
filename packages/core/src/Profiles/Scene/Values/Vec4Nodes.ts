@@ -23,7 +23,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toVec4/float',
   label: 'Float to Vec4',
-  in: ['float', 'float', 'float', 'float'],
+  in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
   out: 'vec4',
   exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
 });
@@ -32,7 +32,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toFloat/vec4',
   label: 'Vec4 to Float',
   in: ['vec4'],
-  out: { x: 'float', y: 'float', z: 'float', w: 'float' },
+  out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
   exec: (a: Vec4) => {
     return { x: a.x, y: a.y, z: a.z, w: a.z };
   }
@@ -97,7 +97,7 @@ export const Dot = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/vec4',
   label: '÷',
-  in: { a: 'vec4', b: 'vec4', t: 'float' },
+  in: [{ a: 'vec4' }, { b: 'vec4' }, { t: 'float' }],
   out: 'vec4',
   exec: vec4Mix
 });
@@ -105,7 +105,7 @@ export const Mix = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/vec4',
   label: '=',
-  in: { a: 'vec4', b: 'vec4', tolerance: 'float' },
+  in: [{ a: 'vec4' }, { b: 'vec4' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec4Equals
 });

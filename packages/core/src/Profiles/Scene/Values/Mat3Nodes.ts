@@ -58,7 +58,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toVec3/mat3',
   label: 'Mat3 To Vec3',
   in: ['mat3'],
-  out: { x: 'vec3', y: 'vec3', z: 'vec3' },
+  out: [{ x: 'vec3' }, { y: 'vec3' }, { z: 'vec3' }],
   exec: (a: Mat3) => {
     throw new Error('not implemented');
   }
@@ -139,7 +139,7 @@ export const Multiply = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/mat3',
   label: '÷',
-  in: { a: 'mat3', b: 'mat3', t: 'float' },
+  in: [{ a: 'mat3' }, { b: 'mat3' }, { t: 'float' }],
   out: 'mat3',
   exec: mat3Mix
 });
@@ -147,7 +147,7 @@ export const Mix = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/mat3',
   label: '=',
-  in: { a: 'mat3', b: 'mat3', tolerance: 'float' },
+  in: [{ a: 'mat3' }, { b: 'mat3' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: mat3Equals
 });

@@ -23,7 +23,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toEuler/float',
   label: 'Float to Euler',
-  in: { x: 'float', y: 'float', z: 'float' },
+  in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
   out: 'euler',
   exec: (x: number, y: number, z: number) => new Vec3(x, y, z)
 });
@@ -32,7 +32,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toFloat/euler',
   label: 'Euler to Float',
   in: ['euler'],
-  out: { x: 'float', y: 'float', z: 'float' },
+  out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
   exec: (a: Vec3) => {
     return { x: a.x, y: a.y, z: a.z };
   }
@@ -73,7 +73,7 @@ export const Scale = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/euler',
   label: '÷',
-  in: { a: 'euler', b: 'euler', t: 'float' },
+  in: [{ a: 'euler' }, { b: 'euler' }, { t: 'float' }],
   out: 'euler',
   exec: (a: Vec3, b: Vec3, t: number) => {
     console.warn('TODO: this is not shortest path');
@@ -108,7 +108,7 @@ export const QuatToEuler = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/euler',
   label: '=',
-  in: { a: 'euler', b: 'euler', tolerance: 'float' },
+  in: [{ a: 'euler' }, { b: 'euler' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec3Equals
 });

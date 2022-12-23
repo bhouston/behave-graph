@@ -24,7 +24,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toColor/rgb',
   label: 'RGB To Color',
-  in: { r: 'float', g: 'float', b: 'float' },
+  in: [{ r: 'float' }, { g: 'float' }, { b: 'float' }],
   out: 'color',
   exec: (r: number, g: number, b: number) => new Vec3(r, g, b)
 });
@@ -33,7 +33,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toRgb/color',
   label: 'Color to RGB',
   in: ['color'],
-  out: { r: 'float', g: 'float', b: 'float' },
+  out: [{ r: 'float' }, { g: 'float' }, { b: 'float' }],
   exec: (a: Vec3) => {
     return { r: a.x, g: a.y, b: a.z };
   }
@@ -74,7 +74,7 @@ export const Scale = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/color',
   label: '÷',
-  in: { a: 'color', b: 'color', t: 'float' },
+  in: [{ a: 'color' }, { b: 'color' }, { t: 'float' }],
   out: 'color',
   exec: vec3Mix
 });
@@ -114,7 +114,7 @@ export const ColorToHex = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/color',
   label: '=',
-  in: { a: 'color', b: 'color', tolerance: 'float' },
+  in: [{ a: 'color' }, { b: 'color' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec3Equals
 });

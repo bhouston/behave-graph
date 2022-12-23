@@ -24,7 +24,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toVec3/float',
   label: 'Float to Vec3',
-  in: { x: 'float', y: 'float', z: 'float' },
+  in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
   out: 'vec3',
   exec: (x: number, y: number, z: number) => new Vec3(x, y, z)
 });
@@ -33,7 +33,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toFloat/vec3',
   label: 'Vec3 To Float',
   in: ['vec3'],
-  out: { x: 'float', y: 'float', z: 'float' },
+  out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
   exec: () => {
     throw new Error('not implemented');
   }
@@ -106,7 +106,7 @@ export const Dot = new FunctionDesc({
 export const Mix = new FunctionDesc({
   name: 'math/mix/vec3',
   label: '÷',
-  in: { a: 'vec3', b: 'vec3', t: 'float' },
+  in: [{ a: 'vec3' }, { b: 'vec3' }, { t: 'float' }],
   out: 'vec3',
   exec: vec3Mix
 });
@@ -114,7 +114,7 @@ export const Mix = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/vec3',
   label: '=',
-  in: { a: 'vec3', b: 'vec3', tolerance: 'float' },
+  in: [{ a: 'vec3' }, { b: 'vec3' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec3Equals
 });

@@ -43,7 +43,7 @@ export const Constant = new FunctionDesc({
 export const Create = new FunctionDesc({
   name: 'math/toQuat/float',
   label: 'Float to Quat',
-  in: { x: 'float', y: 'float', z: 'float', w: 'float' },
+  in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
   out: 'quat',
   exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
 });
@@ -52,7 +52,7 @@ export const Elements = new FunctionDesc({
   name: 'math/toFloat/quat',
   label: 'Quat to Float',
   in: ['quat'],
-  out: { x: 'float', y: 'float', z: 'float', w: 'float' },
+  out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
   exec: vec4ToArray
 });
 
@@ -163,7 +163,7 @@ export const AngleAxisToQuat = new FunctionDesc({
 export const Slerp = new FunctionDesc({
   name: 'math/slerp/quat',
   label: 'Slerp',
-  in: { a: 'quat', b: 'quat', t: 'float' },
+  in: [{ a: 'quat' }, { b: 'quat' }, { t: 'float' }],
   out: 'quat',
   exec: quatSlerp
 });
@@ -171,7 +171,7 @@ export const Slerp = new FunctionDesc({
 export const Equal = new FunctionDesc({
   name: 'math/equal/quat',
   label: '=',
-  in: { a: 'quat', b: 'quat', tolerance: 'float' },
+  in: [{ a: 'quat' }, { b: 'quat' }, { tolerance: 'float' }],
   out: 'boolean',
   exec: vec4Equals
 });

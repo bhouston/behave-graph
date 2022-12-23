@@ -2,13 +2,13 @@
 
 The types of nodes in behave-graph mimic those found in Unreal Engine Blueprints and Unity Visual Scripting.
 
-The different node types have different execution models and are also declared differently.  The main two categories of nodes are "flow" nodes, that are nodes who are activate participants in the control flow of the behavior graph, and immediate nodes, who are evaluated on demand when their results are required by "flow" nodes.
+The different node types have different execution models and are also declared differently.  The main two categories of nodes are "flow" nodes, that are nodes who are activate participants in the control flow of the behavior graph, and function nodes, who are evaluated on demand when their results are required by "flow" nodes.
 
-Immediate Nodes
+Function Nodes
 
-Immediate nodes are the simplest type of node.  They do not support "flow" input or output sockets, rather they only have non-flow sockets.  These nodes are evaluated on demand when an output of theirs are required.  Thes are most often used for mathematical operators, or for queries of context or state.
+Function nodes are the simplest type of node.  They do not support "flow" input or output sockets, rather they only have non-flow sockets.  These nodes are evaluated on demand when an output of theirs are required.  Thes are most often used for mathematical operators, or for queries of context or state.
 
-If there is a network of immediate nodes, execution proceeds by first evaluating the outer most leaf nodes and then proceeding downwards through the graph until you have evaluated the output sockets of the immediate nodes you require.
+If there is a network of function nodes, execution proceeds by first evaluating the outer most leaf nodes and then proceeding downwards through the graph until you have evaluated the output sockets of the function nodes you require.
 
 Basic Flow Nodes
 
@@ -22,4 +22,4 @@ Event nodes are all initialized at the start of graph execution.  It is expected
 
 Async Nodes
 
-Async nodes are nodes whom when are triggered will remain activate.  They are not synchrous.  The simplest example is the delay node.  When this node is triggered, it is not required to immediately trigger an output "flow" socket, but rather it can return the trigger function without calling an output.  And then later, when it so wants to trigger an output "flow" socket, it can.  This can implement a delay node, where you set a timer when the input "flow" socket is triggered and when that timer callback occurs, you can trigger the output "flow" socket. 
+Async nodes are nodes whom when are triggered will remain activate.  They are not synchrous.  The simplest example is the delay node.  When this node is triggered, it is not required to functionly trigger an output "flow" socket, but rather it can return the trigger function without calling an output.  And then later, when it so wants to trigger an output "flow" socket, it can.  This can implement a delay node, where you set a timer when the input "flow" socket is triggered and when that timer callback occurs, you can trigger the output "flow" socket. 

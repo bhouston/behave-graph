@@ -4,7 +4,7 @@ import { Socket } from '../Sockets/Socket';
 import { Node } from './Node';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class ImmediateNode extends Node {
+export class FunctionNode extends Node {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -26,7 +26,7 @@ export class ImmediateNode extends Node {
   }
 }
 
-export class ImmediateNode2 extends ImmediateNode {
+export class FunctionNode2 extends FunctionNode {
   constructor(properties: {
     description: NodeDescription;
     graph: Graph;

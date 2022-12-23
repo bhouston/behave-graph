@@ -1,6 +1,6 @@
 import { Graph } from '../../Graphs/Graph';
 import { Socket } from '../../Sockets/Socket';
-import { ImmediateNode } from '../ImmediateNode';
+import { FunctionNode } from '../FunctionNode';
 import { NodeDescription } from '../Registry/NodeDescription';
 
 export class In6Out1FuncNode<
@@ -11,7 +11,7 @@ export class In6Out1FuncNode<
   In5,
   In6,
   Out1
-> extends ImmediateNode {
+> extends FunctionNode {
   constructor(
     description: NodeDescription,
     graph: Graph,

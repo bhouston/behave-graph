@@ -1,5 +1,4 @@
-import { FunctionDesc } from 'packages/core/src/Nodes/FunctionNode';
-
+import { FunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   Vec4,
   vec4Add,
@@ -17,7 +16,7 @@ export const Constant = new FunctionDesc({
   name: 'math/vec4',
   label: 'Vec4',
   in: ['vec4'],
-,
+  out: 'vec4',
   exec: (a) => a
 });
 

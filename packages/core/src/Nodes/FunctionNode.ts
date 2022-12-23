@@ -2,6 +2,7 @@ import { Assert } from '../Diagnostics/Assert';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeCategory } from './Registry/NodeCategory';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FunctionNode extends Node {
@@ -31,6 +32,7 @@ export class FunctionDesc extends NodeDescription {
   constructor(props: {
     name: string;
     label?: string;
+    category?: NodeCategory;
     aliases?: string[];
     in?: { [name: string]: string } | string[];
     out: { [name: string]: string } | string;

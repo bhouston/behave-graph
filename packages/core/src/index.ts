@@ -15,12 +15,6 @@ export * from './Events/CustomEvent';
 export * from './Events/EventEmitter';
 export * from './Variables/Variable';
 
-export * from './Nodes/Templates/In4Out1FuncNode';
-export * from './Nodes/Templates/In3Out1FuncNode';
-export * from './Nodes/Templates/In2Out1FuncNode';
-export * from './Nodes/Templates/In1Out1FuncNode';
-export * from './Nodes/Templates/In0Out1FuncNode';
-
 // loading & execution
 export * from './Execution/Engine';
 export * from './Execution/Fiber';

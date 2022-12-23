@@ -1,7 +1,7 @@
 import { Logger } from '../../Diagnostics/Logger';
 import { CustomEvent } from '../../Events/CustomEvent';
 import { Link } from '../../Nodes/Link';
-import { Node } from '../../Nodes/Node';
+import { Node, NodeConfiguration } from '../../Nodes/Node';
 import { Registry } from '../../Registry';
 import { Socket } from '../../Sockets/Socket';
 import { Variable } from '../../Variables/Variable';
@@ -127,7 +127,15 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
     throw new Error('readGraphFromJSON: no type for node');
   }
   const nodeName = nodeJson.type;
-  const node = graph.createNode(nodeName, nodeJson.id);
+  const nodeConfigurationJson = nodeJson.configuration;
+  const nodeConfiguration: NodeConfiguration = {};
+  if (nodeConfigurationJson !== undefined) {
+    Object.keys(nodeConfigurationJson).forEach((key) => {
+      nodeConfiguration[key] = nodeConfigurationJson[key];
+    });
+  }
+
+  const node = graph.createNode(nodeName, nodeJson.id, nodeConfiguration);
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
@@ -166,9 +174,7 @@ function readNodeParameterJSON(
 
   // validate that there are no additional input sockets specified that were not read.
   for (const inputName in parametersJson) {
-    const inputSocket = node.inputs.find(
-      (socket) => socket.name === inputName
-    );
+    const inputSocket = node.inputs.find((socket) => socket.name === inputName);
     if (inputSocket === undefined) {
       throw new Error(
         `node '${node.description.typeName}' specifies an input '${inputName}' that doesn't exist on its node type`

@@ -2,7 +2,7 @@ import { Assert } from '../Diagnostics/Assert';
 import { Fiber } from '../Execution/Fiber';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
-import { Node } from './Node';
+import { Node, NodeConfiguration } from './Node';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FlowNode extends Node {
@@ -10,10 +10,11 @@ export class FlowNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputs: Socket[] = [],
-    outputs: Socket[] = []
+    outputs: Socket[] = [],
+    configuration: NodeConfiguration = {}
   ) {
     // determine if this is an eval node
-    super(description, graph, inputs, outputs);
+    super(description, graph, inputs, outputs, configuration);
 
     // must have at least one input flow socket
     Assert.mustBeTrue(
@@ -28,17 +29,19 @@ export class FlowNode extends Node {
 }
 
 export class FlowNode2 extends FlowNode {
-  constructor(properties: {
+  constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
+    configuration?: NodeConfiguration;
   }) {
     super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs
+      props.description,
+      props.graph,
+      props.inputs,
+      props.outputs,
+      props.configuration
     );
   }
 }

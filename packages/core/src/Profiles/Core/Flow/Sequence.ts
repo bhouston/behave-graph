@@ -1,3 +1,5 @@
+import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
+
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
@@ -10,29 +12,26 @@ import { Socket } from '../../../Sockets/Socket';
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
 export class Sequence extends FlowNode {
-  public static GetDescriptions(): NodeDescription[] {
-    const descriptions: NodeDescription[] = [];
-    for (let numOutputs = 1; numOutputs < 10; numOutputs++) {
-      descriptions.push(
-        new NodeDescription2({
-          typeName: `flow/sequence/${numOutputs}`,
-          category: 'Flow',
-          label: `Sequence ${numOutputs}`,
-          factory: (description, graph) =>
-            new Sequence(description, graph, numOutputs),
-          otherTypeNames: numOutputs === 3 ? ['flow/sequence'] : [] // old sequence node has 3 outputs
-        })
-      );
-    }
-    return descriptions;
-  }
+  public static Description = new NodeDescription2({
+    typeName: 'flow/sequence',
+    category: 'Flow',
+    label: 'Sequence',
+    configuration: {
+      numOutputs: {
+        valueType: 'number'
+      }
+    },
+    factory: (description, graph, configuration) =>
+      new Sequence(description, graph, configuration)
+  });
 
   constructor(
     description: NodeDescription,
     graph: Graph,
-    private numOutputs: number
+    configuration: NodeConfiguration
   ) {
     const outputs: Socket[] = [];
+    const numOutputs = configuration.numOutputs;
     for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
       outputs.push(new Socket('flow', `${outputIndex}`));
     }

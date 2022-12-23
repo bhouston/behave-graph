@@ -1,7 +1,7 @@
 import { CustomEvent } from '../Events/CustomEvent';
 import { generateUuid } from '../generateUuid';
 import { Metadata } from '../Metadata';
-import { Node } from '../Nodes/Node';
+import { Node, NodeConfiguration } from '../Nodes/Node';
 import { NodeTypeRegistry } from '../Nodes/Registry/NodeTypeRegistry';
 import { OnCustomEvent } from '../Profiles/Core/CustomEvents/OnCustomEvent';
 import { TriggerCustomEvent } from '../Profiles/Core/CustomEvents/TriggerCustomEvent';
@@ -44,7 +44,11 @@ export class Graph {
       );
     }
   }
-  createNode(nodeTypeName: string, nodeId: string = generateUuid()): Node {
+  createNode(
+    nodeTypeName: string,
+    nodeId: string = generateUuid(),
+    nodeConfiguration: NodeConfiguration = {}
+  ): Node {
     if (nodeId in this.nodes) {
       throw new Error(
         `can not create new node of type ${nodeTypeName} with id ${nodeId} as one with that id already exists.`
@@ -62,7 +66,11 @@ export class Graph {
         `no registered node descriptions with the typeName ${nodeTypeName}`
       );
     }
-    const node = nodeDescription.factory(nodeDescription, this);
+    const node = nodeDescription.factory(
+      nodeDescription,
+      this,
+      nodeConfiguration
+    );
     node.id = nodeId;
     this.nodes[nodeId] = node;
     node.inputs.forEach((socket) => {

@@ -1,27 +1,34 @@
-import { CustomEvent } from '../../../Events/CustomEvent';
+import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
+
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode2 } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 export class TriggerCustomEvent extends FlowNode2 {
-  public static GetDescription(graph: Graph, customEventId: string) {
-    const customEvent = graph.customEvents[customEventId];
-    return new NodeDescription(
-      `customEvent/trigger/${customEvent.id}`,
-      'Action',
-      `Trigger ${customEvent.name}`,
-      (description, graph) =>
-        new TriggerCustomEvent(description, graph, customEvent)
-    );
-  }
+  public static Description = new NodeDescription2({
+    typeName: 'customEvent/trigger',
+    category: 'Action',
+    label: 'Trigger',
+    configuration: {
+      customEventId: {
+        valueType: 'number'
+      }
+    },
+    factory: (description, graph, configuration) =>
+      new TriggerCustomEvent(description, graph, configuration)
+  });
 
   constructor(
     description: NodeDescription,
     graph: Graph,
-    public readonly customEvent: CustomEvent
+    configuration: NodeConfiguration
   ) {
+    const customEvent = graph.customEvents[configuration.customEventId];
     super({
       description,
       graph,
@@ -37,15 +44,18 @@ export class TriggerCustomEvent extends FlowNode2 {
             )
         )
       ],
-      outputs: [new Socket('flow', 'flow')]
+      outputs: [new Socket('flow', 'flow')],
+      configuration
     });
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
+    const customEvent =
+      this.graph.customEvents[this.configuration.customEventId];
     const parameters: { [parameterName: string]: any } = {};
-    this.customEvent.parameters.forEach((parameterSocket) => {
+    customEvent.parameters.forEach((parameterSocket) => {
       parameters[parameterSocket.name] = this.readInput(parameterSocket.name);
     });
-    this.customEvent.eventEmitter.emit(parameters);
+    customEvent.eventEmitter.emit(parameters);
   }
 }

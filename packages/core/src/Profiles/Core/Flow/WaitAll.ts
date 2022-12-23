@@ -1,36 +1,37 @@
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 // this is equivalent to Promise.all()
 export class WaitAll extends FlowNode {
-  public static GetDescriptions(): NodeDescription[] {
-    const descriptions: NodeDescription[] = [];
-    for (let numOutputs = 1; numOutputs < 10; numOutputs++) {
-      descriptions.push(
-        new NodeDescription(
-          `flow/waitAll/${numOutputs}`,
-          'Flow',
-          `Wait All ${numOutputs}`,
-          (description, graph) => new WaitAll(description, graph, numOutputs)
-        )
-      );
-    }
-    return descriptions;
-  }
+  public static Description = new NodeDescription2({
+    typeName: 'flow/waitAll',
+    category: 'Flow',
+    label: 'WaitAll',
+    configuration: {
+      numInputs: {
+        valueType: 'number'
+      }
+    },
+    factory: (description, graph, configuration) =>
+      new WaitAll(description, graph, configuration?.numInputs || 3)
+  });
 
   private isOn = true;
 
   constructor(
     description: NodeDescription,
     graph: Graph,
-    private numOutputs: number
+    private numInputs: number
   ) {
     const inputs: Socket[] = [];
-    for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
-      inputs.push(new Socket('flow', `${outputIndex}`));
+    for (let inputIndex = 1; inputIndex <= numInputs; inputIndex++) {
+      inputs.push(new Socket('flow', `${inputIndex}`));
     }
 
     super(
@@ -52,8 +53,8 @@ export class WaitAll extends FlowNode {
   private outputTriggered = false;
 
   private reset() {
-    for (let outputIndex = 1; outputIndex <= this.numOutputs; outputIndex++) {
-      this.triggeredMap[`${outputIndex}`] = false;
+    for (let inputIndex = 1; inputIndex <= this.numInputs; inputIndex++) {
+      this.triggeredMap[`${inputIndex}`] = false;
     }
     this.triggeredCount = 0;
     this.outputTriggered = false;
@@ -73,7 +74,7 @@ export class WaitAll extends FlowNode {
     this.triggeredCount++;
 
     // if a & b are triggered, first output!
-    if (this.triggeredCount === this.numOutputs && !this.outputTriggered) {
+    if (this.triggeredCount === this.numInputs && !this.outputTriggered) {
       fiber.commit(this, 'flow');
       this.outputTriggered = true;
 

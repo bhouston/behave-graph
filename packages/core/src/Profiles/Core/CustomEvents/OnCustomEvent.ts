@@ -1,27 +1,35 @@
+import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
+
 import { Assert } from '../../../Diagnostics/Assert';
-import { CustomEvent } from '../../../Events/CustomEvent';
 import { Engine } from '../../../Execution/Engine';
 import { Graph } from '../../../Graphs/Graph';
 import { EventNode2 } from '../../../Nodes/EventNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
 export class OnCustomEvent extends EventNode2 {
-  public static GetDescription(graph: Graph, customEventId: string) {
-    const customEvent = graph.customEvents[customEventId];
-    return new NodeDescription(
-      `customEvent/onTriggered/${customEvent.id}`,
-      'Event',
-      `On ${customEvent.name}`,
-      (description, graph) => new OnCustomEvent(description, graph, customEvent)
-    );
-  }
+  public static Description = new NodeDescription2({
+    typeName: 'customEvent/onTriggered',
+    category: 'Event',
+    label: 'On Triggered',
+    configuration: {
+      customEventId: {
+        valueType: 'number'
+      }
+    },
+    factory: (description, graph, configuration) =>
+      new OnCustomEvent(description, graph, configuration)
+  });
 
   constructor(
     description: NodeDescription,
     graph: Graph,
-    public readonly customEvent: CustomEvent
+    configuration: NodeConfiguration
   ) {
+    const customEvent = graph.customEvents[configuration.customEventId];
     super({
       description,
       graph,
@@ -36,7 +44,8 @@ export class OnCustomEvent extends EventNode2 {
               parameter.label
             )
         )
-      ]
+      ],
+      configuration
     });
   }
   private onCustomEvent:
@@ -45,9 +54,11 @@ export class OnCustomEvent extends EventNode2 {
 
   init(engine: Engine) {
     Assert.mustBeTrue(this.onCustomEvent === undefined);
+    const customEvent =
+      this.graph.customEvents[this.configuration.customEventId];
 
     this.onCustomEvent = (parameters) => {
-      this.customEvent.parameters.forEach((parameterSocket) => {
+      customEvent.parameters.forEach((parameterSocket) => {
         if (!(parameterSocket.name in parameters)) {
           throw new Error(
             `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
@@ -60,13 +71,16 @@ export class OnCustomEvent extends EventNode2 {
       });
       engine.commitToNewFiber(this, 'flow');
     };
-    this.customEvent.eventEmitter.addListener(this.onCustomEvent);
+    customEvent.eventEmitter.addListener(this.onCustomEvent);
   }
 
   dispose(engine: Engine) {
     Assert.mustBeTrue(this.onCustomEvent !== undefined);
+    const customEvent =
+      this.graph.customEvents[this.configuration.customEventId];
+
     if (this.onCustomEvent !== undefined) {
-      this.customEvent.eventEmitter.removeListener(this.onCustomEvent);
+      customEvent.eventEmitter.removeListener(this.onCustomEvent);
     }
   }
 }

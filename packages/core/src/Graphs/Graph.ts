@@ -42,7 +42,7 @@ export class Graph {
     const node = nodeDescription.factory(
       nodeDescription,
       this,
-      nodeConfiguration
+      Object.assign({}, nodeDescription.configuration, nodeConfiguration)
     );
     node.id = nodeId;
     this.nodes[nodeId] = node;

@@ -8,13 +8,6 @@ export type NodeFactory = (
   config: NodeConfiguration
 ) => Node;
 
-export type NodeConfigurationDescription = {
-  [key: string]: {
-    valueType: string;
-    defaultValue?: any;
-  };
-};
-
 export function getNodeDescriptions(importWildcard: any) {
   return Object.keys(importWildcard)
     .map((key) => (importWildcard as { [key: string]: any })[key])
@@ -29,7 +22,7 @@ export class NodeDescription {
     public readonly factory: NodeFactory,
     public readonly otherTypeNames: string[] = [],
     public readonly helpDescription: string = '',
-    public readonly configuration: NodeConfigurationDescription = {}
+    public readonly configuration: NodeConfiguration = {}
   ) {}
 }
 
@@ -39,7 +32,7 @@ export class NodeDescription2 extends NodeDescription {
       typeName: string;
       category: NodeCategory;
       label?: string;
-      configuration?: NodeConfigurationDescription;
+      configuration?: NodeConfiguration;
       factory: NodeFactory;
       otherTypeNames?: string[];
       helpDescription?: string;

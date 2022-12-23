@@ -14,9 +14,7 @@ export class VariableGet extends FunctionNode {
     category: 'Query',
     label: 'Get',
     configuration: {
-      variableId: {
-        valueType: 'number'
-      }
+      variableId: '-1'
     },
     factory: (description, graph, configuration) =>
       new VariableGet(description, graph, configuration)

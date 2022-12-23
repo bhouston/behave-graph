@@ -16,9 +16,7 @@ export class TriggerCustomEvent extends FlowNode2 {
     category: 'Action',
     label: 'Trigger',
     configuration: {
-      customEventId: {
-        valueType: 'number'
-      }
+      customEventId: '-1'
     },
     factory: (description, graph, configuration) =>
       new TriggerCustomEvent(description, graph, configuration)

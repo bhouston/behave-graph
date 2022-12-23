@@ -17,9 +17,7 @@ export class Sequence extends FlowNode {
     category: 'Flow',
     label: 'Sequence',
     configuration: {
-      numOutputs: {
-        valueType: 'number'
-      }
+      numOutputs: 3
     },
     factory: (description, graph, configuration) =>
       new Sequence(description, graph, configuration)

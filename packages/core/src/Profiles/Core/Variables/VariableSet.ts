@@ -15,7 +15,7 @@ export class VariableSet extends FlowNode {
     label: 'Set',
     configuration: {
       variableId: {
-        valueType: 'number'
+        variableId: '-1'
       }
     },
     factory: (description, graph, configuration) =>

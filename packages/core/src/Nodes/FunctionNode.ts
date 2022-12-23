@@ -1,7 +1,7 @@
 import { Assert } from '../Diagnostics/Assert';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
-import { Node } from './Node';
+import { Node, NodeConfiguration } from './Node';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FunctionNode extends Node {
@@ -10,9 +10,10 @@ export class FunctionNode extends Node {
     graph: Graph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
-    public readonly exec: () => void
+    public readonly exec: () => void,
+    configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs);
+    super(description, graph, inputs, outputs, configuration);
 
     // must have no input flow sockets
     Assert.mustBeTrue(
@@ -25,9 +26,8 @@ export class FunctionNode extends Node {
     );
   }
 }
-
 export class FunctionNode2 extends FunctionNode {
-  constructor(properties: {
+  constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
@@ -35,11 +35,11 @@ export class FunctionNode2 extends FunctionNode {
     exec: () => void;
   }) {
     super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs,
-      properties.exec
+      props.description,
+      props.graph,
+      props.inputs,
+      props.outputs,
+      props.exec
     );
   }
 }

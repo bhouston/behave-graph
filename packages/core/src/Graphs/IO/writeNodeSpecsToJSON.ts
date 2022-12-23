@@ -19,7 +19,8 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       category: node.description.category,
       label: node.description.label,
       inputs: [],
-      outputs: []
+      outputs: [],
+      configuration: []
     };
 
     node.inputs.forEach((inputSocket) => {

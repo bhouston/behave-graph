@@ -2,7 +2,7 @@ import { Assert } from '../Diagnostics/Assert';
 import { Engine } from '../Execution/Engine';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
-import { Node } from './Node';
+import { Node, NodeConfiguration } from './Node';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // no flow inputs, always evaluated on startup
@@ -11,9 +11,10 @@ export class EventNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputs: Socket[] = [],
-    outputs: Socket[] = []
+    outputs: Socket[] = [],
+    configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs);
+    super(description, graph, inputs, outputs, configuration);
     // no input flow sockets allowed.
     Assert.mustBeTrue(
       !this.inputs.some((socket) => socket.valueTypeName === 'flow')
@@ -37,17 +38,19 @@ export class EventNode extends Node {
 }
 
 export class EventNode2 extends EventNode {
-  constructor(properties: {
+  constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
+    configuration?: NodeConfiguration;
   }) {
     super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs
+      props.description,
+      props.graph,
+      props.inputs,
+      props.outputs,
+      props.configuration
     );
   }
 }

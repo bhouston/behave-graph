@@ -5,6 +5,8 @@ import { DefaultLogger } from './Abstractions/Drivers/DefaultLogger';
 import { ManualLifecycleEventEmitter } from './Abstractions/Drivers/ManualLifecycleEventEmitter';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
 import { ILogger } from './Abstractions/ILogger';
+import { OnCustomEvent } from './CustomEvents/OnCustomEvent';
+import { TriggerCustomEvent } from './CustomEvents/TriggerCustomEvent';
 import { ExpectTrue as AssertExpectTrue } from './Debug/AssertExpectTrue';
 import { Log as DebugLog } from './Debug/DebugLog';
 import { Branch } from './Flow/Branch';
@@ -34,6 +36,8 @@ import * as IntegerNodes from './Values/IntegerNodes';
 import { IntegerValue } from './Values/IntegerValue';
 import * as StringNodes from './Values/StringNodes';
 import { StringValue } from './Values/StringValue';
+import { VariableGet } from './Variables/VariableGet';
+import { VariableSet } from './Variables/VariableSet';
 
 export function registerCoreProfile(
   registry: Registry,
@@ -53,6 +57,16 @@ export function registerCoreProfile(
   nodes.register(...getNodeDescriptions(BooleanNodes));
   nodes.register(...getNodeDescriptions(IntegerNodes));
   nodes.register(...getNodeDescriptions(FloatNodes));
+
+  // custom events
+
+  nodes.register(OnCustomEvent.Description);
+  nodes.register(TriggerCustomEvent.Description);
+
+  // variables
+
+  nodes.register(VariableGet.Description);
+  nodes.register(VariableSet.Description);
 
   // complex logic
 
@@ -79,14 +93,14 @@ export function registerCoreProfile(
   nodes.register(Branch.Description);
   nodes.register(FlipFlop.Description);
   nodes.register(ForLoop.Description);
-  nodes.register(...Sequence.GetDescriptions());
+  nodes.register(Sequence.Description);
   nodes.register(Debounce.Description);
   nodes.register(Throttle.Description);
   nodes.register(DoN.Description);
   nodes.register(DoOnce.Description);
   nodes.register(Gate.Description);
   nodes.register(MultiGate.Description);
-  nodes.register(...WaitAll.GetDescriptions());
+  nodes.register(WaitAll.Description);
   nodes.register(Counter.Description);
 
   // string converters

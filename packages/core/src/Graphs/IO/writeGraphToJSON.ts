@@ -6,6 +6,7 @@ import {
   LinkJSON,
   NodeJSON,
   NodeParameterJSON,
+  ValueJSON,
   VariableJSON
 } from './GraphJSON';
 
@@ -78,6 +79,13 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
     }
     if (Object.keys(node.metadata).length > 0) {
       nodeJson.metadata = node.metadata;
+    }
+    if (Object.keys(node.description.configuration).length > 0) {
+      const configurationJson: { [key: string]: ValueJSON } = {};
+      Object.keys(node.configuration).forEach((key) => {
+        configurationJson[key] = node.configuration[key];
+      });
+      nodeJson.configuration = configurationJson;
     }
 
     const parametersJson: NodeJSON['parameters'] = {};

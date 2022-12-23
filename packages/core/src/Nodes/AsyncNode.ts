@@ -2,7 +2,7 @@ import { Assert } from '../Diagnostics/Assert';
 import { Engine } from '../Execution/Engine';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
-import { Node } from './Node';
+import { Node, NodeConfiguration } from './Node';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // async flow node with only a single flow input
@@ -11,9 +11,10 @@ export class AsyncNode extends Node {
     description: NodeDescription,
     graph: Graph,
     inputs: Socket[] = [],
-    outputs: Socket[] = []
+    outputs: Socket[] = [],
+    configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs);
+    super(description, graph, inputs, outputs, configuration);
     // must have at least one input flow socket
     Assert.mustBeTrue(
       this.inputs.some((socket) => socket.valueTypeName === 'flow')
@@ -40,17 +41,12 @@ export class AsyncNode extends Node {
 }
 
 export class AsyncNode2 extends AsyncNode {
-  constructor(properties: {
+  constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
   }) {
-    super(
-      properties.description,
-      properties.graph,
-      properties.inputs,
-      properties.outputs
-    );
+    super(props.description, props.graph, props.inputs, props.outputs);
   }
 }

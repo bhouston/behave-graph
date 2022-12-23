@@ -33,9 +33,6 @@ export function readGraphFromJSON(
     readCustomEventsJSON(graph, graphJson.customEvents ?? []);
   }
 
-  // register node based on variables and custom events.
-  graph.updateDynamicNodeDescriptions();
-
   const nodesJson = graphJson?.nodes ?? [];
 
   if (nodesJson.length === 0) {

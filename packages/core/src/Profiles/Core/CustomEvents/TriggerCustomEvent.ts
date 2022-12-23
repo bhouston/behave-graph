@@ -1,5 +1,6 @@
 import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
 
+import { CustomEvent } from '../../../Events/CustomEvent';
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode2 } from '../../../Nodes/FlowNode';
@@ -23,12 +24,16 @@ export class TriggerCustomEvent extends FlowNode2 {
       new TriggerCustomEvent(description, graph, configuration)
   });
 
+  private readonly customEvent: CustomEvent;
+
   constructor(
     description: NodeDescription,
     graph: Graph,
     configuration: NodeConfiguration
   ) {
-    const customEvent = graph.customEvents[configuration.customEventId];
+    const customEvent =
+      graph.customEvents[configuration.customEventId] ||
+      new CustomEvent('-1', 'undefined');
     super({
       description,
       graph,
@@ -47,15 +52,15 @@ export class TriggerCustomEvent extends FlowNode2 {
       outputs: [new Socket('flow', 'flow')],
       configuration
     });
+
+    this.customEvent = customEvent;
   }
 
   triggered(fiber: Fiber, triggeringSocketName: string) {
-    const customEvent =
-      this.graph.customEvents[this.configuration.customEventId];
     const parameters: { [parameterName: string]: any } = {};
-    customEvent.parameters.forEach((parameterSocket) => {
+    this.customEvent.parameters.forEach((parameterSocket) => {
       parameters[parameterSocket.name] = this.readInput(parameterSocket.name);
     });
-    customEvent.eventEmitter.emit(parameters);
+    this.customEvent.eventEmitter.emit(parameters);
   }
 }

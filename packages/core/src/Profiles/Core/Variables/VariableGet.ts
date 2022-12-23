@@ -1,4 +1,3 @@
-import { Assert } from '../../../Diagnostics/Assert';
 import { Graph } from '../../../Graphs/Graph';
 import { ImmediateNode } from '../../../Nodes/ImmediateNode';
 import { NodeConfiguration } from '../../../Nodes/Node';
@@ -7,6 +6,7 @@ import {
   NodeDescription2
 } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
+import { Variable } from '../../../Variables/Variable';
 
 export class VariableGet extends ImmediateNode {
   public static Description = new NodeDescription2({
@@ -27,8 +27,9 @@ export class VariableGet extends ImmediateNode {
     graph: Graph,
     configuration: NodeConfiguration
   ) {
-    Assert.mustBeDefined(configuration.variableId);
-    const variable = graph.variables[configuration.variableId];
+    const variable =
+      graph.variables[configuration.variableId] ||
+      new Variable('-1', 'undefined', 'string', '');
     super(
       description,
       graph,

@@ -1,65 +1,11 @@
 {
   "nodes": [
     {
-      "id": "7569b164-1b58-4520-bd1c-0ca1386c554b",
-      "type": "debug/log",
-      "metadata": {
-        "positionX": "-217",
-        "positionY": "413"
-      },
-      "parameters": {
-        "text": {
-          "value": "Finished"
-        }
-      }
-    },
-    {
-      "id": "9c8f417c-4a96-4be0-8b7b-5c0542ba3a0f",
-      "type": "lifecycle/onEnd",
-      "metadata": {
-        "positionX": "-430",
-        "positionY": "421"
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "7569b164-1b58-4520-bd1c-0ca1386c554b",
-          "socket": "flow"
-        }
-      }
-    },
-    {
-      "id": "fb0d04f5-0915-4408-bee0-87b1f3931ea7",
-      "type": "debug/log",
-      "metadata": {
-        "positionX": "-287",
-        "positionY": "196"
-      },
-      "parameters": {
-        "text": {
-          "value": "Ticking"
-        }
-      }
-    },
-    {
-      "id": "1fe32e5d-e14e-455a-9a49-7c21a79dd9da",
-      "type": "lifecycle/onTick",
-      "metadata": {
-        "positionX": "-550",
-        "positionY": "168"
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "fb0d04f5-0915-4408-bee0-87b1f3931ea7",
-          "socket": "flow"
-        }
-      }
-    },
-    {
       "id": "0",
       "type": "lifecycle/onStart",
       "metadata": {
-        "positionX": "-579",
-        "positionY": "-67"
+        "positionX": "2.1104424778760915",
+        "positionY": "-501.2300884955752"
       },
       "flows": {
         "flow": {
@@ -72,12 +18,12 @@
       "id": "1",
       "type": "debug/log",
       "metadata": {
-        "positionX": "-422",
-        "positionY": "-67"
+        "positionX": "225.32530973451327",
+        "positionY": "-502.2853097345133"
       },
       "parameters": {
         "text": {
-          "value": "Starting Sequence..."
+          "value": "Starting 10,000,000 iteration for-loop..."
         }
       },
       "flows": {
@@ -89,68 +35,87 @@
     },
     {
       "id": "2",
-      "type": "flow/sequence",
+      "type": "flow/forLoop",
       "metadata": {
-        "positionX": "-164",
-        "positionY": "-67"
+        "positionX": "612.0994690265486",
+        "positionY": "-497.00920353982303"
+      },
+      "parameters": {
+        "startIndex": {
+          "value": 0
+        },
+        "endIndex": {
+          "value": 10000000
+        }
       },
       "flows": {
-        "1": {
-          "nodeId": "3",
-          "socket": "flow"
-        },
-        "2": {
-          "nodeId": "4",
-          "socket": "flow"
-        },
-        "3": {
+        "loopBody": {
           "nodeId": "5",
+          "socket": "flow"
+        },
+        "completed": {
+          "nodeId": "7",
           "socket": "flow"
         }
       }
     },
     {
       "id": "3",
-      "type": "debug/log",
+      "type": "math/modulus/integer",
       "metadata": {
-        "positionX": "32",
-        "positionY": "-99"
+        "positionX": "1086.4569911504425",
+        "positionY": "-435.806371681416"
       },
       "parameters": {
-        "text": {
-          "value": "First Sequence Output!"
-        }
-      },
-      "flows": {
-        "flow": {
-          "nodeId": "6",
-          "socket": "flow"
+        "b": {
+          "value": 1000000
+        },
+        "a": {
+          "link": {
+            "nodeId": "2",
+            "socket": "index"
+          }
         }
       }
     },
     {
       "id": "4",
-      "type": "debug/log",
+      "type": "math/equal/integer",
       "metadata": {
-        "positionX": "26",
-        "positionY": "40"
+        "positionX": "1281.1808849557524",
+        "positionY": "-440.0272566371682"
       },
       "parameters": {
-        "text": {
-          "value": "Second Sequence Output!"
+        "b": {
+          "value": 0
+        },
+        "a": {
+          "link": {
+            "nodeId": "3",
+            "socket": "result"
+          }
         }
       }
     },
     {
       "id": "5",
-      "type": "debug/log",
+      "type": "flow/branch",
       "metadata": {
-        "positionX": "21",
-        "positionY": "179"
+        "positionX": "1497.0092035398231",
+        "positionY": "-548.7150442477877"
       },
       "parameters": {
-        "text": {
-          "value": "Third Sequence Output!"
+        "condition": {
+          "link": {
+            "nodeId": "4",
+            "socket": "result"
+          }
+        }
+      },
+      "flows": {
+        "true": {
+          "nodeId": "6",
+          "socket": "flow"
         }
       }
     },
@@ -158,12 +123,25 @@
       "id": "6",
       "type": "debug/log",
       "metadata": {
-        "positionX": "321",
-        "positionY": "-98"
+        "positionX": "1746.6046017699116",
+        "positionY": "-580.3716814159293"
       },
       "parameters": {
         "text": {
-          "value": "Downstream of First Sequence!"
+          "value": "1,000,000 more iterations..."
+        }
+      }
+    },
+    {
+      "id": "7",
+      "type": "debug/log",
+      "metadata": {
+        "positionX": "1125.642477876106",
+        "positionY": "-156.17274336283188"
+      },
+      "parameters": {
+        "text": {
+          "value": "Completed all iterations!"
         }
       }
     }

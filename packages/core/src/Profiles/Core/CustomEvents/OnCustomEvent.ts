@@ -1,6 +1,7 @@
 import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
 
 import { Assert } from '../../../Diagnostics/Assert';
+import { CustomEvent } from '../../../Events/CustomEvent';
 import { Engine } from '../../../Execution/Engine';
 import { Graph } from '../../../Graphs/Graph';
 import { EventNode2 } from '../../../Nodes/EventNode';
@@ -24,12 +25,16 @@ export class OnCustomEvent extends EventNode2 {
       new OnCustomEvent(description, graph, configuration)
   });
 
+  private readonly customEvent: CustomEvent;
+
   constructor(
     description: NodeDescription,
     graph: Graph,
     configuration: NodeConfiguration
   ) {
-    const customEvent = graph.customEvents[configuration.customEventId];
+    const customEvent =
+      graph.customEvents[configuration.customEventId] ||
+      new CustomEvent('-1', 'undefined');
     super({
       description,
       graph,
@@ -47,6 +52,7 @@ export class OnCustomEvent extends EventNode2 {
       ],
       configuration
     });
+    this.customEvent = customEvent;
   }
   private onCustomEvent:
     | ((parameters: { [parameter: string]: any }) => void)
@@ -54,11 +60,9 @@ export class OnCustomEvent extends EventNode2 {
 
   init(engine: Engine) {
     Assert.mustBeTrue(this.onCustomEvent === undefined);
-    const customEvent =
-      this.graph.customEvents[this.configuration.customEventId];
 
     this.onCustomEvent = (parameters) => {
-      customEvent.parameters.forEach((parameterSocket) => {
+      this.customEvent.parameters.forEach((parameterSocket) => {
         if (!(parameterSocket.name in parameters)) {
           throw new Error(
             `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
@@ -71,16 +75,14 @@ export class OnCustomEvent extends EventNode2 {
       });
       engine.commitToNewFiber(this, 'flow');
     };
-    customEvent.eventEmitter.addListener(this.onCustomEvent);
+    this.customEvent.eventEmitter.addListener(this.onCustomEvent);
   }
 
   dispose(engine: Engine) {
     Assert.mustBeTrue(this.onCustomEvent !== undefined);
-    const customEvent =
-      this.graph.customEvents[this.configuration.customEventId];
 
     if (this.onCustomEvent !== undefined) {
-      customEvent.eventEmitter.removeListener(this.onCustomEvent);
+      this.customEvent.eventEmitter.removeListener(this.onCustomEvent);
     }
   }
 }

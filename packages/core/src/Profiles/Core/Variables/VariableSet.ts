@@ -1,14 +1,13 @@
-import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
-
-import { Assert } from '../../../Diagnostics/Assert';
 import { Fiber } from '../../../Execution/Fiber';
 import { Graph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
+import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   NodeDescription,
   NodeDescription2
 } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
+import { Variable } from '../../../Variables/Variable';
 export class VariableSet extends FlowNode {
   public static Description = new NodeDescription2({
     typeName: 'variable/set',
@@ -33,13 +32,16 @@ export class VariableSet extends FlowNode {
     );
   }
 
+  private readonly variable: Variable;
+
   constructor(
     description: NodeDescription,
     graph: Graph,
     configuration: NodeConfiguration
   ) {
-    Assert.mustBeDefined(configuration.variableId);
-    const variable = graph.variables[configuration.variableId];
+    const variable =
+      graph.variables[configuration.variableId] ||
+      new Variable('-1', 'undefined', 'string', '');
 
     super(
       description,
@@ -51,12 +53,11 @@ export class VariableSet extends FlowNode {
       [new Socket('flow', 'flow')],
       configuration
     );
+    this.variable = variable;
   }
 
   triggered(fiber: Fiber, triggeredSocketName: string) {
-    const variable = this.graph.variables[this.configuration.variableId];
-
-    variable.set(this.readInput('value'));
+    this.variable.set(this.readInput('value'));
     fiber.commit(this, 'flow');
   }
 }

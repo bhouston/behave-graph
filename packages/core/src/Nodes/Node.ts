@@ -3,6 +3,10 @@ import { Metadata } from '../Metadata';
 import { Socket } from '../Sockets/Socket';
 import { NodeDescription } from './Registry/NodeDescription';
 
+export type NodeConfiguration = {
+  [key: string]: any;
+};
+
 export class Node {
   public id = '';
   public label = '';
@@ -12,7 +16,8 @@ export class Node {
     public readonly description: NodeDescription,
     public readonly graph: Graph,
     public readonly inputs: Socket[] = [],
-    public readonly outputs: Socket[] = []
+    public readonly outputs: Socket[] = [],
+    public readonly configuration: NodeConfiguration = {}
   ) {}
 
   // TODO: this may want to cache the values on the creation of the NodeEvalContext

@@ -16,11 +16,15 @@ export type FlowsJSON = {
   [key: string]: LinkJSON;
 };
 
+export type NodeConfigurationJSON = {
+  [key: string]: ValueJSON;
+};
+
 export type NodeJSON = {
   label?: string;
   type: string;
   id: string;
-
+  configuration?: NodeConfigurationJSON;
   parameters?: NodeParametersJSON;
   flows?: FlowsJSON;
   metadata?: Metadata;

@@ -12,7 +12,7 @@ const makeEmptyGraph = () => {
 };
 
 const makeFunctionNodeWithEmptyGraph = (nodeDescription: NodeDescription) =>
-  nodeDescription.factory(intToBoolean, makeEmptyGraph()) as FunctionNode;
+  nodeDescription.factory(intToBoolean, makeEmptyGraph(), {}) as FunctionNode;
 
 const setInputSocketValue = (node: Node, socketName: string, value: any) => {
   const inputSocket = node.inputs.find((socket) => socket.name === socketName);

@@ -19,7 +19,10 @@
       }
     },
     {
-      "type": "variable/get/0",
+      "type": "variable/get",
+      "configuration": {
+        "variableId": 0
+      },
       "id": "1"
     },
     {

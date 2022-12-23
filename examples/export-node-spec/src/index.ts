@@ -55,17 +55,14 @@ async function main() {
 
           csvRow.push(input.name, input.valueType);
           if (input.valueType === 'flow') {
-            csvRow.push('', '');
+            csvRow.push('');
           } else if (input.defaultValue !== undefined) {
-            csvRow.push(
-              typeof input.defaultValue,
-              input.defaultValue.toString()
-            );
+            csvRow.push(input.defaultValue.toString());
           } else {
             csvRow.push('', '(undefined)');
           }
         } else {
-          csvRow.push('', '', '', '');
+          csvRow.push('', '', '');
         }
       }
       for (let i = 0; i < 5; i++) {

@@ -4,6 +4,7 @@ import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import {
   makeFunctionNodeDefinition,
+  NodeCategory,
   SocketsDefinition
 } from './NodeDefinition';
 import { NodeDescription } from './Registry/NodeDescription';
@@ -101,7 +102,7 @@ export function makeInNOutFunctionDesc({
   const definition = makeFunctionNodeDefinition({
     typeName: rest.name,
     label: rest.label,
-    category: 'Function',
+    category: NodeCategory.Function,
     in: inputSockets.sockets,
     out: outputSockets.sockets,
     exec: ({ read, write }) => {

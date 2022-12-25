@@ -1,21 +1,19 @@
 export type SocketsDefinition = Record<string, string>;
-// not even sure this is needed, seems very arbitrary
-export type NodeCategory =
-  | 'action'
-  | 'query'
-  | 'logic'
-  | 'Event'
-  | 'variable'
-  | 'Flow'
-  | 'Function'
-  | 'none';
+
+export enum NodeCategory {
+  Action = 'Action',
+  Event = 'Event',
+  Flow = 'Flow',
+  Function = 'Function'
+}
 
 export interface NodeDefinition<
   TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition
+  TOutput extends SocketsDefinition,
+  TNodeCategory extends NodeCategory
 > {
   typeName: string;
-  category?: NodeCategory;
+  category: TNodeCategory;
   // type: NodeType;
   aliases?: string[]; // for backwards compatibility
   helpDescription?: string;
@@ -48,7 +46,7 @@ export interface FlowNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
-> extends NodeDefinition<TInput, TOutput> {
+> extends NodeDefinition<TInput, TOutput, NodeCategory.Flow> {
   initialState: TState;
   triggered: (
     params: FlowNodeTriggeredParams<TInput, TOutput, TState>
@@ -68,7 +66,7 @@ export interface FunctionNodeExecParams<
 export interface FunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
-> extends NodeDefinition<TInput, TOutput> {
+> extends NodeDefinition<TInput, TOutput, NodeCategory.Function> {
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
 
@@ -76,7 +74,7 @@ export interface EventNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
-> extends NodeDefinition<TInput, TOutput> {
+> extends NodeDefinition<TInput, TOutput, NodeCategory.Event> {
   initialState: TState;
   init: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
   dispose: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => void;

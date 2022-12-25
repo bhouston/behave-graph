@@ -1,4 +1,7 @@
-import { makeEventNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+import {
+  makeEventNodeDefinition,
+  NodeCategory
+} from 'packages/core/src/Nodes/NodeDefinition';
 
 import { Assert } from '../../../Diagnostics/Assert';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
@@ -17,7 +20,7 @@ export const LifecycleOnStart = (
   makeEventNodeDefinition({
     typeName: 'lifecycle/onStart',
     label: 'On Start',
-    category: 'Event',
+    category: NodeCategory.Event,
     in: {},
     out: {
       flow: 'flow'

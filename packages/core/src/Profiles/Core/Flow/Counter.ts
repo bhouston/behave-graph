@@ -1,4 +1,7 @@
-import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+import {
+  makeFlowNodeDefinition,
+  NodeCategory
+} from 'packages/core/src/Nodes/NodeDefinition';
 
 export const Counter = makeFlowNodeDefinition({
   typeName: 'flow/counter',
@@ -14,7 +17,7 @@ export const Counter = makeFlowNodeDefinition({
   initialState: {
     count: 0
   },
-  category: 'Flow',
+  category: NodeCategory.Flow,
   triggered: ({ commit, write, triggeringSocketName, state }) => {
     let count = state.count;
     switch (triggeringSocketName) {

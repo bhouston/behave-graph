@@ -4,7 +4,7 @@ export type NodeCategory =
   | 'action'
   | 'query'
   | 'logic'
-  | 'event'
+  | 'Event'
   | 'variable'
   | 'Flow'
   | 'Function'
@@ -72,6 +72,16 @@ export interface FunctionNodeDefinition<
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
 
+export interface EventNodeDefinition<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> extends NodeDefinition<TInput, TOutput> {
+  initialState: TState;
+  init: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
+  dispose: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => void;
+}
+
 // HELPER FUNCTIONS
 
 // helper function to not require you to define generics when creating a node def:
@@ -92,5 +102,15 @@ export function makeFunctionNodeDefinition<
 >(
   definition: FunctionNodeDefinition<TInput, TOutput>
 ): FunctionNodeDefinition<TInput, TOutput> {
+  return definition;
+}
+
+export function makeEventNodeDefinition<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+>(
+  definition: EventNodeDefinition<TInput, TOutput, TState>
+): EventNodeDefinition<TInput, TOutput, TState> {
   return definition;
 }

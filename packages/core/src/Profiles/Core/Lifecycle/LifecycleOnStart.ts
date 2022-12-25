@@ -1,45 +1,43 @@
+import { makeEventNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+
 import { Assert } from '../../../Diagnostics/Assert';
-import { Engine } from '../../../Execution/Engine';
-import { Graph } from '../../../Graphs/Graph';
-import { EventNode } from '../../../Nodes/EventNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
-// inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export class LifecycleOnStart extends EventNode {
-  public static Description = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
-    new NodeDescription(
-      'lifecycle/onStart',
-      'Event',
-      'On Start',
-      (description, graph) =>
-        new LifecycleOnStart(description, graph, lifecycleEventEmitter)
-    );
+type State = {
+  onStartEvent: (() => void) | undefined;
+};
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    private readonly lifecycleEventEmitter: ILifecycleEventEmitter
-  ) {
-    super(description, graph, [], [new Socket('flow', 'flow')]);
-  }
+const makeInitialState = (): State => ({
+  onStartEvent: undefined
+});
 
-  private onStartEvent: (() => void) | undefined = undefined;
+export const LifecycleOnStart = (
+  lifecycleEventEmitter: ILifecycleEventEmitter
+) =>
+  makeEventNodeDefinition({
+    typeName: 'lifecycle/onStart',
+    label: 'On Start',
+    category: 'Event',
+    in: {},
+    out: {
+      flow: 'flow'
+    },
+    initialState: makeInitialState(),
+    init: ({ state, commit }) => {
+      Assert.mustBeTrue(state.onStartEvent === undefined);
+      const onStartEvent = () => {
+        commit('flow');
+      };
 
-  init(engine: Engine) {
-    Assert.mustBeTrue(this.onStartEvent === undefined);
-    this.onStartEvent = () => {
-      engine.commitToNewFiber(this, 'flow');
-    };
+      lifecycleEventEmitter.startEvent.addListener(onStartEvent);
 
-    this.lifecycleEventEmitter.startEvent.addListener(this.onStartEvent);
-  }
-
-  dispose(engine: Engine) {
-    Assert.mustBeTrue(this.onStartEvent !== undefined);
-    if (this.onStartEvent !== undefined) {
-      this.lifecycleEventEmitter.startEvent.removeListener(this.onStartEvent);
+      return {
+        onStartEvent
+      };
+    },
+    dispose: ({ state: { onStartEvent } }) => {
+      Assert.mustBeTrue(onStartEvent !== undefined);
+      if (onStartEvent)
+        lifecycleEventEmitter.startEvent.removeListener(onStartEvent);
     }
-  }
-}
+  });

@@ -1,55 +1,49 @@
+import { makeEventNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+
 import { Assert } from '../../../Diagnostics/Assert';
-import { Engine } from '../../../Execution/Engine';
-import { Graph } from '../../../Graphs/Graph';
-import { EventNode } from '../../../Nodes/EventNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
-// inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export class LifecycleOnTick extends EventNode {
-  public static Description = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
-    new NodeDescription(
-      'lifecycle/onTick',
-      'Event',
-      'On Tick',
-      (description, graph) =>
-        new LifecycleOnTick(description, graph, lifecycleEventEmitter)
-    );
+type State = {
+  onTickEvent: (() => void) | undefined;
+};
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    private readonly lifecycleEventEmitter: ILifecycleEventEmitter
-  ) {
-    super(
-      description,
-      graph,
-      [],
-      [new Socket('flow', 'flow'), new Socket('float', 'deltaSeconds')]
-    );
-  }
+const makeInitialState = (): State => ({
+  onTickEvent: undefined
+});
 
-  private onTickEvent: (() => void) | undefined = undefined;
+export const LifecycleOnTick = (
+  lifecycleEventEmitter: ILifecycleEventEmitter
+) =>
+  makeEventNodeDefinition({
+    typeName: 'lifecycle/onTick',
+    label: 'On Tick',
+    category: 'Event',
+    in: {},
+    out: {
+      flow: 'flow',
+      deltaSeconds: 'float'
+    },
+    initialState: makeInitialState(),
+    init: ({ state, commit, write }) => {
+      Assert.mustBeTrue(state.onTickEvent === undefined);
+      let lastTickTime = Date.now();
+      const onTickEvent = () => {
+        const currentTime = Date.now();
+        const deltaSeconds = (currentTime - lastTickTime) * 0.001;
+        write('deltaSeconds', deltaSeconds);
+        commit('flow');
+        lastTickTime = currentTime;
+      };
 
-  init(engine: Engine) {
-    Assert.mustBeTrue(this.onTickEvent === undefined);
-    let lastTickTime = Date.now();
-    this.onTickEvent = () => {
-      const currentTime = Date.now();
-      const deltaSeconds = (currentTime - lastTickTime) * 0.001;
-      this.writeOutput('deltaSeconds', deltaSeconds);
-      engine.commitToNewFiber(this, 'flow');
-      lastTickTime = currentTime;
-    };
+      lifecycleEventEmitter.tickEvent.addListener(onTickEvent);
 
-    this.lifecycleEventEmitter.tickEvent.addListener(this.onTickEvent);
-  }
-
-  dispose(engine: Engine) {
-    Assert.mustBeTrue(this.onTickEvent !== undefined);
-    if (this.onTickEvent !== undefined) {
-      this.lifecycleEventEmitter.tickEvent.removeListener(this.onTickEvent);
+      return {
+        onTickEvent
+      };
+    },
+    dispose: ({ state: { onTickEvent } }) => {
+      Assert.mustBeTrue(onTickEvent !== undefined);
+      if (onTickEvent)
+        lifecycleEventEmitter.tickEvent.removeListener(onTickEvent);
     }
-  }
-}
+  });

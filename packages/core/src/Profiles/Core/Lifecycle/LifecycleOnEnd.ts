@@ -1,45 +1,42 @@
+import { makeEventNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+
 import { Assert } from '../../../Diagnostics/Assert';
-import { Engine } from '../../../Execution/Engine';
-import { Graph } from '../../../Graphs/Graph';
-import { EventNode } from '../../../Nodes/EventNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
-export class LifecycleOnEnd extends EventNode {
-  public static Description = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
-    new NodeDescription(
-      'lifecycle/onEnd',
-      'Event',
-      'On End',
-      (description, graph) =>
-        new LifecycleOnEnd(description, graph, lifecycleEventEmitter)
-    );
 
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    private readonly lifecycleEventEmitter: ILifecycleEventEmitter
-  ) {
-    super(description, graph, [], [new Socket('flow', 'flow')]);
-  }
+type State = {
+  onEndEvent: (() => void) | undefined;
+};
 
-  private onEndEvent: (() => void) | undefined = undefined;
+const makeInitialState = (): State => ({
+  onEndEvent: undefined
+});
 
-  init(engine: Engine) {
-    Assert.mustBeTrue(this.onEndEvent === undefined);
-    this.onEndEvent = () => {
-      engine.commitToNewFiber(this, 'flow');
-    };
+export const LifecycleOnEnd = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
+  makeEventNodeDefinition({
+    typeName: 'lifecycle/onEnd',
+    label: 'On End',
+    category: 'Event',
+    in: {},
+    out: {
+      flow: 'flow'
+    },
+    initialState: makeInitialState(),
+    init: ({ state, commit }) => {
+      Assert.mustBeTrue(state.onEndEvent === undefined);
+      const onEndEvent = () => {
+        commit('flow');
+      };
 
-    this.lifecycleEventEmitter.endEvent.addListener(this.onEndEvent);
-  }
+      lifecycleEventEmitter.endEvent.addListener(onEndEvent);
 
-  dispose(engine: Engine) {
-    Assert.mustBeTrue(this.onEndEvent !== undefined);
-    if (this.onEndEvent !== undefined) {
-      this.lifecycleEventEmitter.endEvent.removeListener(this.onEndEvent);
+      return {
+        onEndEvent
+      };
+    },
+    dispose: ({ state: { onEndEvent } }) => {
+      Assert.mustBeTrue(onEndEvent !== undefined);
+      if (onEndEvent) lifecycleEventEmitter.endEvent.removeListener(onEndEvent);
     }
-  }
-}
+  });

@@ -13,12 +13,6 @@ import { Registry } from '../Registry';
 import { Socket } from '../Sockets/Socket';
 import { Graph } from './Graph';
 
-type NodeFecther = (nodeTypeName: string) => INodeDefinitionBase;
-
-interface CreatedNode {
-  id: string;
-}
-
 type AnyInOut = Record<string, string>;
 
 function isFlowNode(
@@ -49,7 +43,10 @@ function toSockets(
   );
 }
 
-function nodeFactory(
+/***
+ take the node definition and config, and creates an instance of a node.
+ */
+function createNode(
   nodeDefinition: INodeDefinitionBase,
   nodeConfiguration: NodeConfiguration,
   graph: Graph
@@ -84,7 +81,10 @@ function nodeFactory(
   throw new Error('Function not implemented.');
 }
 
-export const createNode = (
+/***
+  Looks up the node definition in the registry, and uses that definition to create a node.
+ */
+export const createNodeUsingRegistryDefinition = (
   nodeTypeName: string,
   nodeId: string,
   nodeConfiguration: NodeConfiguration,
@@ -101,7 +101,7 @@ export const createNode = (
     );
   }
 
-  const node = nodeFactory(nodeDescription, nodeConfiguration, graph);
+  const node = createNode(nodeDescription, nodeConfiguration, graph);
 
   node.id = nodeId;
 

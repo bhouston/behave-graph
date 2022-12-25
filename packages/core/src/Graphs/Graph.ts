@@ -4,7 +4,7 @@ import { Metadata } from '../Metadata';
 import { Node, NodeConfiguration } from '../Nodes/Node';
 import { Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
-import { createNode } from './NodeFactory';
+import { createNodeUsingRegistryDefinition } from './NodeFactory';
 // Purpose:
 //  - stores the node graph
 
@@ -32,7 +32,7 @@ export class Graph {
       );
     }
 
-    const node = createNode(
+    const node = createNodeUsingRegistryDefinition(
       nodeTypeName,
       nodeId,
       nodeConfiguration,

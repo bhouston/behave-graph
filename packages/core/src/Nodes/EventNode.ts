@@ -1,6 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
 import { Engine } from '../Execution/Engine';
-import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import { EventNodeDefinition, SocketsDefinition } from './NodeDefinition';
@@ -10,12 +9,12 @@ import { NodeDescription } from './Registry/NodeDescription';
 export class EventNode extends Node {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    // graph: Graph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs, configuration);
+    super(description, inputs, outputs, configuration);
     // no input flow sockets allowed.
     Assert.mustBeTrue(
       !this.inputs.some((socket) => socket.valueTypeName === 'flow')
@@ -40,7 +39,6 @@ export class EventNode extends Node {
 
 type EventNode2Props = {
   description: NodeDescription;
-  graph: Graph;
   inputs?: Socket[];
   outputs?: Socket[];
   configuration?: NodeConfiguration;
@@ -55,13 +53,7 @@ export class EventNode2 extends EventNode {
   private state: EventNode2Props['initialState'];
 
   constructor(props: EventNode2Props) {
-    super(
-      props.description,
-      props.graph,
-      props.inputs,
-      props.outputs,
-      props.configuration
-    );
+    super(props.description, props.inputs, props.outputs, props.configuration);
 
     this.initInner = props.init;
     this.disposeInner = props.dispose;

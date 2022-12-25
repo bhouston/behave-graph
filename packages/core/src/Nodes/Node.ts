@@ -1,4 +1,3 @@
-import { Graph } from '../Graphs/Graph';
 import { Metadata } from '../Metadata';
 import { Socket } from '../Sockets/Socket';
 import { NodeDescription } from './Registry/NodeDescription';
@@ -14,7 +13,7 @@ export class Node {
 
   constructor(
     public readonly description: NodeDescription,
-    public readonly graph: Graph,
+    // public readonly graph: Graph,
     public readonly inputs: Socket[] = [],
     public readonly outputs: Socket[] = [],
     public readonly configuration: NodeConfiguration = {}

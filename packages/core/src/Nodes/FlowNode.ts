@@ -9,13 +9,13 @@ import { NodeDescription } from './Registry/NodeDescription';
 export class FlowNode extends Node {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: Graph | undefined,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
   ) {
     // determine if this is an eval node
-    super(description, graph, inputs, outputs, configuration);
+    super(description, inputs, outputs, configuration);
 
     // must have at least one input flow socket
     Assert.mustBeTrue(
@@ -34,7 +34,7 @@ export class FlowNode2 extends FlowNode {
   private state: any;
   constructor(props: {
     description: NodeDescription;
-    graph: Graph;
+    // graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
     configuration?: NodeConfiguration;
@@ -43,7 +43,7 @@ export class FlowNode2 extends FlowNode {
   }) {
     super(
       props.description,
-      props.graph,
+      undefined,
       props.inputs,
       props.outputs,
       props.configuration

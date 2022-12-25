@@ -11,7 +11,6 @@ import {
 import { NodeDescription2 } from '../Nodes/Registry/NodeDescription';
 import { Registry } from '../Registry';
 import { Socket } from '../Sockets/Socket';
-import { Graph } from './Graph';
 
 type AnyInOut = Record<string, string>;
 
@@ -48,8 +47,7 @@ function toSockets(
  */
 function createNode(
   nodeDefinition: INodeDefinitionBase,
-  nodeConfiguration: NodeConfiguration,
-  graph: Graph
+  nodeConfiguration: NodeConfiguration
 ): Node {
   const commonProps = {
     description: new NodeDescription2({
@@ -58,8 +56,7 @@ function createNode(
       label: nodeDefinition.label
     }),
     inputs: toSockets(nodeDefinition.in, nodeDefinition.initialInputsVals),
-    outputs: toSockets(nodeDefinition.out),
-    graph
+    outputs: toSockets(nodeDefinition.out)
   };
 
   if (isFlowNode(nodeDefinition)) {
@@ -88,8 +85,7 @@ export const createNodeUsingRegistryDefinition = (
   nodeTypeName: string,
   nodeId: string,
   nodeConfiguration: NodeConfiguration,
-  registry: Registry,
-  graph: Graph
+  registry: Registry
 ): Node => {
   let nodeDescription = undefined;
   if (registry.nodes.contains(nodeTypeName)) {
@@ -101,7 +97,7 @@ export const createNodeUsingRegistryDefinition = (
     );
   }
 
-  const node = createNode(nodeDescription, nodeConfiguration, graph);
+  const node = createNode(nodeDescription, nodeConfiguration);
 
   node.id = nodeId;
 

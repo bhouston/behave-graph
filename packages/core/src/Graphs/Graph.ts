@@ -36,8 +36,7 @@ export class Graph {
       nodeTypeName,
       nodeId,
       nodeConfiguration,
-      this.registry,
-      this
+      this.registry
     );
 
     this.nodes[nodeId] = node;

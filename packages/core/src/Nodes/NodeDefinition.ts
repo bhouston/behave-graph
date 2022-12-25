@@ -26,7 +26,7 @@ export interface NodeDefinition<
 }
 
 /** Flow Node Definition */
-export interface NodeTriggeredApi<
+export interface FlowNodeTriggeredParams<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
@@ -50,10 +50,12 @@ export interface FlowNodeDefinition<
   TState
 > extends NodeDefinition<TInput, TOutput> {
   initialState: TState;
-  triggered: (params: NodeTriggeredApi<TInput, TOutput, TState>) => TState;
+  triggered: (
+    params: FlowNodeTriggeredParams<TInput, TOutput, TState>
+  ) => TState;
 }
 
-export interface NodeExecApi<
+export interface FunctionNodeExecParams<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 > {
@@ -67,8 +69,10 @@ export interface FunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 > extends NodeDefinition<TInput, TOutput> {
-  exec: (params: NodeExecApi<TInput, TOutput>) => void;
+  exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
+
+// HELPER FUNCTIONS
 
 // helper function to not require you to define generics when creating a node def:
 export function makeFlowNodeDefinition<

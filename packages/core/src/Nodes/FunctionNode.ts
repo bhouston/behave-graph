@@ -64,6 +64,7 @@ const toOrderedSockets = (
 
 export function makeInNOutFunctionDesc({
   in: inputValueTypes,
+  inputKeys,
   out,
   exec,
   ...rest
@@ -73,10 +74,22 @@ export function makeInNOutFunctionDesc({
   category?: NodeCategory;
   aliases?: string[];
   in?: string[];
+  inputKeys?: string[];
   out: string[] | string;
   exec: (...args: any[]) => any;
 }) {
-  const inputSockets = toOrderedSockets(inputValueTypes, getAlphabeticalKey);
+  if (inputKeys) {
+    Assert.mustEqual(
+      inputKeys.length,
+      inputValueTypes?.length || 0,
+      'inputKeys length must match inputValueTypes length'
+    );
+  }
+
+  const getInputFunction = inputKeys
+    ? (index: number) => inputKeys[index]
+    : getAlphabeticalKey;
+  const inputSockets = toOrderedSockets(inputValueTypes, getInputFunction);
 
   // function to get output socket key - if there is only one output, then use 'result' as the key
   // otherwise use alphtabetical keys

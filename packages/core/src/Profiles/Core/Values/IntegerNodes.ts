@@ -85,7 +85,8 @@ export const Max = makeInNOutFunctionDesc({
 export const Clamp = makeInNOutFunctionDesc({
   name: 'math/clamp/integer',
   label: 'CLAMP',
-  in: [{ value: 'integer' }, { min: 'integer' }, { max: 'integer' }],
+  in: ['integer', 'integer', 'integer'],
+  inputKeys: ['value', 'min', 'max'],
   out: 'integer',
   exec: (value: bigint, min: bigint, max: bigint) =>
     value < min ? min : value > max ? max : value

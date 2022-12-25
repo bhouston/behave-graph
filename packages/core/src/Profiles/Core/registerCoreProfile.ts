@@ -20,6 +20,7 @@ import { Gate } from './Flow/Gate';
 import { MultiGate } from './Flow/MultieGate';
 import { Sequence } from './Flow/Sequence';
 import { SwitchOnInteger } from './Flow/SwitchOnInteger';
+import { SwitchOnString } from './Flow/SwitchOnString';
 import { Throttle } from './Flow/Throttle';
 import { WaitAll } from './Flow/WaitAll';
 import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd';
@@ -96,6 +97,7 @@ export function registerCoreProfile(
   nodes.register(ForLoop.Description);
   nodes.register(Sequence.Description);
   nodes.register(SwitchOnInteger.Description);
+  nodes.register(SwitchOnString.Description);
   nodes.register(Debounce.Description);
   nodes.register(Throttle.Description);
   nodes.register(DoN.Description);

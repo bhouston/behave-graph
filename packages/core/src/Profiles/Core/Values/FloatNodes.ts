@@ -1,4 +1,4 @@
-import { FunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   degreesToRadians,
   equalsTolerance,
@@ -7,7 +7,7 @@ import {
 
 // Unreal Engine Blueprint Float nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Float/
 
-export const Constant = new FunctionDesc({
+export const Constant = makeInNOutFunctionDesc({
   name: 'math/float',
   label: 'Float',
   in: ['float'],
@@ -15,7 +15,7 @@ export const Constant = new FunctionDesc({
   exec: (a: number) => a
 });
 
-export const Add = new FunctionDesc({
+export const Add = makeInNOutFunctionDesc({
   name: 'math/add/float',
   label: '+',
   in: ['float', 'float'],
@@ -23,7 +23,7 @@ export const Add = new FunctionDesc({
   exec: (a: number, b: number) => a + b
 });
 
-export const Subtract = new FunctionDesc({
+export const Subtract = makeInNOutFunctionDesc({
   name: 'math/subtract/float',
   label: '-',
   in: ['float', 'float'],
@@ -31,7 +31,7 @@ export const Subtract = new FunctionDesc({
   exec: (a: number, b: number) => a - b
 });
 
-export const Negate = new FunctionDesc({
+export const Negate = makeInNOutFunctionDesc({
   name: 'math/negate/float',
   label: '-',
   in: ['float'],
@@ -39,7 +39,7 @@ export const Negate = new FunctionDesc({
   exec: (a: number) => -a
 });
 
-export const Multiply = new FunctionDesc({
+export const Multiply = makeInNOutFunctionDesc({
   name: 'math/multiply/float',
   label: '×',
   in: ['float', 'float'],
@@ -47,7 +47,7 @@ export const Multiply = new FunctionDesc({
   exec: (a: number, b: number) => a * b
 });
 
-export const Divide = new FunctionDesc({
+export const Divide = makeInNOutFunctionDesc({
   name: 'math/divide/float',
   label: '÷',
   in: ['float', 'float'],
@@ -55,7 +55,7 @@ export const Divide = new FunctionDesc({
   exec: (a: number, b: number) => a / b
 });
 
-export const Modulus = new FunctionDesc({
+export const Modulus = makeInNOutFunctionDesc({
   name: 'math/modulus/float',
   label: 'MOD',
   in: ['float', 'float'],
@@ -63,7 +63,7 @@ export const Modulus = new FunctionDesc({
   exec: (a: number, b: number) => a % b
 });
 
-export const Power = new FunctionDesc({
+export const Power = makeInNOutFunctionDesc({
   name: 'math/pow/float',
   label: 'POW',
   in: ['float', 'float'],
@@ -71,7 +71,7 @@ export const Power = new FunctionDesc({
   exec: Math.pow
 });
 
-export const SquareRoot = new FunctionDesc({
+export const SquareRoot = makeInNOutFunctionDesc({
   name: 'math/sqrt/float',
   label: '√',
   in: ['float'],
@@ -79,14 +79,14 @@ export const SquareRoot = new FunctionDesc({
   exec: Math.sqrt
 });
 
-export const E = new FunctionDesc({
+export const E = makeInNOutFunctionDesc({
   name: 'math/e/float',
   label: '𝑒',
   out: 'float',
   exec: () => Math.E
 });
 
-export const Exp = new FunctionDesc({
+export const Exp = makeInNOutFunctionDesc({
   name: 'math/exp/float',
   label: 'EXP',
   in: ['float'],
@@ -94,7 +94,7 @@ export const Exp = new FunctionDesc({
   exec: Math.exp
 });
 
-export const Ln = new FunctionDesc({
+export const Ln = makeInNOutFunctionDesc({
   name: 'math/ln/float',
   label: 'LN',
   in: ['float'],
@@ -102,7 +102,7 @@ export const Ln = new FunctionDesc({
   exec: Math.log
 });
 
-export const Log2 = new FunctionDesc({
+export const Log2 = makeInNOutFunctionDesc({
   name: 'math/log2/float',
   label: 'LOG2',
   in: ['float'],
@@ -110,7 +110,7 @@ export const Log2 = new FunctionDesc({
   exec: Math.log2
 });
 
-export const Log10 = new FunctionDesc({
+export const Log10 = makeInNOutFunctionDesc({
   name: 'math/log10/float',
   label: 'LOG10',
   in: ['float'],
@@ -118,14 +118,14 @@ export const Log10 = new FunctionDesc({
   exec: Math.log10
 });
 
-export const PI = new FunctionDesc({
+export const PI = makeInNOutFunctionDesc({
   name: 'math/pi/float',
   label: 'π',
   out: 'float',
   exec: () => Math.PI
 });
 
-export const Sin = new FunctionDesc({
+export const Sin = makeInNOutFunctionDesc({
   name: 'math/sin/float',
   label: 'SIN',
   in: ['float'],
@@ -133,7 +133,7 @@ export const Sin = new FunctionDesc({
   exec: Math.sin
 });
 
-export const Asin = new FunctionDesc({
+export const Asin = makeInNOutFunctionDesc({
   name: 'math/asin/float',
   label: 'ASIN',
   in: ['float'],
@@ -141,7 +141,7 @@ export const Asin = new FunctionDesc({
   exec: Math.asin
 });
 
-export const Cos = new FunctionDesc({
+export const Cos = makeInNOutFunctionDesc({
   name: 'math/cos/float',
   label: 'COS',
   in: ['float'],
@@ -149,7 +149,7 @@ export const Cos = new FunctionDesc({
   exec: Math.cos
 });
 
-export const Acos = new FunctionDesc({
+export const Acos = makeInNOutFunctionDesc({
   name: 'math/acos/float',
   label: 'ACOS',
   in: ['float'],
@@ -157,7 +157,7 @@ export const Acos = new FunctionDesc({
   exec: Math.acos
 });
 
-export const Tan = new FunctionDesc({
+export const Tan = makeInNOutFunctionDesc({
   name: 'math/tan/float',
   label: 'TAN',
   in: ['float'],
@@ -165,7 +165,7 @@ export const Tan = new FunctionDesc({
   exec: Math.tan
 });
 
-export const RadiansToDegrees = new FunctionDesc({
+export const RadiansToDegrees = makeInNOutFunctionDesc({
   name: 'math/radiansToDegrees/float',
   label: 'To Degrees',
   in: ['float'],
@@ -173,7 +173,7 @@ export const RadiansToDegrees = new FunctionDesc({
   exec: radiansToDegrees
 });
 
-export const DegreesToRadians = new FunctionDesc({
+export const DegreesToRadians = makeInNOutFunctionDesc({
   name: 'math/degreesToRadians/float',
   label: 'To Radians',
   in: ['float'],
@@ -181,7 +181,7 @@ export const DegreesToRadians = new FunctionDesc({
   exec: degreesToRadians
 });
 
-export const Atan = new FunctionDesc({
+export const Atan = makeInNOutFunctionDesc({
   name: 'math/atan/float',
   label: 'ATAN',
   in: ['float'],
@@ -189,7 +189,7 @@ export const Atan = new FunctionDesc({
   exec: Math.atan
 });
 
-export const Mix = new FunctionDesc({
+export const Mix = makeInNOutFunctionDesc({
   name: 'math/mix/float',
   label: 'MIX',
   in: ['float', 'float', 'float'],
@@ -200,7 +200,7 @@ export const Mix = new FunctionDesc({
   }
 });
 
-export const ToFloat = new FunctionDesc({
+export const ToFloat = makeInNOutFunctionDesc({
   name: 'math/toFloat/float',
   label: 'To Float',
   in: ['float'],
@@ -208,7 +208,7 @@ export const ToFloat = new FunctionDesc({
   exec: (a: number) => Number(a)
 });
 
-export const Min = new FunctionDesc({
+export const Min = makeInNOutFunctionDesc({
   name: 'math/min/float',
   label: 'MIN',
   in: ['float', 'float'],
@@ -216,7 +216,7 @@ export const Min = new FunctionDesc({
   exec: (a: number, b: number) => Math.min(a, b) // TODO: can I jsut pass in Math.min?
 });
 
-export const Max = new FunctionDesc({
+export const Max = makeInNOutFunctionDesc({
   name: 'math/max/float',
   label: 'MAX',
   in: ['float', 'float'],
@@ -224,7 +224,7 @@ export const Max = new FunctionDesc({
   exec: (a: number, b: number) => Math.max(a, b) // TODO: can I jsut pass in Math.max?
 });
 
-export const Clamp = new FunctionDesc({
+export const Clamp = makeInNOutFunctionDesc({
   name: 'math/clamp/float',
   label: 'CLAMP',
   in: ['float', 'float', 'float'],
@@ -233,7 +233,7 @@ export const Clamp = new FunctionDesc({
     value < min ? min : value > max ? max : value
 });
 
-export const Abs = new FunctionDesc({
+export const Abs = makeInNOutFunctionDesc({
   name: 'math/abs/float',
   label: 'ABS',
   in: ['float'],
@@ -241,7 +241,7 @@ export const Abs = new FunctionDesc({
   exec: Math.abs
 });
 
-export const Sign = new FunctionDesc({
+export const Sign = makeInNOutFunctionDesc({
   name: 'math/sign/float',
   label: 'SIGN',
   in: ['float'],
@@ -249,7 +249,7 @@ export const Sign = new FunctionDesc({
   exec: Math.sign
 });
 
-export const Floor = new FunctionDesc({
+export const Floor = makeInNOutFunctionDesc({
   name: 'math/floor/float',
   label: 'FLOOR',
   in: ['float'],
@@ -257,7 +257,7 @@ export const Floor = new FunctionDesc({
   exec: Math.floor
 });
 
-export const Ceil = new FunctionDesc({
+export const Ceil = makeInNOutFunctionDesc({
   name: 'math/ceil/float',
   label: 'CEIL',
   in: ['float'],
@@ -265,7 +265,7 @@ export const Ceil = new FunctionDesc({
   exec: Math.ceil
 });
 
-export const Round = new FunctionDesc({
+export const Round = makeInNOutFunctionDesc({
   name: 'math/round/float',
   label: 'ROUND',
   in: ['float'],
@@ -273,7 +273,7 @@ export const Round = new FunctionDesc({
   exec: Math.round
 });
 
-export const Trunc = new FunctionDesc({
+export const Trunc = makeInNOutFunctionDesc({
   name: 'math/trunc/float',
   label: 'TRUNC',
   in: ['float'],
@@ -281,14 +281,14 @@ export const Trunc = new FunctionDesc({
   exec: Math.trunc
 });
 
-export const Random = new FunctionDesc({
+export const Random = makeInNOutFunctionDesc({
   name: 'math/random/float',
   label: 'RANDOM',
   out: 'float',
   exec: Math.random
 });
 
-export const Equal = new FunctionDesc({
+export const Equal = makeInNOutFunctionDesc({
   name: 'math/equal/float',
   label: '=',
   in: ['float', 'float'],
@@ -296,7 +296,7 @@ export const Equal = new FunctionDesc({
   exec: (a: number, b: number) => a === b
 });
 
-export const EqualTolerance = new FunctionDesc({
+export const EqualTolerance = makeInNOutFunctionDesc({
   name: 'math/equalTolerance/float',
   label: '=',
   in: ['float', 'float', 'float'],
@@ -305,7 +305,7 @@ export const EqualTolerance = new FunctionDesc({
     equalsTolerance(a, b, tolerance)
 });
 
-export const GreaterThan = new FunctionDesc({
+export const GreaterThan = makeInNOutFunctionDesc({
   name: 'math/greaterThan/float',
   label: '>',
   in: ['float', 'float'],
@@ -313,7 +313,7 @@ export const GreaterThan = new FunctionDesc({
   exec: (a: number, b: number) => a > b
 });
 
-export const GreaterThanOrEqual = new FunctionDesc({
+export const GreaterThanOrEqual = makeInNOutFunctionDesc({
   name: 'math/greaterThanOrEqual/float',
   label: '≥',
   in: ['float', 'float'],
@@ -321,7 +321,7 @@ export const GreaterThanOrEqual = new FunctionDesc({
   exec: (a: number, b: number) => a >= b
 });
 
-export const LessThan = new FunctionDesc({
+export const LessThan = makeInNOutFunctionDesc({
   name: 'math/lessThan/float',
   label: '<',
   in: ['float', 'float'],
@@ -329,7 +329,7 @@ export const LessThan = new FunctionDesc({
   exec: (a: number, b: number) => a < b
 });
 
-export const LessThanOrEqual = new FunctionDesc({
+export const LessThanOrEqual = makeInNOutFunctionDesc({
   name: 'math/lessThanOrEqual/float',
   label: '≤',
   in: ['float', 'float'],
@@ -337,7 +337,7 @@ export const LessThanOrEqual = new FunctionDesc({
   exec: (a: number, b: number) => a <= b
 });
 
-export const IsNaN = new FunctionDesc({
+export const IsNaN = makeInNOutFunctionDesc({
   name: 'math/isNaN/float',
   label: 'isNaN',
   in: ['float'],
@@ -345,7 +345,7 @@ export const IsNaN = new FunctionDesc({
   exec: Number.isNaN
 });
 
-export const IsInf = new FunctionDesc({
+export const IsInf = makeInNOutFunctionDesc({
   name: 'math/isInf/float',
   label: 'isInf',
   in: ['float'],

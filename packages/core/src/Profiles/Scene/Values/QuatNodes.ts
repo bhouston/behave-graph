@@ -1,4 +1,4 @@
-import { FunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   angleAxisToQuat,
   eulerToQuat,
@@ -32,7 +32,7 @@ import {
 - 
 */
 
-export const Constant = new FunctionDesc({
+export const Constant = new makeInNOutFunctionDesc({
   name: 'math/quat',
   label: 'Quaternion',
   in: ['quat'],
@@ -40,7 +40,7 @@ export const Constant = new FunctionDesc({
   exec: (a: Vec4) => a
 });
 
-export const Create = new FunctionDesc({
+export const Create = new makeInNOutFunctionDesc({
   name: 'math/toQuat/float',
   label: 'Float to Quat',
   in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
@@ -48,7 +48,7 @@ export const Create = new FunctionDesc({
   exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
 });
 
-export const Elements = new FunctionDesc({
+export const Elements = new makeInNOutFunctionDesc({
   name: 'math/toFloat/quat',
   label: 'Quat to Float',
   in: ['quat'],
@@ -56,7 +56,7 @@ export const Elements = new FunctionDesc({
   exec: vec4ToArray
 });
 
-export const Negate = new FunctionDesc({
+export const Negate = new makeInNOutFunctionDesc({
   name: 'math/conjugate/quat',
   label: 'Conjugate',
   in: ['quat'],
@@ -64,7 +64,7 @@ export const Negate = new FunctionDesc({
   exec: quatConjugate
 });
 
-export const Multiply = new FunctionDesc({
+export const Multiply = new makeInNOutFunctionDesc({
   name: 'math/multiply/quat',
   label: '×',
   in: ['quat', 'quat'],
@@ -72,7 +72,7 @@ export const Multiply = new FunctionDesc({
   exec: quatMultiply
 });
 
-export const Scale = new FunctionDesc({
+export const Scale = new makeInNOutFunctionDesc({
   name: 'math/scale/quat',
   label: '×',
   in: ['quat', 'float'],
@@ -80,7 +80,7 @@ export const Scale = new FunctionDesc({
   exec: vec4MultiplyByScalar
 });
 
-export const Length = new FunctionDesc({
+export const Length = new makeInNOutFunctionDesc({
   name: 'math/length/quat',
   label: 'Length',
   in: ['quat'],
@@ -88,7 +88,7 @@ export const Length = new FunctionDesc({
   exec: vec4Length
 });
 
-export const Normalize = new FunctionDesc({
+export const Normalize = new makeInNOutFunctionDesc({
   name: 'math/normalize/quat',
   label: 'Normalize',
   in: ['quat'],
@@ -96,7 +96,7 @@ export const Normalize = new FunctionDesc({
   exec: vec4Normalize
 });
 
-export const Dot = new FunctionDesc({
+export const Dot = new makeInNOutFunctionDesc({
   name: 'math/dot/quat',
   label: 'Dot Product',
   in: ['quat', 'quat'],
@@ -104,7 +104,7 @@ export const Dot = new FunctionDesc({
   exec: vec4Dot
 });
 
-export const Ln = new FunctionDesc({
+export const Ln = new makeInNOutFunctionDesc({
   name: 'math/ln/quat',
   label: 'Ln',
   in: ['quat'],
@@ -112,7 +112,7 @@ export const Ln = new FunctionDesc({
   exec: quatLn
 });
 
-export const Exp = new FunctionDesc({
+export const Exp = new makeInNOutFunctionDesc({
   name: 'math/exp/quat',
   label: 'Exp',
   in: ['quat'],
@@ -120,7 +120,7 @@ export const Exp = new FunctionDesc({
   exec: quatExp
 });
 
-export const Pow = new FunctionDesc({
+export const Pow = new makeInNOutFunctionDesc({
   name: 'math/pow/quat',
   label: 'Pow',
   in: ['quat', 'float'],
@@ -128,7 +128,7 @@ export const Pow = new FunctionDesc({
   exec: quatPow
 });
 
-export const Mat3ToQuat = new FunctionDesc({
+export const Mat3ToQuat = new makeInNOutFunctionDesc({
   name: 'math/toQuat/mat3',
   label: 'To Quat',
   in: ['mat3'],
@@ -136,7 +136,7 @@ export const Mat3ToQuat = new FunctionDesc({
   exec: mat3ToQuat
 });
 
-export const Mat4ToQuat = new FunctionDesc({
+export const Mat4ToQuat = new makeInNOutFunctionDesc({
   name: 'math/toQuat/mat4',
   label: 'To Quat',
   in: ['mat4'],
@@ -144,7 +144,7 @@ export const Mat4ToQuat = new FunctionDesc({
   exec: mat4ToQuat
 });
 
-export const EulerToQuat = new FunctionDesc({
+export const EulerToQuat = new makeInNOutFunctionDesc({
   name: 'math/toQuat/euler',
   label: '÷',
   in: ['euler'],
@@ -152,7 +152,7 @@ export const EulerToQuat = new FunctionDesc({
   exec: eulerToQuat
 });
 
-export const AngleAxisToQuat = new FunctionDesc({
+export const AngleAxisToQuat = new makeInNOutFunctionDesc({
   name: 'math/toQuat/angleAxis',
   label: 'Angle Axis to Quat',
   in: ['float', 'vec3'],
@@ -160,7 +160,7 @@ export const AngleAxisToQuat = new FunctionDesc({
   exec: angleAxisToQuat
 });
 
-export const Slerp = new FunctionDesc({
+export const Slerp = new makeInNOutFunctionDesc({
   name: 'math/slerp/quat',
   label: 'Slerp',
   in: [{ a: 'quat' }, { b: 'quat' }, { t: 'float' }],
@@ -168,7 +168,7 @@ export const Slerp = new FunctionDesc({
   exec: quatSlerp
 });
 
-export const Equal = new FunctionDesc({
+export const Equal = new makeInNOutFunctionDesc({
   name: 'math/equal/quat',
   label: '=',
   in: [{ a: 'quat' }, { b: 'quat' }, { tolerance: 'float' }],

@@ -1,8 +1,8 @@
-import { FunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
 
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 
-export const Constant = new FunctionDesc({
+export const Constant = makeInNOutFunctionDesc({
   name: 'math/integer',
   label: 'Integer',
   in: ['integer'],
@@ -10,7 +10,7 @@ export const Constant = new FunctionDesc({
   exec: (a: bigint) => a
 });
 
-export const Add = new FunctionDesc({
+export const Add = makeInNOutFunctionDesc({
   name: 'math/add/integer',
   label: '+',
   in: ['integer', 'integer'],
@@ -18,7 +18,7 @@ export const Add = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a + b
 });
 
-export const Subtract = new FunctionDesc({
+export const Subtract = makeInNOutFunctionDesc({
   name: 'math/subtract/integer',
   label: '-',
   in: ['integer', 'integer'],
@@ -26,7 +26,7 @@ export const Subtract = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a - b
 });
 
-export const Negate = new FunctionDesc({
+export const Negate = makeInNOutFunctionDesc({
   name: 'math/negate/integer',
   label: '-',
   in: ['integer'],
@@ -34,7 +34,7 @@ export const Negate = new FunctionDesc({
   exec: (a: bigint) => -a
 });
 
-export const Multiply = new FunctionDesc({
+export const Multiply = makeInNOutFunctionDesc({
   name: 'math/multiply/integer',
   label: '×',
   in: ['integer', 'integer'],
@@ -42,7 +42,7 @@ export const Multiply = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a * b
 });
 
-export const Divide = new FunctionDesc({
+export const Divide = makeInNOutFunctionDesc({
   name: 'math/divide/integer',
   label: '÷',
   in: ['integer', 'integer'],
@@ -50,7 +50,7 @@ export const Divide = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a / b
 });
 
-export const Modulus = new FunctionDesc({
+export const Modulus = makeInNOutFunctionDesc({
   name: 'math/modulus/integer',
   label: 'MOD',
   in: ['integer', 'integer'],
@@ -58,7 +58,7 @@ export const Modulus = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a % b
 });
 
-export const ToFloat = new FunctionDesc({
+export const ToFloat = makeInNOutFunctionDesc({
   name: 'math/toFloat/integer',
   label: 'To Float',
   in: ['integer'],
@@ -66,7 +66,7 @@ export const ToFloat = new FunctionDesc({
   exec: (a: bigint) => Number(a)
 });
 
-export const Min = new FunctionDesc({
+export const Min = makeInNOutFunctionDesc({
   name: 'math/min/integer',
   label: 'MIN',
   in: ['integer', 'integer'],
@@ -74,7 +74,7 @@ export const Min = new FunctionDesc({
   exec: (a: bigint, b: bigint) => (a > b ? b : a)
 });
 
-export const Max = new FunctionDesc({
+export const Max = makeInNOutFunctionDesc({
   name: 'math/max/integer',
   label: 'MAX',
   in: ['integer', 'integer'],
@@ -82,7 +82,7 @@ export const Max = new FunctionDesc({
   exec: (a: bigint, b: bigint) => (a > b ? a : b)
 });
 
-export const Clamp = new FunctionDesc({
+export const Clamp = makeInNOutFunctionDesc({
   name: 'math/clamp/integer',
   label: 'CLAMP',
   in: [{ value: 'integer' }, { min: 'integer' }, { max: 'integer' }],
@@ -91,7 +91,7 @@ export const Clamp = new FunctionDesc({
     value < min ? min : value > max ? max : value
 });
 
-export const Abs = new FunctionDesc({
+export const Abs = makeInNOutFunctionDesc({
   name: 'math/abs/integer',
   label: 'ABS',
   in: ['integer'],
@@ -99,7 +99,7 @@ export const Abs = new FunctionDesc({
   exec: (a: bigint) => (a < BigInt(0) ? -a : a)
 });
 
-export const Sign = new FunctionDesc({
+export const Sign = makeInNOutFunctionDesc({
   name: 'math/sign/integer',
   label: 'SIGN',
   in: ['integer'],
@@ -107,7 +107,7 @@ export const Sign = new FunctionDesc({
   exec: (a: bigint) => BigInt(a < 0 ? -1 : a > 0 ? 1 : 0)
 });
 
-export const Equal = new FunctionDesc({
+export const Equal = makeInNOutFunctionDesc({
   name: 'math/equal/integer',
   label: '=',
   in: ['integer', 'integer'],
@@ -115,7 +115,7 @@ export const Equal = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a === b
 });
 
-export const GreaterThan = new FunctionDesc({
+export const GreaterThan = makeInNOutFunctionDesc({
   name: 'math/greaterThan/integer',
   label: '>',
   in: ['integer', 'integer'],
@@ -123,7 +123,7 @@ export const GreaterThan = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a > b
 });
 
-export const GreaterThanOrEqual = new FunctionDesc({
+export const GreaterThanOrEqual = makeInNOutFunctionDesc({
   name: 'math/greaterThanOrEqual/integer',
   label: '≥',
   in: ['integer', 'integer'],
@@ -131,7 +131,7 @@ export const GreaterThanOrEqual = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a >= b
 });
 
-export const LessThan = new FunctionDesc({
+export const LessThan = makeInNOutFunctionDesc({
   name: 'math/lessThan/integer',
   label: '<',
   in: ['integer', 'integer'],
@@ -139,7 +139,7 @@ export const LessThan = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a < b
 });
 
-export const LessThanOrEqual = new FunctionDesc({
+export const LessThanOrEqual = makeInNOutFunctionDesc({
   name: 'math/lessThanOrEqual/integer',
   label: '≤',
   in: ['integer', 'integer'],
@@ -147,7 +147,7 @@ export const LessThanOrEqual = new FunctionDesc({
   exec: (a: bigint, b: bigint) => a <= b
 });
 
-export const toBoolean = new FunctionDesc({
+export const toBoolean = makeInNOutFunctionDesc({
   name: 'math/toBoolean/integer',
   label: 'To Boolean',
   in: ['integer'],

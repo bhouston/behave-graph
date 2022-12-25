@@ -1,42 +1,29 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
-
+import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
 // based on Unreal Engine Blueprint DoN node
 
-export class DoOnce extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/doOnce',
-    'Flow',
-    'DoOnce',
-    (description, graph) => new DoOnce(description, graph)
-  );
-
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [new Socket('flow', 'flow'), new Socket('flow', 'reset')],
-      [new Socket('flow', 'flow')]
-    );
-  }
-
-  private firedOnce = false;
-
-  triggered(fiber: Fiber, triggeringSocketName: string) {
+export const DoOnce = makeFlowNodeDefinition({
+  typeName: 'flow/doOnce',
+  label: 'DoOnce',
+  category: 'Flow',
+  in: {
+    flow: 'flow',
+    reset: 'flow'
+  },
+  out: {
+    flow: 'flow'
+  },
+  initialState: {
+    firedOnce: false
+  },
+  triggered: ({ commit, triggeringSocketName, state }) => {
     if (triggeringSocketName === 'reset') {
-      this.firedOnce = false;
-      return;
+      return { firedOnce: false };
     }
-    if (triggeringSocketName === 'flow') {
-      if (!this.firedOnce) {
-        this.firedOnce = true;
-        fiber.commit(this, 'flow');
-      }
-      return;
+
+    if (!state.firedOnce) {
+      commit('flow');
+      return { firedOnce: true };
     }
-    throw new Error('should not get here');
+    return state;
   }
-}
+});

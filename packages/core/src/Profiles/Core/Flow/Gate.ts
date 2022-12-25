@@ -1,64 +1,58 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
 
 // based on Unreal Engine Blueprint Gate node
 
-export class Gate extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/gate',
-    'Flow',
-    'Gate',
-    (description, graph) => new Gate(description, graph)
-  );
+export const Gate = makeFlowNodeDefinition({
+  typeName: 'flow/gate',
+  label: 'Gate',
+  category: 'Flow',
+  in: {
+    flow: 'flow',
+    open: 'flow',
+    close: 'flow',
+    toggle: 'flow',
+    startClosed: 'boolean'
+  },
+  out: {
+    flow: 'flow'
+  },
+  initialState: {
+    isInitialized: false,
+    isClosed: true
+  },
+  triggered: ({ commit, read, triggeringSocketName, state }) => {
+    let isClosed = state.isClosed;
+    let isInitialized = state.isInitialized;
 
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [
-        new Socket('flow', 'flow'),
-        new Socket('flow', 'open'),
-        new Socket('flow', 'close'),
-        new Socket('flow', 'toggle'),
-        new Socket('boolean', 'startClosed', true)
-      ],
-      [new Socket('flow', 'flow')]
-    );
-  }
-
-  private isInitialized = false;
-  private isClosed = true;
-
-  triggered(fiber: Fiber, triggeringSocketName: string) {
-    if (!this.isInitialized) {
-      this.isClosed = this.readInput<boolean>('startClosed');
-      this.isInitialized = true;
+    if (!state.isInitialized) {
+      isClosed = read('startClosed');
+      isInitialized = true;
     }
 
     switch (triggeringSocketName) {
-      case 'flow': {
-        if (!this.isClosed) {
-          fiber.commit(this, 'flow');
+      case 'flow':
+        if (!isClosed) {
+          commit('flow');
         }
         break;
-      }
-      case 'open': {
-        this.isClosed = false;
-        return;
-      }
-      case 'close': {
-        this.isClosed = true;
-        return;
-      }
-      case 'toggle': {
-        this.isClosed = !this.isClosed;
-        return;
-      }
+      case 'open':
+        isClosed = false;
+        break;
+      case 'close':
+        isClosed = true;
+        break;
+      case 'toggle':
+        isClosed = !isClosed;
+        break;
       default:
-        new Error('should not get here');
+        throw new Error(
+          `Unexpected triggering socket: ${triggeringSocketName}`
+        );
     }
+
+    return {
+      isClosed,
+      isInitialized
+    };
   }
-}
+});

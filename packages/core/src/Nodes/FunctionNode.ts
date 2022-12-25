@@ -2,8 +2,10 @@ import { Assert } from '../Diagnostics/Assert';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeDefinition, NodeExec, SocketsDefinition } from './NodeDefinition';
-import { NodeCategory } from './Registry/NodeCategory';
+import {
+  makeFunctionNodeDefinition,
+  SocketsDefinition
+} from './NodeDefinition';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FunctionNode extends Node {
@@ -71,7 +73,6 @@ export function makeInNOutFunctionDesc({
 }: {
   name: string;
   label: string;
-  category?: NodeCategory;
   aliases?: string[];
   in?: string[];
   inputKeys?: string[];
@@ -97,58 +98,27 @@ export function makeInNOutFunctionDesc({
     Array.isArray(out) && out.length > 1 ? () => 'result' : getAlphabeticalKey;
   const outputSockets = toOrderedSockets(out, outputKeyFunc);
 
-  const nodeExec: NodeExec<
-    typeof inputSockets.sockets,
-    typeof outputSockets.sockets,
-    undefined
-  > = ({ read, write }) => {
-    const args = inputSockets.socketKeys.map((key) => read(key));
-    const results = exec(...args);
-    if (
-      outputSockets.socketKeys.length === 1 &&
-      outputSockets.socketKeys[0] === 'result'
-    ) {
-      write('result', results);
-    } else {
-      outputSockets.socketKeys.forEach((key) => {
-        write(key, results[key]);
-      });
-    }
-
-    return undefined;
-  };
-
-  const definition: NodeDefinition<
-    typeof inputSockets.sockets,
-    typeof outputSockets.sockets,
-    undefined
-  > = {
-    name: rest.name,
+  const definition = makeFunctionNodeDefinition({
+    typeName: rest.name,
     label: rest.label,
-    type: 'function',
-    exec: nodeExec,
+    category: 'Function',
     in: inputSockets.sockets,
     out: outputSockets.sockets,
-    initialState: undefined
-  };
+    exec: ({ read, write }) => {
+      const args = inputSockets.socketKeys.map((key) => read(key));
+      const results = exec(...args);
+      if (
+        outputSockets.socketKeys.length === 1 &&
+        outputSockets.socketKeys[0] === 'result'
+      ) {
+        write('result', results);
+      } else {
+        outputSockets.socketKeys.forEach((key) => {
+          write(key, results[key]);
+        });
+      }
+    }
+  });
 
   return definition;
-
-  //        const args = inputSockets.map(({ name }) => node.readInput(name));
-  //         const results = exec(...args);
-  //         if (
-  //           outputSockets.length === 1 &&
-  //           outputSockets[0].name === 'result'
-  //         ) {
-  //           node.writeOutput('result', results);
-  //         } else {
-  //           outputSockets.forEach(({ name }) => {
-  //             node.writeOutput(name, results[name]);
-  //           });
-  //         }
-  //       }
-  //     );
-  //   },
-  //   aliases
-  // );
 }

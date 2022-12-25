@@ -1,47 +1,36 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
 
 // based on Unreal Engine Blueprint DoN node
 
-export class DoN extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/doN',
-    'Flow',
-    'DoN',
-    (description, graph) => new DoN(description, graph)
-  );
-
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [
-        new Socket('flow', 'flow'),
-        new Socket('integer', 'n', 1),
-        new Socket('flow', 'reset')
-      ],
-      [new Socket('flow', 'flow'), new Socket('integer', 'count')]
-    );
-  }
-
-  private count = 0;
-
-  triggered(fiber: Fiber, triggeringSocketName: string) {
+export const DoN = makeFlowNodeDefinition({
+  typeName: 'flow/doN',
+  label: 'DoN',
+  category: 'Flow',
+  in: {
+    flow: 'flow',
+    n: 'integer',
+    reset: 'flow'
+  },
+  out: {
+    flow: 'flow',
+    count: 'integer'
+  },
+  initialInputs: {
+    n: 1
+  },
+  initialState: {
+    count: 0
+  },
+  triggered: ({ commit, read, write, triggeringSocketName, state }) => {
     if (triggeringSocketName === 'reset') {
-      this.count = 0;
-      return;
+      return { count: 0 };
     }
-    if (triggeringSocketName === 'flow') {
-      if (this.count < Number(this.readInput<bigint>('n'))) {
-        this.writeOutput('count', this.count);
-        this.count++;
-        fiber.commit(this, 'flow');
-      }
-      return;
+
+    if (state.count < Number(read('n'))) {
+      write('count', state.count);
+      commit('flow');
+      return { count: state.count + 1 };
     }
-    throw new Error('should not get here');
+    return state;
   }
-}
+});

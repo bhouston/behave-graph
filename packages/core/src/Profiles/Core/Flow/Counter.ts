@@ -1,42 +1,41 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
 
-export class Counter extends FlowNode {
-  public static Description = new NodeDescription(
-    'flow/counter',
-    'Flow',
-    'Counter',
-    (description, graph) => new Counter(description, graph)
-  );
-
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [new Socket('flow', 'flow'), new Socket('flow', 'reset')],
-      [new Socket('flow', 'flow'), new Socket('integer', 'count')]
-    );
-  }
-
-  private count = 0;
-
-  triggered(fiber: Fiber, triggeringSocketName: string) {
+export const Counter = makeFlowNodeDefinition({
+  typeName: 'flow/counter',
+  label: 'Counter',
+  in: {
+    flow: 'flow',
+    reset: 'flow'
+  },
+  out: {
+    flow: 'flow',
+    count: 'integer'
+  },
+  initialState: {
+    count: 0
+  },
+  category: 'Flow',
+  triggered: ({ commit, write, triggeringSocketName, state }) => {
+    let count = state.count;
     switch (triggeringSocketName) {
       case 'flow': {
-        this.count++;
-        this.writeOutput('count', this.count);
-        fiber.commit(this, 'flow');
+        count++;
+        // through type enforcement, write and commit can only write to one of the keys of `out`
+        write('count', count);
+        commit('flow');
         break;
       }
       case 'reset': {
-        this.count = 0;
+        count = 0;
         break;
       }
       default:
         throw new Error('should not get here');
     }
+
+    // return updated state
+    return {
+      count
+    };
   }
-}
+});

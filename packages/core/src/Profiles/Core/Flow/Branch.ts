@@ -1,8 +1,11 @@
-import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+import {
+  makeFlowNodeDefinition,
+  NodeCategory
+} from 'packages/core/src/Nodes/NodeDefinition';
 
 export const Branch = makeFlowNodeDefinition({
   typeName: 'flow/branch',
-  category: 'Flow',
+  category: NodeCategory.Flow,
   label: 'Branch',
   helpDescription:
     "Checks the value of the 'condition' input and if true, executes the 'true' branch, otherwise it executes the 'false' branch.",

@@ -4,6 +4,7 @@ import { Metadata } from '../Metadata';
 import { Node, NodeConfiguration } from '../Nodes/Node';
 import { Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
+import { createNode } from './NodeFactory';
 // Purpose:
 //  - stores the node graph
 
@@ -30,21 +31,15 @@ export class Graph {
         `can not create new node of type ${nodeTypeName} with id ${nodeId} as one with that id already exists.`
       );
     }
-    let nodeDescription = undefined;
-    if (this.registry.nodes.contains(nodeTypeName)) {
-      nodeDescription = this.registry.nodes.get(nodeTypeName);
-    }
-    if (nodeDescription === undefined) {
-      throw new Error(
-        `no registered node descriptions with the typeName ${nodeTypeName}`
-      );
-    }
-    const node = nodeDescription.factory(
-      nodeDescription,
-      this,
-      nodeConfiguration
+
+    const node = createNode(
+      nodeTypeName,
+      nodeId,
+      nodeConfiguration,
+      this.registry,
+      this
     );
-    node.id = nodeId;
+
     this.nodes[nodeId] = node;
     node.inputs.forEach((socket) => {
       if (socket.valueTypeName !== 'flow' && socket.value === undefined) {

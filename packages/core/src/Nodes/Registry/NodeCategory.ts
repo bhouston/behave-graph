@@ -1,9 +1,11 @@
-export type NodeCategory =
-  | 'Action'
-  | 'Query'
-  | 'Logic'
-  | 'Event'
-  | 'Variable'
-  | 'Flow'
-  | 'Time'
-  | 'None';
+export enum NodeCategory {
+  Action = 'Action',
+  Query = 'Query',
+  Logic = 'Logic',
+  Event = 'Event',
+  Variable = 'Variable',
+  Function = 'Function',
+  Flow = 'Flow',
+  Time = 'Time',
+  None = 'None'
+}

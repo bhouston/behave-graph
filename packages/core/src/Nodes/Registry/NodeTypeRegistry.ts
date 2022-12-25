@@ -1,8 +1,8 @@
-import { NodeDescription } from './NodeDescription';
+import { INodeDefinitionBase } from '../NodeDefinition';
 
 export class NodeTypeRegistry {
   private readonly typeNameToNodeDescriptions: {
-    [type: string]: NodeDescription;
+    [type: string]: INodeDefinitionBase;
   } = {};
 
   clear() {
@@ -10,25 +10,25 @@ export class NodeTypeRegistry {
       delete this.typeNameToNodeDescriptions[nodeTypeName];
     }
   }
-  register(...descriptions: Array<NodeDescription>) {
+  register(...descriptions: Array<INodeDefinitionBase>) {
     descriptions.forEach((description) => {
-      description.otherTypeNames
-        .concat([description.typeName])
-        .forEach((typeName) => {
-          if (typeName in this.typeNameToNodeDescriptions) {
-            throw new Error(
-              `already registered node type ${typeName} (string)`
-            );
-          }
-          this.typeNameToNodeDescriptions[typeName] = description;
-        });
+      const allTypeNames = (description.otherTypeNames || []).concat([
+        description.typeName
+      ]);
+
+      allTypeNames.forEach((typeName) => {
+        if (typeName in this.typeNameToNodeDescriptions) {
+          throw new Error(`already registered node type ${typeName} (string)`);
+        }
+        this.typeNameToNodeDescriptions[typeName] = description;
+      });
     });
   }
 
   contains(typeName: string): boolean {
     return typeName in this.typeNameToNodeDescriptions;
   }
-  get(typeName: string): NodeDescription {
+  get(typeName: string): INodeDefinitionBase {
     if (!(typeName in this.typeNameToNodeDescriptions)) {
       throw new Error(`no registered node with type name ${typeName}`);
     }
@@ -39,7 +39,7 @@ export class NodeTypeRegistry {
     return Object.keys(this.typeNameToNodeDescriptions);
   }
 
-  getAllDescriptions(): NodeDescription[] {
+  getAllDescriptions(): INodeDefinitionBase[] {
     return Object.values(this.typeNameToNodeDescriptions);
   }
 }

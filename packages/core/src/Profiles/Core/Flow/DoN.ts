@@ -18,7 +18,7 @@ export const DoN = makeFlowNodeDefinition({
     flow: 'flow',
     count: 'integer'
   },
-  initialInputs: {
+  initialInputsVals: {
     n: 1
   },
   initialState: {

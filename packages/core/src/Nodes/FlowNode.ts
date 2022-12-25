@@ -3,6 +3,7 @@ import { Fiber } from '../Execution/Fiber';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { FlowNodeTriggeredFn } from './NodeDefinition';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FlowNode extends Node {
@@ -29,12 +30,16 @@ export class FlowNode extends Node {
 }
 
 export class FlowNode2 extends FlowNode {
+  private readonly triggeredInner: FlowNodeTriggeredFn;
+  private state: any;
   constructor(props: {
     description: NodeDescription;
     graph: Graph;
     inputs?: Socket[];
     outputs?: Socket[];
     configuration?: NodeConfiguration;
+    initialState: any;
+    triggered: FlowNodeTriggeredFn;
   }) {
     super(
       props.description,
@@ -43,5 +48,19 @@ export class FlowNode2 extends FlowNode {
       props.outputs,
       props.configuration
     );
+
+    this.triggeredInner = props.triggered;
+    this.state = props.initialState;
+  }
+
+  triggered(fiber: Fiber, triggeringSocketName: string): void {
+    this.state = this.triggeredInner({
+      commit: (outFlowname, fiberCompletedListener) =>
+        fiber.commit(this, outFlowname, fiberCompletedListener),
+      read: this.readInput,
+      write: this.writeOutput,
+      state: this.state,
+      triggeringSocketName
+    });
   }
 }

@@ -1,26 +1,34 @@
+import { NodeCategory } from './Registry/NodeCategory';
+
 export type SocketsDefinition = Record<string, string>;
 
-export enum NodeCategory {
-  Action = 'Action',
-  Event = 'Event',
-  Flow = 'Flow',
-  Function = 'Function'
+export interface INodeDefinitionBase {
+  category: NodeCategory;
+  typeName: string;
+  otherTypeNames?: string[];
+  // type: NodeType;
+  aliases?: string[]; // for backwards compatibility
+  helpDescription?: string;
+  label?: string;
+  in: SocketsDefinition;
+  out: SocketsDefinition;
+  initialInputsVals?: Record<string, any>;
 }
 
-export interface NodeDefinition<
+export interface INodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TNodeCategory extends NodeCategory
-> {
-  typeName: string;
+> extends INodeDefinitionBase {
   category: TNodeCategory;
+  typeName: string;
   // type: NodeType;
   aliases?: string[]; // for backwards compatibility
   helpDescription?: string;
   label?: string;
   in: TInput;
   out: TOutput;
-  initialInputs?: { [key in keyof TInput]?: any };
+  initialInputsVals?: { [key in keyof TInput]?: any };
 }
 
 /** Flow Node Definition */
@@ -34,7 +42,8 @@ export interface FlowNodeTriggeredParams<
   // write and commit only allows keys from the output type
   write<T>(outValueName: keyof TOutput, value: T): void;
   commit(
-    outFlowName: keyof TOutput
+    outFlowName: keyof TOutput,
+    fiberCompletedListener?: () => void
     // fiberCompletedListener: (() => void) | undefined
   ): void; // commits to current fiber unless 'async-flow' or 'event-flow'
   triggeringSocketName: keyof TInput;
@@ -42,15 +51,19 @@ export interface FlowNodeTriggeredParams<
   state: TState;
 }
 
-export interface FlowNodeDefinition<
+export type FlowNodeTriggeredFn<
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition,
+  TState = any
+> = (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
+
+export interface IFlowNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
-> extends NodeDefinition<TInput, TOutput, NodeCategory.Flow> {
+> extends INodeDefinition<TInput, TOutput, NodeCategory.Flow> {
   initialState: TState;
-  triggered: (
-    params: FlowNodeTriggeredParams<TInput, TOutput, TState>
-  ) => TState;
+  triggered: FlowNodeTriggeredFn<TInput, TOutput, TState>;
 }
 
 export interface FunctionNodeExecParams<
@@ -66,18 +79,27 @@ export interface FunctionNodeExecParams<
 export interface FunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
-> extends NodeDefinition<TInput, TOutput, NodeCategory.Function> {
+> extends INodeDefinition<TInput, TOutput, NodeCategory.Function> {
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
+
+export type EventNodeSetupParams<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> = Omit<
+  FlowNodeTriggeredParams<TInput, TOutput, TState>,
+  'triggeringSocketName'
+>;
 
 export interface EventNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
-> extends NodeDefinition<TInput, TOutput, NodeCategory.Event> {
+> extends INodeDefinition<TInput, TOutput, NodeCategory.Event> {
   initialState: TState;
-  init: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
-  dispose: (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => void;
+  init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;
+  dispose: (params: { state: TState }) => void;
 }
 
 // HELPER FUNCTIONS
@@ -88,8 +110,8 @@ export function makeFlowNodeDefinition<
   TOutput extends SocketsDefinition,
   TState
 >(
-  definition: FlowNodeDefinition<TInput, TOutput, TState>
-): FlowNodeDefinition<TInput, TOutput, TState> {
+  definition: IFlowNodeDefinition<TInput, TOutput, TState>
+): IFlowNodeDefinition<TInput, TOutput, TState> {
   return definition;
 }
 
@@ -112,3 +134,5 @@ export function makeEventNodeDefinition<
 ): EventNodeDefinition<TInput, TOutput, TState> {
   return definition;
 }
+
+export { NodeCategory } from './Registry/NodeCategory';

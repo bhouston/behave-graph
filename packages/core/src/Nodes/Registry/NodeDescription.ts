@@ -1,6 +1,6 @@
 import { Graph } from '../../Graphs/Graph';
+import { NodeCategory } from '../NodeDefinition';
 import { Node, NodeConfiguration } from './../Node';
-import { NodeCategory } from './NodeCategory';
 
 export type NodeFactory = (
   entry: NodeDescription,
@@ -26,7 +26,7 @@ export class NodeDescription {
     public readonly typeName: string,
     public readonly category: NodeCategory,
     public readonly label: string = '',
-    public readonly factory: NodeFactory,
+    // public readonly factory: NodeFactory,
     public readonly otherTypeNames: string[] = [],
     public readonly helpDescription: string = '',
     public readonly configuration: NodeConfigurationDescription = {}
@@ -40,7 +40,7 @@ export class NodeDescription2 extends NodeDescription {
       category: NodeCategory;
       label?: string;
       configuration?: NodeConfigurationDescription;
-      factory: NodeFactory;
+      // factory: NodeFactory;
       otherTypeNames?: string[];
       helpDescription?: string;
     }
@@ -49,7 +49,7 @@ export class NodeDescription2 extends NodeDescription {
       properties.typeName,
       properties.category,
       properties.label,
-      properties.factory,
+      // properties.factory,
       properties.otherTypeNames,
       properties.helpDescription,
       properties.configuration

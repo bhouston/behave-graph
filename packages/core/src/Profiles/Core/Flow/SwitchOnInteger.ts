@@ -47,7 +47,7 @@ export class SwitchOnInteger extends FlowNode {
     const selection = this.readInput('selection');
     const cases: number[] = this.configuration.cases;
     for (let i = 0; i < cases.length; i++) {
-      if (selection === cases[i]) {
+      if (selection === BigInt(cases[i])) {
         fiber.commit(this, `${cases[i]}`);
         return;
       }

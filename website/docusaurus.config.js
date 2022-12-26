@@ -9,8 +9,8 @@ const config = {
   title: 'Behave-Graph',
   tagline:
     '"behavior graphs" as a portable TypeScript library with no required external run-time dependencies',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://bhouston.github.io',
+  baseUrl: '/behave-graph',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

@@ -1,8 +1,9 @@
 import { CustomEvent } from '../Events/CustomEvent';
 import { generateUuid } from '../generateUuid';
 import { Metadata } from '../Metadata';
-import { Node, NodeConfiguration } from '../Nodes/Node';
+import { NodeConfiguration } from '../Nodes/Node';
 import { createNodeUsingRegistryDefinition } from '../Nodes/nodeFactory';
+import { INode } from '../Nodes/NodeInstance';
 import { Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
 // Purpose:
@@ -11,7 +12,7 @@ import { Variable } from '../Variables/Variable';
 export class Graph {
   public name = '';
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
-  public readonly nodes: { [id: string]: Node } = {};
+  public readonly nodes: { [id: string]: INode } = {};
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly variables: { [id: string]: Variable } = {};
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
@@ -25,7 +26,7 @@ export class Graph {
     nodeTypeName: string,
     nodeId: string = generateUuid(),
     nodeConfiguration: NodeConfiguration = {}
-  ): Node {
+  ): INode {
     if (nodeId in this.nodes) {
       throw new Error(
         `can not create new node of type ${nodeTypeName} with id ${nodeId} as one with that id already exists.`

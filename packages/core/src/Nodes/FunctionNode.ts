@@ -18,7 +18,7 @@ export class FunctionNode extends Node {
     public readonly exec: (node: Node) => void,
     configuration: NodeConfiguration = {}
   ) {
-    super(description, inputs, outputs, configuration);
+    super(description, graph, inputs, outputs, configuration);
 
     // must have no input flow sockets
     Assert.mustBeTrue(

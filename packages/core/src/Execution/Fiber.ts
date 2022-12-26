@@ -1,9 +1,7 @@
 import { Assert } from '../Diagnostics/Assert';
 import { Graph } from '../Graphs/Graph';
-import { AsyncNode } from '../Nodes/AsyncNode';
-import { FlowNode } from '../Nodes/FlowNode';
 import { Link } from '../Nodes/Link';
-import { Node } from '../Nodes/Node';
+import { INode, isAsyncNode, isFlowNode } from '../Nodes/NodeInstance';
 import { Engine } from './Engine';
 import { resolveSocketValue } from './resolveSocketValue';
 
@@ -26,11 +24,11 @@ export class Fiber {
   // this is syncCommit.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   commit(
-    node: Node,
+    node: INode,
     outputSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
-    Assert.mustBeTrue(node instanceof FlowNode);
+    Assert.mustBeTrue(isFlowNode(node));
     Assert.mustBeTrue(this.nextEval === null);
 
     const outputSocket = node.outputs.find(
@@ -43,7 +41,7 @@ export class Fiber {
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
-          `${node.description.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
+          `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
       );
     }
     if (outputSocket.links.length === 1) {
@@ -89,7 +87,7 @@ export class Fiber {
     // first resolve all input values
     // flow socket is set to true for the one flowing in, while all others are set to false.
     this.engine.onNodeExecutionStart.emit(node);
-    if (node instanceof AsyncNode) {
+    if (isAsyncNode(node)) {
       this.engine.asyncNodes.push(node);
       node.triggered(this.engine, link.socketName, () => {
         // remove from the list of pending async nodes
@@ -100,16 +98,14 @@ export class Fiber {
       });
       return;
     }
-    if (node instanceof FlowNode) {
+    if (isFlowNode(node)) {
       node.triggered(this, link.socketName);
       this.engine.onNodeExecutionEnd.emit(node);
       this.executionSteps++;
       return;
     }
 
-    throw new TypeError(
-      `should not get here, unhandled node ${node.description.typeName}`
-    );
+    throw new TypeError(`should not get here, unhandled node ${node.typeName}`);
   }
 
   isCompleted() {

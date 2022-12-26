@@ -1,4 +1,5 @@
 export enum NodeCategory {
+  Async = 'Async',
   Action = 'Action',
   Query = 'Query',
   Logic = 'Logic',

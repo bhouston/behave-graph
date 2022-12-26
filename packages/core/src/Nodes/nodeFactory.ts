@@ -1,16 +1,13 @@
 import { Registry } from '../Registry';
 import { Socket } from '../Sockets/Socket';
-import { EventNode2 } from './EventNode';
-import { FlowNode2 } from './FlowNode';
 import { NodeConfiguration } from './Node';
-import { Node } from './Node';
 import {
   EventNodeDefinition,
   IFlowNodeDefinition,
   INodeDefinitionBase,
   NodeCategory
 } from './NodeDefinition';
-import { NodeDescription2 } from './Registry/NodeDescription';
+import { EventNodeInstance, FlowNodeInstance, INode } from './NodeInstance';
 
 type AnyInOut = Record<string, string>;
 
@@ -48,27 +45,23 @@ function toSockets(
 function createNode(
   nodeDefinition: INodeDefinitionBase,
   nodeConfiguration: NodeConfiguration
-): Node {
-  const commonProps = {
-    description: new NodeDescription2({
-      typeName: nodeDefinition.typeName,
-      category: nodeDefinition.category,
-      label: nodeDefinition.label,
-      helpDescription: nodeDefinition.helpDescription
-    }),
+): INode {
+  const commonProps: INode = {
+    id: '',
+    typeName: nodeDefinition.typeName,
+    category: nodeDefinition.category,
     inputs: toSockets(nodeDefinition.in, nodeDefinition.initialInputsVals),
     outputs: toSockets(nodeDefinition.out)
   };
 
   if (isFlowNode(nodeDefinition)) {
-    return new FlowNode2({
+    return new FlowNodeInstance({
       ...commonProps,
       initialState: nodeDefinition.initialState,
-      triggered: nodeDefinition.triggered,
-      configuration: nodeConfiguration
+      triggered: nodeDefinition.triggered
     });
   } else if (isEventNode(nodeDefinition)) {
-    return new EventNode2({
+    return new EventNodeInstance({
       ...commonProps,
       init: nodeDefinition.init,
       dispose: nodeDefinition.dispose,
@@ -87,7 +80,7 @@ export const createNodeUsingRegistryDefinition = (
   nodeId: string,
   nodeConfiguration: NodeConfiguration,
   registry: Registry
-): Node => {
+): INode => {
   let nodeDescription = undefined;
   if (registry.nodes.contains(nodeTypeName)) {
     nodeDescription = registry.nodes.get(nodeTypeName);

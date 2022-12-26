@@ -58,9 +58,9 @@ export type FlowNodeTriggeredFn<
 > = (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
 
 export interface IFlowNodeDefinition<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition,
-  TState
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition,
+  TState = any
 > extends INodeDefinition<TInput, TOutput, NodeCategory.Flow> {
   initialState: TState;
   triggered: FlowNodeTriggeredFn<TInput, TOutput, TState>;
@@ -93,9 +93,9 @@ export type EventNodeSetupParams<
 >;
 
 export interface EventNodeDefinition<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition,
-  TState
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition,
+  TState = any
 > extends INodeDefinition<TInput, TOutput, NodeCategory.Event> {
   initialState: TState;
   init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;

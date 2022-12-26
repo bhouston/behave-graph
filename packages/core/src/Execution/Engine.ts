@@ -5,7 +5,12 @@ import { EventEmitter } from '../Events/EventEmitter';
 import { Graph } from '../Graphs/Graph';
 import { AsyncNode } from '../Nodes/AsyncNode';
 import { EventNode } from '../Nodes/EventNode';
-import { Node } from '../Nodes/Node';
+import {
+  IAsyncNode,
+  IEventNode,
+  INode,
+  isEventNode
+} from '../Nodes/NodeInstance';
 import { sleep } from '../sleep';
 import { Fiber } from './Fiber';
 import { resolveSocketValue } from './resolveSocketValue';
@@ -13,16 +18,16 @@ import { resolveSocketValue } from './resolveSocketValue';
 export class Engine {
   // tracking the next node+input socket to execute.
   private readonly fiberQueue: Fiber[] = [];
-  public readonly asyncNodes: AsyncNode[] = [];
-  public readonly eventNodes: EventNode[] = [];
-  public readonly onNodeExecutionStart = new EventEmitter<Node>();
-  public readonly onNodeExecutionEnd = new EventEmitter<Node>();
+  public readonly asyncNodes: IAsyncNode[] = [];
+  public readonly eventNodes: IEventNode[] = [];
+  public readonly onNodeExecutionStart = new EventEmitter<INode>();
+  public readonly onNodeExecutionEnd = new EventEmitter<INode>();
   public executionSteps = 0;
 
   constructor(public readonly graph: Graph) {
     // collect all event nodes
     Object.values(graph.nodes).forEach((node) => {
-      if (node instanceof EventNode) {
+      if (isEventNode(node)) {
         this.eventNodes.push(node);
       }
     });
@@ -51,7 +56,7 @@ export class Engine {
 
   // asyncCommit
   commitToNewFiber(
-    node: Node,
+    node: INode,
     outputFlowSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
@@ -65,7 +70,7 @@ export class Engine {
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
-          `${node.description.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
+          `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
       );
     }
     if (outputSocket.links.length === 1) {

@@ -1,7 +1,6 @@
 import { Graph } from '../Graphs/Graph';
 import { Metadata } from '../Metadata';
 import { Socket } from '../Sockets/Socket';
-import { NodeCategory } from './NodeDefinition';
 import { INode, NodeType } from './NodeInstance';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
 import { NodeDescription } from './Registry/NodeDescription';
@@ -45,9 +44,5 @@ export class Node<TNodeType extends NodeType> implements INode {
 
   get typeName() {
     return this.description.typeName;
-  }
-
-  get category() {
-    return this.description.category as NodeCategory;
   }
 }

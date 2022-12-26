@@ -3,7 +3,8 @@ import {
   EventNodeInstance,
   FlowNodeInstance,
   FunctionNodeInstance,
-  INode
+  INode,
+  NodeType
 } from './NodeInstance';
 import { NodeCategory } from './Registry/NodeCategory';
 
@@ -19,7 +20,8 @@ export interface INodeDefinitionBase<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition
 > {
-  category: NodeCategory;
+  nodeType: NodeType;
+  category?: NodeCategory;
   typeName: string;
   otherTypeNames?: string[];
   // type: NodeType;
@@ -34,9 +36,10 @@ export interface INodeDefinitionBase<
 export interface INodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
-  TNodeCategory extends NodeCategory
+  TNodeType extends NodeType
 > extends INodeDefinitionBase<TInput, TOutput> {
-  category: TNodeCategory;
+  nodeType: TNodeType;
+  category?: NodeCategory;
   typeName: string;
   // type: NodeType;
   aliases?: string[]; // for backwards compatibility
@@ -77,7 +80,7 @@ export interface IFlowNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TState = any
-> extends INodeDefinition<TInput, TOutput, NodeCategory.Flow> {
+> extends INodeDefinition<TInput, TOutput, NodeType.Flow> {
   initialState: TState;
   triggered: FlowNodeTriggeredFn<TInput, TOutput, TState>;
 }
@@ -95,7 +98,7 @@ export interface FunctionNodeExecParams<
 export interface FunctionNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition
-> extends INodeDefinition<TInput, TOutput, NodeCategory.Function> {
+> extends INodeDefinition<TInput, TOutput, NodeType.Function> {
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
 
@@ -112,13 +115,13 @@ export interface EventNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TState = any
-> extends INodeDefinition<TInput, TOutput, NodeCategory.Event> {
+> extends INodeDefinition<TInput, TOutput, NodeType.Event> {
   initialState: TState;
   init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;
   dispose: (params: { state: TState }) => void;
 }
 
-type OmitFactory<T> = Omit<T, 'factory'>;
+type OmitFactoryAndType<T> = Omit<T, 'factory' | 'nodeType'>;
 
 // HELPER FUNCTIONS
 
@@ -128,13 +131,14 @@ export function makeFlowNodeDefinition<
   TOutput extends SocketsDefinition,
   TState
 >(
-  definition: OmitFactory<IFlowNodeDefinition<TInput, TOutput, TState>>
+  definition: OmitFactoryAndType<IFlowNodeDefinition<TInput, TOutput, TState>>
 ): IFlowNodeDefinition<TInput, TOutput, TState> {
   return {
     ...definition,
+    nodeType: NodeType.Flow,
     factory: (id: string) =>
       new FlowNodeInstance({
-        ...makeCommonProps(id, definition),
+        ...makeCommonProps(id, NodeType.Flow, definition),
         initialState: definition.initialState,
         triggered: definition.triggered
       })
@@ -147,13 +151,14 @@ export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 >(
-  definition: OmitFactory<FunctionNodeDefinition<TInput, TOutput>>
+  definition: OmitFactoryAndType<FunctionNodeDefinition<TInput, TOutput>>
 ): FunctionNodeDefinition<TInput, TOutput> {
   return {
     ...definition,
+    nodeType: NodeType.Function,
     factory: (id: string) =>
       new FunctionNodeInstance({
-        ...makeCommonProps(id, definition),
+        ...makeCommonProps(id, NodeType.Function, definition),
         exec: definition.exec
       })
   };
@@ -164,13 +169,14 @@ export function makeEventNodeDefinition<
   TOutput extends SocketsDefinition,
   TState
 >(
-  definition: OmitFactory<EventNodeDefinition<TInput, TOutput, TState>>
+  definition: OmitFactoryAndType<EventNodeDefinition<TInput, TOutput, TState>>
 ): EventNodeDefinition<TInput, TOutput, TState> {
   return {
     ...definition,
+    nodeType: NodeType.Event,
     factory: (id: string) =>
       new EventNodeInstance({
-        ...makeCommonProps(id, definition),
+        ...makeCommonProps(id, NodeType.Event, definition),
         initialState: definition.initialState,
         init: definition.init,
         dispose: definition.dispose

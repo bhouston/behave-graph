@@ -3,10 +3,11 @@ import { Engine } from '../Execution/Engine';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // no flow inputs, always evaluated on startup
-export class EventNode extends Node {
+export class EventNode extends Node<NodeType.Event> {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -14,7 +15,7 @@ export class EventNode extends Node {
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs, configuration);
+    super(description, graph, inputs, outputs, configuration, NodeType.Event);
     // no input flow sockets allowed.
     Assert.mustBeTrue(
       !this.inputs.some((socket) => socket.valueTypeName === 'flow')

@@ -7,10 +7,13 @@ import {
   NodeCategory,
   SocketsDefinition
 } from './NodeDefinition';
-import { IFunctionNode, INode } from './NodeInstance';
+import { IFunctionNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class FunctionNode extends Node implements IFunctionNode {
+export class FunctionNode
+  extends Node<NodeType.Function>
+  implements IFunctionNode
+{
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -19,7 +22,14 @@ export class FunctionNode extends Node implements IFunctionNode {
     public readonly exec: (node: INode) => void,
     configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs, configuration);
+    super(
+      description,
+      graph,
+      inputs,
+      outputs,
+      configuration,
+      NodeType.Function
+    );
 
     // must have no input flow sockets
     Assert.mustBeTrue(
@@ -30,10 +40,6 @@ export class FunctionNode extends Node implements IFunctionNode {
     Assert.mustBeTrue(
       !this.outputs.some((socket) => socket.valueTypeName === 'flow')
     );
-  }
-
-  get category(): NodeCategory.Function {
-    return NodeCategory.Function;
   }
 }
 
@@ -77,6 +83,7 @@ export function makeInNOutFunctionDesc({
   inputKeys,
   out,
   exec,
+  category,
   ...rest
 }: {
   name: string;
@@ -85,6 +92,7 @@ export function makeInNOutFunctionDesc({
   in?: string[];
   inputKeys?: string[];
   out: string[] | string;
+  category?: NodeCategory;
   exec: (...args: any[]) => any;
 }) {
   if (inputKeys) {
@@ -109,9 +117,9 @@ export function makeInNOutFunctionDesc({
   const definition = makeFunctionNodeDefinition({
     typeName: rest.name,
     label: rest.label,
-    category: NodeCategory.Function,
     in: inputSockets.sockets,
     out: outputSockets.sockets,
+    category,
     exec: ({ read, write }) => {
       const args = inputSockets.socketKeys.map((key) => read(key));
       const results = exec(...args);

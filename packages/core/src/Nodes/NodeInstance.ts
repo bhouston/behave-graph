@@ -4,32 +4,38 @@ import { Socket } from '../Sockets/Socket';
 import {
   EventNodeDefinition,
   FlowNodeTriggeredFn,
-  FunctionNodeDefinition,
-  NodeCategory
+  FunctionNodeDefinition
 } from './NodeDefinition';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
+
+export enum NodeType {
+  Event = 'Event',
+  Flow = 'Flow',
+  Async = 'Async',
+  Function = 'Function'
+}
 
 export interface INode {
   readonly id: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   typeName: string;
-  category: NodeCategory;
+  nodeType: NodeType;
 }
 
 export interface IEventNode extends INode {
-  category: NodeCategory.Event;
+  nodeType: NodeType.Event;
   init: (engine: Engine) => void;
   dispose: (engine: Engine) => void;
 }
 
 export interface IFlowNode extends INode {
-  category: NodeCategory.Flow;
+  nodeType: NodeType.Flow;
   triggered: (fiber: Fiber, triggeringSocketName: string) => void;
 }
 
 export interface IAsyncNode extends INode {
-  category: NodeCategory.Async;
+  nodeType: NodeType.Async;
   triggered: (
     engine: Engine,
     triggeringSocketName: string,
@@ -39,21 +45,21 @@ export interface IAsyncNode extends INode {
 }
 
 export interface IFunctionNode extends INode {
-  category: NodeCategory.Function;
+  nodeType: NodeType.Function;
   exec: (node: INode) => void;
 }
 
 export const isFlowNode = (node: INode): node is IFlowNode =>
-  node.category === NodeCategory.Flow;
+  node.nodeType === NodeType.Flow;
 
 export const isEventNode = (node: INode): node is IEventNode =>
-  node.category === NodeCategory.Event;
+  node.nodeType === NodeType.Event;
 
 export const isAsyncNode = (node: INode): node is IAsyncNode =>
-  node.category === NodeCategory.Async;
+  node.nodeType === NodeType.Async;
 
 export const isFunctionNode = (node: INode): node is IFunctionNode =>
-  node.category === NodeCategory.Function;
+  node.nodeType === NodeType.Function;
 
 export const makeNodeInstance = (node: INode) => {
   const readInput = <T>(inputName: string): T => {
@@ -71,21 +77,19 @@ export const makeNodeInstance = (node: INode) => {
   };
 };
 
-abstract class NodeInstance<TNodeCategory extends NodeCategory>
-  implements INode
-{
+abstract class NodeInstance<TNodeType extends NodeType> implements INode {
   public readonly id: string;
   public readonly inputs: Socket[];
   public readonly outputs: Socket[];
   public typeName: string;
-  public category: TNodeCategory;
+  public nodeType: TNodeType;
 
-  constructor(node: Omit<INode, 'category'> & { category: TNodeCategory }) {
+  constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
     this.id = node.id;
     this.inputs = node.inputs;
     this.outputs = node.outputs;
     this.typeName = node.typeName;
-    this.category = node.category;
+    this.nodeType = node.nodeType;
   }
 
   readInput<T>(inputName: string): T {
@@ -98,20 +102,23 @@ abstract class NodeInstance<TNodeCategory extends NodeCategory>
 }
 
 export class FlowNodeInstance
-  extends NodeInstance<NodeCategory.Flow>
+  extends NodeInstance<NodeType.Flow>
   implements IFlowNode
 {
   private triggeredInner: FlowNodeTriggeredFn;
   private state: any;
+  private readonly outputSocketKeys: string[];
+
   constructor(
-    nodeProps: Omit<INode, 'category'> & {
+    nodeProps: Omit<INode, 'nodeType'> & {
       triggered: FlowNodeTriggeredFn;
       initialState: any;
     }
   ) {
-    super({ ...nodeProps, category: NodeCategory.Flow });
+    super({ ...nodeProps, nodeType: NodeType.Flow });
     this.triggeredInner = nodeProps.triggered;
     this.state = nodeProps.initialState;
+    this.outputSocketKeys = nodeProps.outputs.map((s) => s.name);
   }
 
   public triggered(fiber: Fiber, triggeringSocketName: string) {
@@ -121,27 +128,30 @@ export class FlowNodeInstance
       read: this.readInput,
       write: this.writeOutput,
       state: this.state,
+      outputSocketKeys: this.outputSocketKeys,
       triggeringSocketName
     });
   }
 }
 
 export class EventNodeInstance
-  extends NodeInstance<NodeCategory.Event>
+  extends NodeInstance<NodeType.Event>
   implements IEventNode
 {
   private initInner: EventNodeDefinition['init'];
   private disposeInner: EventNodeDefinition['dispose'];
   private state: EventNodeDefinition['initialState'];
+  private readonly outputSocketKeys: string[];
 
   constructor(
-    nodeProps: Omit<INode, 'category'> &
+    nodeProps: Omit<INode, 'nodeType'> &
       Pick<EventNodeDefinition, 'init' | 'dispose' | 'initialState'>
   ) {
-    super({ ...nodeProps, category: NodeCategory.Event });
+    super({ ...nodeProps, nodeType: NodeType.Event });
     this.initInner = nodeProps.init;
     this.disposeInner = nodeProps.dispose;
     this.state = nodeProps.initialState;
+    this.outputSocketKeys = nodeProps.outputs.map((s) => s.name);
   }
 
   init(engine: Engine): any {
@@ -149,6 +159,7 @@ export class EventNodeInstance
       read: this.readInput,
       write: this.writeOutput,
       state: this.state,
+      outputSocketKeys: this.outputSocketKeys,
       commit: (outFlowname, fiberCompletedListener) =>
         engine.commitToNewFiber(this, outFlowname, fiberCompletedListener)
     });
@@ -162,14 +173,14 @@ export class EventNodeInstance
 }
 
 export class FunctionNodeInstance
-  extends NodeInstance<NodeCategory.Function>
+  extends NodeInstance<NodeType.Function>
   implements IFunctionNode
 {
   private execInner: FunctionNodeDefinition['exec'];
   constructor(
-    nodeProps: Omit<INode, 'category'> & Pick<FunctionNodeDefinition, 'exec'>
+    nodeProps: Omit<INode, 'nodeType'> & Pick<FunctionNodeDefinition, 'exec'>
   ) {
-    super({ ...nodeProps, category: NodeCategory.Function });
+    super({ ...nodeProps, nodeType: NodeType.Function });
 
     this.execInner = nodeProps.exec;
   }

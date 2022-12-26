@@ -1,30 +1,8 @@
 import { Registry } from '../Registry';
 import { Socket } from '../Sockets/Socket';
 import { NodeConfiguration } from './Node';
-import {
-  EventNodeDefinition,
-  FunctionNodeDefinition,
-  IFlowNodeDefinition,
-  INodeDefinitionBase,
-  NodeCategory,
-  SocketsDefinition
-} from './NodeDefinition';
-import { INode } from './NodeInstance';
-
-const isFlowNodeDefinition = (
-  nodeDefinition: INodeDefinitionBase
-): nodeDefinition is IFlowNodeDefinition =>
-  nodeDefinition.category === NodeCategory.Flow;
-
-const isEventNodeDefinition = (
-  nodeDefinition: INodeDefinitionBase
-): nodeDefinition is EventNodeDefinition =>
-  nodeDefinition.category === NodeCategory.Event;
-
-const isFunctionNodeDefinition = (
-  nodeDefinition: INodeDefinitionBase
-): nodeDefinition is FunctionNodeDefinition =>
-  nodeDefinition.category === NodeCategory.Function;
+import { INodeDefinitionBase, SocketsDefinition } from './NodeDefinition';
+import { INode, NodeType } from './NodeInstance';
 
 function toSockets(socketConfig: SocketsDefinition): Socket[] {
   return Object.entries(socketConfig).map(([key, definition]) => {
@@ -38,16 +16,18 @@ function toSockets(socketConfig: SocketsDefinition): Socket[] {
 
 export const makeCommonProps = (
   id: string,
-  nodeDefinition: Pick<
-    INodeDefinitionBase,
-    'typeName' | 'category' | 'in' | 'out'
-  >
+  nodeType: NodeType,
+  {
+    typeName,
+    in: inputs,
+    out
+  }: Pick<INodeDefinitionBase, 'typeName' | 'in' | 'out'>
 ): INode => ({
   id,
-  typeName: nodeDefinition.typeName,
-  category: nodeDefinition.category,
-  inputs: toSockets(nodeDefinition.in),
-  outputs: toSockets(nodeDefinition.out)
+  typeName: typeName,
+  nodeType: nodeType,
+  inputs: toSockets(inputs),
+  outputs: toSockets(out)
 });
 
 /***

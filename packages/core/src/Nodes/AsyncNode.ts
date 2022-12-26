@@ -3,10 +3,11 @@ import { Engine } from '../Execution/Engine';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // async flow node with only a single flow input
-export class AsyncNode extends Node {
+export class AsyncNode extends Node<NodeType.Async> {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -14,7 +15,7 @@ export class AsyncNode extends Node {
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs, configuration);
+    super(description, graph, inputs, outputs, configuration, NodeType.Async);
     // must have at least one input flow socket
     Assert.mustBeTrue(
       this.inputs.some((socket) => socket.valueTypeName === 'flow')

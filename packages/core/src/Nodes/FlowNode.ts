@@ -3,9 +3,10 @@ import { Fiber } from '../Execution/Fiber';
 import { Graph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class FlowNode extends Node {
+export class FlowNode extends Node<NodeType.Flow> {
   constructor(
     description: NodeDescription,
     graph: Graph,
@@ -14,7 +15,7 @@ export class FlowNode extends Node {
     configuration: NodeConfiguration = {}
   ) {
     // determine if this is an eval node
-    super(description, graph, inputs, outputs, configuration);
+    super(description, graph, inputs, outputs, configuration, NodeType.Flow);
 
     // must have at least one input flow socket
     Assert.mustBeTrue(

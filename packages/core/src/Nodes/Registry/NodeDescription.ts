@@ -1,12 +1,13 @@
 import { Graph } from '../../Graphs/Graph';
-import { Node, NodeConfiguration } from './../Node';
+import { INode } from '../NodeInstance';
+import { NodeConfiguration } from './../Node';
 import { NodeCategory } from './NodeCategory';
 
 export type NodeFactory = (
   entry: NodeDescription,
   graph: Graph,
   config: NodeConfiguration
-) => Node;
+) => INode;
 
 export type NodeConfigurationDescription = {
   [key: string]: {

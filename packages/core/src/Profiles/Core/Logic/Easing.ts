@@ -6,8 +6,7 @@ import {
 
 export const Easing = makeFunctionNodeDefinition({
   typeName: 'math/easing',
-  // should be logic?
-  category: NodeCategory.Function,
+  category: NodeCategory.Logic,
   label: 'Easing',
   in: {
     easingFunction: {

@@ -56,10 +56,12 @@ const toOrderedSockets = (
     ({ socketKeys, sockets }: OrderedSocketsResult, socketValueType) => {
       const name = getKey(socketKeys.length);
       return {
-        socketKeys: [...sockets.socketsKeys, name],
+        socketKeys: [...socketKeys, name],
         sockets: {
           ...sockets,
-          [name]: socketValueType
+          [name]: {
+            valueType: socketValueType
+          }
         }
       };
     },

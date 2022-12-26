@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
   NodeCategory
-} from 'packages/core/src/Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinition';
 // based on Unreal Engine Blueprint DoN node
 
 export const DoOnce = makeFlowNodeDefinition({

@@ -1,11 +1,14 @@
-import { makeFlowNodeDefinition } from 'packages/core/src/Nodes/NodeDefinition';
+import {
+  makeFlowNodeDefinition,
+  NodeCategory
+} from '../../..//Nodes/NodeDefinition';
 
 // based on Unreal Engine Blueprint Gate node
 
 export const Gate = makeFlowNodeDefinition({
   typeName: 'flow/gate',
   label: 'Gate',
-  category: 'Flow',
+  category: NodeCategory.Flow,
   in: {
     flow: 'flow',
     open: 'flow',

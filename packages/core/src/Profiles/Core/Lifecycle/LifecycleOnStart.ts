@@ -1,9 +1,8 @@
+import { Assert } from '../../../Diagnostics/Assert';
 import {
   makeEventNodeDefinition,
   NodeCategory
-} from 'packages/core/src/Nodes/NodeDefinition';
-
-import { Assert } from '../../../Diagnostics/Assert';
+} from '../../../Nodes/NodeDefinition';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
 type State = {

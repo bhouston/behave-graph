@@ -6,7 +6,8 @@ import {
   FunctionNodeDefinition,
   IFlowNodeDefinition,
   INodeDefinitionBase,
-  NodeCategory
+  NodeCategory,
+  SocketsDefinition
 } from './NodeDefinition';
 import {
   EventNodeInstance,
@@ -15,16 +16,14 @@ import {
   INode
 } from './NodeInstance';
 
-type AnyInOut = Record<string, string>;
-
 const isFlowNodeDefinition = (
   nodeDefinition: INodeDefinitionBase
-): nodeDefinition is IFlowNodeDefinition<AnyInOut, AnyInOut, AnyInOut> =>
+): nodeDefinition is IFlowNodeDefinition =>
   nodeDefinition.category === NodeCategory.Flow;
 
 const isEventNodeDefinition = (
   nodeDefinition: INodeDefinitionBase
-): nodeDefinition is EventNodeDefinition<AnyInOut, AnyInOut, AnyInOut> =>
+): nodeDefinition is EventNodeDefinition =>
   nodeDefinition.category === NodeCategory.Event;
 
 const isFunctionNodeDefinition = (
@@ -32,14 +31,14 @@ const isFunctionNodeDefinition = (
 ): nodeDefinition is FunctionNodeDefinition =>
   nodeDefinition.category === NodeCategory.Function;
 
-function toSockets(
-  socketConfig: AnyInOut,
-  initialInputsVals?: Record<string, any>
-): Socket[] {
-  return Object.entries(socketConfig).map(
-    ([key, socketValueType]) =>
-      new Socket(socketValueType, key, initialInputsVals?.[key])
-  );
+function toSockets(socketConfig: SocketsDefinition): Socket[] {
+  return Object.entries(socketConfig).map(([key, definition]) => {
+    if (typeof definition === 'string') {
+      return new Socket(definition, key);
+    }
+    const { valueType, defaultValue, choices } = definition;
+    return new Socket(valueType, key, defaultValue, undefined, choices);
+  });
 }
 
 /***
@@ -54,7 +53,7 @@ function createNode(
     id,
     typeName: nodeDefinition.typeName,
     category: nodeDefinition.category,
-    inputs: toSockets(nodeDefinition.in, nodeDefinition.initialInputsVals),
+    inputs: toSockets(nodeDefinition.in),
     outputs: toSockets(nodeDefinition.out)
   };
 

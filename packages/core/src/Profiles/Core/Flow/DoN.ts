@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
   NodeCategory
-} from 'packages/core/src/Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinition';
 
 // based on Unreal Engine Blueprint DoN node
 
@@ -11,15 +11,15 @@ export const DoN = makeFlowNodeDefinition({
   category: NodeCategory.Flow,
   in: {
     flow: 'flow',
-    n: 'integer',
+    n: {
+      valueType: 'integer',
+      defaultValue: 1
+    },
     reset: 'flow'
   },
   out: {
     flow: 'flow',
     count: 'integer'
-  },
-  initialInputsVals: {
-    n: 1
   },
   initialState: {
     count: 0

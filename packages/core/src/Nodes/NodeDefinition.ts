@@ -1,6 +1,12 @@
 import { NodeCategory } from './Registry/NodeCategory';
 
-export type SocketsDefinition = Record<string, string>;
+export interface SocketDefinition {
+  valueType: string;
+  defaultValue?: any;
+  choices?: string[];
+}
+
+export type SocketsDefinition = Record<string, SocketDefinition | string>;
 
 export interface INodeDefinitionBase {
   category: NodeCategory;
@@ -12,7 +18,6 @@ export interface INodeDefinitionBase {
   label?: string;
   in: SocketsDefinition;
   out: SocketsDefinition;
-  initialInputsVals?: Record<string, any>;
 }
 
 export interface INodeDefinition<
@@ -28,7 +33,6 @@ export interface INodeDefinition<
   label?: string;
   in: TInput;
   out: TOutput;
-  initialInputsVals?: { [key in keyof TInput]?: any };
 }
 
 /** Flow Node Definition */

@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
   NodeCategory
-} from 'packages/core/src/Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinition';
 
 export const Branch = makeFlowNodeDefinition({
   typeName: 'flow/branch',

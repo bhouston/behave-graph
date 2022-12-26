@@ -5,7 +5,8 @@ import { Node, NodeConfiguration } from './Node';
 import {
   makeFunctionNodeDefinition,
   NodeCategory,
-  SocketsDefinition
+  SocketNames,
+  SocketsMap
 } from './NodeDefinition';
 import { IFunctionNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
@@ -46,36 +47,35 @@ export class FunctionNode
 const alpha = 'abcdefghijklmnop';
 const getAlphabeticalKey = (index: number) => alpha[index];
 
-type OrderedSocketsResult = {
-  socketKeys: string[];
-  sockets: SocketsDefinition;
+type OrderedSocketsResult<TSockets extends SocketsMap> = {
+  socketKeys: (keyof TSockets)[];
+  sockets: TSockets;
 };
 /** Converts list of sockets specifying value type names to an ordeered list of sockets,
  */
-const toOrderedSockets = (
+const toOrderedSockets = <TSockets extends SocketsMap>(
   socketValueTypes: string[] | string | undefined = [],
-  getKey: (index: number) => string
-): OrderedSocketsResult => {
+  getKey: (index: number) => SocketNames<TSockets>
+): OrderedSocketsResult<TSockets> => {
   // const alpha = 'abcdefghijklmnop';
+  const socketKeys: (keyof TSockets)[] = [];
+  const sockets: Partial<TSockets> = {};
 
-  return [...socketValueTypes].reduce(
-    ({ socketKeys, sockets }: OrderedSocketsResult, socketValueType) => {
-      const name = getKey(socketKeys.length);
-      return {
-        socketKeys: [...socketKeys, name],
-        sockets: {
-          ...sockets,
-          [name]: {
-            valueType: socketValueType
-          }
-        }
-      };
-    },
-    {
-      socketKeys: [],
-      sockets: {}
-    }
-  );
+  [...socketValueTypes].forEach((valueType, index) => {
+    const name = getKey(index) as keyof TSockets;
+
+    socketKeys.push(name);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    sockets[name] = valueType;
+  });
+
+  const casted = sockets as TSockets;
+
+  return {
+    socketKeys,
+    sockets: casted
+  };
 };
 
 export function makeInNOutFunctionDesc({

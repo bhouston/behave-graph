@@ -51,6 +51,9 @@ export interface INodeDefinition<
   configuration?: TConfig;
 }
 
+export type SocketNames<TSockets extends SocketsDefinition> =
+  TSockets extends SocketsMap ? keyof TSockets : any;
+
 /** Flow Node Definition */
 export interface FlowNodeTriggeredParams<
   TInput extends SocketsDefinition,
@@ -58,15 +61,15 @@ export interface FlowNodeTriggeredParams<
   TState
 > {
   // now read will only allow keys of the input types
-  read<T>(inValueName: keyof TInput): T;
+  read<T>(inValueName: SocketNames<TInput>): T;
   // write and commit only allows keys from the output type
-  write<T>(outValueName: keyof TOutput, value: T): void;
+  write<T>(outValueName: SocketNames<TOutput>, value: T): void;
   commit(
-    outFlowName: keyof TOutput,
+    outFlowName: SocketNames<TOutput>,
     fiberCompletedListener?: () => void
     // fiberCompletedListener: (() => void) | undefined
   ): void; // commits to current fiber unless 'async-flow' or 'event-flow'
-  outputSocketKeys: (keyof TOutput)[];
+  outputSocketKeys: SocketNames<TOutput>[];
   triggeringSocketName: keyof TInput;
   // state of the node.
   state: TState;

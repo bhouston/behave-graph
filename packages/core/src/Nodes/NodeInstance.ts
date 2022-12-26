@@ -129,6 +129,8 @@ export class FlowNodeInstance
       write: this.writeOutput,
       state: this.state,
       outputSocketKeys: this.outputSocketKeys,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       triggeringSocketName
     });
   }

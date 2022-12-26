@@ -1,54 +1,52 @@
-import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
-
-import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
 import {
-  NodeDescription,
-  NodeDescription2
-} from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+  makeFlowNodeDefinition,
+  SocketsMap
+} from 'packages/core/src/Nodes/NodeDefinition';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
-export class Sequence extends FlowNode {
-  public static Description = new NodeDescription2({
-    typeName: 'flow/sequence',
-    category: 'Flow',
-    label: 'Sequence',
-    configuration: {
-      numOutputs: {
-        valueType: 'number'
-      }
-    },
-    factory: (description, graph, configuration) =>
-      new Sequence(description, graph, configuration)
-  });
-
-  constructor(
-    description: NodeDescription,
-    graph: Graph,
-    configuration: NodeConfiguration
-  ) {
-    const outputs: Socket[] = [];
-    const numOutputs = configuration.numOutputs;
-    for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
-      outputs.push(new Socket('flow', `${outputIndex}`));
+export const Sequence = makeFlowNodeDefinition({
+  typeName: 'flow/sequence',
+  label: 'Sequence',
+  configuration: {
+    numOutputs: {
+      valueType: 'number'
     }
-    super(description, graph, [new Socket('flow', 'flow')], outputs);
-  }
+  },
+  in: {
+    flow: 'flow'
+  },
+  out: (configuration) => {
+    const numOutputs = configuration.numOutputs;
+    const sockets: SocketsMap = {};
 
-  triggered(fiber: Fiber, triggeringSocketName: string) {
+    const keys: string[] = [];
+
+    for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
+      const key = `${outputIndex}`;
+      keys.push(key);
+      sockets[key] = 'flow';
+    }
+
+    return {
+      sockets,
+      keys
+    };
+  },
+  initialState: undefined,
+  triggered: ({ commit, outputSocketKeys }) => {
     // these outputs are fired sequentially in an sync fashion but without delays.
     // Thus a promise is returned and it continually returns a promise until each of the sequences has been executed.
     const sequenceIteration = (i: number) => {
-      if (i < this.outputs.length) {
-        const outputSocket = this.outputs[i];
-        fiber.commit(this, outputSocket.name, () => {
+      if (i < outputSocketKeys.length) {
+        const outputKey = outputSocketKeys[i];
+        // const outputSocket = this.outputs[i];
+        commit(outputKey, () => {
           sequenceIteration(i + 1);
         });
       }
     };
     sequenceIteration(0);
+    return undefined;
   }
-}
+});

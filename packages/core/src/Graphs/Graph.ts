@@ -2,9 +2,9 @@ import { CustomEvent } from '../Events/CustomEvent';
 import { generateUuid } from '../generateUuid';
 import { Metadata } from '../Metadata';
 import { Node, NodeConfiguration } from '../Nodes/Node';
+import { createNodeUsingRegistryDefinition } from '../Nodes/nodeFactory';
 import { Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
-import { createNodeUsingRegistryDefinition } from './NodeFactory';
 // Purpose:
 //  - stores the node graph
 

@@ -1,16 +1,16 @@
-import { EventNode2 } from '../Nodes/EventNode';
-import { FlowNode2 } from '../Nodes/FlowNode';
-import { NodeConfiguration } from '../Nodes/Node';
-import { Node } from '../Nodes/Node';
+import { Registry } from '../Registry';
+import { Socket } from '../Sockets/Socket';
+import { EventNode2 } from './EventNode';
+import { FlowNode2 } from './FlowNode';
+import { NodeConfiguration } from './Node';
+import { Node } from './Node';
 import {
   EventNodeDefinition,
   IFlowNodeDefinition,
   INodeDefinitionBase,
   NodeCategory
-} from '../Nodes/NodeDefinition';
-import { NodeDescription2 } from '../Nodes/Registry/NodeDescription';
-import { Registry } from '../Registry';
-import { Socket } from '../Sockets/Socket';
+} from './NodeDefinition';
+import { NodeDescription2 } from './Registry/NodeDescription';
 
 type AnyInOut = Record<string, string>;
 
@@ -53,7 +53,8 @@ function createNode(
     description: new NodeDescription2({
       typeName: nodeDefinition.typeName,
       category: nodeDefinition.category,
-      label: nodeDefinition.label
+      label: nodeDefinition.label,
+      helpDescription: nodeDefinition.helpDescription
     }),
     inputs: toSockets(nodeDefinition.in, nodeDefinition.initialInputsVals),
     outputs: toSockets(nodeDefinition.out)

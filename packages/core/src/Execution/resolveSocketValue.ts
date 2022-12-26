@@ -1,5 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
-import { FunctionNode } from '../Nodes/FunctionNode';
+import { isFunctionNode } from '../Nodes/NodeInstance';
 import { Socket } from '../Sockets/Socket';
 import { Engine } from './Engine';
 
@@ -39,14 +39,14 @@ export function resolveSocketValue(
   const upstreamOutputSocket = upstreamLink._targetSocket;
 
   // if upstream is a flow/event/async node, do not evaluate it rather just use its existing output socket values
-  if (!(upstreamNode instanceof FunctionNode)) {
+  if (!isFunctionNode(upstreamNode)) {
     inputSocket.value = upstreamOutputSocket.value;
     return 0;
   }
 
   let executionSteps = 0;
 
-  if (upstreamNode instanceof FunctionNode) {
+  if (isFunctionNode(upstreamNode)) {
     // resolve all inputs for the upstream node (this is where the recursion happens)
     // TODO: This is a bit dangerous as if there are loops in the graph, this will blow up the stack
     for (const upstreamInputSocket of upstreamNode.inputs) {

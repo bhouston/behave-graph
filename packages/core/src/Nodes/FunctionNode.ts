@@ -7,15 +7,16 @@ import {
   NodeCategory,
   SocketsDefinition
 } from './NodeDefinition';
+import { IFunctionNode, INode } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class FunctionNode extends Node {
+export class FunctionNode extends Node implements IFunctionNode {
   constructor(
     description: NodeDescription,
     graph: Graph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
-    public readonly exec: (node: Node) => void,
+    public readonly exec: (node: INode) => void,
     configuration: NodeConfiguration = {}
   ) {
     super(description, graph, inputs, outputs, configuration);
@@ -29,6 +30,10 @@ export class FunctionNode extends Node {
     Assert.mustBeTrue(
       !this.outputs.some((socket) => socket.valueTypeName === 'flow')
     );
+  }
+
+  get category(): NodeCategory.Function {
+    return NodeCategory.Function;
   }
 }
 

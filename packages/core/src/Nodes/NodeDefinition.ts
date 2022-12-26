@@ -77,8 +77,8 @@ export interface FunctionNodeExecParams<
 }
 
 export interface FunctionNodeDefinition<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition
 > extends INodeDefinition<TInput, TOutput, NodeCategory.Function> {
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }

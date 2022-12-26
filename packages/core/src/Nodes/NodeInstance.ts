@@ -4,6 +4,7 @@ import { Socket } from '../Sockets/Socket';
 import {
   EventNodeDefinition,
   FlowNodeTriggeredFn,
+  FunctionNodeDefinition,
   NodeCategory
 } from './NodeDefinition';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
@@ -37,6 +38,11 @@ export interface IAsyncNode extends INode {
   dispose: () => void;
 }
 
+export interface IFunctionNode extends INode {
+  category: NodeCategory.Function;
+  exec: (node: INode) => void;
+}
+
 export const isFlowNode = (node: INode): node is IFlowNode =>
   node.category === NodeCategory.Flow;
 
@@ -45,6 +51,9 @@ export const isEventNode = (node: INode): node is IEventNode =>
 
 export const isAsyncNode = (node: INode): node is IAsyncNode =>
   node.category === NodeCategory.Async;
+
+export const isFunctionNode = (node: INode): node is IFunctionNode =>
+  node.category === NodeCategory.Function;
 
 export const makeNodeInstance = (node: INode) => {
   const readInput = <T>(inputName: string): T => {
@@ -152,21 +161,24 @@ export class EventNodeInstance
   }
 }
 
-export class AsyncNodeInstance
-  extends NodeInstance<NodeCategory.Async>
-  implements IAsyncNode
+export class FunctionNodeInstance
+  extends NodeInstance<NodeCategory.Function>
+  implements IFunctionNode
 {
+  private execInner: FunctionNodeDefinition['exec'];
   constructor(
-    nodeProps: Omit<INode, 'category'> & Pick<Asyn
+    nodeProps: Omit<INode, 'category'> & Pick<FunctionNodeDefinition, 'exec'>
   ) {
-    super({ ...nodeProps, category: NodeCategory.Async });
+    super({ ...nodeProps, category: NodeCategory.Function });
+
+    this.execInner = nodeProps.exec;
   }
 
-  triggered(
-    engine: Engine,
-    triggeringSocketName: string,
-    finished: () => void
-  ) {}
-
-  dispose() {}
+  exec(node: INode) {
+    this.execInner({
+      read: (name) => readInputFromSockets(node.inputs, name, node.typeName),
+      write: (name, value) =>
+        writeOutputsToSocket(node.outputs, name, value, node.typeName)
+    });
+  }
 }

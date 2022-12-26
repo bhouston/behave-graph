@@ -3,12 +3,11 @@
 import { Assert } from '../Diagnostics/Assert';
 import { EventEmitter } from '../Events/EventEmitter';
 import { Graph } from '../Graphs/Graph';
-import { AsyncNode } from '../Nodes/AsyncNode';
-import { EventNode } from '../Nodes/EventNode';
 import {
   IAsyncNode,
   IEventNode,
   INode,
+  isAsyncNode,
   isEventNode
 } from '../Nodes/NodeInstance';
 import { sleep } from '../sleep';
@@ -60,7 +59,7 @@ export class Engine {
     outputFlowSocketName: string,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
-    Assert.mustBeTrue(node instanceof EventNode || node instanceof AsyncNode);
+    Assert.mustBeTrue(isEventNode(node) || isAsyncNode(node));
     const outputSocket = node.outputs.find(
       (socket) => socket.name === outputFlowSocketName
     );

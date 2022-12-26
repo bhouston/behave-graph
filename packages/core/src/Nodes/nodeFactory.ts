@@ -9,12 +9,7 @@ import {
   NodeCategory,
   SocketsDefinition
 } from './NodeDefinition';
-import {
-  EventNodeInstance,
-  FlowNodeInstance,
-  FunctionNodeInstance,
-  INode
-} from './NodeInstance';
+import { INode } from './NodeInstance';
 
 const isFlowNodeDefinition = (
   nodeDefinition: INodeDefinitionBase
@@ -41,46 +36,19 @@ function toSockets(socketConfig: SocketsDefinition): Socket[] {
   });
 }
 
-/***
- take the node definition and config, and creates an instance of a node.
- */
-function createNode(
+export const makeCommonProps = (
   id: string,
-  nodeDefinition: INodeDefinitionBase,
-  nodeConfiguration: NodeConfiguration
-): INode {
-  const commonProps: INode = {
-    id,
-    typeName: nodeDefinition.typeName,
-    category: nodeDefinition.category,
-    inputs: toSockets(nodeDefinition.in),
-    outputs: toSockets(nodeDefinition.out)
-  };
-
-  if (isFlowNodeDefinition(nodeDefinition)) {
-    return new FlowNodeInstance({
-      ...commonProps,
-      initialState: nodeDefinition.initialState,
-      triggered: nodeDefinition.triggered
-    });
-  }
-  if (isEventNodeDefinition(nodeDefinition)) {
-    return new EventNodeInstance({
-      ...commonProps,
-      init: nodeDefinition.init,
-      dispose: nodeDefinition.dispose,
-      initialState: nodeDefinition.initialState
-    });
-  }
-  if (isFunctionNodeDefinition(nodeDefinition)) {
-    return new FunctionNodeInstance({
-      ...commonProps,
-      exec: nodeDefinition.exec
-    });
-  }
-
-  throw new Error(`unknown node category of ${nodeDefinition.category}`);
-}
+  nodeDefinition: Pick<
+    INodeDefinitionBase,
+    'typeName' | 'category' | 'in' | 'out'
+  >
+): INode => ({
+  id,
+  typeName: nodeDefinition.typeName,
+  category: nodeDefinition.category,
+  inputs: toSockets(nodeDefinition.in),
+  outputs: toSockets(nodeDefinition.out)
+});
 
 /***
   Looks up the node definition in the registry, and uses that definition to create a node.
@@ -101,5 +69,5 @@ export const createNodeUsingRegistryDefinition = (
     );
   }
 
-  return createNode(nodeId, nodeDescription, nodeConfiguration);
+  return nodeDescription.factory(nodeId);
 };

@@ -1,3 +1,10 @@
+import { makeCommonProps } from './nodeFactory';
+import {
+  EventNodeInstance,
+  FlowNodeInstance,
+  FunctionNodeInstance,
+  INode
+} from './NodeInstance';
 import { NodeCategory } from './Registry/NodeCategory';
 
 export interface SocketDefinition {
@@ -8,7 +15,10 @@ export interface SocketDefinition {
 
 export type SocketsDefinition = Record<string, SocketDefinition | string>;
 
-export interface INodeDefinitionBase {
+export interface INodeDefinitionBase<
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition
+> {
   category: NodeCategory;
   typeName: string;
   otherTypeNames?: string[];
@@ -16,15 +26,16 @@ export interface INodeDefinitionBase {
   aliases?: string[]; // for backwards compatibility
   helpDescription?: string;
   label?: string;
-  in: SocketsDefinition;
-  out: SocketsDefinition;
+  in: TInput;
+  out: TOutput;
+  factory: (nodeId: string) => INode;
 }
 
 export interface INodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TNodeCategory extends NodeCategory
-> extends INodeDefinitionBase {
+> extends INodeDefinitionBase<TInput, TOutput> {
   category: TNodeCategory;
   typeName: string;
   // type: NodeType;
@@ -50,6 +61,7 @@ export interface FlowNodeTriggeredParams<
     fiberCompletedListener?: () => void
     // fiberCompletedListener: (() => void) | undefined
   ): void; // commits to current fiber unless 'async-flow' or 'event-flow'
+  outputSocketKeys: (keyof TOutput)[];
   triggeringSocketName: keyof TInput;
   // state of the node.
   state: TState;
@@ -106,6 +118,8 @@ export interface EventNodeDefinition<
   dispose: (params: { state: TState }) => void;
 }
 
+type OmitFactory<T> = Omit<T, 'factory'>;
+
 // HELPER FUNCTIONS
 
 // helper function to not require you to define generics when creating a node def:
@@ -114,19 +128,35 @@ export function makeFlowNodeDefinition<
   TOutput extends SocketsDefinition,
   TState
 >(
-  definition: IFlowNodeDefinition<TInput, TOutput, TState>
+  definition: OmitFactory<IFlowNodeDefinition<TInput, TOutput, TState>>
 ): IFlowNodeDefinition<TInput, TOutput, TState> {
-  return definition;
+  return {
+    ...definition,
+    factory: (id: string) =>
+      new FlowNodeInstance({
+        ...makeCommonProps(id, definition),
+        initialState: definition.initialState,
+        triggered: definition.triggered
+      })
+  };
 }
 
-// helper function to not require you to define generics when creating a node def:
+// helper function to not require you to define generics when creating a node def,
+// and generates a factory for a node instance
 export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 >(
-  definition: FunctionNodeDefinition<TInput, TOutput>
+  definition: OmitFactory<FunctionNodeDefinition<TInput, TOutput>>
 ): FunctionNodeDefinition<TInput, TOutput> {
-  return definition;
+  return {
+    ...definition,
+    factory: (id: string) =>
+      new FunctionNodeInstance({
+        ...makeCommonProps(id, definition),
+        exec: definition.exec
+      })
+  };
 }
 
 export function makeEventNodeDefinition<
@@ -134,9 +164,18 @@ export function makeEventNodeDefinition<
   TOutput extends SocketsDefinition,
   TState
 >(
-  definition: EventNodeDefinition<TInput, TOutput, TState>
+  definition: OmitFactory<EventNodeDefinition<TInput, TOutput, TState>>
 ): EventNodeDefinition<TInput, TOutput, TState> {
-  return definition;
+  return {
+    ...definition,
+    factory: (id: string) =>
+      new EventNodeInstance({
+        ...makeCommonProps(id, definition),
+        initialState: definition.initialState,
+        init: definition.init,
+        dispose: definition.dispose
+      })
+  };
 }
 
 export { NodeCategory } from './Registry/NodeCategory';

@@ -1,49 +1,38 @@
-import { Graph } from '../../..//Graphs/Graph';
-import { FunctionNode } from '../../..//Nodes/FunctionNode';
-import { Socket } from '../../..//Sockets/Socket';
 import { EasingFunctions, EasingModes } from '../../../Easing';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
+import {
+  makeFunctionNodeDefinition,
+  NodeCategory
+} from '../../../Nodes/NodeDefinition';
 
-export class Easing extends FunctionNode {
-  public static Description = new NodeDescription(
-    'math/easing',
-    'Logic',
-    'Easing',
-    (description: NodeDescription, graph: Graph) =>
-      new Easing(description, graph)
-  );
+export const Easing = makeFunctionNodeDefinition({
+  typeName: 'math/easing',
+  // should be logic?
+  category: NodeCategory.Function,
+  label: 'Easing',
+  in: {
+    easingFunction: {
+      valueType: 'string',
+      name: 'easingFunction',
+      defaultValue: 'linear',
+      options: Object.keys(EasingFunctions)
+    },
+    easingMode: {
+      valueType: 'string',
+      name: 'easingMode',
+      defaultValue: 'inOut',
+      options: Object.keys(EasingModes)
+    },
+    t: 'float'
+  },
+  out: {
+    t: 'float'
+  },
+  exec: ({ read, write }) => {
+    const easingFunction = EasingFunctions[read('easingFunction') as string];
+    const easingMode = EasingModes[read('easingMode') as string];
+    const easing = easingMode(easingFunction);
+    const inputT = read('t') as number;
 
-  constructor(description: NodeDescription, graph: Graph) {
-    super(
-      description,
-      graph,
-      [
-        new Socket(
-          'string',
-          'easingFunction',
-          'linear',
-          undefined,
-          Object.keys(EasingFunctions)
-        ),
-        new Socket(
-          'string',
-          'easingMode',
-          'inOut',
-          undefined,
-          Object.keys(EasingModes)
-        ),
-        new Socket('float', 't')
-      ],
-      [new Socket('float', 't')],
-      () => {
-        const easingFunction =
-          EasingFunctions[this.readInput('easingFunction') as string];
-        const easingMode = EasingModes[this.readInput('easingMode') as string];
-        const easing = easingMode(easingFunction);
-        const inputT = this.readInput('t') as number;
-
-        this.writeOutput('t', easing(inputT));
-      }
-    );
+    write('t', easing(inputT));
   }
-}
+});

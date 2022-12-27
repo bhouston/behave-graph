@@ -1,5 +1,4 @@
 import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
-
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 
 export const Constant = makeInNOutFunctionDesc({
@@ -85,8 +84,7 @@ export const Max = makeInNOutFunctionDesc({
 export const Clamp = makeInNOutFunctionDesc({
   name: 'math/clamp/integer',
   label: 'CLAMP',
-  in: ['integer', 'integer', 'integer'],
-  inputKeys: ['value', 'min', 'max'],
+  in: [{ value: 'integer' }, { min: 'integer' }, { max: 'integer' }],
   out: 'integer',
   exec: (value: bigint, min: bigint, max: bigint) =>
     value < min ? min : value > max ? max : value

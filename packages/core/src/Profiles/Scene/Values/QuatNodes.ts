@@ -32,7 +32,7 @@ import {
 - 
 */
 
-export const Constant = new makeInNOutFunctionDesc({
+export const Constant = makeInNOutFunctionDesc({
   name: 'math/quat',
   label: 'Quaternion',
   in: ['quat'],
@@ -40,7 +40,7 @@ export const Constant = new makeInNOutFunctionDesc({
   exec: (a: Vec4) => a
 });
 
-export const Create = new makeInNOutFunctionDesc({
+export const Create = makeInNOutFunctionDesc({
   name: 'math/toQuat/float',
   label: 'Float to Quat',
   in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
@@ -48,7 +48,7 @@ export const Create = new makeInNOutFunctionDesc({
   exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
 });
 
-export const Elements = new makeInNOutFunctionDesc({
+export const Elements = makeInNOutFunctionDesc({
   name: 'math/toFloat/quat',
   label: 'Quat to Float',
   in: ['quat'],
@@ -56,7 +56,7 @@ export const Elements = new makeInNOutFunctionDesc({
   exec: vec4ToArray
 });
 
-export const Negate = new makeInNOutFunctionDesc({
+export const Negate = makeInNOutFunctionDesc({
   name: 'math/conjugate/quat',
   label: 'Conjugate',
   in: ['quat'],
@@ -64,7 +64,7 @@ export const Negate = new makeInNOutFunctionDesc({
   exec: quatConjugate
 });
 
-export const Multiply = new makeInNOutFunctionDesc({
+export const Multiply = makeInNOutFunctionDesc({
   name: 'math/multiply/quat',
   label: '×',
   in: ['quat', 'quat'],
@@ -72,7 +72,7 @@ export const Multiply = new makeInNOutFunctionDesc({
   exec: quatMultiply
 });
 
-export const Scale = new makeInNOutFunctionDesc({
+export const Scale = makeInNOutFunctionDesc({
   name: 'math/scale/quat',
   label: '×',
   in: ['quat', 'float'],
@@ -80,7 +80,7 @@ export const Scale = new makeInNOutFunctionDesc({
   exec: vec4MultiplyByScalar
 });
 
-export const Length = new makeInNOutFunctionDesc({
+export const Length = makeInNOutFunctionDesc({
   name: 'math/length/quat',
   label: 'Length',
   in: ['quat'],
@@ -88,7 +88,7 @@ export const Length = new makeInNOutFunctionDesc({
   exec: vec4Length
 });
 
-export const Normalize = new makeInNOutFunctionDesc({
+export const Normalize = makeInNOutFunctionDesc({
   name: 'math/normalize/quat',
   label: 'Normalize',
   in: ['quat'],
@@ -96,7 +96,7 @@ export const Normalize = new makeInNOutFunctionDesc({
   exec: vec4Normalize
 });
 
-export const Dot = new makeInNOutFunctionDesc({
+export const Dot = makeInNOutFunctionDesc({
   name: 'math/dot/quat',
   label: 'Dot Product',
   in: ['quat', 'quat'],
@@ -104,7 +104,7 @@ export const Dot = new makeInNOutFunctionDesc({
   exec: vec4Dot
 });
 
-export const Ln = new makeInNOutFunctionDesc({
+export const Ln = makeInNOutFunctionDesc({
   name: 'math/ln/quat',
   label: 'Ln',
   in: ['quat'],
@@ -112,7 +112,7 @@ export const Ln = new makeInNOutFunctionDesc({
   exec: quatLn
 });
 
-export const Exp = new makeInNOutFunctionDesc({
+export const Exp = makeInNOutFunctionDesc({
   name: 'math/exp/quat',
   label: 'Exp',
   in: ['quat'],
@@ -120,7 +120,7 @@ export const Exp = new makeInNOutFunctionDesc({
   exec: quatExp
 });
 
-export const Pow = new makeInNOutFunctionDesc({
+export const Pow = makeInNOutFunctionDesc({
   name: 'math/pow/quat',
   label: 'Pow',
   in: ['quat', 'float'],
@@ -128,7 +128,7 @@ export const Pow = new makeInNOutFunctionDesc({
   exec: quatPow
 });
 
-export const Mat3ToQuat = new makeInNOutFunctionDesc({
+export const Mat3ToQuat = makeInNOutFunctionDesc({
   name: 'math/toQuat/mat3',
   label: 'To Quat',
   in: ['mat3'],
@@ -136,7 +136,7 @@ export const Mat3ToQuat = new makeInNOutFunctionDesc({
   exec: mat3ToQuat
 });
 
-export const Mat4ToQuat = new makeInNOutFunctionDesc({
+export const Mat4ToQuat = makeInNOutFunctionDesc({
   name: 'math/toQuat/mat4',
   label: 'To Quat',
   in: ['mat4'],
@@ -144,7 +144,7 @@ export const Mat4ToQuat = new makeInNOutFunctionDesc({
   exec: mat4ToQuat
 });
 
-export const EulerToQuat = new makeInNOutFunctionDesc({
+export const EulerToQuat = makeInNOutFunctionDesc({
   name: 'math/toQuat/euler',
   label: '÷',
   in: ['euler'],
@@ -152,7 +152,7 @@ export const EulerToQuat = new makeInNOutFunctionDesc({
   exec: eulerToQuat
 });
 
-export const AngleAxisToQuat = new makeInNOutFunctionDesc({
+export const AngleAxisToQuat = makeInNOutFunctionDesc({
   name: 'math/toQuat/angleAxis',
   label: 'Angle Axis to Quat',
   in: ['float', 'vec3'],
@@ -160,7 +160,7 @@ export const AngleAxisToQuat = new makeInNOutFunctionDesc({
   exec: angleAxisToQuat
 });
 
-export const Slerp = new makeInNOutFunctionDesc({
+export const Slerp = makeInNOutFunctionDesc({
   name: 'math/slerp/quat',
   label: 'Slerp',
   in: [{ a: 'quat' }, { b: 'quat' }, { t: 'float' }],
@@ -168,7 +168,7 @@ export const Slerp = new makeInNOutFunctionDesc({
   exec: quatSlerp
 });
 
-export const Equal = new makeInNOutFunctionDesc({
+export const Equal = makeInNOutFunctionDesc({
   name: 'math/equal/quat',
   label: '=',
   in: [{ a: 'quat' }, { b: 'quat' }, { tolerance: 'float' }],

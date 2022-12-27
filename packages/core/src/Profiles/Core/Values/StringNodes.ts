@@ -1,5 +1,4 @@
 import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
-
 export const Constant = makeInNOutFunctionDesc({
   name: 'logic/string',
   label: 'String',

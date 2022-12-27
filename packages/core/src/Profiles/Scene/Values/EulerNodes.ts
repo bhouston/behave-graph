@@ -12,7 +12,7 @@ import {
   vec3Subtract
 } from './Internal/Vec3';
 
-export const Constant = new makeInNOutFunctionDesc({
+export const Constant = makeInNOutFunctionDesc({
   name: 'math/euler',
   label: 'Euler',
   in: ['euler'],
@@ -20,7 +20,7 @@ export const Constant = new makeInNOutFunctionDesc({
   exec: (a: Vec3) => a
 });
 
-export const Create = new makeInNOutFunctionDesc({
+export const Create = makeInNOutFunctionDesc({
   name: 'math/toEuler/float',
   label: 'Float to Euler',
   in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
@@ -28,7 +28,7 @@ export const Create = new makeInNOutFunctionDesc({
   exec: (x: number, y: number, z: number) => new Vec3(x, y, z)
 });
 
-export const Elements = new makeInNOutFunctionDesc({
+export const Elements = makeInNOutFunctionDesc({
   name: 'math/toFloat/euler',
   label: 'Euler to Float',
   in: ['euler'],
@@ -38,7 +38,7 @@ export const Elements = new makeInNOutFunctionDesc({
   }
 });
 
-export const Add = new makeInNOutFunctionDesc({
+export const Add = makeInNOutFunctionDesc({
   name: 'math/add/euler',
   label: '+',
   in: ['euler', 'euler'],
@@ -46,7 +46,7 @@ export const Add = new makeInNOutFunctionDesc({
   exec: vec3Add
 });
 
-export const Subtract = new makeInNOutFunctionDesc({
+export const Subtract = makeInNOutFunctionDesc({
   name: 'math/subtract/euler',
   label: '-',
   in: ['euler', 'euler'],
@@ -54,7 +54,7 @@ export const Subtract = new makeInNOutFunctionDesc({
   exec: vec3Subtract
 });
 
-export const Negate = new makeInNOutFunctionDesc({
+export const Negate = makeInNOutFunctionDesc({
   name: 'math/negate/euler',
   label: '-',
   in: ['euler'],
@@ -62,7 +62,7 @@ export const Negate = new makeInNOutFunctionDesc({
   exec: vec3Negate
 });
 
-export const Scale = new makeInNOutFunctionDesc({
+export const Scale = makeInNOutFunctionDesc({
   name: 'math/scale/euler',
   label: '×',
   in: ['euler', 'float'],
@@ -70,7 +70,7 @@ export const Scale = new makeInNOutFunctionDesc({
   exec: vec3MultiplyByScalar
 });
 
-export const Mix = new makeInNOutFunctionDesc({
+export const Mix = makeInNOutFunctionDesc({
   name: 'math/mix/euler',
   label: '÷',
   in: [{ a: 'euler' }, { b: 'euler' }, { t: 'float' }],
@@ -81,7 +81,7 @@ export const Mix = new makeInNOutFunctionDesc({
   }
 });
 
-export const Mat3ToEuler = new makeInNOutFunctionDesc({
+export const Mat3ToEuler = makeInNOutFunctionDesc({
   name: 'math/toEuler/mat3',
   label: 'To Euler',
   in: ['mat3'],
@@ -89,7 +89,7 @@ export const Mat3ToEuler = new makeInNOutFunctionDesc({
   exec: mat3ToEuler
 });
 
-export const Mat4ToEuler = new makeInNOutFunctionDesc({
+export const Mat4ToEuler = makeInNOutFunctionDesc({
   name: 'math/toEuler/mat4',
   label: 'To Euler',
   in: ['mat4'],
@@ -97,7 +97,7 @@ export const Mat4ToEuler = new makeInNOutFunctionDesc({
   exec: mat4ToEuler
 });
 
-export const QuatToEuler = new makeInNOutFunctionDesc({
+export const QuatToEuler = makeInNOutFunctionDesc({
   name: 'math/toEuler/quat',
   label: 'To Euler',
   in: ['quat'],
@@ -105,7 +105,7 @@ export const QuatToEuler = new makeInNOutFunctionDesc({
   exec: quatToEuler
 });
 
-export const Equal = new makeInNOutFunctionDesc({
+export const Equal = makeInNOutFunctionDesc({
   name: 'math/equal/euler',
   label: '=',
   in: [{ a: 'euler' }, { b: 'euler' }, { tolerance: 'float' }],

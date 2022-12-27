@@ -5,8 +5,8 @@ import { Node, NodeConfiguration } from './Node';
 import {
   makeFunctionNodeDefinition,
   NodeCategory,
-  SocketNames,
-  SocketsMap
+  SocketListDefinition,
+  SocketsList
 } from './NodeDefinition';
 import { IFunctionNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
@@ -47,40 +47,31 @@ export class FunctionNode
 const alpha = 'abcdefghijklmnop';
 const getAlphabeticalKey = (index: number) => alpha[index];
 
-type OrderedSocketsResult<TSockets extends SocketsMap> = {
-  socketKeys: (keyof TSockets)[];
-  sockets: TSockets;
-};
 /** Converts list of sockets specifying value type names to an ordeered list of sockets,
  */
-const toOrderedSockets = <TSockets extends SocketsMap>(
-  socketValueTypes: string[] | string | undefined = [],
-  getKey: (index: number) => SocketNames<TSockets>
-): OrderedSocketsResult<TSockets> => {
-  // const alpha = 'abcdefghijklmnop';
-  const socketKeys: (keyof TSockets)[] = [];
-  const sockets: Partial<TSockets> = {};
 
-  [...socketValueTypes].forEach((valueType, index) => {
-    const name = getKey(index) as keyof TSockets;
+function makeSocketsList(
+  sockets: (string | { [key: string]: string })[] | undefined,
+  getKey: (index: number) => string
+): SocketsList {
+  if (!sockets || sockets.length === 0) return [];
 
-    socketKeys.push(name);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    sockets[name] = valueType;
+  return sockets.map((x, i): SocketListDefinition => {
+    if (typeof x === 'string') {
+      return {
+        key: getKey(i),
+        valueType: x
+      };
+    }
+    return {
+      key: Object.keys(x)[0],
+      valueType: x[Object.keys(x)[0]]
+    };
   });
-
-  const casted = sockets as TSockets;
-
-  return {
-    socketKeys,
-    sockets: casted
-  };
-};
+}
 
 export function makeInNOutFunctionDesc({
-  in: inputValueTypes,
-  inputKeys,
+  in: inputs,
   out,
   exec,
   category,
@@ -89,47 +80,31 @@ export function makeInNOutFunctionDesc({
   name: string;
   label: string;
   aliases?: string[];
-  in?: string[];
-  inputKeys?: string[];
-  out: string[] | string;
+  in?: (string | { [key: string]: string })[];
+  out: (string | { [key: string]: string })[] | string;
   category?: NodeCategory;
   exec: (...args: any[]) => any;
 }) {
-  if (inputKeys) {
-    Assert.mustEqual(
-      inputKeys.length,
-      inputValueTypes?.length || 0,
-      'inputKeys length must match inputValueTypes length'
-    );
-  }
-
-  const getInputFunction = inputKeys
-    ? (index: number) => inputKeys[index]
-    : getAlphabeticalKey;
-  const inputSockets = toOrderedSockets(inputValueTypes, getInputFunction);
-
-  // function to get output socket key - if there is only one output, then use 'result' as the key
-  // otherwise use alphtabetical keys
+  const inputSockets = makeSocketsList(inputs, getAlphabeticalKey);
   const outputKeyFunc =
-    Array.isArray(out) && out.length > 1 ? () => 'result' : getAlphabeticalKey;
-  const outputSockets = toOrderedSockets(out, outputKeyFunc);
+    typeof out === 'string' || out.length > 1
+      ? () => 'result'
+      : getAlphabeticalKey;
+  const outputSockets = makeSocketsList([...out], outputKeyFunc);
 
   const definition = makeFunctionNodeDefinition({
     typeName: rest.name,
     label: rest.label,
-    in: inputSockets.sockets,
-    out: outputSockets.sockets,
+    in: () => inputSockets,
+    out: () => outputSockets,
     category,
     exec: ({ read, write }) => {
-      const args = inputSockets.socketKeys.map((key) => read(key));
+      const args = inputSockets.map(({ key }) => read(key));
       const results = exec(...args);
-      if (
-        outputSockets.socketKeys.length === 1 &&
-        outputSockets.socketKeys[0] === 'result'
-      ) {
+      if (outputSockets.length === 1 && outputSockets[0].key === 'result') {
         write('result', results);
       } else {
-        outputSockets.socketKeys.forEach((key) => {
+        outputSockets.forEach(({ key }) => {
           write(key, results[key]);
         });
       }

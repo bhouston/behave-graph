@@ -10,6 +10,7 @@ import { Variable } from '../Variables/Variable';
 
 export interface IGraph {
   readonly variables: { [id: string]: Variable };
+  readonly customEvents: { [id: string]: CustomEvent };
 }
 
 export class Graph implements IGraph {
@@ -47,7 +48,8 @@ export class Graph implements IGraph {
     }
 
     const node = nodeDefinition.factory(nodeId, nodeConfiguration, {
-      variables: this.variables
+      variables: this.variables,
+      customEvents: this.customEvents
     });
 
     this.nodes[nodeId] = node;

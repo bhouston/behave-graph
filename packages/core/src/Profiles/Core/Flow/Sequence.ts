@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
-  SocketsMap
-} from 'packages/core/src/Nodes/NodeDefinition';
+  SocketsList
+} from '../../../Nodes/NodeDefinition';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 
@@ -18,20 +18,18 @@ export const Sequence = makeFlowNodeDefinition({
   },
   out: (configuration) => {
     const numOutputs = configuration.numOutputs;
-    const sockets: SocketsMap = {};
-
-    const keys: string[] = [];
+    const sockets: SocketsList = [];
 
     for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
       const key = `${outputIndex}`;
-      keys.push(key);
-      sockets[key] = 'flow';
+
+      sockets.push({
+        key,
+        valueType: 'flow'
+      });
     }
 
-    return {
-      sockets,
-      keys
-    };
+    return sockets;
   },
   initialState: undefined,
   triggered: ({ commit, outputSocketKeys }) => {

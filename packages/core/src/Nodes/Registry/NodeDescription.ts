@@ -17,12 +17,10 @@ export type NodeConfigurationDescription = {
   };
 };
 
-export function getNodeDescriptions(
-  importWildcard: any
-): INodeDefinitionBase[] {
-  return Object.keys(importWildcard)
-    .map((key) => (importWildcard as { [key: string]: any })[key])
-    .filter((value) => value instanceof NodeDescription) as NodeDescription[];
+export function getNodeDescriptions(importWildcard: {
+  [key: string]: INodeDefinitionBase;
+}): INodeDefinitionBase[] {
+  return Object.values(importWildcard) as INodeDefinitionBase[];
 }
 
 export class NodeDescription {

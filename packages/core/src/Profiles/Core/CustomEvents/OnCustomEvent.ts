@@ -11,7 +11,30 @@ import {
 } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
 
-export class OnCustomEvent extends EventNode2 {
+// export const OnCustomEvent = makeEventNodeDefinition({
+//   name: 'customEvent/onTriggered',
+//   category: NodeCategory.Event,
+//   description: 'On Triggered',
+//   configuration: {
+//     customEventId: {
+//       valueType: 'number'
+//     }
+//   },
+//   out: (configuration, graph: { customEvents }) => {
+//     const customEvent =
+//       customEvents[configuration.customEventId] ||
+//       new CustomEvent('-1', 'undefined');
+//     return {
+//       sockets: {
+//         flow: 'flow',
+
+//       },
+//       keys: ['flow']
+//     };
+//   }
+// });
+
+export class OnCustomEventOric extends EventNode2 {
   public static Description = new NodeDescription2({
     typeName: 'customEvent/onTriggered',
     category: 'Event',
@@ -22,7 +45,7 @@ export class OnCustomEvent extends EventNode2 {
       }
     },
     factory: (description, graph, configuration) =>
-      new OnCustomEvent(description, graph, configuration)
+      new OnCustomEventOric(description, graph, configuration)
   });
 
   private readonly customEvent: CustomEvent;

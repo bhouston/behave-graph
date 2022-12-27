@@ -1,6 +1,7 @@
 import {
   makeFlowNodeDefinition,
-  NodeCategory
+  NodeCategory,
+  SocketsList
 } from 'packages/core/src/Nodes/NodeDefinition';
 
 import { Variable } from '../../../Variables/Variable';
@@ -19,16 +20,19 @@ export const VariableSet = makeFlowNodeDefinition({
       graph.variables[configuration.variableId] ||
       new Variable('-1', 'undefined', 'string', '');
 
-    return {
-      sockets: {
-        flow: 'flow',
-        value: {
-          valueType: variable.valueTypeName,
-          label: variable.name
-        }
+    const sockets: SocketsList = [
+      {
+        key: 'flow',
+        valueType: 'flow'
       },
-      keys: ['value', 'flow']
-    };
+      {
+        key: 'value',
+        valueType: variable.valueTypeName,
+        label: variable.name
+      }
+    ];
+
+    return sockets;
   },
   initialState: undefined,
   out: { flow: 'flow' },

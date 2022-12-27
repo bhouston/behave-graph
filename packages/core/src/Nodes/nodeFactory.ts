@@ -4,11 +4,12 @@ import { NodeConfiguration } from './Node';
 import {
   INodeDefinitionBase,
   SocketsDefinition,
+  SocketsList,
   SocketsMap
 } from './NodeDefinition';
 import { INode, NodeType } from './NodeInstance';
 
-const makeSockets = <TSockets extends SocketsMap>(
+const makeSocketsFromMap = <TSockets extends SocketsMap>(
   socketConfig: TSockets,
   keys: (keyof TSockets)[]
 ): Socket[] => {
@@ -28,6 +29,17 @@ const makeSockets = <TSockets extends SocketsMap>(
   });
 };
 
+const makeSocketsFromArray = (sockets: SocketsList) =>
+  sockets.map((socket) => {
+    return new Socket(
+      socket.valueType,
+      socket.key,
+      socket.defaultValue,
+      undefined,
+      socket.choices
+    );
+  });
+
 function makeOrGenerateSockets(
   socketConfigOrFactory: SocketsDefinition,
   nodeConfig: NodeConfiguration,
@@ -36,12 +48,15 @@ function makeOrGenerateSockets(
   // if sockets definition is dynamic, then use the node config to generate it;
   // otherwise, use the static definition
   if (typeof socketConfigOrFactory === 'function') {
-    const { sockets, keys } = socketConfigOrFactory(nodeConfig, graph);
+    const socketsConfig = socketConfigOrFactory(nodeConfig, graph);
 
-    return makeSockets(sockets, keys);
+    return makeSocketsFromArray(socketsConfig);
   }
 
-  return makeSockets(socketConfigOrFactory, Object.keys(socketConfigOrFactory));
+  return makeSocketsFromMap(
+    socketConfigOrFactory,
+    Object.keys(socketConfigOrFactory)
+  );
 }
 
 export const makeCommonProps = (

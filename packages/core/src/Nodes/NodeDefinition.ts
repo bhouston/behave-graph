@@ -18,14 +18,12 @@ export interface SocketDefinition {
   label?: string;
 }
 export type SocketsMap = Record<string, SocketDefinition | string>;
+export type SocketsList = (SocketDefinition & { key: string })[];
 
 export type SocketsGeneratorFromConfig = (
   nodeConfig: NodeConfiguration,
   graph: IGraph
-) => {
-  sockets: SocketsMap;
-  keys: string[];
-};
+) => SocketsList;
 
 export type SocketsDefinition = SocketsMap | SocketsGeneratorFromConfig;
 

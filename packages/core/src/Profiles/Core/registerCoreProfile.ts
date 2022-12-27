@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { INodeDefinitionBase } from '../../Nodes/NodeDefinition';
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
 import { Registry } from '../../Registry';
 import { DefaultLogger } from './Abstractions/Drivers/DefaultLogger';
@@ -52,6 +53,8 @@ export function registerCoreProfile(
   values.register(IntegerValue);
   values.register(FloatValue);
 
+  const stringNodes: Record<string, INodeDefinitionBase> = StringNodes;
+
   // pull in value type nodes
   nodes.register(...getNodeDescriptions(StringNodes));
   nodes.register(...getNodeDescriptions(BooleanNodes));
@@ -65,12 +68,12 @@ export function registerCoreProfile(
 
   // variables
 
-  nodes.register(VariableGet.Description);
-  nodes.register(VariableSet.Description);
+  nodes.register(VariableGet);
+  nodes.register(VariableSet);
 
   // complex logic
 
-  nodes.register(Easing.Description);
+  nodes.register(Easing);
 
   // actions
 

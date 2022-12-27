@@ -3,10 +3,10 @@ import { Fiber } from '../Execution/Fiber';
 import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeType } from './NodeInstance';
+import { IFlowNode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class FlowNode extends Node<NodeType.Flow> {
+export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
   constructor(
     description: NodeDescription,
     graph: IGraph,

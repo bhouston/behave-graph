@@ -1,3 +1,4 @@
+import { IGraph } from '../Graphs/Graph';
 import { NodeConfiguration } from './Node';
 import { makeCommonProps } from './nodeFactory';
 import {
@@ -14,10 +15,14 @@ export interface SocketDefinition {
   valueType: string;
   defaultValue?: any;
   choices?: string[];
+  label?: string;
 }
 export type SocketsMap = Record<string, SocketDefinition | string>;
 
-export type SocketsGeneratorFromConfig = (nodeConfig: NodeConfiguration) => {
+export type SocketsGeneratorFromConfig = (
+  nodeConfig: NodeConfiguration,
+  graph: IGraph
+) => {
   sockets: SocketsMap;
   keys: string[];
 };
@@ -38,7 +43,11 @@ export interface INodeDefinitionBase<
   in: TInput;
   out: TOutput;
   configuration?: TConfig;
-  factory: (nodeId: string, nodeConfig: NodeConfiguration) => INode;
+  factory: (
+    nodeId: string,
+    nodeConfig: NodeConfiguration,
+    graph: IGraph
+  ) => INode;
 }
 
 export interface INodeDefinition<
@@ -73,6 +82,9 @@ export interface FlowNodeTriggeredParams<
   triggeringSocketName: keyof TInput;
   // state of the node.
   state: TState;
+
+  graph: IGraph;
+  configuration: NodeConfiguration;
 }
 
 export type FlowNodeTriggeredFn<
@@ -96,9 +108,12 @@ export interface FunctionNodeExecParams<
   TOutput extends SocketsDefinition
 > {
   // now read will only allow keys of the input types
-  read<T>(inValueName: keyof TInput): T;
+  read<T>(inValueName: SocketNames<TInput>): T;
   // write and commit only allows keys from the output type
-  write<T>(outValueName: keyof TOutput, value: T): void;
+  write<T>(outValueName: SocketNames<TOutput>, value: T): void;
+
+  graph: IGraph;
+  configuration: NodeConfiguration;
 }
 
 export interface FunctionNodeDefinition<
@@ -149,13 +164,22 @@ export function makeFlowNodeDefinition<
 ): IFlowNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
-    factory: (id: string, nodeConfig: NodeConfiguration) =>
+    factory: (id, nodeConfig, graph) =>
       new FlowNodeInstance({
-        ...makeCommonProps(id, NodeType.Flow, definition, nodeConfig),
+        ...makeCommonProps(id, NodeType.Flow, definition, nodeConfig, graph),
         initialState: definition.initialState,
         triggered: definition.triggered
       })
   };
+}
+
+// helper function to not require you to define generics when creating a node def,
+// and generates a factory for a node instance
+export function makeFunctionNodeDefinitionWithFactory<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition
+>(definition: Omit<FunctionNodeDefinition<TInput, TOutput>, 'exec'>) {
+  return definition;
 }
 
 // helper function to not require you to define generics when creating a node def,
@@ -168,9 +192,15 @@ export function makeFunctionNodeDefinition<
 ): FunctionNodeDefinition<TInput, TOutput> {
   return {
     ...definition,
-    factory: (id: string, nodeConfig: NodeConfiguration) =>
+    factory: (id: string, nodeConfig: NodeConfiguration, graph: IGraph) =>
       new FunctionNodeInstance({
-        ...makeCommonProps(id, NodeType.Function, definition, nodeConfig),
+        ...makeCommonProps(
+          id,
+          NodeType.Function,
+          definition,
+          nodeConfig,
+          graph
+        ),
         exec: definition.exec
       })
   };
@@ -188,9 +218,9 @@ export function makeEventNodeDefinition<
 ): EventNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
-    factory: (id: string, nodeConfig: NodeConfiguration) =>
+    factory: (id, nodeConfig, graph) =>
       new EventNodeInstance({
-        ...makeCommonProps(id, NodeType.Event, definition, nodeConfig),
+        ...makeCommonProps(id, NodeType.Event, definition, nodeConfig, graph),
         initialState: definition.initialState,
         init: definition.init,
         dispose: definition.dispose

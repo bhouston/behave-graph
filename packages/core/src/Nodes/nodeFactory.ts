@@ -1,4 +1,4 @@
-import { Registry } from '../Registry';
+import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { NodeConfiguration } from './Node';
 import {
@@ -30,12 +30,13 @@ const makeSockets = <TSockets extends SocketsMap>(
 
 function makeOrGenerateSockets(
   socketConfigOrFactory: SocketsDefinition,
-  nodeConfig: NodeConfiguration
+  nodeConfig: NodeConfiguration,
+  graph: IGraph
 ): Socket[] {
   // if sockets definition is dynamic, then use the node config to generate it;
   // otherwise, use the static definition
   if (typeof socketConfigOrFactory === 'function') {
-    const { sockets, keys } = socketConfigOrFactory(nodeConfig);
+    const { sockets, keys } = socketConfigOrFactory(nodeConfig, graph);
 
     return makeSockets(sockets, keys);
   }
@@ -51,33 +52,14 @@ export const makeCommonProps = (
     in: inputs,
     out
   }: Pick<INodeDefinitionBase, 'typeName' | 'in' | 'out'>,
-  nodeConfig: NodeConfiguration
+  nodeConfig: NodeConfiguration,
+  graph: IGraph
 ): INode => ({
   id,
   typeName: typeName,
   nodeType: nodeType,
-  inputs: makeOrGenerateSockets(inputs, nodeConfig),
-  outputs: makeOrGenerateSockets(out, nodeConfig)
+  inputs: makeOrGenerateSockets(inputs, nodeConfig, graph),
+  outputs: makeOrGenerateSockets(out, nodeConfig, graph),
+  configuration: nodeConfig,
+  graph
 });
-
-/***
-  Looks up the node definition in the registry, and uses that definition to create a node.
- */
-export const createNodeUsingRegistryDefinition = (
-  nodeTypeName: string,
-  nodeId: string,
-  nodeConfiguration: NodeConfiguration,
-  registry: Registry
-): INode => {
-  let nodeDescription = undefined;
-  if (registry.nodes.contains(nodeTypeName)) {
-    nodeDescription = registry.nodes.get(nodeTypeName);
-  }
-  if (nodeDescription === undefined) {
-    throw new Error(
-      `no registered node descriptions with the typeName ${nodeTypeName}`
-    );
-  }
-
-  return nodeDescription.factory(nodeId, nodeConfiguration);
-};

@@ -1,4 +1,5 @@
 import { Graph } from '../../Graphs/Graph';
+import { INodeDefinitionBase } from '../NodeDefinition';
 import { INode } from '../NodeInstance';
 import { NodeConfiguration } from './../Node';
 import { NodeCategory } from './NodeCategory';
@@ -16,7 +17,9 @@ export type NodeConfigurationDescription = {
   };
 };
 
-export function getNodeDescriptions(importWildcard: any) {
+export function getNodeDescriptions(
+  importWildcard: any
+): INodeDefinitionBase[] {
   return Object.keys(importWildcard)
     .map((key) => (importWildcard as { [key: string]: any })[key])
     .filter((value) => value instanceof NodeDescription) as NodeDescription[];

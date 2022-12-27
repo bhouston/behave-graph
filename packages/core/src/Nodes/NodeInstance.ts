@@ -1,6 +1,8 @@
 import { Engine } from '../Execution/Engine';
 import { Fiber } from '../Execution/Fiber';
+import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
+import { NodeConfiguration } from './Node';
 import {
   EventNodeDefinition,
   FlowNodeTriggeredFn,
@@ -19,8 +21,10 @@ export interface INode {
   readonly id: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
+  readonly graph: IGraph;
   typeName: string;
   nodeType: NodeType;
+  configuration: NodeConfiguration;
 }
 
 export interface IEventNode extends INode {
@@ -83,6 +87,8 @@ abstract class NodeInstance<TNodeType extends NodeType> implements INode {
   public readonly outputs: Socket[];
   public typeName: string;
   public nodeType: TNodeType;
+  public graph: IGraph;
+  public configuration: NodeConfiguration;
 
   constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
     this.id = node.id;
@@ -90,6 +96,8 @@ abstract class NodeInstance<TNodeType extends NodeType> implements INode {
     this.outputs = node.outputs;
     this.typeName = node.typeName;
     this.nodeType = node.nodeType;
+    this.graph = node.graph;
+    this.configuration = node.configuration;
   }
 
   readInput<T>(inputName: string): T {
@@ -163,7 +171,9 @@ export class EventNodeInstance
       state: this.state,
       outputSocketKeys: this.outputSocketKeys,
       commit: (outFlowname, fiberCompletedListener) =>
-        engine.commitToNewFiber(this, outFlowname, fiberCompletedListener)
+        engine.commitToNewFiber(this, outFlowname, fiberCompletedListener),
+      configuration: this.configuration,
+      graph: this.graph
     });
   }
 
@@ -191,7 +201,9 @@ export class FunctionNodeInstance
     this.execInner({
       read: (name) => readInputFromSockets(node.inputs, name, node.typeName),
       write: (name, value) =>
-        writeOutputsToSocket(node.outputs, name, value, node.typeName)
+        writeOutputsToSocket(node.outputs, name, value, node.typeName),
+      configuration: this.configuration,
+      graph: this.graph
     });
   }
 }

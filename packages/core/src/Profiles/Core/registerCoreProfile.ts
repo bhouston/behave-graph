@@ -79,9 +79,9 @@ export function registerCoreProfile(
 
   // events
 
-  nodes.register(LifecycleOnStart.Description(lifecycleEventEmitter));
-  nodes.register(LifecycleOnEnd.Description(lifecycleEventEmitter));
-  nodes.register(LifecycleOnTick.Description(lifecycleEventEmitter));
+  nodes.register(LifecycleOnStart(lifecycleEventEmitter));
+  nodes.register(LifecycleOnEnd(lifecycleEventEmitter));
+  nodes.register(LifecycleOnTick(lifecycleEventEmitter));
 
   // time
 
@@ -90,18 +90,18 @@ export function registerCoreProfile(
 
   // flow control
 
-  nodes.register(Branch.Description);
-  nodes.register(FlipFlop.Description);
-  nodes.register(ForLoop.Description);
-  nodes.register(Sequence.Description);
+  nodes.register(Branch);
+  nodes.register(FlipFlop);
+  nodes.register(ForLoop);
+  nodes.register(Sequence);
   nodes.register(Debounce.Description);
   nodes.register(Throttle.Description);
-  nodes.register(DoN.Description);
-  nodes.register(DoOnce.Description);
-  nodes.register(Gate.Description);
-  nodes.register(MultiGate.Description);
+  nodes.register(DoN);
+  nodes.register(DoOnce);
+  nodes.register(Gate);
+  nodes.register(MultiGate);
   nodes.register(WaitAll.Description);
-  nodes.register(Counter.Description);
+  nodes.register(Counter);
 
   // string converters
 

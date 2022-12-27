@@ -2,14 +2,17 @@ import { CustomEvent } from '../Events/CustomEvent';
 import { generateUuid } from '../generateUuid';
 import { Metadata } from '../Metadata';
 import { NodeConfiguration } from '../Nodes/Node';
-import { createNodeUsingRegistryDefinition } from '../Nodes/nodeFactory';
 import { INode } from '../Nodes/NodeInstance';
 import { Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
 // Purpose:
 //  - stores the node graph
 
-export class Graph {
+export interface IGraph {
+  readonly variables: { [id: string]: Variable };
+}
+
+export class Graph implements IGraph {
   public name = '';
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly nodes: { [id: string]: INode } = {};
@@ -33,12 +36,19 @@ export class Graph {
       );
     }
 
-    const node = createNodeUsingRegistryDefinition(
-      nodeTypeName,
-      nodeId,
-      nodeConfiguration,
-      this.registry
-    );
+    let nodeDefinition = undefined;
+    if (this.registry.nodes.contains(nodeTypeName)) {
+      nodeDefinition = this.registry.nodes.get(nodeTypeName);
+    }
+    if (nodeDefinition === undefined) {
+      throw new Error(
+        `no registered node descriptions with the typeName ${nodeTypeName}`
+      );
+    }
+
+    const node = nodeDefinition.factory(nodeId, nodeConfiguration, {
+      variables: this.variables
+    });
 
     this.nodes[nodeId] = node;
     node.inputs.forEach((socket) => {

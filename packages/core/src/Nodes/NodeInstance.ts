@@ -18,11 +18,7 @@ export enum NodeType {
   Function = 'Function'
 }
 
-export interface IHasNodeType {
-  nodeType: NodeType;
-}
-
-export interface INode extends IHasNodeType {
+export interface INode {
   readonly id?: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
@@ -30,25 +26,26 @@ export interface INode extends IHasNodeType {
   typeName: string;
   otherTypeNames: string[] | undefined;
   configuration: NodeConfiguration;
+  nodeType: NodeType;
 }
 
-export interface IFunctionNode extends IHasNodeType {
+export interface IFunctionNode extends INode {
   nodeType: NodeType.Function;
   exec: (node: INode) => void;
 }
 
-export interface IEventNode extends IHasNodeType {
+export interface IEventNode extends INode {
   nodeType: NodeType.Event;
   init: (engine: Engine) => void;
   dispose: (engine: Engine) => void;
 }
 
-export interface IFlowNode extends IHasNodeType {
+export interface IFlowNode extends INode {
   nodeType: NodeType.Flow;
   triggered: (fiber: Fiber, triggeringSocketName: string) => void;
 }
 
-export interface IAsyncNode extends IHasNodeType {
+export interface IAsyncNode extends INode {
   nodeType: NodeType.Async;
   triggered: (
     engine: Engine,
@@ -58,16 +55,16 @@ export interface IAsyncNode extends IHasNodeType {
   dispose: () => void;
 }
 
-export const isFlowNode = (node: IHasNodeType): node is IFlowNode =>
+export const isFlowNode = (node: INode): node is IFlowNode =>
   node.nodeType === NodeType.Flow;
 
-export const isEventNode = (node: IHasNodeType): node is IEventNode =>
+export const isEventNode = (node: INode): node is IEventNode =>
   node.nodeType === NodeType.Event;
 
-export const isAsyncNode = (node: IHasNodeType): node is IAsyncNode =>
+export const isAsyncNode = (node: INode): node is IAsyncNode =>
   node.nodeType === NodeType.Async;
 
-export const isFunctionNode = (node: IHasNodeType): node is IFunctionNode =>
+export const isFunctionNode = (node: INode): node is IFunctionNode =>
   node.nodeType === NodeType.Function;
 
 export const makeNodeInstance = (node: INode) => {

@@ -15,7 +15,14 @@ export class AsyncNode extends Node<NodeType.Async> {
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
   ) {
-    super(description, graph, inputs, outputs, configuration, NodeType.Async);
+    super({
+      ...description,
+      inputs,
+      outputs,
+      graph,
+      configuration,
+      nodeType: NodeType.Async
+    });
     // must have at least one input flow socket
     Assert.mustBeTrue(
       this.inputs.some((socket) => socket.valueTypeName === 'flow')

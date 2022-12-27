@@ -15,7 +15,14 @@ export class FlowNode extends Node<NodeType.Flow> {
     configuration: NodeConfiguration = {}
   ) {
     // determine if this is an eval node
-    super(description, graph, inputs, outputs, configuration, NodeType.Flow);
+    super({
+      ...description,
+      inputs,
+      outputs,
+      graph,
+      configuration,
+      nodeType: NodeType.Flow
+    });
 
     // must have at least one input flow socket
     Assert.mustBeTrue(

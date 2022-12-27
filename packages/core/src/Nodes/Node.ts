@@ -1,52 +1,37 @@
 import { IGraph } from '../Graphs/Graph';
-import { Metadata } from '../Metadata';
 import { Socket } from '../Sockets/Socket';
 import { INode, NodeType } from './NodeInstance';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
-import { NodeDescription } from './Registry/NodeDescription';
 
 export type NodeConfiguration = {
   [key: string]: any;
 };
 
-export class Node<TNodeType extends NodeType> implements INode {
+export abstract class Node<TNodeType extends NodeType> implements INode {
   public id = '';
-  public label = '';
-  public metadata: Metadata = {};
+  public readonly inputs: Socket[];
+  public readonly outputs: Socket[];
+  public typeName: string;
+  public nodeType: TNodeType;
+  public readonly otherTypeNames: string[] | undefined;
+  public graph: IGraph;
+  public configuration: NodeConfiguration;
 
-  constructor(
-    public readonly description: NodeDescription,
-    public readonly graph: IGraph,
-    public readonly inputs: Socket[] = [],
-    public readonly outputs: Socket[] = [],
-    public readonly configuration: NodeConfiguration = {},
-    public nodeType: TNodeType
-  ) {}
+  constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
+    this.inputs = node.inputs;
+    this.outputs = node.outputs;
+    this.typeName = node.typeName;
+    this.nodeType = node.nodeType;
+    this.graph = node.graph;
+    this.configuration = node.configuration;
+    this.otherTypeNames = node.otherTypeNames;
+  }
 
-  // TODO: this may want to cache the values on the creation of the NodeEvalContext
-  // for re-entrant async operations, otherwise the inputs may change during operation.
   readInput<T>(inputName: string): T {
-    return readInputFromSockets(
-      this.inputs,
-      inputName,
-      this.description.typeName
-    );
+    return readInputFromSockets(this.inputs, inputName, this.typeName);
   }
 
   writeOutput<T>(outputName: string, value: T) {
-    writeOutputsToSocket(
-      this.outputs,
-      outputName,
-      value,
-      this.description.typeName
-    );
-  }
-
-  get typeName() {
-    return this.description.typeName;
-  }
-
-  get otherTypeNames() {
-    return this.description.otherTypeNames;
+    writeOutputsToSocket(this.outputs, outputName, value, this.typeName);
   }
 }

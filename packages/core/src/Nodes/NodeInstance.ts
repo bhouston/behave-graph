@@ -18,29 +18,37 @@ export enum NodeType {
   Function = 'Function'
 }
 
-export interface INode {
+export interface IHasNodeType {
+  nodeType: NodeType;
+}
+
+export interface INode extends IHasNodeType {
   readonly id?: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   readonly graph: IGraph;
   typeName: string;
   otherTypeNames: string[] | undefined;
-  nodeType: NodeType;
   configuration: NodeConfiguration;
 }
 
-export interface IEventNode extends INode {
+export interface IFunctionNode extends IHasNodeType {
+  nodeType: NodeType.Function;
+  exec: (node: INode) => void;
+}
+
+export interface IEventNode extends IHasNodeType {
   nodeType: NodeType.Event;
   init: (engine: Engine) => void;
   dispose: (engine: Engine) => void;
 }
 
-export interface IFlowNode extends INode {
+export interface IFlowNode extends IHasNodeType {
   nodeType: NodeType.Flow;
   triggered: (fiber: Fiber, triggeringSocketName: string) => void;
 }
 
-export interface IAsyncNode extends INode {
+export interface IAsyncNode extends IHasNodeType {
   nodeType: NodeType.Async;
   triggered: (
     engine: Engine,
@@ -50,21 +58,16 @@ export interface IAsyncNode extends INode {
   dispose: () => void;
 }
 
-export interface IFunctionNode extends INode {
-  nodeType: NodeType.Function;
-  exec: (node: INode) => void;
-}
-
-export const isFlowNode = (node: INode): node is IFlowNode =>
+export const isFlowNode = (node: IHasNodeType): node is IFlowNode =>
   node.nodeType === NodeType.Flow;
 
-export const isEventNode = (node: INode): node is IEventNode =>
+export const isEventNode = (node: IHasNodeType): node is IEventNode =>
   node.nodeType === NodeType.Event;
 
-export const isAsyncNode = (node: INode): node is IAsyncNode =>
+export const isAsyncNode = (node: IHasNodeType): node is IAsyncNode =>
   node.nodeType === NodeType.Async;
 
-export const isFunctionNode = (node: INode): node is IFunctionNode =>
+export const isFunctionNode = (node: IHasNodeType): node is IFunctionNode =>
   node.nodeType === NodeType.Function;
 
 export const makeNodeInstance = (node: INode) => {
@@ -83,7 +86,7 @@ export const makeNodeInstance = (node: INode) => {
   };
 };
 
-abstract class NodeInstance<TNodeType extends NodeType> implements INode {
+abstract class Node<TNodeType extends NodeType> implements INode {
   public id = '';
   public readonly inputs: Socket[];
   public readonly outputs: Socket[];
@@ -113,7 +116,7 @@ abstract class NodeInstance<TNodeType extends NodeType> implements INode {
 }
 
 export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
-  extends NodeInstance<NodeType.Flow>
+  extends Node<NodeType.Flow>
   implements IFlowNode
 {
   private triggeredInner: TFlowNodeDefinition['triggered'];
@@ -146,7 +149,7 @@ export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
 }
 
 export class AsyncNodeInstance<TAsyncNodeDef extends IAsyncNodeDefinition>
-  extends NodeInstance<NodeType.Async>
+  extends Node<NodeType.Async>
   implements IAsyncNode
 {
   private triggeredInner: TAsyncNodeDef['triggered'];
@@ -188,7 +191,7 @@ export class AsyncNodeInstance<TAsyncNodeDef extends IAsyncNodeDefinition>
 }
 
 export class EventNodeInstance<TEventNodeDef extends IEventNodeDefinition>
-  extends NodeInstance<NodeType.Event>
+  extends Node<NodeType.Event>
   implements IEventNode
 {
   private initInner: TEventNodeDef['init'];
@@ -230,7 +233,7 @@ export class EventNodeInstance<TEventNodeDef extends IEventNodeDefinition>
 export class FunctionNodeInstance<
     TFunctionNodeDef extends IFunctionNodeDefinition
   >
-  extends NodeInstance<NodeType.Function>
+  extends Node<NodeType.Function>
   implements IFunctionNode
 {
   private execInner: TFunctionNodeDef['exec'];

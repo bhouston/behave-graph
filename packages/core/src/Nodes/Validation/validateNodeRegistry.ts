@@ -1,6 +1,7 @@
 import { Graph } from '../../Graphs/Graph';
 import { Registry } from '../../Registry';
 
+// eslint-disable-next-line unicorn/no-unsafe-regex
 const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;
 

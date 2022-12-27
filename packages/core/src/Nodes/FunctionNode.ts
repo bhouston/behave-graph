@@ -11,7 +11,7 @@ import {
 import { IFunctionNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
-export class FunctionNode
+export abstract class FunctionNode
   extends Node<NodeType.Function>
   implements IFunctionNode
 {
@@ -23,14 +23,14 @@ export class FunctionNode
     public readonly exec: (node: INode) => void,
     configuration: NodeConfiguration = {}
   ) {
-    super(
-      description,
-      graph,
+    super({
+      ...description,
       inputs,
       outputs,
+      graph,
       configuration,
-      NodeType.Function
-    );
+      nodeType: NodeType.Function
+    });
 
     // must have no input flow sockets
     Assert.mustBeTrue(

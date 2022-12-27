@@ -74,7 +74,7 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
       type: node.description.typeName,
       id: node.id
     };
-    if (node.label.length > 0) {
+    if (node.label && node.label.length > 0) {
       nodeJson.label = node.label;
     }
     if (Object.keys(node.metadata).length > 0) {

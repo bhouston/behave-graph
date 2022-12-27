@@ -3,6 +3,7 @@ import { Socket } from '../Sockets/Socket';
 import { NodeConfiguration } from './Node';
 import {
   INodeDefinitionBase,
+  NodeCategory,
   SocketsDefinition,
   SocketsList,
   SocketsMap
@@ -65,16 +66,36 @@ export const makeCommonProps = (
     typeName,
     in: inputs,
     out,
-    otherTypeNames
-  }: Pick<INodeDefinitionBase, 'typeName' | 'in' | 'out' | 'otherTypeNames'>,
-  nodeConfig: NodeConfiguration,
+    otherTypeNames = [],
+    category = NodeCategory.None,
+    configuration: nodeDefinitionConfiguration,
+    helpDescription = '',
+    label = ''
+  }: Pick<
+    INodeDefinitionBase,
+    | 'typeName'
+    | 'in'
+    | 'out'
+    | 'otherTypeNames'
+    | 'category'
+    | 'configuration'
+    | 'helpDescription'
+    | 'label'
+  >,
+  configuration: NodeConfiguration,
   graph: IGraph
 ): INode => ({
-  typeName: typeName,
-  otherTypeNames,
+  description: {
+    typeName: typeName,
+    configuration: nodeDefinitionConfiguration || {},
+    category,
+    otherTypeNames,
+    helpDescription,
+    label
+  },
   nodeType: nodeType,
-  inputs: makeOrGenerateSockets(inputs, nodeConfig, graph),
-  outputs: makeOrGenerateSockets(out, nodeConfig, graph),
-  configuration: nodeConfig,
+  inputs: makeOrGenerateSockets(inputs, configuration, graph),
+  outputs: makeOrGenerateSockets(out, configuration, graph),
+  configuration,
   graph
 });

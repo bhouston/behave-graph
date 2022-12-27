@@ -3,6 +3,7 @@ import { Fiber } from '../Execution/Fiber';
 import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeCategory } from './NodeDefinition';
 import { IFlowNode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
@@ -16,7 +17,10 @@ export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
   ) {
     // determine if this is an eval node
     super({
-      ...description,
+      description: {
+        ...description,
+        category: description.category as NodeCategory
+      },
       inputs,
       outputs,
       graph,

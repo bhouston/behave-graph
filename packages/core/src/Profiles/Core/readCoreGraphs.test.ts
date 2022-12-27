@@ -12,7 +12,7 @@ import * as frameCounterJson from '../../../../../graphs/core/variables/FrameCou
 import * as initialValueJson from '../../../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../../../graphs/core/variables/SetGet.json';
 import { Logger } from '../../Diagnostics/Logger';
-import { IGraph } from '../../Graphs/Graph';
+import { Graph } from '../../Graphs/Graph';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';

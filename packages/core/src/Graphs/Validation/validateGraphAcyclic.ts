@@ -1,4 +1,4 @@
-import { Node } from '../../Nodes/Node';
+import { INode } from '../../Nodes/NodeInstance';
 import { Graph } from '../Graph';
 
 export function validateGraphAcyclic(graph: Graph): string[] {
@@ -13,7 +13,7 @@ export function validateGraphAcyclic(graph: Graph): string[] {
   // it appears that we can just keep trimming nodes whose input sockets have no connections.
   // if we can remove all nodes, that means that there are no cycles.
 
-  const nodesToMark: Node[] = [];
+  const nodesToMark: INode[] = [];
 
   do {
     // clear array: https://stackoverflow.com/a/1232046

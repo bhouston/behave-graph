@@ -41,7 +41,7 @@ export class Fiber {
     if (outputSocket.links.length > 1) {
       throw new Error(
         'invalid for an output flow socket to have multiple downstream links:' +
-          `${node.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
+          `${node.description.typeName}.${outputSocket.name} has ${outputSocket.links.length} downlinks`
       );
     }
     if (outputSocket.links.length === 1) {
@@ -105,7 +105,9 @@ export class Fiber {
       return;
     }
 
-    throw new TypeError(`should not get here, unhandled node ${node.typeName}`);
+    throw new TypeError(
+      `should not get here, unhandled node ${node.description.typeName}`
+    );
   }
 
   isCompleted() {

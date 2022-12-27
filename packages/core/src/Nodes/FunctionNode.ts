@@ -24,8 +24,10 @@ export abstract class FunctionNode
     configuration: NodeConfiguration = {}
   ) {
     super({
-      ...description,
-      category: description.category as NodeCategory,
+      description: {
+        ...description,
+        category: description.category as NodeCategory
+      },
       inputs,
       outputs,
       graph,

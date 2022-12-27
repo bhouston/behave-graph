@@ -7,10 +7,10 @@ import {
   IAsyncNodeDefinition,
   IEventNodeDefinition,
   IFlowNodeDefinition,
-  IFunctionNodeDefinition,
-  NodeCategory
+  IFunctionNodeDefinition
 } from './NodeDefinition';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
+import { INodeDescription } from './Registry/NodeDescription';
 
 export enum NodeType {
   Event = 'Event',
@@ -21,16 +21,14 @@ export enum NodeType {
 
 export interface INode {
   readonly id?: string;
-  label?: string;
-  metadata?: any;
-  category?: NodeCategory;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   readonly graph: IGraph;
-  typeName: string;
-  otherTypeNames: string[] | undefined;
+  description: INodeDescription;
   configuration: NodeConfiguration;
   nodeType: NodeType;
+  label?: string;
+  metadata?: any;
 }
 
 export interface IFunctionNode extends INode {
@@ -73,11 +71,20 @@ export const isFunctionNode = (node: INode): node is IFunctionNode =>
 
 export const makeNodeInstance = (node: INode) => {
   const readInput = <T>(inputName: string): T => {
-    return readInputFromSockets(node.inputs, inputName, node.typeName);
+    return readInputFromSockets(
+      node.inputs,
+      inputName,
+      node.description.typeName
+    );
   };
 
   const writeOutput = <T>(outputName: string, value: T) => {
-    writeOutputsToSocket(node.outputs, outputName, value, node.typeName);
+    writeOutputsToSocket(
+      node.outputs,
+      outputName,
+      value,
+      node.description.typeName
+    );
   };
 
   return {
@@ -219,9 +226,15 @@ export class FunctionNodeInstance<
 
   exec(node: INode) {
     this.execInner({
-      read: (name) => readInputFromSockets(node.inputs, name, node.typeName),
+      read: (name) =>
+        readInputFromSockets(node.inputs, name, node.description.typeName),
       write: (name, value) =>
-        writeOutputsToSocket(node.outputs, name, value, node.typeName),
+        writeOutputsToSocket(
+          node.outputs,
+          name,
+          value,
+          node.description.typeName
+        ),
       configuration: this.configuration,
       graph: this.graph
     });

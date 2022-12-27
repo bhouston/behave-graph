@@ -1,3 +1,4 @@
+import { NodeCategory } from '../../Nodes/NodeDefinition';
 import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import {
@@ -16,7 +17,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
 
     const nodeSpecJSON: NodeSpecJSON = {
       type: nodeTypeName,
-      category: node.description.category,
+      category: node.description.category as NodeCategory,
       label: node.description.label,
       inputs: [],
       outputs: [],

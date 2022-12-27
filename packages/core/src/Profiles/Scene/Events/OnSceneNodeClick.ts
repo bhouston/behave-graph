@@ -1,3 +1,4 @@
+import { IGraph } from '../../../Graphs/Graph';
 import { EventNode } from '../../../Nodes/EventNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';

@@ -3,6 +3,7 @@ import { Engine } from '../Execution/Engine';
 import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeCategory } from './NodeDefinition';
 import { NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
@@ -16,13 +17,17 @@ export class AsyncNode extends Node<NodeType.Async> {
     configuration: NodeConfiguration = {}
   ) {
     super({
-      ...description,
+      description: {
+        ...description,
+        category: description.category as NodeCategory
+      },
       inputs,
       outputs,
       graph,
-      configuration,
-      nodeType: NodeType.Async
+      nodeType: NodeType.Async,
+      configuration
     });
+
     // must have at least one input flow socket
     Assert.mustBeTrue(
       this.inputs.some((socket) => socket.valueTypeName === 'flow')

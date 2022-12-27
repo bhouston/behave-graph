@@ -3,6 +3,7 @@ import { Engine } from '../Execution/Engine';
 import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
+import { NodeCategory } from './NodeDefinition';
 import { IEventNode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
@@ -17,6 +18,10 @@ export class EventNode extends Node<NodeType.Event> implements IEventNode {
   ) {
     super({
       ...description,
+      description: {
+        ...description,
+        category: description.category as NodeCategory
+      },
       inputs,
       outputs,
       graph,

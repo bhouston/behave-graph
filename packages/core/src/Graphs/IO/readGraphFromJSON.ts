@@ -1,7 +1,8 @@
 import { Logger } from '../../Diagnostics/Logger';
 import { CustomEvent } from '../../Events/CustomEvent';
 import { Link } from '../../Nodes/Link';
-import { Node, NodeConfiguration } from '../../Nodes/Node';
+import { NodeConfiguration } from '../../Nodes/Node';
+import { INode } from '../../Nodes/NodeInstance';
 import { Registry } from '../../Registry';
 import { Socket } from '../../Sockets/Socket';
 import { Variable } from '../../Variables/Variable';
@@ -147,7 +148,7 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
 
 function readNodeParameterJSON(
   graph: Graph,
-  node: Node,
+  node: INode,
   parametersJson: NodeParametersJSON
 ) {
   node.inputs.forEach((socket) => {
@@ -180,7 +181,7 @@ function readNodeParameterJSON(
   }
 }
 
-function readNodeFlowsJSON(graph: Graph, node: Node, flowsJson: FlowsJSON) {
+function readNodeFlowsJSON(graph: Graph, node: INode, flowsJson: FlowsJSON) {
   node.outputs.forEach((socket) => {
     if (socket.name in flowsJson) {
       const outputLinkJson = flowsJson[socket.name];

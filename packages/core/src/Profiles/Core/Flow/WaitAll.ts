@@ -1,4 +1,5 @@
 import { Fiber } from '../../../Execution/Fiber';
+import { IGraph } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
 import {
   NodeDescription,

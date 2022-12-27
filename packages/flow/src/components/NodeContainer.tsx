@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from "@behave-graph/core";
+import { NodeCategory, NodeSpecJSON } from "@behave-graph/core";
 import { PropsWithChildren } from "react";
 import cx from "classnames";
 
@@ -12,7 +12,7 @@ type NodeProps = {
 
 export default function NodeContainer({
   title,
-  category = "None",
+  category = NodeCategory.None,
   selected,
   children
 }: PropsWithChildren<NodeProps>) {

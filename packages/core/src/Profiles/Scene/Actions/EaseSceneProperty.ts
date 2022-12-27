@@ -1,5 +1,6 @@
 import { Easing, EasingFunctions, EasingModes } from '../../../Easing';
 import { Engine } from '../../../Execution/Engine';
+import { IGraph } from '../../../Graphs/Graph';
 import { AsyncNode } from '../../../Nodes/AsyncNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -105,7 +106,7 @@ export class EaseSceneProperty extends AsyncNode {
     this.easing = easingMode(easingFunction);
 
     const updateOnTick = () => {
-      const valueType = this.graph.registry.values.get(this.valueTypeName);
+      const valueType = this.graph.values.get(this.valueTypeName);
       this.elapsedDuration = (Date.now() - this.startTime) / 1000;
 
       const t = Math.min(this.elapsedDuration / this.duration, 1);

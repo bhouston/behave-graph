@@ -11,9 +11,10 @@ import { Variable } from '../Variables/Variable';
 export interface IGraph {
   readonly variables: { [id: string]: Variable };
   readonly customEvents: { [id: string]: CustomEvent };
+  readonly values: Registry['values'];
 }
 
-export class Graph implements IGraph {
+export class Graph {
   public name = '';
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly nodes: { [id: string]: INode & { id: string } } = {};
@@ -50,7 +51,8 @@ export class Graph implements IGraph {
     const node = nodeDefinition.nodeFactory(
       {
         variables: this.variables,
-        customEvents: this.customEvents
+        customEvents: this.customEvents,
+        values: this.registry.values
       },
       nodeConfiguration
     );

@@ -7,7 +7,8 @@ import {
   IAsyncNodeDefinition,
   IEventNodeDefinition,
   IFlowNodeDefinition,
-  IFunctionNodeDefinition
+  IFunctionNodeDefinition,
+  NodeCategory
 } from './NodeDefinition';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
 
@@ -20,6 +21,9 @@ export enum NodeType {
 
 export interface INode {
   readonly id?: string;
+  label?: string;
+  metadata?: any;
+  category?: NodeCategory;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   readonly graph: IGraph;

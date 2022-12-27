@@ -25,6 +25,7 @@ export abstract class FunctionNode
   ) {
     super({
       ...description,
+      category: description.category as NodeCategory,
       inputs,
       outputs,
       graph,

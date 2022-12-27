@@ -151,6 +151,28 @@ type OmitFactoryAndType<T extends INodeDefinitionBase> = Omit<
 
 // HELPER FUNCTIONS
 
+const flowNodeFactory = (
+  definition: OmitFactoryAndType<IFlowNodeDefinition>,
+  id: string,
+  nodeConfig: NodeConfiguration,
+  graph: IGraph
+): INode =>
+  new FlowNodeInstance({
+    ...makeCommonProps(
+      id,
+      NodeType.Flow,
+      {
+        typeName: definition.typeName,
+        in: definition.in,
+        out: definition.out
+      },
+      nodeConfig,
+      graph
+    ),
+    initialState: definition.initialState,
+    triggered: definition.triggered
+  });
+
 // helper function to not require you to define generics when creating a node def:
 export function makeFlowNodeDefinition<
   TInput extends SocketsDefinition,
@@ -160,16 +182,15 @@ export function makeFlowNodeDefinition<
 >(
   definition: OmitFactoryAndType<
     IFlowNodeDefinition<TInput, TOutput, TConfig, TState>
-  >
+  > & {
+    factory?: typeof flowNodeFactory;
+  }
 ): IFlowNodeDefinition<TInput, TOutput, TConfig, TState> {
+  const { factory = flowNodeFactory } = definition;
   return {
     ...definition,
     factory: (id, nodeConfig, graph) =>
-      new FlowNodeInstance({
-        ...makeCommonProps(id, NodeType.Flow, definition, nodeConfig, graph),
-        initialState: definition.initialState,
-        triggered: definition.triggered
-      })
+      factory(definition, id, nodeConfig, graph)
   };
 }
 
@@ -182,27 +203,32 @@ export function makeFunctionNodeDefinitionWithFactory<
   return definition;
 }
 
+const functionNodeFactory = (
+  definition: OmitFactoryAndType<FunctionNodeDefinition>,
+  id: string,
+  nodeConfig: NodeConfiguration,
+  graph: IGraph
+): INode =>
+  new FunctionNodeInstance({
+    ...makeCommonProps(id, NodeType.Function, definition, nodeConfig, graph),
+    exec: definition.exec
+  });
+
 // helper function to not require you to define generics when creating a node def,
 // and generates a factory for a node instance
 export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 >(
-  definition: OmitFactoryAndType<FunctionNodeDefinition<TInput, TOutput>>
+  definition: OmitFactoryAndType<FunctionNodeDefinition<TInput, TOutput>> & {
+    factory?: typeof functionNodeFactory;
+  }
 ): FunctionNodeDefinition<TInput, TOutput> {
+  const { factory = functionNodeFactory } = definition;
   return {
     ...definition,
-    factory: (id: string, nodeConfig: NodeConfiguration, graph: IGraph) =>
-      new FunctionNodeInstance({
-        ...makeCommonProps(
-          id,
-          NodeType.Function,
-          definition,
-          nodeConfig,
-          graph
-        ),
-        exec: definition.exec
-      })
+    factory: (id, nodeConfig, graph) =>
+      factory(definition, id, nodeConfig, graph)
   };
 }
 

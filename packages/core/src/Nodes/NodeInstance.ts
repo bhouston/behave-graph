@@ -184,14 +184,15 @@ export class EventNodeInstance
   }
 }
 
+export type FunctionNodeInstanceCtrParams = Omit<INode, 'nodeType'> &
+  Pick<FunctionNodeDefinition, 'exec'>;
+
 export class FunctionNodeInstance
   extends NodeInstance<NodeType.Function>
   implements IFunctionNode
 {
   private execInner: FunctionNodeDefinition['exec'];
-  constructor(
-    nodeProps: Omit<INode, 'nodeType'> & Pick<FunctionNodeDefinition, 'exec'>
-  ) {
+  constructor(nodeProps: FunctionNodeInstanceCtrParams) {
     super({ ...nodeProps, nodeType: NodeType.Function });
 
     this.execInner = nodeProps.exec;

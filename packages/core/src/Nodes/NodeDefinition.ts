@@ -2,6 +2,7 @@ import { IGraph } from '../Graphs/Graph';
 import { NodeConfiguration } from './Node';
 import { makeCommonProps } from './nodeFactory';
 import {
+  AsyncNodeInstance,
   EventNodeInstance,
   FlowNodeInstance,
   FunctionNodeInstance,
@@ -18,7 +19,8 @@ export interface SocketDefinition {
   label?: string;
 }
 export type SocketsMap = Record<string, SocketDefinition | string>;
-export type SocketsList = (SocketDefinition & { key: string })[];
+export type SocketListDefinition = SocketDefinition & { key: string };
+export type SocketsList = SocketListDefinition[];
 
 export type SocketsGeneratorFromConfig = (
   nodeConfig: NodeConfiguration,
@@ -61,12 +63,11 @@ export interface INodeDefinition<
 export type SocketNames<TSockets extends SocketsDefinition> =
   TSockets extends SocketsMap ? keyof TSockets : any;
 
-/** Flow Node Definition */
-export interface FlowNodeTriggeredParams<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition,
-  TState
-> {
+export type TriggeredFn<
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition,
+  TState = any
+> = (params: {
   // now read will only allow keys of the input types
   read<T>(inValueName: SocketNames<TInput>): T;
   // write and commit only allows keys from the output type
@@ -74,7 +75,6 @@ export interface FlowNodeTriggeredParams<
   commit(
     outFlowName: SocketNames<TOutput>,
     fiberCompletedListener?: () => void
-    // fiberCompletedListener: (() => void) | undefined
   ): void; // commits to current fiber unless 'async-flow' or 'event-flow'
   outputSocketKeys: SocketNames<TOutput>[];
   triggeringSocketName: keyof TInput;
@@ -83,23 +83,69 @@ export interface FlowNodeTriggeredParams<
 
   graph: IGraph;
   configuration: NodeConfiguration;
+  finished?: () => void;
+}) => TState;
+
+/** Flow Node Definition */
+export type TriggeredParams<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> = Parameters<TriggeredFn<TInput, TOutput, TState>>[0];
+
+export interface IHasInitialState<TState> {
+  initialState: TState;
 }
 
-export type FlowNodeTriggeredFn<
-  TInput extends SocketsDefinition = SocketsDefinition,
-  TOutput extends SocketsDefinition = SocketsDefinition,
-  TState = any
-> = (params: FlowNodeTriggeredParams<TInput, TOutput, TState>) => TState;
+export interface IHasTriggered<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> {
+  triggered: TriggeredFn<TInput, TOutput, TState>;
+}
+export type EventNodeSetupParams<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> = Omit<TriggeredParams<TInput, TOutput, TState>, 'triggeringSocketName'>;
+
+export interface IHasInit<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TState
+> {
+  init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;
+}
+
+export interface IHasDispose<TState> {
+  dispose: (params: { state: TState }) => void | TState;
+}
 
 export interface IFlowNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TConfig extends NodeConfigurationDescription = NodeConfigurationDescription,
   TState = any
-> extends INodeDefinition<TInput, TOutput, TConfig> {
-  initialState: TState;
-  triggered: FlowNodeTriggeredFn<TInput, TOutput, TState>;
-}
+> extends INodeDefinition<TInput, TOutput, TConfig>,
+    IHasInitialState<TState>,
+    IHasTriggered<TInput, TOutput, TState> {}
+
+// async node is the same as an event node, without the init function.
+export interface IAsyncNodeDefinition<
+  TInput extends SocketsDefinition = SocketsDefinition,
+  TOutput extends SocketsDefinition = SocketsDefinition,
+  TConfig extends NodeConfigurationDescription = NodeConfigurationDescription,
+  TState = any
+> extends INodeDefinition<TInput, TOutput, TConfig>,
+    IHasInitialState<TState>,
+    IHasTriggered<TInput, TOutput, TState>,
+    IHasDispose<TState> {}
+
+type OmitFactoryAndType<T extends INodeDefinitionBase> = Omit<
+  T,
+  'factory' | 'nodeType'
+>;
 
 export interface FunctionNodeExecParams<
   TInput extends SocketsDefinition,
@@ -114,7 +160,7 @@ export interface FunctionNodeExecParams<
   configuration: NodeConfiguration;
 }
 
-export interface FunctionNodeDefinition<
+export interface IFunctionNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TConfig extends NodeConfigurationDescription = NodeConfigurationDescription
@@ -122,54 +168,17 @@ export interface FunctionNodeDefinition<
   exec: (params: FunctionNodeExecParams<TInput, TOutput>) => void;
 }
 
-export type EventNodeSetupParams<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition,
-  TState
-> = Omit<
-  FlowNodeTriggeredParams<TInput, TOutput, TState>,
-  'triggeringSocketName'
->;
-
-export interface EventNodeDefinition<
+export interface IEventNodeDefinition<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TConfig extends NodeConfigurationDescription = NodeConfigurationDescription,
   TState = any
-> extends INodeDefinition<TInput, TOutput, TConfig> {
-  initialState: TState;
-  init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;
-  dispose: (params: { state: TState }) => void;
-}
-
-type OmitFactoryAndType<T extends INodeDefinitionBase> = Omit<
-  T,
-  'factory' | 'nodeType'
->;
+> extends INodeDefinition<TInput, TOutput, TConfig>,
+    IHasInitialState<TState>,
+    IHasInit<TInput, TOutput, TState>,
+    IHasDispose<TState> {}
 
 // HELPER FUNCTIONS
-
-const flowNodeFactory = (
-  definition: OmitFactoryAndType<IFlowNodeDefinition>,
-  id: string,
-  nodeConfig: NodeConfiguration,
-  graph: IGraph
-): INode =>
-  new FlowNodeInstance({
-    ...makeCommonProps(
-      id,
-      NodeType.Flow,
-      {
-        typeName: definition.typeName,
-        in: definition.in,
-        out: definition.out
-      },
-      nodeConfig,
-      graph
-    ),
-    initialState: definition.initialState,
-    triggered: definition.triggered
-  });
 
 // helper function to not require you to define generics when creating a node def:
 export function makeFlowNodeDefinition<
@@ -180,15 +189,38 @@ export function makeFlowNodeDefinition<
 >(
   definition: OmitFactoryAndType<
     IFlowNodeDefinition<TInput, TOutput, TConfig, TState>
-  > & {
-    factory?: typeof flowNodeFactory;
-  }
+  >
 ): IFlowNodeDefinition<TInput, TOutput, TConfig, TState> {
-  const { factory = flowNodeFactory } = definition;
   return {
     ...definition,
     factory: (id, nodeConfig, graph) =>
-      factory(definition, id, nodeConfig, graph)
+      new FlowNodeInstance({
+        ...makeCommonProps(id, NodeType.Flow, definition, nodeConfig, graph),
+        initialState: definition.initialState,
+        triggered: definition.triggered
+      })
+  };
+}
+
+export function makeAsyncNodeDefinition<
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TConfig extends NodeConfigurationDescription,
+  TState
+>(
+  definition: OmitFactoryAndType<
+    IAsyncNodeDefinition<TInput, TOutput, TConfig, TState>
+  >
+): IAsyncNodeDefinition<TInput, TOutput, TConfig, TState> {
+  return {
+    ...definition,
+    factory: (id, nodeConfig, graph) =>
+      new AsyncNodeInstance({
+        ...makeCommonProps(id, NodeType.Async, definition, nodeConfig, graph),
+        initialState: definition.initialState,
+        triggered: definition.triggered,
+        dispose: definition.dispose
+      })
   };
 }
 
@@ -197,12 +229,12 @@ export function makeFlowNodeDefinition<
 export function makeFunctionNodeDefinitionWithFactory<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
->(definition: Omit<FunctionNodeDefinition<TInput, TOutput>, 'exec'>) {
+>(definition: Omit<IFunctionNodeDefinition<TInput, TOutput>, 'exec'>) {
   return definition;
 }
 
 const functionNodeFactory = (
-  definition: OmitFactoryAndType<FunctionNodeDefinition>,
+  definition: OmitFactoryAndType<IFunctionNodeDefinition>,
   id: string,
   nodeConfig: NodeConfiguration,
   graph: IGraph
@@ -218,10 +250,10 @@ export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 >(
-  definition: OmitFactoryAndType<FunctionNodeDefinition<TInput, TOutput>> & {
+  definition: OmitFactoryAndType<IFunctionNodeDefinition<TInput, TOutput>> & {
     factory?: typeof functionNodeFactory;
   }
-): FunctionNodeDefinition<TInput, TOutput> {
+): IFunctionNodeDefinition<TInput, TOutput> {
   const { factory = functionNodeFactory } = definition;
   return {
     ...definition,
@@ -237,9 +269,9 @@ export function makeEventNodeDefinition<
   TState
 >(
   definition: OmitFactoryAndType<
-    EventNodeDefinition<TInput, TOutput, TConfig, TState>
+    IEventNodeDefinition<TInput, TOutput, TConfig, TState>
   >
-): EventNodeDefinition<TInput, TOutput, TConfig, TState> {
+): IEventNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
     factory: (id, nodeConfig, graph) =>

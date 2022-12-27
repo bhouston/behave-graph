@@ -4,9 +4,10 @@ import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { NodeConfiguration } from './Node';
 import {
-  EventNodeDefinition,
-  FlowNodeTriggeredFn,
-  FunctionNodeDefinition
+  IAsyncNodeDefinition,
+  IEventNodeDefinition,
+  IFlowNodeDefinition,
+  IFunctionNodeDefinition
 } from './NodeDefinition';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
 
@@ -109,19 +110,17 @@ abstract class NodeInstance<TNodeType extends NodeType> implements INode {
   }
 }
 
-export class FlowNodeInstance
+export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
   extends NodeInstance<NodeType.Flow>
   implements IFlowNode
 {
-  private triggeredInner: FlowNodeTriggeredFn;
-  private state: any;
+  private triggeredInner: TFlowNodeDefinition['triggered'];
+  private state: TFlowNodeDefinition['initialState'];
   private readonly outputSocketKeys: string[];
 
   constructor(
-    nodeProps: Omit<INode, 'nodeType'> & {
-      triggered: FlowNodeTriggeredFn;
-      initialState: any;
-    }
+    nodeProps: Omit<INode, 'nodeType'> &
+      Pick<TFlowNodeDefinition, 'triggered' | 'initialState'>
   ) {
     super({ ...nodeProps, nodeType: NodeType.Flow });
     this.triggeredInner = nodeProps.triggered;
@@ -131,8 +130,8 @@ export class FlowNodeInstance
 
   public triggered(fiber: Fiber, triggeringSocketName: string) {
     this.state = this.triggeredInner({
-      commit: (outFlowname, fiberCompletedListener) =>
-        fiber.commit(this, outFlowname, fiberCompletedListener),
+      commit: (outFlowName, fiberCompletedListener) =>
+        fiber.commit(this, outFlowName, fiberCompletedListener),
       read: this.readInput,
       write: this.writeOutput,
       state: this.state,
@@ -144,18 +143,60 @@ export class FlowNodeInstance
   }
 }
 
-export class EventNodeInstance
+export class AsyncNodeInstance<TAsyncNodeDef extends IAsyncNodeDefinition>
+  extends NodeInstance<NodeType.Async>
+  implements IAsyncNode
+{
+  private triggeredInner: TAsyncNodeDef['triggered'];
+  private disposeInner: TAsyncNodeDef['dispose'];
+  private state: TAsyncNodeDef['initialState'];
+
+  constructor(
+    node: Omit<INode, 'nodeType'> &
+      Pick<TAsyncNodeDef, 'triggered' | 'initialState' | 'dispose'>
+  ) {
+    super({ ...node, nodeType: NodeType.Async });
+
+    this.triggeredInner = node.triggered;
+    this.disposeInner = node.dispose;
+    this.state = node.initialState;
+  }
+
+  triggered = (
+    engine: Pick<Engine, 'commitToNewFiber'>,
+    triggeringSocketName: string,
+    finished: () => void
+  ) => {
+    this.triggeredInner({
+      read: this.readInput,
+      write: this.writeOutput,
+      commit: (outFlowname, fiberCompletedListener) =>
+        engine.commitToNewFiber(this, outFlowname, fiberCompletedListener),
+      configuration: this.configuration,
+      graph: this.graph,
+      finished,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      triggeringSocketName
+    });
+  };
+  dispose = () => {
+    this.state = this.disposeInner({ state: this.state });
+  };
+}
+
+export class EventNodeInstance<TEventNodeDef extends IEventNodeDefinition>
   extends NodeInstance<NodeType.Event>
   implements IEventNode
 {
-  private initInner: EventNodeDefinition['init'];
-  private disposeInner: EventNodeDefinition['dispose'];
-  private state: EventNodeDefinition['initialState'];
+  private initInner: TEventNodeDef['init'];
+  private disposeInner: TEventNodeDef['dispose'];
+  private state: TEventNodeDef['initialState'];
   private readonly outputSocketKeys: string[];
 
   constructor(
     nodeProps: Omit<INode, 'nodeType'> &
-      Pick<EventNodeDefinition, 'init' | 'dispose' | 'initialState'>
+      Pick<TEventNodeDef, 'init' | 'dispose' | 'initialState'>
   ) {
     super({ ...nodeProps, nodeType: NodeType.Event });
     this.initInner = nodeProps.init;
@@ -184,15 +225,16 @@ export class EventNodeInstance
   }
 }
 
-export type FunctionNodeInstanceCtrParams = Omit<INode, 'nodeType'> &
-  Pick<FunctionNodeDefinition, 'exec'>;
-
-export class FunctionNodeInstance
+export class FunctionNodeInstance<
+    TFunctionNodeDef extends IFunctionNodeDefinition
+  >
   extends NodeInstance<NodeType.Function>
   implements IFunctionNode
 {
-  private execInner: FunctionNodeDefinition['exec'];
-  constructor(nodeProps: FunctionNodeInstanceCtrParams) {
+  private execInner: TFunctionNodeDef['exec'];
+  constructor(
+    nodeProps: Omit<INode, 'nodeType'> & Pick<TFunctionNodeDef, 'exec'>
+  ) {
     super({ ...nodeProps, nodeType: NodeType.Function });
 
     this.execInner = nodeProps.exec;

@@ -1,4 +1,4 @@
-import { Graph } from '../../../Graphs/Graph';
+import { IGraph } from '../../../Graphs/Graph';
 import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { Node } from '../../../Nodes/Node';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
@@ -11,7 +11,7 @@ const makeEmptyGraph = () => {
 };
 
 const makeFunctionNodeWithEmptyGraph = (nodeDescription: NodeDescription) =>
-  nodeDescription.factory(intToBoolean, makeEmptyGraph(), {}) as FunctionNode;
+  nodeDescription.nodeFactory(intToBoolean, makeEmptyGraph(), {}) as FunctionNode;
 
 const setInputSocketValue = (node: Node, socketName: string, value: any) => {
   const inputSocket = node.inputs.find((socket) => socket.name === socketName);

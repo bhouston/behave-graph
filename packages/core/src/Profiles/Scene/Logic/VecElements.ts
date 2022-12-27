@@ -1,4 +1,3 @@
-import { Graph } from '../../../Graphs/Graph';
 import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -6,7 +5,7 @@ import { Socket } from '../../../Sockets/Socket';
 export class VecElements<T> extends FunctionNode {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: IGraph,
     valueTypeName: string,
     elementNames: string[] = ['x', 'y', 'z', 'w'],
     toArray: (value: T, array: number[], offset: number) => void

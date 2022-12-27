@@ -16,7 +16,7 @@ export interface IGraph {
 export class Graph implements IGraph {
   public name = '';
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
-  public readonly nodes: { [id: string]: INode } = {};
+  public readonly nodes: { [id: string]: INode & { id: string } } = {};
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
   public readonly variables: { [id: string]: Variable } = {};
   // TODO: think about whether I can replace this with an immutable strategy?  Rather than having this mutable?
@@ -47,12 +47,18 @@ export class Graph implements IGraph {
       );
     }
 
-    const node = nodeDefinition.factory(nodeId, nodeConfiguration, {
-      variables: this.variables,
-      customEvents: this.customEvents
-    });
+    const node = nodeDefinition.nodeFactory(
+      {
+        variables: this.variables,
+        customEvents: this.customEvents
+      },
+      nodeConfiguration
+    );
 
-    this.nodes[nodeId] = node;
+    this.nodes[nodeId] = {
+      ...node,
+      id: nodeId
+    };
     node.inputs.forEach((socket) => {
       if (socket.valueTypeName !== 'flow' && socket.value === undefined) {
         socket.value = this.registry.values.get(socket.valueTypeName).creator();

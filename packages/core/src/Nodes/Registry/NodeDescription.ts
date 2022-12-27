@@ -1,14 +1,12 @@
-import { Graph } from '../../Graphs/Graph';
-import { INodeDefinitionBase } from '../NodeDefinition';
+import { IGraph } from '../../Graphs/Graph';
+import {
+  IHasNodeFactory,
+  INodeDefinitionBase,
+  NodeFactory
+} from '../NodeDefinition';
 import { INode } from '../NodeInstance';
 import { NodeConfiguration } from './../Node';
 import { NodeCategory } from './NodeCategory';
-
-export type NodeFactory = (
-  entry: NodeDescription,
-  graph: Graph,
-  config: NodeConfiguration
-) => INode;
 
 export type NodeConfigurationDescription = {
   [key: string]: {
@@ -23,16 +21,35 @@ export function getNodeDescriptions(importWildcard: {
   return Object.values(importWildcard) as INodeDefinitionBase[];
 }
 
-export class NodeDescription {
+export interface INodeDescription {
+  readonly typeName: string;
+  readonly category: NodeCategory | string;
+  readonly label: string;
+  readonly otherTypeNames: string[];
+  readonly helpDescription: string;
+  readonly configuration: NodeConfigurationDescription;
+}
+
+export type NodeFactoryWithDescription = (
+  entry: NodeDescription,
+  graph: IGraph,
+  config: NodeConfiguration
+) => INode;
+
+export class NodeDescription implements INodeDescription, IHasNodeFactory {
+  nodeFactory: NodeFactory;
+
   constructor(
     public readonly typeName: string,
     public readonly category: NodeCategory | string,
     public readonly label: string = '',
-    public readonly factory: NodeFactory,
+    factory: NodeFactoryWithDescription,
     public readonly otherTypeNames: string[] = [],
     public readonly helpDescription: string = '',
     public readonly configuration: NodeConfigurationDescription = {}
-  ) {}
+  ) {
+    this.nodeFactory = (graph, config) => factory(this, graph, config);
+  }
 }
 
 export class NodeDescription2 extends NodeDescription {
@@ -42,7 +59,7 @@ export class NodeDescription2 extends NodeDescription {
       category: NodeCategory | string;
       label?: string;
       configuration?: NodeConfigurationDescription;
-      factory: NodeFactory;
+      factory: NodeFactoryWithDescription;
       otherTypeNames?: string[];
       helpDescription?: string;
     }

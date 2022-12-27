@@ -60,7 +60,7 @@ export function registerCoreProfile(
 
   // custom events
 
-  nodes.register(OnCustomEvent.Description);
+  nodes.register(OnCustomEvent);
   nodes.register(TriggerCustomEvent.Description);
 
   // variables

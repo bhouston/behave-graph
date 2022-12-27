@@ -60,18 +60,18 @@ function makeOrGenerateSockets(
 }
 
 export const makeCommonProps = (
-  id: string,
   nodeType: NodeType,
   {
     typeName,
     in: inputs,
-    out
-  }: Pick<INodeDefinitionBase, 'typeName' | 'in' | 'out'>,
+    out,
+    otherTypeNames
+  }: Pick<INodeDefinitionBase, 'typeName' | 'in' | 'out' | 'otherTypeNames'>,
   nodeConfig: NodeConfiguration,
   graph: IGraph
 ): INode => ({
-  id,
   typeName: typeName,
+  otherTypeNames,
   nodeType: nodeType,
   inputs: makeOrGenerateSockets(inputs, nodeConfig, graph),
   outputs: makeOrGenerateSockets(out, nodeConfig, graph),

@@ -1,6 +1,6 @@
 import { Assert } from '../Diagnostics/Assert';
 import { Fiber } from '../Execution/Fiber';
-import { Graph } from '../Graphs/Graph';
+import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import { NodeType } from './NodeInstance';
@@ -9,7 +9,7 @@ import { NodeDescription } from './Registry/NodeDescription';
 export class FlowNode extends Node<NodeType.Flow> {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: IGraph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
@@ -32,7 +32,7 @@ export class FlowNode extends Node<NodeType.Flow> {
 export class FlowNode2 extends FlowNode {
   constructor(props: {
     description: NodeDescription;
-    graph: Graph;
+    graph: IGraph;
     inputs?: Socket[];
     outputs?: Socket[];
     configuration?: NodeConfiguration;

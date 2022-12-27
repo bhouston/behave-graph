@@ -1,4 +1,3 @@
-import { Graph } from '../../../Graphs/Graph';
 import { EventNode } from '../../../Nodes/EventNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -12,7 +11,7 @@ export class OnSceneNodeClick extends EventNode {
     (description, graph) => new OnSceneNodeClick(description, graph)
   );
 
-  constructor(description: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: IGraph) {
     super(
       description,
       graph,

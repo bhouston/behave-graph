@@ -29,11 +29,17 @@ export type SocketsGeneratorFromConfig = (
 
 export type SocketsDefinition = SocketsMap | SocketsGeneratorFromConfig;
 
+export type NodeFactory = (graph: IGraph, config: NodeConfiguration) => INode;
+
+export interface IHasNodeFactory {
+  readonly nodeFactory: NodeFactory;
+}
+
 export interface INodeDefinitionBase<
   TInput extends SocketsDefinition = SocketsDefinition,
   TOutput extends SocketsDefinition = SocketsDefinition,
   TConfig extends NodeConfigurationDescription = NodeConfigurationDescription
-> {
+> extends IHasNodeFactory {
   category?: NodeCategory;
   typeName: string;
   otherTypeNames?: string[];
@@ -43,11 +49,6 @@ export interface INodeDefinitionBase<
   in: TInput;
   out: TOutput;
   configuration?: TConfig;
-  factory: (
-    nodeId: string,
-    nodeConfig: NodeConfiguration,
-    graph: IGraph
-  ) => INode;
 }
 
 export interface INodeDefinition<
@@ -144,7 +145,7 @@ export interface IAsyncNodeDefinition<
 
 type OmitFactoryAndType<T extends INodeDefinitionBase> = Omit<
   T,
-  'factory' | 'nodeType'
+  'nodeFactory' | 'nodeType'
 >;
 
 export interface FunctionNodeExecParams<
@@ -193,9 +194,9 @@ export function makeFlowNodeDefinition<
 ): IFlowNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
-    factory: (id, nodeConfig, graph) =>
+    nodeFactory: (graph, config) =>
       new FlowNodeInstance({
-        ...makeCommonProps(id, NodeType.Flow, definition, nodeConfig, graph),
+        ...makeCommonProps(NodeType.Flow, definition, config, graph),
         initialState: definition.initialState,
         triggered: definition.triggered
       })
@@ -214,9 +215,9 @@ export function makeAsyncNodeDefinition<
 ): IAsyncNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
-    factory: (id, nodeConfig, graph) =>
+    nodeFactory: (graph, config) =>
       new AsyncNodeInstance({
-        ...makeCommonProps(id, NodeType.Async, definition, nodeConfig, graph),
+        ...makeCommonProps(NodeType.Async, definition, config, graph),
         initialState: definition.initialState,
         triggered: definition.triggered,
         dispose: definition.dispose
@@ -233,32 +234,21 @@ export function makeFunctionNodeDefinitionWithFactory<
   return definition;
 }
 
-const functionNodeFactory = (
-  definition: OmitFactoryAndType<IFunctionNodeDefinition>,
-  id: string,
-  nodeConfig: NodeConfiguration,
-  graph: IGraph
-): INode =>
-  new FunctionNodeInstance({
-    ...makeCommonProps(id, NodeType.Function, definition, nodeConfig, graph),
-    exec: definition.exec
-  });
-
 // helper function to not require you to define generics when creating a node def,
 // and generates a factory for a node instance
 export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition
 >(
-  definition: OmitFactoryAndType<IFunctionNodeDefinition<TInput, TOutput>> & {
-    factory?: typeof functionNodeFactory;
-  }
+  definition: OmitFactoryAndType<IFunctionNodeDefinition<TInput, TOutput>>
 ): IFunctionNodeDefinition<TInput, TOutput> {
-  const { factory = functionNodeFactory } = definition;
   return {
     ...definition,
-    factory: (id, nodeConfig, graph) =>
-      factory(definition, id, nodeConfig, graph)
+    nodeFactory: (graph, nodeConfig) =>
+      new FunctionNodeInstance({
+        ...makeCommonProps(NodeType.Function, definition, nodeConfig, graph),
+        exec: definition.exec
+      })
   };
 }
 
@@ -274,9 +264,9 @@ export function makeEventNodeDefinition<
 ): IEventNodeDefinition<TInput, TOutput, TConfig, TState> {
   return {
     ...definition,
-    factory: (id, nodeConfig, graph) =>
+    nodeFactory: (graph, config) =>
       new EventNodeInstance({
-        ...makeCommonProps(id, NodeType.Event, definition, nodeConfig, graph),
+        ...makeCommonProps(NodeType.Event, definition, config, graph),
         initialState: definition.initialState,
         init: definition.init,
         dispose: definition.dispose

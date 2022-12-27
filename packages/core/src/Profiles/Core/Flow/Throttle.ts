@@ -1,6 +1,6 @@
 import { Assert } from '../../../Diagnostics/Assert';
 import { Engine } from '../../../Execution/Engine';
-import { Graph } from '../../../Graphs/Graph';
+import { IGraph } from '../../../Graphs/Graph';
 import { AsyncNode } from '../../../Nodes/AsyncNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -15,7 +15,7 @@ export class Throttle extends AsyncNode {
     (description, graph) => new Throttle(description, graph)
   );
 
-  constructor(description: NodeDescription, graph: Graph) {
+  constructor(description: NodeDescription, graph: IGraph) {
     super(
       description,
       graph,

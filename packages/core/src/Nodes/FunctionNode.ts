@@ -1,5 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
-import { Graph } from '../Graphs/Graph';
+import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import {
@@ -17,7 +17,7 @@ export class FunctionNode
 {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: IGraph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     public readonly exec: (node: INode) => void,

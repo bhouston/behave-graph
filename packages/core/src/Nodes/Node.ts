@@ -1,4 +1,4 @@
-import { Graph } from '../Graphs/Graph';
+import { IGraph } from '../Graphs/Graph';
 import { Metadata } from '../Metadata';
 import { Socket } from '../Sockets/Socket';
 import { INode, NodeType } from './NodeInstance';
@@ -16,7 +16,7 @@ export class Node<TNodeType extends NodeType> implements INode {
 
   constructor(
     public readonly description: NodeDescription,
-    public readonly graph: Graph,
+    public readonly graph: IGraph,
     public readonly inputs: Socket[] = [],
     public readonly outputs: Socket[] = [],
     public readonly configuration: NodeConfiguration = {},
@@ -44,5 +44,9 @@ export class Node<TNodeType extends NodeType> implements INode {
 
   get typeName() {
     return this.description.typeName;
+  }
+
+  get otherTypeNames() {
+    return this.description.otherTypeNames;
   }
 }

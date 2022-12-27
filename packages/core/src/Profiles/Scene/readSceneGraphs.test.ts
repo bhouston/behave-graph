@@ -8,7 +8,7 @@ import * as vector2Json from '../../../../../graphs/scene/logic/Vector2.json';
 import * as vector3Json from '../../../../../graphs/scene/logic/Vector3.json';
 import * as vector4Json from '../../../../../graphs/scene/logic/Vector4.json';
 import { Logger } from '../../Diagnostics/Logger';
-import { Graph } from '../../Graphs/Graph';
+import { IGraph } from '../../Graphs/Graph';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';

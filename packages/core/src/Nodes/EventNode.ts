@@ -1,6 +1,6 @@
 import { Assert } from '../Diagnostics/Assert';
 import { Engine } from '../Execution/Engine';
-import { Graph } from '../Graphs/Graph';
+import { IGraph } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import { NodeType } from './NodeInstance';
@@ -10,7 +10,7 @@ import { NodeDescription } from './Registry/NodeDescription';
 export class EventNode extends Node<NodeType.Event> {
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: IGraph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
@@ -41,7 +41,7 @@ export class EventNode extends Node<NodeType.Event> {
 export class EventNode2 extends EventNode {
   constructor(props: {
     description: NodeDescription;
-    graph: Graph;
+    graph: IGraph;
     inputs?: Socket[];
     outputs?: Socket[];
     configuration?: NodeConfiguration;

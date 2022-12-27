@@ -10,25 +10,25 @@ export function validateNodeRegistry(registry: Registry): string[] {
   registry.nodes.getAllNames().forEach((nodeTypeName) => {
     const node = graph.createNode(nodeTypeName);
 
+    const { typeName, otherTypeNames, inputs, outputs } = node;
+
     // ensure node is registered correctly.
-    if (node.description.typeName !== nodeTypeName) {
-      if (!node.description.otherTypeNames.includes(nodeTypeName)) {
+    if (typeName !== nodeTypeName) {
+      if (!otherTypeNames?.includes(nodeTypeName)) {
         errorList.push(
-          `node with typeName '${node.description.typeName}' is registered under a different name '${nodeTypeName}'`
+          `node with typeName '${typeName}' is registered under a different name '${nodeTypeName}'`
         );
       }
     }
 
-    if (!nodeTypeNameRegex.test(node.description.typeName)) {
-      errorList.push(
-        `invalid node type name on node ${node.description.typeName}`
-      );
+    if (!nodeTypeNameRegex.test(typeName)) {
+      errorList.push(`invalid node type name on node ${typeName}`);
     }
 
-    node.inputs.forEach((socket) => {
+    inputs.forEach((socket) => {
       if (!socketNameRegex.test(socket.name)) {
         errorList.push(
-          `invalid socket name for input socket ${socket.name} on node ${node.description.typeName}`
+          `invalid socket name for input socket ${socket.name} on node ${typeName}`
         );
       }
 
@@ -39,15 +39,15 @@ export function validateNodeRegistry(registry: Registry): string[] {
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(
-          `node '${node.description.typeName}' has on input socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`
+          `node '${typeName}' has on input socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`
         );
       }
     });
 
-    node.outputs.forEach((socket) => {
+    outputs.forEach((socket) => {
       if (!socketNameRegex.test(socket.name)) {
         errorList.push(
-          `invalid socket name for output socket ${socket.name} on node ${node.description.typeName}`
+          `invalid socket name for output socket ${socket.name} on node ${typeName}`
         );
       }
       if (socket.valueTypeName === 'flow') {
@@ -57,7 +57,7 @@ export function validateNodeRegistry(registry: Registry): string[] {
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(
-          `node '${node.description.typeName}' has on output socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`
+          `node '${typeName}' has on output socket '${socket.name}' an unregistered value type '${socket.valueTypeName}'`
         );
       }
     });

@@ -19,11 +19,12 @@ export enum NodeType {
 }
 
 export interface INode {
-  readonly id: string;
+  readonly id?: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   readonly graph: IGraph;
   typeName: string;
+  otherTypeNames: string[] | undefined;
   nodeType: NodeType;
   configuration: NodeConfiguration;
 }
@@ -83,22 +84,23 @@ export const makeNodeInstance = (node: INode) => {
 };
 
 abstract class NodeInstance<TNodeType extends NodeType> implements INode {
-  public readonly id: string;
+  public id = '';
   public readonly inputs: Socket[];
   public readonly outputs: Socket[];
   public typeName: string;
   public nodeType: TNodeType;
+  public readonly otherTypeNames: string[] | undefined;
   public graph: IGraph;
   public configuration: NodeConfiguration;
 
   constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
-    this.id = node.id;
     this.inputs = node.inputs;
     this.outputs = node.outputs;
     this.typeName = node.typeName;
     this.nodeType = node.nodeType;
     this.graph = node.graph;
     this.configuration = node.configuration;
+    this.otherTypeNames = node.otherTypeNames;
   }
 
   readInput<T>(inputName: string): T {

@@ -1,9 +1,8 @@
-import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
-
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Fiber } from '../../../Execution/Fiber';
-import { Graph } from '../../../Graphs/Graph';
+import { IGraph } from '../../../Graphs/Graph';
 import { FlowNode2 } from '../../../Nodes/FlowNode';
+import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   NodeDescription,
   NodeDescription2
@@ -28,7 +27,7 @@ export class TriggerCustomEvent extends FlowNode2 {
 
   constructor(
     description: NodeDescription,
-    graph: Graph,
+    graph: IGraph,
     configuration: NodeConfiguration
   ) {
     const customEvent =

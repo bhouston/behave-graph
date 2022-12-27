@@ -1,8 +1,9 @@
+import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
+
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Fiber } from '../../../Execution/Fiber';
 import { IGraph } from '../../../Graphs/Graph';
 import { FlowNode2 } from '../../../Nodes/FlowNode';
-import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   NodeDescription,
   NodeDescription2

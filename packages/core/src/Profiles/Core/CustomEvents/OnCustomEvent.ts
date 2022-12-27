@@ -1,78 +1,88 @@
+import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
+
 import { Assert } from '../../../Diagnostics/Assert';
 import { CustomEvent } from '../../../Events/CustomEvent';
+import { Engine } from '../../../Execution/Engine';
+import { IGraph } from '../../../Graphs/Graph';
+import { EventNode2 } from '../../../Nodes/EventNode';
 import {
-  makeEventNodeDefinition,
-  NodeCategory,
-  SocketsList
-} from '../../../Nodes/NodeDefinition';
+  NodeDescription,
+  NodeDescription2
+} from '../../../Nodes/Registry/NodeDescription';
+import { Socket } from '../../../Sockets/Socket';
 
-type State = {
-  onCustomEvent: (params: Record<string, any>) => void;
-  customEvent: CustomEvent;
-};
+export class OnCustomEvent extends EventNode2 {
+  public static Description = new NodeDescription2({
+    typeName: 'customEvent/onTriggered',
+    category: 'Event',
+    label: 'On Triggered',
+    configuration: {
+      customEventId: {
+        valueType: 'number'
+      }
+    },
+    factory: (description, graph, configuration) =>
+      new OnCustomEvent(description, graph, configuration)
+  });
 
-const makeInitialState = (): State | undefined => undefined;
+  private readonly customEvent: CustomEvent;
 
-export const OnCustomEvent = makeEventNodeDefinition({
-  typeName: 'customEvent/onTriggered',
-  category: NodeCategory.Event,
-  label: 'On Triggered',
-  configuration: {
-    customEventId: {
-      valueType: 'number'
-    }
-  },
-  in: {},
-  out: (configuration, graph) => {
-    const customEvents = graph.customEvents;
+  constructor(
+    description: NodeDescription,
+    graph: IGraph,
+    configuration: NodeConfiguration
+  ) {
     const customEvent =
-      customEvents[configuration.customEventId] ||
+      graph.customEvents[configuration.customEventId] ||
       new CustomEvent('-1', 'undefined');
+    super({
+      description,
+      graph,
+      outputs: [
+        new Socket('flow', 'flow'),
+        ...customEvent.parameters.map(
+          (parameter) =>
+            new Socket(
+              parameter.valueTypeName,
+              parameter.name,
+              parameter.value,
+              parameter.label
+            )
+        )
+      ],
+      configuration
+    });
+    this.customEvent = customEvent;
+  }
+  private onCustomEvent:
+    | ((parameters: { [parameter: string]: any }) => void)
+    | undefined = undefined;
 
-    const result: SocketsList = [
-      {
-        key: 'flow',
-        valueType: 'flow'
-      },
-      ...customEvent.parameters.map((parameter) => ({
-        key: parameter.name,
-        valueType: parameter.valueTypeName,
-        label: parameter.label
-      }))
-    ];
+  init(engine: Engine) {
+    Assert.mustBeTrue(this.onCustomEvent === undefined);
 
-    return result;
-  },
-  initialState: makeInitialState(),
-  init: ({ write, commit, state, configuration, graph: { customEvents } }) => {
-    Assert.mustBeTrue(state === undefined);
-
-    const customEvent = customEvents[configuration.customEventId];
-
-    const onCustomEvent = (parameters: Record<string, any>) => {
-      customEvent.parameters.forEach((parameterSocket) => {
+    this.onCustomEvent = (parameters) => {
+      this.customEvent.parameters.forEach((parameterSocket) => {
         if (!(parameterSocket.name in parameters)) {
           throw new Error(
             `parameters of custom event do not align with parameters of custom event node, missing ${parameterSocket.name}`
           );
         }
-        write(parameterSocket.name, parameters[parameterSocket.name]);
+        this.writeOutput(
+          parameterSocket.name,
+          parameters[parameterSocket.name]
+        );
       });
-      commit('flow');
+      engine.commitToNewFiber(this, 'flow');
     };
-    customEvent.eventEmitter.addListener(onCustomEvent);
+    this.customEvent.eventEmitter.addListener(this.onCustomEvent);
+  }
 
-    // return updated state, so that we can later in dispose detach the listener from the event
-    return {
-      customEvent,
-      onCustomEvent
-    };
-  },
-  dispose: ({ state }) => {
-    Assert.mustBeTrue(state !== undefined);
+  dispose(engine: Engine) {
+    Assert.mustBeTrue(this.onCustomEvent !== undefined);
 
-    if (typeof state !== 'undefined') {
-      state.customEvent.eventEmitter.removeListener(state.onCustomEvent);
+    if (this.onCustomEvent !== undefined) {
+      this.customEvent.eventEmitter.removeListener(this.onCustomEvent);
     }
   }
-});
+}

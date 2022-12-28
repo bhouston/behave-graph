@@ -83,23 +83,26 @@ export const generateTriggerTester = <
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
->({
-  configuration = {},
-  triggered,
-  initialState,
-  makeGraph = makeEmptyGraph,
-  out
-}: {
-  /** Triggered function from the node defintion */
-  /** Runtime configuration of the node */
-  configuration?: NodeConfiguration;
-  makeGraph?: () => IGraphApi;
-} & Pick<
-  IHasTriggered<TInput, TOutput, TState>,
-  'initialState' | 'triggered'
-> & {
-    out: TOutput;
-  }) => {
+>(
+  {
+    triggered,
+    initialState,
+
+    out
+  }: {
+    /** Triggered function from the node defintion */
+    /** Runtime configuration of the node */
+    configuration?: NodeConfiguration;
+    makeGraph?: () => IGraphApi;
+  } & Pick<
+    IHasTriggered<TInput, TOutput, TState>,
+    'initialState' | 'triggered'
+  > & {
+      out: TOutput;
+    },
+  configuration: NodeConfiguration = {},
+  makeGraph = makeEmptyGraph
+) => {
   let state: TState = initialState;
 
   const graph = makeGraph();
@@ -135,11 +138,15 @@ export const generateTriggerTester = <
           value: value
         });
       },
-      commit: (outputFlowName) => {
+      commit: (outputFlowName, fiberCompletedListener) => {
         recordedOutputs.push({
           outputType: RecordedOutputType.commit,
           socketName: outputFlowName
         });
+
+        if (fiberCompletedListener) {
+          fiberCompletedListener();
+        }
       },
       configuration,
       graph,

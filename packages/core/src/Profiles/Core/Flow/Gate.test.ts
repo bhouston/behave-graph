@@ -17,7 +17,7 @@ const flowTriggeredOutput: RecordedWritesType = [
 ];
 
 describe('Gate', () => {
-  describe('when the flow node is triggered', () => {
+  describe('when the `flow` node is triggered', () => {
     describe('when the gate starts closed', () => {
       const inputVals = {
         startClosed: true
@@ -45,7 +45,6 @@ describe('Gate', () => {
 
           const outputs = trigger({ triggeringSocketName: 'flow', inputVals });
 
-          expect(outputs).toHaveLength(1);
           expect(outputs).toEqual(flowTriggeredOutput);
         });
       });
@@ -75,28 +74,25 @@ describe('Gate', () => {
 
           // triggering shouldn't do anything
           expect(trigger({ triggeringSocketName: 'flow' })).toHaveLength(0);
-
-          // open the gate
-          trigger({ triggeringSocketName: 'open' });
-          // triggering should do something
-          expect(trigger({ triggeringSocketName: 'flow' })).toEqual(
-            flowTriggeredOutput
-          );
         });
       });
     });
     describe('when the gate is toggled', () => {
-      it('will commit if it should be opeened', () => {
+      it('will commit if it should be opened', () => {
         const trigger = generateTrigger();
 
         // by default, something should trigger
-        expect(trigger({ triggeringSocketName: 'flow' })).toHaveLength(1);
+        expect(trigger({ triggeringSocketName: 'flow' })).toEqual(
+          flowTriggeredOutput
+        );
 
         trigger({ triggeringSocketName: 'toggle' });
         expect(trigger({ triggeringSocketName: 'flow' })).toHaveLength(0);
 
         trigger({ triggeringSocketName: 'toggle' });
-        expect(trigger({ triggeringSocketName: 'flow' })).toHaveLength(1);
+        expect(trigger({ triggeringSocketName: 'flow' })).toEqual(
+          flowTriggeredOutput
+        );
       });
     });
   });

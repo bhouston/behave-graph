@@ -28,7 +28,7 @@ export const Gate = makeFlowNodeDefinition({
     let isInitialized = state.isInitialized;
 
     if (!state.isInitialized) {
-      isClosed = read('startClosed');
+      isClosed = !!read('startClosed');
       isInitialized = true;
     }
 

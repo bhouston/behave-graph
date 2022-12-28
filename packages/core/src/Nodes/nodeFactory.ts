@@ -41,7 +41,7 @@ const makeSocketsFromArray = (sockets: SocketsList) =>
     );
   });
 
-function makeOrGenerateSockets(
+export function makeOrGenerateSockets(
   socketConfigOrFactory: SocketsDefinition,
   nodeConfig: NodeConfiguration,
   graph: IGraphApi

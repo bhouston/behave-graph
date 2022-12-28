@@ -105,7 +105,7 @@ export interface IHasTriggered<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
   TState
-> {
+> extends IHasInitialState<TState> {
   triggered: TriggeredFn<TInput, TOutput, TState>;
 }
 export type EventNodeSetupParams<

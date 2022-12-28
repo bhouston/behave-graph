@@ -1,54 +1,6 @@
-import { Graph, IGraphApi } from '../../../Graphs/Graph';
-import { NodeConfiguration } from '../../../Nodes/Node';
-import {
-  IFunctionNodeDefinition,
-  SocketNames,
-  SocketsDefinition
-} from '../../../Nodes/NodeDefinition';
-import { NodeConfigurationDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Registry } from '../../../Registry';
-import { registerCoreValueTypes } from '../registerCoreProfile';
+import { testExec } from '../../../Nodes/testUtils';
 import { toInteger } from './BooleanNodes';
 import { toBoolean as intToBoolean } from './IntegerNodes';
-
-const makeEmptyGraph = (): IGraphApi => {
-  const registry = new Registry();
-  registerCoreValueTypes(registry.values);
-  return new Graph(registry).makeApi();
-};
-
-export type SocketValues<TSockets extends SocketsDefinition> = {
-  [key in SocketNames<TSockets>]?: any;
-};
-
-/** Helper function to test an function node's exec and get the resulting outputs.
- * Can simulate the input socket values */
-const testExec = <
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition,
-  TConfig extends NodeConfigurationDescription
->({
-  nodeInputVals = {},
-  configuration = {},
-  exec
-}: {
-  exec: IFunctionNodeDefinition<TInput, TOutput, TConfig>['exec'];
-  configuration?: NodeConfiguration;
-  nodeInputVals?: SocketValues<TInput>;
-}): SocketValues<TOutput> => {
-  const outputs: SocketValues<TOutput> = {};
-
-  exec({
-    read: (socketName) => nodeInputVals[socketName],
-    write: (outputValueName, value) => {
-      outputs[outputValueName] = value;
-    },
-    configuration,
-    graph: makeEmptyGraph()
-  });
-
-  return outputs;
-};
 
 describe('Boolean Conversions', () => {
   describe('math/toBoolean/integer', () => {

@@ -1,11 +1,11 @@
 import { IHasNodeFactory, INodeDefinitionBase } from '../NodeDefinitions';
 
-export type NodeType = IHasNodeFactory &
+type NodeDefinition = IHasNodeFactory &
   Pick<INodeDefinitionBase, 'typeName' | 'otherTypeNames'>;
 
 export class NodeTypeRegistry {
   private readonly typeNameToNodeDescriptions: {
-    [type: string]: NodeType;
+    [type: string]: NodeDefinition;
   } = {};
 
   clear() {
@@ -13,7 +13,7 @@ export class NodeTypeRegistry {
       delete this.typeNameToNodeDescriptions[nodeTypeName];
     }
   }
-  register(...descriptions: Array<NodeType>) {
+  register(...descriptions: Array<NodeDefinition>) {
     descriptions.forEach((description) => {
       const allTypeNames = (description.otherTypeNames || []).concat([
         description.typeName
@@ -31,7 +31,7 @@ export class NodeTypeRegistry {
   contains(typeName: string): boolean {
     return typeName in this.typeNameToNodeDescriptions;
   }
-  get(typeName: string): NodeType {
+  get(typeName: string): NodeDefinition {
     if (!(typeName in this.typeNameToNodeDescriptions)) {
       throw new Error(`no registered node with type name ${typeName}`);
     }
@@ -42,7 +42,7 @@ export class NodeTypeRegistry {
     return Object.keys(this.typeNameToNodeDescriptions);
   }
 
-  getAllDescriptions(): NodeType[] {
+  getAllDescriptions(): NodeDefinition[] {
     return Object.values(this.typeNameToNodeDescriptions);
   }
 }

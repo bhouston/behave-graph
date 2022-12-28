@@ -4,6 +4,8 @@ export * from './Diagnostics/Assert';
 // main data model
 export * from './Graphs/Graph';
 export * from './Nodes/Node';
+export * from './Nodes/NodeDefinitions';
+export * from './Nodes/NodeInstance';
 export * from './Nodes/AsyncNode';
 export * from './Nodes/EventNode';
 export * from './Nodes/FlowNode';

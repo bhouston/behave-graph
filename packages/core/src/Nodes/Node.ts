@@ -1,4 +1,4 @@
-import { IGraph } from '../Graphs/Graph';
+import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { INode, NodeType } from './NodeInstance';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
@@ -16,7 +16,7 @@ export abstract class Node<TNodeType extends NodeType> implements INode {
   // public typeName: string;
   public nodeType: TNodeType;
   public readonly otherTypeNames: string[] | undefined;
-  public graph: IGraph;
+  public graph: IGraphApi;
   public label?: string;
   public metadata?: any;
   public readonly configuration: NodeConfiguration;

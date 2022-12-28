@@ -8,7 +8,7 @@ import { Variable } from '../Variables/Variable';
 // Purpose:
 //  - stores the node graph
 
-export interface IGraph {
+export interface IGraphApi {
   readonly variables: { [id: string]: Variable };
   readonly customEvents: { [id: string]: CustomEvent };
   readonly values: Registry['values'];
@@ -26,6 +26,14 @@ export class Graph {
   public version = 0;
 
   constructor(public readonly registry: Registry) {}
+
+  makeApi(): IGraphApi {
+    return {
+      variables: this.variables,
+      customEvents: this.customEvents,
+      values: this.registry.values
+    };
+  }
 
   createNode(
     nodeTypeName: string,
@@ -48,14 +56,8 @@ export class Graph {
       );
     }
 
-    const node = nodeDefinition.nodeFactory(
-      {
-        variables: this.variables,
-        customEvents: this.customEvents,
-        values: this.registry.values
-      },
-      nodeConfiguration
-    );
+    const graph = this.makeApi();
+    const node = nodeDefinition.nodeFactory(graph, nodeConfiguration);
 
     this.nodes[nodeId] = {
       ...node,

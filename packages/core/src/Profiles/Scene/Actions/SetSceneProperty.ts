@@ -1,5 +1,5 @@
 import { Fiber } from '../../../Execution/Fiber';
-import { IGraph } from '../../../Graphs/Graph';
+import { IGraphApi } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -22,7 +22,7 @@ export class SetSceneProperty extends FlowNode {
 
   constructor(
     description: NodeDescription,
-    graph: IGraph,
+    graph: IGraphApi,
     public readonly valueTypeName: string,
     private readonly scene: IScene
   ) {

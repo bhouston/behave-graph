@@ -1,86 +1,114 @@
-import { IGraph } from '../../../Graphs/Graph';
-import { FunctionNode } from '../../../Nodes/FunctionNode';
-import { Node } from '../../../Nodes/Node';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Registry } from '../../../Registry';
+// import { Registry } from '../../Registry';
+
+import {
+  Graph,
+  IGraphApi,
+  Registry
+} from 'packages/core/dist/behave-graph-core.cjs';
+
+import { NodeConfiguration } from '../../../Nodes/Node';
+import {
+  IFunctionNodeDefinition,
+  SocketNames,
+  SocketsDefinition
+} from '../../../Nodes/NodeDefinition';
+import { NodeConfigurationDescription } from '../../../Nodes/Registry/NodeDescription';
 import { toInteger } from './BooleanNodes';
 import { toBoolean as intToBoolean } from './IntegerNodes';
 
-const makeEmptyGraph = () => {
-  return new Graph(new Registry());
+const makeEmptyGraph = (): IGraphApi => {
+  return new Graph(new Registry()).makeApi();
 };
 
-const makeFunctionNodeWithEmptyGraph = (nodeDescription: NodeDescription) =>
-  nodeDescription.nodeFactory(intToBoolean, makeEmptyGraph(), {}) as FunctionNode;
-
-const setInputSocketValue = (node: Node, socketName: string, value: any) => {
-  const inputSocket = node.inputs.find((socket) => socket.name === socketName);
-
-  if (!inputSocket)
-    throw new Error(`cannot find input socket with name ${socketName}`);
-  inputSocket.value = value;
+export type SocketValues<TSockets extends SocketsDefinition> = {
+  [key in SocketNames<TSockets>]?: any;
 };
 
-const getOutputSocketValue = (node: Node, socketName: string) => {
-  const outputSocket = node.outputs.find(
-    (socket) => socket.name === socketName
-  );
+/** Helper function to test an function node's exec and get the resulting outputs.
+ * Can simulate the input socket values */
+const testExec = <
+  TInput extends SocketsDefinition,
+  TOutput extends SocketsDefinition,
+  TConfig extends NodeConfigurationDescription
+>({
+  nodeInputVals = {},
+  configuration = {},
+  exec
+}: {
+  exec: IFunctionNodeDefinition<TInput, TOutput, TConfig>['exec'];
+  configuration?: NodeConfiguration;
+  nodeInputVals?: SocketValues<TInput>;
+}): SocketValues<TOutput> => {
+  const outputs: SocketValues<TOutput> = {};
 
-  if (!outputSocket)
-    throw new Error(`cannot find input socket with name ${socketName}`);
+  exec({
+    read: (socketName) => nodeInputVals[socketName],
+    write: (outputValueName, value) => {
+      outputs[outputValueName] = value;
+    },
+    configuration,
+    graph: makeEmptyGraph()
+  });
 
-  return outputSocket.value;
+  return outputs;
 };
 
 describe('Boolean Conversions', () => {
   describe('math/toBoolean/integer', () => {
-    let node: FunctionNode;
-
     beforeEach(() => {
-      node = makeFunctionNodeWithEmptyGraph(intToBoolean);
+      // node = makeFunctionNodeWithEmptyGraph(intToBoolean);
     });
     it.only('writes to the output false when the input value is 0', () => {
-      setInputSocketValue(node, 'a', 0n);
-      node.exec(node);
+      const outputs = testExec({
+        exec: intToBoolean.exec,
+        nodeInputVals: {
+          a: 0n
+        }
+      });
 
-      expect(getOutputSocketValue(node, 'result')).toEqual(false);
+      expect(outputs['result']).toEqual(false);
     });
     it('writes to the output true when the input value is non-zero', () => {
-      // set value to 1
-      setInputSocketValue(node, 'a', 1n);
-      node.exec(node);
+      const outputs = testExec({
+        exec: intToBoolean.exec,
+        // test with value 1
+        nodeInputVals: {
+          a: 1n
+        }
+      });
+      // setInputSocketValue(node, 'a', 1n);
+      // node.exec(node);
 
-      expect(getOutputSocketValue(node, 'result')).toEqual(true);
+      expect(outputs['result']).toEqual(true);
 
-      // set value to 5
-      setInputSocketValue(node, 'a', 5n);
-      node.exec(node);
+      const secondResult = testExec({
+        exec: intToBoolean.exec,
+        // test with value to 5
+        nodeInputVals: {
+          a: 5n
+        }
+      });
 
-      expect(getOutputSocketValue(node, 'result')).toEqual(true);
+      expect(secondResult.outputs['result']).toEqual(true);
     });
   });
 
   describe('math/toInteger/boolean', () => {
-    let node: FunctionNode;
-
-    beforeEach(() => {
-      node = makeFunctionNodeWithEmptyGraph(toInteger);
-    });
-    it.only('writes to the output 1 when the input value is true', () => {
-      setInputSocketValue(node, 'a', true);
-      node.exec(node);
-
-      const outputValue = getOutputSocketValue(node, 'result');
-
-      expect(outputValue).toEqual(1n);
+    it('writes to the output 1 when the input value is true', () => {
+      const output = testExec({
+        exec: toInteger.exec,
+        nodeInputVals: {
+          a: true
+        }
+      });
+      expect(output['result']).toEqual(1n);
     });
     it('writes to the output 0 when the input value is false', () => {
-      setInputSocketValue(node, 'a', false);
-      node.exec(node);
-
-      const outputValue = getOutputSocketValue(node, 'result');
-
-      expect(outputValue).toEqual(0n);
+      const output = testExec({
+        exec: toInteger.exec,
+        nodeInputVals: { a: false }
+      });
+      expect(output['result']).toEqual(0n);
     });
   });
 });

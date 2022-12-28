@@ -1,5 +1,5 @@
 import { Fiber } from '../../../Execution/Fiber';
-import { IGraph } from '../../../Graphs/Graph';
+import { IGraphApi } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -16,7 +16,7 @@ export class Log extends FlowNode {
 
   constructor(
     description: NodeDescription,
-    graph: IGraph,
+    graph: IGraphApi,
     private readonly logger: ILogger
   ) {
     super(

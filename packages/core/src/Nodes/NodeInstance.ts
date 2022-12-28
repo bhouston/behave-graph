@@ -1,6 +1,6 @@
 import { Engine } from '../Execution/Engine';
 import { Fiber } from '../Execution/Fiber';
-import { IGraph } from '../Graphs/Graph';
+import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import {
@@ -23,7 +23,7 @@ export interface INode {
   readonly id?: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
-  readonly graph: IGraph;
+  readonly graph: IGraphApi;
   description: INodeDescription;
   configuration: NodeConfiguration;
   nodeType: NodeType;

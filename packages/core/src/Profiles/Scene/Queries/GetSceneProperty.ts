@@ -1,4 +1,4 @@
-import { IGraph } from '../../../Graphs/Graph';
+import { IGraphApi } from '../../../Graphs/Graph';
 import { FunctionNode } from '../../../Nodes/FunctionNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -21,7 +21,7 @@ export class GetSceneProperty extends FunctionNode {
 
   constructor(
     description: NodeDescription,
-    graph: IGraph,
+    graph: IGraphApi,
     public readonly valueTypeName: string,
     private readonly scene: IScene
   ) {

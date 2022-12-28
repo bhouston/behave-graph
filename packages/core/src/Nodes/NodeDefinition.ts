@@ -1,4 +1,4 @@
-import { IGraph } from '../Graphs/Graph';
+import { IGraphApi } from '../Graphs/Graph';
 import { NodeConfiguration } from './Node';
 import { makeCommonProps } from './nodeFactory';
 import {
@@ -24,12 +24,15 @@ export type SocketsList = SocketListDefinition[];
 
 export type SocketsGeneratorFromConfig = (
   nodeConfig: NodeConfiguration,
-  graph: IGraph
+  graph: IGraphApi
 ) => SocketsList;
 
 export type SocketsDefinition = SocketsMap | SocketsGeneratorFromConfig;
 
-export type NodeFactory = (graph: IGraph, config: NodeConfiguration) => INode;
+export type NodeFactory = (
+  graph: IGraphApi,
+  config: NodeConfiguration
+) => INode;
 
 export interface IHasNodeFactory {
   readonly nodeFactory: NodeFactory;
@@ -82,7 +85,7 @@ export type TriggeredFn<
   // state of the node.
   state: TState;
 
-  graph: IGraph;
+  graph: IGraphApi;
   configuration: NodeConfiguration;
   finished?: () => void;
 }) => TState;
@@ -157,7 +160,7 @@ export interface FunctionNodeExecParams<
   // write and commit only allows keys from the output type
   write<T>(outValueName: SocketNames<TOutput>, value: T): void;
 
-  graph: IGraph;
+  graph: IGraphApi;
   configuration: NodeConfiguration;
 }
 

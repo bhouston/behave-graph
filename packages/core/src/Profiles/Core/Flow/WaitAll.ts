@@ -1,5 +1,5 @@
 import { Fiber } from '../../../Execution/Fiber';
-import { IGraph } from '../../../Graphs/Graph';
+import { IGraphApi } from '../../../Graphs/Graph';
 import { FlowNode } from '../../../Nodes/FlowNode';
 import {
   NodeDescription,
@@ -26,7 +26,7 @@ export class WaitAll extends FlowNode {
 
   constructor(
     description: NodeDescription,
-    graph: IGraph,
+    graph: IGraphApi,
     private numInputs: number
   ) {
     const inputs: Socket[] = [];

@@ -1,6 +1,6 @@
 import { Easing, EasingFunctions, EasingModes } from '../../../Easing';
 import { Engine } from '../../../Execution/Engine';
-import { IGraph } from '../../../Graphs/Graph';
+import { IGraphApi } from '../../../Graphs/Graph';
 import { AsyncNode } from '../../../Nodes/AsyncNode';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
 import { Socket } from '../../../Sockets/Socket';
@@ -34,7 +34,7 @@ export class EaseSceneProperty extends AsyncNode {
 
   constructor(
     description: NodeDescription,
-    graph: IGraph,
+    graph: IGraphApi,
     public readonly valueTypeName: string,
     private readonly scene: IScene,
     private readonly lifecycleEventEmitter: ILifecycleEventEmitter

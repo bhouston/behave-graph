@@ -1,11 +1,4 @@
-// import { Registry } from '../../Registry';
-
-import {
-  Graph,
-  IGraphApi,
-  Registry
-} from 'packages/core/dist/behave-graph-core.cjs';
-
+import { Graph, IGraphApi } from '../../../Graphs/Graph';
 import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   IFunctionNodeDefinition,
@@ -13,11 +6,15 @@ import {
   SocketsDefinition
 } from '../../../Nodes/NodeDefinition';
 import { NodeConfigurationDescription } from '../../../Nodes/Registry/NodeDescription';
+import { Registry } from '../../../Registry';
+import { registerCoreValueTypes } from '../registerCoreProfile';
 import { toInteger } from './BooleanNodes';
 import { toBoolean as intToBoolean } from './IntegerNodes';
 
 const makeEmptyGraph = (): IGraphApi => {
-  return new Graph(new Registry()).makeApi();
+  const registry = new Registry();
+  registerCoreValueTypes(registry.values);
+  return new Graph(registry).makeApi();
 };
 
 export type SocketValues<TSockets extends SocketsDefinition> = {
@@ -55,10 +52,7 @@ const testExec = <
 
 describe('Boolean Conversions', () => {
   describe('math/toBoolean/integer', () => {
-    beforeEach(() => {
-      // node = makeFunctionNodeWithEmptyGraph(intToBoolean);
-    });
-    it.only('writes to the output false when the input value is 0', () => {
+    it('writes to the output false when the input value is 0', () => {
       const outputs = testExec({
         exec: intToBoolean.exec,
         nodeInputVals: {
@@ -76,9 +70,6 @@ describe('Boolean Conversions', () => {
           a: 1n
         }
       });
-      // setInputSocketValue(node, 'a', 1n);
-      // node.exec(node);
-
       expect(outputs['result']).toEqual(true);
 
       const secondResult = testExec({
@@ -89,7 +80,7 @@ describe('Boolean Conversions', () => {
         }
       });
 
-      expect(secondResult.outputs['result']).toEqual(true);
+      expect(secondResult['result']).toEqual(true);
     });
   });
 

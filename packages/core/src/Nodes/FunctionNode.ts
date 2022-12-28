@@ -93,7 +93,8 @@ export function makeInNOutFunctionDesc({
     typeof out === 'string' || out.length > 1
       ? () => 'result'
       : getAlphabeticalKey;
-  const outputSockets = makeSocketsList([...out], outputKeyFunc);
+  const outList = typeof out === 'string' ? [out] : out;
+  const outputSockets = makeSocketsList(outList, outputKeyFunc);
 
   const definition = makeFunctionNodeDefinition({
     typeName: rest.name,

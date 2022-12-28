@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
 import { Registry } from '../../Registry';
+import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
 import { DefaultLogger } from './Abstractions/Drivers/DefaultLogger';
 import { ManualLifecycleEventEmitter } from './Abstractions/Drivers/ManualLifecycleEventEmitter';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
@@ -39,6 +40,14 @@ import { StringValue } from './Values/StringValue';
 import { VariableGet } from './Variables/VariableGet';
 import { VariableSet } from './Variables/VariableSet';
 
+export function registerCoreValueTypes(values: ValueTypeRegistry) {
+  // pull in value type nodes
+  values.register(BooleanValue);
+  values.register(StringValue);
+  values.register(IntegerValue);
+  values.register(FloatValue);
+}
+
 export function registerCoreProfile(
   registry: Registry,
   logger: ILogger = new DefaultLogger(),
@@ -46,11 +55,7 @@ export function registerCoreProfile(
 ) {
   const { nodes, values } = registry;
 
-  // pull in value type nodes
-  values.register(BooleanValue);
-  values.register(StringValue);
-  values.register(IntegerValue);
-  values.register(FloatValue);
+  registerCoreValueTypes(values);
 
   // pull in value type nodes
   nodes.register(...getNodeDescriptions(StringNodes));

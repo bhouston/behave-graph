@@ -18,7 +18,7 @@ export abstract class Node<TNodeType extends NodeType> implements INode {
   public readonly otherTypeNames: string[] | undefined;
   public graph: IGraphApi;
   public label?: string;
-  public metadata?: any;
+  public metadata: any;
   public readonly configuration: NodeConfiguration;
 
   constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
@@ -28,6 +28,7 @@ export abstract class Node<TNodeType extends NodeType> implements INode {
     this.nodeType = node.nodeType;
     this.graph = node.graph;
     this.configuration = node.configuration;
+    this.metadata = node.metadata || {};
   }
 
   readInput<T>(inputName: string): T {

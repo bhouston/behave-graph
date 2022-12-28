@@ -3,8 +3,8 @@ import { Fiber } from '../Execution/Fiber';
 import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeCategory } from './NodeDefinitions';
-import { IFlowNode, NodeType } from './NodeInstance';
+import { IFlowNodeDefinition, NodeCategory } from './NodeDefinitions';
+import { IFlowNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
@@ -55,5 +55,38 @@ export class FlowNode2 extends FlowNode {
       props.outputs,
       props.configuration
     );
+  }
+}
+
+export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
+  extends Node<NodeType.Flow>
+  implements IFlowNode
+{
+  private triggeredInner: TFlowNodeDefinition['triggered'];
+  private state: TFlowNodeDefinition['initialState'];
+  private readonly outputSocketKeys: string[];
+
+  constructor(
+    nodeProps: Omit<INode, 'nodeType'> &
+      Pick<TFlowNodeDefinition, 'triggered' | 'initialState'>
+  ) {
+    super({ ...nodeProps, nodeType: NodeType.Flow });
+    this.triggeredInner = nodeProps.triggered;
+    this.state = nodeProps.initialState;
+    this.outputSocketKeys = nodeProps.outputs.map((s) => s.name);
+  }
+
+  public triggered(fiber: Fiber, triggeringSocketName: string) {
+    this.state = this.triggeredInner({
+      commit: (outFlowName, fiberCompletedListener) =>
+        fiber.commit(this, outFlowName, fiberCompletedListener),
+      read: this.readInput,
+      write: this.writeOutput,
+      state: this.state,
+      outputSocketKeys: this.outputSocketKeys,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      triggeringSocketName
+    });
   }
 }

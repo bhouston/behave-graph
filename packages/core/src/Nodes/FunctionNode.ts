@@ -3,12 +3,14 @@ import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import {
+  IFunctionNodeDefinition,
   makeFunctionNodeDefinition,
   NodeCategory,
   SocketListDefinition,
   SocketsList
 } from './NodeDefinitions';
 import { IFunctionNode, INode, NodeType } from './NodeInstance';
+import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
 import { NodeDescription } from './Registry/NodeDescription';
 
 export abstract class FunctionNode
@@ -44,6 +46,38 @@ export abstract class FunctionNode
     Assert.mustBeTrue(
       !this.outputs.some((socket) => socket.valueTypeName === 'flow')
     );
+  }
+}
+
+export class FunctionNodeInstance<
+    TFunctionNodeDef extends IFunctionNodeDefinition
+  >
+  extends Node<NodeType.Function>
+  implements IFunctionNode
+{
+  private execInner: TFunctionNodeDef['exec'];
+  constructor(
+    nodeProps: Omit<INode, 'nodeType'> & Pick<TFunctionNodeDef, 'exec'>
+  ) {
+    super({ ...nodeProps, nodeType: NodeType.Function });
+
+    this.execInner = nodeProps.exec;
+  }
+
+  exec(node: INode) {
+    this.execInner({
+      read: (name) =>
+        readInputFromSockets(node.inputs, name, node.description.typeName),
+      write: (name, value) =>
+        writeOutputsToSocket(
+          node.outputs,
+          name,
+          value,
+          node.description.typeName
+        ),
+      configuration: this.configuration,
+      graph: this.graph
+    });
   }
 }
 

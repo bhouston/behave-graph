@@ -3,8 +3,8 @@ import { Engine } from '../Execution/Engine';
 import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeCategory } from './NodeDefinitions';
-import { IEventNode, NodeType } from './NodeInstance';
+import { IEventNodeDefinition, NodeCategory } from './NodeDefinitions';
+import { IEventNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // no flow inputs, always evaluated on startup
@@ -65,5 +65,45 @@ export class EventNode2 extends EventNode {
       props.outputs,
       props.configuration
     );
+  }
+}
+
+export class EventNodeInstance<TEventNodeDef extends IEventNodeDefinition>
+  extends Node<NodeType.Event>
+  implements IEventNode
+{
+  private initInner: TEventNodeDef['init'];
+  private disposeInner: TEventNodeDef['dispose'];
+  private state: TEventNodeDef['initialState'];
+  private readonly outputSocketKeys: string[];
+
+  constructor(
+    nodeProps: Omit<INode, 'nodeType'> &
+      Pick<TEventNodeDef, 'init' | 'dispose' | 'initialState'>
+  ) {
+    super({ ...nodeProps, nodeType: NodeType.Event });
+    this.initInner = nodeProps.init;
+    this.disposeInner = nodeProps.dispose;
+    this.state = nodeProps.initialState;
+    this.outputSocketKeys = nodeProps.outputs.map((s) => s.name);
+  }
+
+  init(engine: Engine): any {
+    this.state = this.initInner({
+      read: this.readInput,
+      write: this.writeOutput,
+      state: this.state,
+      outputSocketKeys: this.outputSocketKeys,
+      commit: (outFlowname, fiberCompletedListener) =>
+        engine.commitToNewFiber(this, outFlowname, fiberCompletedListener),
+      configuration: this.configuration,
+      graph: this.graph
+    });
+  }
+
+  dispose(): void {
+    this.disposeInner({
+      state: this.state
+    });
   }
 }

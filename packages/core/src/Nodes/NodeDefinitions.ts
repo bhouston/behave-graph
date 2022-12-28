@@ -1,14 +1,11 @@
 import { IGraphApi } from '../Graphs/Graph';
+import { AsyncNodeInstance } from './AsyncNode';
+import { EventNodeInstance } from './EventNode';
+import { FlowNodeInstance } from './FlowNode';
+import { FunctionNodeInstance } from './FunctionNode';
 import { NodeConfiguration } from './Node';
 import { makeCommonProps } from './nodeFactory';
-import {
-  AsyncNodeInstance,
-  EventNodeInstance,
-  FlowNodeInstance,
-  FunctionNodeInstance,
-  INode,
-  NodeType
-} from './NodeInstance';
+import { INode, NodeType } from './NodeInstance';
 import { NodeCategory } from './Registry/NodeCategory';
 import { NodeConfigurationDescription } from './Registry/NodeDescription';
 

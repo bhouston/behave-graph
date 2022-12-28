@@ -3,8 +3,8 @@ import { Engine } from '../Execution/Engine';
 import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeCategory } from './NodeDefinitions';
-import { NodeType } from './NodeInstance';
+import { IAsyncNodeDefinition, NodeCategory } from './NodeDefinitions';
+import { IAsyncNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 
 // async flow node with only a single flow input
@@ -62,4 +62,46 @@ export class AsyncNode2 extends AsyncNode {
   }) {
     super(props.description, props.graph, props.inputs, props.outputs);
   }
+}
+
+export class AsyncNodeInstance<TAsyncNodeDef extends IAsyncNodeDefinition>
+  extends Node<NodeType.Async>
+  implements IAsyncNode
+{
+  private triggeredInner: TAsyncNodeDef['triggered'];
+  private disposeInner: TAsyncNodeDef['dispose'];
+  private state: TAsyncNodeDef['initialState'];
+
+  constructor(
+    node: Omit<INode, 'nodeType'> &
+      Pick<TAsyncNodeDef, 'triggered' | 'initialState' | 'dispose'>
+  ) {
+    super({ ...node, nodeType: NodeType.Async });
+
+    this.triggeredInner = node.triggered;
+    this.disposeInner = node.dispose;
+    this.state = node.initialState;
+  }
+
+  triggered = (
+    engine: Pick<Engine, 'commitToNewFiber'>,
+    triggeringSocketName: string,
+    finished: () => void
+  ) => {
+    this.triggeredInner({
+      read: this.readInput,
+      write: this.writeOutput,
+      commit: (outFlowname, fiberCompletedListener) =>
+        engine.commitToNewFiber(this, outFlowname, fiberCompletedListener),
+      configuration: this.configuration,
+      graph: this.graph,
+      finished,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      triggeringSocketName
+    });
+  };
+  dispose = () => {
+    this.state = this.disposeInner({ state: this.state });
+  };
 }

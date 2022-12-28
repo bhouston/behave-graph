@@ -2,7 +2,7 @@ import { Assert } from '../../../Diagnostics/Assert';
 import {
   makeEventNodeDefinition,
   NodeCategory
-} from '../../../Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinitions';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
 type State = {

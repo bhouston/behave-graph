@@ -3,7 +3,7 @@ import { Engine } from '../Execution/Engine';
 import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
-import { NodeCategory } from './NodeDefinition';
+import { NodeCategory } from './NodeDefinitions';
 import { NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 

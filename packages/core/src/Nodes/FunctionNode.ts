@@ -7,7 +7,7 @@ import {
   NodeCategory,
   SocketListDefinition,
   SocketsList
-} from './NodeDefinition';
+} from './NodeDefinitions';
 import { IFunctionNode, INode, NodeType } from './NodeInstance';
 import { NodeDescription } from './Registry/NodeDescription';
 

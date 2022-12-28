@@ -1,4 +1,4 @@
-import { IHasNodeFactory, INodeDefinitionBase } from '../NodeDefinition';
+import { IHasNodeFactory, INodeDefinitionBase } from '../NodeDefinitions';
 
 export type NodeType = IHasNodeFactory &
   Pick<INodeDefinitionBase, 'typeName' | 'otherTypeNames'>;

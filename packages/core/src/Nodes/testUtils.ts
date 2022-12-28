@@ -7,7 +7,7 @@ import {
   IHasTriggered,
   SocketNames,
   SocketsDefinition
-} from './NodeDefinition';
+} from './NodeDefinitions';
 import { makeOrGenerateSockets } from './nodeFactory';
 import { NodeConfigurationDescription } from './Registry/NodeDescription';
 
@@ -50,7 +50,7 @@ export const testExec = <
       outputs[outputValueName] = value;
     },
     configuration,
-    graph: makeEmptyGraph()
+    graph: makeGraph()
   });
 
   return outputs;
@@ -87,7 +87,6 @@ export const generateTriggerTester = <
   {
     triggered,
     initialState,
-
     out
   }: {
     /** Triggered function from the node defintion */

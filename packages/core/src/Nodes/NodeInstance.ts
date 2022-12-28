@@ -8,7 +8,7 @@ import {
   IEventNodeDefinition,
   IFlowNodeDefinition,
   IFunctionNodeDefinition
-} from './NodeDefinition';
+} from './NodeDefinitions';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
 import { INodeDescription } from './Registry/NodeDescription';
 

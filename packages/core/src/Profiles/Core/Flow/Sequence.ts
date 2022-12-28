@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
   SocketsList
-} from '../../../Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinitions';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 

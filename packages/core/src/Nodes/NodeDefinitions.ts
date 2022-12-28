@@ -230,15 +230,6 @@ export function makeAsyncNodeDefinition<
 
 // helper function to not require you to define generics when creating a node def,
 // and generates a factory for a node instance
-export function makeFunctionNodeDefinitionWithFactory<
-  TInput extends SocketsDefinition,
-  TOutput extends SocketsDefinition
->(definition: Omit<IFunctionNodeDefinition<TInput, TOutput>, 'exec'>) {
-  return definition;
-}
-
-// helper function to not require you to define generics when creating a node def,
-// and generates a factory for a node instance
 export function makeFunctionNodeDefinition<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition

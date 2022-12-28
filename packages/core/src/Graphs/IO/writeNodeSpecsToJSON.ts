@@ -1,4 +1,4 @@
-import { NodeCategory } from '../../Nodes/NodeDefinition';
+import { NodeCategory } from '../../Nodes/NodeDefinitions';
 import { Registry } from '../../Registry';
 import { Graph } from '../Graph';
 import {

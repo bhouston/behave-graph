@@ -3,7 +3,7 @@ import {
   IHasNodeFactory,
   INodeDefinitionBase,
   NodeFactory
-} from '../NodeDefinition';
+} from '../NodeDefinitions';
 import { INode } from '../NodeInstance';
 import { NodeConfiguration } from './../Node';
 import { NodeCategory } from './NodeCategory';

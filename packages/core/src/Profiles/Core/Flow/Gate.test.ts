@@ -35,7 +35,7 @@ describe('Gate', () => {
         it('commits to the flow output', () => {
           const trigger = generateTrigger();
 
-          // initial trigger = set the input vals
+          // initial trigger
           trigger({
             triggeringSocketName: 'flow',
             inputVals

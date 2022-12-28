@@ -8,7 +8,7 @@ import { Sequence } from './Sequence';
 type RecordedWritesType = RecordedWritesOrCommits<typeof Sequence.out>;
 
 describe('Sequence', () => {
-  it('it triggeres output flows for each sequence when triggered', () => {
+  it('it triggeres output flows for each element in sequence when triggered', () => {
     const nodeConfig = {
       numOutputs: 5
     };

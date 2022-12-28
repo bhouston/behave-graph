@@ -7,7 +7,7 @@ import {
   SocketsDefinition,
   SocketsList,
   SocketsMap
-} from './NodeDefinition';
+} from './NodeDefinitions';
 import { INode, NodeType } from './NodeInstance';
 
 const makeSocketsFromMap = <TSockets extends SocketsMap>(

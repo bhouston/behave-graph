@@ -2,7 +2,7 @@ import {
   makeFunctionNodeDefinition,
   NodeCategory,
   SocketsList
-} from '../../../Nodes/NodeDefinition';
+} from '../../../Nodes/NodeDefinitions';
 import { Variable } from '../../../Variables/Variable';
 
 export const VariableGet = makeFunctionNodeDefinition({

@@ -8,7 +8,7 @@ import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 
 type State = {
-  onEndEvent: (() => void) | undefined;
+  onEndEvent?: (() => void) | undefined;
 };
 
 const makeInitialState = (): State => ({
@@ -40,5 +40,7 @@ export const LifecycleOnEnd = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
     dispose: ({ state: { onEndEvent } }) => {
       Assert.mustBeTrue(onEndEvent !== undefined);
       if (onEndEvent) lifecycleEventEmitter.endEvent.removeListener(onEndEvent);
+
+      return {};
     }
   });

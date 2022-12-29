@@ -42,7 +42,5 @@ export const VariableSet = makeFlowNodeDefinition({
 
     variable.set(read('value'));
     commit('flow');
-
-    return undefined;
   }
 });

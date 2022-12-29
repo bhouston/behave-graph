@@ -6,7 +6,7 @@ import {
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
 
 type State = {
-  onStartEvent: (() => void) | undefined;
+  onStartEvent?: (() => void) | undefined;
 };
 
 const makeInitialState = (): State => ({
@@ -41,5 +41,7 @@ export const LifecycleOnStart = (
       Assert.mustBeTrue(onStartEvent !== undefined);
       if (onStartEvent)
         lifecycleEventEmitter.startEvent.removeListener(onStartEvent);
+
+      return {};
     }
   });

@@ -45,6 +45,5 @@ export const Sequence = makeFlowNodeDefinition({
       }
     };
     sequenceIteration(0);
-    return undefined;
   }
 });

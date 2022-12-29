@@ -26,6 +26,5 @@ export const ForLoop = makeFlowNodeDefinition({
       commit('loopBody');
     }
     commit('completed');
-    return undefined;
   }
 });

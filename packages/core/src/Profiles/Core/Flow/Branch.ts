@@ -19,7 +19,6 @@ export const Branch = makeFlowNodeDefinition({
   },
   triggered: ({ read, commit }) => {
     commit(read('condition') === true ? 'true' : 'false');
-    return undefined;
   },
   initialState: undefined
 });

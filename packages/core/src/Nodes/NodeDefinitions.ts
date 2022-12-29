@@ -85,7 +85,7 @@ export type TriggeredFn<
   graph: IGraphApi;
   configuration: NodeConfiguration;
   finished?: () => void;
-}) => TState;
+}) => StateReturn<TState>;
 
 /** Flow Node Definition */
 export type TriggeredParams<
@@ -105,6 +105,9 @@ export interface IHasTriggered<
 > extends IHasInitialState<TState> {
   triggered: TriggeredFn<TInput, TOutput, TState>;
 }
+
+type StateReturn<TState> = TState extends undefined ? void : TState;
+
 export type EventNodeSetupParams<
   TInput extends SocketsDefinition,
   TOutput extends SocketsDefinition,
@@ -116,11 +119,13 @@ export interface IHasInit<
   TOutput extends SocketsDefinition,
   TState
 > {
-  init: (params: EventNodeSetupParams<TInput, TOutput, TState>) => void;
+  init: (
+    params: EventNodeSetupParams<TInput, TOutput, TState>
+  ) => StateReturn<TState>;
 }
 
 export interface IHasDispose<TState> {
-  dispose: (params: { state: TState }) => void | TState;
+  dispose: (params: { state: TState }) => StateReturn<TState>;
 }
 
 export interface IFlowNodeDefinition<

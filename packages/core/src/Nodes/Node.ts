@@ -21,7 +21,7 @@ export abstract class Node<TNodeType extends NodeType> implements INode {
   public metadata: any;
   public readonly configuration: NodeConfiguration;
 
-  constructor(node: Omit<INode, 'nodeType'> & { nodeType: TNodeType }) {
+  constructor(node: Omit<INode, 'nodeType' | 'id'> & { nodeType: TNodeType }) {
     this.inputs = node.inputs;
     this.outputs = node.outputs;
     this.description = node.description;
@@ -31,20 +31,20 @@ export abstract class Node<TNodeType extends NodeType> implements INode {
     this.metadata = node.metadata || {};
   }
 
-  readInput<T>(inputName: string): T {
+  readInput = <T>(inputName: string): T => {
     return readInputFromSockets(
       this.inputs,
       inputName,
       this.description.typeName
     );
-  }
+  };
 
-  writeOutput<T>(outputName: string, value: T) {
+  writeOutput = <T>(outputName: string, value: T) => {
     writeOutputsToSocket(
       this.outputs,
       outputName,
       value,
       this.description.typeName
     );
-  }
+  };
 }

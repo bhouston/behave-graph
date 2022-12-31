@@ -76,7 +76,7 @@ export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
     this.outputSocketKeys = nodeProps.outputs.map((s) => s.name);
   }
 
-  public triggered(fiber: Fiber, triggeringSocketName: string) {
+  public triggered = (fiber: Fiber, triggeringSocketName: string) => {
     this.state = this.triggeredInner({
       commit: (outFlowName, fiberCompletedListener) =>
         fiber.commit(this, outFlowName, fiberCompletedListener),
@@ -88,5 +88,5 @@ export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
       // @ts-ignore
       triggeringSocketName
     });
-  }
+  };
 }

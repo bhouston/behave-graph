@@ -154,7 +154,7 @@ export const generateTriggerTester = <
         return;
       },
       outputSocketKeys
-    });
+    }) as TState;
 
     return recordedOutputs;
   };

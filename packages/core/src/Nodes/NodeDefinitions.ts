@@ -106,7 +106,7 @@ export interface IHasTriggered<
   triggered: TriggeredFn<TInput, TOutput, TState>;
 }
 
-type StateReturn<TState> = TState extends undefined ? void : TState;
+export type StateReturn<TState> = TState extends undefined ? void : TState;
 
 export type EventNodeSetupParams<
   TInput extends SocketsDefinition,

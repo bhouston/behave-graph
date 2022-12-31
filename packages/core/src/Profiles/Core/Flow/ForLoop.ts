@@ -21,10 +21,16 @@ export const ForLoop = makeFlowNodeDefinition({
   triggered: ({ read, write, commit }) => {
     const startIndex = read<bigint>('startIndex');
     const endIndex = read<bigint>('endIndex');
-    for (let i = startIndex; i < endIndex; i++) {
-      write('index', i);
-      commit('loopBody');
-    }
-    commit('completed');
+    const loopBodyIteration = (i: bigint) => {
+      if (i < endIndex) {
+        write('index', i);
+        commit('loopBody', () => {
+          loopBodyIteration(i + BigInt(1));
+        });
+      } else {
+        commit('completed');
+      }
+    };
+    loopBodyIteration(startIndex);
   }
 });

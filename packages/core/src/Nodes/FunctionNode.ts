@@ -64,7 +64,7 @@ export class FunctionNodeInstance<
     this.execInner = nodeProps.exec;
   }
 
-  exec(node: INode) {
+  exec = (node: INode) => {
     this.execInner({
       read: (name) =>
         readInputFromSockets(node.inputs, name, node.description.typeName),
@@ -78,7 +78,7 @@ export class FunctionNodeInstance<
       configuration: this.configuration,
       graph: this.graph
     });
-  }
+  };
 }
 
 const alpha = 'abcdefghijklmnop';

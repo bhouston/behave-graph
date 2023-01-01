@@ -26,7 +26,10 @@
       }
     },
     {
-      "type": "flow/sequence/4",
+      "type": "flow/sequence",
+      "configuration": {
+        "numOutputs": 4
+      },
       "id": "2",
       "flows": {
         "1": {

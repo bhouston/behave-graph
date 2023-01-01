@@ -82,7 +82,9 @@ export class FlowNodeInstance<TFlowNodeDefinition extends IFlowNodeDefinition>
         fiber.commit(this, outFlowName, fiberCompletedListener),
       read: this.readInput,
       write: this.writeOutput,
+      graph: this.graph,
       state: this.state,
+      configuration: this.configuration,
       outputSocketKeys: this.outputSocketKeys,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

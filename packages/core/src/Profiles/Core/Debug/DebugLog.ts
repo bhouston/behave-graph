@@ -1,58 +1,46 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import {
+  makeFlowNodeDefinition,
+  NodeCategory
+} from '../../../Nodes/NodeDefinitions';
 import { ILogger } from '../Abstractions/ILogger';
 
-export class Log extends FlowNode {
-  public static Description = (logger: ILogger) =>
-    new NodeDescription(
-      'debug/log',
-      'Action',
-      'Debug Log',
-      (description, graph) => new Log(description, graph, logger)
-    );
+export const loggerDependencyKey = 'loggger';
 
-  constructor(
-    description: NodeDescription,
-    graph: IGraphApi,
-    private readonly logger: ILogger
-  ) {
-    super(
-      description,
-      graph,
-      [
-        new Socket('flow', 'flow'),
-        new Socket('string', 'text'),
-        new Socket('string', 'severity', 'info', undefined, [
-          'verbose',
-          'info',
-          'warning',
-          'error'
-        ])
-      ],
-      [new Socket('flow', 'flow')]
-    );
-  }
+export const Log = makeFlowNodeDefinition({
+  typeName: 'debug/log',
+  category: NodeCategory.Action,
+  label: 'Debug Log',
+  in: {
+    flow: 'flow',
+    text: 'string',
+    severity: {
+      valueType: 'string',
+      defaultValue: 'info',
+      choices: ['verbose', 'info', 'warning', 'error'],
+      label: 'severity'
+    }
+  },
+  out: { flow: 'flow' },
+  initialState: undefined,
+  triggered: ({ read, commit, graph: { getDependency } }) => {
+    const logger = getDependency<ILogger>(loggerDependencyKey);
 
-  triggered(fiber: Fiber, triggeredSocketName: string) {
-    const text = this.readInput<string>('text');
-    switch (this.readInput<string>('severity')) {
+    const text = read<string>('text');
+    switch (read<string>('severity')) {
       case 'verbose':
-        this.logger.verbose(text);
+        logger.verbose(text);
         break;
       case 'info':
-        this.logger.info(text);
+        logger.info(text);
         break;
       case 'warning':
-        this.logger.warn(text);
+        logger.warn(text);
         break;
       case 'error':
-        this.logger.error(text);
+        logger.error(text);
         break;
     }
 
-    fiber.commit(this, 'flow');
+    commit('flow');
   }
-}
+});

@@ -4,6 +4,8 @@ import {
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
+  registerLifecycleEventEmitter,
+  registerLogger,
   registerSceneProfile,
   Registry,
 } from "@behave-graph/core";
@@ -36,8 +38,10 @@ const CustomControls = () => {
     const registry = new Registry();
     const logger = new DefaultLogger();
     const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-    registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
+    registerCoreProfile(registry);
     registerSceneProfile(registry);
+    registerLogger(registry.dependencies, logger);
+    registerLifecycleEventEmitter(registry.dependencies, manualLifecycleEventEmitter)
     
     const nodes = instance.getNodes();
     const edges = instance.getEdges();

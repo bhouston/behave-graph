@@ -1,7 +1,7 @@
 import { IGraphApi } from '../../Graphs/Graph';
 import {
   IHasNodeFactory,
-  INodeDefinitionBase,
+  INodeDefinition,
   NodeFactory
 } from '../NodeDefinitions';
 import { INode } from '../NodeInstance';
@@ -16,9 +16,9 @@ export type NodeConfigurationDescription = {
 };
 
 export function getNodeDescriptions(importWildcard: {
-  [key: string]: INodeDefinitionBase;
-}): INodeDefinitionBase[] {
-  return Object.values(importWildcard) as INodeDefinitionBase[];
+  [key: string]: INodeDefinition;
+}): INodeDefinition[] {
+  return Object.values(importWildcard) as INodeDefinition[];
 }
 
 export interface INodeDescription {

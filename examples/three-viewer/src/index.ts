@@ -6,6 +6,8 @@ import {
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
+  registerLifecycleEventEmitter,
+  registerLogger,
   registerSceneProfile,
   Registry,
   validateGraph,
@@ -68,8 +70,13 @@ async function main() {
 
   const { threeScene, gltf } = await loadThreeScene();
 
-  registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
+  registerCoreProfile(registry);
   registerSceneProfile(registry, threeScene);
+  registerLogger(registry.dependencies, logger);
+  registerLifecycleEventEmitter(
+    registry.dependencies,
+    manualLifecycleEventEmitter
+  );
 
   const graphJsonPath = publicImageUrl(
     `/graphs/scene/actions/SpinningSuzanne.json`

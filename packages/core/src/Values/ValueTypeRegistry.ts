@@ -22,4 +22,8 @@ export class ValueTypeRegistry {
   getAllNames(): string[] {
     return Object.keys(this.valueTypeNameToValueType);
   }
+
+  getAll(): ValueType[] {
+    return Object.values(this.valueTypeNameToValueType);
+  }
 }

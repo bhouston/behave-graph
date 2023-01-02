@@ -8,6 +8,7 @@ import {
   registerCoreProfile,
   registerLifecycleEventEmitter,
   registerLogger,
+  registerSceneDependency,
   registerSceneProfile,
   Registry,
   validateGraph,
@@ -71,7 +72,7 @@ async function main() {
   const { threeScene, gltf } = await loadThreeScene();
 
   registerCoreProfile(registry);
-  registerSceneProfile(registry, threeScene);
+  registerSceneProfile(registry);
   registerLogger(registry.dependencies, logger);
   registerLifecycleEventEmitter(
     registry.dependencies,
@@ -88,6 +89,7 @@ async function main() {
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const graphFetchResponse = await fetch(graphJsonPath);
   const graphJson = await graphFetchResponse.json();
+  registerSceneDependency(registry.dependencies, threeScene);
   const graph = readGraphFromJSON(graphJson, registry);
   graph.name = graphJsonPath;
 

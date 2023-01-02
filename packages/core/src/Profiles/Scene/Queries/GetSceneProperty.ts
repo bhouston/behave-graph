@@ -1,41 +1,23 @@
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FunctionNode } from '../../../Nodes/FunctionNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
-import { toCamelCase } from '../../../toCamelCase';
+import { makeFunctionNodeDefinition } from '../../../Nodes/NodeDefinitions';
 import { IScene } from '../Abstractions/IScene';
 
-export class GetSceneProperty extends FunctionNode {
-  public static GetDescriptions(scene: IScene, ...valueTypeNames: string[]) {
-    return valueTypeNames.map(
-      (valueTypeName) =>
-        new NodeDescription(
-          `scene/get/${valueTypeName}`,
-          'Query',
-          `Get Scene ${toCamelCase(valueTypeName)}`,
-          (description, graph) =>
-            new GetSceneProperty(description, graph, valueTypeName, scene)
-        )
-    );
-  }
-
-  constructor(
-    description: NodeDescription,
-    graph: IGraphApi,
-    public readonly valueTypeName: string,
-    private readonly scene: IScene
-  ) {
-    super(
-      description,
-      graph,
-      [new Socket('string', 'jsonPath')],
-      [new Socket(valueTypeName, 'value')],
-      () => {
-        this.writeOutput(
-          'value',
-          this.scene.getProperty(this.readInput('jsonPath'), valueTypeName)
+export const GetSceneProperty = (valueTypeNames: string[]) =>
+  valueTypeNames.map((valueTypeName) =>
+    makeFunctionNodeDefinition({
+      typeName: `scene/get${valueTypeName}`,
+      in: {
+        jsonPath: 'string'
+      },
+      out: {
+        value: valueTypeName
+      },
+      exec: ({ graph: { getDependency }, read, write }) => {
+        const scene = getDependency<IScene>('scene');
+        const propertyValue = scene.getProperty(
+          read('jsonPath'),
+          valueTypeName
         );
+        write('value', propertyValue);
       }
-    );
-  }
-}
+    })
+  );

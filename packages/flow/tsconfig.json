@@ -5,6 +5,5 @@
     "declaration": false,
     "emitDeclarationOnly": false
   },
-  "include": ["./src"],
-  "exclude": ["**/*.test.ts"]
+  "include": ["./src"]
 }

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
-import { IRegistry, Registry } from '../../Registry';
+import { IRegistry } from '../../Registry';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType';
 import { IScene } from './Abstractions/IScene';
 import { SetSceneProperty } from './Actions/SetSceneProperty';
@@ -30,7 +30,9 @@ export function registerSceneDependency(
   dependencies.register('scene', scene);
 }
 
-export function registerSceneProfile(registry: Registry) {
+export function registerSceneProfile(
+  registry: Pick<IRegistry, 'values' | 'nodes'>
+) {
   const { values, nodes } = registry;
 
   // pull in value type nodes

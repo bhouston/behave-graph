@@ -17,9 +17,7 @@ export class OnCustomEvent extends EventNode2 {
     category: 'Event',
     label: 'On Triggered',
     configuration: {
-      customEventId: {
-        valueType: 'number'
-      }
+      customEventId: '-1'
     },
     factory: (description, graph, configuration) =>
       new OnCustomEvent(description, graph, configuration)

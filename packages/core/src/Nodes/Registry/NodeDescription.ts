@@ -46,6 +46,7 @@ export class NodeDescription implements INodeDescription, IHasNodeFactory {
     factory: NodeFactoryWithDescription,
     public readonly otherTypeNames: string[] = [],
     public readonly helpDescription: string = '',
+
     public readonly configuration: NodeConfigurationDescription = {}
   ) {
     this.nodeFactory = (graph, config) => factory(this, graph, config);

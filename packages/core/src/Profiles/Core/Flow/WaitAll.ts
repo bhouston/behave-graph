@@ -14,12 +14,10 @@ export class WaitAll extends FlowNode {
     category: 'Flow',
     label: 'WaitAll',
     configuration: {
-      numInputs: {
-        valueType: 'number'
-      }
+      numInputs: 3
     },
     factory: (description, graph, configuration) =>
-      new WaitAll(description, graph, configuration?.numInputs || 3)
+      new WaitAll(description, graph, configuration.numInputs)
   });
 
   private isOn = true;
@@ -30,8 +28,8 @@ export class WaitAll extends FlowNode {
     private numInputs: number
   ) {
     const inputs: Socket[] = [];
-    for (let inputIndex = 1; inputIndex <= numInputs; inputIndex++) {
-      inputs.push(new Socket('flow', `${inputIndex}`));
+    for (let i = 1; i <= numInputs; i++) {
+      inputs.push(new Socket('flow', `${i}`));
     }
 
     super(

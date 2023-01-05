@@ -1,3 +1,10 @@
+export * from './parseFloats';
+export * from './toCamelCase';
+export * from './Easing';
+export * from './sleep';
+export * from './sequence';
+export * from './mathUtilities';
+
 export * from './Diagnostics/Logger';
 export * from './Diagnostics/Assert';
 
@@ -45,6 +52,8 @@ export * from './Graphs/Validation/validateGraph';
 export * from './Graphs/IO/GraphJSON';
 export * from './Graphs/IO/NodeSpecJSON';
 
+export * from './Profiles/registerSerializersForValueType';
+
 // core profile
 export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter';
 export * from './Profiles/Core/Abstractions/ILogger';
@@ -81,29 +90,3 @@ export * from './Profiles/Core/Values/StringValue';
 export * from './Profiles/Core/Variables/VariableSet';
 export * from './Profiles/Core/Variables/VariableGet';
 export * from './Profiles/Core/registerCoreProfile';
-
-// scene profile
-export * from './Profiles/Scene/Abstractions/IScene';
-export * from './Profiles/Scene/Abstractions/Drivers/DummyScene';
-export * from './Profiles/Scene/Actions/SetSceneProperty';
-export * from './Profiles/Scene/Events/OnSceneNodeClick';
-export * from './Profiles/Scene/Logic/VecElements';
-export * from './Profiles/Scene/Queries/GetSceneProperty';
-export * from './Profiles/Scene/Values/Internal/Vec2';
-export * from './Profiles/Scene/Values/Internal/Vec3';
-export * from './Profiles/Scene/Values/Internal/Vec4';
-export * as ColorNodes from './Profiles/Scene/Values/ColorNodes';
-export * from './Profiles/Scene/Values/ColorValue';
-export * as EulerNodes from './Profiles/Scene/Values/EulerNodes';
-export * from './Profiles/Scene/Values/EulerValue';
-export * as Vec2Nodes from './Profiles/Scene/Values/Vec2Nodes';
-export * from './Profiles/Scene/Values/Vec2Value';
-export * as Vec3Nodes from './Profiles/Scene/Values/Vec3Nodes';
-export * from './Profiles/Scene/Values/Vec3Value';
-export * as Vec4Nodes from './Profiles/Scene/Values/Vec4Nodes';
-export * from './Profiles/Scene/Values/Vec4Value';
-export * as QuatNodes from './Profiles/Scene/Values/QuatNodes';
-export * from './Profiles/Scene/Values/QuatValue';
-export * from './Profiles/Scene/registerSceneProfile';
-
-export * from './parseFloats';

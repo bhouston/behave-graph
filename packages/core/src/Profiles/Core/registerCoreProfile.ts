@@ -28,7 +28,7 @@ import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd';
 import { LifecycleOnStart } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
 import { Easing } from './Logic/Easing';
-import { registerSerializersForValueType } from './registerSerializersForValueType';
+import { registerSerializersForValueType } from '../registerSerializersForValueType';
 import { Delay } from './Time/Delay';
 import * as TimeNodes from './Time/TimeNodes';
 import * as BooleanNodes from './Values/BooleanNodes';

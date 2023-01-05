@@ -1,9 +1,9 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   degreesToRadians,
   equalsTolerance,
   radiansToDegrees
-} from './Internal/Common';
+} from '../../../mathUtilities';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
 // Unreal Engine Blueprint Float nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Float/
 
 export const Constant = makeInNOutFunctionDesc({

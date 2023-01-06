@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
-import { Registry } from '../../Registry';
+import { IRegistry } from '../../Registry';
 import { registerSerializersForValueType } from '../Core/registerSerializersForValueType';
-import { DummyScene } from './Abstractions/Drivers/DummyScene';
 import { IScene } from './Abstractions/IScene';
 import { SetSceneProperty } from './Actions/SetSceneProperty';
 import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
@@ -24,9 +23,15 @@ import { Vec3Value } from './Values/Vec3Value';
 import * as Vec4Nodes from './Values/Vec4Nodes';
 import { Vec4Value } from './Values/Vec4Value';
 
+export function registerSceneDependency(
+  dependencies: IRegistry['dependencies'],
+  scene: IScene
+) {
+  dependencies.register('scene', scene);
+}
+
 export function registerSceneProfile(
-  registry: Registry,
-  scene: IScene = new DummyScene()
+  registry: Pick<IRegistry, 'values' | 'nodes'>
 ) {
   const { values, nodes } = registry;
 
@@ -52,16 +57,12 @@ export function registerSceneProfile(
 
   // events
 
-  nodes.register(OnSceneNodeClick.Description);
+  nodes.register(OnSceneNodeClick);
 
   // actions
   const allValueTypeNames = values.getAllNames();
-  nodes.register(
-    ...SetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
-  );
-  nodes.register(
-    ...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
-  );
+  nodes.register(...SetSceneProperty(allValueTypeNames));
+  nodes.register(...GetSceneProperty(allValueTypeNames));
 
   const newValueTypeNames = [
     'vec2',

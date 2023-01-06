@@ -5,4 +5,8 @@ export interface IScene {
     jsonPath: string,
     callback: (jsonPath: string) => void
   ): void;
+  removeOnClickedListener(
+    jsonPath: string,
+    callback: (jsonPath: string) => void
+  ): void;
 }

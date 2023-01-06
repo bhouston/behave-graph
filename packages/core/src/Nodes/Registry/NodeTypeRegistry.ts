@@ -1,7 +1,7 @@
-import { IHasNodeFactory, INodeDefinitionBase } from '../NodeDefinitions';
+import { IHasNodeFactory, INodeDefinition } from '../NodeDefinitions';
 
 type NodeDefinition = IHasNodeFactory &
-  Pick<INodeDefinitionBase, 'typeName' | 'otherTypeNames'>;
+  Pick<INodeDefinition, 'typeName' | 'otherTypeNames'>;
 
 export class NodeTypeRegistry {
   private readonly typeNameToNodeDescriptions: {

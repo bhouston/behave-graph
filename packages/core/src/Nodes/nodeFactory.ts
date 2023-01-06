@@ -2,7 +2,7 @@ import { IGraphApi } from '../Graphs/Graph';
 import { Socket } from '../Sockets/Socket';
 import { NodeConfiguration } from './Node';
 import {
-  INodeDefinitionBase,
+  INodeDefinition,
   NodeCategory,
   SocketsDefinition,
   SocketsList,
@@ -72,7 +72,7 @@ export const makeCommonProps = (
     helpDescription = '',
     label = ''
   }: Pick<
-    INodeDefinitionBase,
+    INodeDefinition,
     | 'typeName'
     | 'in'
     | 'out'

@@ -14,14 +14,12 @@
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",
-    "test": "jest" 
+    "test": "jest"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
     "@types/jest": "^29.1.1",
     "@types/node": "^18.0.6",
-    "@types/offscreencanvas": "^2019.7.0",
-    "@types/three": "^0.144.0",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",

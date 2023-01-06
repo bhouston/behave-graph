@@ -60,8 +60,8 @@
     "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer",
     "graph-editor": "npm run build && npm run start --workspace=examples/graph-editor",
     "changeset:add": "changeset add",
-    "vers": "yarn changeset version",
-    "release": "yarn build && yarn changeset publish"
+    "vers": "npm run changeset version",
+    "release": "npm run build && npm run changeset publish"
   },
   "workspaces": [
     "packages/core",

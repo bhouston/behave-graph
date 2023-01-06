@@ -2,6 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "orta.vscode-jest",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "kisstkondoros.vscode-codemetrics"
   ]
 }

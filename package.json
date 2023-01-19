@@ -22,9 +22,9 @@
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
-    "@preconstruct/cli": "^2.2.2",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.43.0",
+    "@web/dev-server": "^0.1.35",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -70,12 +70,6 @@
     "examples/three-viewer",
     "website"
   ],
-  "preconstruct": {
-    "packages": [
-      "packages/core",
-      "packages/flow"
-    ]
-  },
   "dependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@changesets/cli": "^2.26.0",

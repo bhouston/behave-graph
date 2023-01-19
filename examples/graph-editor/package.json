@@ -2,9 +2,12 @@
   "name": "@behave-graph/examples-graph-editor",
   "version": "1.0.0",
   "description": "",
-  "directories": {
-    "lib": "src"
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@behave-graph/core": "*",
     "@behave-graph/flow": "*",
@@ -25,7 +28,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --build && vite build",
     "preview": "vite preview"
   },
   "author": "",

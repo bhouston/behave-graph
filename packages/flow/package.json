@@ -7,8 +7,8 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "watch": "tsc -w",
-    "build": "tsc",
+    "watch": "tsc --build --watch",
+    "build": "tsc --build",
     "test": "jest"
   },
   "devDependencies": {

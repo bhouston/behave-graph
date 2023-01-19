@@ -5,21 +5,21 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
-} from "react";
+  useState
+} from 'react';
 
 export type AutoSizeInputProps = HTMLProps<HTMLInputElement> & {
   minWidth?: number;
 };
 
 const baseStyles: CSSProperties = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   left: 0,
-  visibility: "hidden",
+  visibility: 'hidden',
   height: 0,
-  width: "auto",
-  whiteSpace: "pre",
+  width: 'auto',
+  whiteSpace: 'pre'
 };
 
 export const AutoSizeInput: FC<AutoSizeInputProps> = ({
@@ -35,9 +35,9 @@ export const AutoSizeInput: FC<AutoSizeInputProps> = ({
     if (input) {
       const styles = window.getComputedStyle(input);
       setStyles({
-        fontSize: styles.getPropertyValue("font-size"),
-        paddingLeft: styles.getPropertyValue("padding-left"),
-        paddingRight: styles.getPropertyValue("padding-right"),
+        fontSize: styles.getPropertyValue('font-size'),
+        paddingLeft: styles.getPropertyValue('padding-left'),
+        paddingRight: styles.getPropertyValue('padding-right')
       });
     }
     inputRef.current = input;
@@ -49,7 +49,7 @@ export const AutoSizeInput: FC<AutoSizeInputProps> = ({
     if (inputRef.current === null) return;
 
     const width = measureRef.current.clientWidth;
-    inputRef.current.style.width = Math.max(minWidth, width) + "px";
+    inputRef.current.style.width = Math.max(minWidth, width) + 'px';
   }, [props.value, minWidth, styles]);
 
   return (

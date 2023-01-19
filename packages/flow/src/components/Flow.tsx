@@ -1,4 +1,11 @@
-import { FC, MouseEvent as ReactMouseEvent, useCallback, useMemo, useState } from "react";
+import { GraphJSON } from '@behave-graph/core';
+import {
+  FC,
+  MouseEvent as ReactMouseEvent,
+  useCallback,
+  useMemo,
+  useState
+} from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -6,20 +13,20 @@ import ReactFlow, {
   OnConnectStartParams,
   useEdgesState,
   useNodesState,
-  XYPosition,
-} from "reactflow";
-import { v4 as uuidv4 } from "uuid";
-import { GraphJSON } from "@behave-graph/core";
-import { behaveToFlow } from "../transformers/behaveToFlow";
-import { calculateNewEdge } from "../util/calculateNewEdge";
-import { customNodeTypes } from "../util/customNodeTypes";
-import CustomControls from "./Controls";
-import NodePicker from "./NodePicker";
-import { getNodePickerFilters } from "../util/getPickerFilters";
+  XYPosition
+} from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
+
+import { behaveToFlow } from '../transformers/behaveToFlow';
+import { calculateNewEdge } from '../util/calculateNewEdge';
+import { customNodeTypes } from '../util/customNodeTypes';
+import { getNodePickerFilters } from '../util/getPickerFilters';
+import CustomControls from './Controls';
+import NodePicker from './NodePicker';
 
 type FlowProps = {
-  graph: GraphJSON
-}
+  graph: GraphJSON;
+};
 
 export const Flow: FC<FlowProps> = ({ graph }) => {
   const [nodePickerVisibility, setNodePickerVisibility] =
@@ -27,7 +34,10 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
   const [lastConnectStart, setLastConnectStart] =
     useState<OnConnectStartParams>();
 
-  const [initialNodes, initialEdges] = useMemo(() => behaveToFlow(graph), [graph]);
+  const [initialNodes, initialEdges] = useMemo(
+    () => behaveToFlow(graph),
+    [graph]
+  );
 
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
@@ -42,13 +52,13 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
         source: connection.source,
         target: connection.target,
         sourceHandle: connection.sourceHandle,
-        targetHandle: connection.targetHandle,
+        targetHandle: connection.targetHandle
       };
       onEdgesChange([
         {
-          type: "add",
-          item: newEdge,
-        },
+          type: 'add',
+          item: newEdge
+        }
       ]);
     },
     [onEdgesChange]
@@ -61,13 +71,13 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
         id: uuidv4(),
         type: nodeType,
         position,
-        data: {},
+        data: {}
       };
       onNodesChange([
         {
-          type: "add",
-          item: newNode,
-        },
+          type: 'add',
+          item: newNode
+        }
       ]);
 
       if (lastConnectStart === undefined) return;
@@ -79,14 +89,14 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
       if (originNode === undefined) return;
       onEdgesChange([
         {
-          type: "add",
+          type: 'add',
           item: calculateNewEdge(
             originNode,
             nodeType,
             newNode.id,
             lastConnectStart
-          ),
-        },
+          )
+        }
       ]);
     },
     [lastConnectStart, nodes, onEdgesChange, onNodesChange]
@@ -101,7 +111,7 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
 
   const handleStopConnect = (e: MouseEvent) => {
     const element = e.target as HTMLElement;
-    if (element.classList.contains("react-flow__pane")) {
+    if (element.classList.contains('react-flow__pane')) {
       setNodePickerVisibility({ x: e.clientX, y: e.clientY });
     } else {
       setLastConnectStart(undefined);
@@ -139,7 +149,7 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
       <Background
         variant={BackgroundVariant.Lines}
         color="#2a2b2d"
-        style={{ backgroundColor: "#1E1F22" }}
+        style={{ backgroundColor: '#1E1F22' }}
       />
       {nodePickerVisibility && (
         <NodePicker
@@ -151,4 +161,4 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
       )}
     </ReactFlow>
   );
-}
+};

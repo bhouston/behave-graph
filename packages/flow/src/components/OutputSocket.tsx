@@ -1,10 +1,11 @@
-import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Connection, Handle, Position, useReactFlow } from "reactflow";
-import cx from "classnames";
-import { colors, valueTypeColorMap } from "../util/colors";
-import { OutputSocketSpecJSON } from "@behave-graph/core";
-import { isValidConnection } from "../util/isValidConnection";
+import { OutputSocketSpecJSON } from '@behave-graph/core';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cx from 'classnames';
+import { Connection, Handle, Position, useReactFlow } from 'reactflow';
+
+import { colors, valueTypeColorMap } from '../util/colors';
+import { isValidConnection } from '../util/isValidConnection';
 
 export type OutputSocketProps = {
   connected: boolean;
@@ -13,16 +14,16 @@ export type OutputSocketProps = {
 export default function OutputSocket({
   connected,
   valueType,
-  name,
+  name
 }: OutputSocketProps) {
   const instance = useReactFlow();
-  const isFlowSocket = valueType === "flow";
+  const isFlowSocket = valueType === 'flow';
   let colorName = valueTypeColorMap[valueType];
   if (colorName === undefined) {
-    colorName = "red";
+    colorName = 'red';
   }
   const [backgroundColor, borderColor] = colors[colorName];
-  const showName = isFlowSocket === false || name !== "flow";
+  const showName = isFlowSocket === false || name !== 'flow';
 
   return (
     <div className="flex grow items-center justify-end h-7">
@@ -40,7 +41,7 @@ export default function OutputSocket({
         id={name}
         type="source"
         position={Position.Right}
-        className={cx(borderColor, connected ? backgroundColor : "bg-gray-800")}
+        className={cx(borderColor, connected ? backgroundColor : 'bg-gray-800')}
         isValidConnection={(connection: Connection) =>
           isValidConnection(connection, instance)
         }

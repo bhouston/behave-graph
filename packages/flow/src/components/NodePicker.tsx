@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { useReactFlow, XYPosition } from "reactflow";
-import { useOnPressKey } from "../hooks/useOnPressKey";
-import rawSpecJson from "behave-graph/dist/node-spec.json";
-import { NodeSpecJSON } from "@behave-graph/core";
+import { NodeSpecJSON } from '@behave-graph/core';
+import rawSpecJson from 'behave-graph/dist/node-spec.json';
+import { useState } from 'react';
+import { useReactFlow, XYPosition } from 'reactflow';
+
+import { useOnPressKey } from '../hooks/useOnPressKey';
 
 const specJSON = rawSpecJson as NodeSpecJSON[];
 
 const nodes = specJSON;
 
 export type NodePickerFilters = {
-  handleType: "source" | "target";
+  handleType: 'source' | 'target';
   valueType: string;
 };
 
@@ -24,18 +25,18 @@ const NodePicker = ({
   position,
   onPickNode,
   onClose,
-  filters,
+  filters
 }: NodePickerProps) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const instance = useReactFlow();
 
-  useOnPressKey("Escape", onClose);
+  useOnPressKey('Escape', onClose);
 
   let filtered = nodes;
   if (filters !== undefined) {
     filtered = filtered.filter((node) => {
       const sockets =
-        filters?.handleType === "source" ? node.outputs : node.inputs;
+        filters?.handleType === 'source' ? node.outputs : node.inputs;
       return sockets.some((socket) => socket.valueType === filters?.valueType);
     });
   }

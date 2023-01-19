@@ -2,15 +2,10 @@
   "name": "@behave-graph/flow",
   "version": "0.9.12",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-flow.cjs.js",
-  "module": "dist/behave-graph-flow.esm.js",
-  "types": "dist/behave-graph-flow.cjs.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts"
-    ]
-  },
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",

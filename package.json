@@ -38,10 +38,9 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "postinstall": "preconstruct dev",
-    "build": "preconstruct build",
-    "dev": "preconstruct dev",
-    "watch": "preconstruct watch",
+    "build": "tsc --build",
+    "start": "npm run watch & web-dev-server --watch --app-index examples/graph-editor/index.html --node-resolve --open",
+    "watch": "tsc --build --watch",
     "lint": "npx eslint \"examples/**/*.{ts,json}\" \"packages/**/*.{ts,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier \"examples/**/*.{ts,json}\" \"packages/**/*.{ts,json}\" --check",
@@ -51,7 +50,6 @@
     "test": "npm run test-flow && npm run test-core",
     "test-flow": "npm run test --workspace=@behave-graph/flow",
     "test-core": "npm run test --workspace=@behave-graph/core",
-    "start": "npm run three-viewer",
     "exec-graph": "npm run build && npm run start --workspace=@behave-graph/examples-exec-graph",
     "build-exec-graph": "npm run build && npm run build --workspace=@behave-graph/examples-exec-graph",
     "export-node-spec": "npm run build && npm run start --workspace=@behave-graph/examples-export-node-spec",

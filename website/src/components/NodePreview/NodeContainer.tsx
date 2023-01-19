@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from 'packages/core/src/Graphs/IO/NodeSpecJSON';
+import { NodeSpecJSON } from '@behave-graph/core';
 import React, { PropsWithChildren } from 'react';
 import { categoryColorMap, colors } from './utils/colors';
 

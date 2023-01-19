@@ -2,9 +2,9 @@
   "name": "@behave-graph/core",
   "version": "0.9.12",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-core.cjs.js",
-  "module": "dist/behave-graph-core.esm.js",
-  "types": "dist/behave-graph-core.cjs.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [

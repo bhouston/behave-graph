@@ -21,6 +21,7 @@
     "pretty": true,
     "noImplicitThis": false
   },
+  "include": ["src/**/*.[ts|tsx|json]"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/flow" },

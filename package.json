@@ -40,7 +40,7 @@
   "scripts": {
     "build": "tsc --build",
     "watch": "tsc --build --watch",
-    "start": "npm run watch & web-dev-server --watch --app-index examples/graph-editor/index.html --node-resolve --open",
+    "start": "npm run watch & npm run start --workspace=examples/graph-editor",
     "lint": "npx eslint \"{examples,packages}/**/src/**/*.{ts,tsx,json}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier \"{examples,packages}/**/src/**/*.{ts,tsx,json}\" --check",
@@ -67,8 +67,7 @@
     "examples/exec-graph",
     "examples/export-node-spec",
     "examples/graph-editor",
-    "examples/three-viewer",
-    "website"
+    "examples/three-viewer"
   ],
   "dependencies": {
     "@changesets/changelog-git": "^0.1.14",

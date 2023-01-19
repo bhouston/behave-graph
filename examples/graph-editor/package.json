@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "source": "src/index.tsx",
   "dependencies": {
     "@behave-graph/core": "*",
     "@behave-graph/flow": "*",

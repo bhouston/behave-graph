@@ -21,7 +21,7 @@
     "pretty": true,
     "noImplicitThis": false
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
   "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],
   "references": [{ "path": "../../packages/core" }]
 }

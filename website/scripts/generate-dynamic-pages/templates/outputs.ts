@@ -1,8 +1,9 @@
+import { INode } from '@behave-graph/core';
+
 import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecJSON';
-import { Node } from '../../../../packages/core/src/Nodes/Node';
 import socketsTable from './outputs-table';
 
-export default (node: Node, specJSON: NodeSpecJSON) => {
+export default (node: INode, specJSON: NodeSpecJSON) => {
   if (
     !('outputs' in node) ||
     !Array.isArray(node.outputs) ||

@@ -1,11 +1,12 @@
 {
   "name": "@behave-graph/flow",
   "version": "0.9.12",
-  "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "watch": "tsc --build --watch",
     "build": "tsc --build",

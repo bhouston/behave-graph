@@ -2,12 +2,11 @@
   "name": "@behave-graph/examples-export-node-spec",
   "version": "0.0.1",
   "source": "src/index.ts",
-  "type": "module",
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",
-    "start": "node --enable-source-maps --loader ts-node/esm ./src/index.ts"
+    "start": "node --enable-source-maps ./dist/index.js"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

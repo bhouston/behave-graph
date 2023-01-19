@@ -1,16 +1,12 @@
 {
   "name": "@behave-graph/core",
   "version": "0.9.12",
-  "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts"
-    ]
-  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "watch": "tsc --build --watch",
     "build": "tsc --build",

@@ -1,11 +1,33 @@
 {
-  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
+    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["es2019", "dom"],
+    "sourceMap": true,
+    "rootDir": "./src",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "noImplicitThis": false
+  },
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/flow" },
     { "path": "./examples/exec-graph" },
     { "path": "./examples/export-node-spec" },
     { "path": "./examples/graph-editor" },
-    { "path": "./examples/three-viewer" }
+    { "path": "./examples/three-viewer" },
+    { "path": "./website" }
   ]
 }

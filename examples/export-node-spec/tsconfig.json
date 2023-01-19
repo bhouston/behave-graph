@@ -1,4 +1,27 @@
 {
-  "extends": "../../tsconfig.common.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
+    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["es2019", "dom"],
+    "sourceMap": true,
+    "rootDir": "./src",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "noImplicitThis": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],
   "references": [{ "path": "../../packages/core" }]
 }

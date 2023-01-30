@@ -6,8 +6,7 @@
     "incremental": true,
     "outDir": "./dist",
     "target": "ES2020",
-    "module": "CommonJS",
-    "lib": ["es2019", "dom"],
+    "module": "ES2020",
     "sourceMap": true,
     "rootDir": "./src",
     "strict": true,
@@ -17,9 +16,7 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "pretty": true,
-    "noImplicitThis": false
+    "esModuleInterop": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
   "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],

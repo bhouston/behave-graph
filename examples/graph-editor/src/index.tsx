@@ -1,16 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { Flow } from "@behave-graph/flow";
-import { GraphJSON } from "@behave-graph/core";
-import rawGraph from "./graph.json"
+import 'reactflow/dist/style.css';
+import './index.css';
 
-import "reactflow/dist/style.css";
-import "./index.css";
+import { GraphJSON } from '@behave-graph/core';
+import { Flow } from '@behave-graph/flow';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-const graph = rawGraph as GraphJSON
+import rawGraph from './graph.json';
+
+const graph = rawGraph as unknown as GraphJSON;
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 root.render(

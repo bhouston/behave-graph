@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeFunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   Vec4,
   vec4Add,
@@ -12,7 +12,7 @@ import {
   vec4Subtract
 } from './Internal/Vec4';
 
-export const Constant = makeInNOutFunctionDesc({
+export const Constant = makeFunctionDesc({
   name: 'math/vec4',
   label: 'Vec4',
   in: ['vec4'],
@@ -20,16 +20,18 @@ export const Constant = makeInNOutFunctionDesc({
   exec: (a) => a
 });
 
-export const Create = makeInNOutFunctionDesc({
+export const Create = makeFunctionDesc({
   name: 'math/toVec4/float',
+  aliases: ['math/combine4'],
   label: 'Float to Vec4',
   in: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
   out: 'vec4',
   exec: (x: number, y: number, z: number, w: number) => new Vec4(x, y, z, w)
 });
 
-export const Elements = makeInNOutFunctionDesc({
+export const Elements = makeFunctionDesc({
   name: 'math/toFloat/vec4',
+  aliases: ['math/extract4'],
   label: 'Vec4 to Float',
   in: ['vec4'],
   out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }, { w: 'float' }],
@@ -38,7 +40,7 @@ export const Elements = makeInNOutFunctionDesc({
   }
 });
 
-export const Add = makeInNOutFunctionDesc({
+export const Add = makeFunctionDesc({
   name: 'math/add/vec4',
   label: '+',
   in: ['vec4', 'vec4'],
@@ -46,7 +48,7 @@ export const Add = makeInNOutFunctionDesc({
   exec: vec4Add
 });
 
-export const Subtract = makeInNOutFunctionDesc({
+export const Subtract = makeFunctionDesc({
   name: 'math/subtract/vec4',
   label: '-',
   in: ['vec4', 'vec4'],
@@ -54,7 +56,7 @@ export const Subtract = makeInNOutFunctionDesc({
   exec: vec4Subtract
 });
 
-export const Negate = makeInNOutFunctionDesc({
+export const Negate = makeFunctionDesc({
   name: 'math/negate/vec4',
   label: '-',
   in: ['vec4'],
@@ -62,7 +64,7 @@ export const Negate = makeInNOutFunctionDesc({
   exec: vec4Negate
 });
 
-export const Scale = makeInNOutFunctionDesc({
+export const Scale = makeFunctionDesc({
   name: 'math/scale/vec4',
   label: '×',
   in: ['vec4', 'float'],
@@ -70,7 +72,7 @@ export const Scale = makeInNOutFunctionDesc({
   exec: vec4MultiplyByScalar
 });
 
-export const Length = makeInNOutFunctionDesc({
+export const Length = makeFunctionDesc({
   name: 'math/length/vec4',
   label: 'Length',
   in: ['vec4'],
@@ -78,7 +80,7 @@ export const Length = makeInNOutFunctionDesc({
   exec: vec4Length
 });
 
-export const Normalize = makeInNOutFunctionDesc({
+export const Normalize = makeFunctionDesc({
   name: 'math/normalize/vec4',
   label: 'Normalize',
   in: ['vec4'],
@@ -86,7 +88,7 @@ export const Normalize = makeInNOutFunctionDesc({
   exec: vec4Normalize
 });
 
-export const Dot = makeInNOutFunctionDesc({
+export const Dot = makeFunctionDesc({
   name: 'math/dot/vec4',
   label: 'Dot Product',
   in: ['vec4', 'vec4'],
@@ -94,7 +96,7 @@ export const Dot = makeInNOutFunctionDesc({
   exec: vec4Dot
 });
 
-export const Mix = makeInNOutFunctionDesc({
+export const Mix = makeFunctionDesc({
   name: 'math/mix/vec4',
   label: '÷',
   in: [{ a: 'vec4' }, { b: 'vec4' }, { t: 'float' }],
@@ -102,7 +104,7 @@ export const Mix = makeInNOutFunctionDesc({
   exec: vec4Mix
 });
 
-export const Equal = makeInNOutFunctionDesc({
+export const Equal = makeFunctionDesc({
   name: 'math/equal/vec4',
   label: '=',
   in: [{ a: 'vec4' }, { b: 'vec4' }, { tolerance: 'float' }],

@@ -22,9 +22,9 @@
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-typescript": "^7.16.7",
-    "@preconstruct/cli": "^2.2.2",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.43.0",
+    "@web/dev-server": "^0.1.35",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -35,30 +35,19 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.15",
-    "typescript": "^4.7.3"
+    "typescript": "4.8.4"
   },
   "scripts": {
-    "postinstall": "preconstruct dev",
-    "build": "preconstruct build",
-    "dev": "preconstruct dev",
-    "watch": "preconstruct watch",
-    "lint": "npx eslint \"examples/**/*.{ts,json}\" \"packages/**/*.{ts,json}\"",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch",
+    "start": "npm run watch & npm run start --workspace=examples/graph-editor",
+    "lint": "npx eslint \"{examples,packages}/**/src/**/*.{ts,tsx,json}\"",
     "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier \"examples/**/*.{ts,json}\" \"packages/**/*.{ts,json}\" --check",
+    "prettier": "npx prettier \"{examples,packages}/**/src/**/*.{ts,tsx,json}\" --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "docs": "typedoc",
     "test": "npm run test-flow && npm run test-core",
-    "test-flow": "npm run test --workspace=@behave-graph/flow",
-    "test-core": "npm run test --workspace=@behave-graph/core",
-    "start": "npm run three-viewer",
-    "exec-graph": "npm run build && npm run start --workspace=@behave-graph/examples-exec-graph",
-    "build-exec-graph": "npm run build && npm run build --workspace=@behave-graph/examples-exec-graph",
-    "export-node-spec": "npm run build && npm run start --workspace=@behave-graph/examples-export-node-spec",
-    "build-export-node-spec": "npm run build && npm run build --workspace=@behave-graph/examples-export-node-spec",
-    "three-viewer": "npm run build && npm run start --workspace=@behave-graph/examples-three-viewer",
-    "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer",
-    "graph-editor": "npm run build && npm run start --workspace=examples/graph-editor",
     "changeset:add": "changeset add",
     "vers": "npm run changeset version",
     "release": "npm run build && npm run changeset publish"
@@ -71,12 +60,6 @@
     "examples/graph-editor",
     "examples/three-viewer"
   ],
-  "preconstruct": {
-    "packages": [
-      "packages/core",
-      "packages/flow"
-    ]
-  },
   "dependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@changesets/cli": "^2.26.0",

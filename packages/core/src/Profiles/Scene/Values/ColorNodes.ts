@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeFunctionDesc } from '../../../Nodes/FunctionNode';
 import {
   hexToRGB,
   hslToRGB,
@@ -13,7 +13,7 @@ import {
   vec3Subtract
 } from './Internal/Vec3';
 
-export const Constant = makeInNOutFunctionDesc({
+export const Constant = makeFunctionDesc({
   name: 'math/color',
   label: 'Color',
   in: ['color'],
@@ -21,7 +21,7 @@ export const Constant = makeInNOutFunctionDesc({
   exec: (a: Vec3) => a
 });
 
-export const Create = makeInNOutFunctionDesc({
+export const Create = makeFunctionDesc({
   name: 'math/toColor/rgb',
   label: 'RGB To Color',
   in: [{ r: 'float' }, { g: 'float' }, { b: 'float' }],
@@ -29,7 +29,7 @@ export const Create = makeInNOutFunctionDesc({
   exec: (r: number, g: number, b: number) => new Vec3(r, g, b)
 });
 
-export const Elements = makeInNOutFunctionDesc({
+export const Elements = makeFunctionDesc({
   name: 'math/toRgb/color',
   label: 'Color to RGB',
   in: ['color'],
@@ -39,7 +39,7 @@ export const Elements = makeInNOutFunctionDesc({
   }
 });
 
-export const Add = makeInNOutFunctionDesc({
+export const Add = makeFunctionDesc({
   name: 'math/add/color',
   label: '+',
   in: ['color', 'color'],
@@ -47,7 +47,7 @@ export const Add = makeInNOutFunctionDesc({
   exec: vec3Add
 });
 
-export const Subtract = makeInNOutFunctionDesc({
+export const Subtract = makeFunctionDesc({
   name: 'math/subtract/color',
   label: '-',
   in: ['color', 'color'],
@@ -55,7 +55,7 @@ export const Subtract = makeInNOutFunctionDesc({
   exec: vec3Subtract
 });
 
-export const Negate = makeInNOutFunctionDesc({
+export const Negate = makeFunctionDesc({
   name: 'math/negate/color',
   label: '-',
   in: ['color'],
@@ -63,7 +63,7 @@ export const Negate = makeInNOutFunctionDesc({
   exec: vec3Negate
 });
 
-export const Scale = makeInNOutFunctionDesc({
+export const Scale = makeFunctionDesc({
   name: 'math/scale/color',
   label: '×',
   in: ['color', 'float'],
@@ -71,7 +71,7 @@ export const Scale = makeInNOutFunctionDesc({
   exec: vec3MultiplyByScalar
 });
 
-export const Mix = makeInNOutFunctionDesc({
+export const Mix = makeFunctionDesc({
   name: 'math/mix/color',
   label: '÷',
   in: [{ a: 'color' }, { b: 'color' }, { t: 'float' }],
@@ -79,7 +79,7 @@ export const Mix = makeInNOutFunctionDesc({
   exec: vec3Mix
 });
 
-export const HslToColor = makeInNOutFunctionDesc({
+export const HslToColor = makeFunctionDesc({
   name: 'math/ToColor/hsl',
   label: 'HSL to Color',
   in: ['vec3'],
@@ -87,7 +87,7 @@ export const HslToColor = makeInNOutFunctionDesc({
   exec: hslToRGB
 });
 
-export const ColorToHsl = makeInNOutFunctionDesc({
+export const ColorToHsl = makeFunctionDesc({
   name: 'math/toHsl/color',
   label: 'Color to HSL',
   in: ['color'],
@@ -95,7 +95,7 @@ export const ColorToHsl = makeInNOutFunctionDesc({
   exec: rgbToHSL
 });
 
-export const HexToColor = makeInNOutFunctionDesc({
+export const HexToColor = makeFunctionDesc({
   name: 'math/toColor/hex',
   label: 'HEX to Color',
   in: ['float'],
@@ -103,7 +103,7 @@ export const HexToColor = makeInNOutFunctionDesc({
   exec: hexToRGB
 });
 
-export const ColorToHex = makeInNOutFunctionDesc({
+export const ColorToHex = makeFunctionDesc({
   name: 'math/toHex/color',
   label: 'Color to HEX',
   in: ['color'],
@@ -111,7 +111,7 @@ export const ColorToHex = makeInNOutFunctionDesc({
   exec: rgbToHex
 });
 
-export const Equal = makeInNOutFunctionDesc({
+export const Equal = makeFunctionDesc({
   name: 'math/equal/color',
   label: '=',
   in: [{ a: 'color' }, { b: 'color' }, { tolerance: 'float' }],

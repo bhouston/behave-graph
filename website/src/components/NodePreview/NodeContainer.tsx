@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from 'packages/core/src/Graphs/IO/NodeSpecJSON';
+import { NodeCategory, NodeSpecJSON } from '@behave-graph/core';
 import React, { PropsWithChildren } from 'react';
 import { categoryColorMap, colors } from './utils/colors';
 
@@ -9,7 +9,7 @@ type NodeProps = {
 
 export default function NodeContainer({
   title,
-  category = 'None',
+  category = NodeCategory.None,
   children
 }: PropsWithChildren<NodeProps>) {
   let colorName = categoryColorMap[category];
@@ -25,7 +25,7 @@ export default function NodeContainer({
         fontSize: '0.75rem',
         backgroundColor: '#2d3748',
         minWidth: '120px',
-        width: 'fit-content',
+        width: 'fit-content'
       }}
     >
       <div
@@ -35,7 +35,8 @@ export default function NodeContainer({
           padding: '0.25rem 0.5rem',
           borderTopLeftRadius: '0.25rem',
           borderTopRightRadius: '0.25rem'
-        }}>
+        }}
+      >
         {title}
       </div>
       <div
@@ -47,7 +48,7 @@ export default function NodeContainer({
           borderLeft: '1px solid',
           borderRight: '1px solid',
           borderBottom: '1px solid',
-          borderColor,
+          borderColor
         }}
       >
         {children}

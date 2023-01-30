@@ -1,6 +1,7 @@
-import { FC } from "react";
-import { useReactFlow } from "reactflow";
-import { Modal } from "./Modal";
+import { FC } from 'react';
+import { useReactFlow } from 'reactflow';
+
+import { Modal } from './Modal';
 
 export type ClearModalProps = {
   open?: boolean;
@@ -24,8 +25,8 @@ export const ClearModal: FC<ClearModalProps> = ({ open = false, onClose }) => {
     <Modal
       title="Clear Graph"
       actions={[
-        { label: "Cancel", onClick: onClose },
-        { label: "Clear", onClick: handleClear },
+        { label: 'Cancel', onClick: onClose },
+        { label: 'Clear', onClick: handleClear }
       ]}
       open={open}
       onClose={onClose}

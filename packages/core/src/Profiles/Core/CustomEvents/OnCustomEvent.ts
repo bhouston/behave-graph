@@ -1,10 +1,9 @@
-import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
-
 import { Assert } from '../../../Diagnostics/Assert';
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Engine } from '../../../Execution/Engine';
 import { IGraphApi } from '../../../Graphs/Graph';
 import { EventNode2 } from '../../../Nodes/EventNode';
+import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   NodeDescription,
   NodeDescription2
@@ -17,7 +16,7 @@ export class OnCustomEvent extends EventNode2 {
     category: 'Event',
     label: 'On Triggered',
     configuration: {
-      customEventId: '-1'
+      customEventId: { valueType: 'integer', defaultValue: -1 }
     },
     factory: (description, graph, configuration) =>
       new OnCustomEvent(description, graph, configuration)

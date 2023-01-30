@@ -1,19 +1,24 @@
 {
   "name": "@behave-graph/examples-exec-graph",
   "version": "0.0.1",
-  "source": "src/index.ts",
   "type": "module",
-  "sideEffects": false,
+  "bin": {
+    "exec-graph": "/dist/index.js"
+  },
+  "main": "dist",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "watch": "tsc -w",
     "build": "tsc",
-    "start": "node --enable-source-maps --loader ts-node/esm ./src/index.ts"
+    "start": "npm run build && node --enable-source-maps ./dist/index.js"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
     "@types/node": "^18.0.6",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.4"
+    "typescript": "4.8.4"
   },
   "description": "Run a graph",
   "author": "",

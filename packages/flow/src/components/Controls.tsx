@@ -7,25 +7,25 @@ import {
   registerLifecycleEventEmitter,
   registerLogger,
   registerSceneProfile,
-  Registry,
-} from "@behave-graph/core";
-import { useState } from "react";
-import { ClearModal } from "./modals/ClearModal";
-import { HelpModal } from "./modals/HelpModal";
+  Registry
+} from '@behave-graph/core';
 import {
   faDownload,
   faPlay,
   faQuestion,
   faTrash,
-  faUpload,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  faUpload
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { ControlButton, Controls, useReactFlow } from 'reactflow';
 
+import { flowToBehave } from '../transformers/flowToBehave';
+import { sleep } from '../util/sleep';
+import { ClearModal } from './modals/ClearModal';
+import { HelpModal } from './modals/HelpModal';
 import { LoadModal } from './modals/LoadModal';
 import { SaveModal } from './modals/SaveModal';
-import { flowToBehave } from "../transformers/flowToBehave";
-import { useReactFlow, Controls, ControlButton } from "reactflow";
-import { sleep } from "../util/sleep";
 
 const CustomControls = () => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
@@ -41,15 +41,17 @@ const CustomControls = () => {
     registerCoreProfile(registry);
     registerSceneProfile(registry);
     registerLogger(registry.dependencies, logger);
-    registerLifecycleEventEmitter(registry.dependencies, manualLifecycleEventEmitter)
-    
+    registerLifecycleEventEmitter(
+      registry.dependencies,
+      manualLifecycleEventEmitter
+    );
+
     const nodes = instance.getNodes();
     const edges = instance.getEdges();
     const graphJson = flowToBehave(nodes, edges);
     const graph = readGraphFromJSON(graphJson, registry);
 
     const engine = new Engine(graph);
-
 
     if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
       manualLifecycleEventEmitter.startEvent.emit();
@@ -62,7 +64,7 @@ const CustomControls = () => {
       for (let tick = 0; tick < iterations; tick++) {
         manualLifecycleEventEmitter.tickEvent.emit();
         engine.executeAllSync(tickDuration);
-        await sleep( tickDuration );
+        await sleep(tickDuration);
       }
     }
 

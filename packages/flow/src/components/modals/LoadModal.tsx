@@ -1,16 +1,16 @@
-import { GraphJSON } from "@behave-graph/core";
-import { FC, useState } from "react";
-import { useReactFlow } from "reactflow";
-import { behaveToFlow } from "../../transformers/behaveToFlow";
-import { autoLayout } from "../../util/autoLayout";
-import { hasPositionMetaData } from "../../util/hasPositionMetaData";
-import { Modal } from "./Modal";
+import { GraphJSON } from '@behave-graph/core';
+import HelloWorld from 'behave-graph/dist/graphs/core//HelloWorld.json';
+import Delay from 'behave-graph/dist/graphs/core/async/Delay.json';
+import Branch from 'behave-graph/dist/graphs/core/flow/Branch.json';
+import Polynomial from 'behave-graph/dist/graphs/core/logic/Polynomial.json';
+import SetGet from 'behave-graph/dist/graphs/core/variables/SetGet.json';
+import { FC, useState } from 'react';
+import { useReactFlow } from 'reactflow';
 
-import Branch from "behave-graph/dist/graphs/core/flow/Branch.json";
-import Delay from "behave-graph/dist/graphs/core/async/Delay.json";
-import HelloWorld from "behave-graph/dist/graphs/core//HelloWorld.json";
-import Polynomial from "behave-graph/dist/graphs/core/logic/Polynomial.json";
-import SetGet from "behave-graph/dist/graphs/core/variables/SetGet.json";
+import { behaveToFlow } from '../../transformers/behaveToFlow';
+import { autoLayout } from '../../util/autoLayout';
+import { hasPositionMetaData } from '../../util/hasPositionMetaData';
+import { Modal } from './Modal';
 
 // TODO remove when json types fixed in behave-graph
 const examples = {
@@ -18,7 +18,7 @@ const examples = {
   delay: Delay as unknown as GraphJSON,
   helloWorld: HelloWorld as unknown as GraphJSON,
   polynomial: Polynomial as unknown as GraphJSON,
-  setGet: SetGet as unknown as GraphJSON,
+  setGet: SetGet as unknown as GraphJSON
 } as Record<string, GraphJSON>;
 
 export type LoadModalProps = {
@@ -28,7 +28,7 @@ export type LoadModalProps = {
 
 export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
   const [value, setValue] = useState<string>();
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
   const instance = useReactFlow();
 
@@ -36,7 +36,7 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
     let graph;
     if (value !== undefined) {
       graph = JSON.parse(value) as GraphJSON;
-    } else if (selected !== "") {
+    } else if (selected !== '') {
       graph = examples[selected];
     }
 
@@ -61,7 +61,7 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
 
   const handleClose = () => {
     setValue(undefined);
-    setSelected("");
+    setSelected('');
     onClose();
   };
 
@@ -69,8 +69,8 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
     <Modal
       title="Load Graph"
       actions={[
-        { label: "Cancel", onClick: handleClose },
-        { label: "Load", onClick: handleLoad },
+        { label: 'Cancel', onClick: handleClose },
+        { label: 'Load', onClick: handleLoad }
       ]}
       open={open}
       onClose={onClose}

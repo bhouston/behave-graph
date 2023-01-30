@@ -1,12 +1,12 @@
-import { NodeCategory, NodeSpecJSON } from "@behave-graph/core";
-import { PropsWithChildren } from "react";
-import cx from "classnames";
+import { NodeCategory, NodeSpecJSON } from '@behave-graph/core';
+import cx from 'classnames';
+import { PropsWithChildren } from 'react';
 
-import { categoryColorMap, colors } from "../util/colors";
+import { categoryColorMap, colors } from '../util/colors';
 
 type NodeProps = {
   title: string;
-  category?: NodeSpecJSON["category"];
+  category?: NodeSpecJSON['category'];
   selected: boolean;
 };
 
@@ -18,17 +18,17 @@ export default function NodeContainer({
 }: PropsWithChildren<NodeProps>) {
   let colorName = categoryColorMap[category];
   if (colorName === undefined) {
-    colorName = "red";
+    colorName = 'red';
   }
   let [backgroundColor, borderColor, textColor] = colors[colorName];
   if (selected) {
-    borderColor = "border-gray-800";
+    borderColor = 'border-gray-800';
   }
   return (
     <div
       className={cx(
-        "rounded text-white text-sm bg-gray-800 min-w-[120px]",
-        selected && "outline outline-1"
+        'rounded text-white text-sm bg-gray-800 min-w-[120px]',
+        selected && 'outline outline-1'
       )}
     >
       <div className={`${backgroundColor} ${textColor} px-2 py-1 rounded-t`}>

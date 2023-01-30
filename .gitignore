@@ -4,3 +4,4 @@ dist
 node-spec.json
 *.blend1
 node-spec.csv
+*.tsbuildinfo

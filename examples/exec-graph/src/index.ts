@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node --experimental-modules
+
 import { promises as fs } from 'node:fs';
 import process from 'node:process';
 

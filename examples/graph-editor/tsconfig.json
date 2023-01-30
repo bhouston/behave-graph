@@ -7,6 +7,7 @@
     "outDir": "./dist",
     "target": "ES2020",
     "module": "ES2020",
+    "lib": ["ES2020", "dom"],
     "sourceMap": true,
     "rootDir": "./src",
     "strict": true,
@@ -16,11 +17,15 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": false,
-    "lib": ["es2019", "dom"],
-    "jsx": "react-jsx"
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "pretty": true,
+    "noImplicitThis": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
-  "exclude": ["**/*.test.ts"],
-  "references": [{ "path": "../core" }]
+  "exclude": ["**/*node_modules", "dist"],
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/flow" }
+  ]
 }

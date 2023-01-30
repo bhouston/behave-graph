@@ -1,11 +1,11 @@
 import {
-  makeFunctionNodeDefinition,
+  makeFunctionDescNodeDefinition,
   NodeCategory,
   SocketsList
 } from '../../../Nodes/NodeDefinitions';
 import { Variable } from '../../../Variables/Variable';
 
-export const VariableGet = makeFunctionNodeDefinition({
+export const VariableGet = makeFunctionDescNodeDefinition({
   typeName: 'variable/get',
   category: NodeCategory.Query,
   label: 'Get',

@@ -1,9 +1,9 @@
-import { makeFunctionNodeDefinition } from '../../../Nodes/NodeDefinitions';
+import { makeFunctionDescNodeDefinition } from '../../../Nodes/NodeDefinitions';
 import { IScene } from '../Abstractions/IScene';
 
 export const GetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>
-    makeFunctionNodeDefinition({
+    makeFunctionDescNodeDefinition({
       typeName: `scene/get${valueTypeName}`,
       in: {
         jsonPath: 'string'

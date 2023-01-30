@@ -1,8 +1,8 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeFunctionDesc } from '../../../Nodes/FunctionNode';
 
 // Unreal Engine Blueprint Time nodes: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Utilities/Time/
 
-export const Now = makeInNOutFunctionDesc({
+export const Now = makeFunctionDesc({
   name: 'time/now',
   label: 'Now',
   out: 'float',

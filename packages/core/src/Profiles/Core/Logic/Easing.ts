@@ -1,10 +1,10 @@
 import { EasingFunctions, EasingModes } from '../../../Easing';
 import {
-  makeFunctionNodeDefinition,
+  makeFunctionDescNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
 
-export const Easing = makeFunctionNodeDefinition({
+export const Easing = makeFunctionDescNodeDefinition({
   typeName: 'math/easing',
   category: NodeCategory.Logic,
   label: 'Easing',

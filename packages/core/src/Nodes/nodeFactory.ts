@@ -85,6 +85,7 @@ export const makeCommonProps = (
   configuration: NodeConfiguration,
   graph: IGraphApi
 ): INode => ({
+  id: typeName, // BEN: This is clearly wrong. I'm not sure what it should be.
   description: {
     typeName: typeName,
     configuration: nodeDefinitionConfiguration || {},

@@ -4,7 +4,7 @@ import { Socket } from '../Sockets/Socket';
 import { Node, NodeConfiguration } from './Node';
 import {
   IFunctionNodeDefinition,
-  makeFunctionNodeDefinition,
+  makeFunctionDescNodeDefinition,
   NodeCategory,
   SocketListDefinition,
   SocketsList
@@ -107,7 +107,7 @@ function makeSocketsList(
   });
 }
 
-export function makeInNOutFunctionDesc({
+export function makeFunctionDesc({
   in: inputs,
   out,
   exec,
@@ -130,7 +130,7 @@ export function makeInNOutFunctionDesc({
   const outList = typeof out === 'string' ? [out] : out;
   const outputSockets = makeSocketsList(outList, outputKeyFunc);
 
-  const definition = makeFunctionNodeDefinition({
+  const definition = makeFunctionDescNodeDefinition({
     typeName: rest.name,
     label: rest.label,
     in: () => inputSockets,

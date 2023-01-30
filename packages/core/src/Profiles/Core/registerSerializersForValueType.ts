@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '../../Nodes/FunctionNode';
+import { makeFunctionDesc } from '../../Nodes/FunctionNode';
 import { IRegistry } from '../../Registry';
 import { toCamelCase } from '../../toCamelCase';
 
@@ -8,14 +8,14 @@ export function registerSerializersForValueType(
 ) {
   const camelCaseValueTypeName = toCamelCase(valueTypeName);
   registry.nodes.register(
-    makeInNOutFunctionDesc({
+    makeFunctionDesc({
       name: `math/to${camelCaseValueTypeName}/string`,
       label: `To ${camelCaseValueTypeName}`,
       in: ['string'],
       out: valueTypeName,
       exec: (a: string) => registry.values.get(valueTypeName).deserialize(a)
     }),
-    makeInNOutFunctionDesc({
+    makeFunctionDesc({
       name: `math/toString/${valueTypeName}`,
       label: 'To String',
       in: [valueTypeName],

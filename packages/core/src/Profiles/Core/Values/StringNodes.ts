@@ -1,5 +1,5 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
-export const Constant = makeInNOutFunctionDesc({
+import { makeFunctionDesc } from '../../../Nodes/FunctionNode';
+export const Constant = makeFunctionDesc({
   name: 'logic/string',
   label: 'String',
   in: ['string'],
@@ -7,7 +7,7 @@ export const Constant = makeInNOutFunctionDesc({
   exec: (a: string) => a
 });
 
-export const Concat = makeInNOutFunctionDesc({
+export const Concat = makeFunctionDesc({
   name: 'logic/concat/string',
   label: 'Concat',
   in: ['string', 'string'],
@@ -15,7 +15,7 @@ export const Concat = makeInNOutFunctionDesc({
   exec: (a: string, b: string) => a.concat(b)
 });
 
-export const Includes = makeInNOutFunctionDesc({
+export const Includes = makeFunctionDesc({
   name: 'logic/includes/string',
   label: 'Includes',
   in: ['string', 'string'],
@@ -23,7 +23,7 @@ export const Includes = makeInNOutFunctionDesc({
   exec: (a: string, b: string) => a.includes(b)
 });
 
-export const Length = makeInNOutFunctionDesc({
+export const Length = makeFunctionDesc({
   name: 'logic/length/string',
   label: 'Length',
   in: ['string'],
@@ -31,7 +31,7 @@ export const Length = makeInNOutFunctionDesc({
   exec: (a: string) => BigInt(a.length)
 });
 
-export const Equal = makeInNOutFunctionDesc({
+export const Equal = makeFunctionDesc({
   name: 'math/equal/string',
   label: '=',
   in: ['string', 'string'],

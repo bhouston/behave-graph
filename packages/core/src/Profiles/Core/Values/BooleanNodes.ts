@@ -1,6 +1,6 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeFunctionDesc } from '../../../Nodes/FunctionNode';
 
-export const Constant = makeInNOutFunctionDesc({
+export const Constant = makeFunctionDesc({
   name: 'math/boolean',
   label: 'Boolean',
   in: ['boolean'],
@@ -8,7 +8,7 @@ export const Constant = makeInNOutFunctionDesc({
   exec: (a: boolean) => a
 });
 
-export const And = makeInNOutFunctionDesc({
+export const And = makeFunctionDesc({
   name: 'math/and/boolean',
   label: '∧',
   in: ['boolean', 'boolean'],
@@ -16,7 +16,7 @@ export const And = makeInNOutFunctionDesc({
   exec: (a: boolean, b: boolean) => a && b
 });
 
-export const Or = makeInNOutFunctionDesc({
+export const Or = makeFunctionDesc({
   name: 'math/or/boolean',
   label: '∨',
   in: ['boolean', 'boolean'],
@@ -24,7 +24,7 @@ export const Or = makeInNOutFunctionDesc({
   exec: (a: boolean, b: boolean) => a || b
 });
 
-export const Not = makeInNOutFunctionDesc({
+export const Not = makeFunctionDesc({
   name: 'math/negate/boolean',
   label: '¬',
   in: ['boolean'],
@@ -32,7 +32,7 @@ export const Not = makeInNOutFunctionDesc({
   exec: (a: boolean) => !a
 });
 
-export const ToFloat = makeInNOutFunctionDesc({
+export const ToFloat = makeFunctionDesc({
   name: 'math/toFloat/boolean',
   label: 'To Float',
   in: ['boolean'],
@@ -40,7 +40,7 @@ export const ToFloat = makeInNOutFunctionDesc({
   exec: (a: boolean) => (a ? 1 : 0)
 });
 
-export const Equal = makeInNOutFunctionDesc({
+export const Equal = makeFunctionDesc({
   name: 'math/equal/boolean',
   label: '=',
   in: ['boolean', 'boolean'],
@@ -48,7 +48,7 @@ export const Equal = makeInNOutFunctionDesc({
   exec: (a: boolean, b: boolean) => a === b
 });
 
-export const toInteger = makeInNOutFunctionDesc({
+export const toInteger = makeFunctionDesc({
   name: 'math/toInteger/boolean',
   label: 'To Integer',
   in: ['boolean'],

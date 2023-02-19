@@ -1,5 +1,7 @@
-name: run jest 
 on: push
+
+name: Run tests
+
 jobs:
   build:
     runs-on: ubuntu-latest

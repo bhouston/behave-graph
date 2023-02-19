@@ -3,7 +3,7 @@ on: push
 name: Run tests
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -32,6 +32,11 @@ jobs:
 
     - name: Link dependencies
       run: npm run dev
+
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: install
 
     - name: Run tests
       run: npm run test

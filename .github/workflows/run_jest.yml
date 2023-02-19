@@ -5,9 +5,9 @@ name: Run tests
 jobs:
   run_tests:
     runs-on: ubuntu-latest
+    uses: ./.github/workflows/install.yaml
 
     steps:
-      - uses: ./.github/workflows/install.yaml
 
       - name: Link dependencies
         run: npm run dev

@@ -1,10 +1,9 @@
-import { NodeConfiguration } from 'packages/core/src/Nodes/Node';
-
 import { Assert } from '../../../Diagnostics/Assert';
 import { CustomEvent } from '../../../Events/CustomEvent';
 import { Engine } from '../../../Execution/Engine';
 import { IGraphApi } from '../../../Graphs/Graph';
 import { EventNode2 } from '../../../Nodes/EventNode';
+import { NodeConfiguration } from '../../../Nodes/Node';
 import {
   NodeDescription,
   NodeDescription2

@@ -1,12 +1,6 @@
 import {
-  DefaultLogger,
   Engine,
-  ManualLifecycleEventEmitter,
   readGraphFromJSON,
-  registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneProfile,
   Registry,
 } from "@behave-graph/core";
 import { useState } from "react";
@@ -21,13 +15,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { LoadModal } from './modals/LoadModal';
+import { Examples, LoadModal } from './modals/LoadModal';
 import { SaveModal } from './modals/SaveModal';
 import { flowToBehave } from "../transformers/flowToBehave";
 import { useReactFlow, Controls, ControlButton } from "reactflow";
 import { sleep } from "../util/sleep";
 
-const CustomControls = () => {
+const CustomControls = ({examples, registry}:{examples: Examples, registry: Registry}) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -35,13 +29,6 @@ const CustomControls = () => {
   const instance = useReactFlow();
 
   const handleRun = async () => {
-    const registry = new Registry();
-    const logger = new DefaultLogger();
-    const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-    registerCoreProfile(registry);
-    registerSceneProfile(registry);
-    registerLogger(registry.dependencies, logger);
-    registerLifecycleEventEmitter(registry.dependencies, manualLifecycleEventEmitter)
     
     const nodes = instance.getNodes();
     const edges = instance.getEdges();
@@ -91,7 +78,7 @@ const CustomControls = () => {
           <FontAwesomeIcon icon={faPlay} />
         </ControlButton>
       </Controls>
-      <LoadModal open={loadModalOpen} onClose={() => setLoadModalOpen(false)} />
+      <LoadModal open={loadModalOpen} onClose={() => setLoadModalOpen(false)} examples={examples} />
       <SaveModal open={saveModalOpen} onClose={() => setSaveModalOpen(false)} />
       <HelpModal open={helpModalOpen} onClose={() => setHelpModalOpen(false)} />
       <ClearModal

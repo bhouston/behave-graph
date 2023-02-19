@@ -23,9 +23,9 @@ import { useNodeSpecJson } from "../hooks/useNodeSpecJson";
 type FlowProps = {
   graph: GraphJSON
   examples: Examples
-}
+};
 
-export const Flow: FC<FlowProps> = ({ graph }) => {
+export const Flow: FC<FlowProps> = ({ graph, examples,  }) => {
   const [nodePickerVisibility, setNodePickerVisibility] =
     useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] =
@@ -36,8 +36,8 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
-  const registry = useRegistry();
-  const nodeSpecJson = useNodeSpecJson(registry);
+  const {registry, logger, manualLifecycleEventEmitter} = useRegistry();
+  const nodeSpecJson = useNodeSpecJson({registry});
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -142,7 +142,11 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <CustomControls />
+      <CustomControls 
+        examples={examples} 
+        manualLifecycleEventEmitter={manualLifecycleEventEmitter} 
+        registry={registry} 
+      />
       <Background
         variant={BackgroundVariant.Lines}
         color="#2a2b2d"

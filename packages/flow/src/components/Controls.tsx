@@ -1,5 +1,6 @@
 import {
   Engine,
+  ManualLifecycleEventEmitter,
   readGraphFromJSON,
   Registry,
 } from "@behave-graph/core";
@@ -21,7 +22,9 @@ import { flowToBehave } from "../transformers/flowToBehave";
 import { useReactFlow, Controls, ControlButton } from "reactflow";
 import { sleep } from "../util/sleep";
 
-const CustomControls = ({examples, registry}:{examples: Examples, registry: Registry}) => {
+export type CustomControlsProps = {examples: Examples, registry: Registry, manualLifecycleEventEmitter: ManualLifecycleEventEmitter};
+
+const CustomControls = ({examples, registry, manualLifecycleEventEmitter}: CustomControlsProps) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);

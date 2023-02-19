@@ -69,7 +69,8 @@
     "examples/exec-graph",
     "examples/export-node-spec",
     "examples/graph-editor",
-    "examples/three-viewer"
+    "examples/three-viewer",
+    "website"
   ],
   "preconstruct": {
     "packages": [

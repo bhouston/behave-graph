@@ -1,10 +1,10 @@
-import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecJSON';
-import { Node } from '../../../../packages/core/src/Nodes/Node';
+import { INode, NodeSpecJSON } from '@behave-graph/core';
+
 import inputsTemplate from './inputs';
 import outputsTemplate from './outputs';
 
 const buildPage = (
-  node: Node,
+  node: INode,
   specJSON: NodeSpecJSON,
   displayDynamicInputsOutputsLegend: boolean
 ) => `
@@ -28,7 +28,7 @@ ${displayDynamicInputsOutputsLegend ? '*: Dynamic I/O' : ''}
 
 `;
 
-export default (node: Node, specJSON: NodeSpecJSON) => {
+export default (node: INode, specJSON: NodeSpecJSON) => {
   const hasVariableInputs =
     node.inputs.some((i) => i.name === '1') &&
     node.inputs.length !== specJSON.inputs.length;

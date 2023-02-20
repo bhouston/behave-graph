@@ -1,4 +1,5 @@
 import {
+  Dependencies,
   IRegistry,
   NodeSpecJSON,
   writeNodeSpecsToJSON
@@ -6,19 +7,21 @@ import {
 import { useEffect, useState } from 'react';
 
 export const useNodeSpecJson = ({
-  registry
+  registry,
+  dependencies
 }: {
   registry: IRegistry | undefined;
+  dependencies: Dependencies | undefined;
 }) => {
   const [specJson, setSpecJson] = useState<NodeSpecJSON[]>();
 
   useEffect(() => {
-    if (!registry) {
+    if (!registry || !dependencies) {
       setSpecJson(undefined);
       return;
     }
-    setSpecJson(writeNodeSpecsToJSON(registry));
-  }, [registry]);
+    setSpecJson(writeNodeSpecsToJSON({ registry, dependencies }));
+  }, [registry, dependencies]);
 
   return specJson;
 };

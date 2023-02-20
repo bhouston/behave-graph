@@ -3,7 +3,10 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "declaration": false,
-    "emitDeclarationOnly": false
+    "emitDeclarationOnly": false,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["./src"]
 }

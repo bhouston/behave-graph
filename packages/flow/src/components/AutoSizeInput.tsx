@@ -48,9 +48,11 @@ export const AutoSizeInput: FC<AutoSizeInputProps> = ({
     if (measureRef.current === null) return;
     if (inputRef.current === null) return;
 
-    const width = measureRef.current.clientWidth;
+    const padding = props.type === 'number' || props.type === 'float' ? 20 : 0
+
+    const width = measureRef.current.clientWidth + padding;
     inputRef.current.style.width = Math.max(minWidth, width) + "px";
-  }, [props.value, minWidth, styles]);
+  }, [props.value, minWidth, styles, props.type]);
 
   return (
     <>

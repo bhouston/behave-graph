@@ -12,7 +12,7 @@ import * as frameCounterJson from '../../../../../graphs/core/variables/FrameCou
 import * as initialValueJson from '../../../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../../../graphs/core/variables/SetGet.json';
 import { Logger } from '../../Diagnostics/Logger';
-import { Graph } from '../../Graphs/Graph';
+import { GraphInstance } from '../../Graphs/Graph';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';
@@ -45,15 +45,19 @@ for (const key in exampleMap) {
   describe(`${key}`, () => {
     const exampleJson = exampleMap[key] as GraphJSON;
 
-    let parsedGraphJson: Graph | undefined;
+    let parsedGraphJson: GraphInstance | undefined;
     test('parse json to graph', () => {
       expect(() => {
-        parsedGraphJson = readGraphFromJSON(exampleJson, registry);
+        parsedGraphJson = readGraphFromJSON({
+          graphJson: exampleJson,
+          registry,
+          dependencies: {}
+        });
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {
-        expect(validateGraphLinks(parsedGraphJson)).toHaveLength(0);
-        expect(validateGraphAcyclic(parsedGraphJson)).toHaveLength(0);
+        expect(validateGraphLinks(parsedGraphJson.nodes)).toHaveLength(0);
+        expect(validateGraphAcyclic(parsedGraphJson.nodes)).toHaveLength(0);
       } else {
         expect(parsedGraphJson).toBeDefined();
       }

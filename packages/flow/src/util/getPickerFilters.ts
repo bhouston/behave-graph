@@ -1,25 +1,26 @@
+import { NodeSpecJSON } from '@behave-graph/core';
 import { Node, OnConnectStartParams } from 'reactflow';
 
 import { NodePickerFilters } from '../components/NodePicker';
-import { getNodeSpecJSON } from './getNodeSpecJSON';
 import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
-
-const specJSON = getNodeSpecJSON();
 
 export const getNodePickerFilters = (
   nodes: Node[],
-  params: OnConnectStartParams | undefined
+  params: OnConnectStartParams | undefined,
+  specJSON: NodeSpecJSON[] | undefined
 ): NodePickerFilters | undefined => {
   if (params === undefined) return;
 
   const originNode = nodes.find((node) => node.id === params.nodeId);
   if (originNode === undefined) return;
 
-  const sockets = getSocketsByNodeTypeAndHandleType(
-    specJSON,
-    originNode.type,
-    params.handleType
-  );
+  const sockets = specJSON
+    ? getSocketsByNodeTypeAndHandleType(
+        specJSON,
+        originNode.type,
+        params.handleType
+      )
+    : undefined;
 
   const socket = sockets?.find((socket) => socket.name === params.handleId);
 

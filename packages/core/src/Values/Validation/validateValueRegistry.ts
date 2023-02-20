@@ -1,8 +1,8 @@
-import { Registry } from '../../Registry';
+import { IRegistry } from '../../Registry';
 
 const valueTypeNameRegex = /^\w+$/;
 
-export function validateValueRegistry(graphRegistry: Registry): string[] {
+export function validateValueRegistry(graphRegistry: IRegistry): string[] {
   const errorList: string[] = [];
 
   graphRegistry.values.getAllNames().forEach((valueTypeName) => {

@@ -3,10 +3,20 @@ import { CustomEvent } from '../../Events/CustomEvent';
 import { Link } from '../../Nodes/Link';
 import { NodeConfiguration } from '../../Nodes/Node';
 import { INode } from '../../Nodes/NodeInstance';
-import { Registry } from '../../Registry';
+import { Dependencies } from '../../Nodes/Registry/DependenciesRegistry';
+import { IRegistry } from '../../Registry';
 import { Socket } from '../../Sockets/Socket';
+import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
 import { Variable } from '../../Variables/Variable';
-import { Graph } from '../Graph';
+import {
+  createNode,
+  GraphCustomEvents,
+  GraphInstance,
+  GraphNodes,
+  GraphVariables,
+  IGraphApi,
+  makeGraphApi
+} from '../Graph';
 import {
   CustomEventJSON,
   FlowsJSON,
@@ -18,20 +28,34 @@ import {
 
 // Purpose:
 //  - loads a node graph
-export function readGraphFromJSON(
-  graphJson: GraphJSON,
-  registry: Registry
-): Graph {
-  const graph = new Graph(registry);
+export function readGraphFromJSON({
+  graphJson,
+  registry,
+  dependencies
+}: {
+  graphJson: GraphJSON;
+  registry: IRegistry;
+  dependencies: Dependencies;
+}): GraphInstance {
+  const graphName = graphJson?.name || '';
+  const graphMetadata = graphJson?.metadata || {};
 
-  graph.name = graphJson?.name ?? graph.name;
-  graph.metadata = graphJson?.metadata ?? graph.metadata;
+  let variables: GraphVariables = {};
+  let customEvents: GraphCustomEvents = {};
+
+  const { values: valuesTypeRegistry } = registry;
 
   if ('variables' in graphJson) {
-    readVariablesJSON(graph, graphJson.variables ?? []);
+    variables = readVariablesJSON(
+      valuesTypeRegistry,
+      graphJson.variables ?? []
+    );
   }
   if ('customEvents' in graphJson) {
-    readCustomEventsJSON(graph, graphJson.customEvents ?? []);
+    customEvents = readCustomEventsJSON(
+      valuesTypeRegistry,
+      graphJson.customEvents ?? []
+    );
   }
 
   const nodesJson = graphJson?.nodes ?? [];
@@ -40,24 +64,41 @@ export function readGraphFromJSON(
     Logger.warn('readGraphFromJSON: no nodes specified');
   }
 
+  const graphApi = makeGraphApi({
+    valuesTypeRegistry,
+    variables,
+    customEvents,
+    dependencies
+  });
+
+  const nodes: GraphNodes = {};
   // create new BehaviorNode instances for each node in the json.
   for (let i = 0; i < nodesJson.length; i += 1) {
     const nodeJson = nodesJson[i];
-    readNodeJSON(graph, nodeJson);
+    const node = readNodeJSON({ graph: graphApi, registry, nodeJson });
+    const id = nodeJson.id;
+
+    if (id in nodes) {
+      throw new Error(
+        `can not create new node with id ${id} as one with that id already exists.`
+      );
+    }
+
+    nodes[id] = node;
   }
 
   // connect up the graph edges from BehaviorNode inputs to outputs.  This is required to follow execution
-  Object.entries(graph.nodes).forEach(([nodeId, node]) => {
+  Object.entries(nodes).forEach(([nodeId, node]) => {
     // initialize the inputs by resolving to the reference nodes.
     node.inputs.forEach((inputSocket) => {
       inputSocket.links.forEach((link) => {
-        if (!(link.nodeId in graph.nodes)) {
+        if (!(link.nodeId in nodes)) {
           throw new Error(
             `node '${node.description.typeName}' specifies an input '${inputSocket.name}' whose link goes to ` +
               `a nonexistent upstream node id: ${link.nodeId}`
           );
         }
-        const upstreamNode = graph.nodes[link.nodeId];
+        const upstreamNode = nodes[link.nodeId];
         const upstreamOutputSocket = upstreamNode.outputs.find(
           (socket) => socket.name === link.socketName
         );
@@ -84,14 +125,14 @@ export function readGraphFromJSON(
 
     node.outputs.forEach((outputSocket) => {
       outputSocket.links.forEach((link) => {
-        if (!(link.nodeId in graph.nodes)) {
+        if (!(link.nodeId in nodes)) {
           throw new Error(
             `node '${node.description.typeName}' specifies an output '${outputSocket.name}' whose link goes to ` +
               `a nonexistent downstream node id ${link.nodeId}`
           );
         }
 
-        const downstreamNode = graph.nodes[link.nodeId];
+        const downstreamNode = nodes[link.nodeId];
         const downstreamInputSocket = downstreamNode.inputs.find(
           (socket) => socket.name === link.socketName
         );
@@ -117,10 +158,24 @@ export function readGraphFromJSON(
     });
   });
 
-  return graph;
+  return {
+    name: graphName,
+    metadata: graphMetadata,
+    nodes: nodes,
+    customEvents,
+    variables
+  };
 }
 
-function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
+function readNodeJSON({
+  graph,
+  registry,
+  nodeJson
+}: {
+  graph: IGraphApi;
+  registry: IRegistry;
+  nodeJson: NodeJSON;
+}) {
   if (nodeJson.type === undefined) {
     throw new Error('readGraphFromJSON: no type for node');
   }
@@ -133,21 +188,29 @@ function readNodeJSON(graph: Graph, nodeJson: NodeJSON) {
     });
   }
 
-  const node = graph.createNode(nodeName, nodeJson.id, nodeConfiguration);
+  const node = createNode({
+    graph,
+    registry,
+    nodeTypeName: nodeName,
+    nodeId: nodeJson.id,
+    nodeConfiguration
+  });
 
   node.label = nodeJson?.label ?? node.label;
   node.metadata = nodeJson?.metadata ?? node.metadata;
 
   if (nodeJson.parameters !== undefined) {
-    readNodeParameterJSON(graph, node, nodeJson.parameters);
+    readNodeParameterJSON(registry.values, node, nodeJson.parameters);
   }
   if (nodeJson.flows !== undefined) {
-    readNodeFlowsJSON(graph, node, nodeJson.flows);
+    readNodeFlowsJSON(node, nodeJson.flows);
   }
+
+  return node;
 }
 
 function readNodeParameterJSON(
-  graph: Graph,
+  valuesRegistry: IRegistry['values'],
   node: INode,
   parametersJson: NodeParametersJSON
 ) {
@@ -159,7 +222,7 @@ function readNodeParameterJSON(
     const inputJson = parametersJson[socket.name];
     if ('value' in inputJson) {
       // eslint-disable-next-line no-param-reassign
-      socket.value = graph.registry.values
+      socket.value = valuesRegistry
         .get(socket.valueTypeName)
         .deserialize(inputJson.value);
     }
@@ -185,7 +248,7 @@ function readNodeParameterJSON(
   }
 }
 
-function readNodeFlowsJSON(graph: Graph, node: INode, flowsJson: FlowsJSON) {
+function readNodeFlowsJSON(node: INode, flowsJson: FlowsJSON) {
   node.outputs.forEach((socket) => {
     if (socket.name in flowsJson) {
       const outputLinkJson = flowsJson[socket.name];
@@ -210,7 +273,11 @@ function readNodeFlowsJSON(graph: Graph, node: INode, flowsJson: FlowsJSON) {
   }
 }
 
-function readVariablesJSON(graph: Graph, variablesJson: VariableJSON[]) {
+function readVariablesJSON(
+  valuesRegistry: ValueTypeRegistry,
+  variablesJson: VariableJSON[]
+) {
+  const variables: GraphVariables = {};
   for (let i = 0; i < variablesJson.length; i += 1) {
     const variableJson = variablesJson[i];
 
@@ -218,24 +285,28 @@ function readVariablesJSON(graph: Graph, variablesJson: VariableJSON[]) {
       variableJson.id,
       variableJson.name,
       variableJson.valueTypeName,
-      graph.registry.values
+      valuesRegistry
         .get(variableJson.valueTypeName)
         .deserialize(variableJson.initialValue)
     );
     variable.label = variableJson?.label ?? variable.label;
     variable.metadata = variableJson?.metadata ?? variable.metadata;
 
-    if (variableJson.id in graph.variables) {
+    if (variableJson.id in variables) {
       throw new Error(`duplicate variable id ${variable.id}`);
     }
-    graph.variables[variableJson.id] = variable;
+    variables[variableJson.id] = variable;
   }
+
+  return variables;
 }
 
 function readCustomEventsJSON(
-  graph: Graph,
+  valuesRegistry: ValueTypeRegistry,
   customEventsJson: CustomEventJSON[]
 ) {
+  const customEvents: GraphCustomEvents = {};
+
   for (let i = 0; i < customEventsJson.length; i += 1) {
     const customEventJson = customEventsJson[i];
 
@@ -245,7 +316,7 @@ function readCustomEventsJSON(
         new Socket(
           parameterJson.valueTypeName,
           parameterJson.name,
-          graph.registry.values
+          valuesRegistry
             .get(parameterJson.valueTypeName)
             .deserialize(parameterJson.defaultValue)
         )
@@ -260,9 +331,11 @@ function readCustomEventsJSON(
     customEvent.label = customEventJson?.label ?? customEvent.label;
     customEvent.metadata = customEventJson?.metadata ?? customEvent.metadata;
 
-    if (customEvent.id in graph.customEvents) {
+    if (customEvent.id in customEvents) {
       throw new Error(`duplicate variable id ${customEvent.id}`);
     }
-    graph.customEvents[customEvent.id] = customEvent;
+    customEvents[customEvent.id] = customEvent;
   }
+
+  return customEvents;
 }

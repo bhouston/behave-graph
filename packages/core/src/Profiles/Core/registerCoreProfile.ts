@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { DependenciesRegistry } from '../../Nodes/Registry/DependenciesRegistry';
+
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
 import { IRegistry } from '../../Registry';
 import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
@@ -30,7 +30,7 @@ import {
 } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
 import { Easing } from './Logic/Easing';
-import { registerSerializersForValueType } from './registerSerializersForValueType';
+import { registerSerializersForValueType } from '../registerSerializersForValueType';
 import { Delay } from './Time/Delay';
 import * as TimeNodes from './Time/TimeNodes';
 import * as BooleanNodes from './Values/BooleanNodes';
@@ -44,19 +44,16 @@ import { StringValue } from './Values/StringValue';
 import { VariableGet } from './Variables/VariableGet';
 import { VariableSet } from './Variables/VariableSet';
 
-export function registerLogger(
-  registry: DependenciesRegistry,
-  logger: ILogger
-) {
-  registry.register(loggerDependencyKey, logger);
-}
-
-export function registerLifecycleEventEmitter(
-  registry: DependenciesRegistry,
-  emitter: ILifecycleEventEmitter
-) {
-  registry.register(lifecycleEventEmitterDependencyKey, emitter);
-}
+export const makeCoreDependencies = ({
+  lifecyleEmitter,
+  logger
+}: {
+  lifecyleEmitter: ILifecycleEventEmitter;
+  logger: ILogger;
+}) => ({
+  [lifecycleEventEmitterDependencyKey]: lifecyleEmitter,
+  [loggerDependencyKey]: logger
+});
 
 export function registerCoreValueTypes(values: ValueTypeRegistry) {
   // pull in value type nodes
@@ -66,9 +63,7 @@ export function registerCoreValueTypes(values: ValueTypeRegistry) {
   values.register(FloatValue);
 }
 
-export function registerCoreProfile(
-  registry: Pick<IRegistry, 'nodes' | 'values'>
-) {
+export function registerCoreProfile(registry: IRegistry) {
   const { nodes, values } = registry;
 
   registerCoreValueTypes(values);

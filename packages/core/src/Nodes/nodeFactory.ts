@@ -4,29 +4,35 @@ import { NodeConfiguration } from './Node';
 import {
   INodeDefinition,
   NodeCategory,
+  SocketDefinition,
   SocketsDefinition,
   SocketsList,
   SocketsMap
 } from './NodeDefinitions';
 import { INode, NodeType } from './NodeInstance';
 
+const makeSocketFromDefinition = (
+  key: string,
+  { valueType, defaultValue, choices }: SocketDefinition
+) => new Socket(valueType, key as string, defaultValue, undefined, choices);
+
 const makeSocketsFromMap = <TSockets extends SocketsMap>(
   socketConfig: TSockets,
-  keys: (keyof TSockets)[]
+  keys: (keyof TSockets)[],
+  configuration: NodeConfiguration,
+  graphApi: IGraphApi
 ): Socket[] => {
   return keys.map((key) => {
     const definition = socketConfig[key];
     if (typeof definition === 'string') {
       return new Socket(definition, key as string);
     }
-    const { valueType, defaultValue, choices } = definition;
-    return new Socket(
-      valueType,
-      key as string,
-      defaultValue,
-      undefined,
-      choices
-    );
+    if (typeof definition === 'function') {
+      const socketDef = definition(configuration, graphApi);
+
+      return makeSocketFromDefinition(key as string, socketDef);
+    }
+    return makeSocketFromDefinition(key as string, definition);
   });
 };
 
@@ -56,7 +62,9 @@ export function makeOrGenerateSockets(
 
   return makeSocketsFromMap(
     socketConfigOrFactory,
-    Object.keys(socketConfigOrFactory)
+    Object.keys(socketConfigOrFactory),
+    nodeConfig,
+    graph
   );
 }
 

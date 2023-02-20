@@ -1,14 +1,13 @@
+import { NodeSpecJSON } from '@behave-graph/core';
 import { Connection, ReactFlowInstance } from 'reactflow';
 
-import { getNodeSpecJSON } from './getNodeSpecJSON';
 import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
 import { isHandleConnected } from './isHandleConnected';
 
-const specJSON = getNodeSpecJSON();
-
 export const isValidConnection = (
   connection: Connection,
-  instance: ReactFlowInstance
+  instance: ReactFlowInstance,
+  specJSON: NodeSpecJSON[]
 ) => {
   if (connection.source === null || connection.target === null) return false;
 

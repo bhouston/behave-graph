@@ -17,6 +17,6 @@
     "jsx": "react",
     "outDir": "./dist"
   },
-  "include": ["packages/core/src", "packages/flow/src"],
+  "include": ["packages/core/src", "packages/flow/src", "packages/scene/src"],
   "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],
 }

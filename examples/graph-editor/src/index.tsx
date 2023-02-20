@@ -30,6 +30,6 @@ const examples: Examples = {
 
 root.render(
   <React.StrictMode>
-    <Flow graph={graph} examples={examples}/>
+    <Flow initialGraph={graph} examples={examples} />
   </React.StrictMode>
 );

@@ -1,25 +1,23 @@
 /* eslint-disable no-param-reassign */
 import {
+  createRegistry,
+  createSceneDependency,
   DefaultLogger,
+  Dependencies,
   Engine,
+  loadGltfAndBuildScene,
   Logger,
+  makeCoreDependencies,
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
   registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneDependency,
   registerSceneProfile,
-  Registry,
   validateGraph,
   validateRegistry
 } from '@behave-graph/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-
-import { ThreeScene } from './ThreeScene.js';
 
 let camera: THREE.PerspectiveCamera | null = null;
 let scene: THREE.Scene | null = null;
@@ -43,41 +41,26 @@ function onWindowResize() {
 }
 
 const publicImageUrl = (path: string) => new URL(path, import.meta.url).href;
-//
-
-async function loadThreeScene() {
-  const gltfPromise = new GLTFLoader()
-    .setPath(publicImageUrl('/graphs/scene/actions/'))
-    .loadAsync('SpinningSuzanne.gltf');
-
-  const gltf = await gltfPromise;
-
-  const glTFJsonPath = publicImageUrl(
-    '/graphs/scene/actions/SpinningSuzanne.gltf'
-  );
-  const glTFFetchResponse = await fetch(glTFJsonPath);
-
-  const glTFJson = await glTFFetchResponse.json();
-
-  const threeScene = new ThreeScene(gltf.scene, glTFJson);
-
-  return { threeScene, gltf };
-}
 
 async function main() {
-  const registry = new Registry();
+  const registry = createRegistry();
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const { threeScene, gltf } = await loadThreeScene();
+  debugger;
+  const { scene: threeScene, gltf } = await loadGltfAndBuildScene(
+    '/graphs/scene/actions/SpinningSuzanne.gltf'
+  );
 
   registerCoreProfile(registry);
   registerSceneProfile(registry);
-  registerLogger(registry.dependencies, logger);
-  registerLifecycleEventEmitter(
-    registry.dependencies,
-    manualLifecycleEventEmitter
-  );
+  const dependencies: Dependencies = {
+    ...makeCoreDependencies({
+      lifecyleEmitter: manualLifecycleEventEmitter,
+      logger
+    }),
+    ...createSceneDependency(threeScene)
+  };
 
   const graphJsonPath = publicImageUrl(
     `/graphs/scene/actions/SpinningSuzanne.json`
@@ -89,8 +72,7 @@ async function main() {
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const graphFetchResponse = await fetch(graphJsonPath);
   const graphJson = await graphFetchResponse.json();
-  registerSceneDependency(registry.dependencies, threeScene);
-  const graph = readGraphFromJSON(graphJson, registry);
+  const graph = readGraphFromJSON({ graphJson, registry, dependencies });
   graph.name = graphJsonPath;
 
   // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
@@ -142,7 +124,7 @@ async function main() {
 
   localScene.add(gltf.scene);
 
-  threeScene.onSceneChanged.addListener(() => {
+  threeScene.addOnSceneChangedListener(() => {
     render();
   });
 
@@ -158,7 +140,7 @@ async function main() {
   window.addEventListener('resize', onWindowResize);
 
   Logger.verbose('creating behavior graph');
-  const engine = new Engine(graph);
+  const engine = new Engine(graph.nodes);
   //engine.onNodeEvaluation.addListener(traceToLogger);
 
   Logger.verbose('initialize graph');

@@ -1,6 +1,6 @@
 import { IHasNodeFactory, INodeDefinition } from '../NodeDefinitions';
 
-type NodeDefinition = IHasNodeFactory &
+export type NodeDefinition = IHasNodeFactory &
   Pick<INodeDefinition, 'typeName' | 'otherTypeNames'>;
 
 export class NodeTypeRegistry {

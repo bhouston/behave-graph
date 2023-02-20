@@ -3,6 +3,7 @@ import { generateUuid } from '../generateUuid';
 import { Metadata } from '../Metadata';
 import { NodeConfiguration } from '../Nodes/Node';
 import { INode } from '../Nodes/NodeInstance';
+import { NodeDefinition } from '../Nodes/Registry/NodeTypeRegistry';
 import { IRegistry, Registry } from '../Registry';
 import { Variable } from '../Variables/Variable';
 // Purpose:
@@ -48,7 +49,7 @@ export class Graph {
       );
     }
 
-    let nodeDefinition = undefined;
+    let nodeDefinition: NodeDefinition | undefined = undefined;
     if (this.registry.nodes.contains(nodeTypeName)) {
       nodeDefinition = this.registry.nodes.get(nodeTypeName);
     }
@@ -60,8 +61,6 @@ export class Graph {
 
     const graph = this.makeApi();
     const node = nodeDefinition.nodeFactory(graph, nodeConfiguration);
-
-    node.id = nodeId;
 
     this.nodes[nodeId] = node;
 

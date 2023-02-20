@@ -9,7 +9,6 @@ export type NodeConfiguration = {
 };
 
 export abstract class Node<TNodeType extends NodeType> implements INode {
-  public id = '';
   public readonly inputs: Socket[];
   public readonly outputs: Socket[];
   public readonly description: INodeDescription;

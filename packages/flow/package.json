@@ -1,10 +1,10 @@
 {
-  "name": "@behave-graph/flow",
-  "version": "0.0.2",
+  "name": "@oveddan-behave-graph/flow",
+  "version": "0.10.2",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-flow.cjs.js",
-  "module": "dist/behave-graph-flow.esm.js",
-  "types": "dist/behave-graph-flow.cjs.d.ts",
+  "main": "dist/oveddan-behave-graph-flow.cjs.js",
+  "module": "dist/oveddan-behave-graph-flow.esm.js",
+  "types": "dist/oveddan-behave-graph-flow.cjs.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [
@@ -58,7 +58,7 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "@behave-graph/core": "*",
+    "@oveddan-behave-graph/core": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reactflow": "^11.1.1"

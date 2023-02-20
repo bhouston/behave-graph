@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@behave-graph/core": ["../../node_modules/@oveddan-behave-graph/core"],
     }
   },
   "include": ["./src"]

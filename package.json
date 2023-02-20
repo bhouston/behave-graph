@@ -25,6 +25,7 @@
     "@preconstruct/cli": "^2.2.2",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.43.0",
+    "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -60,8 +61,8 @@
     "build-three-viewer": "npm run build && npm run build --workspace=@behave-graph/examples-three-viewer",
     "graph-editor": "npm run build && npm run start --workspace=examples/graph-editor",
     "changeset:add": "changeset add",
-    "vers": "npm run changeset version",
-    "release": "npm run build && npm run changeset publish"
+    "vers": "changeset version",
+    "release": "yarn build && changeset publish"
   },
   "workspaces": [
     "packages/core",

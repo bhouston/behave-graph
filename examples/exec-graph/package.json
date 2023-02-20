@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "source": "src/index.ts",
   "type": "module",
+  "private": true,
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w",
@@ -19,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@behave-graph/core": "*",
+    "@oveddan-behave-graph/core": "*",
     "commander": "^9.4.1",
     "glob": "^8.0.3"
   }

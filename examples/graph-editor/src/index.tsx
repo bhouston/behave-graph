@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Examples, Flow } from "@behave-graph/flow";
-import { GraphJSON } from "@behave-graph/core";
+import { Examples, Flow } from "@oveddan-behave-graph/flow";
+import { GraphJSON } from "@oveddan-behave-graph/core";
 import rawGraph from "./graph.json"
 
 import "reactflow/dist/style.css";

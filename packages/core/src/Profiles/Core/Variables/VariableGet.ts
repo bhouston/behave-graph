@@ -22,10 +22,6 @@ export const VariableGet = makeFunctionNodeDefinition({
 
     const result: SocketsList = [
       {
-        key: 'flow',
-        valueType: 'flow'
-      },
-      {
         key: 'value',
         valueType: variable.valueTypeName,
         label: variable.name

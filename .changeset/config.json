@@ -12,6 +12,7 @@
     "@behave-graph/examples-export-node-spec",
     "@behave-graph/examples-graph-editor",
     "@behave-graph/examples-three-viewer",
+    "@behave-graph/examples-three-graph-editor",
     "@behave-graph/website"
   ]
 }

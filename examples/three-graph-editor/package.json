@@ -2,6 +2,7 @@
   "name": "@behave-graph/examples-three-graph-editor",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "directories": {
     "lib": "src"
   },

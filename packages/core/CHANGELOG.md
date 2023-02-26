@@ -1,5 +1,11 @@
 # @oveddan-behave-graph/core
 
+## 0.11.0
+
+### Minor Changes
+
+- Implenented flow hooks and three-graph-editor integration
+
 ## 0.10.0
 
 ### Minor Changes

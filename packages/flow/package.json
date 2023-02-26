@@ -1,6 +1,6 @@
 {
   "name": "@oveddan-behave-graph/flow",
-  "version": "0.10.2",
+  "version": "1.0.0",
   "source": "src/index.ts",
   "main": "dist/oveddan-behave-graph-flow.cjs.js",
   "module": "dist/oveddan-behave-graph-flow.esm.js",

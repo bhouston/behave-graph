@@ -1,4 +1,4 @@
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON } from '@oveddan-behave-graph/core';
 
 export const exampleBehaveGraphFileUrl = (fileName: string) =>
   publicUrl(`/examples/graphs/${fileName}`);

@@ -2,12 +2,13 @@
   "name": "@behave-graph/examples-graph-editor",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "directories": {
     "lib": "src"
   },
   "dependencies": {
-    "@behave-graph/core": "*",
-    "@behave-graph/flow": "*",
+    "@oveddan-behave-graph/core": "*",
+    "@oveddan-behave-graph/flow": "*",
     "react": "^18.2.0",
     "reactflow": "^11.3.2",
     "three": "^0.145.0"

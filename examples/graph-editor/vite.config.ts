@@ -19,5 +19,10 @@ export default defineConfig({
     esbuildOptions: {
       target: 'es2020'
     }
+  },
+  resolve: {
+    alias: {
+      '@behave-graph/core': '@oveddan-behave-graph/core'
+    }
   }
 });

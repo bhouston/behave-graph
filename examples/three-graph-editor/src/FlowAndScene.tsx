@@ -9,7 +9,7 @@ import SplitEditor from './SplitEditor';
 import { examplePairs } from './components/LoadModal';
 import {
   createSceneDependency,
-} from '@behave-graph/scene';
+} from '@oveddan-behave-graph/scene';
 
 import { useScene } from './scene/useScene';
 import {
@@ -22,7 +22,7 @@ import {
   useMergeDependencies,
   useDependency,
   useCoreRegistry
-} from '@behave-graph/flow';
+} from '@oveddan-behave-graph/flow';
 import { suspend } from 'suspend-react';
 import {
   exampleBehaveGraphFileUrl,

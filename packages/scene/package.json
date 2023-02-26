@@ -1,10 +1,10 @@
 {
-  "name": "@behave-graph/scene",
-  "version": "0.9.12",
+  "name": "@oveddan-behave-graph/scene",
+  "version": "0.10.21",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-scene.cjs.js",
-  "module": "dist/behave-graph-scene.esm.js",
-  "types": "dist/behave-graph-scene.cjs.d.ts",
+  "main": "dist/oveddan-behave-graph-scene.cjs.js",
+  "module": "dist/oveddan-behave-graph-scene.esm.js",
+  "types": "dist/oveddan-behave-graph-scene.cjs.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [
@@ -41,12 +41,12 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@behave-graph/core": "*",
-    "@types/three": "^0.144.0",
+    "@oveddan-behave-graph/core": "*",
     "three": "^0.144.0",
+    "@types/three": "^0.144.0",
     "three-stdlib": "^2.21.8"
   },
-  "dependencies": {
-    "three": "^0.149.0"
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -11,5 +11,12 @@
     ],
     "@babel/preset-typescript"
   ],
-  "babelrcRoots": [".", "packages/*"]
+  "babelrcRoots": [".", "packages/*"],
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "@behave-graph/core": "@oveddan-behave-graph/core"
+      }
+    }]
+  ]
 }

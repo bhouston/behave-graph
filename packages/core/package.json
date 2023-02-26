@@ -1,10 +1,10 @@
 {
-  "name": "@behave-graph/core",
-  "version": "0.9.12",
+  "name": "@oveddan-behave-graph/core",
+  "version": "0.10.2",
   "source": "src/index.ts",
-  "main": "dist/behave-graph-core.cjs.js",
-  "module": "dist/behave-graph-core.esm.js",
-  "types": "dist/behave-graph-core.cjs.d.ts",
+  "main": "dist/oveddan-behave-graph-core.cjs.js",
+  "module": "dist/oveddan-behave-graph-core.esm.js",
+  "types": "dist/oveddan-behave-graph-core.cjs.d.ts",
   "sideEffects": false,
   "preconstruct": {
     "entrypoints": [
@@ -40,5 +40,8 @@
   "license": "ISC",
   "dependencies": {
     "three-stdlib": "^2.21.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

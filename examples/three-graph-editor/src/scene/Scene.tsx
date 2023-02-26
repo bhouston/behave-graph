@@ -5,7 +5,7 @@ import { Mesh, Object3D } from 'three';
 import { GLTF } from 'three-stdlib';
 import ToggleAnimations from './ToggleAnimations';
 import { AnimationsState } from './useScene';
-import { OnClickListener, OnClickListeners } from '@behave-graph/scene'
+import { OnClickListener, OnClickListeners } from '@oveddan-behave-graph/scene'
 
 const RegisterOnClickListenersOnElements = ({
   jsonPath,

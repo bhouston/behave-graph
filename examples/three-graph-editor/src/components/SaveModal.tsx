@@ -1,4 +1,4 @@
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON } from '@oveddan-behave-graph/core';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Modal } from './Modal';
 

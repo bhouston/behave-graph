@@ -1,4 +1,4 @@
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON } from '@oveddan-behave-graph/core';
 import { useLoader } from '@react-three/fiber';
 import { useCallback, useState } from 'react';
 import { suspend } from 'suspend-react';

@@ -6,9 +6,9 @@
     "lib": "src"
   },
   "dependencies": {
-    "@behave-graph/core": "*",
-    "@behave-graph/flow": "*",
-    "@behave-graph/scene": "*",
+    "@oveddan-behave-graph/core": "*",
+    "@oveddan-behave-graph/flow": "*",
+    "@oveddan-behave-graph/scene": "*",
     "@headlessui/react": "^1.7.7",
     "@react-three/drei": "^9.51.3",
     "@react-three/fiber": "^8.10.0",

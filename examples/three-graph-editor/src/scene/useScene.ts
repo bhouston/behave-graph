@@ -1,4 +1,8 @@
-import { buildScene, IScene, OnClickListeners } from '@behave-graph/scene';
+import {
+  buildScene,
+  IScene,
+  OnClickListeners
+} from '@oveddan-behave-graph/scene';
 import { ObjectMap } from '@react-three/fiber';
 import { useCallback, useEffect, useState } from 'react';
 import { GLTF } from 'three-stdlib';

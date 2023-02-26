@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ClearModal, HelpModal } from '@behave-graph/flow';
+import { ClearModal, HelpModal } from '@oveddan-behave-graph/flow';
 import { faDownload, faPlay, faPause, faQuestion, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { LoadModal } from './LoadModal';
 import { SaveModal } from './SaveModal';
 import { Controls, ControlButton } from 'reactflow';
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON } from '@oveddan-behave-graph/core';
 
 export const CustomControls = ({
   toggleRun,

@@ -1,9 +1,9 @@
-import { NodeDefinition, toMap, ValueType } from '@behave-graph/core';
-import { useMergeMap } from '@behave-graph/flow';
+import { NodeDefinition, toMap, ValueType } from '@oveddan-behave-graph/core';
+import { useMergeMap } from '@oveddan-behave-graph/flow';
 import {
   getSceneNodeDefinitions,
   getSceneValueTypes
-} from '@behave-graph/scene';
+} from '@oveddan-behave-graph/scene';
 import { useMemo } from 'react';
 export const useSceneValueDefinitions = () => {
   const valuesTypesMap = useMemo(() => {

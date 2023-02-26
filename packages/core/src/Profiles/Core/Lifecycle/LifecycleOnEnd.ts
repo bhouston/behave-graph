@@ -35,7 +35,7 @@ export const LifecycleOnEnd = makeEventNodeDefinition({
       lifecycleEventEmitterDependencyKey
     );
 
-    lifecycleEventEmitter.endEvent.addListener(onEndEvent);
+    lifecycleEventEmitter?.endEvent.addListener(onEndEvent);
 
     return {
       onEndEvent
@@ -48,7 +48,7 @@ export const LifecycleOnEnd = makeEventNodeDefinition({
       lifecycleEventEmitterDependencyKey
     );
 
-    if (onEndEvent) lifecycleEventEmitter.endEvent.removeListener(onEndEvent);
+    if (onEndEvent) lifecycleEventEmitter?.endEvent.removeListener(onEndEvent);
 
     return {};
   }

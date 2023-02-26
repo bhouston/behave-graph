@@ -1,0 +1,138 @@
+{
+  "nodes": [
+    {
+      "id": "d71ccb9c-0fea-4ce9-bf92-a31485e9b5a6",
+      "type": "scene/set/color",
+      "metadata": {
+        "positionX": "77.14022762464936",
+        "positionY": "-87.16629715040952"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "materials/2/color"
+        },
+        "value": {
+          "link": {
+            "nodeId": "5394babc-dcc0-4735-9daf-465c73a66e80",
+            "socket": "result"
+          }
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "fcb81837-650c-42fb-a708-236f2ee64abc",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "5394babc-dcc0-4735-9daf-465c73a66e80",
+      "type": "math/toColor/rgb",
+      "metadata": {
+        "positionX": "-300.0417767160652",
+        "positionY": "-51.319709813441605"
+      },
+      "parameters": {
+        "g": {
+          "value": ".9"
+        }
+      }
+    },
+    {
+      "id": "267d676e-79d4-49e5-9be8-c7dd8b157f00",
+      "type": "math/toColor/rgb",
+      "metadata": {
+        "positionX": "-295.7718135671139",
+        "positionY": "156.6123980614786"
+      },
+      "parameters": {
+        "r": {
+          "value": ".9"
+        }
+      }
+    },
+    {
+      "id": "98da1b8b-b49e-489d-80ff-24ce601ac0c0",
+      "type": "scene/set/color",
+      "metadata": {
+        "positionX": "78.94730681930119",
+        "positionY": "120.9410563270875"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "materials/2/color"
+        },
+        "value": {
+          "link": {
+            "nodeId": "267d676e-79d4-49e5-9be8-c7dd8b157f00",
+            "socket": "result"
+          }
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "fcb81837-650c-42fb-a708-236f2ee64abc",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "d326d57f-198b-41e8-9d2b-182130f1398f",
+      "type": "flow/flipFlop",
+      "metadata": {
+        "positionX": "-150.40429662355976",
+        "positionY": "-392.20914954763833"
+      },
+      "flows": {
+        "on": {
+          "nodeId": "d71ccb9c-0fea-4ce9-bf92-a31485e9b5a6",
+          "socket": "flow"
+        },
+        "off": {
+          "nodeId": "98da1b8b-b49e-489d-80ff-24ce601ac0c0",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "85179702-7634-4cf5-95ca-5908224cd4f0",
+      "type": "scene/nodeClick",
+      "metadata": {
+        "positionX": "-541.6042155480345",
+        "positionY": "-390.3032281315028"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "nodes/2"
+        }
+      },
+      "flows": {
+        "flow": {
+          "nodeId": "d326d57f-198b-41e8-9d2b-182130f1398f",
+          "socket": "flow"
+        }
+      }
+    },
+    {
+      "id": "fcb81837-650c-42fb-a708-236f2ee64abc",
+      "type": "scene/set/boolean",
+      "metadata": {
+        "positionX": "614.5434048197254",
+        "positionY": "-354.4742587827762"
+      },
+      "parameters": {
+        "jsonPath": {
+          "value": "animations/0/playing"
+        },
+        "value": {
+          "link": {
+            "nodeId": "d326d57f-198b-41e8-9d2b-182130f1398f",
+            "socket": "isOn"
+          }
+        }
+      }
+    }
+  ],
+  "variables": [],
+  "customEvents": []
+}

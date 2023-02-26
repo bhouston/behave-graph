@@ -1,7 +1,6 @@
 import { Choices, EventEmitter } from '@behave-graph/core';
 import {
   Event,
-  GLTF,
   Material,
   MeshBasicMaterial,
   Object3D,
@@ -9,6 +8,7 @@ import {
   Vector3,
   Vector4
 } from 'three';
+import { GLTF } from 'three-stdlib';
 
 import { IScene } from './Abstractions/IScene';
 import { GLTFJson } from './GLTFJson';

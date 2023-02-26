@@ -4,9 +4,9 @@ import { Link } from '../../Nodes/Link';
 import { NodeConfiguration } from '../../Nodes/Node';
 import { INode } from '../../Nodes/NodeInstance';
 import { Dependencies } from '../../Nodes/Registry/DependenciesRegistry';
-import { IRegistry } from '../../Registry';
+import { NodeDefinitionsMap } from '../../Nodes/Registry/NodeTypeRegistry';
 import { Socket } from '../../Sockets/Socket';
-import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
+import { ValueTypeMap } from '../../Values/ValueTypeRegistry';
 import { Variable } from '../../Variables/Variable';
 import {
   createNode,
@@ -30,11 +30,13 @@ import {
 //  - loads a node graph
 export function readGraphFromJSON({
   graphJson,
-  registry,
+  nodes: nodesTypeRegistry,
+  values: valuesTypeRegistry,
   dependencies
 }: {
   graphJson: GraphJSON;
-  registry: IRegistry;
+  nodes: NodeDefinitionsMap;
+  values: ValueTypeMap;
   dependencies: Dependencies;
 }): GraphInstance {
   const graphName = graphJson?.name || '';
@@ -42,8 +44,6 @@ export function readGraphFromJSON({
 
   let variables: GraphVariables = {};
   let customEvents: GraphCustomEvents = {};
-
-  const { values: valuesTypeRegistry } = registry;
 
   if ('variables' in graphJson) {
     variables = readVariablesJSON(
@@ -75,7 +75,12 @@ export function readGraphFromJSON({
   // create new BehaviorNode instances for each node in the json.
   for (let i = 0; i < nodesJson.length; i += 1) {
     const nodeJson = nodesJson[i];
-    const node = readNodeJSON({ graph: graphApi, registry, nodeJson });
+    const node = readNodeJSON({
+      graph: graphApi,
+      nodes: nodesTypeRegistry,
+      values: valuesTypeRegistry,
+      nodeJson
+    });
     const id = nodeJson.id;
 
     if (id in nodes) {
@@ -169,11 +174,13 @@ export function readGraphFromJSON({
 
 function readNodeJSON({
   graph,
-  registry,
+  nodes,
+  values,
   nodeJson
 }: {
   graph: IGraphApi;
-  registry: IRegistry;
+  nodes: NodeDefinitionsMap;
+  values: ValueTypeMap;
   nodeJson: NodeJSON;
 }) {
   if (nodeJson.type === undefined) {
@@ -190,9 +197,9 @@ function readNodeJSON({
 
   const node = createNode({
     graph,
-    registry,
+    nodes,
+    values,
     nodeTypeName: nodeName,
-    nodeId: nodeJson.id,
     nodeConfiguration
   });
 
@@ -200,7 +207,7 @@ function readNodeJSON({
   node.metadata = nodeJson?.metadata ?? node.metadata;
 
   if (nodeJson.parameters !== undefined) {
-    readNodeParameterJSON(registry.values, node, nodeJson.parameters);
+    readNodeParameterJSON(values, node, nodeJson.parameters);
   }
   if (nodeJson.flows !== undefined) {
     readNodeFlowsJSON(node, nodeJson.flows);
@@ -210,7 +217,7 @@ function readNodeJSON({
 }
 
 function readNodeParameterJSON(
-  valuesRegistry: IRegistry['values'],
+  valuesRegistry: ValueTypeMap,
   node: INode,
   parametersJson: NodeParametersJSON
 ) {
@@ -222,9 +229,9 @@ function readNodeParameterJSON(
     const inputJson = parametersJson[socket.name];
     if ('value' in inputJson) {
       // eslint-disable-next-line no-param-reassign
-      socket.value = valuesRegistry
-        .get(socket.valueTypeName)
-        .deserialize(inputJson.value);
+      socket.value = valuesRegistry[socket.valueTypeName]?.deserialize(
+        inputJson.value
+      );
     }
 
     if ('link' in inputJson) {
@@ -274,7 +281,7 @@ function readNodeFlowsJSON(node: INode, flowsJson: FlowsJSON) {
 }
 
 function readVariablesJSON(
-  valuesRegistry: ValueTypeRegistry,
+  valuesRegistry: ValueTypeMap,
   variablesJson: VariableJSON[]
 ) {
   const variables: GraphVariables = {};
@@ -285,9 +292,9 @@ function readVariablesJSON(
       variableJson.id,
       variableJson.name,
       variableJson.valueTypeName,
-      valuesRegistry
-        .get(variableJson.valueTypeName)
-        .deserialize(variableJson.initialValue)
+      valuesRegistry[variableJson.valueTypeName]?.deserialize(
+        variableJson.initialValue
+      )
     );
     variable.label = variableJson?.label ?? variable.label;
     variable.metadata = variableJson?.metadata ?? variable.metadata;
@@ -302,7 +309,7 @@ function readVariablesJSON(
 }
 
 function readCustomEventsJSON(
-  valuesRegistry: ValueTypeRegistry,
+  valuesRegistry: ValueTypeMap,
   customEventsJson: CustomEventJSON[]
 ) {
   const customEvents: GraphCustomEvents = {};
@@ -316,9 +323,9 @@ function readCustomEventsJSON(
         new Socket(
           parameterJson.valueTypeName,
           parameterJson.name,
-          valuesRegistry
-            .get(parameterJson.valueTypeName)
-            .deserialize(parameterJson.defaultValue)
+          valuesRegistry[parameterJson.valueTypeName]?.deserialize(
+            parameterJson.defaultValue
+          )
         )
       );
     });

@@ -93,9 +93,6 @@ export default function InputSocket({
   }
 
   const inputVal = String(value) ?? defaultValue ?? "";
-  useEffect(() => {
-    console.log({ value, name, valueType , inputVal, choices});
-  }, [value, name, valueType, inputVal, choices])
 
   const [backgroundColor, borderColor] = colors[colorName];
   const showName = isFlowSocket === false || name !== "flow";

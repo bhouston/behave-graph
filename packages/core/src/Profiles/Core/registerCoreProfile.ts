@@ -1,8 +1,12 @@
 /* eslint-disable max-len */
 
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
-import { IRegistry } from '../../Registry';
-import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
+import {
+  NodeDefinition,
+  NodeDefinitionsMap
+} from '../../Nodes/Registry/NodeTypeRegistry';
+import { ValueTypeMap } from '../../Values/ValueTypeRegistry';
+import { getStringConversionsForValueType } from '../registerSerializersForValueType';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
 import { ILogger } from './Abstractions/ILogger';
 import { OnCustomEvent } from './CustomEvents/OnCustomEvent';
@@ -30,7 +34,6 @@ import {
 } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
 import { Easing } from './Logic/Easing';
-import { registerSerializersForValueType } from '../registerSerializersForValueType';
 import { Delay } from './Time/Delay';
 import * as TimeNodes from './Time/TimeNodes';
 import * as BooleanNodes from './Values/BooleanNodes';
@@ -55,77 +58,95 @@ export const makeCoreDependencies = ({
   [loggerDependencyKey]: logger
 });
 
-export function registerCoreValueTypes(values: ValueTypeRegistry) {
-  // pull in value type nodes
-  values.register(BooleanValue);
-  values.register(StringValue);
-  values.register(IntegerValue);
-  values.register(FloatValue);
+export function getCoreValueTypes(): ValueTypeMap {
+  return toMap(
+    [BooleanValue, StringValue, IntegerValue, FloatValue],
+    (v) => v.name
+  );
 }
 
-export function registerCoreProfile(registry: IRegistry) {
-  const { nodes, values } = registry;
-
-  registerCoreValueTypes(values);
-
-  // pull in value type nodes
-  nodes.register(...getNodeDescriptions(StringNodes));
-  nodes.register(...getNodeDescriptions(BooleanNodes));
-  nodes.register(...getNodeDescriptions(IntegerNodes));
-  nodes.register(...getNodeDescriptions(FloatNodes));
-
-  // custom events
-
-  nodes.register(OnCustomEvent.Description);
-  nodes.register(TriggerCustomEvent.Description);
-
-  // variables
-
-  nodes.register(VariableGet);
-  nodes.register(VariableSet);
-
-  // complex logic
-
-  nodes.register(Easing);
-
-  // actions
-
-  nodes.register(DebugLog);
-  nodes.register(AssertExpectTrue.Description);
-
-  // events
-
-  nodes.register(LifecycleOnStart);
-  nodes.register(LifecycleOnEnd);
-  nodes.register(LifecycleOnTick);
-
-  // time
-
-  nodes.register(Delay.Description);
-  nodes.register(...getNodeDescriptions(TimeNodes));
-
-  // flow control
-
-  nodes.register(Branch);
-  nodes.register(FlipFlop);
-  nodes.register(ForLoop);
-  nodes.register(Sequence);
-  nodes.register(SwitchOnInteger);
-  nodes.register(SwitchOnString);
-  nodes.register(Debounce.Description);
-  nodes.register(Throttle.Description);
-  nodes.register(DoN);
-  nodes.register(DoOnce);
-  nodes.register(Gate);
-  nodes.register(MultiGate);
-  nodes.register(WaitAll.Description);
-  nodes.register(Counter);
-
-  // string converters
-
-  ['boolean', 'float', 'integer'].forEach((valueTypeName) => {
-    registerSerializersForValueType(registry, valueTypeName);
-  });
-
-  return registry;
+export function toMap<T>(
+  elements: T[],
+  getName: (element: T) => string
+): Record<string, T> {
+  return Object.fromEntries(
+    elements.map((element) => [getName(element), element])
+  );
 }
+
+function getStringConversions(values: ValueTypeMap): NodeDefinition[] {
+  return ['boolean', 'float', 'integer'].flatMap((valueTypeName) =>
+    getStringConversionsForValueType({ values, valueTypeName })
+  );
+}
+
+export function getCoreNodeDefinitions(
+  values: ValueTypeMap
+): NodeDefinitionsMap {
+  const allNodeDefinitions: NodeDefinition[] = [
+    ...getNodeDescriptions(StringNodes),
+    ...getNodeDescriptions(BooleanNodes),
+    ...getNodeDescriptions(IntegerNodes),
+    ...getNodeDescriptions(FloatNodes),
+
+    // custom events
+
+    OnCustomEvent.Description,
+    TriggerCustomEvent.Description,
+
+    // variables
+
+    VariableGet,
+    VariableSet,
+
+    // complex logic
+
+    Easing,
+
+    // actions
+
+    DebugLog,
+    AssertExpectTrue.Description,
+
+    // events
+
+    LifecycleOnStart,
+    LifecycleOnEnd,
+    LifecycleOnTick,
+
+    // time
+
+    Delay.Description,
+    ...getNodeDescriptions(TimeNodes),
+
+    // flow control
+
+    Branch,
+    FlipFlop,
+    ForLoop,
+    Sequence,
+    SwitchOnInteger,
+    SwitchOnString,
+    Debounce.Description,
+    Throttle.Description,
+    DoN,
+    DoOnce,
+    Gate,
+    MultiGate,
+    WaitAll.Description,
+    Counter,
+
+    ...getStringConversions(values)
+  ];
+
+  // convert array to map
+  return toMap(allNodeDefinitions, (node) => node.typeName);
+}
+
+export const getCoreRegistry = () => {
+  const values = getCoreValueTypes();
+  return {
+    values,
+    nodes: getCoreNodeDefinitions(getCoreValueTypes())
+  };
+};

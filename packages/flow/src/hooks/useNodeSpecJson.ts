@@ -1,27 +1,30 @@
 import {
   Dependencies,
-  IRegistry,
+  NodeDefinitionsMap,
   NodeSpecJSON,
+  ValueTypeMap,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
 import { useEffect, useState } from 'react';
 
 export const useNodeSpecJson = ({
-  registry,
+  values,
+  nodes,
   dependencies
 }: {
-  registry: IRegistry | undefined;
+  values: ValueTypeMap;
+  nodes: NodeDefinitionsMap;
   dependencies: Dependencies | undefined;
 }) => {
   const [specJson, setSpecJson] = useState<NodeSpecJSON[]>();
 
   useEffect(() => {
-    if (!registry || !dependencies) {
+    if (!nodes || !values || !dependencies) {
       setSpecJson(undefined);
       return;
     }
-    setSpecJson(writeNodeSpecsToJSON({ registry, dependencies }));
-  }, [registry, dependencies]);
+    setSpecJson(writeNodeSpecsToJSON({ nodes, values, dependencies }));
+  }, [nodes, values, dependencies]);
 
   return specJson;
 };

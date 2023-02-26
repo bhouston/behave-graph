@@ -4,7 +4,7 @@ import {
   FloatValue,
   IntegerValue,
   StringValue,
-  ValueTypeRegistry
+  ValueType
 } from '@behave-graph/core';
 
 import { ColorValue } from '../../Values/ColorValue';
@@ -17,25 +17,29 @@ import { IScene } from '../IScene';
 
 export class DummyScene implements IScene {
   public onSceneChanged = new EventEmitter<void>();
-  private valueRegistry = new ValueTypeRegistry();
+
+  private valueRegistry: Record<string, ValueType>;
 
   constructor() {
-    const values = this.valueRegistry;
+    this.valueRegistry = Object.fromEntries(
+      [
+        BooleanValue,
+        StringValue,
+        IntegerValue,
+        FloatValue,
+        Vec2Value,
+        Vec3Value,
+        Vec4Value,
+        ColorValue,
+        EulerValue,
+        QuatValue
+      ].map((valueType) => [valueType.name, valueType])
+    );
     // pull in value type nodes
-    values.register(BooleanValue);
-    values.register(StringValue);
-    values.register(IntegerValue);
-    values.register(FloatValue);
-    values.register(Vec2Value);
-    values.register(Vec3Value);
-    values.register(Vec4Value);
-    values.register(ColorValue);
-    values.register(EulerValue);
-    values.register(QuatValue);
   }
 
   getProperty(jsonPath: string, valueTypeName: string): any {
-    return this.valueRegistry.get(valueTypeName).creator();
+    return this.valueRegistry[valueTypeName]?.creator();
   }
   setProperty(): void {
     this.onSceneChanged.emit();

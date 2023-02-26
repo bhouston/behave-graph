@@ -17,11 +17,13 @@ import { GraphJSON } from '../../Graphs/IO/GraphJSON';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic';
 import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks';
-import { Registry } from '../../Registry';
-import { registerCoreProfile } from './registerCoreProfile';
+import {
+  getCoreNodeDefinitions,
+  getCoreValueTypes
+} from './registerCoreProfile';
 
-const registry = new Registry();
-registerCoreProfile(registry);
+const valueTypes = getCoreValueTypes();
+const nodeDefinitions = getCoreNodeDefinitions(valueTypes);
 
 Logger.onWarn.clear();
 
@@ -50,7 +52,8 @@ for (const key in exampleMap) {
       expect(() => {
         parsedGraphJson = readGraphFromJSON({
           graphJson: exampleJson,
-          registry,
+          nodes: nodeDefinitions,
+          values: valueTypes,
           dependencies: {}
         });
       }).not.toThrow();

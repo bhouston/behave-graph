@@ -1,5 +1,4 @@
 import { IGraphApi, makeGraphApi } from '../Graphs/Graph';
-import { Registry } from '../Registry';
 import { NodeConfiguration } from './Node';
 import {
   IFunctionNodeDefinition,
@@ -11,10 +10,9 @@ import { makeOrGenerateSockets } from './nodeFactory';
 import { NodeConfigurationDescription } from './Registry/NodeDescription';
 
 const makeEmptyGraph = (): IGraphApi => {
-  const registry = new Registry();
   return makeGraphApi({
     dependencies: {},
-    valuesTypeRegistry: registry.values
+    valuesTypeRegistry: {}
   });
 };
 

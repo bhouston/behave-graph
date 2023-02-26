@@ -25,7 +25,7 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
 
       return {
         valueType: 'string',
-        choices: scene.getRaycastableProperties()
+        choices: scene?.getRaycastableProperties()
       };
     }
   },
@@ -41,7 +41,7 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
     const jsonPath = read<string>('jsonPath');
 
     const scene = getSceneDependencey(getDependency);
-    scene.addOnClickedListener(jsonPath, handleNodeClick);
+    scene?.addOnClickedListener(jsonPath, handleNodeClick);
 
     const state: State = {
       handleNodeClick,
@@ -60,7 +60,7 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
     if (!jsonPath || !handleNodeClick) return {};
 
     const scene = getDependency<IScene>('scene');
-    scene.removeOnClickedListener(jsonPath, handleNodeClick);
+    scene?.removeOnClickedListener(jsonPath, handleNodeClick);
 
     return {};
   }

@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root,
+div[data-rk] {
+  @apply h-full;
+}
+
+.react-flow .react-flow__controls {
+  display: flex;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
+}

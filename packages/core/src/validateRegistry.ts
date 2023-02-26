@@ -1,12 +1,19 @@
+import { NodeDefinitionsMap, ValueTypeMap } from '@behave-graph/core';
+
 import { validateNodeRegistry } from './Nodes/Validation/validateNodeRegistry';
-import { IRegistry } from './Registry';
 import { validateValueRegistry } from './Values/Validation/validateValueRegistry';
 
-export function validateRegistry(registry: IRegistry): string[] {
+export function validateRegistry({
+  nodes,
+  values
+}: {
+  nodes: NodeDefinitionsMap;
+  values: ValueTypeMap;
+}): string[] {
   const errorList: string[] = [];
   errorList.push(
-    ...validateValueRegistry(registry),
-    ...validateNodeRegistry(registry)
+    ...validateValueRegistry(values),
+    ...validateNodeRegistry({ nodes, values })
   );
   return errorList;
 }

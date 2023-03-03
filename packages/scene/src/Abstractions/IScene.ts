@@ -1,4 +1,4 @@
-import { Choices } from '@behave-graph/core';
+import { Choices } from '@oveddan-behave-graph/core';
 
 export interface IScene {
   getProperty(jsonPath: string, valueTypeName: string): any;

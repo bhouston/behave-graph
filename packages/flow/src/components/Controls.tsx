@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Examples, LoadModal } from './modals/LoadModal';
 import { SaveModal } from './modals/SaveModal';
 import { Controls, ControlButton } from "reactflow";
-import { GraphJSON, NodeSpecJSON } from "@behave-graph/core";
+import { GraphJSON, NodeSpecJSON } from "@oveddan-behave-graph/core";
 
 export const CustomControls = ({
   playing,

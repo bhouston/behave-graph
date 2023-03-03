@@ -2,7 +2,7 @@ import {
   getCoreRegistry,
   GraphJSON,
   writeNodeSpecsToJSON
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import rawFlowGraph from '../../../../graphs/react-flow/graph.json';
 import { behaveToFlow } from './behaveToFlow';

@@ -3,7 +3,7 @@ import {
   Dependencies,
   makeCoreDependencies,
   ManualLifecycleEventEmitter
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 import { useEffect, useState } from 'react';
 
 export const useCoreDependencies = () => {

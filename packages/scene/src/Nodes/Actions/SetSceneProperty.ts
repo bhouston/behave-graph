@@ -1,4 +1,4 @@
-import { makeFlowNodeDefinition, NodeCategory } from '@behave-graph/core';
+import { makeFlowNodeDefinition, NodeCategory } from '@oveddan-behave-graph/core';
 
 import { getSceneDependencey } from '../../dependencies';
 

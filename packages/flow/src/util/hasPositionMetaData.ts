@@ -1,4 +1,4 @@
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON } from '@oveddan-behave-graph/core';
 
 export const hasPositionMetaData = (graph: GraphJSON): boolean => {
   if (graph.nodes === undefined) return false;

@@ -5,7 +5,7 @@ import {
   IntegerValue,
   StringValue,
   ValueType
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { ColorValue } from '../../Values/ColorValue';
 import { EulerValue } from '../../Values/EulerValue';

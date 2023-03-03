@@ -3,7 +3,7 @@ import {
   equalsTolerance,
   parseSafeFloats,
   toSafeString
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 export type Vec2JSON = number[];
 

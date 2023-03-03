@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Connection, Handle, Position, useReactFlow } from "reactflow";
 import cx from "classnames";
 import { colors, valueTypeColorMap } from "../util/colors";
-import { InputSocketSpecJSON, NodeSpecJSON } from "@behave-graph/core";
+import { InputSocketSpecJSON, NodeSpecJSON } from "@oveddan-behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
 import { AutoSizeInput } from "./AutoSizeInput";
 import { useEffect } from "react";

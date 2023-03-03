@@ -1,4 +1,4 @@
-import { GraphJSON } from "@behave-graph/core";
+import { GraphJSON } from "@oveddan-behave-graph/core";
 import { useEffect } from "react";
 import { FC, useCallback, useState } from "react";
 import { useReactFlow } from "reactflow";

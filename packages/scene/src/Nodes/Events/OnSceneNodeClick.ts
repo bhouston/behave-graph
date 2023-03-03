@@ -2,7 +2,7 @@ import {
   Assert,
   makeEventNodeDefinition,
   NodeCategory
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { IScene } from '../../Abstractions/IScene';
 import { getSceneDependencey } from '../../dependencies';

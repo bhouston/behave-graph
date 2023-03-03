@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useReactFlow, XYPosition } from "reactflow";
 import { useOnPressKey } from "../hooks/useOnPressKey";
-import { NodeSpecJSON } from "@behave-graph/core";
+import { NodeSpecJSON } from "@oveddan-behave-graph/core";
 
 export type NodePickerFilters = {
   handleType: "source" | "target";

@@ -3,7 +3,7 @@ import {
   equalsTolerance,
   parseSafeFloats,
   toSafeString
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
 import { Vec2 } from './Vec2';

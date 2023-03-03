@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from '@behave-graph/core';
+import { NodeSpecJSON } from '@oveddan-behave-graph/core';
 import { useEffect, useState } from 'react';
 import { NodeTypes } from 'reactflow';
 import { Node } from '../components/Node';

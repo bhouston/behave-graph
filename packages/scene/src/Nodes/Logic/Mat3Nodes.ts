@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '@behave-graph/core';
+import { makeInNOutFunctionDesc } from '@oveddan-behave-graph/core';
 
 import {
   column3ToMat3,

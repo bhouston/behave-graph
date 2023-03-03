@@ -5,7 +5,7 @@ import {
   getStringConversionsForValueType,
   NodeDefinition,
   ValueType
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { IScene } from './Abstractions/IScene';
 import { sceneDepdendencyKey } from './dependencies';

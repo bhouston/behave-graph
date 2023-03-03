@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from '@behave-graph/core';
+import { NodeSpecJSON } from '@oveddan-behave-graph/core';
 import { Node, OnConnectStartParams } from 'reactflow';
 
 import { NodePickerFilters } from '../components/NodePicker';

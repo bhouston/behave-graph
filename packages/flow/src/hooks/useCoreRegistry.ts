@@ -2,7 +2,7 @@ import {
   getCoreNodeDefinitions,
   getCoreValueTypes,
   ValueTypeMap
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 import { useMemo } from 'react';
 
 import { useCoreDependencies } from './useDependencies';

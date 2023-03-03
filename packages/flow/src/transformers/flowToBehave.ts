@@ -1,4 +1,4 @@
-import { GraphJSON, NodeJSON, NodeSpecJSON } from '@behave-graph/core';
+import { GraphJSON, NodeJSON, NodeSpecJSON } from '@oveddan-behave-graph/core';
 import { Edge, Node } from 'reactflow';
 
 const isNullish = (value: any): value is null | undefined =>
@@ -37,6 +37,7 @@ export const flowToBehave = (
     });
 
     edges
+      // get all edges to the current node
       .filter((edge) => edge.target === node.id)
       .forEach((edge) => {
         const inputSpec = nodeSpec.inputs.find(
@@ -53,6 +54,7 @@ export const flowToBehave = (
         if (isNullish(edge.sourceHandle)) return;
 
         // TODO: some of these are flow outputs, and should be saved differently.  -Ben, Oct 11, 2022
+        // link all edges to this node, using the from
         behaveNode.parameters[edge.targetHandle] = {
           link: { nodeId: edge.source, socket: edge.sourceHandle }
         };

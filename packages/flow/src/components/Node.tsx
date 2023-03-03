@@ -1,5 +1,5 @@
 import { NodeProps as FlowNodeProps, useEdges } from "reactflow";
-import { NodeSpecJSON } from "@behave-graph/core";
+import { NodeSpecJSON } from "@oveddan-behave-graph/core";
 import InputSocket from "./InputSocket";
 import NodeContainer from "./NodeContainer";
 import OutputSocket from "./OutputSocket";

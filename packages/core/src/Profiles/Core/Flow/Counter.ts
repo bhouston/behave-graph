@@ -15,7 +15,7 @@ export const Counter = makeFlowNodeDefinition({
     count: 'integer'
   },
   initialState: {
-    count: 0
+    count: BigInt(0)
   },
   category: NodeCategory.Flow,
   triggered: ({ commit, write, triggeringSocketName, state }) => {
@@ -29,7 +29,7 @@ export const Counter = makeFlowNodeDefinition({
         break;
       }
       case 'reset': {
-        count = 0;
+        count = BigInt(0);
         break;
       }
       default:

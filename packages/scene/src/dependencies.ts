@@ -1,4 +1,4 @@
-import { IGraphApi } from '@behave-graph/core';
+import { IGraphApi } from '@oveddan-behave-graph/core';
 
 import { IScene } from './Abstractions/IScene';
 

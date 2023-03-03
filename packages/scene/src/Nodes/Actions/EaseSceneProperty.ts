@@ -9,7 +9,7 @@ import {
   NodeDescription,
   Socket,
   toCamelCase
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { IScene } from '../../Abstractions/IScene';
 

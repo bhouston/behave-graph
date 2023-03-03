@@ -1,4 +1,4 @@
-import { Choices, EventEmitter } from '@behave-graph/core';
+import { Choices, EventEmitter } from '@oveddan-behave-graph/core';
 import {
   Event,
   Material,
@@ -239,6 +239,11 @@ export type ParsableScene = GLTF &
     json?: GLTFJson;
   };
 
+const convertName = (name: string | undefined, index: number) => {
+  if (name) return name.replace(':', '');
+  return index.toString();
+};
+
 export const extractProperties = (gltf: ParsableScene): Properties => {
   const nodeProperties = [
     'visible',
@@ -253,7 +258,7 @@ export const extractProperties = (gltf: ParsableScene): Properties => {
   const gltfJson = gltf.parser.json as GLTFJson;
 
   const nodeOptions = gltfJson.nodes?.map(({ name }, index) => ({
-    name: name || index.toString(),
+    name: convertName(name, index),
     index
   }));
   const materialOptions = gltfJson.materials?.map(({ name }, index) => ({

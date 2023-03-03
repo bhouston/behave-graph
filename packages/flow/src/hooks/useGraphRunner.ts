@@ -7,7 +7,7 @@ import {
   NodeDefinitionsMap,
   readGraphFromJSON,
   ValueTypeMap
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 import { useCallback, useEffect, useState } from 'react';
 
 /** Runs the behavior graph by building the execution

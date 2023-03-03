@@ -1,4 +1,4 @@
-import { NodeDefinitionsMap } from '../dist/behave-graph-core.cjs';
+import { NodeDefinitionsMap } from './Nodes/Registry/NodeTypeRegistry';
 import { ValueTypeMap } from './Values/ValueTypeRegistry';
 
 export interface IRegistry {

@@ -3,7 +3,7 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
 } from "reactflow";
-import { GraphJSON } from "@behave-graph/core";
+import { GraphJSON } from "@oveddan-behave-graph/core";
 import CustomControls from "./Controls";
 import { NodePicker } from "./NodePicker";
 import { useCoreRegistry } from "../hooks/useCoreRegistry";

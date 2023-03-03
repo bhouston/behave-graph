@@ -3,7 +3,7 @@ import {
   IGraphApi,
   NodeDescription,
   Socket
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 export class VecElements<T> extends FunctionNode {
   constructor(

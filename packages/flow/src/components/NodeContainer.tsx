@@ -1,4 +1,4 @@
-import { NodeCategory, NodeSpecJSON } from "@behave-graph/core";
+import { NodeCategory, NodeSpecJSON } from "@oveddan-behave-graph/core";
 import { PropsWithChildren } from "react";
 import cx from "classnames";
 

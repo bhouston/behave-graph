@@ -3,7 +3,7 @@ import {
   equalsTolerance,
   parseSafeFloats,
   toSafeString
-} from '@behave-graph/core';
+} from '@oveddan-behave-graph/core';
 
 import { Mat4 } from './Mat4';
 import { Vec2 } from './Vec2';

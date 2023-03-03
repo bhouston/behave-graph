@@ -1,4 +1,4 @@
-import { ValueType } from '@behave-graph/core';
+import { ValueType } from '@oveddan-behave-graph/core';
 
 import { Mat4, Mat4JSON, mat4Mix, mat4Parse } from './Internal/Mat4';
 

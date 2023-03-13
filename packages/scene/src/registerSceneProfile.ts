@@ -9,6 +9,7 @@ import {
 
 import { IScene } from './Abstractions/IScene';
 import { sceneDepdendencyKey } from './dependencies';
+import { EaseSceneProperty } from './Nodes/Actions/EaseSceneProperty';
 import { SetSceneProperty } from './Nodes/Actions/SetSceneProperty';
 import { OnSceneNodeClick } from './Nodes/Events/OnSceneNodeClick';
 import * as ColorNodes from './Nodes/Logic/ColorNodes';
@@ -62,6 +63,7 @@ export const getSceneNodeDefinitions = (
     // events
     OnSceneNodeClick,
     // actions
+    ...EaseSceneProperty.GetDescriptions(allValueTypeNames),
     ...SetSceneProperty(allValueTypeNames),
     ...GetSceneProperty(allValueTypeNames)
   ];

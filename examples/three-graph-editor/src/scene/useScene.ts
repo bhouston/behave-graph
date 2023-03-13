@@ -39,6 +39,7 @@ export const useScene = (gltf: (GLTF & ObjectMap) | undefined) => {
     if (!gltf) {
       setScene(undefined);
     } else {
+      console.log('setting scene');
       setScene(
         buildScene({
           gltf,

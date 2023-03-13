@@ -31,7 +31,11 @@ export interface IFunctionNode extends INode {
 
 export interface IEventNode extends INode {
   nodeType: NodeType.Event;
-  init: (engine: Engine) => void;
+  init: (
+    engine: Engine,
+    readInput: (socketName: string) => any,
+    writeOutput: (socketName: string, value: any) => void
+  ) => void;
   dispose: (engine: Engine) => void;
 }
 

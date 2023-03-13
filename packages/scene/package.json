@@ -1,6 +1,6 @@
 {
   "name": "@oveddan-behave-graph/scene",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "source": "src/index.ts",
   "main": "dist/oveddan-behave-graph-scene.cjs.js",
   "module": "dist/oveddan-behave-graph-scene.esm.js",

@@ -6,19 +6,16 @@ import {
   Engine,
   IGraphApi,
   ILifecycleEventEmitter,
+  lifecycleEventEmitterDependencyKey,
   NodeDescription,
   Socket,
   toCamelCase
 } from '@oveddan-behave-graph/core';
 
-import { IScene } from '../../Abstractions/IScene';
+import { getSceneDependencey } from '../../dependencies';
 
 export class EaseSceneProperty extends AsyncNode {
-  public static GetDescriptions(
-    scene: IScene,
-    lifecycleEventEmitter: ILifecycleEventEmitter,
-    ...valueTypeNames: string[]
-  ) {
+  public static GetDescriptions(valueTypeNames: string[]) {
     return valueTypeNames.map(
       (valueTypeName) =>
         new NodeDescription(
@@ -26,13 +23,7 @@ export class EaseSceneProperty extends AsyncNode {
           'Action',
           `Ease Scene ${toCamelCase(valueTypeName)}`,
           (description, graph) =>
-            new EaseSceneProperty(
-              description,
-              graph,
-              valueTypeName,
-              scene,
-              lifecycleEventEmitter
-            )
+            new EaseSceneProperty(description, graph, valueTypeName)
         )
     );
   }
@@ -40,9 +31,7 @@ export class EaseSceneProperty extends AsyncNode {
   constructor(
     description: NodeDescription,
     graph: IGraphApi,
-    public readonly valueTypeName: string,
-    private readonly scene: IScene,
-    private readonly lifecycleEventEmitter: ILifecycleEventEmitter
+    public readonly valueTypeName: string
   ) {
     super(
       description,
@@ -96,7 +85,7 @@ export class EaseSceneProperty extends AsyncNode {
       return;
     }
 
-    this.initialValue = this.scene.getProperty(
+    this.initialValue = this.scene?.getProperty(
       this.readInput('jsonPath'),
       this.valueTypeName
     );
@@ -111,7 +100,7 @@ export class EaseSceneProperty extends AsyncNode {
     this.easing = easingMode(easingFunction);
 
     const updateOnTick = () => {
-      const valueType = this.graph.values.get(this.valueTypeName);
+      const valueType = this.graph.values[this.valueTypeName];
       this.elapsedDuration = (Date.now() - this.startTime) / 1000;
 
       const t = Math.min(this.elapsedDuration / this.duration, 1);
@@ -121,7 +110,7 @@ export class EaseSceneProperty extends AsyncNode {
         this.easing(t)
       );
 
-      this.scene.setProperty(
+      this.scene?.setProperty(
         this.readInput('jsonPath'),
         this.valueTypeName,
         easedValue
@@ -135,14 +124,24 @@ export class EaseSceneProperty extends AsyncNode {
     };
 
     this.onTick = updateOnTick;
-    this.lifecycleEventEmitter.tickEvent.addListener(this.onTick);
+    this.lifecycleEventEmitter?.tickEvent.addListener(this.onTick);
   }
 
   dispose() {
     this.elapsedDuration = this.duration = 0;
     if (this.onTick !== undefined) {
-      this.lifecycleEventEmitter.tickEvent.removeListener(this.onTick);
+      this.lifecycleEventEmitter?.tickEvent.removeListener(this.onTick);
       this.onTick = undefined;
     }
+  }
+
+  get lifecycleEventEmitter() {
+    return this.graph.getDependency<ILifecycleEventEmitter>(
+      lifecycleEventEmitterDependencyKey
+    );
+  }
+
+  get scene() {
+    return getSceneDependencey(this.graph.getDependency);
   }
 }

@@ -38,7 +38,13 @@ export class EaseSceneProperty extends AsyncNode {
       graph,
       [
         new Socket('flow', 'flow'),
-        new Socket('string', 'jsonPath'),
+        new Socket(
+          'string',
+          'jsonPath',
+          undefined,
+          undefined,
+          getSceneDependencey(graph.getDependency)?.getProperties()
+        ),
         new Socket(valueTypeName, 'value'),
         new Socket(
           'string',

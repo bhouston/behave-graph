@@ -16,12 +16,16 @@ import { customNodeTypes } from "../util/customNodeTypes";
 import CustomControls from "./Controls";
 import NodePicker from "./NodePicker";
 import { getNodePickerFilters } from "../util/getPickerFilters";
+import { Examples } from "./modals/LoadModal";
+import { useRegistry } from "../hooks/useRegistry";
+import { useNodeSpecJson } from "../hooks/useNodeSpecJson";
 
 type FlowProps = {
   graph: GraphJSON
-}
+  examples: Examples
+};
 
-export const Flow: FC<FlowProps> = ({ graph }) => {
+export const Flow: FC<FlowProps> = ({ graph, examples,  }) => {
   const [nodePickerVisibility, setNodePickerVisibility] =
     useState<XYPosition>();
   const [lastConnectStart, setLastConnectStart] =
@@ -31,6 +35,9 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
 
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+
+  const {registry, logger, manualLifecycleEventEmitter} = useRegistry();
+  const nodeSpecJson = useNodeSpecJson({registry});
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -135,7 +142,11 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
-      <CustomControls />
+      <CustomControls 
+        examples={examples} 
+        manualLifecycleEventEmitter={manualLifecycleEventEmitter} 
+        registry={registry} 
+      />
       <Background
         variant={BackgroundVariant.Lines}
         color="#2a2b2d"
@@ -147,6 +158,7 @@ export const Flow: FC<FlowProps> = ({ graph }) => {
           filters={getNodePickerFilters(nodes, lastConnectStart)}
           onPickNode={handleAddNode}
           onClose={closeNodePicker}
+          specJSON={nodeSpecJson}
         />
       )}
     </ReactFlow>

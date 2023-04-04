@@ -1,14 +1,18 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+import {
+  Graph,
+  IGraphApi,
+  NodeDefinition,
+  NodeSpecJSON,
+  Registry,
+  ValueType,
+  writeNodeSpecsToJSON
+} from '@behave-graph/core';
 // We need to transform directories to kebab case because otherwise Docusaurus won't generate the toString one
 import { kebab, pascal } from 'case';
 
-import { NodeSpecJSON } from '../../../packages/core/src/Graphs/IO/NodeSpecJSON';
-import { writeNodeSpecsToJSON } from '../../../packages/core/src/Graphs/IO/writeNodeSpecsToJSON';
-import { NodeDescription } from '../../../packages/core/src/Nodes/Registry/NodeDescription';
-import { Registry } from '../../../packages/core/src/Registry';
-import { ValueType } from '../../../packages/core/src/Values/ValueType';
 import nodeTemplate from './templates/node';
 
 const generateValuePages = (values: ValueType[], baseDir: string) => {
@@ -65,9 +69,10 @@ ${deserialize}
 };
 
 const generateNodePages = (
-  nodes: NodeDescription[],
+  nodes: NodeDefinition[],
   baseDir: string,
-  nodeSpecJson: NodeSpecJSON[]
+  nodeSpecJson: NodeSpecJSON[],
+  graph: IGraphApi
 ) => {
   const nodesDir = join(baseDir, 'Nodes');
   if (!existsSync(nodesDir)) {
@@ -89,14 +94,18 @@ const generateNodePages = (
   );
 
   nodes.forEach((desc) => {
-    const { typeName, factory } = desc;
+    const { typeName, nodeFactory } = desc;
     const kebabName = typeName.split('/').map(kebab).join('/');
     const specJSON = nodeSpecJson.find((n) => n.type === typeName);
+
+    if (!specJSON) {
+      throw new Error(`No spec found for node ${typeName}`);
+    }
 
     const filePath = join(nodesDir, `${kebabName}.mdx`);
     const dirName = dirname(filePath);
 
-    if (!factory) {
+    if (!nodeFactory) {
       console.warn('desc', desc);
       throw new Error('desc.factory is undefined');
     }
@@ -111,7 +120,7 @@ const generateNodePages = (
     writeFileSync(
       join(dirName, '_category_.json'),
       `{
-  "label": "${pascal(folderName)}",
+  "label": "${pascal(folderName || '')}",
   "link": {
     "type": "generated-index"
   }
@@ -123,17 +132,10 @@ const generateNodePages = (
     writeFileSync(
       filePath,
       nodeTemplate(
-        factory(
-          desc,
-          {
-            customEvents: {},
-            variables: {}
-          } as any,
-          {
-            numInputs: 2,
-            numOutputs: 2
-          }
-        ),
+        nodeFactory(graph, {
+          customEvents: {},
+          variables: {}
+        } as any),
         specJSON
       )
     );
@@ -152,6 +154,8 @@ export default (
 
   const nodeSpecJson = writeNodeSpecsToJSON(functionalRegistry || registry);
 
+  const graphApi = new Graph(registry).makeApi();
+
   generateValuePages(values, baseDir);
-  generateNodePages(nodes, baseDir, nodeSpecJson);
+  generateNodePages(nodes, baseDir, nodeSpecJson, graphApi);
 };

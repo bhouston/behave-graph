@@ -37,5 +37,11 @@
   },
   "description": "Simple, extensible behavior graph engine",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "three-stdlib": "^2.21.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

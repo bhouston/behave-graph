@@ -1,4 +1,5 @@
 import { IGraphApi } from '../Graphs/Graph';
+import { Choices } from '../Sockets/Socket';
 import { AsyncNodeInstance } from './AsyncNode';
 import { EventNodeInstance } from './EventNode';
 import { FlowNodeInstance } from './FlowNode';
@@ -12,10 +13,16 @@ import { NodeConfigurationDescription } from './Registry/NodeDescription';
 export interface SocketDefinition {
   valueType: string;
   defaultValue?: any;
-  choices?: string[];
+  choices?: Choices;
   label?: string;
 }
-export type SocketsMap = Record<string, SocketDefinition | string>;
+
+export type SocketsMap = Record<
+  string,
+  | SocketDefinition
+  | string
+  | ((nodeConfig: NodeConfiguration, graph: IGraphApi) => SocketDefinition)
+>;
 export type SocketListDefinition = SocketDefinition & { key: string };
 export type SocketsList = SocketListDefinition[];
 
@@ -54,7 +61,7 @@ export interface INodeDefinition<
 export type SocketNames<TSockets extends SocketsDefinition> =
   TSockets extends SocketsMap ? keyof TSockets : any;
 
-export type Dependencies = any | undefined;
+export type Dependencies = Record<string, any>;
 
 export type TriggeredFn<
   TInput extends SocketsDefinition = SocketsDefinition,

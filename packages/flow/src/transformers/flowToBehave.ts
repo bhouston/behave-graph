@@ -1,14 +1,14 @@
-import { GraphJSON, NodeJSON } from '@behave-graph/core';
+import { GraphJSON, NodeJSON, NodeSpecJSON } from '@behave-graph/core';
 import { Edge, Node } from 'reactflow';
-
-import { getNodeSpecJSON } from '../util/getNodeSpecJSON';
-
-const nodeSpecJSON = getNodeSpecJSON();
 
 const isNullish = (value: any): value is null | undefined =>
   value === undefined || value === null;
 
-export const flowToBehave = (nodes: Node[], edges: Edge[]): GraphJSON => {
+export const flowToBehave = (
+  nodes: Node[],
+  edges: Edge[],
+  nodeSpecJSON: NodeSpecJSON[]
+): GraphJSON => {
   const graph: GraphJSON = { nodes: [], variables: [], customEvents: [] };
 
   nodes.forEach((node) => {

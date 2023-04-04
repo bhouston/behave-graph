@@ -12,23 +12,24 @@ type NodePickerProps = {
   position: XYPosition;
   filters?: NodePickerFilters;
   onPickNode: (type: string, position: XYPosition) => void;
-  onClose: () => void; 
-  specJSON: NodeSpecJSON[]|undefined;
+  onClose: () => void;
+  specJSON: NodeSpecJSON[] | undefined;
 };
 
-const NodePicker = ({
+export const NodePicker = ({
   position,
   onPickNode,
   onClose,
   filters,
-  specJSON: nodes,
+  specJSON
 }: NodePickerProps) => {
   const [search, setSearch] = useState("");
   const instance = useReactFlow();
 
   useOnPressKey("Escape", onClose);
 
-  let filtered = nodes;
+  if (!specJSON) return null;
+  let filtered = specJSON;
   if (filters !== undefined) {
     filtered = filtered?.filter((node) => {
       const sockets =
@@ -72,5 +73,3 @@ const NodePicker = ({
     </div>
   );
 };
-
-export default NodePicker;

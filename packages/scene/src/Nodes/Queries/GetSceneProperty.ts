@@ -1,19 +1,28 @@
-import { makeFunctionNodeDefinition } from '@behave-graph/core';
+import { makeFunctionNodeDefinition, NodeCategory } from '@behave-graph/core';
 
-import { IScene } from '../../Abstractions/IScene';
+import { getSceneDependencey } from '../../dependencies';
 
 export const GetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>
     makeFunctionNodeDefinition({
-      typeName: `scene/get${valueTypeName}`,
+      typeName: `scene/get/${valueTypeName}`,
+      category: NodeCategory.Query,
+      label: `Scene set ${valueTypeName}`,
       in: {
-        jsonPath: 'string'
+        jsonPath: (_, graphApi) => {
+          const scene = getSceneDependencey(graphApi.getDependency);
+
+          return {
+            valueType: 'string',
+            choices: scene.getProperties()
+          };
+        }
       },
       out: {
         value: valueTypeName
       },
       exec: ({ graph: { getDependency }, read, write }) => {
-        const scene = getDependency<IScene>('scene');
+        const scene = getSceneDependencey(getDependency);
         const propertyValue = scene.getProperty(
           read('jsonPath'),
           valueTypeName

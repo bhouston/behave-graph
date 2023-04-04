@@ -57,14 +57,14 @@
     "typescript": "^4.7.4",
     "uuid": "^8.3.2"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "peerDependencies": {
     "@behave-graph/core": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reactflow": "^11.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "description": "Simple, extensible behavior graph engine",
   "author": "",

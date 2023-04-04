@@ -12,7 +12,7 @@ export function resolveSocketValue(
     return 0;
   }
 
-  const graph = engine.graph;
+  const nodes = engine.nodes;
 
   const upstreamLink = inputSocket.links[0];
   // caching the target node + socket here increases engine performance by 8% on average.  This is a hotspot.
@@ -23,7 +23,7 @@ export function resolveSocketValue(
     Assert.mustBeTrue(inputSocket.links.length === 1);
 
     // if upstream node is an eval, we just return its last value.
-    upstreamLink._targetNode = graph.nodes[upstreamLink.nodeId];
+    upstreamLink._targetNode = nodes[upstreamLink.nodeId];
     // what is inputSocket connected to?
     upstreamLink._targetSocket = upstreamLink._targetNode.outputs.find(
       (socket) => socket.name === upstreamLink.socketName

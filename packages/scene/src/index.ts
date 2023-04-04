@@ -35,3 +35,4 @@ export * from './Nodes/Logic/VecElements';
 export * from './Nodes/Queries/GetSceneProperty';
 
 export * from './registerSceneProfile';
+export * from './buildScene';

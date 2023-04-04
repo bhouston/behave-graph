@@ -6,5 +6,6 @@ export enum NodeCategory {
   Variable = 'Variable',
   Flow = 'Flow',
   Time = 'Time',
-  None = 'None'
+  None = 'None',
+  Effect = 'Effect'
 }

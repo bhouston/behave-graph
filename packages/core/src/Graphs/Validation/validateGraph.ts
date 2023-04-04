@@ -1,9 +1,12 @@
-import { Graph } from '../Graph';
+import { GraphInstance } from '../Graph';
 import { validateGraphAcyclic } from './validateGraphAcyclic';
 import { validateGraphLinks } from './validateGraphLinks';
 
-export function validateGraph(graph: Graph): string[] {
+export function validateGraph(graph: GraphInstance): string[] {
   const errorList: string[] = [];
-  errorList.push(...validateGraphAcyclic(graph), ...validateGraphLinks(graph));
+  errorList.push(
+    ...validateGraphAcyclic(graph.nodes),
+    ...validateGraphLinks(graph.nodes)
+  );
   return errorList;
 }

@@ -2,7 +2,7 @@
 
 import { Assert } from '../Diagnostics/Assert';
 import { EventEmitter } from '../Events/EventEmitter';
-import { Graph } from '../Graphs/Graph';
+import { GraphNodes } from '../Graphs/Graph';
 import {
   IAsyncNode,
   IEventNode,
@@ -23,9 +23,9 @@ export class Engine {
   public readonly onNodeExecutionEnd = new EventEmitter<INode>();
   public executionSteps = 0;
 
-  constructor(public readonly graph: Graph) {
+  constructor(public readonly nodes: GraphNodes) {
     // collect all event nodes
-    Object.values(graph.nodes).forEach((node) => {
+    Object.values(nodes).forEach((node) => {
       if (isEventNode(node)) {
         this.eventNodes.push(node);
       }

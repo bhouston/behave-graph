@@ -1,8 +1,12 @@
 /* eslint-disable max-len */
-import { DependenciesRegistry } from '../../Nodes/Registry/DependenciesRegistry';
+
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
-import { IRegistry } from '../../Registry';
-import { ValueTypeRegistry } from '../../Values/ValueTypeRegistry';
+import {
+  NodeDefinition,
+  NodeDefinitionsMap
+} from '../../Nodes/Registry/NodeTypeRegistry';
+import { ValueTypeMap } from '../../Values/ValueTypeRegistry';
+import { getStringConversionsForValueType } from '../registerSerializersForValueType';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter';
 import { ILogger } from './Abstractions/ILogger';
 import { OnCustomEvent } from './CustomEvents/OnCustomEvent';
@@ -30,7 +34,6 @@ import {
 } from './Lifecycle/LifecycleOnStart';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick';
 import { Easing } from './Logic/Easing';
-import { registerSerializersForValueType } from '../registerSerializersForValueType';
 import { Delay } from './Time/Delay';
 import * as TimeNodes from './Time/TimeNodes';
 import * as BooleanNodes from './Values/BooleanNodes';
@@ -44,93 +47,106 @@ import { StringValue } from './Values/StringValue';
 import { VariableGet } from './Variables/VariableGet';
 import { VariableSet } from './Variables/VariableSet';
 
-export function registerLogger(
-  registry: DependenciesRegistry,
-  logger: ILogger
-) {
-  registry.register(loggerDependencyKey, logger);
+export const makeCoreDependencies = ({
+  lifecyleEmitter,
+  logger
+}: {
+  lifecyleEmitter: ILifecycleEventEmitter;
+  logger: ILogger;
+}) => ({
+  [lifecycleEventEmitterDependencyKey]: lifecyleEmitter,
+  [loggerDependencyKey]: logger
+});
+
+export function getCoreValueTypes(): ValueTypeMap {
+  return toMap(
+    [BooleanValue, StringValue, IntegerValue, FloatValue],
+    (v) => v.name
+  );
 }
 
-export function registerLifecycleEventEmitter(
-  registry: DependenciesRegistry,
-  emitter: ILifecycleEventEmitter
-) {
-  registry.register(lifecycleEventEmitterDependencyKey, emitter);
+export function toMap<T>(
+  elements: T[],
+  getName: (element: T) => string
+): Record<string, T> {
+  return Object.fromEntries(
+    elements.map((element) => [getName(element), element])
+  );
 }
 
-export function registerCoreValueTypes(values: ValueTypeRegistry) {
-  // pull in value type nodes
-  values.register(BooleanValue);
-  values.register(StringValue);
-  values.register(IntegerValue);
-  values.register(FloatValue);
+function getStringConversions(values: ValueTypeMap): NodeDefinition[] {
+  return ['boolean', 'float', 'integer'].flatMap((valueTypeName) =>
+    getStringConversionsForValueType({ values, valueTypeName })
+  );
 }
 
-export function registerCoreProfile(
-  registry: Pick<IRegistry, 'nodes' | 'values'>
-) {
-  const { nodes, values } = registry;
+export function getCoreNodeDefinitions(
+  values: ValueTypeMap
+): NodeDefinitionsMap {
+  const allNodeDefinitions: NodeDefinition[] = [
+    ...getNodeDescriptions(StringNodes),
+    ...getNodeDescriptions(BooleanNodes),
+    ...getNodeDescriptions(IntegerNodes),
+    ...getNodeDescriptions(FloatNodes),
 
-  registerCoreValueTypes(values);
+    // custom events
 
-  // pull in value type nodes
-  nodes.register(...getNodeDescriptions(StringNodes));
-  nodes.register(...getNodeDescriptions(BooleanNodes));
-  nodes.register(...getNodeDescriptions(IntegerNodes));
-  nodes.register(...getNodeDescriptions(FloatNodes));
+    OnCustomEvent.Description,
+    TriggerCustomEvent.Description,
 
-  // custom events
+    // variables
 
-  nodes.register(OnCustomEvent.Description);
-  nodes.register(TriggerCustomEvent.Description);
+    VariableGet,
+    VariableSet,
 
-  // variables
+    // complex logic
 
-  nodes.register(VariableGet);
-  nodes.register(VariableSet);
+    Easing,
 
-  // complex logic
+    // actions
 
-  nodes.register(Easing);
+    DebugLog,
+    AssertExpectTrue.Description,
 
-  // actions
+    // events
 
-  nodes.register(DebugLog);
-  nodes.register(AssertExpectTrue.Description);
+    LifecycleOnStart,
+    LifecycleOnEnd,
+    LifecycleOnTick,
 
-  // events
+    // time
 
-  nodes.register(LifecycleOnStart);
-  nodes.register(LifecycleOnEnd);
-  nodes.register(LifecycleOnTick);
+    Delay.Description,
+    ...getNodeDescriptions(TimeNodes),
 
-  // time
+    // flow control
 
-  nodes.register(Delay.Description);
-  nodes.register(...getNodeDescriptions(TimeNodes));
+    Branch,
+    FlipFlop,
+    ForLoop,
+    Sequence,
+    SwitchOnInteger,
+    SwitchOnString,
+    Debounce.Description,
+    Throttle.Description,
+    DoN,
+    DoOnce,
+    Gate,
+    MultiGate,
+    WaitAll.Description,
+    Counter,
 
-  // flow control
+    ...getStringConversions(values)
+  ];
 
-  nodes.register(Branch);
-  nodes.register(FlipFlop);
-  nodes.register(ForLoop);
-  nodes.register(Sequence);
-  nodes.register(SwitchOnInteger);
-  nodes.register(SwitchOnString);
-  nodes.register(Debounce.Description);
-  nodes.register(Throttle.Description);
-  nodes.register(DoN);
-  nodes.register(DoOnce);
-  nodes.register(Gate);
-  nodes.register(MultiGate);
-  nodes.register(WaitAll.Description);
-  nodes.register(Counter);
-
-  // string converters
-
-  ['boolean', 'float', 'integer'].forEach((valueTypeName) => {
-    registerSerializersForValueType(registry, valueTypeName);
-  });
-
-  return registry;
+  // convert array to map
+  return toMap(allNodeDefinitions, (node) => node.typeName);
 }
+
+export const getCoreRegistry = () => {
+  const values = getCoreValueTypes();
+  return {
+    values,
+    nodes: getCoreNodeDefinitions(getCoreValueTypes())
+  };
+};

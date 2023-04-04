@@ -6,18 +6,17 @@ import rawGraph from "./graph.json"
 
 import "reactflow/dist/style.css";
 import "./index.css";
+import Branch from "../../../graphs/core/flow/Branch.json";
+import Delay from "../../../graphs/core/time/Delay.json";
+import HelloWorld from "../../../graphs/core/HelloWorld.json";
+import Polynomial from "../../../graphs/core/logic/Polynomial.json";
+import SetGet from "../../../graphs/core/variables/SetGet.json";
 
-const graph = rawGraph as GraphJSON
+const graph = rawGraph as unknown as GraphJSON;
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-
-import Branch from "../../../graphs/core/flow/Branch.json";
-import Delay from "../../../graphs/core/time/Delay.json";
-import HelloWorld from "../../../graphs/core//HelloWorld.json";
-import Polynomial from "../../../graphs/core/logic/Polynomial.json";
-import SetGet from "../../../graphs/core/variables/SetGet.json";
 
 // TODO remove when json types fixed in behave-graph
 const examples: Examples = {
@@ -30,6 +29,6 @@ const examples: Examples = {
 
 root.render(
   <React.StrictMode>
-    <Flow graph={graph} examples={examples}/>
+    <Flow initialGraph={graph} examples={examples} />
   </React.StrictMode>
 );

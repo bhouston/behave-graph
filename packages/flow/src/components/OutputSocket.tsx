@@ -3,14 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Connection, Handle, Position, useReactFlow } from "reactflow";
 import cx from "classnames";
 import { colors, valueTypeColorMap } from "../util/colors";
-import { OutputSocketSpecJSON } from "@behave-graph/core";
+import { NodeSpecJSON, OutputSocketSpecJSON } from "@behave-graph/core";
 import { isValidConnection } from "../util/isValidConnection";
 
 export type OutputSocketProps = {
   connected: boolean;
+  specJSON: NodeSpecJSON[];
 } & OutputSocketSpecJSON;
 
 export default function OutputSocket({
+  specJSON,
   connected,
   valueType,
   name,
@@ -21,6 +23,7 @@ export default function OutputSocket({
   if (colorName === undefined) {
     colorName = "red";
   }
+  // @ts-ignore
   const [backgroundColor, borderColor] = colors[colorName];
   const showName = isFlowSocket === false || name !== "flow";
 
@@ -42,7 +45,7 @@ export default function OutputSocket({
         position={Position.Right}
         className={cx(borderColor, connected ? backgroundColor : "bg-gray-800")}
         isValidConnection={(connection: Connection) =>
-          isValidConnection(connection, instance)
+          isValidConnection(connection, instance, specJSON)
         }
       />
     </div>

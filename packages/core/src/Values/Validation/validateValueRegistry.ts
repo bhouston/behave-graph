@@ -1,22 +1,22 @@
-import { Registry } from '../../Registry';
+import { ValueTypeMap } from '../ValueTypeRegistry';
 
 const valueTypeNameRegex = /^\w+$/;
 
-export function validateValueRegistry(graphRegistry: Registry): string[] {
+export function validateValueRegistry(values: ValueTypeMap): string[] {
   const errorList: string[] = [];
 
-  graphRegistry.values.getAllNames().forEach((valueTypeName) => {
+  Object.keys(values).forEach((valueTypeName) => {
     if (!valueTypeNameRegex.test(valueTypeName)) {
       errorList.push(`invalid value type name ${valueTypeName}`);
     }
 
-    const valueType = graphRegistry.values.get(valueTypeName);
+    const valueType = values[valueTypeName];
 
-    const value = valueType.creator();
-    const serializedValue = valueType.serialize(value);
-    const deserializedValue = valueType.deserialize(serializedValue);
-    const reserializedValue = valueType.serialize(deserializedValue);
-    const redeserializedValue = valueType.deserialize(reserializedValue);
+    const value = valueType?.creator();
+    const serializedValue = valueType?.serialize(value);
+    const deserializedValue = valueType?.deserialize(serializedValue);
+    const reserializedValue = valueType?.serialize(deserializedValue);
+    const redeserializedValue = valueType?.deserialize(reserializedValue);
 
     if (JSON.stringify(serializedValue) !== JSON.stringify(reserializedValue)) {
       errorList.push(

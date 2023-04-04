@@ -1,14 +1,11 @@
 import { Logger } from '../../Diagnostics/Logger';
-import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile';
-import { Registry } from '../../Registry';
+import { getCoreRegistry } from '../../Profiles/Core/registerCoreProfile';
 import { readGraphFromJSON } from './readGraphFromJSON';
-
-const registry = new Registry();
-registerCoreProfile(registry);
 
 Logger.onWarn.clear();
 
 describe('readGraphFromJSON', () => {
+  const registry = getCoreRegistry();
   it('throws if node ids are not unique', () => {
     const json = {
       variables: [],
@@ -24,7 +21,9 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() => readGraphFromJSON(json, registry)).toThrow();
+    expect(() =>
+      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
+    ).toThrow();
   });
 
   it("throws if input keys don't match known sockets", () => {
@@ -41,7 +40,9 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() => readGraphFromJSON(json, registry)).toThrow();
+    expect(() =>
+      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
+    ).toThrow();
   });
 
   it('throws if input points to non-existent node', () => {
@@ -65,7 +66,9 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() => readGraphFromJSON(json, registry)).toThrow();
+    expect(() =>
+      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
+    ).toThrow();
   });
 
   it('throws if input points to non-existent socket', () => {
@@ -89,6 +92,8 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() => readGraphFromJSON(json, registry)).toThrow();
+    expect(() =>
+      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
+    ).toThrow();
   });
 });

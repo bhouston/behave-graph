@@ -90,3 +90,5 @@ export * from './Profiles/Core/Values/StringValue';
 export * from './Profiles/Core/Variables/VariableSet';
 export * from './Profiles/Core/Variables/VariableGet';
 export * from './Profiles/Core/registerCoreProfile';
+
+export * from './parseFloats';

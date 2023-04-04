@@ -1,5 +1,5 @@
 import { Assert } from '../Diagnostics/Assert';
-import { Graph } from '../Graphs/Graph';
+import { GraphNodes } from '../Graphs/Graph';
 import { Link } from '../Nodes/Link';
 import { INode, isAsyncNode, isFlowNode } from '../Nodes/NodeInstance';
 import { Engine } from './Engine';
@@ -7,7 +7,7 @@ import { resolveSocketValue } from './resolveSocketValue';
 
 export class Fiber {
   private readonly fiberCompletedListenerStack: (() => void)[] = [];
-  private readonly graph: Graph;
+  private readonly nodes: GraphNodes;
   public executionSteps = 0;
 
   constructor(
@@ -15,7 +15,7 @@ export class Fiber {
     public nextEval: Link | null,
     fiberCompletedListener: (() => void) | undefined = undefined
   ) {
-    this.graph = engine.graph;
+    this.nodes = engine.nodes;
     if (fiberCompletedListener !== undefined) {
       this.fiberCompletedListenerStack.push(fiberCompletedListener);
     }
@@ -76,7 +76,7 @@ export class Fiber {
       return;
     }
 
-    const node = this.graph.nodes[link.nodeId];
+    const node = this.nodes[link.nodeId];
 
     node.inputs.forEach((inputSocket) => {
       if (inputSocket.valueTypeName !== 'flow') {

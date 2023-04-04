@@ -1,19 +1,50 @@
 import { NodeCategory } from '../../Nodes/NodeDefinitions';
-import { Registry } from '../../Registry';
-import { Graph } from '../Graph';
+import { Dependencies } from '../../Nodes/Registry/DependenciesRegistry';
+import { NodeDefinitionsMap } from '../../Nodes/Registry/NodeTypeRegistry';
+import { Choices } from '../../Sockets/Socket';
+import { ValueTypeMap } from '../../Values/ValueTypeRegistry';
+import { createNode, IGraphApi } from '../Graph';
 import {
+  ChoiceJSON,
   InputSocketSpecJSON,
   NodeSpecJSON,
   OutputSocketSpecJSON
 } from './NodeSpecJSON';
 
-export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
+function toChoices(valueChoices: Choices | undefined): ChoiceJSON | undefined {
+  return valueChoices?.map((choice) => {
+    if (typeof choice === 'string') return { text: choice, value: choice };
+    return choice;
+  });
+}
+
+export function writeNodeSpecsToJSON({
+  values,
+  nodes,
+  dependencies
+}: {
+  values: ValueTypeMap;
+  nodes: NodeDefinitionsMap;
+  dependencies: Dependencies;
+}): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
-  const graph = new Graph(registry);
+  // const graph = new Graph(registry);
 
-  registry.nodes.getAllNames().forEach((nodeTypeName) => {
-    const node = graph.createNode(nodeTypeName);
+  const graph: IGraphApi = {
+    values: values,
+    customEvents: {},
+    getDependency: (id: string) => dependencies[id],
+    variables: {}
+  };
+
+  Object.keys(nodes).forEach((nodeTypeName) => {
+    const node = createNode({
+      graph,
+      nodes,
+      values,
+      nodeTypeName
+    });
 
     const nodeSpecJSON: NodeSpecJSON = {
       type: nodeTypeName,
@@ -28,7 +59,7 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
-          : registry.values.get(inputSocket.valueTypeName);
+          : values[inputSocket.valueTypeName];
 
       let defaultValue = inputSocket.value;
       if (valueType !== undefined) {
@@ -40,7 +71,8 @@ export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
       const socketSpecJSON: InputSocketSpecJSON = {
         name: inputSocket.name,
         valueType: inputSocket.valueTypeName,
-        defaultValue
+        defaultValue,
+        choices: toChoices(inputSocket.valueChoices)
       };
       nodeSpecJSON.inputs.push(socketSpecJSON);
     });

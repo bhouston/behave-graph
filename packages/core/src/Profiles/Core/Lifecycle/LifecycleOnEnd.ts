@@ -4,6 +4,7 @@ import {
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
+import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 
@@ -15,32 +16,40 @@ const makeInitialState = (): State => ({
   onEndEvent: undefined
 });
 
-export const LifecycleOnEnd = (lifecycleEventEmitter: ILifecycleEventEmitter) =>
-  makeEventNodeDefinition({
-    typeName: 'lifecycle/onEnd',
-    label: 'On End',
-    category: NodeCategory.Event,
-    in: {},
-    out: {
-      flow: 'flow'
-    },
-    initialState: makeInitialState(),
-    init: ({ state, commit }) => {
-      Assert.mustBeTrue(state.onEndEvent === undefined);
-      const onEndEvent = () => {
-        commit('flow');
-      };
+export const LifecycleOnEnd = makeEventNodeDefinition({
+  typeName: 'lifecycle/onEnd',
+  label: 'On End',
+  category: NodeCategory.Event,
+  in: {},
+  out: {
+    flow: 'flow'
+  },
+  initialState: makeInitialState(),
+  init: ({ state, commit, graph: { getDependency } }) => {
+    Assert.mustBeTrue(state.onEndEvent === undefined);
+    const onEndEvent = () => {
+      commit('flow');
+    };
 
-      lifecycleEventEmitter.endEvent.addListener(onEndEvent);
+    const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
+      lifecycleEventEmitterDependencyKey
+    );
 
-      return {
-        onEndEvent
-      };
-    },
-    dispose: ({ state: { onEndEvent } }) => {
-      Assert.mustBeTrue(onEndEvent !== undefined);
-      if (onEndEvent) lifecycleEventEmitter.endEvent.removeListener(onEndEvent);
+    lifecycleEventEmitter.endEvent.addListener(onEndEvent);
 
-      return {};
-    }
-  });
+    return {
+      onEndEvent
+    };
+  },
+  dispose: ({ state: { onEndEvent }, graph: { getDependency } }) => {
+    Assert.mustBeTrue(onEndEvent !== undefined);
+
+    const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
+      lifecycleEventEmitterDependencyKey
+    );
+
+    if (onEndEvent) lifecycleEventEmitter.endEvent.removeListener(onEndEvent);
+
+    return {};
+  }
+});

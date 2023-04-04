@@ -1,25 +1,58 @@
 import {
-  EventNode,
-  IGraphApi,
-  NodeDescription,
-  Socket
+  Assert,
+  makeEventNodeDefinition,
+  NodeCategory
 } from '@behave-graph/core';
 
-// very 3D specific.
-export class OnSceneNodeClick extends EventNode {
-  public static Description = new NodeDescription(
-    'scene/nodeClick',
-    'Event',
-    'On Node Click',
-    (description, graph) => new OnSceneNodeClick(description, graph)
-  );
+import { IScene } from '../../Abstractions/IScene';
 
-  constructor(description: NodeDescription, graph: IGraphApi) {
-    super(
-      description,
-      graph,
-      [],
-      [new Socket('flow', 'flow'), new Socket('float', 'nodeIndex')]
-    );
+type State = {
+  jsonPath?: string | undefined;
+  handleNodeClick?: ((jsonPath: string) => void) | undefined;
+};
+
+const initialState = (): State => ({});
+
+// very 3D specific.
+export const OnSceneNodeClick = makeEventNodeDefinition({
+  typeName: 'scene/nodeClick',
+  category: NodeCategory.Event,
+  in: {
+    jsonPath: 'string'
+  },
+  out: {
+    flow: 'flow'
+  },
+  initialState: initialState(),
+  init: ({ read, commit, graph: { getDependency } }) => {
+    const handleNodeClick = () => {
+      commit('flow');
+    };
+
+    const jsonPath = read<string>('jsonPath');
+
+    const scene = getDependency<IScene>('scene');
+    scene.addOnClickedListener(jsonPath, handleNodeClick);
+
+    const state: State = {
+      handleNodeClick,
+      jsonPath
+    };
+
+    return state;
+  },
+  dispose: ({
+    state: { handleNodeClick, jsonPath },
+    graph: { getDependency }
+  }) => {
+    Assert.mustBeTrue(handleNodeClick !== undefined);
+    Assert.mustBeTrue(jsonPath !== undefined);
+
+    if (!jsonPath || !handleNodeClick) return {};
+
+    const scene = getDependency<IScene>('scene');
+    scene.removeOnClickedListener(jsonPath, handleNodeClick);
+
+    return {};
   }
-}
+});

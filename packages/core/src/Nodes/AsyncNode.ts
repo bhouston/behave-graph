@@ -102,6 +102,6 @@ export class AsyncNodeInstance<TAsyncNodeDef extends IAsyncNodeDefinition>
     });
   };
   dispose = () => {
-    this.state = this.disposeInner({ state: this.state });
+    this.state = this.disposeInner({ state: this.state, graph: this.graph });
   };
 }

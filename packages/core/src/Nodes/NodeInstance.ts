@@ -14,7 +14,6 @@ export enum NodeType {
 }
 
 export interface INode {
-  readonly id: string;
   readonly inputs: Socket[];
   readonly outputs: Socket[];
   readonly graph: IGraphApi;

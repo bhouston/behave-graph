@@ -1,7 +1,9 @@
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FunctionNode } from '../../../Nodes/FunctionNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import {
+  FunctionNode,
+  IGraphApi,
+  NodeDescription,
+  Socket
+} from '@behave-graph/core';
 
 export class VecElements<T> extends FunctionNode {
   constructor(

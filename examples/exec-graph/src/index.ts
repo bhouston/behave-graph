@@ -9,6 +9,8 @@ import {
   parseSafeFloat,
   readGraphFromJSON,
   registerCoreProfile,
+  registerLifecycleEventEmitter,
+  registerLogger,
   registerSceneProfile,
   Registry,
   validateGraph,
@@ -35,8 +37,13 @@ async function execGraph({
   const registry = new Registry();
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  registerCoreProfile(registry, logger, manualLifecycleEventEmitter);
+  registerCoreProfile(registry);
   registerSceneProfile(registry);
+  registerLogger(registry.dependencies, logger);
+  registerLifecycleEventEmitter(
+    registry.dependencies,
+    manualLifecycleEventEmitter
+  );
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);

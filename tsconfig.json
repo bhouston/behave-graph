@@ -18,5 +18,5 @@
     "outDir": "./dist"
   },
   "include": ["packages/core/src", "packages/flow/src"],
-  "exclude": ["**/*node_modules", "dist", "*.test.ts"],
+  "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],
 }

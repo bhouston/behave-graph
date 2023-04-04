@@ -1,9 +1,9 @@
 import { makeInNOutFunctionDesc } from '../Nodes/FunctionNode';
-import { Registry } from '../Registry';
+import { IRegistry } from '../Registry';
 import { toCamelCase } from '../toCamelCase';
 
 export function registerSerializersForValueType(
-  registry: Registry,
+  registry: Pick<IRegistry, 'nodes' | 'values'>,
   valueTypeName: string
 ) {
   const camelCaseValueTypeName = toCamelCase(valueTypeName);

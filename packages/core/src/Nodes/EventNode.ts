@@ -103,7 +103,8 @@ export class EventNodeInstance<TEventNodeDef extends IEventNodeDefinition>
 
   dispose(): void {
     this.disposeInner({
-      state: this.state
+      state: this.state,
+      graph: this.graph
     });
   }
 }

@@ -13,35 +13,43 @@ const makeInitialState = (): State => ({
   onStartEvent: undefined
 });
 
-export const LifecycleOnStart = (
-  lifecycleEventEmitter: ILifecycleEventEmitter
-) =>
-  makeEventNodeDefinition({
-    typeName: 'lifecycle/onStart',
-    label: 'On Start',
-    category: NodeCategory.Event,
-    in: {},
-    out: {
-      flow: 'flow'
-    },
-    initialState: makeInitialState(),
-    init: ({ state, commit }) => {
-      Assert.mustBeTrue(state.onStartEvent === undefined);
-      const onStartEvent = () => {
-        commit('flow');
-      };
+export const lifecycleEventEmitterDependencyKey = 'lifecycleEventEmitter';
 
-      lifecycleEventEmitter.startEvent.addListener(onStartEvent);
+export const LifecycleOnStart = makeEventNodeDefinition({
+  typeName: 'lifecycle/onStart',
+  label: 'On Start',
+  category: NodeCategory.Event,
+  in: {},
+  out: {
+    flow: 'flow'
+  },
+  initialState: makeInitialState(),
+  init: ({ state, commit, graph: { getDependency } }) => {
+    Assert.mustBeTrue(state.onStartEvent === undefined);
+    const onStartEvent = () => {
+      commit('flow');
+    };
 
-      return {
-        onStartEvent
-      };
-    },
-    dispose: ({ state: { onStartEvent } }) => {
-      Assert.mustBeTrue(onStartEvent !== undefined);
-      if (onStartEvent)
-        lifecycleEventEmitter.startEvent.removeListener(onStartEvent);
+    const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
+      lifecycleEventEmitterDependencyKey
+    );
 
-      return {};
-    }
-  });
+    lifecycleEventEmitter.startEvent.addListener(onStartEvent);
+
+    return {
+      onStartEvent
+    };
+  },
+  dispose: ({ state: { onStartEvent }, graph: { getDependency } }) => {
+    Assert.mustBeTrue(onStartEvent !== undefined);
+
+    const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
+      lifecycleEventEmitterDependencyKey
+    );
+
+    if (onStartEvent)
+      lifecycleEventEmitter.startEvent.removeListener(onStartEvent);
+
+    return {};
+  }
+});

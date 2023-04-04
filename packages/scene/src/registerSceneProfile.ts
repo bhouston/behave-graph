@@ -1,11 +1,10 @@
 /* eslint-disable max-len */
 import {
   getNodeDescriptions,
-  registerSerializersForValueType,
-  Registry
+  IRegistry,
+  registerSerializersForValueType
 } from '@behave-graph/core';
 
-import { DummyScene } from './Abstractions/Drivers/DummyScene';
 import { IScene } from './Abstractions/IScene';
 import { SetSceneProperty } from './Nodes/Actions/SetSceneProperty';
 import { OnSceneNodeClick } from './Nodes/Events/OnSceneNodeClick';
@@ -27,9 +26,15 @@ import { Vec2Value } from './Values/Vec2Value';
 import { Vec3Value } from './Values/Vec3Value';
 import { Vec4Value } from './Values/Vec4Value';
 
+export function registerSceneDependency(
+  dependencies: IRegistry['dependencies'],
+  scene: IScene
+) {
+  dependencies.register('scene', scene);
+}
+
 export function registerSceneProfile(
-  registry: Registry,
-  scene: IScene = new DummyScene()
+  registry: Pick<IRegistry, 'values' | 'nodes'>
 ) {
   const { values, nodes } = registry;
 
@@ -55,16 +60,12 @@ export function registerSceneProfile(
 
   // events
 
-  nodes.register(OnSceneNodeClick.Description);
+  nodes.register(OnSceneNodeClick);
 
   // actions
   const allValueTypeNames = values.getAllNames();
-  nodes.register(
-    ...SetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
-  );
-  nodes.register(
-    ...GetSceneProperty.GetDescriptions(scene, ...allValueTypeNames)
-  );
+  nodes.register(...SetSceneProperty(allValueTypeNames));
+  nodes.register(...GetSceneProperty(allValueTypeNames));
 
   const newValueTypeNames = [
     'vec2',

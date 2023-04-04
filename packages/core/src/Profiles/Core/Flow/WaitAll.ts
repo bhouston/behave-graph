@@ -14,7 +14,10 @@ export class WaitAll extends FlowNode {
     category: 'Flow',
     label: 'WaitAll',
     configuration: {
-      numInputs: 3
+      numInputs: {
+        valueType: 'number',
+        defaultValue: 3
+      }
     },
     factory: (description, graph, configuration) =>
       new WaitAll(description, graph, configuration.numInputs)

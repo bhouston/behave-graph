@@ -6,27 +6,19 @@ import { autoLayout } from "../../util/autoLayout";
 import { hasPositionMetaData } from "../../util/hasPositionMetaData";
 import { Modal } from "./Modal";
 
-import Branch from "behave-graph/dist/graphs/core/flow/Branch.json";
-import Delay from "behave-graph/dist/graphs/core/async/Delay.json";
-import HelloWorld from "behave-graph/dist/graphs/core//HelloWorld.json";
-import Polynomial from "behave-graph/dist/graphs/core/logic/Polynomial.json";
-import SetGet from "behave-graph/dist/graphs/core/variables/SetGet.json";
 
-// TODO remove when json types fixed in behave-graph
-const examples = {
-  branch: Branch as unknown as GraphJSON,
-  delay: Delay as unknown as GraphJSON,
-  helloWorld: HelloWorld as unknown as GraphJSON,
-  polynomial: Polynomial as unknown as GraphJSON,
-  setGet: SetGet as unknown as GraphJSON,
-} as Record<string, GraphJSON>;
 
 export type LoadModalProps = {
   open?: boolean;
   onClose: () => void;
+  examples: Examples
 };
 
-export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose }) => {
+export type Examples = {
+  [key: string]: GraphJSON;
+}
+
+export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose, examples}) => {
   const [value, setValue] = useState<string>();
   const [selected, setSelected] = useState("");
 

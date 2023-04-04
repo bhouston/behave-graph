@@ -2,12 +2,6 @@
   "folders": [
     {
       "path": "."
-    },
-    {
-      "path": "../threeify"
-    },
-    {
-      "path": "../gl-matrix"
     }
   ],
   "settings": {

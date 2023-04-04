@@ -1,9 +1,12 @@
-import { EventEmitter } from '../../../../Events/EventEmitter';
-import { ValueTypeRegistry } from '../../../../Values/ValueTypeRegistry';
-import { BooleanValue } from '../../../Core/Values/BooleanValue';
-import { FloatValue } from '../../../Core/Values/FloatValue';
-import { IntegerValue } from '../../../Core/Values/IntegerValue';
-import { StringValue } from '../../../Core/Values/StringValue';
+import {
+  BooleanValue,
+  EventEmitter,
+  FloatValue,
+  IntegerValue,
+  StringValue,
+  ValueTypeRegistry
+} from '@behave-graph/core';
+
 import { ColorValue } from '../../Values/ColorValue';
 import { EulerValue } from '../../Values/EulerValue';
 import { QuatValue } from '../../Values/QuatValue';
@@ -41,6 +44,12 @@ export class DummyScene implements IScene {
     jsonPath: string,
     callback: (jsonPath: string) => void
   ): void {
-    throw new Error('Method not implemented.');
+    console.log('added on clicked listener');
+  }
+  removeOnClickedListener(
+    jsonPath: string,
+    callback: (jsonPath: string) => void
+  ): void {
+    console.log('removed on clicked listener');
   }
 }

@@ -4,7 +4,7 @@ import {
   parseSafeFloats,
   toSafeString
 } from '@behave-graph/core';
-import { clamp } from 'three/src/math/MathUtils';
+import { clamp } from '@behave-graph/core/src/mathUtilities';
 
 import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3';
 import { Mat4 } from './Mat4';

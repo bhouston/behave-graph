@@ -5,5 +5,7 @@ export const StringValue = new ValueType(
   () => '',
   (value: string) => value,
   (value: string) => value,
-  (start: string, end: string, t: number) => (t < 0.5 ? start : end)
+  (start: string, end: string, t: number) => (t < 0.5 ? start : end),
+  (a: string, b: string) => a === b,
+  (value: string) => value
 );

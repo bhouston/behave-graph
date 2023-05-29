@@ -20,7 +20,19 @@ export function registerSerializersForValueType(
       label: 'To String',
       in: [valueTypeName],
       out: 'string',
-      exec: (a: any) => registry.values.get(valueTypeName).serialize(a)
+      exec: (a: any) => {
+        const temp = registry.values.get(valueTypeName).serialize(a);
+        switch (typeof temp) {
+          case 'string':
+            return temp;
+          case 'number':
+            return temp.toString();
+          case 'boolean':
+            return temp.toString();
+          default:
+            return JSON.stringify(temp);
+        }
+      }
     })
   );
 }

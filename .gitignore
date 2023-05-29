@@ -4,4 +4,11 @@ dist
 node-spec.json
 *.blend1
 node-spec.csv
-.yarn
+
+# yarn recommendations from here: https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

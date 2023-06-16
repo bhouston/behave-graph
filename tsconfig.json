@@ -4,6 +4,7 @@
       "@behave-graph/core": ["./packages/core/"],
       "@behave-graph/flow": ["./packages/flow/"]
     },
+    "outDir": "./dist",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "lib": ["es2020", "dom"],

@@ -1,0 +1,22 @@
+{
+  "name": "exec-graph",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": "./bin/cli.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "source": "./src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --format=cjs --platform=node --bundle --sourcemap --outfile=dist/index.js",
+    "dev": "esbuild src/index.ts --format=cjs --platform=node --bundle --sourcemap --outfile=dist/index.js --watch",
+    "types": "tsc --noEmit --watch"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0"
+  },
+  "dependencies": {
+    "@behave-graph/core": "*",
+    "commander": "^9.4.1",
+    "glob": "^8.0.3"
+  }
+}

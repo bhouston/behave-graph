@@ -1,8 +1,10 @@
 {
   "eslint.probe": ["javascript", "javascriptreact", "typescript","json"],
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "cSpell.words": [
+    "fontawesome",
+    "fortawesome",
     "GLTF",
     "interruptible",
     "lerp",

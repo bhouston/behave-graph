@@ -1,0 +1,14 @@
+{
+  "name": "three-viewer",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --outfile=public/js/index.js",
+    "dev": "esbuild src/index.ts --bundle --outfile=public/js/index.js --watch --serve=8001 --servedir=public",
+    "types": "tsc --noEmit --watch"
+  },
+  "dependencies": {
+    "@behave-graph/core": "*",
+    "three": "^0.145.0"
+  }
+}

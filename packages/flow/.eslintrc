@@ -1,8 +1,0 @@
-{
-  "plugins": ["react", "react-hooks"],
-  "extends": [
-    "../../.eslintrc",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
-  ]
-}

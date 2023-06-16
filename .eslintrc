@@ -8,12 +8,18 @@
     "promise",
     "simple-import-sort",
     "prettier",
-    "import"
+    "import",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "react",
+    "react-hooks"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "prettier"
   ],
   "rules": {

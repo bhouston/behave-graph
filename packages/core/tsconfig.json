@@ -3,7 +3,6 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "baseUrl": "src",
-    "outDir": "dist",
-    "jsx": "react-jsx"
+    "outDir": "dist"
   }
 }

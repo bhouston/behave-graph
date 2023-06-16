@@ -1,22 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["es2019", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "paths": {
+      "@behave-graph/core": ["./packages/core/"],
+      "@behave-graph/flow": ["./packages/flow/"]
+    },
     "esModuleInterop": true,
-    "pretty": true,
-    "strict": true,
-    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "lib": ["es2020", "dom"],
+    "module": "ESNext",
     "declaration": true,
-    "removeComments": true,
-    "emitDeclarationOnly": true,
+    "stripInternal": true,
+    "typeRoots": ["node_modules/@types"],
     "resolveJsonModule": true,
-    "noImplicitThis": false,
-    "baseUrl": "./",
-    "jsx": "react",
-    "outDir": "./dist"
-  },
-  "include": ["packages/core/src", "packages/flow/src"],
-  "exclude": ["**/*node_modules", "dist", "**/*.test.ts"],
+
+    // Components of "strict" mode.
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  }
 }

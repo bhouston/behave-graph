@@ -4,3 +4,5 @@ dist
 node-spec.json
 *.blend1
 node-spec.csv
+*.js
+*.d.ts

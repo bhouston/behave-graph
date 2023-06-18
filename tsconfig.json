@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "lib": ["es2020", "dom"],
     "module": "ESNext",
+    "target": "ES2020",
     "declaration": true,
     "stripInternal": true,
     "typeRoots": ["node_modules/@types"],

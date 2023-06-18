@@ -6,9 +6,8 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --format=esm --bundle --sourcemap --outfile=dist/index.js",
-    "dev": "esbuild src/index.ts --format=esm --bundle --sourcemap --outfile=dist/index.js --watch",
-    "types": "tsc --emitDeclarationOnly --outDir dist --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "jest"
   },
   "devDependencies": {

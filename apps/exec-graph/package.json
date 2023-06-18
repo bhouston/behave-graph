@@ -7,9 +7,8 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --format=cjs --platform=node --bundle --sourcemap --outfile=dist/index.js",
-    "dev": "esbuild src/index.ts --format=cjs --platform=node --bundle --sourcemap --outfile=dist/index.js --watch",
-    "types": "tsc --noEmit --watch"
+    "build": "tsc --noEmit && esbuild src/index.ts --format=cjs --platform=node --bundle --outfile=dist/index.js",
+    "dev": "tsc --noEmit --watch & esbuild src/index.ts --format=cjs --platform=node --bundle --sourcemap --outfile=dist/index.js --watch"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0"

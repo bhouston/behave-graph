@@ -1,5 +1,6 @@
-import { FC } from "react";
-import { Modal } from "./Modal";
+import { FC } from 'react';
+
+import { Modal } from './Modal';
 
 export type HelpModalProps = {
   open?: boolean;
@@ -10,7 +11,7 @@ export const HelpModal: FC<HelpModalProps> = ({ open = false, onClose }) => {
   return (
     <Modal
       title="Help"
-      actions={[{ label: "Close", onClick: onClose }]}
+      actions={[{ label: 'Close', onClick: onClose }]}
       open={open}
       onClose={onClose}
     >

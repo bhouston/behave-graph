@@ -1,26 +1,29 @@
-import { GraphJSON } from "@behave-graph/core";
-import { FC, useState } from "react";
-import { useReactFlow } from "reactflow";
-import { behaveToFlow } from "../../transformers/behaveToFlow";
-import { autoLayout } from "../../util/autoLayout";
-import { hasPositionMetaData } from "../../util/hasPositionMetaData";
-import { Modal } from "./Modal";
+import { GraphJSON } from '@behave-graph/core';
+import { FC, useState } from 'react';
+import { useReactFlow } from 'reactflow';
 
-
+import { behaveToFlow } from '../../transformers/behaveToFlow';
+import { autoLayout } from '../../util/autoLayout';
+import { hasPositionMetaData } from '../../util/hasPositionMetaData';
+import { Modal } from './Modal';
 
 export type LoadModalProps = {
   open?: boolean;
   onClose: () => void;
-  examples: Examples
+  examples: Examples;
 };
 
 export type Examples = {
   [key: string]: GraphJSON;
-}
+};
 
-export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose, examples}) => {
+export const LoadModal: FC<LoadModalProps> = ({
+  open = false,
+  onClose,
+  examples
+}) => {
   const [value, setValue] = useState<string>();
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
   const instance = useReactFlow();
 
@@ -28,7 +31,7 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose, examples}
     let graph;
     if (value !== undefined) {
       graph = JSON.parse(value) as GraphJSON;
-    } else if (selected !== "") {
+    } else if (selected !== '') {
       graph = examples[selected];
     }
 
@@ -53,7 +56,7 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose, examples}
 
   const handleClose = () => {
     setValue(undefined);
-    setSelected("");
+    setSelected('');
     onClose();
   };
 
@@ -61,8 +64,8 @@ export const LoadModal: FC<LoadModalProps> = ({ open = false, onClose, examples}
     <Modal
       title="Load Graph"
       actions={[
-        { label: "Cancel", onClick: handleClose },
-        { label: "Load", onClick: handleLoad },
+        { label: 'Cancel', onClick: handleClose },
+        { label: 'Load', onClick: handleLoad }
       ]}
       open={open}
       onClose={onClose}

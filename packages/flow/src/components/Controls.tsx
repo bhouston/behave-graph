@@ -2,29 +2,37 @@ import {
   Engine,
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
-  Registry,
-} from "@behave-graph/core";
-import { useState } from "react";
-import { ClearModal } from "./modals/ClearModal";
-import { HelpModal } from "./modals/HelpModal";
+  Registry
+} from '@behave-graph/core';
 import {
   faDownload,
   faPlay,
   faQuestion,
   faTrash,
-  faUpload,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  faUpload
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { ControlButton, Controls, useReactFlow } from 'reactflow';
 
+import { flowToBehave } from '../transformers/flowToBehave';
+import { sleep } from '../util/sleep';
+import { ClearModal } from './modals/ClearModal';
+import { HelpModal } from './modals/HelpModal';
 import { Examples, LoadModal } from './modals/LoadModal';
 import { SaveModal } from './modals/SaveModal';
-import { flowToBehave } from "../transformers/flowToBehave";
-import { useReactFlow, Controls, ControlButton } from "reactflow";
-import { sleep } from "../util/sleep";
 
-export type CustomControlsProps = {examples: Examples, registry: Registry, manualLifecycleEventEmitter: ManualLifecycleEventEmitter};
+export type CustomControlsProps = {
+  examples: Examples;
+  registry: Registry;
+  manualLifecycleEventEmitter: ManualLifecycleEventEmitter;
+};
 
-const CustomControls = ({examples, registry, manualLifecycleEventEmitter}: CustomControlsProps) => {
+const CustomControls = ({
+  examples,
+  registry,
+  manualLifecycleEventEmitter
+}: CustomControlsProps) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -32,14 +40,12 @@ const CustomControls = ({examples, registry, manualLifecycleEventEmitter}: Custo
   const instance = useReactFlow();
 
   const handleRun = async () => {
-    
     const nodes = instance.getNodes();
     const edges = instance.getEdges();
     const graphJson = flowToBehave(nodes, edges);
     const graph = readGraphFromJSON(graphJson, registry);
 
     const engine = new Engine(graph);
-
 
     if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
       manualLifecycleEventEmitter.startEvent.emit();
@@ -52,7 +58,7 @@ const CustomControls = ({examples, registry, manualLifecycleEventEmitter}: Custo
       for (let tick = 0; tick < iterations; tick++) {
         manualLifecycleEventEmitter.tickEvent.emit();
         engine.executeAllSync(tickDuration);
-        await sleep( tickDuration );
+        await sleep(tickDuration);
       }
     }
 
@@ -81,7 +87,11 @@ const CustomControls = ({examples, registry, manualLifecycleEventEmitter}: Custo
           <FontAwesomeIcon icon={faPlay} />
         </ControlButton>
       </Controls>
-      <LoadModal open={loadModalOpen} onClose={() => setLoadModalOpen(false)} examples={examples} />
+      <LoadModal
+        open={loadModalOpen}
+        onClose={() => setLoadModalOpen(false)}
+        examples={examples}
+      />
       <SaveModal open={saveModalOpen} onClose={() => setSaveModalOpen(false)} />
       <HelpModal open={helpModalOpen} onClose={() => setHelpModalOpen(false)} />
       <ClearModal

@@ -4,10 +4,10 @@ import {
   vec2Dot,
   vec2FromArray,
   vec2Length,
+  vec2MultiplyByScalar,
   vec2Negate,
   vec2Normalize,
   vec2Parse,
-  vec2MultiplyByScalar,
   vec2Subtract,
   vec2ToArray,
   vec2ToString

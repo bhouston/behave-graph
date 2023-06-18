@@ -11,7 +11,7 @@ import {
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 
-async function main() {
+export const main = async () => {
   // Logger.onVerbose.clear();
 
   program
@@ -84,6 +84,4 @@ async function main() {
       encoding: 'utf-8'
     });
   }
-}
-
-main();
+};

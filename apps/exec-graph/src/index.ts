@@ -129,7 +129,7 @@ async function execGraph({
   engine.dispose();
 }
 
-async function main() {
+export const main = async () => {
   program
     .name('exec-graph')
     .argument('<filename>', 'path to the behavior-graph json to execute')
@@ -148,6 +148,4 @@ async function main() {
   const jsonPattern = program.args[0];
 
   await execGraph({ programOptions, jsonPattern });
-}
-
-main();
+};

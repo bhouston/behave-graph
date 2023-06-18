@@ -2,6 +2,7 @@ import { GraphJSON } from '@behave-graph/core';
 import {
   FC,
   MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
   useCallback,
   useMemo,
   useState
@@ -110,15 +111,18 @@ export const Flow: FC<FlowProps> = ({ graph, examples }) => {
   );
 
   const handleStartConnect = (
-    e: ReactMouseEvent,
+    e: ReactMouseEvent | ReactTouchEvent,
     params: OnConnectStartParams
   ) => {
     setLastConnectStart(params);
   };
 
-  const handleStopConnect = (e: MouseEvent) => {
+  const handleStopConnect = (e: MouseEvent | TouchEvent) => {
     const element = e.target as HTMLElement;
-    if (element.classList.contains('react-flow__pane')) {
+    if (
+      element.classList.contains('react-flow__pane') &&
+      e instanceof MouseEvent
+    ) {
       setNodePickerVisibility({ x: e.clientX, y: e.clientY });
     } else {
       setLastConnectStart(undefined);

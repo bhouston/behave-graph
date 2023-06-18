@@ -75,10 +75,10 @@ async function execGraph({
 
   if (programOptions.trace) {
     engine.onNodeExecutionStart.addListener((node) =>
-      Logger.verbose(`<< ${node.description.typeName}:${node.id} >> START`)
+      Logger.verbose(`<< ${node.description.typeName} >> START`)
     );
     engine.onNodeExecutionEnd.addListener((node) =>
-      Logger.verbose(`<< ${node.description.typeName}:${node.id} >> END`)
+      Logger.verbose(`<< ${node.description.typeName} >> END`)
     );
   }
 

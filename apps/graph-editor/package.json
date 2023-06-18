@@ -2,8 +2,8 @@
   "name": "graph-editor",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc --noEmit && esbuild src/index.tsx --bundle --minify --outfile=public/js/index.js",
-    "dev": "tsc --noEmit --watch & esbuild src/index.tsx --bundle --sourcemap --outfile=public/js/index.js --watch --serve=8001 --servedir=public"
+    "build": "tsc --noEmit && esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/js/index.js",
+    "dev": "tsc --noEmit --watch & esbuild src/index.tsx --target=es2020 --bundle --sourcemap --outfile=public/js/index.js --watch --serve=8001 --servedir=public"
   },
   "dependencies": {
     "@behave-graph/core": "*",

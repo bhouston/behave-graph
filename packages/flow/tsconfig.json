@@ -3,7 +3,7 @@
   "include": ["src/**/*"],
   "exclude": ["src/**/*.test.ts"],
   "compilerOptions": {
-    "baseUrl": "src",
+    "rootDir": "src",
     "outDir": "dist",
     "jsx": "react-jsx"
   }

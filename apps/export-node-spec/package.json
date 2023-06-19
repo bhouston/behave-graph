@@ -1,7 +1,6 @@
 {
   "name": "export-node-spec",
   "version": "0.0.1",
-  "type": "module",
   "bin": "./bin/cli.js",
   "types": "./dist/index.d.ts",
   "module": "./dist/index.js",

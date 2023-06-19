@@ -1,5 +1,5 @@
 {
-  "eslint.probe": ["javascript", "javascriptreact", "typescript","json"],
+  "eslint.probe": ["javascript", "javascriptreact", "typescript", "json"],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "cSpell.words": [
@@ -9,6 +9,7 @@
     "interruptible",
     "lerp",
     "Nullary",
+    "outfile",
     "reserialization",
     "reserialized",
     "Slerp",

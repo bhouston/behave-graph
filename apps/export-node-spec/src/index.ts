@@ -11,11 +11,14 @@ import {
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 
+import { name, version } from '../package.json';
+
 export const main = async () => {
   // Logger.onVerbose.clear();
 
   program
-    .name('exec-graph')
+    .name(name)
+    .version(version)
     .argument('<filename>', 'path to the output node-spec json export')
     .option('-c, --csv', `output in CSV mode`);
 

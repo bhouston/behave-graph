@@ -19,6 +19,8 @@ import {
 } from '@behave-graph/core';
 import { program } from 'commander';
 
+import { name, version } from '../package.json';
+
 type ProgramOptions = {
   upgrade?: boolean;
   trace?: boolean;
@@ -131,7 +133,8 @@ async function execGraph({
 
 export const main = async () => {
   program
-    .name('exec-graph')
+    .name(name)
+    .version(version)
     .argument('<filename>', 'path to the behavior-graph json to execute')
     .option('-t, --trace', `trace node execution`)
     .option('-p, --profile', `profile execution time`)

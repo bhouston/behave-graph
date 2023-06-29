@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom/client';
 
 import rawGraph from './graph.json';
 
-const graph = rawGraph as GraphJSON;
+const graph = rawGraph as any as GraphJSON;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

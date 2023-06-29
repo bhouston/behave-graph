@@ -37,7 +37,6 @@
   "devDependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@changesets/cli": "^2.26.0",
-    "@types/glob": "^8.0.0",
     "@types/jest": "^29.5.2",
     "@types/node": "^18.0.6",
     "@types/react": "^18.2.0",
@@ -64,7 +63,6 @@
   },
   "dependencies": {
     "commander": "^9.4.1",
-    "glob": "^8.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vite": "^3.2.4"

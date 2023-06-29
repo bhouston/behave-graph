@@ -7,7 +7,8 @@ import {
   useMemo,
   useState
 } from 'react';
-import ReactFlow, {
+import {
+  ReactFlow,
   Background,
   BackgroundVariant,
   Connection,

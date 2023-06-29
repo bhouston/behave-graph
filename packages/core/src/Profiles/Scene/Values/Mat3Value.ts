@@ -1,5 +1,5 @@
-import { ValueType } from '../../../Values/ValueType';
-import { Mat3, Mat3JSON, mat3Mix, mat3Parse } from './Internal/Mat3';
+import { ValueType } from '../../../Values/ValueType.js';
+import { Mat3, Mat3JSON, mat3Mix, mat3Parse } from './Internal/Mat3.js';
 
 export const Mat3Value = new ValueType(
   'mat3',

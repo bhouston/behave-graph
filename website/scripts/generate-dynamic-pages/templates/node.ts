@@ -1,7 +1,7 @@
 import { INode, NodeSpecJSON } from '@behave-graph/core';
 
-import inputsTemplate from './inputs';
-import outputsTemplate from './outputs';
+import inputsTemplate from './inputs.js';
+import outputsTemplate from './outputs.js';
 
 const buildPage = (
   node: INode,

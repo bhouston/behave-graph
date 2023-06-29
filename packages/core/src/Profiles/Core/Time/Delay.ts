@@ -1,11 +1,11 @@
-import { Engine } from '../../../Execution/Engine';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { AsyncNode } from '../../../Nodes/AsyncNode';
+import { Engine } from '../../../Execution/Engine.js';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import {
   NodeDescription,
   NodeDescription2
 } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { Socket } from '../../../Sockets/Socket.js';
 
 // ASYNC - asynchronous evaluation
 // also called "delay"

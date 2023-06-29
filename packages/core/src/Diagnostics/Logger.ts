@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { EventEmitter } from '../Events/EventEmitter';
+import { EventEmitter } from '../Events/EventEmitter.js';
 
 export class Logger {
   public static readonly onVerbose = new EventEmitter<string>();

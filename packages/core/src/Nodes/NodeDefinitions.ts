@@ -1,13 +1,13 @@
-import { IGraphApi } from '../Graphs/Graph';
-import { AsyncNodeInstance } from './AsyncNode';
-import { EventNodeInstance } from './EventNode';
-import { FlowNodeInstance } from './FlowNode';
-import { FunctionNodeInstance } from './FunctionNode';
-import { NodeConfiguration } from './Node';
-import { makeCommonProps } from './nodeFactory';
-import { INode, NodeType } from './NodeInstance';
-import { NodeCategory } from './Registry/NodeCategory';
-import { NodeConfigurationDescription } from './Registry/NodeDescription';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { AsyncNodeInstance } from './AsyncNode.js';
+import { EventNodeInstance } from './EventNode.js';
+import { FlowNodeInstance } from './FlowNode.js';
+import { FunctionNodeInstance } from './FunctionNode.js';
+import { NodeConfiguration } from './Node.js';
+import { makeCommonProps } from './nodeFactory.js';
+import { INode, NodeType } from './NodeInstance.js';
+import { NodeCategory } from './Registry/NodeCategory.js';
+import { NodeConfigurationDescription } from './Registry/NodeDescription.js';
 
 export interface SocketDefinition {
   valueType: string;

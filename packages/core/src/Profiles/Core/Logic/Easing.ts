@@ -1,4 +1,4 @@
-import { EasingFunctions, EasingModes } from '../../../Easing';
+import { EasingFunctions, EasingModes } from '../../../Easing.js';
 import {
   makeFunctionNodeDefinition,
   NodeCategory

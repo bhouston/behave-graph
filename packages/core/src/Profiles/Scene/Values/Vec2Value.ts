@@ -1,5 +1,5 @@
-import { ValueType } from '../../../Values/ValueType';
-import { Vec2, Vec2JSON, vec2Mix, vec2Parse } from './Internal/Vec2';
+import { ValueType } from '../../../Values/ValueType.js';
+import { Vec2, Vec2JSON, vec2Mix, vec2Parse } from './Internal/Vec2.js';
 
 export const Vec2Value = new ValueType(
   'vec2',

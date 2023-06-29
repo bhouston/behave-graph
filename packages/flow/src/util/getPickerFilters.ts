@@ -1,8 +1,8 @@
 import { Node, OnConnectStartParams } from 'reactflow';
 
-import { NodePickerFilters } from '../components/NodePicker';
-import { getNodeSpecJSON } from './getNodeSpecJSON';
-import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
+import { NodePickerFilters } from '../components/NodePicker.js';
+import { getNodeSpecJSON } from './getNodeSpecjson';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType.js';
 
 const specJSON = getNodeSpecJSON();
 

@@ -1,7 +1,7 @@
-import { Assert } from '../Diagnostics/Assert';
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { Node, NodeConfiguration } from './Node';
+import { Assert } from '../Diagnostics/Assert.js';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { Node, NodeConfiguration } from './Node.js';
 import {
   IFunctionNodeDefinition,
   makeFunctionNodeDefinition,
@@ -9,9 +9,9 @@ import {
   SocketListDefinition,
   SocketsList
 } from './NodeDefinitions';
-import { IFunctionNode, INode, NodeType } from './NodeInstance';
-import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
-import { NodeDescription } from './Registry/NodeDescription';
+import { IFunctionNode, INode, NodeType } from './NodeInstance.js';
+import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets.js';
+import { NodeDescription } from './Registry/NodeDescription.js';
 
 export abstract class FunctionNode
   extends Node<NodeType.Function>

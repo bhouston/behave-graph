@@ -1,12 +1,12 @@
-import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats.js';
 import {
   clamp,
   EPSILON,
   equalsTolerance
 } from '../../../Core/Values/Internal/Common';
-import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3';
-import { Mat4 } from './Mat4';
-import { Vec4 } from './Vec4';
+import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3.js';
+import { Mat4 } from './Mat4.js';
+import { Vec4 } from './Vec4.js';
 
 export type Vec3JSON = number[];
 

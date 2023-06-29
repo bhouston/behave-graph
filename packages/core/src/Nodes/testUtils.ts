@@ -1,15 +1,15 @@
-import { Graph, IGraphApi } from '../Graphs/Graph';
-import { registerCoreValueTypes } from '../Profiles/Core/registerCoreProfile';
-import { Registry } from '../Registry';
-import { NodeConfiguration } from './Node';
+import { Graph, IGraphApi } from '../Graphs/Graph.js';
+import { registerCoreValueTypes } from '../Profiles/Core/registerCoreProfile.js';
+import { Registry } from '../Registry.js';
+import { NodeConfiguration } from './Node.js';
 import {
   IFunctionNodeDefinition,
   IHasTriggered,
   SocketNames,
   SocketsDefinition
 } from './NodeDefinitions';
-import { makeOrGenerateSockets } from './nodeFactory';
-import { NodeConfigurationDescription } from './Registry/NodeDescription';
+import { makeOrGenerateSockets } from './nodeFactory.js';
+import { NodeConfigurationDescription } from './Registry/NodeDescription.js';
 
 const makeEmptyGraph = (): IGraphApi => {
   const registry = new Registry();

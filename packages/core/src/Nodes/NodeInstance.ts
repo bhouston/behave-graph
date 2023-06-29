@@ -1,10 +1,10 @@
-import { Engine } from '../Execution/Engine';
-import { Fiber } from '../Execution/Fiber';
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { NodeConfiguration } from './Node';
-import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
-import { INodeDescription } from './Registry/NodeDescription';
+import { Engine } from '../Execution/Engine.js';
+import { Fiber } from '../Execution/Fiber.js';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { NodeConfiguration } from './Node.js';
+import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets.js';
+import { INodeDescription } from './Registry/NodeDescription.js';
 
 export enum NodeType {
   Event = 'Event',

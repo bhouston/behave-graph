@@ -1,7 +1,10 @@
-import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
-import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
-import { eulerToMat3, Mat3, quatToMat3 } from './Mat3';
-import { Vec2 } from './Vec2';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats.js';
+import {
+  EPSILON,
+  equalsTolerance
+} from '../../../Core/Values/Internal/Common.js';
+import { eulerToMat3, Mat3, quatToMat3 } from './Mat3.js';
+import { Vec2 } from './Vec2.js';
 import {
   Vec3,
   vec3Cross,
@@ -10,7 +13,7 @@ import {
   vec3Normalize,
   vec3Subtract
 } from './Vec3';
-import { Vec4 } from './Vec4';
+import { Vec4 } from './Vec4.js';
 
 // uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
 // ( x, y, z, 1 ) x [ 0  4   8  12] = ( x', y', z', 1 )

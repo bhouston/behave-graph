@@ -1,6 +1,6 @@
-import { DependenciesRegistry } from './Nodes/Registry/DependenciesRegistry';
-import { NodeTypeRegistry } from './Nodes/Registry/NodeTypeRegistry';
-import { ValueTypeRegistry } from './Values/ValueTypeRegistry';
+import { DependenciesRegistry } from './Nodes/Registry/DependenciesRegistry.js';
+import { NodeTypeRegistry } from './Nodes/Registry/NodeTypeRegistry.js';
+import { ValueTypeRegistry } from './Values/ValueTypeRegistry.js';
 
 export interface IRegistry {
   readonly values: ValueTypeRegistry;

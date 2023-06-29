@@ -1,6 +1,6 @@
-import { makeInNOutFunctionDesc } from '../../Nodes/FunctionNode';
-import { IRegistry } from '../../Registry';
-import { toCamelCase } from '../../toCamelCase';
+import { makeInNOutFunctionDesc } from '../../Nodes/FunctionNode.js';
+import { IRegistry } from '../../Registry.js';
+import { toCamelCase } from '../../toCamelCase.js';
 
 export function registerSerializersForValueType(
   registry: Pick<IRegistry, 'nodes' | 'values'>,

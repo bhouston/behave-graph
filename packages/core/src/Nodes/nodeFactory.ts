@@ -1,6 +1,6 @@
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { NodeConfiguration } from './Node';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { NodeConfiguration } from './Node.js';
 import {
   INodeDefinition,
   NodeCategory,
@@ -8,7 +8,7 @@ import {
   SocketsList,
   SocketsMap
 } from './NodeDefinitions';
-import { INode, NodeType } from './NodeInstance';
+import { INode, NodeType } from './NodeInstance.js';
 
 const makeSocketsFromMap = <TSockets extends SocketsMap>(
   socketConfig: TSockets,

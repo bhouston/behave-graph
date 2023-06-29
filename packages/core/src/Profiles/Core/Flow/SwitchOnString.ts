@@ -2,7 +2,7 @@ import {
   makeFlowNodeDefinition,
   SocketsList
 } from '../../../Nodes/NodeDefinitions';
-import { sequence } from '../../../sequence';
+import { sequence } from '../../../sequence.js';
 
 // https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/flow/
 

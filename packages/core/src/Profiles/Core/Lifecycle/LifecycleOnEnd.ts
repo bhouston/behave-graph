@@ -1,10 +1,10 @@
-import { Assert } from '../../../Diagnostics/Assert';
+import { Assert } from '../../../Diagnostics/Assert.js';
 import {
   makeEventNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
-import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
-import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart';
+import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
+import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart.js';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 

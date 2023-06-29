@@ -1,13 +1,13 @@
-import { CustomEvent } from '../../../Events/CustomEvent';
-import { Fiber } from '../../../Execution/Fiber';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FlowNode2 } from '../../../Nodes/FlowNode';
-import { NodeConfiguration } from '../../../Nodes/Node';
+import { CustomEvent } from '../../../Events/CustomEvent.js';
+import { Fiber } from '../../../Execution/Fiber.js';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { FlowNode2 } from '../../../Nodes/FlowNode.js';
+import { NodeConfiguration } from '../../../Nodes/Node.js';
 import {
   NodeDescription,
   NodeDescription2
 } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { Socket } from '../../../Sockets/Socket.js';
 
 export class TriggerCustomEvent extends FlowNode2 {
   public static Description = new NodeDescription2({

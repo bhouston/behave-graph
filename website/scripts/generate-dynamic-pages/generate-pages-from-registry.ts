@@ -13,7 +13,7 @@ import {
 // We need to transform directories to kebab case because otherwise Docusaurus won't generate the toString one
 import { kebab, pascal } from 'case';
 
-import nodeTemplate from './templates/node';
+import nodeTemplate from './templates/node.js';
 
 const generateValuePages = (values: ValueType[], baseDir: string) => {
   const valuesDir = join(baseDir, 'Values');

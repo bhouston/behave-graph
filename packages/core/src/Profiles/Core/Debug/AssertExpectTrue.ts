@@ -1,9 +1,9 @@
-import { Assert } from '../../../Diagnostics/Assert';
-import { Fiber } from '../../../Execution/Fiber';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { Assert } from '../../../Diagnostics/Assert.js';
+import { Fiber } from '../../../Execution/Fiber.js';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
+import { Socket } from '../../../Sockets/Socket.js';
 
 export class ExpectTrue extends FlowNode {
   public static Description = new NodeDescription(

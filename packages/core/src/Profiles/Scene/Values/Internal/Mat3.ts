@@ -1,9 +1,12 @@
-import { parseSafeFloats, toSafeString } from '../../../../parseFloats';
-import { EPSILON, equalsTolerance } from '../../../Core/Values/Internal/Common';
-import { Mat4 } from './Mat4';
-import { Vec2 } from './Vec2';
-import { Vec3 } from './Vec3';
-import { Vec4 } from './Vec4';
+import { parseSafeFloats, toSafeString } from '../../../../parseFloats.js';
+import {
+  EPSILON,
+  equalsTolerance
+} from '../../../Core/Values/Internal/Common.js';
+import { Mat4 } from './Mat4.js';
+import { Vec2 } from './Vec2.js';
+import { Vec3 } from './Vec3.js';
+import { Vec4 } from './Vec4.js';
 
 // uses OpenGL matrix layout where each column is specified subsequently in order from left to right.
 // ( x, y, 1 ) x [ 0  3  6 ] = ( x', y', 1 )

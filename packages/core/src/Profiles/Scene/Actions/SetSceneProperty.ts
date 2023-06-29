@@ -1,5 +1,5 @@
-import { makeFlowNodeDefinition } from '../../../Nodes/NodeDefinitions';
-import { IScene } from '../Abstractions/IScene';
+import { makeFlowNodeDefinition } from '../../../Nodes/NodeDefinitions.js';
+import { IScene } from '../Abstractions/IScene.js';
 
 export const SetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>

@@ -1,11 +1,11 @@
-import { CustomEvent } from '../Events/CustomEvent';
-import { generateUuid } from '../generateUuid';
-import { Metadata } from '../Metadata';
-import { NodeConfiguration } from '../Nodes/Node';
-import { INode } from '../Nodes/NodeInstance';
-import { NodeDefinition } from '../Nodes/Registry/NodeTypeRegistry';
-import { IRegistry, Registry } from '../Registry';
-import { Variable } from '../Variables/Variable';
+import { CustomEvent } from '../Events/CustomEvent.js';
+import { generateUuid } from '../generateUuid.js';
+import { Metadata } from '../Metadata.js';
+import { NodeConfiguration } from '../Nodes/Node.js';
+import { INode } from '../Nodes/NodeInstance.js';
+import { NodeDefinition } from '../Nodes/Registry/NodeTypeRegistry.js';
+import { IRegistry, Registry } from '../Registry.js';
+import { Variable } from '../Variables/Variable.js';
 // Purpose:
 //  - stores the node graph
 

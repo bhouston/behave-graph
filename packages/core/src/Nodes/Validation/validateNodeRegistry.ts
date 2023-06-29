@@ -1,5 +1,5 @@
-import { Graph } from '../../Graphs/Graph';
-import { Registry } from '../../Registry';
+import { Graph } from '../../Graphs/Graph.js';
+import { Registry } from '../../Registry.js';
 
 const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;

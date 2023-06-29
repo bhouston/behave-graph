@@ -1,9 +1,9 @@
-import { Assert } from '../../../Diagnostics/Assert';
+import { Assert } from '../../../Diagnostics/Assert.js';
 import {
   makeEventNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
-import { IScene } from '../Abstractions/IScene';
+import { IScene } from '../Abstractions/IScene.js';
 
 type State = {
   jsonPath?: string | undefined;

@@ -1,11 +1,11 @@
-import { Fiber } from '../../../Execution/Fiber';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FlowNode } from '../../../Nodes/FlowNode';
+import { Fiber } from '../../../Execution/Fiber.js';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { FlowNode } from '../../../Nodes/FlowNode.js';
 import {
   NodeDescription,
   NodeDescription2
 } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { Socket } from '../../../Sockets/Socket.js';
 
 // this is equivalent to Promise.all()
 export class WaitAll extends FlowNode {

@@ -1,5 +1,5 @@
-import { makeFunctionNodeDefinition } from '../../../Nodes/NodeDefinitions';
-import { IScene } from '../Abstractions/IScene';
+import { makeFunctionNodeDefinition } from '../../../Nodes/NodeDefinitions.js';
+import { IScene } from '../Abstractions/IScene.js';
 
 export const GetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>

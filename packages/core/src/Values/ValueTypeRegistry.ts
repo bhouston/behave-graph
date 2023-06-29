@@ -1,4 +1,4 @@
-import { ValueType } from './ValueType';
+import { ValueType } from './ValueType.js';
 
 export class ValueTypeRegistry {
   private readonly valueTypeNameToValueType: { [key: string]: ValueType } = {};

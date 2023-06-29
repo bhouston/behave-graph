@@ -1,6 +1,6 @@
 import { INode, NodeSpecJSON } from '@behave-graph/core';
 
-import socketsTable from './outputs-table';
+import socketsTable from './outputs-table.js';
 
 export default (node: INode, specJSON: NodeSpecJSON) => {
   if (

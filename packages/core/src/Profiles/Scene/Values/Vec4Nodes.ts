@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode.js';
 import {
   Vec4,
   vec4Add,

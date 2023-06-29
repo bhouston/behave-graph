@@ -1,7 +1,7 @@
-import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry';
-import { Registry } from '../../Registry';
-import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry';
-import { registerCoreProfile } from './registerCoreProfile';
+import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
+import { Registry } from '../../Registry.js';
+import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
+import { registerCoreProfile } from './registerCoreProfile.js';
 
 describe('core profile', () => {
   const registry = new Registry();

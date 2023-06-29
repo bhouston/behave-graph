@@ -1,4 +1,4 @@
-import { Socket } from '../../../../packages/core/src/Sockets/Socket';
+import { Socket } from '../../../../packages/core/src/Sockets/Socket.js';
 
 export default (sockets: Socket[]) => {
   if (sockets.length === 0) {

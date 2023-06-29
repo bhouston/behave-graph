@@ -1,11 +1,11 @@
-import { Assert } from '../Diagnostics/Assert';
-import { Fiber } from '../Execution/Fiber';
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { Node, NodeConfiguration } from './Node';
-import { IFlowNodeDefinition, NodeCategory } from './NodeDefinitions';
-import { IFlowNode, INode, NodeType } from './NodeInstance';
-import { NodeDescription } from './Registry/NodeDescription';
+import { Assert } from '../Diagnostics/Assert.js';
+import { Fiber } from '../Execution/Fiber.js';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { Node, NodeConfiguration } from './Node.js';
+import { IFlowNodeDefinition, NodeCategory } from './NodeDefinitions.js';
+import { IFlowNode, INode, NodeType } from './NodeInstance.js';
+import { NodeDescription } from './Registry/NodeDescription.js';
 
 export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
   constructor(

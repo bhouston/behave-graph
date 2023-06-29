@@ -3,7 +3,7 @@ import {
   RecordedOutputType,
   RecordedWritesOrCommits
 } from '../../../Nodes/testUtils';
-import { Sequence } from './Sequence';
+import { Sequence } from './Sequence.js';
 
 type RecordedWritesType = RecordedWritesOrCommits<typeof Sequence.out>;
 

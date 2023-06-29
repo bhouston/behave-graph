@@ -1,11 +1,11 @@
-import { Assert } from '../Diagnostics/Assert';
-import { Engine } from '../Execution/Engine';
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { Node, NodeConfiguration } from './Node';
-import { IAsyncNodeDefinition, NodeCategory } from './NodeDefinitions';
-import { IAsyncNode, INode, NodeType } from './NodeInstance';
-import { NodeDescription } from './Registry/NodeDescription';
+import { Assert } from '../Diagnostics/Assert.js';
+import { Engine } from '../Execution/Engine.js';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { Node, NodeConfiguration } from './Node.js';
+import { IAsyncNodeDefinition, NodeCategory } from './NodeDefinitions.js';
+import { IAsyncNode, INode, NodeType } from './NodeInstance.js';
+import { NodeDescription } from './Registry/NodeDescription.js';
 
 // async flow node with only a single flow input
 export class AsyncNode extends Node<NodeType.Async> {

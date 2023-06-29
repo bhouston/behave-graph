@@ -3,7 +3,7 @@ import {
   RecordedOutputType,
   RecordedWritesOrCommits
 } from '../../../Nodes/testUtils';
-import { Counter } from './Counter';
+import { Counter } from './Counter.js';
 
 type RecordedWritesType = RecordedWritesOrCommits<typeof Counter.out>;
 

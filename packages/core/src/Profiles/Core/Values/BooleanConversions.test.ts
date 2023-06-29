@@ -1,6 +1,6 @@
-import { testExec } from '../../../Nodes/testUtils';
-import { toInteger } from './BooleanNodes';
-import { toBoolean as intToBoolean } from './IntegerNodes';
+import { testExec } from '../../../Nodes/testUtils.js';
+import { toInteger } from './BooleanNodes.js';
+import { toBoolean as intToBoolean } from './IntegerNodes.js';
 
 describe('Boolean Conversions', () => {
   describe('math/toBoolean/integer', () => {

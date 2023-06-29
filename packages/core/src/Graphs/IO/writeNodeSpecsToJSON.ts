@@ -1,6 +1,6 @@
-import { NodeCategory } from '../../Nodes/NodeDefinitions';
-import { Registry } from '../../Registry';
-import { Graph } from '../Graph';
+import { NodeCategory } from '../../Nodes/NodeDefinitions.js';
+import { Registry } from '../../Registry.js';
+import { Graph } from '../Graph.js';
 import {
   InputSocketSpecJSON,
   NodeSpecJSON,

@@ -1,27 +1,27 @@
 /* eslint-disable max-len */
-import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription';
-import { IRegistry } from '../../Registry';
-import { registerSerializersForValueType } from '../Core/registerSerializersForValueType';
-import { IScene } from './Abstractions/IScene';
-import { SetSceneProperty } from './Actions/SetSceneProperty';
-import { OnSceneNodeClick } from './Events/OnSceneNodeClick';
-import { GetSceneProperty } from './Queries/GetSceneProperty';
-import * as ColorNodes from './Values/ColorNodes';
-import { ColorValue } from './Values/ColorValue';
-import * as EulerNodes from './Values/EulerNodes';
-import { EulerValue } from './Values/EulerValue';
-import * as Mat3Nodes from './Values/Mat3Nodes';
-import { Mat3Value } from './Values/Mat3Value';
-import * as Mat4Nodes from './Values/Mat4Nodes';
-import { Mat4Value } from './Values/Mat4Value';
-import * as QuatNodes from './Values/QuatNodes';
-import { QuatValue } from './Values/QuatValue';
-import * as Vec2Nodes from './Values/Vec2Nodes';
-import { Vec2Value } from './Values/Vec2Value';
-import * as Vec3Nodes from './Values/Vec3Nodes';
-import { Vec3Value } from './Values/Vec3Value';
-import * as Vec4Nodes from './Values/Vec4Nodes';
-import { Vec4Value } from './Values/Vec4Value';
+import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription.js';
+import { IRegistry } from '../../Registry.js';
+import { registerSerializersForValueType } from '../Core/registerSerializersForValueType.js';
+import { IScene } from './Abstractions/IScene.js';
+import { SetSceneProperty } from './Actions/SetSceneProperty.js';
+import { OnSceneNodeClick } from './Events/OnSceneNodeClick.js';
+import { GetSceneProperty } from './Queries/GetSceneProperty.js';
+import * as ColorNodes from './Values/ColorNodes.js';
+import { ColorValue } from './Values/ColorValue.js';
+import * as EulerNodes from './Values/EulerNodes.js';
+import { EulerValue } from './Values/EulerValue.js';
+import * as Mat3Nodes from './Values/Mat3Nodes.js';
+import { Mat3Value } from './Values/Mat3Value.js';
+import * as Mat4Nodes from './Values/Mat4Nodes.js';
+import { Mat4Value } from './Values/Mat4Value.js';
+import * as QuatNodes from './Values/QuatNodes.js';
+import { QuatValue } from './Values/QuatValue.js';
+import * as Vec2Nodes from './Values/Vec2Nodes.js';
+import { Vec2Value } from './Values/Vec2Value.js';
+import * as Vec3Nodes from './Values/Vec3Nodes.js';
+import { Vec3Value } from './Values/Vec3Value.js';
+import * as Vec4Nodes from './Values/Vec4Nodes.js';
+import { Vec4Value } from './Values/Vec4Value.js';
 
 export function registerSceneDependency(
   dependencies: IRegistry['dependencies'],

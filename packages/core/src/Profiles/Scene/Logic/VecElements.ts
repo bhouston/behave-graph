@@ -1,7 +1,7 @@
-import { IGraphApi } from '../../../Graphs/Graph';
-import { FunctionNode } from '../../../Nodes/FunctionNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { FunctionNode } from '../../../Nodes/FunctionNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
+import { Socket } from '../../../Sockets/Socket.js';
 
 export class VecElements<T> extends FunctionNode {
   constructor(

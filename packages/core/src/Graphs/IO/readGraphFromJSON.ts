@@ -1,12 +1,12 @@
-import { Logger } from '../../Diagnostics/Logger';
-import { CustomEvent } from '../../Events/CustomEvent';
-import { Link } from '../../Nodes/Link';
-import { NodeConfiguration } from '../../Nodes/Node';
-import { INode } from '../../Nodes/NodeInstance';
-import { Registry } from '../../Registry';
-import { Socket } from '../../Sockets/Socket';
-import { Variable } from '../../Variables/Variable';
-import { Graph } from '../Graph';
+import { Logger } from '../../Diagnostics/Logger.js';
+import { CustomEvent } from '../../Events/CustomEvent.js';
+import { Link } from '../../Nodes/Link.js';
+import { NodeConfiguration } from '../../Nodes/Node.js';
+import { INode } from '../../Nodes/NodeInstance.js';
+import { Registry } from '../../Registry.js';
+import { Socket } from '../../Sockets/Socket.js';
+import { Variable } from '../../Variables/Variable.js';
+import { Graph } from '../Graph.js';
 import {
   CustomEventJSON,
   FlowsJSON,

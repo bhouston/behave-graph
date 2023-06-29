@@ -1,7 +1,7 @@
-import { Assert } from '../Diagnostics/Assert';
-import { isFunctionNode } from '../Nodes/NodeInstance';
-import { Socket } from '../Sockets/Socket';
-import { Engine } from './Engine';
+import { Assert } from '../Diagnostics/Assert.js';
+import { isFunctionNode } from '../Nodes/NodeInstance.js';
+import { Socket } from '../Sockets/Socket.js';
+import { Engine } from './Engine.js';
 
 export function resolveSocketValue(
   engine: Engine,

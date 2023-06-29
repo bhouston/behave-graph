@@ -1,4 +1,4 @@
-import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode';
+import { makeInNOutFunctionDesc } from '../../../Nodes/FunctionNode.js';
 // Unreal Engine Integer Blueprints API: https://docs.unrealengine.com/4.27/en-US/BlueprintAPI/Math/Integer/
 
 export const Constant = makeInNOutFunctionDesc({

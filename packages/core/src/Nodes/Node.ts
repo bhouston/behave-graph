@@ -1,8 +1,8 @@
-import { IGraphApi } from '../Graphs/Graph';
-import { Socket } from '../Sockets/Socket';
-import { INode, NodeType } from './NodeInstance';
-import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets';
-import { INodeDescription } from './Registry/NodeDescription';
+import { IGraphApi } from '../Graphs/Graph.js';
+import { Socket } from '../Sockets/Socket.js';
+import { INode, NodeType } from './NodeInstance.js';
+import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets.js';
+import { INodeDescription } from './Registry/NodeDescription.js';
 
 export type NodeConfiguration = {
   [key: string]: any;

@@ -1,5 +1,5 @@
-import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecJSON';
-import { Socket } from '../../../../packages/core/src/Sockets/Socket';
+import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecjson';
+import { Socket } from '../../../../packages/core/src/Sockets/Socket.js';
 
 export default (inputs: Socket[], specJSON: NodeSpecJSON) => {
   if (inputs.length === 0) {

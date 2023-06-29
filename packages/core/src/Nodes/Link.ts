@@ -1,5 +1,5 @@
-import { Socket } from '../Sockets/Socket';
-import { INode } from './NodeInstance';
+import { Socket } from '../Sockets/Socket.js';
+import { INode } from './NodeInstance.js';
 
 export class Link {
   public _targetNode: INode | undefined = undefined;

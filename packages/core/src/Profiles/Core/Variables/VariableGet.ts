@@ -3,7 +3,7 @@ import {
   NodeCategory,
   SocketsList
 } from '../../../Nodes/NodeDefinitions';
-import { Variable } from '../../../Variables/Variable';
+import { Variable } from '../../../Variables/Variable.js';
 
 export const VariableGet = makeFunctionNodeDefinition({
   typeName: 'variable/get',

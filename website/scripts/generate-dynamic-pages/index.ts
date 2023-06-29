@@ -1,16 +1,16 @@
 import { join } from 'node:path';
 
-// import generatePagesFromDescriptions from './generate-pages-from-descriptions';
-// import { descriptions as coreDescriptions } from './profiles/core';
+// import generatePagesFromDescriptions from './generate-pages-from-descriptions.js';
+// import { descriptions as coreDescriptions } from './profiles/core.js';
 // generatePagesFromDescriptions(
 //   coreDescriptions,
 //   join(__dirname, '../../docs/profiles/Core')
 // );
-import { registerCoreProfile } from '../../../packages/core/src/Profiles/Core/registerCoreProfile';
-import { registerSceneProfile } from '../../../packages/core/src/Profiles/Scene/registerSceneProfile';
-import { Registry } from '../../../packages/core/src/Registry';
-import generatePagesFromExamples from './generate-pages-from-examples';
-import generatePagesFromRegistry from './generate-pages-from-registry';
+import { registerCoreProfile } from '../../../packages/core/src/Profiles/Core/registerCoreProfile.js';
+import { registerSceneProfile } from '../../../packages/core/src/Profiles/Scene/registerSceneProfile.js';
+import { Registry } from '../../../packages/core/src/Registry.js';
+import generatePagesFromExamples from './generate-pages-from-examples.js';
+import generatePagesFromRegistry from './generate-pages-from-registry.js';
 
 const coreRegistry = new Registry();
 

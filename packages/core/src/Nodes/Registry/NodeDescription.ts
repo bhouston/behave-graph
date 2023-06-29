@@ -1,12 +1,12 @@
-import { IGraphApi } from '../../Graphs/Graph';
+import { IGraphApi } from '../../Graphs/Graph.js';
 import {
   IHasNodeFactory,
   INodeDefinition,
   NodeFactory
 } from '../NodeDefinitions';
-import { INode } from '../NodeInstance';
-import { NodeConfiguration } from './../Node';
-import { NodeCategory } from './NodeCategory';
+import { INode } from '../NodeInstance.js';
+import { NodeConfiguration } from './../Node.js';
+import { NodeCategory } from './NodeCategory.js';
 
 export type NodeConfigurationDescription = {
   [key: string]: {

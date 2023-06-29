@@ -1,5 +1,5 @@
-import { ValueType } from '../../../Values/ValueType';
-import { quatSlerp, Vec4, Vec4JSON, vec4Parse } from './Internal/Vec4';
+import { ValueType } from '../../../Values/ValueType.js';
+import { quatSlerp, Vec4, Vec4JSON, vec4Parse } from './Internal/Vec4.js';
 
 export const QuatValue = new ValueType(
   'quat',

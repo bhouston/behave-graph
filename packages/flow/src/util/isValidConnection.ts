@@ -1,8 +1,8 @@
 import { Connection, ReactFlowInstance } from 'reactflow';
 
-import { getNodeSpecJSON } from './getNodeSpecJSON';
-import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
-import { isHandleConnected } from './isHandleConnected';
+import { getNodeSpecJSON } from './getNodeSpecjson';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType.js';
+import { isHandleConnected } from './isHandleConnected.js';
 
 const specJSON = getNodeSpecJSON();
 

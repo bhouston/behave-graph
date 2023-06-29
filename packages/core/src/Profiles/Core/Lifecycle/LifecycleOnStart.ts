@@ -1,9 +1,9 @@
-import { Assert } from '../../../Diagnostics/Assert';
+import { Assert } from '../../../Diagnostics/Assert.js';
 import {
   makeEventNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
-import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
+import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
 
 type State = {
   onStartEvent?: (() => void) | undefined;

@@ -3,7 +3,7 @@ import {
   RecordedOutputType,
   RecordedWritesOrCommits
 } from '../../../Nodes/testUtils';
-import { Gate } from './Gate';
+import { Gate } from './Gate.js';
 
 type RecordedWritesType = RecordedWritesOrCommits<typeof Gate.out>;
 

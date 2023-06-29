@@ -1,8 +1,8 @@
 import { Node, OnConnectStartParams } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getNodeSpecJSON } from './getNodeSpecJSON';
-import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType';
+import { getNodeSpecJSON } from './getNodeSpecjson';
+import { getSocketsByNodeTypeAndHandleType } from './getSocketsByNodeTypeAndHandleType.js';
 
 const specJSON = getNodeSpecJSON();
 

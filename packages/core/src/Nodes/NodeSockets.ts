@@ -1,4 +1,4 @@
-import { Socket } from '../Sockets/Socket';
+import { Socket } from '../Sockets/Socket.js';
 
 export const readInputFromSockets = <T>(
   inputs: Socket[],

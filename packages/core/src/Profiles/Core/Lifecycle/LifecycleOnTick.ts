@@ -1,10 +1,10 @@
-import { Assert } from '../../../Diagnostics/Assert';
+import { Assert } from '../../../Diagnostics/Assert.js';
 import {
   makeEventNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions';
-import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter';
-import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart';
+import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
+import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart.js';
 
 type State = {
   onTickEvent?: (() => void) | undefined;

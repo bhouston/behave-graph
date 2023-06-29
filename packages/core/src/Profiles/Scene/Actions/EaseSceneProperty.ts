@@ -1,12 +1,12 @@
-import { Easing, EasingFunctions, EasingModes } from '../../../Easing';
-import { Engine } from '../../../Execution/Engine';
-import { IGraphApi } from '../../../Graphs/Graph';
-import { AsyncNode } from '../../../Nodes/AsyncNode';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription';
-import { Socket } from '../../../Sockets/Socket';
-import { toCamelCase } from '../../../toCamelCase';
-import { ILifecycleEventEmitter } from '../../Core/Abstractions/ILifecycleEventEmitter';
-import { IScene } from '../Abstractions/IScene';
+import { Easing, EasingFunctions, EasingModes } from '../../../Easing.js';
+import { Engine } from '../../../Execution/Engine.js';
+import { IGraphApi } from '../../../Graphs/Graph.js';
+import { AsyncNode } from '../../../Nodes/AsyncNode.js';
+import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
+import { Socket } from '../../../Sockets/Socket.js';
+import { toCamelCase } from '../../../toCamelCase.js';
+import { ILifecycleEventEmitter } from '../../Core/Abstractions/ILifecycleEventEmitter.js';
+import { IScene } from '../Abstractions/IScene.js';
 
 export class EaseSceneProperty extends AsyncNode {
   public static GetDescriptions(

@@ -8,7 +8,7 @@ import {
   NodeParameterJSON,
   ValueJSON,
   VariableJSON
-} from './GraphJSON';
+} from './GraphJSON.js';
 
 export function writeGraphToJSON(graph: Graph): GraphJSON {
   const graphJson: GraphJSON = {};

@@ -10,7 +10,7 @@ import {
   vec3MultiplyByScalar,
   vec3Negate,
   vec3Subtract
-} from './Internal/Vec3';
+} from './Internal/Vec3.js';
 
 export const Constant = makeInNOutFunctionDesc({
   name: 'math/euler',

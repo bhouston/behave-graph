@@ -17,7 +17,7 @@ import {
   vec4MultiplyByScalar,
   vec4Normalize,
   vec4ToArray
-} from './Internal/Vec4';
+} from './Internal/Vec4.js';
 
 /*
 - from Angle Axis

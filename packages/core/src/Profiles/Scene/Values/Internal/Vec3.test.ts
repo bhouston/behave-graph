@@ -11,7 +11,7 @@ import {
   vec3Subtract,
   vec3ToArray,
   vec3ToString
-} from './Vec3';
+} from './Vec3.js';
 
 describe('vec3 value type', () => {
   test('constructor', () => {

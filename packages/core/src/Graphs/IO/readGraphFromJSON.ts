@@ -14,7 +14,7 @@ import {
   NodeJSON,
   NodeParametersJSON,
   VariableJSON
-} from './GraphJSON';
+} from './GraphJSON.js';
 
 // Purpose:
 //  - loads a node graph

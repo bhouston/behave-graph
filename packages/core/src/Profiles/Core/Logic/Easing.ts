@@ -2,7 +2,7 @@ import { EasingFunctions, EasingModes } from '../../../Easing.js';
 import {
   makeFunctionNodeDefinition,
   NodeCategory
-} from '../../../Nodes/NodeDefinitions';
+} from '../../../Nodes/NodeDefinitions.js';
 
 export const Easing = makeFunctionNodeDefinition({
   typeName: 'math/easing',

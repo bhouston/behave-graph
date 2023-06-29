@@ -27,7 +27,7 @@ import {
   quatToMat4,
   scale3ToMat4,
   translation3ToMat4
-} from './Internal/Mat4';
+} from './Internal/Mat4.js';
 
 export const Constant = makeInNOutFunctionDesc({
   name: 'math/mat4',

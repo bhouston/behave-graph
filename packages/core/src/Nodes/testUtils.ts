@@ -7,7 +7,7 @@ import {
   IHasTriggered,
   SocketNames,
   SocketsDefinition
-} from './NodeDefinitions';
+} from './NodeDefinitions.js';
 import { makeOrGenerateSockets } from './nodeFactory.js';
 import { NodeConfigurationDescription } from './Registry/NodeDescription.js';
 

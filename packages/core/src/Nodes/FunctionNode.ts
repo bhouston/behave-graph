@@ -8,7 +8,7 @@ import {
   NodeCategory,
   SocketListDefinition,
   SocketsList
-} from './NodeDefinitions';
+} from './NodeDefinitions.js';
 import { IFunctionNode, INode, NodeType } from './NodeInstance.js';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets.js';
 import { NodeDescription } from './Registry/NodeDescription.js';

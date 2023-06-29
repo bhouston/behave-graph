@@ -20,6 +20,14 @@
     "prettier"
   ],
   "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "no-console": 1,
     "prettier/prettier": 2,
     "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",

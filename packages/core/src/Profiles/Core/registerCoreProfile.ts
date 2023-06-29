@@ -17,7 +17,7 @@ import { DoOnce } from './Flow/DoOnce.js';
 import { FlipFlop } from './Flow/FlipFlop.js';
 import { ForLoop } from './Flow/ForLoop.js';
 import { Gate } from './Flow/Gate.js';
-import { MultiGate } from './Flow/MultieGate.js';
+import { MultiGate } from './Flow/MultiGate.js';
 import { Sequence } from './Flow/Sequence.js';
 import { SwitchOnInteger } from './Flow/SwitchOnInteger.js';
 import { SwitchOnString } from './Flow/SwitchOnString.js';
@@ -27,7 +27,7 @@ import { LifecycleOnEnd } from './Lifecycle/LifecycleOnEnd.js';
 import {
   lifecycleEventEmitterDependencyKey,
   LifecycleOnStart
-} from './Lifecycle/LifecycleOnStart';
+} from './Lifecycle/LifecycleOnStart.js';
 import { LifecycleOnTick } from './Lifecycle/LifecycleOnTick.js';
 import { Easing } from './Logic/Easing.js';
 import { registerSerializersForValueType } from './registerSerializersForValueType.js';

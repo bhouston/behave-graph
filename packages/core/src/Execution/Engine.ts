@@ -9,7 +9,7 @@ import {
   INode,
   isAsyncNode,
   isEventNode
-} from '../Nodes/NodeInstance';
+} from '../Nodes/NodeInstance.js';
 import { sleep } from '../sleep.js';
 import { Fiber } from './Fiber.js';
 import { resolveSocketValue } from './resolveSocketValue.js';

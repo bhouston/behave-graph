@@ -1,7 +1,7 @@
 import {
   makeFlowNodeDefinition,
   NodeCategory
-} from '../../../Nodes/NodeDefinitions';
+} from '../../../Nodes/NodeDefinitions.js';
 import { ILogger } from '../Abstractions/ILogger.js';
 
 export const loggerDependencyKey = 'loggger';

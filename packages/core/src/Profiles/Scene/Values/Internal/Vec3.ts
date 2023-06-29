@@ -3,7 +3,7 @@ import {
   clamp,
   EPSILON,
   equalsTolerance
-} from '../../../Core/Values/Internal/Common';
+} from '../../../Core/Values/Internal/Common.js';
 import { Mat3, mat4ToMat3, quatToMat3 } from './Mat3.js';
 import { Mat4 } from './Mat4.js';
 import { Vec4 } from './Vec4.js';

@@ -2,7 +2,7 @@ import { Assert } from '../../../Diagnostics/Assert.js';
 import {
   makeEventNodeDefinition,
   NodeCategory
-} from '../../../Nodes/NodeDefinitions';
+} from '../../../Nodes/NodeDefinitions.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
 import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart.js';
 

@@ -5,7 +5,7 @@ import {
   InputSocketSpecJSON,
   NodeSpecJSON,
   OutputSocketSpecJSON
-} from './NodeSpecJSON';
+} from './NodeSpecJSON.js';
 
 export function writeNodeSpecsToJSON(registry: Registry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];

@@ -6,7 +6,7 @@ import { NodeConfiguration } from '../../../Nodes/Node.js';
 import {
   NodeDescription,
   NodeDescription2
-} from '../../../Nodes/Registry/NodeDescription';
+} from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
 
 export class TriggerCustomEvent extends FlowNode2 {

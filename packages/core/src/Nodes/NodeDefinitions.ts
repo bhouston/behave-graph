@@ -262,4 +262,4 @@ export function makeEventNodeDefinition<
   };
 }
 
-export { NodeCategory } from './Registry/NodeCategory';
+export { NodeCategory } from './Registry/NodeCategory.js';

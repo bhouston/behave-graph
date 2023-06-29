@@ -10,7 +10,7 @@ import {
   vec4Negate,
   vec4Normalize,
   vec4Subtract
-} from './Internal/Vec4';
+} from './Internal/Vec4.js';
 
 export const Constant = makeInNOutFunctionDesc({
   name: 'math/vec4',

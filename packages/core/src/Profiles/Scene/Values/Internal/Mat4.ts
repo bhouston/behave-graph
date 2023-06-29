@@ -12,7 +12,7 @@ import {
   vec3MultiplyByScalar,
   vec3Normalize,
   vec3Subtract
-} from './Vec3';
+} from './Vec3.js';
 import { Vec4 } from './Vec4.js';
 
 // uses OpenGL matrix layout where each column is specified subsequently in order from left to right.

@@ -4,23 +4,19 @@
       "@behave-graph/core": ["./packages/core/"],
       "@behave-graph/flow": ["./packages/flow/"]
     },
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "lib": ["es2020", "dom"],
-    "module": "ESNext",
+    "outDir": "dist",
     "target": "ES2020",
-    "declaration": true,
-    "stripInternal": true,
+    "module": "ES2020",
+    "moduleResolution": "NodeNext",
+    "lib": ["es2020", "dom", "dom.iterable"],
     "typeRoots": ["node_modules/@types"],
-    "resolveJsonModule": true,
-
-    // Components of "strict" mode.
-    "alwaysStrict": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "noImplicitThis": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "allowJs": true
   }
 }

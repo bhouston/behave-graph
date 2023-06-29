@@ -1,7 +1,7 @@
 import { GraphJSON, NodeJSON } from '@behave-graph/core';
 import { Edge, Node } from 'reactflow';
 
-import { getNodeSpecJSON } from '../util/getNodeSpecjson';
+import { getNodeSpecJSON } from '../util/getNodeSpecJSON.js';
 
 const nodeSpecJSON = getNodeSpecJSON();
 

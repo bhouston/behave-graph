@@ -18,8 +18,12 @@ import {
   writeGraphToJSON
 } from '@behave-graph/core';
 import { program } from 'commander';
+import { createRequire } from 'module';
 
-import { name, version } from '../package.json';
+const require = createRequire(import.meta.url);
+const packageInfo = require('../package.json');
+
+const { name, version } = packageInfo as { name: string; version: string };
 
 type ProgramOptions = {
   upgrade?: boolean;

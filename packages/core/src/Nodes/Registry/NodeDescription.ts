@@ -3,7 +3,7 @@ import {
   IHasNodeFactory,
   INodeDefinition,
   NodeFactory
-} from '../NodeDefinitions';
+} from '../NodeDefinitions.js';
 import { INode } from '../NodeInstance.js';
 import { NodeConfiguration } from './../Node.js';
 import { NodeCategory } from './NodeCategory.js';

@@ -1,8 +1,8 @@
 import { FC, useMemo, useRef, useState } from 'react';
 import { useEdges, useNodes } from 'reactflow';
 
-import { flowToBehave } from '../../transformers/flowToBehave';
-import { Modal } from './Modal';
+import { flowToBehave } from '../../transformers/flowToBehave.js';
+import { Modal } from './Modal.js';
 
 export type SaveModalProps = { open?: boolean; onClose: () => void };
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useReactFlow } from 'reactflow';
 
-import { Modal } from './Modal';
+import { Modal } from './Modal.js';
 
 export type ClearModalProps = {
   open?: boolean;

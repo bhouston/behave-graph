@@ -2,7 +2,7 @@ import { NodeSpecJSON } from '@behave-graph/core';
 import { useState } from 'react';
 import { useReactFlow, XYPosition } from 'reactflow';
 
-import { useOnPressKey } from '../hooks/useOnPressKey';
+import { useOnPressKey } from '../hooks/useOnPressKey.js';
 
 export type NodePickerFilters = {
   handleType: 'source' | 'target';

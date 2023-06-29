@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 
-import { colors, valueTypeColorMap } from '../util/colors';
-import { isValidConnection } from '../util/isValidConnection';
+import { colors, valueTypeColorMap } from '../util/colors.js';
+import { isValidConnection } from '../util/isValidConnection.js';
 
 export type OutputSocketProps = {
   connected: boolean;

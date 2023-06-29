@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Modal } from './Modal';
+import { Modal } from './Modal.js';
 
 export type HelpModalProps = {
   open?: boolean;

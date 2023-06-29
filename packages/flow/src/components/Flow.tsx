@@ -18,15 +18,15 @@ import ReactFlow, {
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useNodeSpecJson } from '../hooks/useNodeSpecJson';
-import { useRegistry } from '../hooks/useRegistry';
-import { behaveToFlow } from '../transformers/behaveToFlow';
-import { calculateNewEdge } from '../util/calculateNewEdge';
-import { customNodeTypes } from '../util/customNodeTypes';
-import { getNodePickerFilters } from '../util/getPickerFilters';
-import CustomControls from './Controls';
-import { Examples } from './modals/LoadModal';
-import NodePicker from './NodePicker';
+import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
+import { useRegistry } from '../hooks/useRegistry.js';
+import { behaveToFlow } from '../transformers/behaveToFlow.js';
+import { calculateNewEdge } from '../util/calculateNewEdge.js';
+import { customNodeTypes } from '../util/customNodeTypes.js';
+import { getNodePickerFilters } from '../util/getPickerFilters.js';
+import CustomControls from './Controls.js';
+import { Examples } from './modals/LoadModal.js';
+import NodePicker from './NodePicker.js';
 
 type FlowProps = {
   graph: GraphJSON;

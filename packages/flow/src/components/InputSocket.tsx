@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 
-import { colors, valueTypeColorMap } from '../util/colors';
-import { isValidConnection } from '../util/isValidConnection';
-import { AutoSizeInput } from './AutoSizeInput';
+import { colors, valueTypeColorMap } from '../util/colors.js';
+import { isValidConnection } from '../util/isValidConnection.js';
+import { AutoSizeInput } from './AutoSizeInput.js';
 
 export type InputSocketProps = {
   connected: boolean;

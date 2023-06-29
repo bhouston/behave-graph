@@ -1,7 +1,7 @@
 import { NodeTypes } from 'reactflow';
 
-import { Node } from '../components/Node';
-import { getNodeSpecJSON } from './getNodeSpecJSON';
+import { Node } from '../components/Node.js';
+import { getNodeSpecJSON } from './getNodeSpecJSON.js';
 
 const spec = getNodeSpecJSON();
 

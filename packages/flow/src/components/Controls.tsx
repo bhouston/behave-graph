@@ -15,12 +15,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { ControlButton, Controls, useReactFlow } from 'reactflow';
 
-import { flowToBehave } from '../transformers/flowToBehave';
-import { sleep } from '../util/sleep';
-import { ClearModal } from './modals/ClearModal';
-import { HelpModal } from './modals/HelpModal';
-import { Examples, LoadModal } from './modals/LoadModal';
-import { SaveModal } from './modals/SaveModal';
+import { flowToBehave } from '../transformers/flowToBehave.js';
+import { sleep } from '../util/sleep.js';
+import { ClearModal } from './modals/ClearModal.js';
+import { HelpModal } from './modals/HelpModal.js';
+import { Examples, LoadModal } from './modals/LoadModal.js';
+import { SaveModal } from './modals/SaveModal.js';
 
 export type CustomControlsProps = {
   examples: Examples;

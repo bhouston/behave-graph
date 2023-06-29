@@ -2,7 +2,7 @@ import {
   generateTriggerTester,
   RecordedOutputType,
   RecordedWritesOrCommits
-} from '../../../Nodes/testUtils';
+} from '../../../Nodes/testUtils.js';
 import { Sequence } from './Sequence.js';
 
 type RecordedWritesType = RecordedWritesOrCommits<typeof Sequence.out>;

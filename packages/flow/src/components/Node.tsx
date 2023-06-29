@@ -1,11 +1,11 @@
 import { NodeSpecJSON } from '@behave-graph/core';
 import { NodeProps as FlowNodeProps, useEdges } from 'reactflow';
 
-import { useChangeNodeData } from '../hooks/useChangeNodeData';
-import { isHandleConnected } from '../util/isHandleConnected';
-import InputSocket from './InputSocket';
-import NodeContainer from './NodeContainer';
-import OutputSocket from './OutputSocket';
+import { useChangeNodeData } from '../hooks/useChangeNodeData.js';
+import { isHandleConnected } from '../util/isHandleConnected.js';
+import InputSocket from './InputSocket.js';
+import NodeContainer from './NodeContainer.js';
+import OutputSocket from './OutputSocket.js';
 // import styles from "./Node.module.css"
 
 type NodeProps = FlowNodeProps & {

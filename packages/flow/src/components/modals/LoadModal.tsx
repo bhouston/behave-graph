@@ -2,10 +2,10 @@ import { GraphJSON } from '@behave-graph/core';
 import { FC, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 
-import { behaveToFlow } from '../../transformers/behaveToFlow';
-import { autoLayout } from '../../util/autoLayout';
-import { hasPositionMetaData } from '../../util/hasPositionMetaData';
-import { Modal } from './Modal';
+import { behaveToFlow } from '../../transformers/behaveToFlow.js';
+import { autoLayout } from '../../util/autoLayout.js';
+import { hasPositionMetaData } from '../../util/hasPositionMetaData.js';
+import { Modal } from './Modal.js';
 
 export type LoadModalProps = {
   open?: boolean;

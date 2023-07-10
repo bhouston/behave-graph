@@ -4,12 +4,11 @@ import process from 'node:process';
 import {
   DefaultLogger,
   Engine,
-  getCoreNodeDefinitions,
-  getCoreValueTypes,
   Logger,
   ManualLifecycleEventEmitter,
   parseSafeFloat,
   readGraphFromJSON,
+  registerCoreProfile,
   validateGraph,
   validateRegistry
 } from '@behave-graph/core';
@@ -38,16 +37,14 @@ async function execGraph({
 }) {
   const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  const valueTypeMap = getCoreValueTypes();
-  const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
+  const registry = registerCoreProfile({ values: {}, nodes: {} });
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
   const graph = readGraphFromJSON({
     graphJson: JSON.parse(textFile.toString('utf8')),
-    nodes: nodeDefinitionMap,
-    values: valueTypeMap,
+    ...registry,
     dependencies: {
       logger,
       lifecycleEventEmitter
@@ -56,10 +53,7 @@ async function execGraph({
   graph.name = graphJsonPath;
 
   const errorList: string[] = [];
-  errorList.push(
-    ...validateRegistry({ nodes: nodeDefinitionMap, values: valueTypeMap }),
-    ...validateGraph(graph)
-  );
+  errorList.push(...validateRegistry(registry), ...validateGraph(graph));
 
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);

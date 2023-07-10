@@ -3,6 +3,7 @@ import {
   Dependencies,
   getNodeDescriptions,
   getStringConversionsForValueType,
+  IRegistry,
   NodeDefinition,
   ValueType
 } from '@behave-graph/core';
@@ -33,7 +34,7 @@ export const createSceneDependency = (scene: IScene): Dependencies => ({
   [sceneDependencyKey]: scene
 });
 
-export const getSceneValueTypes = (): ValueType<any, any>[] => [
+export const SceneValueTypes = [
   Vec2Value,
   Vec3Value,
   Vec4Value,
@@ -44,13 +45,18 @@ export const getSceneValueTypes = (): ValueType<any, any>[] => [
   Mat4Value
 ];
 
-export const getSceneNodeDefinitions = (
+export const SceneValueMap: Record<string, ValueType> = Object.fromEntries(
+  SceneValueTypes.map((valueType) => [valueType.name, valueType])
+);
+
+export const SceneValueNames = Object.keys(SceneValueMap);
+
+export const getSceneNodeDefinition = (
   values: Record<string, ValueType>
 ): NodeDefinition[] => {
   const allValueTypeNames = Object.keys(values);
   return [
     // pull in value type nodes
-
     ...getNodeDescriptions(Vec2Nodes),
     ...getNodeDescriptions(Vec3Nodes),
     ...getNodeDescriptions(Vec4Nodes),
@@ -59,6 +65,7 @@ export const getSceneNodeDefinitions = (
     ...getNodeDescriptions(QuatNodes),
     ...getNodeDescriptions(Mat3Nodes),
     ...getNodeDescriptions(Mat4Nodes),
+
     // events
     OnSceneNodeClick,
     // actions
@@ -67,16 +74,15 @@ export const getSceneNodeDefinitions = (
   ];
 };
 
-const newValueTypeNames = [
-  'vec2',
-  'vec3',
-  'vec4',
-  'quat',
-  'euler',
-  'color',
-  'mat3',
-  'mat4'
-];
+export const getSceneNodeDefinitionMap = (
+  values: Record<string, ValueType>
+): Record<string, NodeDefinition> =>
+  Object.fromEntries(
+    getSceneNodeDefinition(values).map((nodeDefinition) => [
+      nodeDefinition.typeName,
+      nodeDefinition
+    ])
+  );
 
 export const makeSceneDependencies = ({ scene }: { scene: IScene }) => ({
   [sceneDependencyKey]: scene
@@ -85,6 +91,14 @@ export const makeSceneDependencies = ({ scene }: { scene: IScene }) => ({
 export const getStringConversions = (
   values: Record<string, ValueType>
 ): NodeDefinition[] =>
-  newValueTypeNames.flatMap((valueTypeName) =>
+  SceneValueNames.flatMap((valueTypeName) =>
     getStringConversionsForValueType({ values, valueTypeName })
   );
+
+export const registerSceneProfile = (registry: IRegistry): IRegistry => {
+  const values = { ...registry.values, ...SceneValueMap };
+  return {
+    values,
+    nodes: { ...registry.nodes, ...getSceneNodeDefinitionMap(values) }
+  };
+};

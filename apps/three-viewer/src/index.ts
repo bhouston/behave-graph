@@ -2,22 +2,18 @@
 import {
   DefaultLogger,
   Engine,
+  getCoreNodeDefinitions,
+  getCoreValueMap as getCoreValueMap,
   Logger,
   ManualLifecycleEventEmitter,
   readGraphFromJSON,
-  registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneDependency,
-  registerSceneProfile,
-  Registry,
   validateGraph,
-  validateRegistry
+  validateRegistry,
+  ValueType
 } from '@behave-graph/core';
+import { getSceneNodeDefinitions, getSceneValueMap } from '@behave-graph/scene';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { GLTFLoader, OrbitControls, RGBELoader } from 'three-stdlib';
 
 import { ThreeScene } from './ThreeScene.js';
 
@@ -65,19 +61,18 @@ async function loadThreeScene() {
 }
 
 async function main() {
-  const registry = new Registry();
-  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const { threeScene, gltf } = await loadThreeScene();
+  const valueTypeMap: Record<string, ValueType<any, any>> = {
+    ...getCoreValueMap(),
+    ...getSceneValueMap()
+  };
 
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
-  registerLogger(registry.dependencies, logger);
-  registerLifecycleEventEmitter(
-    registry.dependencies,
-    manualLifecycleEventEmitter
-  );
+  const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
+  const sceneNodeDefinitionMap = getSceneNodeDefinitions(valueTypeMap);
+
+  const { threeScene, gltf } = await loadThreeScene();
 
   const graphJsonPath = publicImageUrl(
     `/graphs/scene/actions/SpinningSuzanne.json`

@@ -1,7 +1,7 @@
 import {
   DefaultLogger,
   getCoreNodeDefinitions,
-  getCoreValueTypes,
+  getCoreValueMap,
   ManualLifecycleEventEmitter,
   NodeSpecJSON,
   writeNodeSpecsToJSON
@@ -13,7 +13,7 @@ export const getNodeSpecJSON = (): NodeSpecJSON[] => {
   if (nodeSpecJSON === undefined) {
     const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
     const logger = new DefaultLogger();
-    const valueTypeMap = getCoreValueTypes();
+    const valueTypeMap = getCoreValueMap();
     const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
     nodeSpecJSON = writeNodeSpecsToJSON({
       nodes: nodeDefinitionMap,

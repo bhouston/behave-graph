@@ -19,10 +19,10 @@ import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcycl
 import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks.js';
 import {
   getCoreNodeDefinitions,
-  getCoreValueTypes
+  getCoreValueMap
 } from './registerCoreProfile.js';
 
-const valueTypes = getCoreValueTypes();
+const valueTypes = getCoreValueMap();
 const nodeDefinitions = getCoreNodeDefinitions(valueTypes);
 
 Logger.onWarn.clear();

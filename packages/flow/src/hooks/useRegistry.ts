@@ -1,7 +1,7 @@
 import {
   DefaultLogger,
   getCoreNodeDefinitions,
-  getCoreValueTypes,
+  getCoreValueMap,
   IRegistry,
   ManualLifecycleEventEmitter
 } from '@behave-graph/core';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 const createRegistry = () => {
   const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  const valueTypeMap = getCoreValueTypes();
+  const valueTypeMap = getCoreValueMap();
   const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
 
   return {

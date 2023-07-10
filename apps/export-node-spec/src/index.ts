@@ -2,10 +2,9 @@ import { promises as fs } from 'node:fs';
 
 import {
   DefaultLogger,
-  getCoreNodeDefinitions,
-  getCoreValueTypes,
   Logger,
   ManualLifecycleEventEmitter,
+  registerCoreProfile,
   validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
@@ -37,13 +36,11 @@ export const main = async () => {
 
   const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  const valueTypeMap = getCoreValueTypes();
-  const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
+
+  const registry = registerCoreProfile({ values: {}, nodes: {} });
 
   const errorList: string[] = [];
-  errorList.push(
-    ...validateNodeRegistry({ nodes: nodeDefinitionMap, values: valueTypeMap })
-  );
+  errorList.push(...validateNodeRegistry(registry));
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
@@ -53,8 +50,7 @@ export const main = async () => {
   }
 
   const nodeSpecJson = writeNodeSpecsToJSON({
-    nodes: nodeDefinitionMap,
-    values: valueTypeMap,
+    ...registry,
     dependencies: {
       logger,
       lifecycleEventEmitter

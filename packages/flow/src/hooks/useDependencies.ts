@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 export const useCoreDependencies = () => {
   const [dependencies] = useState(() =>
     makeCoreDependencies({
-      lifecyleEmitter: new ManualLifecycleEventEmitter(),
+      lifecycleEmitter: new ManualLifecycleEventEmitter(),
       logger: new DefaultLogger()
     })
   );

@@ -1,6 +1,6 @@
 import {
   getCoreNodeDefinitions,
-  getCoreValueTypes,
+  getCoreValueMap,
   ValueTypeMap
 } from '@behave-graph/core';
 import { useMemo } from 'react';
@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useCoreDependencies } from './useDependencies.js';
 
 export const useCoreValueDefinitions = () => {
-  return useMemo(() => getCoreValueTypes(), []);
+  return useMemo(() => getCoreValueMap(), []);
 };
 
 export const useCoreNodeDefinitions = ({

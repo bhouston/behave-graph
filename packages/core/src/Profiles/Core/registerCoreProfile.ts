@@ -1,9 +1,8 @@
 /* eslint-disable max-len */
-import {
-  NodeDefinition,
-  NodeDefinitionsMap
-} from '../../Nodes/Registry/NodeDefinitionsMap.js';
+import { NodeDefinition } from '../../Nodes/Registry/NodeDefinitionsMap.js';
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription.js';
+import { IRegistry } from '../../Registry.js';
+import { ValueType } from '../../Values/ValueType.js';
 import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
 import { getStringConversionsForValueType } from '../registerSerializersForValueType.js';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter.js';
@@ -47,42 +46,38 @@ import { VariableGet } from './Variables/VariableGet.js';
 import { VariableSet } from './Variables/VariableSet.js';
 
 export const makeCoreDependencies = ({
-  lifecyleEmitter,
+  lifecycleEmitter,
   logger
 }: {
-  lifecyleEmitter: ILifecycleEventEmitter;
+  lifecycleEmitter: ILifecycleEventEmitter;
   logger: ILogger;
 }) => ({
-  [lifecycleEventEmitterDependencyKey]: lifecyleEmitter,
+  [lifecycleEventEmitterDependencyKey]: lifecycleEmitter,
   [loggerDependencyKey]: logger
 });
 
-export function getCoreValueTypes(): ValueTypeMap {
-  return toMap(
-    [BooleanValue, StringValue, IntegerValue, FloatValue],
-    (v) => v.name
-  );
-}
+export const CoreValueTypes: ValueType[] = [
+  BooleanValue,
+  StringValue,
+  IntegerValue,
+  FloatValue
+];
 
-export function toMap<T>(
-  elements: T[],
-  getName: (element: T) => string
-): Record<string, T> {
-  return Object.fromEntries(
-    elements.map((element) => [getName(element), element])
-  );
-}
+export const CoreValueMap: ValueTypeMap = Object.fromEntries(
+  CoreValueTypes.map((valueType) => [valueType.name, valueType])
+);
+
+export const CoreValueNames = Object.keys(CoreValueMap);
 
 function getStringConversions(values: ValueTypeMap): NodeDefinition[] {
-  return ['boolean', 'float', 'integer'].flatMap((valueTypeName) =>
-    getStringConversionsForValueType({ values, valueTypeName })
+  return CoreValueNames.filter((name) => name !== 'string').flatMap(
+    (valueTypeName) =>
+      getStringConversionsForValueType({ values, valueTypeName })
   );
 }
 
-export function getCoreNodeDefinitions(
-  values: ValueTypeMap
-): NodeDefinitionsMap {
-  const allNodeDefinitions: NodeDefinition[] = [
+export function getCoreNodeDefinitions(values: ValueTypeMap): NodeDefinition[] {
+  return [
     ...getNodeDescriptions(StringNodes),
     ...getNodeDescriptions(BooleanNodes),
     ...getNodeDescriptions(IntegerNodes),
@@ -137,15 +132,22 @@ export function getCoreNodeDefinitions(
 
     ...getStringConversions(values)
   ];
-
-  // convert array to map
-  return toMap(allNodeDefinitions, (node) => node.typeName);
 }
 
-export const getCoreRegistry = () => {
-  const values = getCoreValueTypes();
+export const getCoreDefinitionMap = (
+  values: Record<string, ValueType>
+): Record<string, NodeDefinition> =>
+  Object.fromEntries(
+    getCoreNodeDefinitions(values).map((nodeDefinition) => [
+      nodeDefinition.typeName,
+      nodeDefinition
+    ])
+  );
+
+export const registerCoreProfile = (registry: IRegistry): IRegistry => {
+  const values = { ...registry.values, ...CoreValueMap };
   return {
     values,
-    nodes: getCoreNodeDefinitions(getCoreValueTypes())
+    nodes: { ...registry.nodes, ...getCoreDefinitionMap(values) }
   };
 };

@@ -1,4 +1,5 @@
-import { Assert, EventEmitter, IScene, Vec3, Vec4 } from '@behave-graph/core';
+import { Assert, EventEmitter } from '@behave-graph/core';
+import { IScene, Vec3, Vec4 } from '@behave-graph/scene';
 import { Material, Object3D, Quaternion, Vector3, Vector4 } from 'three';
 
 import { GLTFJson } from './GLTFJson.js';

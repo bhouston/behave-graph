@@ -47,7 +47,7 @@ const publicImageUrl = (path: string) => new URL(path, import.meta.url).href;
 
 async function loadThreeScene() {
   const gltfPromise = new GLTFLoader()
-    .setPath(publicImageUrl('/graphs/scene/actions/'))
+    .setPath(publicImageUrl('../../graphs/scene/actions/'))
     .loadAsync('SpinningSuzanne.gltf');
 
   const gltf = await gltfPromise;

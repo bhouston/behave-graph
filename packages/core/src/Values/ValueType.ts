@@ -1,9 +1,10 @@
-export class ValueType<TValue = any, TJson = any> {
-  constructor(
-    public readonly name: string,
-    public readonly creator: () => TValue,
-    public readonly deserialize: (value: TJson) => TValue,
-    public readonly serialize: (value: TValue) => TJson,
-    public readonly lerp: (start: TValue, end: TValue, t: number) => TValue
-  ) {}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ValueType<TValue = any, TJson = any> {
+  name: string;
+  creator: () => TValue;
+  deserialize: (value: TJson) => TValue;
+  serialize: (value: TValue) => TJson;
+  lerp: (start: TValue, end: TValue, t: number) => TValue;
+  equals: (a: TValue, b: TValue) => boolean;
+  clone: (value: TValue) => TValue;
 }

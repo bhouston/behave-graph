@@ -6,7 +6,7 @@ import { INode } from '../Nodes/NodeInstance.js';
 import { NodeDefinitionsMap } from '../Nodes/Registry/NodeDefinitionsMap.js';
 import { Socket } from '../Sockets/Socket.js';
 import { ValueTypeMap } from '../Values/ValueTypeMap.js';
-import { Variable } from '../Variables/Variable.js';
+import { Variable } from '../Values/Variables/Variable.js';
 
 // Purpose:
 //  - stores the node graph

@@ -23,7 +23,13 @@ const getPairs = <T, U>(arr1: T[], arr2: U[]) => {
   return pairs;
 };
 
-export const Node = ({ id, data, spec, selected, allSpecs }: NodeProps) => {
+export const Node: React.FC<NodeProps> = ({
+  id,
+  data,
+  spec,
+  selected,
+  allSpecs
+}: NodeProps) => {
   const edges = useEdges();
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);

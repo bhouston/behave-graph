@@ -1,20 +1,20 @@
-import { IQueriableRegistry } from 'packages/core/src';
+import { IQueryableRegistry } from '@behave-graph/core';
 import { useMemo } from 'react';
 
-export const toQueriableDefinitions = <T>(definitionsMap: {
+export const toQueryableDefinitions = <T>(definitionsMap: {
   [id: string]: T;
-}): IQueriableRegistry<T> => ({
+}): IQueryableRegistry<T> => ({
   get: (id: string) => definitionsMap[id],
   getAll: () => Object.values(definitionsMap),
   getAllNames: () => Object.keys(definitionsMap),
   contains: (id: string) => definitionsMap[id] !== undefined
 });
 
-export const useQueriableDefinitions = <T>(definitionsMap: {
+export const useQueryableDefinitions = <T>(definitionsMap: {
   [id: string]: T;
-}): IQueriableRegistry<T> => {
+}): IQueryableRegistry<T> => {
   const queriableDefinitions = useMemo(
-    () => toQueriableDefinitions(definitionsMap),
+    () => toQueryableDefinitions(definitionsMap),
     [definitionsMap]
   );
 

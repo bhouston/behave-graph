@@ -22,7 +22,7 @@ export * from './Values/ValueType.js';
 export * from './Sockets/Socket.js';
 export * from './Events/CustomEvent.js';
 export * from './Events/EventEmitter.js';
-export * from './Variables/Variable.js';
+export * from './Values/Variables/Variable.js';
 
 // loading & execution
 export * from './Execution/Engine.js';

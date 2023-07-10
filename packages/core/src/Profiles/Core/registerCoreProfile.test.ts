@@ -1,17 +1,15 @@
 import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
-import { Registry } from '../../Registry.js';
 import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
-import { registerCoreProfile } from './registerCoreProfile.js';
+import { getCoreRegistry } from './registerCoreProfile.js';
 
 describe('core profile', () => {
-  const registry = new Registry();
-  registerCoreProfile(registry);
+  const registry = getCoreRegistry();
 
   test('validate node registry', () => {
     expect(validateNodeRegistry(registry)).toHaveLength(0);
   });
   test('validate value registry', () => {
-    expect(validateValueRegistry(registry)).toHaveLength(0);
+    expect(validateValueRegistry(registry.values)).toHaveLength(0);
   });
 
   const valueTypeNameToExampleValues: { [key: string]: any[] } = {
@@ -23,7 +21,7 @@ describe('core profile', () => {
 
   for (const valueTypeName in valueTypeNameToExampleValues) {
     test(`${valueTypeName} serialization/deserialization`, () => {
-      const valueType = registry.values.get(valueTypeName);
+      const valueType = registry.values[valueTypeName];
       const exampleValues: any[] = valueTypeNameToExampleValues[valueTypeName];
       exampleValues.forEach((exampleValue: any) => {
         const deserializedValue = valueType.deserialize(exampleValue);

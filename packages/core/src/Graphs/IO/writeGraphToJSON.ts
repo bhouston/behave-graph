@@ -1,4 +1,5 @@
-import { Graph } from '../Graph.js';
+import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
+import { GraphInstance } from '../Graph.js';
 import {
   CustomEventJSON,
   CustomEventParameterJSON,
@@ -10,7 +11,10 @@ import {
   VariableJSON
 } from './GraphJSON.js';
 
-export function writeGraphToJSON(graph: Graph): GraphJSON {
+export function writeGraphToJSON(
+  graph: GraphInstance,
+  valuesRegistry: ValueTypeMap
+): GraphJSON {
   const graphJson: GraphJSON = {};
 
   if (Object.keys(graph.metadata).length > 0) {
@@ -52,9 +56,9 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
       valueTypeName: variable.valueTypeName,
       name: variable.name,
       id: variable.id,
-      initialValue: graph.registry.values
-        .get(variable.valueTypeName)
-        .serialize(variable.initialValue)
+      initialValue: valuesRegistry[variable.valueTypeName]?.serialize(
+        variable.initialValue
+      )
     };
     if (variable.label.length > 0) {
       variableJson.label = variable.label;
@@ -96,9 +100,9 @@ export function writeGraphToJSON(graph: Graph): GraphJSON {
 
       if (inputSocket.links.length === 0) {
         parameterJson = {
-          value: graph.registry.values
-            .get(inputSocket.valueTypeName)
-            .serialize(inputSocket.value)
+          value: valuesRegistry[inputSocket.valueTypeName]?.serialize(
+            inputSocket.value
+          )
         };
       } else if (inputSocket.links.length === 1) {
         const link = inputSocket.links[0];

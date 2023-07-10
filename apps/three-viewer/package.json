@@ -1,6 +1,7 @@
 {
   "name": "three-viewer",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit && esbuild src/index.ts --target=es2020 --bundle --minify --outfile=public/js/index.js",

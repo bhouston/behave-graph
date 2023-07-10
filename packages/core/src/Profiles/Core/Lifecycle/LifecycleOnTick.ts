@@ -39,7 +39,7 @@ export const LifecycleOnTick = makeEventNodeDefinition({
       lifecycleEventEmitterDependencyKey
     );
 
-    lifecycleEventEmitter.tickEvent.addListener(onTickEvent);
+    lifecycleEventEmitter?.tickEvent.addListener(onTickEvent);
 
     return {
       onTickEvent
@@ -53,7 +53,7 @@ export const LifecycleOnTick = makeEventNodeDefinition({
     );
 
     if (onTickEvent)
-      lifecycleEventEmitter.tickEvent.removeListener(onTickEvent);
+      lifecycleEventEmitter?.tickEvent.removeListener(onTickEvent);
 
     return {};
   }

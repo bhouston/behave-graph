@@ -1,15 +1,15 @@
-import { Graph } from '../Graph.js';
+import { GraphNodes } from '../Graph.js';
 
-export function validateGraphLinks(graph: Graph): string[] {
+export function validateGraphLinks(nodes: GraphNodes): string[] {
   const errorList: string[] = [];
   // for each node
-  Object.values(graph.nodes).forEach((node) => {
+  Object.values(nodes).forEach((node) => {
     // for each input socket
     node.inputs.forEach((inputSocket) => {
       // ensure that connected output sockets are the same type
       inputSocket.links.forEach((link) => {
         // check if the node id is correct
-        if (!(link.nodeId in graph.nodes)) {
+        if (!(link.nodeId in nodes)) {
           errorList.push(
             `node ${node.description.typeName}.${inputSocket.name} has link using invalid nodeId: ${link.nodeId}`
           );
@@ -17,7 +17,7 @@ export function validateGraphLinks(graph: Graph): string[] {
         }
 
         // check if the socketName is correct
-        const upstreamNode = graph.nodes[link.nodeId];
+        const upstreamNode = nodes[link.nodeId];
         const outputSocket = upstreamNode.outputs.find(
           (socket) => socket.name === link.socketName
         );

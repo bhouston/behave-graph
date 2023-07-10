@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import styles from './styles.module.css';
+import styles from './styles.module.css.js';
 
 type FeatureItem = {
   title: string;
@@ -37,13 +37,13 @@ const FeatureList: FeatureItem[] = [
       <>
         This library is designed to be extended with context dependent nodes,
         specifically Actions, Events and Queries that match the capabilities and
-        requirements of your system. 
+        requirements of your system.
       </>
     )
   }
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({ title, Svg, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">

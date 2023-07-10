@@ -1,10 +1,11 @@
 import { promises as fs } from 'node:fs';
 
 import {
+  DefaultLogger,
+  getCoreNodeDefinitions,
+  getCoreValueTypes,
   Logger,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
+  ManualLifecycleEventEmitter,
   validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
@@ -34,12 +35,15 @@ export const main = async () => {
     throw new Error('no path specified');
   }
 
-  const registry = new Registry();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
+  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  const logger = new DefaultLogger();
+  const valueTypeMap = getCoreValueTypes();
+  const nodeDefinitionMap = getCoreNodeDefinitions(valueTypeMap);
 
   const errorList: string[] = [];
-  errorList.push(...validateNodeRegistry(registry));
+  errorList.push(
+    ...validateNodeRegistry({ nodes: nodeDefinitionMap, values: valueTypeMap })
+  );
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
@@ -48,7 +52,14 @@ export const main = async () => {
     return;
   }
 
-  const nodeSpecJson = writeNodeSpecsToJSON(registry);
+  const nodeSpecJson = writeNodeSpecsToJSON({
+    nodes: nodeDefinitionMap,
+    values: valueTypeMap,
+    dependencies: {
+      logger,
+      lifecycleEventEmitter
+    }
+  });
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
   if (programOptions.csv) {

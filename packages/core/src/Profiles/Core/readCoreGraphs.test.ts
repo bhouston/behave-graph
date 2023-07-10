@@ -12,16 +12,18 @@ import * as frameCounterJson from '../../../../../graphs/core/variables/FrameCou
 import * as initialValueJson from '../../../../../graphs/core/variables/InitialValue.json';
 import * as setGetJson from '../../../../../graphs/core/variables/SetGet.json';
 import { Logger } from '../../Diagnostics/Logger.js';
-import { Graph } from '../../Graphs/Graph.js';
+import { GraphInstance } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON.js';
 import { validateGraphAcyclic } from '../../Graphs/Validation/validateGraphAcyclic.js';
 import { validateGraphLinks } from '../../Graphs/Validation/validateGraphLinks.js';
-import { Registry } from '../../Registry.js';
-import { registerCoreProfile } from './registerCoreProfile.js';
+import {
+  getCoreNodeDefinitions,
+  getCoreValueTypes
+} from './registerCoreProfile.js';
 
-const registry = new Registry();
-registerCoreProfile(registry);
+const valueTypes = getCoreValueTypes();
+const nodeDefinitions = getCoreNodeDefinitions(valueTypes);
 
 Logger.onWarn.clear();
 
@@ -45,15 +47,20 @@ for (const key in exampleMap) {
   describe(`${key}`, () => {
     const exampleJson = exampleMap[key] as GraphJSON;
 
-    let parsedGraphJson: Graph | undefined;
+    let parsedGraphJson: GraphInstance | undefined;
     test('parse json to graph', () => {
       expect(() => {
-        parsedGraphJson = readGraphFromJSON(exampleJson, registry);
+        parsedGraphJson = readGraphFromJSON({
+          graphJson: exampleJson,
+          nodes: nodeDefinitions,
+          values: valueTypes,
+          dependencies: {}
+        });
       }).not.toThrow();
       // await fs.writeFile('./examples/test.json', JSON.stringify(writeGraphToJSON(graph), null, ' '), { encoding: 'utf-8' });
       if (parsedGraphJson !== undefined) {
-        expect(validateGraphLinks(parsedGraphJson)).toHaveLength(0);
-        expect(validateGraphAcyclic(parsedGraphJson)).toHaveLength(0);
+        expect(validateGraphLinks(parsedGraphJson.nodes)).toHaveLength(0);
+        expect(validateGraphAcyclic(parsedGraphJson.nodes)).toHaveLength(0);
       } else {
         expect(parsedGraphJson).toBeDefined();
       }

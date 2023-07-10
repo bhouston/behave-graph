@@ -1,25 +1,24 @@
 import { GraphJSON } from '@behave-graph/core';
-import { FC, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 
-import { behaveToFlow } from '../../transformers/behaveToFlow.js';
-import { autoLayout } from '../../util/autoLayout.js';
-import { hasPositionMetaData } from '../../util/hasPositionMetaData.js';
 import { Modal } from './Modal.js';
-
-export type LoadModalProps = {
-  open?: boolean;
-  onClose: () => void;
-  examples: Examples;
-};
 
 export type Examples = {
   [key: string]: GraphJSON;
 };
 
-export const LoadModal: FC<LoadModalProps> = ({
+export type LoadModalProps = {
+  open?: boolean;
+  onClose: () => void;
+  setBehaviorGraph: (value: GraphJSON) => void;
+  examples: Examples;
+};
+
+export const LoadModal: React.FC<LoadModalProps> = ({
   open = false,
   onClose,
+  setBehaviorGraph,
   examples
 }) => {
   const [value, setValue] = useState<string>();
@@ -27,7 +26,13 @@ export const LoadModal: FC<LoadModalProps> = ({
 
   const instance = useReactFlow();
 
-  const handleLoad = () => {
+  useEffect(() => {
+    if (selected) {
+      setValue(JSON.stringify(examples[selected], null, 2));
+    }
+  }, [selected, examples]);
+
+  const handleLoad = useCallback(() => {
     let graph;
     if (value !== undefined) {
       graph = JSON.parse(value) as GraphJSON;
@@ -37,14 +42,7 @@ export const LoadModal: FC<LoadModalProps> = ({
 
     if (graph === undefined) return;
 
-    const [nodes, edges] = behaveToFlow(graph);
-
-    if (hasPositionMetaData(graph) === false) {
-      autoLayout(nodes, edges);
-    }
-
-    instance.setNodes(nodes);
-    instance.setEdges(edges);
+    setBehaviorGraph(graph);
 
     // TODO better way to call fit vew after edges render
     setTimeout(() => {
@@ -52,7 +50,7 @@ export const LoadModal: FC<LoadModalProps> = ({
     }, 100);
 
     handleClose();
-  };
+  }, [setBehaviorGraph, value, instance]);
 
   const handleClose = () => {
     setValue(undefined);
@@ -86,11 +84,11 @@ export const LoadModal: FC<LoadModalProps> = ({
         <option disabled value="">
           Select an example
         </option>
-        <option value="branch">Branch</option>
-        <option value="delay">Delay</option>
-        <option value="helloWorld">Hello World</option>
-        <option value="polynomial">Polynomial</option>
-        <option value="setGet">Set/Get</option>
+        {Object.keys(examples).map((key) => (
+          <option key={key} value={key}>
+            {key}
+          </option>
+        ))}
       </select>
     </Modal>
   );

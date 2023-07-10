@@ -1,6 +1,13 @@
 export * from './Diagnostics/Logger.js';
 export * from './Diagnostics/Assert.js';
 
+export * from './parseFloats.js';
+export * from './toCamelCase.js';
+export * from './Easing.js';
+export * from './sleep.js';
+export * from './sequence.js';
+export * from './mathUtilities.js';
+
 // main data model
 export * from './Graphs/Graph.js';
 export * from './Nodes/Node.js';
@@ -27,8 +34,8 @@ export * from './Graphs/IO/writeNodeSpecsToJSON.js';
 // registry
 export * from './Nodes/Registry/NodeCategory.js';
 export * from './Nodes/Registry/NodeDescription.js';
-export * from './Nodes/Registry/NodeTypeRegistry.js';
-export * from './Values/ValueTypeRegistry.js';
+export * from './Nodes/Registry/NodeDefinitionsMap.js';
+export * from './Values/ValueTypeMap.js';
 export * from './Registry.js';
 
 // registry validation
@@ -44,6 +51,8 @@ export * from './Graphs/Validation/validateGraph.js';
 // json types
 export * from './Graphs/IO/GraphJSON.js';
 export * from './Graphs/IO/NodeSpecJSON.js';
+
+export * from './Profiles/registerSerializersForValueType.js';
 
 // core profile
 export * from './Profiles/Core/Abstractions/ILifecycleEventEmitter.js';
@@ -81,29 +90,5 @@ export * from './Profiles/Core/Values/StringValue.js';
 export * from './Profiles/Core/Variables/VariableSet.js';
 export * from './Profiles/Core/Variables/VariableGet.js';
 export * from './Profiles/Core/registerCoreProfile.js';
-
-// scene profile
-export * from './Profiles/Scene/Abstractions/IScene.js';
-export * from './Profiles/Scene/Abstractions/Drivers/DummyScene.js';
-export * from './Profiles/Scene/Actions/SetSceneProperty.js';
-export * from './Profiles/Scene/Events/OnSceneNodeClick.js';
-export * from './Profiles/Scene/Logic/VecElements.js';
-export * from './Profiles/Scene/Queries/GetSceneProperty.js';
-export * from './Profiles/Scene/Values/Internal/Vec2.js';
-export * from './Profiles/Scene/Values/Internal/Vec3.js';
-export * from './Profiles/Scene/Values/Internal/Vec4.js';
-export * as ColorNodes from './Profiles/Scene/Values/ColorNodes.js';
-export * from './Profiles/Scene/Values/ColorValue.js';
-export * as EulerNodes from './Profiles/Scene/Values/EulerNodes.js';
-export * from './Profiles/Scene/Values/EulerValue.js';
-export * as Vec2Nodes from './Profiles/Scene/Values/Vec2Nodes.js';
-export * from './Profiles/Scene/Values/Vec2Value.js';
-export * as Vec3Nodes from './Profiles/Scene/Values/Vec3Nodes.js';
-export * from './Profiles/Scene/Values/Vec3Value.js';
-export * as Vec4Nodes from './Profiles/Scene/Values/Vec4Nodes.js';
-export * from './Profiles/Scene/Values/Vec4Value.js';
-export * as QuatNodes from './Profiles/Scene/Values/QuatNodes.js';
-export * from './Profiles/Scene/Values/QuatValue.js';
-export * from './Profiles/Scene/registerSceneProfile.js';
 
 export * from './parseFloats.js';

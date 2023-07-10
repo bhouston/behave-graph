@@ -1,6 +1,7 @@
 {
   "name": "graph-editor",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit && esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/js/index.js",
@@ -9,7 +10,9 @@
   "dependencies": {
     "@behave-graph/core": "*",
     "@behave-graph/flow": "*",
-    "three": "^0.145.0"
+    "@types/three": "0.152.1",
+    "three": "0.152.2",
+    "three-stdlib": "^2.22.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.2.0",

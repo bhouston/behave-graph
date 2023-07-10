@@ -1,12 +1,4 @@
-import {
-  DefaultLogger,
-  ManualLifecycleEventEmitter,
-  registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneProfile,
-  Registry
-} from '@behave-graph/core';
+import { DefaultLogger, ManualLifecycleEventEmitter } from '@behave-graph/core';
 import { useState } from 'react';
 
 const createRegistry = () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { NodeSpecJSON } from 'packages/core/src/Graphs/IO/NodeSpecJSON';
-import NodeContainer from './NodeContainer';
-import InputSocket from './InputSocket';
-import OutputSocket from './OutputSocket';
+import NodeContainer from './NodeContainer.js';
+import InputSocket from './InputSocket.js';
+import OutputSocket from './OutputSocket.js';
 
 type NodeProps = {
   spec: NodeSpecJSON;
@@ -31,20 +31,11 @@ const Node = ({ spec }: NodeProps) => {
             justifyContent: 'space-between',
             gap: '0.5rem',
             padding: '0.5rem',
-            position: 'relative',
+            position: 'relative'
           }}
         >
-          {input && (
-            <InputSocket
-              {...input}
-              value={input.defaultValue}
-            />
-          )}
-          {output && (
-            <OutputSocket
-              {...output}
-            />
-          )}
+          {input && <InputSocket {...input} value={input.defaultValue} />}
+          {output && <OutputSocket {...output} />}
         </div>
       ))}
     </NodeContainer>

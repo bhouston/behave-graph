@@ -4,7 +4,7 @@ import {
 } from '../../../Nodes/NodeDefinitions.js';
 import { ILogger } from '../Abstractions/ILogger.js';
 
-export const loggerDependencyKey = 'loggger';
+export const loggerDependencyKey = 'logger';
 
 export const Log = makeFlowNodeDefinition({
   typeName: 'debug/log',
@@ -28,16 +28,16 @@ export const Log = makeFlowNodeDefinition({
     const text = read<string>('text');
     switch (read<string>('severity')) {
       case 'verbose':
-        logger.verbose(text);
+        logger?.verbose(text);
         break;
       case 'info':
-        logger.info(text);
+        logger?.info(text);
         break;
       case 'warning':
-        logger.warn(text);
+        logger?.warn(text);
         break;
       case 'error':
-        logger.error(text);
+        logger?.error(text);
         break;
     }
 

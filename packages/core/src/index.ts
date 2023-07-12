@@ -92,3 +92,4 @@ export * from './Profiles/Core/Variables/VariableGet.js';
 export * from './Profiles/Core/registerCoreProfile.js';
 
 export * from './parseFloats.js';
+export * from './memo.js';

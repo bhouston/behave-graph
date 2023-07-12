@@ -1,11 +1,14 @@
 /* eslint-disable max-len */
 import {
   Dependencies,
+  getCoreValuesMap,
   getNodeDescriptions,
   getStringConversionsForValueType,
   IRegistry,
+  memo,
   NodeDefinition,
-  ValueType
+  ValueType,
+  ValueTypeMap
 } from '@behave-graph/core';
 
 import { IScene } from './Abstractions/IScene.js';
@@ -34,28 +37,35 @@ export const createSceneDependency = (scene: IScene): Dependencies => ({
   [sceneDependencyKey]: scene
 });
 
-export const SceneValueTypes = [
-  Vec2Value,
-  Vec3Value,
-  Vec4Value,
-  ColorValue,
-  EulerValue,
-  QuatValue,
-  Mat3Value,
-  Mat4Value
-];
+export const getSceneValuesMap = memo<ValueTypeMap>(() => {
+  const valueTypes = [
+    Vec2Value,
+    Vec3Value,
+    Vec4Value,
+    ColorValue,
+    EulerValue,
+    QuatValue,
+    Mat3Value,
+    Mat4Value
+  ];
+  return Object.fromEntries(
+    valueTypes.map((valueType) => [valueType.name, valueType])
+  );
+});
 
-export const SceneValueMap: Record<string, ValueType> = Object.fromEntries(
-  SceneValueTypes.map((valueType) => [valueType.name, valueType])
-);
-
-export const SceneValueNames = Object.keys(SceneValueMap);
-
-export const getSceneNodeDefinition = (
+export const getSceneStringConversions = (
   values: Record<string, ValueType>
-): NodeDefinition[] => {
-  const allValueTypeNames = Object.keys(values);
-  return [
+): NodeDefinition[] =>
+  Object.keys(getCoreValuesMap()).flatMap((valueTypeName) =>
+    getStringConversionsForValueType({ values, valueTypeName })
+  );
+
+export const getSceneNodesMap = memo<Record<string, NodeDefinition>>(() => {
+  const allValueTypeNames = Object.keys({
+    ...getCoreValuesMap(),
+    ...getSceneValuesMap()
+  });
+  const nodeDefinitions = [
     // pull in value type nodes
     ...getNodeDescriptions(Vec2Nodes),
     ...getNodeDescriptions(Vec3Nodes),
@@ -70,35 +80,30 @@ export const getSceneNodeDefinition = (
     OnSceneNodeClick,
     // actions
     ...SetSceneProperty(allValueTypeNames),
-    ...GetSceneProperty(allValueTypeNames)
-  ];
-};
+    ...GetSceneProperty(allValueTypeNames),
 
-export const getSceneNodeDefinitionMap = (
-  values: Record<string, ValueType>
-): Record<string, NodeDefinition> =>
-  Object.fromEntries(
-    getSceneNodeDefinition(values).map((nodeDefinition) => [
+    ...getSceneStringConversions(getSceneValuesMap())
+  ];
+
+  return Object.fromEntries(
+    nodeDefinitions.map((nodeDefinition) => [
       nodeDefinition.typeName,
       nodeDefinition
     ])
   );
+});
 
 export const makeSceneDependencies = ({ scene }: { scene: IScene }) => ({
   [sceneDependencyKey]: scene
 });
 
-export const getStringConversions = (
-  values: Record<string, ValueType>
-): NodeDefinition[] =>
-  SceneValueNames.flatMap((valueTypeName) =>
-    getStringConversionsForValueType({ values, valueTypeName })
-  );
-
 export const registerSceneProfile = (registry: IRegistry): IRegistry => {
-  const values = { ...registry.values, ...SceneValueMap };
+  const values = { ...registry.values, ...getCoreValuesMap() };
   return {
     values,
-    nodes: { ...registry.nodes, ...getSceneNodeDefinitionMap(values) }
+    nodes: { ...registry.nodes, ...getSceneNodesMap() },
+    dependencies: {
+      ...registry.dependencies
+    }
   };
 };

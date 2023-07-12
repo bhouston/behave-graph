@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
+import { memo } from '../../memo.js';
 import { NodeDefinition } from '../../Nodes/Registry/NodeDefinitionsMap.js';
 import { getNodeDescriptions } from '../../Nodes/Registry/NodeDescription.js';
 import { IRegistry } from '../../Registry.js';
-import { ValueType } from '../../Values/ValueType.js';
 import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
 import { getStringConversionsForValueType } from '../registerSerializersForValueType.js';
 import { ILifecycleEventEmitter } from './Abstractions/ILifecycleEventEmitter.js';
@@ -56,65 +56,53 @@ export const makeCoreDependencies = ({
   [loggerDependencyKey]: logger
 });
 
-export const CoreValueTypes: ValueType[] = [
-  BooleanValue,
-  StringValue,
-  IntegerValue,
-  FloatValue
-];
-
-export const CoreValueMap: ValueTypeMap = Object.fromEntries(
-  CoreValueTypes.map((valueType) => [valueType.name, valueType])
-);
-
-export const CoreValueNames = Object.keys(CoreValueMap);
-
-function getStringConversions(values: ValueTypeMap): NodeDefinition[] {
-  return CoreValueNames.filter((name) => name !== 'string').flatMap(
-    (valueTypeName) =>
-      getStringConversionsForValueType({ values, valueTypeName })
+export const getCoreValuesMap = memo<ValueTypeMap>(() => {
+  const valueTypes = [BooleanValue, StringValue, IntegerValue, FloatValue];
+  return Object.fromEntries(
+    valueTypes.map((valueType) => [valueType.name, valueType])
   );
+});
+
+function getCoreStringConversions(values: ValueTypeMap): NodeDefinition[] {
+  return Object.keys(getCoreValuesMap())
+    .filter((name) => name !== 'string')
+    .flatMap((valueTypeName) =>
+      getStringConversionsForValueType({ values, valueTypeName })
+    );
 }
 
-export function getCoreNodeDefinitions(values: ValueTypeMap): NodeDefinition[] {
-  return [
+export const getCoreNodesMap = memo<Record<string, NodeDefinition>>(() => {
+  const nodeDefinitions = [
     ...getNodeDescriptions(StringNodes),
     ...getNodeDescriptions(BooleanNodes),
     ...getNodeDescriptions(IntegerNodes),
     ...getNodeDescriptions(FloatNodes),
 
     // custom events
-
     OnCustomEvent.Description,
     TriggerCustomEvent.Description,
 
     // variables
-
     VariableGet,
     VariableSet,
 
     // complex logic
-
     Easing,
 
     // actions
-
     DebugLog,
     AssertExpectTrue.Description,
 
     // events
-
     LifecycleOnStart,
     LifecycleOnEnd,
     LifecycleOnTick,
 
     // time
-
     Delay.Description,
     ...getNodeDescriptions(TimeNodes),
 
     // flow control
-
     Branch,
     FlipFlop,
     ForLoop,
@@ -130,24 +118,21 @@ export function getCoreNodeDefinitions(values: ValueTypeMap): NodeDefinition[] {
     WaitAll.Description,
     Counter,
 
-    ...getStringConversions(values)
+    ...getCoreStringConversions(getCoreValuesMap())
   ];
-}
-
-export const getCoreDefinitionMap = (
-  values: Record<string, ValueType>
-): Record<string, NodeDefinition> =>
-  Object.fromEntries(
-    getCoreNodeDefinitions(values).map((nodeDefinition) => [
+  return Object.fromEntries(
+    nodeDefinitions.map((nodeDefinition) => [
       nodeDefinition.typeName,
       nodeDefinition
     ])
   );
+});
 
 export const registerCoreProfile = (registry: IRegistry): IRegistry => {
-  const values = { ...registry.values, ...CoreValueMap };
+  const values = { ...registry.values, ...getCoreValuesMap() };
   return {
     values,
-    nodes: { ...registry.nodes, ...getCoreDefinitionMap(values) }
+    nodes: { ...registry.nodes, ...getCoreNodesMap() },
+    dependencies: { ...registry.dependencies }
   };
 };

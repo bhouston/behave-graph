@@ -37,7 +37,11 @@ async function execGraph({
 }) {
   const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  const registry = registerCoreProfile({ values: {}, nodes: {} });
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {}
+  });
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);

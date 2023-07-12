@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/js/index.js",
-    "dev": "tsc --noEmit --watch & esbuild src/index.tsx --target=es2020 --bundle --sourcemap --outfile=public/js/index.js --watch --serve=8001 --servedir=public"
+    "build:tsc": "tsc --noEmit",
+    "build:css": "npx postcss src/styles.css -o public/styles.css",
+    "build:esbuild": "esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/index.js",
+    "build": "npm run build:tsc && npm run build:css && npm run build:esbuild",
+    "dev": "npx postcss src/styles.css -o public/styles.css --watch & tsc --noEmit --watch & esbuild src/index.tsx --target=es2018 --bundle --sourcemap --outfile=public/index.js --watch --serve=8001 --servedir=public"
   },
   "dependencies": {
     "@behave-graph/core": "*",

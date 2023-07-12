@@ -37,7 +37,11 @@ export const main = async () => {
   const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const registry = registerCoreProfile({ values: {}, nodes: {} });
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {}
+  });
 
   const errorList: string[] = [];
   errorList.push(...validateNodeRegistry(registry));

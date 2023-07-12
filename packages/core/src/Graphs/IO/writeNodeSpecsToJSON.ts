@@ -1,8 +1,6 @@
 import { NodeCategory } from '../../Nodes/NodeDefinitions.js';
-import { Dependencies } from '../../Nodes/Registry/DependenciesRegistry.js';
-import { NodeDefinitionsMap } from '../../Nodes/Registry/NodeDefinitionsMap.js';
+import { IRegistry } from '../../Registry.js';
 import { Choices } from '../../Sockets/Socket.js';
-import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
 import { createNode, IGraphApi } from '../Graph.js';
 import {
   ChoiceJSON,
@@ -22,11 +20,7 @@ export function writeNodeSpecsToJSON({
   values,
   nodes,
   dependencies
-}: {
-  values: ValueTypeMap;
-  nodes: NodeDefinitionsMap;
-  dependencies: Dependencies;
-}): NodeSpecJSON[] {
+}: IRegistry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   // const graph = new Graph(registry);
@@ -34,7 +28,7 @@ export function writeNodeSpecsToJSON({
   const graph: IGraphApi = {
     values: values,
     customEvents: {},
-    getDependency: (id: string) => dependencies[id],
+    getDependency: <T>(id: string) => dependencies[id] as T,
     variables: {}
   };
 

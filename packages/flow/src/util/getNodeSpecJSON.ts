@@ -1,19 +1,7 @@
-import {
-  NodeSpecJSON,
-  registerCoreProfile,
-  registerSceneProfile,
-  Registry,
-  writeNodeSpecsToJSON
-} from '@behave-graph/core';
+import { memo, NodeSpecJSON, writeNodeSpecsToJSON } from '@behave-graph/core';
 
-let nodeSpecJSON: NodeSpecJSON[] | undefined = undefined;
+import { createRegistry } from '../hooks/useRegistry.js';
 
-export const getNodeSpecJSON = (): NodeSpecJSON[] => {
-  if (nodeSpecJSON === undefined) {
-    const registry = new Registry();
-    registerCoreProfile(registry);
-    registerSceneProfile(registry);
-    nodeSpecJSON = writeNodeSpecsToJSON(registry);
-  }
-  return nodeSpecJSON;
-};
+export const getNodeSpecJSON = memo<NodeSpecJSON[]>(() =>
+  writeNodeSpecsToJSON(createRegistry())
+);

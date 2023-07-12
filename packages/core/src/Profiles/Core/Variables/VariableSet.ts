@@ -3,7 +3,7 @@ import {
   NodeCategory,
   SocketsList
 } from '../../../Nodes/NodeDefinitions.js';
-import { Variable } from '../../../Variables/Variable.js';
+import { Variable } from '../../../Values/Variables/Variable.js';
 
 export const VariableSet = makeFlowNodeDefinition({
   typeName: 'variable/set',

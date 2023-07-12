@@ -1,19 +1,31 @@
+import { NodeSpecJSON } from '@behave-graph/core';
 import { FC, useMemo, useRef, useState } from 'react';
 import { useEdges, useNodes } from 'reactflow';
 
 import { flowToBehave } from '../../transformers/flowToBehave.js';
 import { Modal } from './Modal.js';
 
-export type SaveModalProps = { open?: boolean; onClose: () => void };
+export type SaveModalProps = {
+  open?: boolean;
+  onClose: () => void;
+  specJson: NodeSpecJSON[];
+};
 
-export const SaveModal: FC<SaveModalProps> = ({ open = false, onClose }) => {
+export const SaveModal: FC<SaveModalProps> = ({
+  open = false,
+  onClose,
+  specJson
+}) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [copied, setCopied] = useState(false);
 
   const edges = useEdges();
   const nodes = useNodes();
 
-  const flow = useMemo(() => flowToBehave(nodes, edges), [nodes, edges]);
+  const flow = useMemo(
+    () => flowToBehave(nodes, edges, specJson),
+    [nodes, edges, specJson]
+  );
 
   const jsonString = JSON.stringify(flow, null, 2);
 

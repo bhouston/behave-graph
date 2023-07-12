@@ -1,11 +1,7 @@
-import {
-  Engine,
-  ManualLifecycleEventEmitter,
-  readGraphFromJSON,
-  Registry
-} from '@behave-graph/core';
+import { GraphJSON, NodeSpecJSON } from '@behave-graph/core';
 import {
   faDownload,
+  faPause,
   faPlay,
   faQuestion,
   faTrash,
@@ -13,60 +9,30 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { ControlButton, Controls, useReactFlow } from 'reactflow';
+import { ControlButton, Controls } from 'reactflow';
 
-import { flowToBehave } from '../transformers/flowToBehave.js';
-import { sleep } from '../util/sleep.js';
 import { ClearModal } from './modals/ClearModal.js';
 import { HelpModal } from './modals/HelpModal.js';
 import { Examples, LoadModal } from './modals/LoadModal.js';
 import { SaveModal } from './modals/SaveModal.js';
 
-export type CustomControlsProps = {
-  examples: Examples;
-  registry: Registry;
-  manualLifecycleEventEmitter: ManualLifecycleEventEmitter;
-};
-
-const CustomControls = ({
+export const CustomControls = ({
+  playing,
+  togglePlay,
+  setBehaviorGraph,
   examples,
-  registry,
-  manualLifecycleEventEmitter
-}: CustomControlsProps) => {
+  specJson
+}: {
+  playing: boolean;
+  togglePlay: () => void;
+  setBehaviorGraph: (value: GraphJSON) => void;
+  examples: Examples;
+  specJson: NodeSpecJSON[] | undefined;
+}) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [clearModalOpen, setClearModalOpen] = useState(false);
-  const instance = useReactFlow();
-
-  const handleRun = async () => {
-    const nodes = instance.getNodes();
-    const edges = instance.getEdges();
-    const graphJson = flowToBehave(nodes, edges);
-    const graph = readGraphFromJSON(graphJson, registry);
-
-    const engine = new Engine(graph);
-
-    if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
-      manualLifecycleEventEmitter.startEvent.emit();
-      await engine.executeAllAsync(5);
-    }
-
-    if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
-      const iterations = 20;
-      const tickDuration = 0.01;
-      for (let tick = 0; tick < iterations; tick++) {
-        manualLifecycleEventEmitter.tickEvent.emit();
-        engine.executeAllSync(tickDuration);
-        await sleep(tickDuration);
-      }
-    }
-
-    if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
-      manualLifecycleEventEmitter.endEvent.emit();
-      await engine.executeAllAsync(5);
-    }
-  };
 
   return (
     <>
@@ -83,16 +49,23 @@ const CustomControls = ({
         <ControlButton title="Clear" onClick={() => setClearModalOpen(true)}>
           <FontAwesomeIcon icon={faTrash} />
         </ControlButton>
-        <ControlButton title="Run" onClick={() => handleRun()}>
-          <FontAwesomeIcon icon={faPlay} />
+        <ControlButton title="Run" onClick={togglePlay}>
+          <FontAwesomeIcon icon={playing ? faPause : faPlay} />
         </ControlButton>
       </Controls>
       <LoadModal
         open={loadModalOpen}
         onClose={() => setLoadModalOpen(false)}
+        setBehaviorGraph={setBehaviorGraph}
         examples={examples}
       />
-      <SaveModal open={saveModalOpen} onClose={() => setSaveModalOpen(false)} />
+      {specJson && (
+        <SaveModal
+          open={saveModalOpen}
+          specJson={specJson}
+          onClose={() => setSaveModalOpen(false)}
+        />
+      )}
       <HelpModal open={helpModalOpen} onClose={() => setHelpModalOpen(false)} />
       <ClearModal
         open={clearModalOpen}

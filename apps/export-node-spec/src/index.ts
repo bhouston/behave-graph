@@ -1,10 +1,10 @@
 import { promises as fs } from 'node:fs';
 
 import {
+  DefaultLogger,
   Logger,
+  ManualLifecycleEventEmitter,
   registerCoreProfile,
-  registerSceneProfile,
-  Registry,
   validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
@@ -34,9 +34,14 @@ export const main = async () => {
     throw new Error('no path specified');
   }
 
-  const registry = new Registry();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
+  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  const logger = new DefaultLogger();
+
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {}
+  });
 
   const errorList: string[] = [];
   errorList.push(...validateNodeRegistry(registry));
@@ -48,7 +53,13 @@ export const main = async () => {
     return;
   }
 
-  const nodeSpecJson = writeNodeSpecsToJSON(registry);
+  const nodeSpecJson = writeNodeSpecsToJSON({
+    ...registry,
+    dependencies: {
+      logger,
+      lifecycleEventEmitter
+    }
+  });
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
   if (programOptions.csv) {

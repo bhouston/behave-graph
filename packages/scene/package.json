@@ -1,0 +1,24 @@
+{
+  "name": "@behave-graph/scene",
+  "version": "0.9.12",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/offscreencanvas": "^2019.7.0"
+  },
+  "license": "ISC",
+  "peerDependencies": {
+    "@behave-graph/core": "*",
+    "@types/three": "0.152.1",
+    "three": "0.152.2",
+    "three-stdlib": "^2.22.4"
+  }
+}

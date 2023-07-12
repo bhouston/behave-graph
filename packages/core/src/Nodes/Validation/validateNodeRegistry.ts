@@ -1,14 +1,25 @@
-import { Graph } from '../../Graphs/Graph.js';
-import { Registry } from '../../Registry.js';
+import { createNode, makeGraphApi } from '../../Graphs/Graph.js';
+import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
+import { NodeDefinitionsMap } from '../Registry/NodeDefinitionsMap.js';
 
 const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;
 
-export function validateNodeRegistry(registry: Registry): string[] {
+export function validateNodeRegistry({
+  nodes,
+  values
+}: {
+  nodes: NodeDefinitionsMap;
+  values: ValueTypeMap;
+}): string[] {
   const errorList: string[] = [];
-  const graph = new Graph(registry);
-  registry.nodes.getAllNames().forEach((nodeTypeName) => {
-    const node = graph.createNode(nodeTypeName);
+  // const graph = new Graph(registry);
+  const graph = makeGraphApi({
+    valuesTypeRegistry: values,
+    dependencies: {}
+  });
+  Object.keys(nodes).forEach((nodeTypeName) => {
+    const node = createNode({ graph, nodes, values, nodeTypeName });
 
     // ensure node is registered correctly.
     if (node.description.typeName !== nodeTypeName) {
@@ -35,7 +46,7 @@ export function validateNodeRegistry(registry: Registry): string[] {
       if (socket.valueTypeName === 'flow') {
         return;
       }
-      const valueType = registry.values.get(socket.valueTypeName);
+      const valueType = values[socket.valueTypeName];
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(
@@ -53,7 +64,7 @@ export function validateNodeRegistry(registry: Registry): string[] {
       if (socket.valueTypeName === 'flow') {
         return;
       }
-      const valueType = registry.values.get(socket.valueTypeName);
+      const valueType = values[socket.valueTypeName];
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(

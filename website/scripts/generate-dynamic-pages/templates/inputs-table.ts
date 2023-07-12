@@ -1,4 +1,4 @@
-import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecjson';
+import { NodeSpecJSON } from '../../../../packages/core/src/Graphs/IO/NodeSpecjson.js';
 import { Socket } from '../../../../packages/core/src/Sockets/Socket.js';
 
 export default (inputs: Socket[], specJSON: NodeSpecJSON) => {

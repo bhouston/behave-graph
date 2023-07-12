@@ -6,10 +6,11 @@ import { isHandleConnected } from '../util/isHandleConnected.js';
 import InputSocket from './InputSocket.js';
 import NodeContainer from './NodeContainer.js';
 import OutputSocket from './OutputSocket.js';
-// import styles from "./Node.module.css"
+import styles from './Node.module.css';
 
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;
+  allSpecs: NodeSpecJSON[];
 };
 
 const getPairs = <T, U>(arr1: T[], arr2: U[]) => {
@@ -22,7 +23,13 @@ const getPairs = <T, U>(arr1: T[], arr2: U[]) => {
   return pairs;
 };
 
-export const Node = ({ id, data, spec, selected }: NodeProps) => {
+export const Node: React.FC<NodeProps> = ({
+  id,
+  data,
+  spec,
+  selected,
+  allSpecs
+}: NodeProps) => {
   const edges = useEdges();
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);
@@ -41,6 +48,7 @@ export const Node = ({ id, data, spec, selected }: NodeProps) => {
           {input && (
             <InputSocket
               {...input}
+              specJSON={allSpecs}
               value={data[input.name] ?? input.defaultValue}
               onChange={handleChange}
               connected={isHandleConnected(edges, id, input.name, 'target')}
@@ -49,6 +57,7 @@ export const Node = ({ id, data, spec, selected }: NodeProps) => {
           {output && (
             <OutputSocket
               {...output}
+              specJSON={allSpecs}
               connected={isHandleConnected(edges, id, output.name, 'source')}
             />
           )}

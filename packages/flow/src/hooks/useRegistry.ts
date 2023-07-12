@@ -1,38 +1,25 @@
 import {
   DefaultLogger,
+  getCoreNodesMap,
+  getCoreValuesMap,
+  IRegistry,
   ManualLifecycleEventEmitter,
-  registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneProfile,
-  Registry
+  memo
 } from '@behave-graph/core';
 import { useState } from 'react';
 
-const createRegistry = () => {
-  const registry = new Registry();
-  const logger = new DefaultLogger();
-  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
-  registerLogger(registry.dependencies, logger);
-  registerLifecycleEventEmitter(
-    registry.dependencies,
-    manualLifecycleEventEmitter
-  );
-
+export const createRegistry = memo<IRegistry>(() => {
   return {
-    registry,
-    logger,
-    manualLifecycleEventEmitter
+    nodes: getCoreNodesMap(),
+    values: getCoreValuesMap(),
+    dependencies: {
+      logger: new DefaultLogger(),
+      lifecycleEventEmitter: new ManualLifecycleEventEmitter()
+    }
   };
-};
+});
 
 export const useRegistry = () => {
-  const [registry] = useState<{
-    registry: Registry;
-    logger: DefaultLogger;
-    manualLifecycleEventEmitter: ManualLifecycleEventEmitter;
-  }>(() => createRegistry());
+  const [registry] = useState<IRegistry>(() => createRegistry());
   return registry;
 };

@@ -1,15 +1,15 @@
-import { DependenciesRegistry } from './Nodes/Registry/DependenciesRegistry.js';
-import { NodeTypeRegistry } from './Nodes/Registry/NodeTypeRegistry.js';
-import { ValueTypeRegistry } from './Values/ValueTypeRegistry.js';
+import { NodeDefinitionsMap } from './Nodes/Registry/NodeDefinitionsMap.js';
+import { ValueTypeMap } from './Values/ValueTypeMap.js';
 
 export interface IRegistry {
-  readonly values: ValueTypeRegistry;
-  readonly nodes: NodeTypeRegistry;
-  readonly dependencies: DependenciesRegistry;
+  readonly values: ValueTypeMap;
+  readonly nodes: NodeDefinitionsMap;
+  readonly dependencies: Record<string, unknown>;
 }
 
-export class Registry implements IRegistry {
-  public readonly values = new ValueTypeRegistry();
-  public readonly nodes = new NodeTypeRegistry();
-  public readonly dependencies = new DependenciesRegistry();
+export interface IQueryableRegistry<T> {
+  get: (id: string) => T | undefined;
+  getAll: () => T[];
+  getAllNames: () => string[];
+  contains: (id: string) => boolean;
 }

@@ -9,13 +9,8 @@ import {
   parseSafeFloat,
   readGraphFromJSON,
   registerCoreProfile,
-  registerLifecycleEventEmitter,
-  registerLogger,
-  registerSceneProfile,
-  Registry,
   validateGraph,
-  validateRegistry,
-  writeGraphToJSON
+  validateRegistry
 } from '@behave-graph/core';
 import { program } from 'commander';
 import { createRequire } from 'module';
@@ -40,24 +35,25 @@ async function execGraph({
   jsonPattern: string;
   programOptions: ProgramOptions;
 }) {
-  const registry = new Registry();
-  const manualLifecycleEventEmitter = new ManualLifecycleEventEmitter();
+  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
-  registerCoreProfile(registry);
-  registerSceneProfile(registry);
-  registerLogger(registry.dependencies, logger);
-  registerLifecycleEventEmitter(
-    registry.dependencies,
-    manualLifecycleEventEmitter
-  );
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {}
+  });
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
-  const graph = readGraphFromJSON(
-    JSON.parse(textFile.toString('utf8')),
-    registry
-  );
+  const graph = readGraphFromJSON({
+    graphJson: JSON.parse(textFile.toString('utf8')),
+    ...registry,
+    dependencies: {
+      logger,
+      lifecycleEventEmitter
+    }
+  });
   graph.name = graphJsonPath;
 
   const errorList: string[] = [];
@@ -71,13 +67,13 @@ async function execGraph({
     return;
   }
 
-  if (programOptions.upgrade) {
+  /* if (programOptions.upgrade) {
     const newGraphJson = writeGraphToJSON(graph);
     await fs.writeFile(graphJsonPath, JSON.stringify(newGraphJson, null, 2));
-  }
+  }*/
 
   Logger.verbose('creating behavior graph');
-  const engine = new Engine(graph);
+  const engine = new Engine(graph.nodes);
 
   if (programOptions.trace) {
     engine.onNodeExecutionStart.addListener((node) =>
@@ -93,19 +89,19 @@ async function execGraph({
   }
 
   const startTime = Date.now();
-  if (manualLifecycleEventEmitter.startEvent.listenerCount > 0) {
+  if (lifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');
-    manualLifecycleEventEmitter.startEvent.emit();
+    lifecycleEventEmitter.startEvent.emit();
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);
   }
 
-  if (manualLifecycleEventEmitter.tickEvent.listenerCount > 0) {
+  if (lifecycleEventEmitter.tickEvent.listenerCount > 0) {
     const iterations = parseSafeFloat(programOptions.iterations, 5);
     for (let tick = 0; tick < iterations; tick++) {
       Logger.verbose(`triggering tick (${tick} of ${iterations})`);
-      manualLifecycleEventEmitter.tickEvent.emit();
+      lifecycleEventEmitter.tickEvent.emit();
 
       Logger.verbose('executing all (async)');
       // eslint-disable-next-line no-await-in-loop
@@ -113,9 +109,9 @@ async function execGraph({
     }
   }
 
-  if (manualLifecycleEventEmitter.endEvent.listenerCount > 0) {
+  if (lifecycleEventEmitter.endEvent.listenerCount > 0) {
     Logger.verbose('triggering end event');
-    manualLifecycleEventEmitter.endEvent.emit();
+    lifecycleEventEmitter.endEvent.emit();
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);

@@ -1,14 +1,11 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { colors, valueTypeColorMap } from './utils/colors';
+import { colors, valueTypeColorMap } from './utils/colors.js';
 import { OutputSocketSpecJSON } from 'packages/core/src/Graphs/IO/NodeSpecJSON';
 
 export type OutputSocketProps = OutputSocketSpecJSON;
 
-export default function OutputSocket({
-  valueType,
-  name
-}: OutputSocketProps) {
+export default function OutputSocket({ valueType, name }: OutputSocketProps) {
   const isFlowSocket = valueType === 'flow';
   let colorName = valueTypeColorMap[valueType];
   if (colorName === undefined) {

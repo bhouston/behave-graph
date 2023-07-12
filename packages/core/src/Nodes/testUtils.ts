@@ -1,6 +1,4 @@
-import { Graph, IGraphApi } from '../Graphs/Graph.js';
-import { registerCoreValueTypes } from '../Profiles/Core/registerCoreProfile.js';
-import { Registry } from '../Registry.js';
+import { IGraphApi, makeGraphApi } from '../Graphs/Graph.js';
 import { NodeConfiguration } from './Node.js';
 import {
   IFunctionNodeDefinition,
@@ -12,9 +10,10 @@ import { makeOrGenerateSockets } from './nodeFactory.js';
 import { NodeConfigurationDescription } from './Registry/NodeDescription.js';
 
 const makeEmptyGraph = (): IGraphApi => {
-  const registry = new Registry();
-  registerCoreValueTypes(registry.values);
-  return new Graph(registry).makeApi();
+  return makeGraphApi({
+    dependencies: {},
+    valuesTypeRegistry: {}
+  });
 };
 
 export type SocketValues<TSockets extends SocketsDefinition> = {

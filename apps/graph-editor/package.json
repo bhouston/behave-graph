@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/js/index.js",
-    "dev": "tsc --noEmit --watch & esbuild src/index.tsx --target=es2020 --bundle --sourcemap --outfile=public/js/index.js --watch --serve=8001 --servedir=public"
+    "build": "tsc && vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@behave-graph/core": "*",
     "@behave-graph/flow": "*",
-    "three": "^0.145.0"
+    "@types/three": "0.152.1",
+    "three": "0.152.2",
+    "three-stdlib": "^2.22.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
+    "postcss-cli": "^10.1.0",
     "tailwindcss": "^3.2.4",
+    "vite": "^4.4.3",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^3.6.0"
   }

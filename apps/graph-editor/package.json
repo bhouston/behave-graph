@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build:tsc": "tsc --noEmit",
-    "build:css": "npx postcss src/styles.css -o public/styles.css",
-    "build:esbuild": "esbuild src/index.tsx --target=es2020 --bundle --minify --outfile=public/index.js",
-    "build": "npm run build:tsc && npm run build:css && npm run build:esbuild",
-    "dev": "npx postcss src/styles.css -o public/styles.css --watch & tsc --noEmit --watch & esbuild src/index.tsx --target=es2018 --bundle --sourcemap --outfile=public/index.js --watch --serve=8001 --servedir=public"
+    "build": "tsc && vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@behave-graph/core": "*",
@@ -20,6 +17,7 @@
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
+    "postcss-cli": "^10.1.0",
     "tailwindcss": "^3.2.4",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^3.6.0"

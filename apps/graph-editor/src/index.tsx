@@ -1,5 +1,5 @@
 import 'reactflow/dist/style.css';
-import './index.css';
+import './styles.css';
 
 import { GraphJSON } from '@behave-graph/core';
 import { Examples, Flow } from '@behave-graph/flow';

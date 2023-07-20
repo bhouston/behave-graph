@@ -1,5 +1,6 @@
 import { NodeSpecJSON } from '@behave-graph/core';
-import { FC, useMemo, useRef, useState } from 'react';
+import React from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useEdges, useNodes } from 'reactflow';
 
 import { flowToBehave } from '../../transformers/flowToBehave.js';
@@ -11,7 +12,7 @@ export type SaveModalProps = {
   specJson: NodeSpecJSON[];
 };
 
-export const SaveModal: FC<SaveModalProps> = ({
+export const SaveModal: React.FC<SaveModalProps> = ({
   open = false,
   onClose,
   specJson

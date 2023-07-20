@@ -1,6 +1,6 @@
+import React from 'react';
 import {
   CSSProperties,
-  FC,
   HTMLProps,
   useCallback,
   useEffect,
@@ -22,7 +22,7 @@ const baseStyles: CSSProperties = {
   whiteSpace: 'pre'
 };
 
-export const AutoSizeInput: FC<AutoSizeInputProps> = ({
+export const AutoSizeInput: React.FC<AutoSizeInputProps> = ({
   minWidth = 30,
   ...props
 }) => {

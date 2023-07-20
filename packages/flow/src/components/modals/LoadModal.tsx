@@ -1,4 +1,5 @@
 import { GraphJSON } from '@behave-graph/core';
+import React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useReactFlow } from 'reactflow';
 

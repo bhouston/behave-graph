@@ -1,5 +1,5 @@
 import React from 'react';
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { useOnPressKey } from '../../hooks/useOnPressKey.js';
 
@@ -15,7 +15,7 @@ export type ModalProps = {
   actions: ModalAction[];
 };
 
-export const Modal: FC<PropsWithChildren<ModalProps>> = ({
+export const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   open = false,
   onClose,
   title,

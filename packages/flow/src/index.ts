@@ -37,3 +37,5 @@ export * from './util/hasPositionMetaData.js';
 export * from './util/isHandleConnected.js';
 export * from './util/isValidConnection.js';
 export * from './util/sleep.js';
+
+import './styles.css';

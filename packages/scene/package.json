@@ -11,13 +11,15 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@types/three": "0.152.1",
     "@types/glob": "^8.0.0",
     "@types/offscreencanvas": "^2019.7.0"
   },
+  "dependencies": {
+    "@behave-graph/core": "*"
+  },
   "license": "ISC",
   "peerDependencies": {
-    "@behave-graph/core": "*",
-    "@types/three": "0.152.1",
     "three": "0.152.2",
     "three-stdlib": "^2.22.4"
   }

@@ -2,6 +2,7 @@ import { NodeSpecJSON, OutputSocketSpecJSON } from '@behave-graph/core';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
+import React from 'react';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 
 import { colors, valueTypeColorMap } from '../util/colors.js';

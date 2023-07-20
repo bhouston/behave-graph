@@ -1,5 +1,5 @@
 import { NodeSpecJSON } from '@behave-graph/core';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useReactFlow, XYPosition } from 'reactflow';
 
 import { useOnPressKey } from '../hooks/useOnPressKey.js';
@@ -17,7 +17,7 @@ type NodePickerProps = {
   specJSON: NodeSpecJSON[] | undefined;
 };
 
-export const NodePicker = ({
+export const NodePicker: React.FC<NodePickerProps> = ({
   position,
   onPickNode,
   onClose,

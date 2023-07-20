@@ -1,6 +1,6 @@
 import { NodeCategory, NodeSpecJSON } from '@behave-graph/core';
 import cx from 'classnames';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { categoryColorMap, colors } from '../util/colors.js';
 
@@ -10,12 +10,12 @@ type NodeProps = {
   selected: boolean;
 };
 
-export default function NodeContainer({
+const NodeContainer: React.FC<PropsWithChildren<NodeProps>> = ({
   title,
   category = NodeCategory.None,
   selected,
   children
-}: PropsWithChildren<NodeProps>) {
+}) => {
   let colorName = categoryColorMap[category];
   if (colorName === undefined) {
     colorName = 'red';
@@ -41,4 +41,6 @@ export default function NodeContainer({
       </div>
     </div>
   );
-}
+};
+
+export default NodeContainer;

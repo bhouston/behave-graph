@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React from 'react';
 
 import { Modal } from './Modal.js';
 
@@ -7,7 +7,10 @@ export type HelpModalProps = {
   onClose: () => void;
 };
 
-export const HelpModal: FC<HelpModalProps> = ({ open = false, onClose }) => {
+export const HelpModal: React.FC<HelpModalProps> = ({
+  open = false,
+  onClose
+}) => {
   return (
     <Modal
       title="Help"

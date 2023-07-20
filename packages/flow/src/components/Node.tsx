@@ -1,12 +1,12 @@
 import { NodeSpecJSON } from '@behave-graph/core';
 import { NodeProps as FlowNodeProps, useEdges } from 'reactflow';
+import React from 'react';
 
 import { useChangeNodeData } from '../hooks/useChangeNodeData.js';
 import { isHandleConnected } from '../util/isHandleConnected.js';
 import InputSocket from './InputSocket.js';
 import NodeContainer from './NodeContainer.js';
 import OutputSocket from './OutputSocket.js';
-import styles from './Node.module.css';
 
 type NodeProps = FlowNodeProps & {
   spec: NodeSpecJSON;

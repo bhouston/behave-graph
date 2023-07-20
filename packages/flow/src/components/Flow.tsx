@@ -1,22 +1,25 @@
 import { GraphJSON } from '@behave-graph/core';
-import { FC } from 'react';
-import { ReactFlow, Background, BackgroundVariant } from 'reactflow';
+import React from 'react';
+import { Background, BackgroundVariant, ReactFlow } from 'reactflow';
 
 import { useBehaveGraphFlow } from '../hooks/useBehaveGraphFlow.js';
 import { useCoreRegistry } from '../hooks/useCoreRegistry.js';
 import { useFlowHandlers } from '../hooks/useFlowHandlers.js';
 import { useGraphRunner } from '../hooks/useGraphRunner.js';
 import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
+import CustomControls from './Controls.js';
 import { Examples } from './modals/LoadModal.js';
 import { NodePicker } from './NodePicker.js';
-import CustomControls from './Controls.js';
 
 type FlowProps = {
   initialGraph: GraphJSON;
   examples: Examples;
 };
 
-export const Flow: FC<FlowProps> = ({ initialGraph: graph, examples }) => {
+export const Flow: React.FC<FlowProps> = ({
+  initialGraph: graph,
+  examples
+}) => {
   const {
     nodeDefinitions,
     valuesDefinitions,

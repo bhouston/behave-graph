@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React from 'react';
 import { useReactFlow } from 'reactflow';
 
 import { Modal } from './Modal.js';
@@ -8,7 +8,10 @@ export type ClearModalProps = {
   onClose: () => void;
 };
 
-export const ClearModal: FC<ClearModalProps> = ({ open = false, onClose }) => {
+export const ClearModal: React.FC<ClearModalProps> = ({
+  open = false,
+  onClose
+}) => {
   const instance = useReactFlow();
 
   const handleClear = () => {

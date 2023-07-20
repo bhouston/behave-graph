@@ -2,6 +2,7 @@ import { InputSocketSpecJSON, NodeSpecJSON } from '@behave-graph/core';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
+import React from 'react';
 import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 
 import { colors, valueTypeColorMap } from '../util/colors.js';
@@ -92,12 +93,11 @@ const InputFieldForValue = ({
   );
 };
 
-export default function InputSocket({
+const InputSocket: React.FC<InputSocketProps> = ({
   connected,
-
   specJSON,
   ...rest
-}: InputSocketProps) {
+}) => {
   const { value, name, valueType, defaultValue, choices } = rest;
   const instance = useReactFlow();
 
@@ -133,4 +133,6 @@ export default function InputSocket({
       />
     </div>
   );
-}
+};
+
+export default InputSocket;

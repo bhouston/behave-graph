@@ -16,7 +16,15 @@ import { HelpModal } from './modals/HelpModal.js';
 import { Examples, LoadModal } from './modals/LoadModal.js';
 import { SaveModal } from './modals/SaveModal.js';
 
-export const CustomControls = ({
+export type CustomControlsProps = {
+  playing: boolean;
+  togglePlay: () => void;
+  setBehaviorGraph: (value: GraphJSON) => void;
+  examples: Examples;
+  specJson: NodeSpecJSON[] | undefined;
+};
+
+export const CustomControls: React.FC<CustomControlsProps> = ({
   playing,
   togglePlay,
   setBehaviorGraph,

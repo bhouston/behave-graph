@@ -9,6 +9,7 @@ import { useGraphRunner } from '../hooks/useGraphRunner.js';
 import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
 import { Examples } from './modals/LoadModal.js';
 import { NodePicker } from './NodePicker.js';
+import CustomControls from './Controls.js';
 
 type FlowProps = {
   initialGraph: GraphJSON;
@@ -84,6 +85,13 @@ export const Flow: FC<FlowProps> = ({ initialGraph: graph, examples }) => {
       onPaneClick={handlePaneClick}
       onPaneContextMenu={handlePaneContextMenu}
     >
+      <CustomControls
+        playing={playing}
+        togglePlay={togglePlay}
+        setBehaviorGraph={setGraphJson}
+        examples={examples}
+        specJson={specJson}
+      />
       <Background
         variant={BackgroundVariant.Lines}
         color="#2a2b2d"

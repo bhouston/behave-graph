@@ -98,7 +98,11 @@ export const makeSceneDependencies = ({ scene }: { scene: IScene }) => ({
 });
 
 export const registerSceneProfile = (registry: IRegistry): IRegistry => {
-  const values = { ...registry.values, ...getCoreValuesMap() };
+  const values = {
+    ...registry.values,
+    ...getCoreValuesMap(),
+    ...getSceneValuesMap()
+  };
   return {
     values,
     nodes: { ...registry.nodes, ...getSceneNodesMap() },

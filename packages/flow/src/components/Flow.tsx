@@ -4,6 +4,7 @@ import { Background, BackgroundVariant, ReactFlow } from 'reactflow';
 
 import { useBehaveGraphFlow } from '../hooks/useBehaveGraphFlow.js';
 import { useCoreRegistry } from '../hooks/useCoreRegistry.js';
+import { useSceneRegistry } from '../hooks/useSceneRegistry.js';
 import { useFlowHandlers } from '../hooks/useFlowHandlers.js';
 import { useGraphRunner } from '../hooks/useGraphRunner.js';
 import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
@@ -21,11 +22,21 @@ export const Flow: React.FC<FlowProps> = ({
   examples
 }) => {
   const {
-    nodeDefinitions,
-    valuesDefinitions,
-    dependencies: dependencies
+    nodeDefinitions: nodeDefinitionsCore,
+    valuesDefinitions: valuesDefinitionsCore,
+    dependencies: dependenciesCore
   } = useCoreRegistry();
-
+  const {
+    nodeDefinitions: nodeDefinitionsScene,
+    valuesDefinitions: valuesDefinitionsScene,
+    dependencies: dependenciesScene
+  } = useSceneRegistry();
+  const nodeDefinitions = { ...nodeDefinitionsCore, ...nodeDefinitionsScene };
+  const valuesDefinitions = {
+    ...valuesDefinitionsCore,
+    ...valuesDefinitionsScene
+  };
+  const dependencies = { ...dependenciesCore, ...dependenciesScene };
   const specJson = useNodeSpecJson({
     nodes: nodeDefinitions,
     values: valuesDefinitions,

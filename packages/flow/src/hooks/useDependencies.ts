@@ -4,6 +4,7 @@ import {
   makeCoreDependencies,
   ManualLifecycleEventEmitter
 } from '@behave-graph/core';
+import { DummyScene, makeSceneDependencies } from '@behave-graph/scene';
 import { useEffect, useState } from 'react';
 
 export const useCoreDependencies = () => {
@@ -11,6 +12,16 @@ export const useCoreDependencies = () => {
     makeCoreDependencies({
       lifecycleEmitter: new ManualLifecycleEventEmitter(),
       logger: new DefaultLogger()
+    })
+  );
+
+  return dependencies;
+};
+
+export const useSceneDependencies = () => {
+  const [dependencies] = useState(() =>
+    makeSceneDependencies({
+      scene: new DummyScene()
     })
   );
 

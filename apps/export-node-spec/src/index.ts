@@ -8,6 +8,7 @@ import {
   validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
+import { DummyScene, registerSceneProfile } from '@behave-graph/scene';
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 import { createRequire } from 'module';
@@ -37,11 +38,21 @@ export const main = async () => {
   const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
   const logger = new DefaultLogger();
 
-  const registry = registerCoreProfile({
+  let registry = registerCoreProfile({
     values: {},
     nodes: {},
-    dependencies: {}
+    dependencies: {
+      ILogger: logger,
+      ILifecycleEventEmitter: lifecycleEventEmitter
+    }
   });
+
+  const scene = new DummyScene();
+
+  registry = registerSceneProfile(registry);
+  registry.dependencies.IScene = scene;
+
+  console.log({ registry });
 
   const errorList: string[] = [];
   errorList.push(...validateNodeRegistry(registry));
@@ -54,11 +65,7 @@ export const main = async () => {
   }
 
   const nodeSpecJson = writeNodeSpecsToJSON({
-    ...registry,
-    dependencies: {
-      logger,
-      lifecycleEventEmitter
-    }
+    ...registry
   });
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');

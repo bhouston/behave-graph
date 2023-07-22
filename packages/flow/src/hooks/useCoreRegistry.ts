@@ -1,13 +1,17 @@
-import { getCoreNodesMap, getCoreValuesMap } from '@behave-graph/core';
+import {
+  getCoreNodesMap,
+  getCoreValuesMap,
+  IRegistry
+} from '@behave-graph/core';
 
 import { useCoreDependencies } from './useDependencies.js';
 
-export const useCoreRegistry = () => {
+export const useCoreRegistry = (): IRegistry => {
   const dependencies = useCoreDependencies();
 
   return {
-    nodeDefinitions: getCoreNodesMap(),
-    valuesDefinitions: getCoreValuesMap(),
+    nodes: getCoreNodesMap(),
+    values: getCoreValuesMap(),
     dependencies
   };
 };

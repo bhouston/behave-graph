@@ -48,11 +48,7 @@ async function execGraph({
   const textFile = await fs.readFile(graphJsonPath);
   const graph = readGraphFromJSON({
     graphJson: JSON.parse(textFile.toString('utf8')),
-    ...registry,
-    dependencies: {
-      logger,
-      lifecycleEventEmitter
-    }
+    registry
   });
   graph.name = graphJsonPath;
 

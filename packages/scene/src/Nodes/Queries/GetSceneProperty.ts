@@ -1,6 +1,6 @@
 import { makeFunctionNodeDefinition, NodeCategory } from '@behave-graph/core';
 
-import { getSceneDependency } from '../../dependencies.js';
+import { IScene } from '../../Abstractions/IScene.js';
 
 export const GetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>
@@ -10,20 +10,20 @@ export const GetSceneProperty = (valueTypeNames: string[]) =>
       label: `Scene set ${valueTypeName}`,
       in: {
         jsonPath: (_, graphApi) => {
-          const scene = getSceneDependency(graphApi.getDependency);
+          const scene = graphApi.getDependency<IScene>('IScene');
 
           return {
             valueType: 'string',
-            choices: scene.getProperties()
+            choices: scene?.getProperties()
           };
         }
       },
       out: {
         value: valueTypeName
       },
-      exec: ({ graph: { getDependency }, read, write }) => {
-        const scene = getSceneDependency(getDependency);
-        const propertyValue = scene.getProperty(
+      exec: ({ graph, read, write }) => {
+        const scene = graph.getDependency<IScene>('IScene');
+        const propertyValue = scene?.getProperty(
           read('jsonPath'),
           valueTypeName
         );

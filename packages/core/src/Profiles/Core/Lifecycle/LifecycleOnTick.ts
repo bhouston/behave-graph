@@ -4,7 +4,6 @@ import {
   NodeCategory
 } from '../../../Nodes/NodeDefinitions.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
-import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart.js';
 
 type State = {
   onTickEvent?: (() => void) | undefined;
@@ -36,7 +35,7 @@ export const LifecycleOnTick = makeEventNodeDefinition({
     };
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     lifecycleEventEmitter?.tickEvent.addListener(onTickEvent);
@@ -49,7 +48,7 @@ export const LifecycleOnTick = makeEventNodeDefinition({
     Assert.mustBeTrue(onTickEvent !== undefined);
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     if (onTickEvent)

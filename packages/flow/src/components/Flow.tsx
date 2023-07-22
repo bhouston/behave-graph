@@ -20,17 +20,9 @@ export const Flow: React.FC<FlowProps> = ({
   initialGraph: graph,
   examples
 }) => {
-  const {
-    nodeDefinitions,
-    valuesDefinitions,
-    dependencies: dependencies
-  } = useCoreRegistry();
+  const registry = useCoreRegistry();
 
-  const specJson = useNodeSpecJson({
-    nodes: nodeDefinitions,
-    values: valuesDefinitions,
-    dependencies
-  });
+  const specJson = useNodeSpecJson(registry);
 
   const {
     nodes,
@@ -65,10 +57,7 @@ export const Flow: React.FC<FlowProps> = ({
 
   const { togglePlay, playing } = useGraphRunner({
     graphJson,
-    valueTypeDefinitions: valuesDefinitions,
-    nodeDefinitions,
-    eventEmitter: dependencies.lifecycleEventEmitter,
-    dependencies
+    registry
   });
 
   return (

@@ -1,7 +1,7 @@
 import { NodeCategory } from '../../Nodes/NodeDefinitions.js';
 import { IRegistry } from '../../Registry.js';
 import { Choices } from '../../Sockets/Socket.js';
-import { createNode, IGraphApi } from '../Graph.js';
+import { createNode, makeGraphApi } from '../Graph.js';
 import {
   ChoiceJSON,
   InputSocketSpecJSON,
@@ -25,12 +25,12 @@ export function writeNodeSpecsToJSON({
 
   // const graph = new Graph(registry);
 
-  const graph: IGraphApi = {
-    values: values,
+  const graph = makeGraphApi({
+    values,
     customEvents: {},
-    getDependency: <T>(id: string) => dependencies[id] as T,
+    dependencies,
     variables: {}
-  };
+  });
 
   Object.keys(nodes).forEach((nodeTypeName) => {
     const node = createNode({

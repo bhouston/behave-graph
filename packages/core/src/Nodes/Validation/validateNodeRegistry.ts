@@ -1,22 +1,19 @@
 import { createNode, makeGraphApi } from '../../Graphs/Graph.js';
-import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
-import { NodeDefinitionsMap } from '../Registry/NodeDefinitionsMap.js';
+import { IRegistry } from '../../Registry.js';
 
 const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;
 
 export function validateNodeRegistry({
   nodes,
-  values
-}: {
-  nodes: NodeDefinitionsMap;
-  values: ValueTypeMap;
-}): string[] {
+  values,
+  dependencies
+}: IRegistry): string[] {
   const errorList: string[] = [];
   // const graph = new Graph(registry);
   const graph = makeGraphApi({
-    valuesTypeRegistry: values,
-    dependencies: {}
+    values,
+    dependencies
   });
   Object.keys(nodes).forEach((nodeTypeName) => {
     const node = createNode({ graph, nodes, values, nodeTypeName });

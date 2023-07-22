@@ -1,6 +1,6 @@
 import { makeFlowNodeDefinition, NodeCategory } from '@behave-graph/core';
 
-import { getSceneDependency } from '../../dependencies.js';
+import { IScene } from '../../Abstractions/IScene.js';
 
 export const SetSceneProperty = (valueTypeNames: string[]) =>
   valueTypeNames.map((valueTypeName) =>
@@ -10,8 +10,7 @@ export const SetSceneProperty = (valueTypeNames: string[]) =>
       label: `Set Scene ${valueTypeName}`,
       in: {
         jsonPath: (_, graphApi) => {
-          const scene = getSceneDependency(graphApi.getDependency);
-
+          const scene = graphApi.getDependency<IScene>('IScene');
           return {
             valueType: 'string',
             choices: scene?.getProperties()
@@ -24,8 +23,8 @@ export const SetSceneProperty = (valueTypeNames: string[]) =>
         flow: 'flow'
       },
       initialState: undefined,
-      triggered: ({ commit, read, graph: { getDependency } }) => {
-        const scene = getSceneDependency(getDependency);
+      triggered: ({ commit, read, graph }) => {
+        const scene = graph.getDependency<IScene>('IScene');
         scene?.setProperty(read('jsonPath'), valueTypeName, read('value'));
         commit('flow');
       }

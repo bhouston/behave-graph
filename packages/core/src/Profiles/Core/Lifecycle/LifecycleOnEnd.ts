@@ -4,7 +4,6 @@ import {
   NodeCategory
 } from '../../../Nodes/NodeDefinitions.js';
 import { ILifecycleEventEmitter } from '../Abstractions/ILifecycleEventEmitter.js';
-import { lifecycleEventEmitterDependencyKey } from './LifecycleOnStart.js';
 
 // inspired by: https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Events/
 
@@ -32,7 +31,7 @@ export const LifecycleOnEnd = makeEventNodeDefinition({
     };
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     lifecycleEventEmitter?.endEvent.addListener(onEndEvent);
@@ -45,7 +44,7 @@ export const LifecycleOnEnd = makeEventNodeDefinition({
     Assert.mustBeTrue(onEndEvent !== undefined);
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     if (onEndEvent) lifecycleEventEmitter?.endEvent.removeListener(onEndEvent);

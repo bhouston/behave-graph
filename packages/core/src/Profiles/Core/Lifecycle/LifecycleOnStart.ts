@@ -13,8 +13,6 @@ const makeInitialState = (): State => ({
   onStartEvent: undefined
 });
 
-export const lifecycleEventEmitterDependencyKey = 'lifecycleEventEmitter';
-
 export const LifecycleOnStart = makeEventNodeDefinition({
   typeName: 'lifecycle/onStart',
   label: 'On Start',
@@ -31,7 +29,7 @@ export const LifecycleOnStart = makeEventNodeDefinition({
     };
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     lifecycleEventEmitter?.startEvent.addListener(onStartEvent);
@@ -44,7 +42,7 @@ export const LifecycleOnStart = makeEventNodeDefinition({
     Assert.mustBeTrue(onStartEvent !== undefined);
 
     const lifecycleEventEmitter = getDependency<ILifecycleEventEmitter>(
-      lifecycleEventEmitterDependencyKey
+      'ILifecycleEventEmitter'
     );
 
     if (onStartEvent)

@@ -67,21 +67,25 @@ export const createNode = ({
 export const makeGraphApi = ({
   variables = {},
   customEvents = {},
-  valuesTypeRegistry,
+  values,
   dependencies = {}
 }: {
   customEvents?: GraphCustomEvents;
   variables?: GraphVariables;
-  valuesTypeRegistry: ValueTypeMap;
+  values: ValueTypeMap;
   dependencies: Dependencies;
 }): IGraphApi => ({
   variables,
   customEvents,
-  values: valuesTypeRegistry,
+  values,
   getDependency: (id: string) => {
     const result = dependencies[id];
     if (!result)
-      console.error(`Dependency not found ${id}.  Did you register it?`);
+      console.error(
+        `Dependency not found ${id}.  Did you register it? Existing dependencies: ${Object.keys(
+          dependencies
+        )}`
+      );
     return result;
   }
 });

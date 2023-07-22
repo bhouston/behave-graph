@@ -5,7 +5,6 @@ import {
 } from '@behave-graph/core';
 
 import { IScene } from '../../Abstractions/IScene.js';
-import { getSceneDependency } from '../../dependencies.js';
 
 type State = {
   jsonPath?: string | undefined;
@@ -21,7 +20,7 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
   label: 'On Scene Node Click',
   in: {
     jsonPath: (_, graphApi) => {
-      const scene = getSceneDependency(graphApi.getDependency);
+      const scene = graphApi.getDependency<IScene>('IScene');
 
       return {
         valueType: 'string',
@@ -33,14 +32,14 @@ export const OnSceneNodeClick = makeEventNodeDefinition({
     flow: 'flow'
   },
   initialState: initialState(),
-  init: ({ read, commit, graph: { getDependency } }) => {
+  init: ({ read, commit, graph }) => {
     const handleNodeClick = () => {
       commit('flow');
     };
 
     const jsonPath = read<string>('jsonPath');
 
-    const scene = getSceneDependency(getDependency);
+    const scene = graph.getDependency<IScene>('IScene');
     scene?.addOnClickedListener(jsonPath, handleNodeClick);
 
     const state: State = {

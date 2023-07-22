@@ -62,6 +62,10 @@ To do a full development build with hot reloading and a built-in dev server (via
 npm run dev
 ```
 
+If you are curious about the monorepository setup, you can read more about it here:
+
+https://github.com/bhouston/template-modern-typescript-monorepo
+
 ## Command Line Examples
 
 The example behavior graphs are in the `/examples` folder. You can execute these from the command line to test out how this library works.

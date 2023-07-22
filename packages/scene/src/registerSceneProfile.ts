@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import {
-  Dependencies,
   getCoreValuesMap,
   getNodeDescriptions,
   getStringConversionsForValueType,
@@ -11,8 +10,6 @@ import {
   ValueTypeMap
 } from '@behave-graph/core';
 
-import { IScene } from './Abstractions/IScene.js';
-import { sceneDependencyKey } from './dependencies.js';
 import { SetSceneProperty } from './Nodes/Actions/SetSceneProperty.js';
 import { OnSceneNodeClick } from './Nodes/Events/OnSceneNodeClick.js';
 import * as ColorNodes from './Nodes/Logic/ColorNodes.js';
@@ -33,10 +30,6 @@ import { Vec2Value } from './Values/Vec2Value.js';
 import { Vec3Value } from './Values/Vec3Value.js';
 import { Vec4Value } from './Values/Vec4Value.js';
 
-export const createSceneDependency = (scene: IScene): Dependencies => ({
-  [sceneDependencyKey]: scene
-});
-
 export const getSceneValuesMap = memo<ValueTypeMap>(() => {
   const valueTypes = [
     Vec2Value,
@@ -48,15 +41,16 @@ export const getSceneValuesMap = memo<ValueTypeMap>(() => {
     Mat3Value,
     Mat4Value
   ];
-  return Object.fromEntries(
+  const temp = Object.fromEntries(
     valueTypes.map((valueType) => [valueType.name, valueType])
   );
+  return temp;
 });
 
 export const getSceneStringConversions = (
   values: Record<string, ValueType>
 ): NodeDefinition[] =>
-  Object.keys(getCoreValuesMap()).flatMap((valueTypeName) =>
+  Object.keys(values).flatMap((valueTypeName) =>
     getStringConversionsForValueType({ values, valueTypeName })
   );
 
@@ -65,6 +59,7 @@ export const getSceneNodesMap = memo<Record<string, NodeDefinition>>(() => {
     ...getCoreValuesMap(),
     ...getSceneValuesMap()
   });
+
   const nodeDefinitions = [
     // pull in value type nodes
     ...getNodeDescriptions(Vec2Nodes),
@@ -91,10 +86,6 @@ export const getSceneNodesMap = memo<Record<string, NodeDefinition>>(() => {
       nodeDefinition
     ])
   );
-});
-
-export const makeSceneDependencies = ({ scene }: { scene: IScene }) => ({
-  [sceneDependencyKey]: scene
 });
 
 export const registerSceneProfile = (registry: IRegistry): IRegistry => {

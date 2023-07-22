@@ -4,8 +4,6 @@ import {
 } from '../../../Nodes/NodeDefinitions.js';
 import { ILogger } from '../Abstractions/ILogger.js';
 
-export const loggerDependencyKey = 'logger';
-
 export const Log = makeFlowNodeDefinition({
   typeName: 'debug/log',
   category: NodeCategory.Action,
@@ -23,7 +21,7 @@ export const Log = makeFlowNodeDefinition({
   out: { flow: 'flow' },
   initialState: undefined,
   triggered: ({ read, commit, graph: { getDependency } }) => {
-    const logger = getDependency<ILogger>(loggerDependencyKey);
+    const logger = getDependency<ILogger>('ILogger');
 
     const text = read<string>('text');
     switch (read<string>('severity')) {

@@ -1,9 +1,13 @@
 import { validateNodeRegistry } from '../../Nodes/Validation/validateNodeRegistry.js';
 import { validateValueRegistry } from '../../Values/Validation/validateValueRegistry.js';
-import { getCoreRegistry } from './registerCoreProfile.js';
+import { registerCoreProfile } from './registerCoreProfile.js';
 
 describe('core profile', () => {
-  const registry = getCoreRegistry();
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {}
+  });
 
   test('validate node registry', () => {
     expect(validateNodeRegistry(registry)).toHaveLength(0);

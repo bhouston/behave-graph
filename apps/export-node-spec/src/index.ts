@@ -8,6 +8,7 @@ import {
   validateNodeRegistry,
   writeNodeSpecsToJSON
 } from '@behave-graph/core';
+import { DummyScene, registerSceneProfile } from '@behave-graph/scene';
 import { program } from 'commander';
 import { stringify } from 'csv-stringify';
 import { createRequire } from 'module';
@@ -34,17 +35,22 @@ export const main = async () => {
     throw new Error('no path specified');
   }
 
-  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  const logger = new DefaultLogger();
+  const registry = registerSceneProfile(
+    registerCoreProfile({
+      values: {},
+      nodes: {},
+      dependencies: {
+        ILogger: new DefaultLogger(),
+        ILifecycleEventEmitter: new ManualLifecycleEventEmitter(),
+        IScene: new DummyScene()
+      }
+    })
+  );
 
-  const registry = registerCoreProfile({
-    values: {},
-    nodes: {},
-    dependencies: {}
-  });
+  console.log({ registry });
 
   const errorList: string[] = [];
-  errorList.push(...validateNodeRegistry(registry));
+  errorList.push(...validateNodeRegistry({ registry }));
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
@@ -53,13 +59,7 @@ export const main = async () => {
     return;
   }
 
-  const nodeSpecJson = writeNodeSpecsToJSON({
-    ...registry,
-    dependencies: {
-      logger,
-      lifecycleEventEmitter
-    }
-  });
+  const nodeSpecJson = writeNodeSpecsToJSON(registry);
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
   if (programOptions.csv) {

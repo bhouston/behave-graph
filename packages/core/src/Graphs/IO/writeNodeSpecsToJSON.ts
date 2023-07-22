@@ -1,7 +1,7 @@
 import { NodeCategory } from '../../Nodes/NodeDefinitions.js';
 import { IRegistry } from '../../Registry.js';
 import { Choices } from '../../Sockets/Socket.js';
-import { createNode, IGraphApi } from '../Graph.js';
+import { createNode, makeGraphApi } from '../Graph.js';
 import {
   ChoiceJSON,
   InputSocketSpecJSON,
@@ -16,27 +16,21 @@ function toChoices(valueChoices: Choices | undefined): ChoiceJSON | undefined {
   });
 }
 
-export function writeNodeSpecsToJSON({
-  values,
-  nodes,
-  dependencies
-}: IRegistry): NodeSpecJSON[] {
+export function writeNodeSpecsToJSON(registry: IRegistry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   // const graph = new Graph(registry);
 
-  const graph: IGraphApi = {
-    values: values,
+  const graph = makeGraphApi({
+    ...registry,
     customEvents: {},
-    getDependency: <T>(id: string) => dependencies[id] as T,
     variables: {}
-  };
+  });
 
-  Object.keys(nodes).forEach((nodeTypeName) => {
+  Object.keys(registry.nodes).forEach((nodeTypeName) => {
     const node = createNode({
       graph,
-      nodes,
-      values,
+      registry,
       nodeTypeName
     });
 
@@ -53,7 +47,7 @@ export function writeNodeSpecsToJSON({
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
-          : values[inputSocket.valueTypeName];
+          : registry.values[inputSocket.valueTypeName];
 
       let defaultValue = inputSocket.value;
       if (valueType !== undefined) {

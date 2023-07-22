@@ -12,9 +12,9 @@ Another neat fact about behavior graphs is that they offer a sand boxed executio
 
 ## Documentation
 
-* [Extending the Value System](/docs/Values.md)
-* [Types Of Nodes](/docs/TypesOfNodes.md)
-* [Abstractions and Drivers](/docs/Abstractions.md)
+- [Extending the Value System](/docs/Values.md)
+- [Types Of Nodes](/docs/TypesOfNodes.md)
+- [Abstractions and Drivers](/docs/Abstractions.md)
 
 ## Community Resources
 
@@ -34,21 +34,21 @@ This library, while small, contains a nearly complete implementation of behavior
 
 ### Features
 
-* **Customizable** While this library contains a lot of nodes, you do not have to expose all of them. For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
-* **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
-* **Small** This is a very small library with no external dependencies.
-* **Simple** This library is implemented in a forward fashion without unnecessary complexity.
-* **High Performance** Currently in performance testing, the library achieves over 2M node executions per second.
+- **Customizable** While this library contains a lot of nodes, you do not have to expose all of them. For example, just because this supports for-loops and state, does not mean you have to register that node type as being available.
+- **Type Safe** This library is implemented in TypeScript and fully makes use of its type safety features.
+- **Small** This is a very small library with no external dependencies.
+- **Simple** This library is implemented in a forward fashion without unnecessary complexity.
+- **High Performance** Currently in performance testing, the library achieves over 2M node executions per second.
 
 ### Node Types
 
-* **Events** You can implement arbitrary events that start execution: Start, Tick
-* **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
-* **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
-* **Queries** You can query the state from the system.
-* **Flow Control** Control execution flow using familiar structures: Branch, Delay, Debounce, Throttle, FlipFlop, Sequence, Gate, MultiGate, DoOnce, DoN, ForLoop
-* **Variables** You can create, set and get variable values.
-* **Custom Events** You can create, listen to and trigger custom events.
+- **Events** You can implement arbitrary events that start execution: Start, Tick
+- **Actions** You can implement actions that trigger animations, scene scene variations, or update internal state: Log
+- **Logic** You can do arithmetic, trigonometry as well as vector operations and string manipulation: Add, Subtract, Multiply, Divide, Pow, Exp, Log, Log2, Log10, Min, Max, Round, Ceil, Floor, Sign, Abs, Trunc, Sqrt, Negate, And, Or, Not, ==, >, >=, <, <=, isNan, isInfinity, concat, includes.
+- **Queries** You can query the state from the system.
+- **Flow Control** Control execution flow using familiar structures: Branch, Delay, Debounce, Throttle, FlipFlop, Sequence, Gate, MultiGate, DoOnce, DoN, ForLoop
+- **Variables** You can create, set and get variable values.
+- **Custom Events** You can create, listen to and trigger custom events.
 
 ### Designed for Integration into Other Systems
 
@@ -75,7 +75,7 @@ The example behavior graphs are in the `/examples` folder. You can execute these
 The main syntax is this one:
 
 ```zsh
-npm run exec-graph ../../graphs/[examplename].json
+npx exec-graph ./graphs/[examplename].json
 ```
 
 Here are some example graphs in their native JSON form:
@@ -88,9 +88,13 @@ Print out the text "Hello World!" as soon as the graph starts up!
 
 Console output:
 
-```zsh
-npm run exec-graph ../../graphs/core/HelloWorld.json
+```sh
+npx exec-graph ./graphs/core/HelloWorld.json
+```
 
+Console output:
+
+```sh
 Hello World!
 ```
 
@@ -102,9 +106,13 @@ In this example, we use set a variable and also listen to when it changes.
 
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/variables/Changed.json
+```sh
+npx exec-graph ./graphs/core/variables/Changed.json
+```
 
+Console output:
+
+```sh
 391
 ```
 
@@ -114,11 +122,15 @@ This example shows how to branching execution works. The "flow/branch" node has 
 
 [/graphs/core/flow/Branch.json](/graphs/core/flow/Branch.json)
 
+Command:
+
+```sh
+npx exec-graph ./graphs/core/flow/Branch.json
+```
+
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/flow/Branch.json
-
+```sh
 Condition is false!
 ```
 
@@ -128,11 +140,15 @@ This shows how to create math formulas in logic nodes. In this case the equation
 
 [/graphs/core/logic/Polynomial.json](/graphs/core/logic/Polynomial.json)
 
+Command:
+
+```sh
+npx exec-graph ./graphs/core/logic/Polynomial.json
+```
+
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/logic/Polynomial.json
-
+```sh
 -9
 ```
 
@@ -142,11 +158,15 @@ Behave-Graph support asynchronous nodes. These are nodes which will continue exe
 
 [/graphs/core/async/Delay.json](/graphs/core/async/Delay.json)
 
+Command:
+
+```sh
+npx exec-graph ./graphs/core/async/Delay.json
+```
+
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/async/Delay.json
-
+```sh
 Waiting...
 One Second Later!
 ```
@@ -157,11 +177,15 @@ Building upon waiting for downstream nodes to execute, you can also execute For 
 
 [/graphs/core/flow/ForLoop.json](/graphs/core/flow/ForLoop.json)
 
+Command:
+
+```sh
+npx exec-graph ./graphs/core/flow/ForLoop.json
+```
+
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/flow/ForLoop.json
-
+```sh
 Starting For Loop...
 Loop Body!
 Loop Body!
@@ -184,9 +208,13 @@ You can register custom events, trigger then and listen on them.
 
 Console output:
 
-```zsh
-> npm run exec-graph ../../graphs/core/events/CustomEvents.json
+```sh
+npx exec-graph ./graphs/core/events/CustomEvents.json
+```
 
+Console output:
+
+```sh
 myCustomEvent Fired!
 myCustomEvent Fired!
 myCustomEvent Fired!
@@ -200,11 +228,15 @@ Here is a test of 10,000,000 iteration for loop:
 
 [/graphs/core/flow/PerformanceTest.json](/graphs/core/flow/PerformanceTest.json)
 
-Here is the console output, when running with profiling (-p):
+Here is the command running with verbose logging, e.g. "-l 0":
 
-```zsh
-> npm run exec-graph ../../graphs/core/flow/PerformanceTest.json -- -- -p
+```sh
+npx exec-graph ./graphs/core/flow/PerformanceTest.json -l 0
+```
 
+Console output:
+
+```sh
 Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
 1,000,000 more iterations...
@@ -218,5 +250,5 @@ Starting 10,000,000 iteration for-loop...
 1,000,000 more iterations...
 Completed all iterations!
 
-    30000013 nodes executed in 2.98 seconds, at a rate of 10067118 steps/second
+  Profile Results: 30000014 nodes executed in 2.742 seconds, at a rate of 10940924 steps/second
 ```

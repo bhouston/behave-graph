@@ -1,18 +1,17 @@
 import {
   DefaultLogger,
   Dependencies,
-  makeCoreDependencies,
   ManualLifecycleEventEmitter
 } from '@behave-graph/core';
 import { useEffect, useState } from 'react';
 
 export const useCoreDependencies = () => {
-  const [dependencies] = useState(() =>
-    makeCoreDependencies({
-      lifecycleEmitter: new ManualLifecycleEventEmitter(),
-      logger: new DefaultLogger()
-    })
-  );
+  const [dependencies] = useState(() => {
+    return {
+      ILifecycleEventEmitter: new ManualLifecycleEventEmitter(),
+      ILogger: new DefaultLogger()
+    };
+  });
 
   return dependencies;
 };

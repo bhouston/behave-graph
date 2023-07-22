@@ -1,12 +1,10 @@
 import {
-  Dependencies,
   Engine,
   GraphJSON,
   GraphNodes,
   ILifecycleEventEmitter,
-  NodeDefinitionsMap,
-  readGraphFromJSON,
-  ValueTypeMap
+  IRegistry,
+  readGraphFromJSON
 } from '@behave-graph/core';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -15,18 +13,12 @@ import { useCallback, useEffect, useState } from 'react';
  */
 export const useGraphRunner = ({
   graphJson,
-  eventEmitter,
   autoRun = false,
-  nodeDefinitions,
-  valueTypeDefinitions,
-  dependencies
+  registry
 }: {
   graphJson: GraphJSON | undefined;
-  eventEmitter: ILifecycleEventEmitter;
   autoRun?: boolean;
-  nodeDefinitions: NodeDefinitionsMap;
-  valueTypeDefinitions: ValueTypeMap;
-  dependencies: Dependencies | undefined;
+  registry: IRegistry;
 }) => {
   const [engine, setEngine] = useState<Engine>();
 
@@ -45,15 +37,14 @@ export const useGraphRunner = ({
   }, []);
 
   useEffect(() => {
-    if (!graphJson || !valueTypeDefinitions || !run || !dependencies) return;
+    if (!graphJson || !registry.values || !run || !registry.dependencies)
+      return;
 
     let graphNodes: GraphNodes;
     try {
       graphNodes = readGraphFromJSON({
         graphJson,
-        nodes: nodeDefinitions,
-        values: valueTypeDefinitions,
-        dependencies
+        registry
       }).nodes;
     } catch (e) {
       console.error(e);
@@ -67,7 +58,7 @@ export const useGraphRunner = ({
       engine.dispose();
       setEngine(undefined);
     };
-  }, [graphJson, valueTypeDefinitions, nodeDefinitions, run, dependencies]);
+  }, [graphJson, registry.values, registry.nodes, run, registry.dependencies]);
 
   useEffect(() => {
     if (!engine || !run) return;
@@ -75,6 +66,9 @@ export const useGraphRunner = ({
     engine.executeAllSync();
 
     let timeout: number;
+
+    const eventEmitter = registry.dependencies
+      ?.ILifecycleEventEmitter as ILifecycleEventEmitter;
 
     const onTick = async () => {
       eventEmitter.tickEvent.emit();
@@ -99,7 +93,7 @@ export const useGraphRunner = ({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [engine, eventEmitter.startEvent, eventEmitter.tickEvent, run]);
+  }, [engine, registry.dependencies?.ILifecycleEventEmitter, run]);
 
   return {
     engine,

@@ -2,9 +2,8 @@ import { Logger } from '../../Diagnostics/Logger.js';
 import { CustomEvent } from '../../Events/CustomEvent.js';
 import { Link } from '../../Nodes/Link.js';
 import { NodeConfiguration } from '../../Nodes/Node.js';
-import { Dependencies } from '../../Nodes/NodeDefinitions.js';
 import { INode } from '../../Nodes/NodeInstance.js';
-import { NodeDefinitionsMap } from '../../Nodes/Registry/NodeDefinitionsMap.js';
+import { IRegistry } from '../../Registry.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
 import { Variable } from '../../Values/Variables/Variable.js';
@@ -30,14 +29,10 @@ import {
 //  - loads a node graph
 export function readGraphFromJSON({
   graphJson,
-  nodes: nodesTypeRegistry,
-  values: valuesTypeRegistry,
-  dependencies
+  registry
 }: {
   graphJson: GraphJSON;
-  nodes: NodeDefinitionsMap;
-  values: ValueTypeMap;
-  dependencies: Dependencies;
+  registry: IRegistry;
 }): GraphInstance {
   const graphName = graphJson?.name || '';
   const graphMetadata = graphJson?.metadata || {};
@@ -46,14 +41,11 @@ export function readGraphFromJSON({
   let customEvents: GraphCustomEvents = {};
 
   if ('variables' in graphJson) {
-    variables = readVariablesJSON(
-      valuesTypeRegistry,
-      graphJson.variables ?? []
-    );
+    variables = readVariablesJSON(registry.values, graphJson.variables ?? []);
   }
   if ('customEvents' in graphJson) {
     customEvents = readCustomEventsJSON(
-      valuesTypeRegistry,
+      registry.values,
       graphJson.customEvents ?? []
     );
   }
@@ -65,10 +57,9 @@ export function readGraphFromJSON({
   }
 
   const graphApi = makeGraphApi({
-    valuesTypeRegistry,
+    ...registry,
     variables,
-    customEvents,
-    dependencies
+    customEvents
   });
 
   const nodes: GraphNodes = {};
@@ -77,8 +68,7 @@ export function readGraphFromJSON({
     const nodeJson = nodesJson[i];
     const node = readNodeJSON({
       graph: graphApi,
-      nodes: nodesTypeRegistry,
-      values: valuesTypeRegistry,
+      registry,
       nodeJson
     });
     const id = nodeJson.id;
@@ -174,13 +164,11 @@ export function readGraphFromJSON({
 
 function readNodeJSON({
   graph,
-  nodes,
-  values,
+  registry,
   nodeJson
 }: {
   graph: IGraphApi;
-  nodes: NodeDefinitionsMap;
-  values: ValueTypeMap;
+  registry: IRegistry;
   nodeJson: NodeJSON;
 }) {
   if (nodeJson.type === undefined) {
@@ -197,8 +185,7 @@ function readNodeJSON({
 
   const node = createNode({
     graph,
-    nodes,
-    values,
+    registry,
     nodeTypeName: nodeName,
     nodeConfiguration
   });
@@ -207,7 +194,7 @@ function readNodeJSON({
   node.metadata = nodeJson?.metadata ?? node.metadata;
 
   if (nodeJson.parameters !== undefined) {
-    readNodeParameterJSON(values, node, nodeJson.parameters);
+    readNodeParameterJSON(registry.values, node, nodeJson.parameters);
   }
   if (nodeJson.flows !== undefined) {
     readNodeFlowsJSON(node, nodeJson.flows);

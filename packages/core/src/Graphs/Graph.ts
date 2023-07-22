@@ -1,9 +1,10 @@
 import { CustomEvent } from '../Events/CustomEvent.js';
+import { Logger } from '../index.js';
 import { Metadata } from '../Metadata.js';
 import { NodeConfiguration } from '../Nodes/Node.js';
 import { Dependencies } from '../Nodes/NodeDefinitions.js';
 import { INode } from '../Nodes/NodeInstance.js';
-import { NodeDefinitionsMap } from '../Nodes/Registry/NodeDefinitionsMap.js';
+import { IRegistry } from '../Registry.js';
 import { Socket } from '../Sockets/Socket.js';
 import { ValueTypeMap } from '../Values/ValueTypeMap.js';
 import { Variable } from '../Values/Variables/Variable.js';
@@ -32,22 +33,21 @@ export type GraphInstance = {
 
 export const createNode = ({
   graph,
-  nodes,
-  values,
+  registry,
   nodeTypeName,
   nodeConfiguration = {}
 }: {
   graph: IGraphApi;
-  nodes: NodeDefinitionsMap;
-  values: ValueTypeMap;
+  registry: IRegistry;
   nodeTypeName: string;
   nodeConfiguration?: NodeConfiguration;
 }) => {
   let nodeDefinition = undefined;
-  if (nodes[nodeTypeName]) {
-    nodeDefinition = nodes[nodeTypeName];
+  if (registry.nodes[nodeTypeName]) {
+    nodeDefinition = registry.nodes[nodeTypeName];
   }
   if (nodeDefinition === undefined) {
+    Logger.verbose('known nodes: ' + Object.keys(registry.nodes).join(', '));
     throw new Error(
       `no registered node descriptions with the typeName ${nodeTypeName}`
     );
@@ -57,7 +57,7 @@ export const createNode = ({
 
   node.inputs.forEach((socket: Socket) => {
     if (socket.valueTypeName !== 'flow' && socket.value === undefined) {
-      socket.value = values[socket.valueTypeName]?.creator();
+      socket.value = registry.values[socket.valueTypeName]?.creator();
     }
   });
 
@@ -67,21 +67,25 @@ export const createNode = ({
 export const makeGraphApi = ({
   variables = {},
   customEvents = {},
-  valuesTypeRegistry,
+  values,
   dependencies = {}
 }: {
   customEvents?: GraphCustomEvents;
   variables?: GraphVariables;
-  valuesTypeRegistry: ValueTypeMap;
+  values: ValueTypeMap;
   dependencies: Dependencies;
 }): IGraphApi => ({
   variables,
   customEvents,
-  values: valuesTypeRegistry,
+  values,
   getDependency: (id: string) => {
     const result = dependencies[id];
     if (!result)
-      console.error(`Dependency not found ${id}.  Did you register it?`);
+      console.error(
+        `Dependency not found ${id}.  Did you register it? Existing dependencies: ${Object.keys(
+          dependencies
+        )}`
+      );
     return result;
   }
 });

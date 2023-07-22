@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@behave-graph/core": ["./packages/core/"],
-      "@behave-graph/flow": ["./packages/flow/"]
-    },
     "outDir": "dist",
     "target": "ES2020",
     "module": "ES2020",
@@ -17,6 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "allowJs": true
+    "allowJs": true,
+    "incremental": true
   }
 }

@@ -4,7 +4,9 @@ import process from 'node:process';
 import {
   DefaultLogger,
   Engine,
+  ILifecycleEventEmitter,
   Logger,
+  LogLevel,
   ManualLifecycleEventEmitter,
   parseSafeFloat,
   readGraphFromJSON,
@@ -12,6 +14,7 @@ import {
   validateGraph,
   validateRegistry
 } from '@behave-graph/core';
+import { DummyScene, registerSceneProfile } from '@behave-graph/scene';
 import { program } from 'commander';
 import { createRequire } from 'module';
 
@@ -22,9 +25,8 @@ const { name, version } = packageInfo as { name: string; version: string };
 
 type ProgramOptions = {
   upgrade?: boolean;
-  trace?: boolean;
+  logLevel?: number;
   dryRun?: boolean;
-  profile?: boolean;
   iterations: string;
 };
 
@@ -35,24 +37,28 @@ async function execGraph({
   jsonPattern: string;
   programOptions: ProgramOptions;
 }) {
-  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  const logger = new DefaultLogger();
-  const registry = registerCoreProfile({
-    values: {},
-    nodes: {},
-    dependencies: {}
-  });
+  const registry = registerSceneProfile(
+    registerCoreProfile({
+      values: {},
+      nodes: {},
+      dependencies: {
+        ILogger: new DefaultLogger(),
+        ILifecycleEventEmitter: new ManualLifecycleEventEmitter(),
+        IScene: new DummyScene()
+      }
+    })
+  );
+
+  if (programOptions.logLevel) {
+    Logger.logLevel = programOptions.logLevel as LogLevel;
+  }
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);
   const graph = readGraphFromJSON({
     graphJson: JSON.parse(textFile.toString('utf8')),
-    ...registry,
-    dependencies: {
-      logger,
-      lifecycleEventEmitter
-    }
+    registry
   });
   graph.name = graphJsonPath;
 
@@ -75,7 +81,8 @@ async function execGraph({
   Logger.verbose('creating behavior graph');
   const engine = new Engine(graph.nodes);
 
-  if (programOptions.trace) {
+  // do not log at all to the verbose if not verbose is not enabled, makes a big performance difference.
+  if (programOptions.logLevel === LogLevel.Verbose) {
     engine.onNodeExecutionStart.addListener((node) =>
       Logger.verbose(`<< ${node.description.typeName} >> START`)
     );
@@ -88,6 +95,8 @@ async function execGraph({
     return;
   }
 
+  const lifecycleEventEmitter = registry.dependencies
+    .ILifecycleEventEmitter! as ILifecycleEventEmitter;
   const startTime = Date.now();
   if (lifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');
@@ -117,16 +126,14 @@ async function execGraph({
     await engine.executeAllAsync(5);
   }
 
-  if (programOptions.profile) {
-    const deltaTime = Date.now() - startTime;
-    Logger.info(
-      `\n  Profile Results: ${engine.executionSteps} nodes executed in ${
-        deltaTime / 1000
-      } seconds, at a rate of ${Math.round(
-        (engine.executionSteps * 1000) / deltaTime
-      )} steps/second`
-    );
-  }
+  const deltaTime = Date.now() - startTime;
+  Logger.verbose(
+    `profile results: ${engine.executionSteps} nodes executed in ${
+      deltaTime / 1000
+    } seconds, at a rate of ${Math.round(
+      (engine.executionSteps * 1000) / deltaTime
+    )} steps/second`
+  );
 
   engine.dispose();
 }
@@ -136,7 +143,7 @@ export const main = async () => {
     .name(name)
     .version(version)
     .argument('<filename>', 'path to the behavior-graph json to execute')
-    .option('-t, --trace', `trace node execution`)
+    .option('-l, --logLevel <logLevel>', `trace node execution`, '1')
     .option('-p, --profile', `profile execution time`)
     .option('-d, --dryRun', `do not run graph`)
     .option(

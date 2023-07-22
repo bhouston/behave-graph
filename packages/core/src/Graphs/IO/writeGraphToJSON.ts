@@ -1,4 +1,4 @@
-import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
+import { IRegistry } from '../../Registry.js';
 import { GraphInstance } from '../Graph.js';
 import {
   CustomEventJSON,
@@ -13,7 +13,7 @@ import {
 
 export function writeGraphToJSON(
   graph: GraphInstance,
-  valuesRegistry: ValueTypeMap
+  registry: IRegistry
 ): GraphJSON {
   const graphJson: GraphJSON = {};
 
@@ -56,7 +56,7 @@ export function writeGraphToJSON(
       valueTypeName: variable.valueTypeName,
       name: variable.name,
       id: variable.id,
-      initialValue: valuesRegistry[variable.valueTypeName]?.serialize(
+      initialValue: registry.values[variable.valueTypeName]?.serialize(
         variable.initialValue
       )
     };
@@ -100,7 +100,7 @@ export function writeGraphToJSON(
 
       if (inputSocket.links.length === 0) {
         parameterJson = {
-          value: valuesRegistry[inputSocket.valueTypeName]?.serialize(
+          value: registry.values[inputSocket.valueTypeName]?.serialize(
             inputSocket.value
           )
         };

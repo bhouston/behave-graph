@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@behave-graph/core": "*"
+    "@behave-graph/core": "*",
+    "@behave-graph/scene": "*"
   }
 }

@@ -22,15 +22,9 @@ You can join our Discord here:
 
 <https://discord.gg/mrags8WyuH>
 
-@beeglebug has started an amazing interactive React node graph editor for behave-graph here:
-
-<https://github.com/beeglebug/behave-flow>
-
-![image](https://user-images.githubusercontent.com/954416/184598477-74997727-0d0d-48e5-9f29-1210812bd66c.png)
-
 ## Feature Overview
 
-This library, while small, contains a nearly complete implementation of behavior graphs.
+This library, while small, contains a nearly complete implementation of behavior graphs along with extensions for 3D math types and scenes. It also contained a graph editor React library.
 
 ### Features
 
@@ -62,10 +56,10 @@ Install all dependencies:
 npm install
 ```
 
-To start the graph editor:
+To do a full development build with hot reloading and a built-in dev server (via vite) run:
 
 ```zsh
-npm start graph-editor
+npm run dev
 ```
 
 ## Command Line Examples

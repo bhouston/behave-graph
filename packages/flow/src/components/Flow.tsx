@@ -1,15 +1,21 @@
-import { GraphJSON } from '@behave-graph/core';
-import React from 'react';
+import {
+  DefaultLogger,
+  GraphJSON,
+  IRegistry,
+  ManualLifecycleEventEmitter,
+  registerCoreProfile
+} from '@behave-graph/core';
+import React, { useMemo } from 'react';
 import { Background, BackgroundVariant, ReactFlow } from 'reactflow';
 
 import { useBehaveGraphFlow } from '../hooks/useBehaveGraphFlow.js';
-import { useCoreRegistry } from '../hooks/useCoreRegistry.js';
 import { useFlowHandlers } from '../hooks/useFlowHandlers.js';
 import { useGraphRunner } from '../hooks/useGraphRunner.js';
 import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
 import CustomControls from './Controls.js';
 import { Examples } from './modals/LoadModal.js';
 import { NodePicker } from './NodePicker.js';
+import { useRegistry } from '../hooks/useRegistry.js';
 
 type FlowProps = {
   initialGraph: GraphJSON;
@@ -20,7 +26,7 @@ export const Flow: React.FC<FlowProps> = ({
   initialGraph: graph,
   examples
 }) => {
-  const registry = useCoreRegistry();
+  const registry = useRegistry();
 
   const specJson = useNodeSpecJson(registry);
 

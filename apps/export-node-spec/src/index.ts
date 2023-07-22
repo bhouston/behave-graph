@@ -50,7 +50,7 @@ export const main = async () => {
   console.log({ registry });
 
   const errorList: string[] = [];
-  errorList.push(...validateNodeRegistry({ registry }));
+  errorList.push(...validateNodeRegistry(registry));
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {

@@ -18,10 +18,9 @@ export * from './hooks/useChangeNodeData.js';
 export * from './hooks/useOnPressKey.js';
 export * from './hooks/useFlowHandlers.js';
 export * from './hooks/useGraphRunner.js';
-export * from './hooks/useDependencies.js';
 export * from './hooks/useBehaveGraphFlow.js';
 export * from './hooks/useNodeSpecJson.js';
-export * from './hooks/useCoreRegistry.js';
+export * from './hooks/useRegistry.js';
 export * from './hooks/useCustomNodeTypes.js';
 export * from './hooks/useMergeMap.js';
 

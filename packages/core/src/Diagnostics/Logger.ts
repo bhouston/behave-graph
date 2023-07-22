@@ -29,7 +29,7 @@ export class Logger {
   public static readonly onError = new EventEmitter<string>();
 
   static {
-    const prefix = () => {
+    const prefix = (): string => {
       switch (Logger.prefixStyle) {
         case PrefixStyle.None:
           return '';

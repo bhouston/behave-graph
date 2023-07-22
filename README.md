@@ -228,10 +228,10 @@ Here is a test of 10,000,000 iteration for loop:
 
 [/graphs/core/flow/PerformanceTest.json](/graphs/core/flow/PerformanceTest.json)
 
-Here is the command running with profiling (-p):
+Here is the command running with verbose logging, e.g. "-l 0":
 
 ```sh
-npx exec-graph ./graphs/core/flow/PerformanceTest.json -p
+npx exec-graph ./graphs/core/flow/PerformanceTest.json -l 0
 ```
 
 Console output:

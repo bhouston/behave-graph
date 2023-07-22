@@ -27,7 +27,6 @@ type ProgramOptions = {
   upgrade?: boolean;
   logLevel?: number;
   dryRun?: boolean;
-  profile?: boolean;
   iterations: string;
 };
 
@@ -105,7 +104,6 @@ async function execGraph({
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);
-    Logger.verbose('  completed');
   }
 
   if (lifecycleEventEmitter.tickEvent.listenerCount > 0) {
@@ -117,7 +115,6 @@ async function execGraph({
       Logger.verbose('executing all (async)');
       // eslint-disable-next-line no-await-in-loop
       await engine.executeAllAsync(5);
-      Logger.verbose('  completed');
     }
   }
 
@@ -127,19 +124,16 @@ async function execGraph({
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);
-    Logger.verbose('  completed');
   }
 
-  if (programOptions.profile) {
-    const deltaTime = Date.now() - startTime;
-    Logger.info(
-      `\n  Profile Results: ${engine.executionSteps} nodes executed in ${
-        deltaTime / 1000
-      } seconds, at a rate of ${Math.round(
-        (engine.executionSteps * 1000) / deltaTime
-      )} steps/second`
-    );
-  }
+  const deltaTime = Date.now() - startTime;
+  Logger.verbose(
+    `profile results: ${engine.executionSteps} nodes executed in ${
+      deltaTime / 1000
+    } seconds, at a rate of ${Math.round(
+      (engine.executionSteps * 1000) / deltaTime
+    )} steps/second`
+  );
 
   engine.dispose();
 }

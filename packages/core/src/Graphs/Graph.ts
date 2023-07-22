@@ -1,4 +1,5 @@
 import { CustomEvent } from '../Events/CustomEvent.js';
+import { Logger } from '../index.js';
 import { Metadata } from '../Metadata.js';
 import { NodeConfiguration } from '../Nodes/Node.js';
 import { Dependencies } from '../Nodes/NodeDefinitions.js';
@@ -46,6 +47,7 @@ export const createNode = ({
     nodeDefinition = registry.nodes[nodeTypeName];
   }
   if (nodeDefinition === undefined) {
+    Logger.verbose('known nodes: ' + Object.keys(registry.nodes).join(', '));
     throw new Error(
       `no registered node descriptions with the typeName ${nodeTypeName}`
     );

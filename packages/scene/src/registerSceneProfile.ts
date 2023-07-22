@@ -41,15 +41,16 @@ export const getSceneValuesMap = memo<ValueTypeMap>(() => {
     Mat3Value,
     Mat4Value
   ];
-  return Object.fromEntries(
+  const temp = Object.fromEntries(
     valueTypes.map((valueType) => [valueType.name, valueType])
   );
+  return temp;
 });
 
 export const getSceneStringConversions = (
   values: Record<string, ValueType>
 ): NodeDefinition[] =>
-  Object.keys(getCoreValuesMap()).flatMap((valueTypeName) =>
+  Object.keys(values).flatMap((valueTypeName) =>
     getStringConversionsForValueType({ values, valueTypeName })
   );
 
@@ -58,6 +59,7 @@ export const getSceneNodesMap = memo<Record<string, NodeDefinition>>(() => {
     ...getCoreValuesMap(),
     ...getSceneValuesMap()
   });
+
   const nodeDefinitions = [
     // pull in value type nodes
     ...getNodeDescriptions(Vec2Nodes),

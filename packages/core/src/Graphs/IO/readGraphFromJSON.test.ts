@@ -1,10 +1,19 @@
 import { Logger } from '../../Diagnostics/Logger.js';
-import { getCoreRegistry } from '../../Profiles/Core/registerCoreProfile.js';
+import { ManualLifecycleEventEmitter } from '../../Profiles/Core/Abstractions/Drivers/ManualLifecycleEventEmitter.js';
+import { registerCoreProfile } from '../../Profiles/Core/registerCoreProfile.js';
 import { readGraphFromJSON } from './readGraphFromJSON.js';
 Logger.onWarn.clear();
 
 describe('readGraphFromJSON', () => {
-  const registry = getCoreRegistry();
+  const registry = registerCoreProfile({
+    values: {},
+    nodes: {},
+    dependencies: {
+      ILogger: new Logger(),
+      ILifecycleEventEmitter: new ManualLifecycleEventEmitter()
+    }
+  });
+
   it('throws if node ids are not unique', () => {
     const json = {
       variables: [],
@@ -20,9 +29,7 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() =>
-      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
-    ).toThrow();
+    expect(() => readGraphFromJSON({ graphJson: json, registry })).toThrow();
   });
 
   it("throws if input keys don't match known sockets", () => {
@@ -39,9 +46,7 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() =>
-      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
-    ).toThrow();
+    expect(() => readGraphFromJSON({ graphJson: json, registry })).toThrow();
   });
 
   it('throws if input points to non-existent node', () => {
@@ -65,9 +70,7 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() =>
-      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
-    ).toThrow();
+    expect(() => readGraphFromJSON({ graphJson: json, registry })).toThrow();
   });
 
   it('throws if input points to non-existent socket', () => {
@@ -91,8 +94,6 @@ describe('readGraphFromJSON', () => {
         }
       ]
     };
-    expect(() =>
-      readGraphFromJSON({ graphJson: json, ...registry, dependencies: {} })
-    ).toThrow();
+    expect(() => readGraphFromJSON({ graphJson: json, registry })).toThrow();
   });
 });

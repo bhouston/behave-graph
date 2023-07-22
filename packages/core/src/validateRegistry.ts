@@ -6,7 +6,7 @@ export function validateRegistry(registry: IRegistry): string[] {
   const errorList: string[] = [];
   errorList.push(
     ...validateValueRegistry(registry.values),
-    ...validateNodeRegistry({ registry })
+    ...validateNodeRegistry(registry)
   );
   return errorList;
 }

@@ -4,11 +4,7 @@ import { IRegistry } from '../../Registry.js';
 const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;
 
-export function validateNodeRegistry({
-  registry
-}: {
-  registry: IRegistry;
-}): string[] {
+export function validateNodeRegistry(registry: IRegistry): string[] {
   const errorList: string[] = [];
   // const graph = new Graph(registry);
   const graph = makeGraphApi({

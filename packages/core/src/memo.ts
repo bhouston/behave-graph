@@ -7,3 +7,13 @@ export function memo<T>(func: () => T): () => T {
     return cache;
   };
 }
+
+export function asyncMemo<T>(func: () => Promise<T>): () => Promise<T> {
+  let cache: T | undefined;
+  return async (): Promise<T> => {
+    if (cache === undefined) {
+      cache = await func();
+    }
+    return cache;
+  };
+}

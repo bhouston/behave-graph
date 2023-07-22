@@ -4,6 +4,7 @@ import process from 'node:process';
 import {
   DefaultLogger,
   Engine,
+  ILifecycleEventEmitter,
   Logger,
   ManualLifecycleEventEmitter,
   parseSafeFloat,
@@ -12,6 +13,7 @@ import {
   validateGraph,
   validateRegistry
 } from '@behave-graph/core';
+import { DummyScene, registerSceneProfile } from '@behave-graph/scene';
 import { program } from 'commander';
 import { createRequire } from 'module';
 
@@ -35,13 +37,17 @@ async function execGraph({
   jsonPattern: string;
   programOptions: ProgramOptions;
 }) {
-  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  const logger = new DefaultLogger();
-  const registry = registerCoreProfile({
-    values: {},
-    nodes: {},
-    dependencies: {}
-  });
+  const registry = registerSceneProfile(
+    registerCoreProfile({
+      values: {},
+      nodes: {},
+      dependencies: {
+        ILogger: new DefaultLogger(),
+        ILifecycleEventEmitter: new ManualLifecycleEventEmitter(),
+        IScene: new DummyScene()
+      }
+    })
+  );
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
@@ -84,6 +90,8 @@ async function execGraph({
     return;
   }
 
+  const lifecycleEventEmitter = registry.dependencies
+    .ILifecycleEventEmitter! as ILifecycleEventEmitter;
   const startTime = Date.now();
   if (lifecycleEventEmitter.startEvent.listenerCount > 0) {
     Logger.verbose('triggering start event');

@@ -35,27 +35,22 @@ export const main = async () => {
     throw new Error('no path specified');
   }
 
-  const lifecycleEventEmitter = new ManualLifecycleEventEmitter();
-  const logger = new DefaultLogger();
-
-  let registry = registerCoreProfile({
-    values: {},
-    nodes: {},
-    dependencies: {
-      ILogger: logger,
-      ILifecycleEventEmitter: lifecycleEventEmitter
-    }
-  });
-
-  const scene = new DummyScene();
-
-  registry = registerSceneProfile(registry);
-  registry.dependencies.IScene = scene;
+  const registry = registerSceneProfile(
+    registerCoreProfile({
+      values: {},
+      nodes: {},
+      dependencies: {
+        ILogger: new DefaultLogger(),
+        ILifecycleEventEmitter: new ManualLifecycleEventEmitter(),
+        IScene: new DummyScene()
+      }
+    })
+  );
 
   console.log({ registry });
 
   const errorList: string[] = [];
-  errorList.push(...validateNodeRegistry(registry));
+  errorList.push(...validateNodeRegistry({ registry }));
   if (errorList.length > 0) {
     Logger.error(`${errorList.length} errors found:`);
     errorList.forEach((errorText, errorIndex) => {
@@ -64,9 +59,7 @@ export const main = async () => {
     return;
   }
 
-  const nodeSpecJson = writeNodeSpecsToJSON({
-    ...registry
-  });
+  const nodeSpecJson = writeNodeSpecsToJSON(registry);
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
   if (programOptions.csv) {

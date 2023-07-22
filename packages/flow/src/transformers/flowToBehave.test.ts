@@ -13,12 +13,8 @@ const flowGraph = rawFlowGraph as GraphJSON;
 const [nodes, edges] = behaveToFlow(flowGraph);
 
 it('transforms from flow to behave', () => {
-  const { values: valueTypes, nodes: nodeDefinitions } = getCoreRegistry();
-  const specJSON = writeNodeSpecsToJSON({
-    values: valueTypes,
-    nodes: nodeDefinitions,
-    dependencies: {}
-  });
+  const registry = getCoreRegistry();
+  const specJSON = writeNodeSpecsToJSON(registry);
   const output = flowToBehave(nodes, edges, specJSON);
   expect(output).toEqual(flowGraph);
 });

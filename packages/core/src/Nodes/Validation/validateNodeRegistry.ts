@@ -5,18 +5,17 @@ const nodeTypeNameRegex = /^\w+(\/\w+)*$/;
 const socketNameRegex = /^\w+$/;
 
 export function validateNodeRegistry({
-  nodes,
-  values,
-  dependencies
-}: IRegistry): string[] {
+  registry
+}: {
+  registry: IRegistry;
+}): string[] {
   const errorList: string[] = [];
   // const graph = new Graph(registry);
   const graph = makeGraphApi({
-    values,
-    dependencies
+    ...registry
   });
-  Object.keys(nodes).forEach((nodeTypeName) => {
-    const node = createNode({ graph, nodes, values, nodeTypeName });
+  Object.keys(registry.nodes).forEach((nodeTypeName) => {
+    const node = createNode({ graph, registry, nodeTypeName });
 
     // ensure node is registered correctly.
     if (node.description.typeName !== nodeTypeName) {
@@ -43,7 +42,7 @@ export function validateNodeRegistry({
       if (socket.valueTypeName === 'flow') {
         return;
       }
-      const valueType = values[socket.valueTypeName];
+      const valueType = registry.values[socket.valueTypeName];
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(
@@ -61,7 +60,7 @@ export function validateNodeRegistry({
       if (socket.valueTypeName === 'flow') {
         return;
       }
-      const valueType = values[socket.valueTypeName];
+      const valueType = registry.values[socket.valueTypeName];
       // check to ensure all value types are supported.
       if (valueType === undefined) {
         errorList.push(

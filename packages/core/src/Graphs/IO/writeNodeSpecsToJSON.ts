@@ -16,27 +16,21 @@ function toChoices(valueChoices: Choices | undefined): ChoiceJSON | undefined {
   });
 }
 
-export function writeNodeSpecsToJSON({
-  values,
-  nodes,
-  dependencies
-}: IRegistry): NodeSpecJSON[] {
+export function writeNodeSpecsToJSON(registry: IRegistry): NodeSpecJSON[] {
   const nodeSpecsJSON: NodeSpecJSON[] = [];
 
   // const graph = new Graph(registry);
 
   const graph = makeGraphApi({
-    values,
+    ...registry,
     customEvents: {},
-    dependencies,
     variables: {}
   });
 
-  Object.keys(nodes).forEach((nodeTypeName) => {
+  Object.keys(registry.nodes).forEach((nodeTypeName) => {
     const node = createNode({
       graph,
-      nodes,
-      values,
+      registry,
       nodeTypeName
     });
 
@@ -53,7 +47,7 @@ export function writeNodeSpecsToJSON({
       const valueType =
         inputSocket.valueTypeName === 'flow'
           ? undefined
-          : values[inputSocket.valueTypeName];
+          : registry.values[inputSocket.valueTypeName];
 
       let defaultValue = inputSocket.value;
       if (valueType !== undefined) {

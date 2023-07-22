@@ -3,7 +3,6 @@ import { CustomEvent } from '../../Events/CustomEvent.js';
 import { Link } from '../../Nodes/Link.js';
 import { NodeConfiguration } from '../../Nodes/Node.js';
 import { INode } from '../../Nodes/NodeInstance.js';
-import { NodeDefinitionsMap } from '../../Nodes/Registry/NodeDefinitionsMap.js';
 import { IRegistry } from '../../Registry.js';
 import { Socket } from '../../Sockets/Socket.js';
 import { ValueTypeMap } from '../../Values/ValueTypeMap.js';
@@ -69,8 +68,7 @@ export function readGraphFromJSON({
     const nodeJson = nodesJson[i];
     const node = readNodeJSON({
       graph: graphApi,
-      nodes: registry.nodes,
-      values: registry.values,
+      registry,
       nodeJson
     });
     const id = nodeJson.id;
@@ -166,13 +164,11 @@ export function readGraphFromJSON({
 
 function readNodeJSON({
   graph,
-  nodes,
-  values,
+  registry,
   nodeJson
 }: {
   graph: IGraphApi;
-  nodes: NodeDefinitionsMap;
-  values: ValueTypeMap;
+  registry: IRegistry;
   nodeJson: NodeJSON;
 }) {
   if (nodeJson.type === undefined) {
@@ -189,8 +185,7 @@ function readNodeJSON({
 
   const node = createNode({
     graph,
-    nodes,
-    values,
+    registry,
     nodeTypeName: nodeName,
     nodeConfiguration
   });
@@ -199,7 +194,7 @@ function readNodeJSON({
   node.metadata = nodeJson?.metadata ?? node.metadata;
 
   if (nodeJson.parameters !== undefined) {
-    readNodeParameterJSON(values, node, nodeJson.parameters);
+    readNodeParameterJSON(registry.values, node, nodeJson.parameters);
   }
   if (nodeJson.flows !== undefined) {
     readNodeFlowsJSON(node, nodeJson.flows);

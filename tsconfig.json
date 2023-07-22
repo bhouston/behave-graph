@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "@behave-graph/core": ["./packages/core/"],
-      "@behave-graph/flow": ["./packages/flow/"]
+      "@behave-graph/flow": ["./packages/flow/"],
+      "@behave-graph/scene": ["./packages/scene/"]
     },
     "outDir": "dist",
     "target": "ES2020",

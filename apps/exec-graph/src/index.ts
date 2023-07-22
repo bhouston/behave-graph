@@ -6,6 +6,7 @@ import {
   Engine,
   ILifecycleEventEmitter,
   Logger,
+  LogLevel,
   ManualLifecycleEventEmitter,
   parseSafeFloat,
   readGraphFromJSON,
@@ -24,7 +25,7 @@ const { name, version } = packageInfo as { name: string; version: string };
 
 type ProgramOptions = {
   upgrade?: boolean;
-  trace?: boolean;
+  logLevel?: number;
   dryRun?: boolean;
   profile?: boolean;
   iterations: string;
@@ -48,6 +49,10 @@ async function execGraph({
       }
     })
   );
+
+  if (programOptions.logLevel) {
+    Logger.logLevel = programOptions.logLevel as LogLevel;
+  }
 
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
@@ -77,7 +82,8 @@ async function execGraph({
   Logger.verbose('creating behavior graph');
   const engine = new Engine(graph.nodes);
 
-  if (programOptions.trace) {
+  // do not log at all to the verbose if not verbose is not enabled, makes a big performance difference.
+  if (programOptions.logLevel === LogLevel.Verbose) {
     engine.onNodeExecutionStart.addListener((node) =>
       Logger.verbose(`<< ${node.description.typeName} >> START`)
     );
@@ -99,6 +105,7 @@ async function execGraph({
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);
+    Logger.verbose('  completed');
   }
 
   if (lifecycleEventEmitter.tickEvent.listenerCount > 0) {
@@ -110,6 +117,7 @@ async function execGraph({
       Logger.verbose('executing all (async)');
       // eslint-disable-next-line no-await-in-loop
       await engine.executeAllAsync(5);
+      Logger.verbose('  completed');
     }
   }
 
@@ -119,6 +127,7 @@ async function execGraph({
 
     Logger.verbose('executing all (async)');
     await engine.executeAllAsync(5);
+    Logger.verbose('  completed');
   }
 
   if (programOptions.profile) {
@@ -140,7 +149,7 @@ export const main = async () => {
     .name(name)
     .version(version)
     .argument('<filename>', 'path to the behavior-graph json to execute')
-    .option('-t, --trace', `trace node execution`)
+    .option('-l, --logLevel <logLevel>', `trace node execution`, '1')
     .option('-p, --profile', `profile execution time`)
     .option('-d, --dryRun', `do not run graph`)
     .option(

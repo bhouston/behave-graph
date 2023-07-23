@@ -52,7 +52,6 @@ async function execGraph({
   if (programOptions.logLevel) {
     Logger.logLevel = programOptions.logLevel as LogLevel;
   }
-
   const graphJsonPath = jsonPattern;
   Logger.verbose(`reading behavior graph: ${graphJsonPath}`);
   const textFile = await fs.readFile(graphJsonPath);

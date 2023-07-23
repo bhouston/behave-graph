@@ -38,6 +38,7 @@
     "commander": "^9.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "source-map-support": "^0.5.21",
     "vite": "^3.2.4"
   },
   "devDependencies": {

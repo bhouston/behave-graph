@@ -12,7 +12,7 @@ export const Concat = makeInNOutFunctionDesc({
   label: 'Concat',
   in: ['string', 'string'],
   out: 'string',
-  exec: (a: string, b: string) => a + b
+  exec: (a: string, b: string) => a.concat(b)
 });
 
 export const Includes = makeInNOutFunctionDesc({

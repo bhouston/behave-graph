@@ -1,6 +1,6 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
 import { Fiber } from '../../../Execution/Fiber.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
+import { IGraph } from '../../../Graphs/Graph.js';
 import { FlowNode } from '../../../Nodes/FlowNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
@@ -13,7 +13,7 @@ export class ExpectTrue extends FlowNode {
     (description, graph) => new ExpectTrue(description, graph)
   );
 
-  constructor(description: NodeDescription, graph: IGraphApi) {
+  constructor(description: NodeDescription, graph: IGraph) {
     super(
       description,
       graph,

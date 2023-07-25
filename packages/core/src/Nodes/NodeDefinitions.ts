@@ -1,4 +1,4 @@
-import { IGraphApi } from '../Graphs/Graph.js';
+import { IGraph } from '../Graphs/Graph.js';
 import { Choices } from '../Sockets/Socket.js';
 import { AsyncNodeInstance } from './AsyncNode.js';
 import { EventNodeInstance } from './EventNode.js';
@@ -21,22 +21,19 @@ export type SocketsMap = Record<
   string,
   | SocketDefinition
   | string
-  | ((nodeConfig: NodeConfiguration, graph: IGraphApi) => SocketDefinition)
+  | ((nodeConfig: NodeConfiguration, graph: IGraph) => SocketDefinition)
 >;
 export type SocketListDefinition = SocketDefinition & { key: string };
 export type SocketsList = SocketListDefinition[];
 
 export type SocketsGeneratorFromConfig = (
   nodeConfig: NodeConfiguration,
-  graph: IGraphApi
+  graph: IGraph
 ) => SocketsList;
 
 export type SocketsDefinition = SocketsMap | SocketsGeneratorFromConfig;
 
-export type NodeFactory = (
-  graph: IGraphApi,
-  config: NodeConfiguration
-) => INode;
+export type NodeFactory = (graph: IGraph, config: NodeConfiguration) => INode;
 
 export interface IHasNodeFactory {
   readonly nodeFactory: NodeFactory;
@@ -81,7 +78,7 @@ export type TriggeredFn<
   // state of the node.
   state: TState;
 
-  graph: IGraphApi;
+  graph: IGraph;
   configuration: NodeConfiguration;
   finished?: () => void;
 }) => StateReturn<TState>;
@@ -124,7 +121,7 @@ export interface IHasInit<
 }
 
 export interface IHasDispose<TState> {
-  dispose: (params: { state: TState; graph: IGraphApi }) => StateReturn<TState>;
+  dispose: (params: { state: TState; graph: IGraph }) => StateReturn<TState>;
 }
 
 export interface IFlowNodeDefinition<
@@ -161,7 +158,7 @@ export interface FunctionNodeExecParams<
   // write and commit only allows keys from the output type
   write<T>(outValueName: SocketNames<TOutput>, value: T): void;
 
-  graph: IGraphApi;
+  graph: IGraph;
   configuration: NodeConfiguration;
 }
 

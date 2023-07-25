@@ -1,5 +1,5 @@
 import { Assert } from '../Diagnostics/Assert.js';
-import { IGraphApi } from '../Graphs/Graph.js';
+import { IGraph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { Node, NodeConfiguration } from './Node.js';
 import {
@@ -19,7 +19,7 @@ export abstract class FunctionNode
 {
   constructor(
     description: NodeDescription,
-    graph: IGraphApi,
+    graph: IGraph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     public readonly exec: (node: INode) => void,

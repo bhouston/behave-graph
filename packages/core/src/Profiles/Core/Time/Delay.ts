@@ -1,5 +1,5 @@
 import { Engine } from '../../../Execution/Engine.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
+import { IGraph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import {
   NodeDescription,
@@ -19,7 +19,7 @@ export class Delay extends AsyncNode {
     factory: (description, graph) => new Delay(description, graph)
   });
 
-  constructor(description: NodeDescription, graph: IGraphApi) {
+  constructor(description: NodeDescription, graph: IGraph) {
     super(
       description,
       graph,

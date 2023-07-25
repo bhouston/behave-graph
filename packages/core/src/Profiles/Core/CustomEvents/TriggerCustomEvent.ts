@@ -1,6 +1,6 @@
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Fiber } from '../../../Execution/Fiber.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
+import { IGraph } from '../../../Graphs/Graph.js';
 import { FlowNode2 } from '../../../Nodes/FlowNode.js';
 import { NodeConfiguration } from '../../../Nodes/Node.js';
 import {
@@ -28,7 +28,7 @@ export class TriggerCustomEvent extends FlowNode2 {
 
   constructor(
     description: NodeDescription,
-    graph: IGraphApi,
+    graph: IGraph,
     configuration: NodeConfiguration
   ) {
     const customEvent =

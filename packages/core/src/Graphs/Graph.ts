@@ -12,7 +12,7 @@ import { Variable } from '../Values/Variables/Variable.js';
 // Purpose:
 //  - stores the node graph
 
-export interface IGraphApi {
+export interface IGraph {
   readonly variables: { [id: string]: Variable };
   readonly customEvents: { [id: string]: CustomEvent };
   readonly values: ValueTypeMap;
@@ -37,7 +37,7 @@ export const createNode = ({
   nodeTypeName,
   nodeConfiguration = {}
 }: {
-  graph: IGraphApi;
+  graph: IGraph;
   registry: IRegistry;
   nodeTypeName: string;
   nodeConfiguration?: NodeConfiguration;
@@ -74,7 +74,7 @@ export const makeGraphApi = ({
   variables?: GraphVariables;
   values: ValueTypeMap;
   dependencies: Dependencies;
-}): IGraphApi => ({
+}): IGraph => ({
   variables,
   customEvents,
   values,

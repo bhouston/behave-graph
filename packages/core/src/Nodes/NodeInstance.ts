@@ -1,6 +1,6 @@
 import { Engine } from '../Execution/Engine.js';
 import { Fiber } from '../Execution/Fiber.js';
-import { IGraphApi } from '../Graphs/Graph.js';
+import { IGraph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { NodeConfiguration } from './Node.js';
 import { readInputFromSockets, writeOutputsToSocket } from './NodeSockets.js';
@@ -16,7 +16,7 @@ export enum NodeType {
 export interface INode {
   readonly inputs: Socket[];
   readonly outputs: Socket[];
-  readonly graph: IGraphApi;
+  readonly graph: IGraph;
   description: INodeDescription;
   configuration: NodeConfiguration;
   nodeType: NodeType;

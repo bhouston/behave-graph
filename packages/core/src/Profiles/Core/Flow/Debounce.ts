@@ -1,5 +1,5 @@
 import { Engine } from '../../../Execution/Engine.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
+import { IGraph } from '../../../Graphs/Graph.js';
 import { AsyncNode } from '../../../Nodes/AsyncNode.js';
 import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
 import { Socket } from '../../../Sockets/Socket.js';
@@ -15,7 +15,7 @@ export class Debounce extends AsyncNode {
     (description, graph) => new Debounce(description, graph)
   );
 
-  constructor(description: NodeDescription, graph: IGraphApi) {
+  constructor(description: NodeDescription, graph: IGraph) {
     super(
       description,
       graph,

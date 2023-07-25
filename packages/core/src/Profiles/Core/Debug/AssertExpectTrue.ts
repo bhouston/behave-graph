@@ -1,36 +1,33 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
-import { Fiber } from '../../../Execution/Fiber.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
-import { FlowNode } from '../../../Nodes/FlowNode.js';
-import { NodeDescription } from '../../../Nodes/Registry/NodeDescription.js';
-import { Socket } from '../../../Sockets/Socket.js';
+import {
+  makeFlowNodeDefinition,
+  NodeCategory
+} from '../../../Nodes/NodeDefinitions.js';
 
-export class ExpectTrue extends FlowNode {
-  public static Description = new NodeDescription(
-    'debug/expectTrue',
-    'Action',
-    'Assert Expect True',
-    (description, graph) => new ExpectTrue(description, graph)
-  );
-
-  constructor(description: NodeDescription, graph: IGraphApi) {
-    super(
-      description,
-      graph,
-      [
-        new Socket('flow', 'flow'),
-        new Socket('boolean', 'condition'),
-        new Socket('string', 'description')
-      ],
-      [new Socket('flow', 'flow')]
-    );
+export const ExpectTrue = makeFlowNodeDefinition({
+  typeName: 'debug/expectTrue',
+  category: NodeCategory.Action,
+  label: 'Assert Expect True',
+  in: () => {
+    return [
+      {
+        key: 'flow',
+        valueType: 'flow'
+      },
+      {
+        key: 'condition',
+        valueType: 'boolean'
+      },
+      {
+        key: 'description',
+        valueType: 'string'
+      }
+    ];
+  },
+  initialState: undefined,
+  out: { flow: 'flow' },
+  triggered: ({ read, commit }) => {
+    Assert.mustBeTrue(read('condition'), read('description'));
+    commit('flow');
   }
-
-  triggered(fiber: Fiber, triggeredSocketName: string) {
-    Assert.mustBeTrue(
-      this.readInput('condition'),
-      this.readInput('description')
-    );
-    fiber.commit(this, 'flow');
-  }
-}
+});

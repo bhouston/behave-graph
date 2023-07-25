@@ -23,7 +23,7 @@ export function getStringConversionsForValueType({
       label: 'To String',
       in: [valueTypeName],
       out: 'string',
-      exec: (a: any) => values[valueTypeName]?.serialize(a)
+      exec: (a: any) => `${values[valueTypeName]?.serialize(a)}`
     })
   ];
 }

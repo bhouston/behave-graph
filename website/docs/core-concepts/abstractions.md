@@ -4,15 +4,15 @@ sidebar_position: 5
 
 # Abstractions
 
-Behave-graph is designed as a light weight library that can be plugged into other engines, such as Three.js or Babylon.js.  In order to simplify pluggin into other engines, it defines the functionality required for interfacing with these engines as "abstractions", which can then be implemented by the engines.
+Behave-graph is designed as a light weight library that can be plugged into other engines, such as Three.js or Babylon.js. In order to simplify pluggin into other engines, it defines the functionality required for interfacing with these engines as "abstractions", which can then be implemented by the engines.
 
-This design is inspired by [Hardware Abstraction layers](https://en.wikipedia.org/wiki/Hardware_abstraction) present in operating systems.  HALs, as they are called, are interfaces which are then implemented by drivers that enable that functionality. HALs allow for operating systems to easily be ported to different systems because the machine specific implementations for the operating systems are cordened off from the main operating system behind these HALs.  Behave-graph takes this same approach.
+This design is inspired by [Hardware Abstraction layers](https://en.wikipedia.org/wiki/Hardware_abstraction) present in operating systems. HALs, as they are called, are interfaces which are then implemented by drivers that enable that functionality. HALs allow for operating systems to easily be ported to different systems because the machine specific implementations for the operating systems are cordened off from the main operating system behind these HALs. Behave-graph takes this same approach.
 
 Example abstractions in behave-graph:
 
-* **ILogger**.  The logging interface allows for behave-graph to report verbose, info, warning and error text messages.  The command line graph-exec tool uses the driver DefaultLogger to output these messages to the console.
-* **ILifecycleEventEmitter**.  This interface is responsible for emitting when the behave-graph should start, tick and stop.
-* **IScene**.  This interface is responsible for doing basic scene manipulations.  In the three example, this interface is implemented by the ThreeScene class that maps these operations to a Three.js-based scene graph.
+- **ILogger**. The logging interface allows for behave-graph to report verbose, info, warning and error text messages. The command line graph-exec tool uses the driver DefaultLogger to output these messages to the console.
+- **ILifecycleEventEmitter**. This interface is responsible for emitting when the behave-graph should start, tick and stop.
+- **IScene**. This interface is responsible for doing basic scene manipulations. In the three example, this interface is implemented by the ThreeScene class that maps these operations to a Three.js-based scene graph.
 
 For example here is the ILogger abstraction, you can see it is just a standard Typescript interface:
 
@@ -41,7 +41,7 @@ export class DefaultLogger implements ILogger {
   }
 
   warn(text: string): void {
-    Logger.warn(text);
+    Logger.warning(text);
   }
 
   error(text: string): void {

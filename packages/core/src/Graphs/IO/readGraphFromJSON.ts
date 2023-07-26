@@ -13,7 +13,7 @@ import {
   GraphInstance,
   GraphNodes,
   GraphVariables,
-  IGraphApi,
+  IGraph,
   makeGraphApi
 } from '../Graph.js';
 import {
@@ -167,7 +167,7 @@ function readNodeJSON({
   registry,
   nodeJson
 }: {
-  graph: IGraphApi;
+  graph: IGraph;
   registry: IRegistry;
   nodeJson: NodeJSON;
 }) {

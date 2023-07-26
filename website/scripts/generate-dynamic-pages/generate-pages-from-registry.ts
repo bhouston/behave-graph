@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 
 import {
   Graph,
-  IGraphApi,
+  IGraph,
   NodeDefinition,
   NodeSpecJSON,
   Registry,
@@ -72,7 +72,7 @@ const generateNodePages = (
   nodes: NodeDefinition[],
   baseDir: string,
   nodeSpecJson: NodeSpecJSON[],
-  graph: IGraphApi
+  graph: IGraph
 ) => {
   const nodesDir = join(baseDir, 'Nodes');
   if (!existsSync(nodesDir)) {

@@ -1,7 +1,7 @@
 import { Assert } from '../../../Diagnostics/Assert.js';
 import { CustomEvent } from '../../../Events/CustomEvent.js';
 import { Engine } from '../../../Execution/Engine.js';
-import { IGraphApi } from '../../../Graphs/Graph.js';
+import { IGraph } from '../../../Graphs/Graph.js';
 import { EventNode2 } from '../../../Nodes/EventNode.js';
 import { NodeConfiguration } from '../../../Nodes/Node.js';
 import {
@@ -29,7 +29,7 @@ export class OnCustomEvent extends EventNode2 {
 
   constructor(
     description: NodeDescription,
-    graph: IGraphApi,
+    graph: IGraph,
     configuration: NodeConfiguration
   ) {
     const customEvent =

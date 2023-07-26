@@ -1,6 +1,6 @@
 import { Assert } from '../Diagnostics/Assert.js';
 import { Fiber } from '../Execution/Fiber.js';
-import { IGraphApi } from '../Graphs/Graph.js';
+import { IGraph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { Node, NodeConfiguration } from './Node.js';
 import { IFlowNodeDefinition, NodeCategory } from './NodeDefinitions.js';
@@ -10,7 +10,7 @@ import { NodeDescription } from './Registry/NodeDescription.js';
 export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
   constructor(
     description: NodeDescription,
-    graph: IGraphApi,
+    graph: IGraph,
     inputs: Socket[] = [],
     outputs: Socket[] = [],
     configuration: NodeConfiguration = {}
@@ -43,7 +43,7 @@ export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
 export class FlowNode2 extends FlowNode {
   constructor(props: {
     description: NodeDescription;
-    graph: IGraphApi;
+    graph: IGraph;
     inputs?: Socket[];
     outputs?: Socket[];
     configuration?: NodeConfiguration;

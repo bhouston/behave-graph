@@ -1,6 +1,6 @@
 import {
   FunctionNode,
-  IGraphApi,
+  IGraph,
   NodeDescription,
   Socket
 } from '@behave-graph/core';
@@ -8,7 +8,7 @@ import {
 export class VecElements<T> extends FunctionNode {
   constructor(
     description: NodeDescription,
-    graph: IGraphApi,
+    graph: IGraph,
     valueTypeName: string,
     elementNames: string[] = ['x', 'y', 'z', 'w'],
     toArray: (value: T, array: number[], offset: number) => void

@@ -1,4 +1,4 @@
-import { IGraphApi } from '../../Graphs/Graph.js';
+import { IGraph } from '../../Graphs/Graph.js';
 import {
   IHasNodeFactory,
   INodeDefinition,
@@ -32,7 +32,7 @@ export interface INodeDescription {
 
 export type NodeFactoryWithDescription = (
   entry: NodeDescription,
-  graph: IGraphApi,
+  graph: IGraph,
   config: NodeConfiguration
 ) => INode;
 

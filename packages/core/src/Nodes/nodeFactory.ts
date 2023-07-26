@@ -1,4 +1,4 @@
-import { IGraphApi } from '../Graphs/Graph.js';
+import { IGraph } from '../Graphs/Graph.js';
 import { Socket } from '../Sockets/Socket.js';
 import { NodeConfiguration } from './Node.js';
 import {
@@ -20,7 +20,7 @@ const makeSocketsFromMap = <TSockets extends SocketsMap>(
   socketConfig: TSockets,
   keys: (keyof TSockets)[],
   configuration: NodeConfiguration,
-  graphApi: IGraphApi
+  graphApi: IGraph
 ): Socket[] => {
   return keys.map((key) => {
     const definition = socketConfig[key];
@@ -50,7 +50,7 @@ const makeSocketsFromArray = (sockets: SocketsList) =>
 export function makeOrGenerateSockets(
   socketConfigOrFactory: SocketsDefinition,
   nodeConfig: NodeConfiguration,
-  graph: IGraphApi
+  graph: IGraph
 ): Socket[] {
   // if sockets definition is dynamic, then use the node config to generate it;
   // otherwise, use the static definition
@@ -91,7 +91,7 @@ export const makeCommonProps = (
     | 'label'
   >,
   configuration: NodeConfiguration,
-  graph: IGraphApi
+  graph: IGraph
 ): INode => ({
   description: {
     typeName: typeName,

@@ -75,7 +75,7 @@ export const getCoreNodesMap = memo<Record<string, NodeDefinition>>(() => {
 
     // actions
     DebugLog,
-    AssertExpectTrue.Description,
+    AssertExpectTrue,
 
     // events
     LifecycleOnStart,

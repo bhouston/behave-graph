@@ -1,6 +1,4 @@
+export type LogSeverity = 'verbose' | 'info' | 'warning' | 'error';
 export interface ILogger {
-  verbose(text: string): void;
-  info(text: string): void;
-  warn(text: string): void;
-  error(text: string): void;
+  log(severity: LogSeverity, text: string): void;
 }

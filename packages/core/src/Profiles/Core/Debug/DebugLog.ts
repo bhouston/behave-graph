@@ -2,7 +2,7 @@ import {
   makeFlowNodeDefinition,
   NodeCategory
 } from '../../../Nodes/NodeDefinitions.js';
-import { ILogger } from '../Abstractions/ILogger.js';
+import { ILogger, LogSeverity } from '../Abstractions/ILogger.js';
 
 export const Log = makeFlowNodeDefinition({
   typeName: 'debug/log',
@@ -22,23 +22,7 @@ export const Log = makeFlowNodeDefinition({
   initialState: undefined,
   triggered: ({ read, commit, graph: { getDependency } }) => {
     const logger = getDependency<ILogger>('ILogger');
-
-    const text = read<string>('text');
-    switch (read<string>('severity')) {
-      case 'verbose':
-        logger?.verbose(text);
-        break;
-      case 'info':
-        logger?.info(text);
-        break;
-      case 'warning':
-        logger?.warn(text);
-        break;
-      case 'error':
-        logger?.error(text);
-        break;
-    }
-
+    logger?.log(read<LogSeverity>('severity'), read<string>('text'));
     commit('flow');
   }
 });

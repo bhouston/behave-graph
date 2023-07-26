@@ -53,7 +53,7 @@ export function readGraphFromJSON({
   const nodesJson = graphJson?.nodes ?? [];
 
   if (nodesJson.length === 0) {
-    Logger.warn('readGraphFromJSON: no nodes specified');
+    Logger.warning('readGraphFromJSON: no nodes specified');
   }
 
   const graphApi = makeGraphApi({

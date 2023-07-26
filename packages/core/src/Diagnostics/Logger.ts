@@ -1,14 +1,27 @@
 /* eslint-disable no-console */
 
 import { EventEmitter } from '../Events/EventEmitter.js';
+import { LogSeverity } from '../index.js';
 
 export enum LogLevel {
   Verbose = 0,
   Info = 1,
-  Warn = 2,
+  Warning = 2,
   Error = 3
 }
 
+export function logSeverityToLevel(severity: LogSeverity) {
+  switch (severity) {
+    case 'verbose':
+      return LogLevel.Verbose;
+    case 'info':
+      return LogLevel.Info;
+    case 'warning':
+      return LogLevel.Warning;
+    case 'error':
+      return LogLevel.Error;
+  }
+}
 export enum PrefixStyle {
   None = 0,
   Time = 1
@@ -19,14 +32,13 @@ const FgRed = '\x1b[31m';
 const BgYellow = '\x1b[43m';
 const Dim = '\x1b[2m';
 
+export type LogMessage = { severity: LogSeverity; text: string };
+
 export class Logger {
   static logLevel = LogLevel.Info;
   static prefixStyle = PrefixStyle.None;
 
-  public static readonly onVerbose = new EventEmitter<string>();
-  public static readonly onInfo = new EventEmitter<string>();
-  public static readonly onWarn = new EventEmitter<string>();
-  public static readonly onError = new EventEmitter<string>();
+  public static readonly onLog = new EventEmitter<LogMessage>();
 
   static {
     const prefix = (): string => {
@@ -38,36 +50,29 @@ export class Logger {
       }
     };
 
-    Logger.onVerbose.addListener((text: string) => {
-      if (Logger.logLevel > LogLevel.Verbose) return;
-      console.log(prefix() + `${Dim}${text}${Reset}`);
+    Logger.onLog.addListener((logMessage: LogMessage) => {
+      if (Logger.logLevel > logSeverityToLevel(logMessage.severity)) return;
+      console.log(prefix() + logMessage.text);
     });
-    Logger.onInfo.addListener((text: string) => {
-      if (Logger.logLevel > LogLevel.Info) return;
-      console.log(prefix() + `${text}`);
-    });
-    Logger.onWarn.addListener((text: string) => {
-      if (Logger.logLevel > LogLevel.Warn) return;
-      console.warn(prefix() + `${BgYellow}${text}${Reset}`);
-    });
-    Logger.onError.addListener((text: string) => {
-      console.error(prefix() + `${FgRed}${text}}${Reset}`);
-    });
+  }
+
+  static log(severity: LogSeverity, text: string) {
+    this.onLog.emit({ severity, text });
   }
 
   static verbose(text: string) {
-    this.onVerbose.emit(text);
+    this.onLog.emit({ severity: 'verbose', text });
   }
 
   static info(text: string) {
-    this.onInfo.emit(text);
+    this.onLog.emit({ severity: 'info', text });
   }
 
-  static warn(text: string) {
-    this.onWarn.emit(text);
+  static warning(text: string) {
+    this.onLog.emit({ severity: 'warning', text });
   }
 
   static error(text: string) {
-    this.onError.emit(text);
+    this.onLog.emit({ severity: 'error', text });
   }
 }

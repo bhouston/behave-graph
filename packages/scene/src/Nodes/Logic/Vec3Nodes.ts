@@ -35,8 +35,8 @@ export const Elements = makeInNOutFunctionDesc({
   label: 'Vec3 To Float',
   in: ['vec3'],
   out: [{ x: 'float' }, { y: 'float' }, { z: 'float' }],
-  exec: () => {
-    throw new Error('not implemented');
+  exec: (a: Vec3) => {
+    return { x: a.x, y: a.y, z: a.z };
   }
 });
 

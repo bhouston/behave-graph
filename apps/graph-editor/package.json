@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@behave-graph/core": "*",
+    "@behave-graph/scene": "*",
     "@behave-graph/flow": "*",
     "three": "0.152.2",
     "three-stdlib": "^2.22.4"

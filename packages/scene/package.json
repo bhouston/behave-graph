@@ -6,8 +6,8 @@
   "main": "./dist/index.js",
   "source": "./src/index.ts",
   "scripts": {
-    "watch": "tsc -w",
     "build": "tsc",
+    "dev": "tsc --watch",
     "test": "jest"
   },
   "devDependencies": {

@@ -1,11 +1,13 @@
-import { NodeSpecJSON } from '@behave-graph/core';
+import { NodeConfigurationJSON } from '@behave-graph/core';
+import { NodeSpecGenerator } from '../hooks/useNodeSpecGenerator.js';
 
 export const getSocketsByNodeTypeAndHandleType = (
-  nodes: NodeSpecJSON[],
+  specGenerator: NodeSpecGenerator,
   nodeType: string | undefined,
-  handleType: 'source' | 'target' | null
+  nodeConfiguration: NodeConfigurationJSON,
+  handleType: 'source' | 'target' | null,
 ) => {
-  const nodeSpec = nodes.find((node) => node.type === nodeType);
-  if (nodeSpec === undefined) return;
+  if (nodeType === undefined) return [];
+  const nodeSpec = specGenerator.getNodeSpec(nodeType, nodeConfiguration);
   return handleType === 'source' ? nodeSpec.outputs : nodeSpec.inputs;
 };

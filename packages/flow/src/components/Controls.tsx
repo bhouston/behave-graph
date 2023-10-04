@@ -1,4 +1,4 @@
-import { GraphJSON, NodeSpecJSON } from '@behave-graph/core';
+import { GraphJSON } from '@behave-graph/core';
 import {
   faDownload,
   faPause,
@@ -16,13 +16,14 @@ import { ClearModal } from './modals/ClearModal.js';
 import { HelpModal } from './modals/HelpModal.js';
 import { Examples, LoadModal } from './modals/LoadModal.js';
 import { SaveModal } from './modals/SaveModal.js';
+import { NodeSpecGenerator } from '../hooks/useNodeSpecGenerator.js';
 
 export type CustomControlsProps = {
   playing: boolean;
   togglePlay: () => void;
   setBehaviorGraph: (value: GraphJSON) => void;
   examples: Examples;
-  specJson: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 };
 
 export const CustomControls: React.FC<CustomControlsProps> = ({
@@ -30,13 +31,13 @@ export const CustomControls: React.FC<CustomControlsProps> = ({
   togglePlay,
   setBehaviorGraph,
   examples,
-  specJson
+  specGenerator
 }: {
   playing: boolean;
   togglePlay: () => void;
   setBehaviorGraph: (value: GraphJSON) => void;
   examples: Examples;
-  specJson: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 }) => {
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
@@ -68,10 +69,10 @@ export const CustomControls: React.FC<CustomControlsProps> = ({
         setBehaviorGraph={setBehaviorGraph}
         examples={examples}
       />
-      {specJson && (
+      {specGenerator && (
         <SaveModal
           open={saveModalOpen}
-          specJson={specJson}
+          specGenerator={specGenerator}
           onClose={() => setSaveModalOpen(false)}
         />
       )}

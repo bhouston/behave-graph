@@ -19,7 +19,6 @@ export * from './hooks/useOnPressKey.js';
 export * from './hooks/useFlowHandlers.js';
 export * from './hooks/useGraphRunner.js';
 export * from './hooks/useBehaveGraphFlow.js';
-export * from './hooks/useNodeSpecJson.js';
 export * from './hooks/useCustomNodeTypes.js';
 export * from './hooks/useMergeMap.js';
 

@@ -1,31 +1,31 @@
-import { NodeSpecJSON } from '@behave-graph/core';
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { NodeTypes } from 'reactflow';
 
 import { Node } from '../components/Node.js';
+import { NodeSpecGenerator } from './useNodeSpecGenerator.js';
 
-const getCustomNodeTypes = (allSpecs: NodeSpecJSON[]) => {
-  return allSpecs.reduce((nodes: NodeTypes, node) => {
-    nodes[node.type] = (props) => (
-      <Node spec={node} allSpecs={allSpecs} {...props} />
-    );
+const getCustomNodeTypes = (specGenerator: NodeSpecGenerator) => {
+  return specGenerator.getNodeTypes().reduce((nodes: NodeTypes, nodeType) => {
+    nodes[nodeType] = (props) => {
+      let spec = specGenerator.getNodeSpec(nodeType, props.data.configuration);
+      return <Node spec={spec} specGenerator={specGenerator} {...props} />;
+    };
     return nodes;
   }, {});
 };
 
 export const useCustomNodeTypes = ({
-  specJson
+  specGenerator
 }: {
-  specJson: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 }) => {
   const [customNodeTypes, setCustomNodeTypes] = useState<NodeTypes>();
   useEffect(() => {
-    if (!specJson) return;
-    const customNodeTypes = getCustomNodeTypes(specJson);
+    if (!specGenerator) return;
+    const customNodeTypes = getCustomNodeTypes(specGenerator);
 
     setCustomNodeTypes(customNodeTypes);
-  }, [specJson]);
+  }, [specGenerator]);
 
   return customNodeTypes;
 };

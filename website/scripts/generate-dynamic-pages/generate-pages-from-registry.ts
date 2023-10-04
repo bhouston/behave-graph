@@ -8,7 +8,7 @@ import {
   NodeSpecJSON,
   Registry,
   ValueType,
-  writeNodeSpecsToJSON
+  writeDefaultNodeSpecsToJSON,
 } from '@behave-graph/core';
 // We need to transform directories to kebab case because otherwise Docusaurus won't generate the toString one
 import { kebab, pascal } from 'case';
@@ -142,7 +142,8 @@ const generateNodePages = (
   });
 };
 
-// First registry includes only the nodes for that specific profile, second registry includes all nodes required to run writeNodeSpecsToJSON
+// First registry includes only the nodes for that specific profile,
+// second registry includes all nodes required to run writeDefaultNodeSpecsToJSON
 export default (
   registry: Registry,
   baseDir: string,
@@ -152,7 +153,7 @@ export default (
 
   const values = registry.values.getAll();
 
-  const nodeSpecJson = writeNodeSpecsToJSON(functionalRegistry || registry);
+  const nodeSpecJson = writeDefaultNodeSpecsToJSON(functionalRegistry || registry);
 
   const graphApi = new Graph(registry).makeApi();
 

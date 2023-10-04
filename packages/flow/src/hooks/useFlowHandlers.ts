@@ -1,4 +1,3 @@
-import { NodeSpecJSON } from '@behave-graph/core';
 import {
   MouseEvent as ReactMouseEvent,
   useCallback,
@@ -11,25 +10,26 @@ import { v4 as uuidv4 } from 'uuid';
 import { calculateNewEdge } from '../util/calculateNewEdge.js';
 import { getNodePickerFilters } from '../util/getPickerFilters.js';
 import { useBehaveGraphFlow } from './useBehaveGraphFlow.js';
+import { NodeSpecGenerator } from './useNodeSpecGenerator.js';
 
 type BehaveGraphFlow = ReturnType<typeof useBehaveGraphFlow>;
 
 const useNodePickFilters = ({
   nodes,
   lastConnectStart,
-  specJSON
+  specGenerator,
 }: {
   nodes: Node[];
   lastConnectStart: OnConnectStartParams | undefined;
-  specJSON: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 }) => {
   const [nodePickFilters, setNodePickFilters] = useState(
-    getNodePickerFilters(nodes, lastConnectStart, specJSON)
+    getNodePickerFilters(nodes, lastConnectStart, specGenerator)
   );
 
   useEffect(() => {
-    setNodePickFilters(getNodePickerFilters(nodes, lastConnectStart, specJSON));
-  }, [nodes, lastConnectStart, specJSON]);
+    setNodePickFilters(getNodePickerFilters(nodes, lastConnectStart, specGenerator));
+  }, [nodes, lastConnectStart, specGenerator]);
 
   return nodePickFilters;
 };
@@ -38,10 +38,10 @@ export const useFlowHandlers = ({
   onEdgesChange,
   onNodesChange,
   nodes,
-  specJSON
+  specGenerator,
 }: Pick<BehaveGraphFlow, 'onEdgesChange' | 'onNodesChange'> & {
   nodes: Node[];
-  specJSON: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 }) => {
   const [lastConnectStart, setLastConnectStart] =
     useState<OnConnectStartParams>();
@@ -98,7 +98,7 @@ export const useFlowHandlers = ({
         (node) => node.id === lastConnectStart.nodeId
       );
       if (originNode === undefined) return;
-      if (!specJSON) return;
+      if (!specGenerator) return;
       onEdgesChange([
         {
           type: 'add',
@@ -107,7 +107,7 @@ export const useFlowHandlers = ({
             nodeType,
             newNode.id,
             lastConnectStart,
-            specJSON
+            specGenerator,
           )
         }
       ]);
@@ -118,7 +118,7 @@ export const useFlowHandlers = ({
       nodes,
       onEdgesChange,
       onNodesChange,
-      specJSON
+      specGenerator,
     ]
   );
 
@@ -151,7 +151,7 @@ export const useFlowHandlers = ({
   const nodePickFilters = useNodePickFilters({
     nodes,
     lastConnectStart,
-    specJSON
+    specGenerator,
   });
 
   return {

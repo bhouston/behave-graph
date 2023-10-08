@@ -14,13 +14,13 @@ export class WaitAll extends FlowNode {
     category: 'Flow',
     label: 'WaitAll',
     configuration: {
-      numInputs: {
+      numSockets: {
         valueType: 'number',
         defaultValue: 3
       }
     },
     factory: (description, graph, configuration) =>
-      new WaitAll(description, graph, configuration.numInputs)
+      new WaitAll(description, graph, configuration.numSockets)
   });
 
   private isOn = true;
@@ -28,10 +28,10 @@ export class WaitAll extends FlowNode {
   constructor(
     description: NodeDescription,
     graph: IGraph,
-    private numInputs: number
+    private numSockets: number
   ) {
     const inputs: Socket[] = [];
-    for (let i = 1; i <= numInputs; i++) {
+    for (let i = 1; i <= numSockets; i++) {
       inputs.push(new Socket('flow', `${i}`));
     }
 
@@ -54,7 +54,7 @@ export class WaitAll extends FlowNode {
   private outputTriggered = false;
 
   private reset() {
-    for (let inputIndex = 1; inputIndex <= this.numInputs; inputIndex++) {
+    for (let inputIndex = 1; inputIndex <= this.numSockets; inputIndex++) {
       this.triggeredMap[`${inputIndex}`] = false;
     }
     this.triggeredCount = 0;
@@ -75,7 +75,7 @@ export class WaitAll extends FlowNode {
     this.triggeredCount++;
 
     // if a & b are triggered, first output!
-    if (this.triggeredCount === this.numInputs && !this.outputTriggered) {
+    if (this.triggeredCount === this.numSockets && !this.outputTriggered) {
       fiber.commit(this, 'flow');
       this.outputTriggered = true;
 

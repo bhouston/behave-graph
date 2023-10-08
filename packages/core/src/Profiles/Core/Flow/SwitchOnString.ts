@@ -10,7 +10,7 @@ export const SwitchOnString = makeFlowNodeDefinition({
   typeName: 'flow/switch/string',
   label: 'Switch on String',
   configuration: {
-    numCases: {
+    numSockets: {
       valueType: 'number'
     }
   },
@@ -22,7 +22,7 @@ export const SwitchOnString = makeFlowNodeDefinition({
       { key: 'selection', valueType: 'string' }
     );
 
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       sockets.push({ key: `${index}`, valueType: 'string' });
     }
 
@@ -32,7 +32,7 @@ export const SwitchOnString = makeFlowNodeDefinition({
     const sockets: SocketsList = [];
 
     sockets.push({ key: 'default', valueType: 'flow' });
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       sockets.push({ key: `${index}`, valueType: 'flow' });
     }
 
@@ -41,7 +41,7 @@ export const SwitchOnString = makeFlowNodeDefinition({
   initialState: undefined,
   triggered: ({ read, commit, configuration }) => {
     const selection = read<string>('selection');
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       if (selection === read<string>(`${index}`)) {
         commit(`${index}`);
         return;

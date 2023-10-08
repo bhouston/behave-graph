@@ -39,18 +39,13 @@ export const Node: React.FC<NodeProps> = ({
   const handleChange = useChangeNodeData(id);
   const pairs = getPairs(spec.inputs, spec.outputs);
 
-  const canAddInputs = spec.configuration.some((config) =>
-    config.name === 'numInputs' && config.valueType === 'number'
-  );
-  const canAddOutputs = spec.configuration.some((config) =>
-    config.name === 'numOutputs' && config.valueType === 'number'
+  const canAddSockets = spec.configuration.some((config) =>
+    config.name === 'numSockets' && config.valueType === 'number'
   );
 
   let handleAddNodeSocket;
-  if (canAddInputs) {
-    handleAddNodeSocket = useAddNodeSocket(id, 'inputs');
-  } else if (canAddOutputs) {
-    handleAddNodeSocket = useAddNodeSocket(id, 'outputs');
+  if (canAddSockets) {
+    handleAddNodeSocket = useAddNodeSocket(id);
   }
 
   return (

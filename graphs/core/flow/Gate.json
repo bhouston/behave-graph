@@ -28,7 +28,7 @@
     {
       "type": "flow/sequence",
       "configuration": {
-        "numOutputs": 5
+        "numSockets": 5
       },
       "id": "2",
       "flows": {

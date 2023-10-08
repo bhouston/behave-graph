@@ -28,7 +28,7 @@
     {
       "type": "flow/switch/integer",
       "configuration": {
-        "numCases": 3
+        "numSockets": 3
       },
       "id": "2",
       "parameters": {

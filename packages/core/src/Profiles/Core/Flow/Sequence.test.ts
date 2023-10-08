@@ -10,7 +10,7 @@ type RecordedWritesType = RecordedWritesOrCommits<typeof Sequence.out>;
 describe('Sequence', () => {
   it('it triggeres output flows for each element in sequence when triggered', () => {
     const nodeConfig = {
-      numOutputs: 5
+      numSockets: 5
     };
     const trigger = generateTriggerTester(Sequence, nodeConfig);
 

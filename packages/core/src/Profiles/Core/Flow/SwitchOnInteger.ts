@@ -10,7 +10,7 @@ export const SwitchOnInteger = makeFlowNodeDefinition({
   typeName: 'flow/switch/integer',
   label: 'Switch on Int',
   configuration: {
-    numCases: {
+    numSockets: {
       valueType: 'number'
     }
   },
@@ -22,7 +22,7 @@ export const SwitchOnInteger = makeFlowNodeDefinition({
       { key: 'selection', valueType: 'integer' }
     );
 
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       sockets.push({ key: `${index}`, valueType: 'integer' });
     }
 
@@ -32,7 +32,7 @@ export const SwitchOnInteger = makeFlowNodeDefinition({
     const sockets: SocketsList = [];
 
     sockets.push({ key: 'default', valueType: 'flow' });
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       sockets.push({ key: `${index}`, valueType: 'flow' });
     }
 
@@ -41,7 +41,7 @@ export const SwitchOnInteger = makeFlowNodeDefinition({
   initialState: undefined,
   triggered: ({ read, commit, configuration }) => {
     const selection = read<bigint>('selection');
-    for (const index of sequence(1, configuration.numCases + 1)) {
+    for (const index of sequence(1, configuration.numSockets + 1)) {
       if (selection === read<bigint>(`${index}`)) {
         commit(`${index}`);
         return;

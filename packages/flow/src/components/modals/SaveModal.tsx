@@ -5,17 +5,18 @@ import { useEdges, useNodes } from 'reactflow';
 
 import { flowToBehave } from '../../transformers/flowToBehave.js';
 import { Modal } from './Modal.js';
+import { NodeSpecGenerator } from '../../hooks/useNodeSpecGenerator.js';
 
 export type SaveModalProps = {
   open?: boolean;
   onClose: () => void;
-  specJson: NodeSpecJSON[];
+  specGenerator: NodeSpecGenerator;
 };
 
 export const SaveModal: React.FC<SaveModalProps> = ({
   open = false,
   onClose,
-  specJson
+  specGenerator
 }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [copied, setCopied] = useState(false);
@@ -24,8 +25,8 @@ export const SaveModal: React.FC<SaveModalProps> = ({
   const nodes = useNodes();
 
   const flow = useMemo(
-    () => flowToBehave(nodes, edges, specJson),
-    [nodes, edges, specJson]
+    () => flowToBehave(nodes, edges, specGenerator),
+    [nodes, edges, specGenerator]
   );
 
   const jsonString = JSON.stringify(flow, null, 2);

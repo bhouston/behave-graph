@@ -9,7 +9,7 @@ export const Sequence = makeFlowNodeDefinition({
   typeName: 'flow/sequence',
   label: 'Sequence',
   configuration: {
-    numOutputs: {
+    numSockets: {
       valueType: 'number'
     }
   },
@@ -17,10 +17,10 @@ export const Sequence = makeFlowNodeDefinition({
     flow: 'flow'
   },
   out: (configuration) => {
-    const numOutputs = configuration.numOutputs;
+    const numSockets = configuration.numSockets;
     const sockets: SocketsList = [];
 
-    for (let outputIndex = 1; outputIndex <= numOutputs; outputIndex++) {
+    for (let outputIndex = 1; outputIndex <= numSockets; outputIndex++) {
       const key = `${outputIndex}`;
 
       sockets.push({

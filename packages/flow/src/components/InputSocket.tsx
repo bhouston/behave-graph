@@ -1,4 +1,4 @@
-import { InputSocketSpecJSON, NodeSpecJSON } from '@behave-graph/core';
+import { InputSocketSpecJSON } from '@behave-graph/core';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
@@ -8,12 +8,13 @@ import { Connection, Handle, Position, useReactFlow } from 'reactflow';
 import { colors, valueTypeColorMap } from '../util/colors.js';
 import { isValidConnection } from '../util/isValidConnection.js';
 import { AutoSizeInput } from './AutoSizeInput.js';
+import { NodeSpecGenerator } from '../hooks/useNodeSpecGenerator.js';
 
 export type InputSocketProps = {
   connected: boolean;
   value: any | undefined;
   onChange: (key: string, value: any) => void;
-  specJSON: NodeSpecJSON[];
+  specGenerator: NodeSpecGenerator;
 } & InputSocketSpecJSON;
 
 const InputFieldForValue = ({
@@ -95,7 +96,7 @@ const InputFieldForValue = ({
 
 const InputSocket: React.FC<InputSocketProps> = ({
   connected,
-  specJSON,
+  specGenerator,
   ...rest
 }) => {
   const { value, name, valueType, defaultValue, choices } = rest;
@@ -128,7 +129,7 @@ const InputSocket: React.FC<InputSocketProps> = ({
         position={Position.Left}
         className={cx(borderColor, connected ? backgroundColor : 'bg-gray-800')}
         isValidConnection={(connection: Connection) =>
-          isValidConnection(connection, instance, specJSON)
+          isValidConnection(connection, instance, specGenerator)
         }
       />
     </div>

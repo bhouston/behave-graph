@@ -6,7 +6,7 @@ import {
   ManualLifecycleEventEmitter,
   registerCoreProfile,
   validateNodeRegistry,
-  writeNodeSpecsToJSON
+  writeDefaultNodeSpecsToJSON,
 } from '@behave-graph/core';
 import { DummyScene, registerSceneProfile } from '@behave-graph/scene';
 import { program } from 'commander';
@@ -59,7 +59,7 @@ export const main = async () => {
     return;
   }
 
-  const nodeSpecJson = writeNodeSpecsToJSON(registry);
+  const nodeSpecJson = writeDefaultNodeSpecsToJSON(registry);
   nodeSpecJson.sort((a, b) => a.type.localeCompare(b.type));
   const jsonOutput = JSON.stringify(nodeSpecJson, null, ' ');
   if (programOptions.csv) {

@@ -1,4 +1,4 @@
-import { GraphJSON, NodeSpecJSON } from '@behave-graph/core';
+import { GraphJSON } from '@behave-graph/core';
 import { useCallback, useEffect, useState } from 'react';
 import { useEdgesState, useNodesState } from 'reactflow';
 
@@ -7,6 +7,7 @@ import { flowToBehave } from '../transformers/flowToBehave.js';
 import { autoLayout } from '../util/autoLayout.js';
 import { hasPositionMetaData } from '../util/hasPositionMetaData.js';
 import { useCustomNodeTypes } from './useCustomNodeTypes.js';
+import { NodeSpecGenerator } from './useNodeSpecGenerator.js';
 
 export const fetchBehaviorGraphJson = async (url: string) =>
   // eslint-disable-next-line unicorn/no-await-expression-member
@@ -21,10 +22,10 @@ export const fetchBehaviorGraphJson = async (url: string) =>
  */
 export const useBehaveGraphFlow = ({
   initialGraphJson,
-  specJson
+  specGenerator
 }: {
   initialGraphJson: GraphJSON;
-  specJson: NodeSpecJSON[] | undefined;
+  specGenerator: NodeSpecGenerator | undefined;
 }) => {
   const [graphJson, setStoredGraphJson] = useState<GraphJSON | undefined>();
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -53,14 +54,14 @@ export const useBehaveGraphFlow = ({
   }, [initialGraphJson, setGraphJson]);
 
   useEffect(() => {
-    if (!specJson) return;
+    if (!specGenerator) return;
     // when nodes and edges are updated, update the graph json with the flow to behave behavior
-    const graphJson = flowToBehave(nodes, edges, specJson);
+    const graphJson = flowToBehave(nodes, edges, specGenerator);
     setStoredGraphJson(graphJson);
-  }, [nodes, edges, specJson]);
+  }, [nodes, edges, specGenerator]);
 
   const nodeTypes = useCustomNodeTypes({
-    specJson
+    specGenerator
   });
 
   return {

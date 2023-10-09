@@ -5,7 +5,7 @@ import { Background, BackgroundVariant, ReactFlow } from 'reactflow';
 import { useBehaveGraphFlow } from '../hooks/useBehaveGraphFlow.js';
 import { useFlowHandlers } from '../hooks/useFlowHandlers.js';
 import { useGraphRunner } from '../hooks/useGraphRunner.js';
-import { useNodeSpecJson } from '../hooks/useNodeSpecJson.js';
+import { useNodeSpecGenerator } from '../hooks/useNodeSpecGenerator.js';
 import CustomControls from './Controls.js';
 import { Examples } from './modals/LoadModal.js';
 import { NodePicker } from './NodePicker.js';
@@ -21,7 +21,7 @@ export const Flow: React.FC<FlowProps> = ({
   registry,
   examples
 }) => {
-  const specJson = useNodeSpecJson(registry);
+  const specGenerator = useNodeSpecGenerator(registry);
 
   const {
     nodes,
@@ -33,7 +33,7 @@ export const Flow: React.FC<FlowProps> = ({
     nodeTypes
   } = useBehaveGraphFlow({
     initialGraphJson: graph,
-    specJson
+    specGenerator
   });
 
   const {
@@ -51,7 +51,7 @@ export const Flow: React.FC<FlowProps> = ({
     nodes,
     onEdgesChange,
     onNodesChange,
-    specJSON: specJson
+    specGenerator,
   });
 
   const { togglePlay, playing } = useGraphRunner({
@@ -81,7 +81,7 @@ export const Flow: React.FC<FlowProps> = ({
         togglePlay={togglePlay}
         setBehaviorGraph={setGraphJson}
         examples={examples}
-        specJson={specJson}
+        specGenerator={specGenerator}
       />
       <Background
         variant={BackgroundVariant.Lines}
@@ -94,7 +94,7 @@ export const Flow: React.FC<FlowProps> = ({
           filters={nodePickFilters}
           onPickNode={handleAddNode}
           onClose={closeNodePicker}
-          specJSON={specJson}
+          specJSON={specGenerator?.getAllNodeSpecs()}
         />
       )}
     </ReactFlow>

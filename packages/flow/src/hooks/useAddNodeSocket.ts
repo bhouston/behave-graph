@@ -1,21 +1,22 @@
 import { useCallback } from 'react';
 import { useReactFlow } from 'reactflow';
 
-export const useChangeNodeData = (id: string) => {
+export const useAddNodeSocket = (id: string) => {
   const instance = useReactFlow();
 
   return useCallback(
-    (key: string, value: any) => {
+    () => {
       instance.setNodes((nodes) =>
         nodes.map((n) => {
           if (n.id !== id) return n;
+
           return {
             ...n,
             data: {
               ...n.data,
-              values: {
-                ...n.data.values,
-                [key]: value
+              configuration: {
+                ...n.data.configuration,
+                numSockets: (n.data.configuration?.numSockets ?? 0) + 1,
               },
             },
           };

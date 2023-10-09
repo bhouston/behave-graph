@@ -1,4 +1,4 @@
-import { GraphJSON } from '@behave-graph/core';
+import { GraphJSON, NodeConfigurationJSON } from '@behave-graph/core';
 import { Edge, Node } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,10 +18,19 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
           ? Number(nodeJSON.metadata?.positionY)
           : 0
       },
-      data: {} as { [key: string]: any }
+      data: {
+        configuration: {} as NodeConfigurationJSON,
+        values: {} as { [key: string]: any },
+      },
     };
 
     nodes.push(node);
+
+    if (nodeJSON.configuration) {
+      for (const [inputKey, input] of Object.entries(nodeJSON.configuration)) {
+        node.data.configuration[inputKey] = input;
+      }
+    }
 
     if (nodeJSON.parameters) {
       for (const [inputKey, input] of Object.entries(nodeJSON.parameters)) {
@@ -35,7 +44,7 @@ export const behaveToFlow = (graph: GraphJSON): [Node[], Edge[]] => {
           });
         }
         if ('value' in input) {
-          node.data[inputKey] = input.value;
+          node.data.values[inputKey] = input.value;
         }
       }
     }

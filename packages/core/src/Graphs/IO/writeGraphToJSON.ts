@@ -84,7 +84,7 @@ export function writeGraphToJSON(
     if (Object.keys(node.metadata).length > 0) {
       nodeJson.metadata = node.metadata;
     }
-    if (Object.keys(node.description.configuration).length > 0) {
+    if (Object.keys(node.configuration).length > 0) {
       const configurationJson: { [key: string]: ValueJSON } = {};
       Object.keys(node.configuration).forEach((key) => {
         configurationJson[key] = node.configuration[key];

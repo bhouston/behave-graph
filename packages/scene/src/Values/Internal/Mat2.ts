@@ -125,11 +125,11 @@ export function mat2Negate(a: Mat2, result: Mat2 = new Mat2()): Mat2 {
   return result;
 }
 
-export function mat2Multiply(a: Mat2, b: Mat2, result = new Mat2()): Mat2 {
+export function mat2Multiply(_a: Mat2, _b: Mat2, _result = new Mat2()): Mat2 {
   throw new Error('not implemented');
 }
 
-export function mat2Determinant(m: Mat2): number {
+export function mat2Determinant(_m: Mat2): number {
   throw new Error('not implemented');
 }
 
@@ -145,7 +145,7 @@ export function mat2Transpose(m: Mat2, result = new Mat2()): Mat2 {
   return result;
 }
 
-export function mat2Inverse(m: Mat2, result = new Mat2()): Mat2 {
+export function mat2Inverse(_m: Mat2, _result = new Mat2()): Mat2 {
   throw new Error('not implemented');
 }
 

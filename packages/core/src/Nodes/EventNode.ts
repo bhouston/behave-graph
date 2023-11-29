@@ -40,12 +40,12 @@ export class EventNode extends Node<NodeType.Event> implements IEventNode {
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  init(engine: Engine) {
+  init(_engine: Engine) {
     throw new Error('not implemented');
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  dispose(engine: Engine) {
+  dispose(_engine: Engine) {
     throw new Error('not implemented');
   }
 }

@@ -2,9 +2,10 @@
   "name": "graph-editor",
   "version": "1.0.0",
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "tsc && vite build",
-    "dev": "vite"
+    "watch": "vite"
   },
   "dependencies": {
     "@behave-graph/core": "*",

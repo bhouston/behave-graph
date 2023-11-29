@@ -38,21 +38,21 @@ export class DummyScene implements IScene {
     // pull in value type nodes
   }
 
-  getProperty(jsonPath: string, valueTypeName: string): any {
+  getProperty(_jsonPath: string, valueTypeName: string): any {
     return this.valueRegistry[valueTypeName]?.creator();
   }
   setProperty(): void {
     this.onSceneChanged.emit();
   }
   addOnClickedListener(
-    jsonPath: string,
-    callback: (jsonPath: string) => void
+    _jsonPath: string,
+    _callback: (jsonPath: string) => void
   ): void {
     console.log('added on clicked listener');
   }
   removeOnClickedListener(
-    jsonPath: string,
-    callback: (jsonPath: string) => void
+    _jsonPath: string,
+    _callback: (jsonPath: string) => void
   ): void {
     console.log('removed on clicked listener');
   }

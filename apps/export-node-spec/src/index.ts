@@ -92,7 +92,7 @@ export const main = async () => {
       }
       csvRows.push(csvRow);
     });
-    stringify(csvRows, async (err, csvOutput) => {
+    stringify(csvRows, async (_err, csvOutput) => {
       await fs.writeFile(outputPath, csvOutput, {
         encoding: 'utf-8'
       });

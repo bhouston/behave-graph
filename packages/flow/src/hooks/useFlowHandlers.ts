@@ -123,7 +123,7 @@ export const useFlowHandlers = ({
   );
 
   const handleStartConnect = useCallback(
-    (e: ReactMouseEvent, params: OnConnectStartParams) => {
+    (_e: ReactMouseEvent, params: OnConnectStartParams) => {
       setLastConnectStart(params);
     },
     []

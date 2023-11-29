@@ -32,7 +32,7 @@ export class Delay extends AsyncNode {
 
   triggered(
     engine: Engine,
-    triggeringSocketName: string,
+    _triggeringSocketName: string,
     finished: () => void
   ) {
     // if there is a valid timeout running, leave it.

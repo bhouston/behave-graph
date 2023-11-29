@@ -1,5 +1,4 @@
 import { NodeSpecJSON } from '@behave-graph/core';
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { NodeTypes } from 'reactflow';
 

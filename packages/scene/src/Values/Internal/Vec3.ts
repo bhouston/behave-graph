@@ -211,10 +211,10 @@ export function mat3ToEuler(m: Mat3, result = new Vec3()): Vec3 {
   const m11 = te[0],
     m12 = te[3],
     m13 = te[6];
-  const m21 = te[1],
+  const /*_m21 = te[1],*/
     m22 = te[4],
     m23 = te[7];
-  const m31 = te[2],
+  const /*_m31 = te[2],*/
     m32 = te[5],
     m33 = te[8];
 

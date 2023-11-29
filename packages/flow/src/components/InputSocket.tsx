@@ -98,7 +98,7 @@ const InputSocket: React.FC<InputSocketProps> = ({
   specJSON,
   ...rest
 }) => {
-  const { value, name, valueType, defaultValue, choices } = rest;
+  const { name, valueType } = rest;
   const instance = useReactFlow();
 
   const isFlowSocket = valueType === 'flow';
@@ -108,7 +108,7 @@ const InputSocket: React.FC<InputSocketProps> = ({
     colorName = 'red';
   }
 
-  const inputVal = String(value) ?? defaultValue ?? '';
+  //const inputVal = String(value) ?? defaultValue ?? '';
 
   // @ts-ignore
   const [backgroundColor, borderColor] = colors[colorName];

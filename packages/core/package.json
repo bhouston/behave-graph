@@ -7,7 +7,7 @@
   "source": "./src/index.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "watch": "tsc --watch",
     "test": "jest"
   }
 }

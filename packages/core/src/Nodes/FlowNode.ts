@@ -35,7 +35,7 @@ export class FlowNode extends Node<NodeType.Flow> implements IFlowNode {
   }
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  triggered(fiber: Fiber, triggeringSocketName: string) {
+  triggered(_fiber: Fiber, _triggeringSocketName: string) {
     throw new Error('not implemented');
   }
 }

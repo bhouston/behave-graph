@@ -23,8 +23,6 @@ export class WaitAll extends FlowNode {
       new WaitAll(description, graph, configuration.numInputs)
   });
 
-  private isOn = true;
-
   constructor(
     description: NodeDescription,
     graph: IGraph,

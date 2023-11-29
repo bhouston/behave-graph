@@ -60,7 +60,7 @@ export const Elements = makeInNOutFunctionDesc({
   label: 'Mat3 To Vec3',
   in: ['mat3'],
   out: [{ x: 'vec3' }, { y: 'vec3' }, { z: 'vec3' }],
-  exec: (a: Mat3) => {
+  exec: (_a: Mat3) => {
     throw new Error('not implemented');
   }
 });

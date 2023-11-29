@@ -433,13 +433,17 @@ export const buildScene = ({
     });
   };
 
-  const getProperty = (jsonPath: string, valueTypeName: string) => {
+  const getProperty = (jsonPath: string, _valueTypeName: string) => {
     const path = parseJsonPath(jsonPath);
 
     return getPropertyFromModel(path, gltf, properties);
   };
 
-  const setProperty = (jsonPath: string, valueTypeName: string, value: any) => {
+  const setProperty = (
+    jsonPath: string,
+    _valueTypeName: string,
+    value: any
+  ) => {
     const path = parseJsonPath(jsonPath);
 
     applyPropertyToModel(path, gltf, value, properties, setActiveAnimations);

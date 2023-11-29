@@ -78,7 +78,7 @@ export class OnCustomEvent extends EventNode2 {
     this.customEvent.eventEmitter.addListener(this.onCustomEvent);
   }
 
-  dispose(engine: Engine) {
+  dispose(_engine: Engine) {
     Assert.mustBeTrue(this.onCustomEvent !== undefined);
 
     if (this.onCustomEvent !== undefined) {

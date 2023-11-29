@@ -1,20 +1,32 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "NodeNext",
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "lib": ["es2020", "dom", "dom.iterable"],
     "typeRoots": ["node_modules/@types"],
+
+    "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    "resolveJsonModule": false, // causes problems by hoisting json files, and src to the root of the dist folder
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
     "declaration": true,
     "sourceMap": true,
-    "strict": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "allowJs": true,
-    "skipLibCheck": true,
+    "allowJs": false,
     "incremental": true
   }
 }

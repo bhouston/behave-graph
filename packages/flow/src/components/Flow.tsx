@@ -44,7 +44,6 @@ export const Flow: React.FC<FlowProps> = ({
     handlePaneContextMenu,
     nodePickerVisibility,
     handleAddNode,
-    lastConnectStart,
     closeNodePicker,
     nodePickFilters
   } = useFlowHandlers({

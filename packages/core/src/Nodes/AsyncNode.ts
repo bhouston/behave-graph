@@ -41,9 +41,9 @@ export class AsyncNode extends Node<NodeType.Async> {
 
   // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
   triggered(
-    engine: Engine,
-    triggeringSocketName: string,
-    finished: () => void
+    _engine: Engine,
+    _triggeringSocketName: string,
+    _finished: () => void
   ) {
     throw new Error('not implemented');
   }

@@ -1,58 +1,58 @@
-import fs from 'fs/promises';
+import fsPromises from 'fs/promises';
 import path from 'path';
 import process from 'process';
+import fs from 'fs';
+
+const rootPath = path.join(
+  path.dirname(import.meta.url.replace('file:/', '')),
+  '..'
+);
+
+const directoryNamesToClean = ['node_modules', 'dist'].filter((directoryName) =>
+  process.argv.includes(`--${directoryName}`)
+);
+// remove subdirectories that don't exist.
+const projectPathsToClean = ['apps', 'examples', 'packages'].filter(
+  (projectPath) => {
+    return fs.existsSync(path.join(rootPath, projectPath));
+  }
+);
 
 const getSubDirectories = async (directory) => {
-  try {
-    const stats = await fs.stat(directory);
-
-    if (stats.isDirectory()) {
-      // get the subdirectories of the packages directory
-      const subDirectoryPath = path.join(process.cwd(), directory);
-      const dirNames = await fs.readdir(subDirectoryPath);
-      return dirNames.map((dirName) => path.join(directory, dirName));
-    }
-  } catch (error) {
-    return [];
-  }
+  // get the subdirectories of the packages directory
+  const subDirectoryPath = path.join(rootPath, directory);
+  const dirNames = await fsPromises.readdir(subDirectoryPath);
+  return dirNames.map((dirName) => path.join(directory, dirName));
 };
 
 // Function to asynchronously delete a directory
 async function deleteDirectory(directory) {
   try {
-    const stats = await fs.stat(directory);
-
-    if (stats.isDirectory()) {
-      try {
-        await fs.rm(directory, { recursive: true });
-      } catch (error) {
-        console.error(`Error deleting ${directory}: ${error.message}`);
-      }
-    }
+    await fsPromises.rm(directory, { recursive: true });
   } catch (error) {
-    //console.error(`Error deleting ${directory}: ${error.message}`);
+    console.error(`Error deleting ${directory}: ${error.message}`);
   }
 }
-const isNodeModulesFlagSet = process.argv.includes('--node_modules');
-const isDistFlagSet = process.argv.includes('--dist');
 
 const main = async () => {
-  const projectDirectories = [
-    '.',
-    ...(await getSubDirectories('packages')),
-    ...(await getSubDirectories('apps')),
-    ...(await getSubDirectories('examples'))
-  ];
+  const projectDirectories = ['.'];
+  for (const projectPath of projectPathsToClean) {
+    projectDirectories.push(...(await getSubDirectories(projectPath)));
+  }
 
   const directoriesToDelete = [];
   projectDirectories.forEach((directory) => {
-    if (isNodeModulesFlagSet)
-      directoriesToDelete.push(path.join(directory, 'node_modules'));
-    if (isDistFlagSet) directoriesToDelete.push(path.join(directory, 'dist'));
+    directoryNamesToClean.forEach((directoryName) => {
+      directoriesToDelete.push(path.join(directory, directoryName));
+    });
   });
 
   // Run deletion operations in parallel
-  await Promise.all(directoriesToDelete.map(deleteDirectory));
+  await Promise.all(
+    directoriesToDelete
+      .filter((directory) => fs.existsSync(directory))
+      .map(deleteDirectory)
+  );
 };
 
 main();

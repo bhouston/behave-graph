@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Logger } from '../../Diagnostics/Logger.js';
 import { GraphInstance } from '../../Graphs/Graph.js';
 import { GraphJSON } from '../../Graphs/IO/GraphJSON.js';
 import { readGraphFromJSON } from '../../Graphs/IO/readGraphFromJSON.js';
@@ -13,7 +12,7 @@ import { getCoreNodesMap, getCoreValuesMap } from './registerCoreProfile.js';
 const valueTypes = getCoreValuesMap();
 const nodeDefinitions = getCoreNodesMap();
 
-Logger.onWarn.clear();
+//Logger.onWarn.clear();
 
 const exampleMap = memo<Record<string, GraphJSON>>(() => {
   const result = {} as Record<string, GraphJSON>;

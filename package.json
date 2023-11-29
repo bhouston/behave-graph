@@ -25,14 +25,17 @@
   "scripts": {
     "build": "lerna run build",
     "changeset:add": "changeset add",
-    "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules packages/*/dist apps/*/dist",
+    "clean:dist": "rm -rf packages/*/dist apps/*/dist",
+    "clean:node_modules": "rm -rf node_modules packages/*/node_modules apps/*/node_modules",
+    "clean": "npm run clean:dist && npm run clean:node_modules",
     "watch": "lerna run watch --parallel --stream",
     "docs": "typedoc",
     "format": "eslint \"{apps,packages}/*/src/**/*.{js,ts,tsx,json}\" --fix && prettier \"{apps,packages}/*/src/**/*.{js,ts,tsx,json}\" --check --write",
     "release": "npm run build && npm run changeset publish",
     "test": "jest",
     "types": "lerna run types --parallel --stream",
-    "vers": "npm run changeset version"
+    "vers": "npm run changeset version",
+    "publish": "npm run clean:dist && npm run build && npm test && lerna publish --no-private"
   },
   "dependencies": {
     "commander": "^9.4.1",

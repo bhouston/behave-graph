@@ -2,6 +2,7 @@
   "name": "@behave-graph/monorepo",
   "version": "0.9.10",
   "private": true,
+  "type": "module",
   "description": "Simple, extensible behavior graph engine",
   "keywords": [
     "behavior",
@@ -25,9 +26,9 @@
   "scripts": {
     "build": "lerna run build",
     "changeset:add": "changeset add",
-    "clean:dist": "rm -rf packages/*/dist apps/*/dist",
-    "clean:node_modules": "rm -rf node_modules packages/*/node_modules apps/*/node_modules",
-    "clean": "npm run clean:dist && npm run clean:node_modules",
+    "clean:node_modules": "node scripts/clean.js --node_modules",
+    "clean:dist": "node scripts/clean.js --dist",
+    "clean": "node scripts/clean.js --node_modules --dist",
     "watch": "lerna run watch --parallel --stream",
     "docs": "typedoc",
     "format": "eslint \"{apps,packages}/*/src/**/*.{js,ts,tsx,json}\" --fix && prettier \"{apps,packages}/*/src/**/*.{js,ts,tsx,json}\" --check --write",
